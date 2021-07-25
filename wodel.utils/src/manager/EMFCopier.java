@@ -320,4 +320,19 @@ public class EMFCopier {
 		rootobjects.addAll(copies);
 		return rootobjects;
 	}
+	
+	public static Resource copyResource(Resource model) {
+		Resource copy = ModelManager.createModel(model.getURI().toString());
+		List<EObject> copied = copy(model);
+		copy.getContents().addAll(copied);
+		return copy;
+	}
+	
+	public static List<EObject> clone (List<EObject> objects) {
+		List<EObject> cloned = new ArrayList<EObject>();
+		for (EObject object : objects) {
+			cloned.add(EMFCopier.clone(object));
+		}
+		return cloned;
+	}
 }

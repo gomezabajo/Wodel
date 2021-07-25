@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * @author Pablo Gomez-Abajo
  * 
- * SwapAttributeConfigurationStrategy reference swap
+ * SwapReferenceConfigurationStrategy reference swap
  *  
  */
 
@@ -86,8 +86,46 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EcoreUtil.copy(o);
 		eobjtar = EcoreUtil.copy(o);
 		
-		o.eSet(this.target, eobjsrc.eGet(this.source));
-		o.eSet(this.source, eobjsrc.eGet(this.target));
+		Object src = null;
+		Object tar = null;
+		if (this.target.isContainment() == false) {
+			tar = o.eGet(this.target);
+			if (this.source.isContainment() == false) {
+				src = o.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = o.eGet(this.source);
+				if (src instanceof EObject) {
+					o.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					o.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		if (this.target.isContainment() == true) {
+			tar = o.eGet(this.target);
+			if (tar instanceof EObject) {
+				o.eResource().getContents().add((EObject) tar);
+			}
+			if (tar instanceof List<?>) {
+				o.eResource().getContents().addAll((List<EObject>) tar);
+			}
+			if (this.source.isContainment() == false) {
+				src = o.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = o.eGet(this.source);
+				if (src instanceof EObject) {
+					o.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					o.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		o.eSet(this.source, tar);
+		o.eSet(this.target, src);
 	}
 	
 	public SwapReferenceConfigurationStrategy(EObject obj_tar, String src_name, String target, String source, Resource model) {
@@ -137,8 +175,46 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EcoreUtil.copy(obj_src);
 		eobjtar = EcoreUtil.copy(obj_tar);
 
-		obj_src.eSet(this.source, obj_tar.eGet(this.target));
-		obj_tar.eSet(this.target, eobjsrc.eGet(this.source));
+		Object src = null;
+		Object tar = null;
+		if (this.target.isContainment() == false) {
+			tar = obj_tar.eGet(this.target);
+			if (this.source.isContainment() == false) {
+				src = obj_src.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = obj_src.eGet(this.source);
+				if (src instanceof EObject) {
+					obj_src.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					obj_src.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		if (this.target.isContainment() == true) {
+			tar = obj_tar.eGet(this.target);
+			if (tar instanceof EObject) {
+				obj_tar.eResource().getContents().add((EObject) tar);
+			}
+			if (tar instanceof List<?>) {
+				obj_tar.eResource().getContents().addAll((List<EObject>) tar);
+			}
+			if (this.source.isContainment() == false) {
+				src = obj_src.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = obj_src.eGet(this.source);
+				if (src instanceof EObject) {
+					obj_src.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					obj_src.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		obj_src.eSet(this.source, tar);
+		obj_tar.eSet(this.target, src);
 	}
 
 	public SwapReferenceConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
@@ -183,8 +259,46 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EcoreUtil.copy(obj_src);
 		eobjtar = EcoreUtil.copy(obj_tar);
 
-		obj_src.eSet(this.source, obj_tar.eGet(this.target));
-		obj_tar.eSet(this.target, eobjsrc.eGet(this.source));
+		Object src = null;
+		Object tar = null;
+		if (this.target.isContainment() == false) {
+			tar = obj_tar.eGet(this.target);
+			if (this.source.isContainment() == false) {
+				src = obj_src.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = obj_src.eGet(this.source);
+				if (src instanceof EObject) {
+					obj_src.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					obj_src.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		if (this.target.isContainment() == true) {
+			tar = obj_tar.eGet(this.target);
+			if (tar instanceof EObject) {
+				obj_tar.eResource().getContents().add((EObject) tar);
+			}
+			if (tar instanceof List<?>) {
+				obj_tar.eResource().getContents().addAll((List<EObject>) tar);
+			}
+			if (this.source.isContainment() == false) {
+				src = obj_src.eGet(this.source);
+			}
+			if (this.source.isContainment() == true) {
+				src = obj_src.eGet(this.source);
+				if (src instanceof EObject) {
+					obj_src.eResource().getContents().add((EObject) src);
+				}
+				if (src instanceof List<?>) {
+					obj_src.eResource().getContents().addAll((List<EObject>) src);
+				}
+			}
+		}
+		obj_src.eSet(this.source, tar);
+		obj_tar.eSet(this.target, src);
 	}
 
 	

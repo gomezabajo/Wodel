@@ -257,7 +257,7 @@ public class AtlEquivalence extends Equivalence {
 			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(SampleNature.NATURE_ID)) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
-				System.out.println("Using default synctactic comparison.");
+				System.out.println("Using default syntactic comparison.");
 				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				Resource resource1 = ModelManager.loadModel(packages, model1);
 				Resource resource2 = ModelManager.loadModel(packages, model2);

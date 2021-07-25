@@ -318,7 +318,7 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 			}
 
     		new LabelFieldEditor(" ", composite);
-        	addField(new BooleanFieldEditor("Discard synctactic duplicate mutants", "Discard synctactic duplicate mutants", composite));
+        	addField(new BooleanFieldEditor("Discard syntactic duplicate mutants", "Discard syntactic duplicate mutants", composite));
 
         	new LabelFieldEditor("Duplicate mutants detection extension", composite);
 			ComboFieldEditor combo = new ComboFieldEditor("Duplicate mutants detection extension", "", values, composite);

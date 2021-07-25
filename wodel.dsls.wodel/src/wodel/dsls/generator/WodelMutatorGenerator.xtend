@@ -1307,6 +1307,16 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 						}
 					}
 	   				«ENDIF»
+		   		«ELSEIF referenceSwap.reference !== null»
+		   			List<ReferenceConfigurationStrategy> refs = null;
+		   			if (refsList.get("«referenceName»") != null) {
+		   				refs = refsList.get("«referenceName»");
+		   			}
+			   		else {
+						refs = new ArrayList<ReferenceConfigurationStrategy>();
+			   		}
+					refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), "«(mut.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", "«c.getReference().get(1).name»", resource));
+					refsList.put("«referenceName»", refs);
 		   		«ELSE»
 				if (obSelection != null && obSelection.getObject() != null) {
 					List<ReferenceConfigurationStrategy> refs = null;
@@ -3638,9 +3648,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					objects = evaluate(objects, exp«expressionList.get(0)»);
 				«ENDIF»
 			«ELSEIF mut.object instanceof CompleteTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+				RandomTypeSelection cts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
 				List<EObject> objects = cts.getObjects();
-			«IF mut.object.expression !== null»
+				«IF mut.object.expression === null»
+					List<EObject> objects = cts.getObjects();
+				«ELSE»
 				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
 				//EXPRESSION LEVEL: «nExpression = 0»
 				//EXPRESSION LEVEL: «expressionList.add(0)»
@@ -3718,9 +3730,14 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«ENDIF»
 			«ENDIF»
 		«IF mut.container === null»
-			EObject container = ModelManager.getContainer(model, objectSelection.getObject());
-			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
-			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+		    for (int obn = 0; obn < objects.size(); obn++) {
+				Resource m = EMFCopier.copyResource(model);
+				rts = new RandomTypeSelection(packages, m, "«(mut.object as RandomTypeSelection).type.name»");
+				List<EObject> mObjects = rts.getObjects();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
+				EObject container = ModelManager.getContainer(m, objectSelection.getObject());
+				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
+				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
 		«ELSE»
 			«IF mut.container instanceof RandomTypeSelection»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
@@ -3792,7 +3809,28 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«FOR c : mut.references»
 			«c.method(true)»
 		«ENDFOR»
+		«IF mut.container !== null»
+		«IF mut.object instanceof RandomTypeSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«(mut.object as RandomTypeSelection).type.name»");
+		«ELSEIF mut.object instanceof CompleteTypeSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«(mut.object as CompleteTypeSelection).type.name»");
+		«ELSEIF mut.object instanceof SpecificObjectSelection»
 		CloneObjectMutator mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificObjectSelection).objSel as SelectObjectMutator).object.type.name»");
+		«ELSEIF mut.object instanceof SpecificClosureSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificClosureSelection).objSel as SelectObjectMutator).object.type.name»");
+		«ENDIF»
+		«ENDIF»
+		«IF mut.container === null»
+		«IF mut.object instanceof RandomTypeSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«(mut.object as RandomTypeSelection).type.name»");
+		«ELSEIF mut.object instanceof CompleteTypeSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«(mut.object as CompleteTypeSelection).type.name»");
+		«ELSEIF mut.object instanceof SpecificObjectSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificObjectSelection).objSel as SelectObjectMutator).object.type.name»");
+		«ELSEIF mut.object instanceof SpecificClosureSelection»
+		CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificClosureSelection).objSel as SelectObjectMutator).object.type.name»");
+		«ENDIF»
+		«ENDIF»
 		Mutator mutator = null;
 		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 
@@ -3863,6 +3901,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 						monitor.worked(1);
 						k++;
 					}
+		«IF mut.container === null»
+			}
+		«ENDIF»
 		«ENDIF»
 			}
 			//END CLONE OBJECT «methodName»
@@ -5502,6 +5543,7 @@ import org.osgi.framework.Bundle;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import manager.MutatorUtils;
+import manager.EMFCopier;
 
 public class «className» extends MutatorUtils {
 	

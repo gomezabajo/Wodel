@@ -5506,9 +5506,9 @@ public class MutatorUtils {
 	protected boolean different(String metamodel, String model,
 			Set<String> hashset_mutants, IProject project, Class<?> cls) throws ModelNotFoundException {
 		boolean isRepeated = false;
-		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard synctactic duplicate mutants", false, null);
+		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard syntactic duplicate mutants", false, null);
 		if (discardDuplicate == true) {
-			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "Synctactic Comparison", null);
+			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "Syntactic Comparison", null);
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(

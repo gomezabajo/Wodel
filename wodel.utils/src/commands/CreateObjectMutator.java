@@ -277,7 +277,7 @@ public class CreateObjectMutator extends Mutator {
 							eObject = ModelManager.getObjectByPartialID(this.getModel(), EcoreUtil.getIdentification(e.getValue().getObject()));
 						}
 						if (eObject != null) {
-							ModelManager.setReference(e.getKey(), newObj, ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject())));
+							ModelManager.setReference(e.getKey(), newObj, eObject);
 						}
 					}
 					else {

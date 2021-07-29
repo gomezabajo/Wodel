@@ -1521,10 +1521,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -1758,10 +1758,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2577,10 +2577,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2903,10 +2903,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2963,7 +2963,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					resources.add(entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getKey());
 					objectSelection = new SpecificObjectSelection(entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getKey(), entry_«(mut.object as SpecificObjectSelection).objSel.name».getKey());
 				} else {
-					return 0;
+					return numMutantsGenerated;
 				}
 				«ENDIF»
 				«IF mut.object instanceof SpecificClosureSelection»
@@ -2975,7 +2975,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					resources.add(entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getKey());
 					objectSelection = new SpecificClosureSelection(entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getValue(), entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getKey(), entry_«(mut.object as SpecificClosureSelection).objSel.name».getKey(), "«(mut.object as SpecificClosureSelection).refType.name»");
 				} else {
-					return 0;
+					return numMutantsGenerated;
 				}
 				«ENDIF»
 				if (objectSelection.getObjects() != null) {
@@ -3021,10 +3021,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							if (mutator != null) {
 							//«nMethodCall = nMethodCall + 1»
 							«IF last == false»
-							numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+							k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-							k += numMutantsGenerated;
+							numMutantsGenerated += k;
 							«ENDIF»
 							«IF last == true»
 							// MUTANT COMPLETION AND REGISTRY
@@ -3110,10 +3110,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					mutator = mut;
 					if (mutator != null) {
 					«IF last == false»
-					numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+					k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-					k += numMutantsGenerated;
+					numMutantsGenerated += k;
 					«ENDIF»
 					«IF last == true»
 					// MUTANT COMPLETION AND REGISTRY
@@ -3857,10 +3857,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				«IF mut.container !== null»
+				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
+				«ENDIF»
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -4808,10 +4810,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				k += numMutantsGenerated;
+				numMutantsGenerated += k;
 				}
 				«ENDIF»
 				«IF last == true»

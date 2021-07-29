@@ -272,7 +272,13 @@ public class CreateObjectMutator extends Mutator {
 				if (e.getValue().getObject() != null) {
 					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
 						//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
-						ModelManager.setReference(e.getKey(), newObj, ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject())));
+						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
+						if (eObject == null) {
+							eObject = ModelManager.getObjectByPartialID(this.getModel(), EcoreUtil.getIdentification(e.getValue().getObject()));
+						}
+						if (eObject != null) {
+							ModelManager.setReference(e.getKey(), newObj, ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject())));
+						}
 					}
 					else {
 						EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());

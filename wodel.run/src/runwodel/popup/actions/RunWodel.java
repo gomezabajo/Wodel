@@ -137,7 +137,7 @@ public class RunWodel extends AbstractHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
 			try {
 				File[] files = null;
 				HashMap<String, Resource> hashmap_regpostseed = new HashMap<String, Resource>();

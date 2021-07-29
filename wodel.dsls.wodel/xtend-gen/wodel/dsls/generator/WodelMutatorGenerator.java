@@ -5316,7 +5316,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("k = mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -5329,7 +5329,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("k += numMutantsGenerated;");
+        _builder.append("numMutantsGenerated += k;");
         _builder.newLine();
       }
     }
@@ -6121,7 +6121,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("k = mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -6134,7 +6134,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("k += numMutantsGenerated;");
+        _builder.append("numMutantsGenerated += k;");
         _builder.newLine();
       }
     }
@@ -9863,7 +9863,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((last == false)) {
                 _builder.append("\t\t");
-                _builder.append("numMutantsGenerated = mutation");
+                _builder.append("k = mutation");
                 _builder.append(this.nMethodCall, "\t\t");
                 _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
                 _builder.newLineIfNotEmpty();
@@ -9876,7 +9876,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
                 _builder.newLine();
                 _builder.append("\t\t");
-                _builder.append("k += numMutantsGenerated;");
+                _builder.append("numMutantsGenerated += k;");
                 _builder.newLine();
               }
             }
@@ -11200,7 +11200,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 {
                   if ((last == false)) {
                     _builder.append("\t\t");
-                    _builder.append("numMutantsGenerated = mutation");
+                    _builder.append("k = mutation");
                     _builder.append(this.nMethodCall, "\t\t");
                     _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
                     _builder.newLineIfNotEmpty();
@@ -11213,7 +11213,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
                     _builder.newLine();
                     _builder.append("\t\t");
-                    _builder.append("k += numMutantsGenerated;");
+                    _builder.append("numMutantsGenerated += k;");
                     _builder.newLine();
                   }
                 }
@@ -11439,7 +11439,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t");
               _builder.append("\t");
-              _builder.append("return 0;");
+              _builder.append("return numMutantsGenerated;");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t");
@@ -11525,7 +11525,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t");
               _builder.append("\t");
-              _builder.append("return 0;");
+              _builder.append("return numMutantsGenerated;");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t");
@@ -11724,7 +11724,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             if ((last == false)) {
               _builder.append("\t");
               _builder.append("\t\t\t\t\t");
-              _builder.append("numMutantsGenerated = mutation");
+              _builder.append("k = mutation");
               _builder.append(this.nMethodCall, "\t\t\t\t\t\t");
               _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
               _builder.newLineIfNotEmpty();
@@ -11740,7 +11740,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t\t\t");
-              _builder.append("k += numMutantsGenerated;");
+              _builder.append("numMutantsGenerated += k;");
               _builder.newLine();
             }
           }
@@ -12080,7 +12080,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             if ((last == false)) {
               _builder.append("\t");
               _builder.append("\t\t\t");
-              _builder.append("numMutantsGenerated = mutation");
+              _builder.append("k = mutation");
               _builder.append(this.nMethodCall, "\t\t\t\t");
               _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
               _builder.newLineIfNotEmpty();
@@ -12096,7 +12096,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t");
-              _builder.append("k += numMutantsGenerated;");
+              _builder.append("numMutantsGenerated += k;");
               _builder.newLine();
             }
           }
@@ -14936,22 +14936,28 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLineIfNotEmpty();
     {
       if ((last == false)) {
-        _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
-        _builder.append(this.nMethodCall, "\t\t");
-        _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("k += numMutantsGenerated;");
-        _builder.newLine();
+        {
+          ObSelectionStrategy _container_20 = mut.getContainer();
+          boolean _tripleNotEquals_8 = (_container_20 != null);
+          if (_tripleNotEquals_8) {
+            _builder.append("\t\t");
+            _builder.append("k = mutation");
+            _builder.append(this.nMethodCall, "\t\t");
+            _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t\t");
+            _builder.append("\t\t\t\t\t");
+            _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+            _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("\t\t\t\t\t");
+            _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+            _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("numMutantsGenerated += k;");
+            _builder.newLine();
+          }
+        }
       }
     }
     {
@@ -14989,8 +14995,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             {
               EList<InvariantCS> _expressions = constraint.getExpressions();
-              boolean _tripleNotEquals_8 = (_expressions != null);
-              if (_tripleNotEquals_8) {
+              boolean _tripleNotEquals_9 = (_expressions != null);
+              if (_tripleNotEquals_9) {
                 {
                   EList<InvariantCS> _expressions_1 = constraint.getExpressions();
                   for(final InvariantCS expression : _expressions_1) {
@@ -15006,8 +15012,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             }
             {
               EList<String> _rules = constraint.getRules();
-              boolean _tripleNotEquals_9 = (_rules != null);
-              if (_tripleNotEquals_9) {
+              boolean _tripleNotEquals_10 = (_rules != null);
+              if (_tripleNotEquals_10) {
                 {
                   EList<String> _rules_1 = constraint.getRules();
                   for(final String rule : _rules_1) {
@@ -15082,8 +15088,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("}");
         _builder.newLine();
         {
-          ObSelectionStrategy _container_20 = mut.getContainer();
-          boolean _tripleEquals_4 = (_container_20 == null);
+          ObSelectionStrategy _container_21 = mut.getContainer();
+          boolean _tripleEquals_4 = (_container_21 == null);
           if (_tripleEquals_4) {
             _builder.append("}");
             _builder.newLine();
@@ -18741,7 +18747,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("k = mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -18754,7 +18760,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("k += numMutantsGenerated;");
+        _builder.append("numMutantsGenerated += k;");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("}");

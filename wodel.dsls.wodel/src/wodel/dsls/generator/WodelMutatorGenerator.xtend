@@ -994,7 +994,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 				modelsFolder = modelsFolder.replace("/", "\\"); 
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
-				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 				ObSelectionStrategy obSelection = null;
 				«IF mut.object.refType !== null»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -1521,10 +1521,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -1547,12 +1546,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -1563,7 +1562,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 		«ENDIF»
 				}
@@ -1758,10 +1757,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -1784,12 +1782,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -1800,7 +1798,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 		«ENDIF»
 			}
@@ -2540,7 +2538,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 				modelsFolder = modelsFolder.replace("/", "\\"); 
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
-				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 				ObSelectionStrategy objectSelection = null;
 				«IF mut.object.refType !== null && mut.object.refType.many»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -2577,10 +2575,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2603,12 +2600,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -2619,7 +2616,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 				}
 		«ENDIF»
@@ -2866,7 +2863,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 				modelsFolder = modelsFolder.replace("/", "\\"); 
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
-				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 				ObSelectionStrategy objectSelection = null;
 				«IF mut.object.refType !== null && mut.object.refType.many»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -2903,10 +2900,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2929,12 +2925,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -2945,7 +2941,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 				}
 		«ENDIF»
@@ -2984,7 +2980,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 						String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 						modelsFolder = modelsFolder.replace("/", "\\"); 
 						tempModelsFolder = tempModelsFolder.replace("/", "\\");
-						Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+						Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 						ObSelectionStrategy obSelection = null;
 						«IF mut.object.refType !== null && mut.object.refType.many»
 						List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -3021,10 +3017,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							if (mutator != null) {
 							//«nMethodCall = nMethodCall + 1»
 							«IF last == false»
-							k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+							mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-							numMutantsGenerated += k;
 							«ENDIF»
 							«IF last == true»
 							// MUTANT COMPLETION AND REGISTRY
@@ -3047,12 +3042,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							rules.put("«constraint.type.name»", newrules);
 			       			«ENDFOR»
 							«IF b === null»
-							String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+							String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 							«ELSE»
 				   			«IF b.from.size == 0»
-								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 				   			«ELSE»
-								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 				   			«ENDIF»
 				   			«ENDIF»
 				   			«IF b === null»
@@ -3063,7 +3058,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 								if (isRepeated == false) {
 									numMutantsGenerated++;
 									monitor.worked(1);
-									k++;
+									k[0] = k[0] + 1;
 								}
 							}
 				«ENDIF»
@@ -3077,7 +3072,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 				modelsFolder = modelsFolder.replace("/", "\\"); 
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
-				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 				ObSelectionStrategy obSelection = null;
 				«IF mut.object.refType !== null && mut.object.refType.many»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -3110,10 +3105,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					mutator = mut;
 					if (mutator != null) {
 					«IF last == false»
-					k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+					numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-					numMutantsGenerated += k;
 					«ENDIF»
 					«IF last == true»
 					// MUTANT COMPLETION AND REGISTRY
@@ -3136,12 +3130,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					rules.put("«constraint.type.name»", newrules);
 					«ENDFOR»
 					«IF b === null»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 					«ELSE»
 					«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 					«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 					«ENDIF»
 					«ENDIF»
 					«IF b === null»
@@ -3152,7 +3146,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 						if (isRepeated == false) {
 							numMutantsGenerated++;
 							monitor.worked(1);
-							k++;
+							k[0] = k[0] + 1;
 						}
 					}
 		«ENDIF»
@@ -3858,10 +3852,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
 				«IF mut.container !== null»
-				k = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				«ENDIF»
 				«ENDIF»
 				«IF last == true»
@@ -3885,12 +3878,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -3901,7 +3894,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 		«IF mut.container === null»
 			}
@@ -4779,7 +4772,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
 				modelsFolder = modelsFolder.replace("/", "\\"); 
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
-				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + numMutantsGenerated +".model"));
 				ObSelectionStrategy obSelection = null;
 				«IF mut.object.refType !== null»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
@@ -4810,10 +4803,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				k = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
-				numMutantsGenerated += k;
 				}
 				«ENDIF»
 				«IF last == true»
@@ -4837,12 +4829,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -4853,7 +4845,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (isRepeated == false) {
 						numMutantsGenerated++;
 						monitor.worked(1);
-						k++;
+						k[0] = k[0] + 1;
 					}
 				}
 		«ENDIF»
@@ -4981,7 +4973,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages,
 					Map<String, String> hashmapModelFolders, String ecoreURI, boolean registry,
 					Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,
-					List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+					List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
 					throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
@@ -5456,7 +5448,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«c.generateMethods(exhaustive, b.eContainer as MutatorEnvironment, b, EcoreUtil.equals(c, b.commands.get(b.commands.size() - 1)))»
 			«c.generateRegistryMethods(exhaustive)»
 		«ENDFOR»
-		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		int numMutantsGenerated = 0;
@@ -5681,7 +5673,9 @@ public class «className» extends MutatorUtils {
 		«ENDFOR»
 		if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains("«b.name»") == true)) {
 			monitor.subTask("Generating mutants for block «b.name» («i+1»/«e.blocks.size»)");
-			int numMutantsGenerated = block_«b.name»(maxAttempts, numMutants, registry, packages, registeredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, 0, serialize, test, classes);
+			int[] k = new int[1];
+			k[0] = 0;
+			int numMutantsGenerated = block_«b.name»(maxAttempts, numMutants, registry, packages, registeredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, k, serialize, test, classes);
 			if (numMutantsGenerated > 0) {
 				mutationResults.numMutatorsApplied++;
 				if (mutationResults.mutatorsApplied == null) {
@@ -6702,9 +6696,10 @@ public class «className» extends MutatorUtils {
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 				attempts++;
 				«IF !(e instanceof Block)»
-				int k = 0;
+				int[] k = new int[1];
+				k[0] = 0;
 				«ELSE»
-				k = 0;
+				k[0] = 0;
 				«ENDIF»
 
    	   			«FOR c : e.commands »
@@ -6733,8 +6728,9 @@ public class «className» extends MutatorUtils {
       			«ENDIF»
 				rules.put("«constraint.type.name»", newrules);
       			«ENDFOR»
-				
-				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+				int[] mutantIndex = new int[1];
+				mutantIndex[0] = i;
+				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 				if (isRepeated == false) {
 					mutationResults.numMutantsGenerated++;
 				}
@@ -6812,9 +6808,10 @@ public class «className» extends MutatorUtils {
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 				attempts++;
 				«IF !(b instanceof Block)»
-				int k = 0;
+				int[] k = new int[1];
+				k[0] = 0;
 				«ELSE»
-				k = 0;
+				k[0] = 0;
 				«ENDIF»
    	   			
    	   			«FOR c : b.commands »
@@ -6842,8 +6839,9 @@ public class «className» extends MutatorUtils {
        			«ENDIF»
 				rules.put("«constraint.type.name»", newrules);
        			«ENDFOR»
-
-				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
+				int[] mutantIndex = new int[1];
+				mutantIndex[0] = i;
+				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				if (isRepeated == false) {
 					numMutantsGenerated++;
 				}
@@ -6925,7 +6923,7 @@ public class «className» extends MutatorUtils {
 		max = «e.fixed»;
 		«ENDIF»
 		«IF !(e.eContainer instanceof Block)»
-		k = 0;
+		k[0] = 0;
 		«ENDIF»
 		for (int j = 0; j < max; j++) {
 		«IF e.name !== null»
@@ -7035,7 +7033,7 @@ public class «className» extends MutatorUtils {
 						«ENDIF»
 						«ENDIF»
 						«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
-						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k[0] + "_«nMethod».model";
 						ModelManager.saveOutModel(model, mutatorPath);
 						if (mutPaths.contains(mutatorPath) == false) {
 							mutPaths.add(mutatorPath);
@@ -7048,7 +7046,7 @@ public class «className» extends MutatorUtils {
 					}
 				}
 				«ENDIF»
-				k++;
+				k[0] = k[0] + 1;
 			}
 		}
 		}
@@ -7071,7 +7069,7 @@ public class «className» extends MutatorUtils {
 		max = «e.fixed»;
 		«ENDIF»
 		«IF !(e.eContainer instanceof Block)»
-		k = 0;
+		k[0] = 0;
 		«ENDIF»
 		for (int j = 0; j < max; j++) {
 		«IF e.name !== null»
@@ -7182,7 +7180,7 @@ public class «className» extends MutatorUtils {
 						«ENDIF»
 						«ENDIF»
 						«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
-						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k[0] + "_«nMethod».model";
 						ModelManager.saveOutModel(model, mutatorPath);
 						if (mutPaths.contains(mutatorPath) == false) {
 							mutPaths.add(mutatorPath);
@@ -7195,7 +7193,7 @@ public class «className» extends MutatorUtils {
 					}
 				}
 				«ENDIF»
-				k++;
+				k[0] = k[0] + 1;
 			}
 		}
 		else {
@@ -7293,7 +7291,7 @@ public class «className» extends MutatorUtils {
 				«ENDIF»
 				«ENDIF»
 				«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
-				String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+				String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k[0] + "_«nMethod».model";
 				ModelManager.saveOutModel(model, mutatorPath);
 				if (mutPaths.contains(mutatorPath) == false) {
 					mutPaths.add(mutatorPath);

@@ -8796,12 +8796,13 @@ public class MutatorUtils {
 			Mutations muts, String modelFilename, String mutFilename, 
 			boolean registry, Set<String> hashsetMutants,
 			Map<String, String> hashmapModelFilenames,
-			int n, List<String> mutPaths, Map<String,
+			int[] n, List<String> mutPaths, Map<String,
 			List<String>> hashmapMutVersions, IProject project,
 			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
+		boolean isSaved = false;
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
@@ -8842,6 +8843,7 @@ public class MutatorUtils {
 				}
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
+					isSaved = true;
 				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
@@ -8852,11 +8854,16 @@ public class MutatorUtils {
 					IOUtils.deleteFile(mutFilename);
 					isRepeated = true;
 				}
+				if (isSaved == false) {
+					isRepeated = true;
+					return isRepeated;
+				}
 				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
 					isRepeated = different(metamodel, mutFilename, hashsetMutants, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
+						return isRepeated;
 					}
 				}
 				if (isValid == true && isRepeated == false) {
@@ -8864,6 +8871,8 @@ public class MutatorUtils {
 					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project);
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+						return isRepeated;
 					}
 				}
 				if (registeredPackages != null) {
@@ -9051,7 +9060,8 @@ public class MutatorUtils {
 						if (registryFolder.exists() != true) {
 							registryFolder.mkdir();
 						}
-						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
+						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
+						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
 						ModelManager.createModel(muts, registryFilename);
 					}
 				}
@@ -9095,12 +9105,13 @@ public class MutatorUtils {
 			boolean registry, Set<String> hashsetMutantsBlock,
 			Map<String, String> hashmapModelFilenames,
 			Map<String, String> hashmapModelFolders, String block,
-			List<String> fromBlocks, int n, List<String> mutPaths,
+			List<String> fromBlocks, int[] n, List<String> mutPaths,
 			Map<String, List<String>> hashmapMutVersions, IProject project,
 			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
+		boolean isSaved = false;
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
@@ -9153,6 +9164,9 @@ public class MutatorUtils {
 				}
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
+					if (new File(mutFilename).exists() == true) {
+						isSaved = true;
+					}
 				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
@@ -9163,11 +9177,16 @@ public class MutatorUtils {
 					IOUtils.deleteFile(mutFilename);
 					isRepeated = true;
 				}
+				if (isSaved == false) {
+					isRepeated = true;
+					return isRepeated;
+				}
 				if (isValid == true) {
 					// VERIFY IF MUTANT IS DIFFERENT
 					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
+						return isRepeated;
 					}
 				}
 				if (isValid == true && isRepeated == false) {
@@ -9175,6 +9194,8 @@ public class MutatorUtils {
 					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project);
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+						return isRepeated;
 					}
 				}
 				if (registeredPackages != null) {
@@ -9370,10 +9391,11 @@ public class MutatorUtils {
 							registryFolder.mkdir();
 						}
 						String registryFilename = null;
+						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
 						if (fromBlocks.size() == 0) {
-							registryFilename = hashmapModelFilenames.get(modelFilename)	+ "/" + block + "/registry/" + "Output" + n + "Registry.model";
+							registryFilename = hashmapModelFilenames.get(modelFilename)	+ "/" + block + "/registry/" + "Output" + mutIndex + "Registry.model";
 						} else {
-							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
+							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
 						}
 						ModelManager.createModel(muts, registryFilename);
 

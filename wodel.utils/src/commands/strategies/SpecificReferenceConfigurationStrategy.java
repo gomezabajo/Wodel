@@ -6,10 +6,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import manager.EMFUtils;
+import manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -63,6 +65,16 @@ public class SpecificReferenceConfigurationStrategy extends
 				//monovalued
 				if (this.object.eGet(reference) == null) {
 					this.target = target;
+					if (this.target instanceof DynamicEObjectImpl) {
+						EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+						if (eObject != null) {
+							this.target = eObject;
+						}
+						if (eObject == null) {
+							this.srcRefType = this.reference.getName();
+							return;
+						}
+					}
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
@@ -76,6 +88,16 @@ public class SpecificReferenceConfigurationStrategy extends
 				if (this.object.eGet(reference) instanceof EObject) {
 					this.obj = EcoreUtil.copy(this.object);
 					this.target = target;
+					if (this.target instanceof DynamicEObjectImpl) {
+						EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+						if (eObject != null) {
+							this.target = eObject;
+						}
+						if (eObject == null) {
+							this.srcRefType = this.reference.getName();
+							return;
+						}
+					}
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
@@ -91,6 +113,16 @@ public class SpecificReferenceConfigurationStrategy extends
 					this.obj = EcoreUtil.copy(this.object);
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.target = target;
+					if (this.target instanceof DynamicEObjectImpl) {
+						EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+						if (eObject != null) {
+							this.target = eObject;
+						}
+						if (eObject == null) {
+							this.srcRefType = this.reference.getName();
+							return;
+						}
+					}
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
@@ -116,6 +148,16 @@ public class SpecificReferenceConfigurationStrategy extends
 				//monovalued
 				if (this.object.eGet(reference) == null) {
 					this.target = target;
+					if (this.target instanceof DynamicEObjectImpl) {
+						EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+						if (eObject != null) {
+							this.target = eObject;
+						}
+						if (eObject == null) {
+							this.srcRefType = this.reference.getName();
+							return;
+						}
+					}
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
@@ -129,6 +171,16 @@ public class SpecificReferenceConfigurationStrategy extends
 				if (this.object.eGet(reference) instanceof EObject) {
 					this.obj = EcoreUtil.copy(this.object);
 					this.target = target;
+					if (this.target instanceof DynamicEObjectImpl) {
+						EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+						if (eObject != null) {
+							this.target = eObject;
+						}
+						if (eObject == null) {
+							this.srcRefType = this.reference.getName();
+							return;
+						}
+					}
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
@@ -145,6 +197,16 @@ public class SpecificReferenceConfigurationStrategy extends
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.target = target;
 					if (this.removal == false) {
+						if (this.target instanceof DynamicEObjectImpl) {
+							EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+							if (eObject != null) {
+								this.target = eObject;
+							}
+							if (eObject == null) {
+								this.srcRefType = this.reference.getName();
+								return;
+							}
+						}
 						if (model.getContents().contains(this.target)) {
 							model.getContents().remove(this.target);
 						}
@@ -152,7 +214,19 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 					else {
 						if (this.o.size() > 0) {
-							this.o.remove(this.target);
+							if (this.target instanceof DynamicEObjectImpl) {
+								EObject eObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(this.target));
+								if (eObject != null) {
+									this.target = eObject;
+								}
+								if (eObject == null) {
+									this.srcRefType = this.reference.getName();
+									return;
+								}
+							}
+							if (this.o.contains(this.target)) {
+								this.o.remove(this.target);
+							}
 						}
 					}
 				}

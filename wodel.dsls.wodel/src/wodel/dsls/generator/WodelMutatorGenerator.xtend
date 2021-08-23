@@ -1521,9 +1521,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -1546,12 +1547,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -1757,9 +1758,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -1782,12 +1784,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -2575,9 +2577,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2600,12 +2603,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -2900,9 +2903,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
@@ -2925,12 +2929,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -3042,12 +3046,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							rules.put("«constraint.type.name»", newrules);
 			       			«ENDFOR»
 							«IF b === null»
-							String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+							String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 							«ELSE»
 				   			«IF b.from.size == 0»
-								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 				   			«ELSE»
-								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 				   			«ENDIF»
 				   			«ENDIF»
 				   			«IF b === null»
@@ -3105,9 +3109,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					mutator = mut;
 					if (mutator != null) {
 					«IF last == false»
-					numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+					mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+					numMutantsGenerated = k[0];
 					«ENDIF»
 					«IF last == true»
 					// MUTANT COMPLETION AND REGISTRY
@@ -3130,12 +3135,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					rules.put("«constraint.type.name»", newrules);
 					«ENDFOR»
 					«IF b === null»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 					«ELSE»
 					«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 					«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 					«ENDIF»
 					«ENDIF»
 					«IF b === null»
@@ -3852,9 +3857,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
 				«IF mut.container !== null»
-				numMutantsGenerated = mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				«ENDIF»
 				«ENDIF»
 				«IF last == true»
@@ -3878,12 +3884,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -4803,9 +4809,10 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
 				}
 				«ENDIF»
 				«IF last == true»
@@ -4829,12 +4836,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				rules.put("«constraint.type.name»", newrules);
 	       		«ENDFOR»
 				«IF b === null»
-				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + numMutantsGenerated + ".model";
+				String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k[0] + ".model";
 				«ELSE»
 		   		«IF b.from.size == 0»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k[0] + ".model";
 		   		«ELSE»
-					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + numMutantsGenerated + ".model";
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k[0] + ".model";
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b === null»
@@ -6680,6 +6687,12 @@ public class «className» extends MutatorUtils {
 							registry, hashsetMutants, null, hashmapMutVersions, project, monitor, 0, serialize, test, classes);
 		«ELSE»
 		int numMutantsToGenerate = numMutants;
+		«IF !(e instanceof Block)»
+		int[] k = new int[1];
+		k[0] = 0;
+		«ELSE»
+		k[0] = 0;
+		«ENDIF»
 		for (int i = 0; i < numMutantsToGenerate; i++) {
 			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
 			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
@@ -6695,13 +6708,6 @@ public class «className» extends MutatorUtils {
 				List<String> mutPaths = new ArrayList<String>();
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 				attempts++;
-				«IF !(e instanceof Block)»
-				int[] k = new int[1];
-				k[0] = 0;
-				«ELSE»
-				k[0] = 0;
-				«ENDIF»
-
    	   			«FOR c : e.commands »
    	   				«IF c instanceof Mutator»
    	   				«c.compile»
@@ -6783,11 +6789,19 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 		//METHOD NAME:«methodName = "mutation" + nMethod.toString()»
 		
-		numMutantsGenerated += «methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
+		«methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+		numMutantsGenerated = k[0];
 		«ELSE»
 		int numMutantsToGenerate = numMutants;
+		«IF !(b instanceof Block)»
+		int[] k = new int[1];
+		k[0] = 0;
+		«ELSE»
+		k[0] = 0;
+		«ENDIF»
+   	   			
 		for (int i = 0; i < numMutantsToGenerate; i++) {
 			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
 			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
@@ -6807,13 +6821,6 @@ public class «className» extends MutatorUtils {
 				List<String> mutPaths = new ArrayList<String>();
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 				attempts++;
-				«IF !(b instanceof Block)»
-				int[] k = new int[1];
-				k[0] = 0;
-				«ELSE»
-				k[0] = 0;
-				«ENDIF»
-   	   			
    	   			«FOR c : b.commands »
    	   				«IF c instanceof Mutator»
    	   				«c.compile»
@@ -6844,6 +6851,7 @@ public class «className» extends MutatorUtils {
 				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				if (isRepeated == false) {
 					numMutantsGenerated++;
+					k[0] = k[0] + 1;
 				}
 
 				//Reload input
@@ -7046,7 +7054,6 @@ public class «className» extends MutatorUtils {
 					}
 				}
 				«ENDIF»
-				k[0] = k[0] + 1;
 			}
 		}
 		}
@@ -7193,7 +7200,6 @@ public class «className» extends MutatorUtils {
 					}
 				}
 				«ENDIF»
-				k[0] = k[0] + 1;
 			}
 		}
 		else {

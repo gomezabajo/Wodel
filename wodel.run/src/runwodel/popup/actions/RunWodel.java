@@ -124,6 +124,7 @@ public class RunWodel extends AbstractHandler {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
+			Object result = null;
 			try {
 				ob = cls.getDeclaredConstructor().newInstance();
 				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
@@ -132,7 +133,7 @@ public class RunWodel extends AbstractHandler {
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
 				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
-				m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null);
+				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null);
 				// ime = (IMutatorExecutor)ob;
 			} catch (Exception e) {
 				e.printStackTrace();

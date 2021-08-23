@@ -8836,7 +8836,11 @@ public class MutatorUtils {
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == true) {
+			if (matchesOCL(model, rules) == false) {
+				isRepeated = true;
+				return isRepeated;
+			}
+			else {
 				File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
@@ -9145,7 +9149,11 @@ public class MutatorUtils {
 			}
 		}
 		else {
-			if (matchesOCL(model, rules) == true) {
+			if (matchesOCL(model, rules) == false) {
+				isRepeated = true;
+				return isRepeated;
+			}
+			else {
 			File outputFolder = new File(
 					hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {

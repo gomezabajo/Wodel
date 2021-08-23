@@ -5316,7 +5316,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -5327,6 +5327,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("numMutantsGenerated = k[0];");
         _builder.newLine();
       }
     }
@@ -5407,7 +5410,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t");
-            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
             _builder.newLine();
           } else {
             {
@@ -5417,13 +5420,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_129 = b.getName();
                 _builder.append(_name_129);
-                _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_130 = b.getName();
                 _builder.append(_name_130);
-                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -6118,7 +6121,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -6129,6 +6132,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("numMutantsGenerated = k[0];");
         _builder.newLine();
       }
     }
@@ -6209,7 +6215,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t");
-            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
             _builder.newLine();
           } else {
             {
@@ -6219,13 +6225,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_25 = b.getName();
                 _builder.append(_name_25);
-                _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_26 = b.getName();
                 _builder.append(_name_26);
-                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -9857,7 +9863,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((last == false)) {
                 _builder.append("\t\t");
-                _builder.append("numMutantsGenerated = mutation");
+                _builder.append("mutation");
                 _builder.append(this.nMethodCall, "\t\t");
                 _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
                 _builder.newLineIfNotEmpty();
@@ -9868,6 +9874,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t\t");
                 _builder.append("\t\t\t\t\t");
                 _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("numMutantsGenerated = k[0];");
                 _builder.newLine();
               }
             }
@@ -9948,7 +9957,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 {
                   if ((b == null)) {
                     _builder.append("\t\t");
-                    _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+                    _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
                     _builder.newLine();
                   } else {
                     {
@@ -9958,13 +9967,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                         String _name_55 = b.getName();
                         _builder.append(_name_55);
-                        _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                        _builder.append("/Output\" + k[0] + \".model\";");
                         _builder.newLineIfNotEmpty();
                       } else {
                         _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                         String _name_56 = b.getName();
                         _builder.append(_name_56);
-                        _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                        _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                         _builder.newLineIfNotEmpty();
                       }
                     }
@@ -11191,7 +11200,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 {
                   if ((last == false)) {
                     _builder.append("\t\t");
-                    _builder.append("numMutantsGenerated = mutation");
+                    _builder.append("mutation");
                     _builder.append(this.nMethodCall, "\t\t");
                     _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
                     _builder.newLineIfNotEmpty();
@@ -11202,6 +11211,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("\t\t");
                     _builder.append("\t\t\t\t\t");
                     _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("numMutantsGenerated = k[0];");
                     _builder.newLine();
                   }
                 }
@@ -11282,7 +11294,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     {
                       if ((b == null)) {
                         _builder.append("\t\t");
-                        _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+                        _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
                         _builder.newLine();
                       } else {
                         {
@@ -11292,13 +11304,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                             _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                             String _name_117 = b.getName();
                             _builder.append(_name_117);
-                            _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                            _builder.append("/Output\" + k[0] + \".model\";");
                             _builder.newLineIfNotEmpty();
                           } else {
                             _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                             String _name_118 = b.getName();
                             _builder.append(_name_118);
-                            _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                            _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -11815,7 +11827,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 if ((b == null)) {
                   _builder.append("\t");
                   _builder.append("\t\t\t\t\t");
-                  _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+                  _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
                   _builder.newLine();
                 } else {
                   {
@@ -11825,13 +11837,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                       String _name_145 = b.getName();
                       _builder.append(_name_145);
-                      _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                      _builder.append("/Output\" + k[0] + \".model\";");
                       _builder.newLineIfNotEmpty();
                     } else {
                       _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                       String _name_146 = b.getName();
                       _builder.append(_name_146);
-                      _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                      _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -12064,7 +12076,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             if ((last == false)) {
               _builder.append("\t");
               _builder.append("\t\t\t");
-              _builder.append("numMutantsGenerated = mutation");
+              _builder.append("mutation");
               _builder.append(this.nMethodCall, "\t\t\t\t");
               _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
               _builder.newLineIfNotEmpty();
@@ -12077,6 +12089,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t\t\t");
               _builder.append("\t\t");
               _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("\t\t\t");
+              _builder.append("numMutantsGenerated = k[0];");
               _builder.newLine();
             }
           }
@@ -12167,7 +12183,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 if ((b == null)) {
                   _builder.append("\t");
                   _builder.append("\t\t\t");
-                  _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+                  _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
                   _builder.newLine();
                 } else {
                   {
@@ -12179,7 +12195,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                       String _name_156 = b.getName();
                       _builder.append(_name_156, "\t\t\t\t");
-                      _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                      _builder.append("/Output\" + k[0] + \".model\";");
                       _builder.newLineIfNotEmpty();
                     } else {
                       _builder.append("\t");
@@ -12187,7 +12203,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                       String _name_157 = b.getName();
                       _builder.append(_name_157, "\t\t\t\t");
-                      _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                      _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -14921,7 +14937,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
           boolean _tripleNotEquals_8 = (_container_20 != null);
           if (_tripleNotEquals_8) {
             _builder.append("\t\t");
-            _builder.append("numMutantsGenerated = mutation");
+            _builder.append("mutation");
             _builder.append(this.nMethodCall, "\t\t");
             _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
             _builder.newLineIfNotEmpty();
@@ -14932,6 +14948,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
             _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+            _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("numMutantsGenerated = k[0];");
             _builder.newLine();
           }
         }
@@ -15014,7 +15033,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t");
-            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
             _builder.newLine();
           } else {
             {
@@ -15024,13 +15043,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_54 = b.getName();
                 _builder.append(_name_54);
-                _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_55 = b.getName();
                 _builder.append(_name_55);
-                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -18724,7 +18743,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((last == false)) {
         _builder.append("\t\t");
-        _builder.append("numMutantsGenerated = mutation");
+        _builder.append("mutation");
         _builder.append(this.nMethodCall, "\t\t");
         _builder.append("(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -18735,6 +18754,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("numMutantsGenerated = k[0];");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("}");
@@ -18818,7 +18840,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t");
-            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + numMutantsGenerated + \".model\";");
+            _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + k[0] + \".model\";");
             _builder.newLine();
           } else {
             {
@@ -18828,13 +18850,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_57 = b.getName();
                 _builder.append(_name_57);
-                _builder.append("/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
                 String _name_58 = b.getName();
                 _builder.append(_name_58);
-                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + numMutantsGenerated + \".model\";");
+                _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -25603,6 +25625,17 @@ public class WodelMutatorGenerator extends AbstractGenerator {
       } else {
         _builder.append("int numMutantsToGenerate = numMutants;");
         _builder.newLine();
+        {
+          if ((!(e instanceof Block))) {
+            _builder.append("int[] k = new int[1];");
+            _builder.newLine();
+            _builder.append("k[0] = 0;");
+            _builder.newLine();
+          } else {
+            _builder.append("k[0] = 0;");
+            _builder.newLine();
+          }
+        }
         _builder.append("for (int i = 0; i < numMutantsToGenerate; i++) {");
         _builder.newLine();
         _builder.append("\t");
@@ -25646,21 +25679,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("attempts++;");
-        _builder.newLine();
-        {
-          if ((!(e instanceof Block))) {
-            _builder.append("\t\t");
-            _builder.append("int[] k = new int[1];");
-            _builder.newLine();
-            _builder.append("\t\t");
-            _builder.append("k[0] = 0;");
-            _builder.newLine();
-          } else {
-            _builder.append("\t\t");
-            _builder.append("k[0] = 0;");
-            _builder.newLine();
-          }
-        }
         _builder.newLine();
         {
           EList<Mutator> _commands = e.getCommands();
@@ -25879,7 +25897,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append(_methodName);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
-        _builder.append("numMutantsGenerated += ");
         _builder.append(this.methodName);
         _builder.append("(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
@@ -25889,8 +25906,23 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
+        _builder.append("numMutantsGenerated = k[0];");
+        _builder.newLine();
       } else {
         _builder.append("int numMutantsToGenerate = numMutants;");
+        _builder.newLine();
+        {
+          if ((!(b instanceof Block))) {
+            _builder.append("int[] k = new int[1];");
+            _builder.newLine();
+            _builder.append("k[0] = 0;");
+            _builder.newLine();
+          } else {
+            _builder.append("k[0] = 0;");
+            _builder.newLine();
+          }
+        }
+        _builder.append("   \t   \t\t\t");
         _builder.newLine();
         _builder.append("for (int i = 0; i < numMutantsToGenerate; i++) {");
         _builder.newLine();
@@ -25953,22 +25985,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("attempts++;");
-        _builder.newLine();
-        {
-          if ((!(b instanceof Block))) {
-            _builder.append("\t\t");
-            _builder.append("int[] k = new int[1];");
-            _builder.newLine();
-            _builder.append("\t\t");
-            _builder.append("k[0] = 0;");
-            _builder.newLine();
-          } else {
-            _builder.append("\t\t");
-            _builder.append("k[0] = 0;");
-            _builder.newLine();
-          }
-        }
-        _builder.append("   \t   \t\t\t");
         _builder.newLine();
         {
           EList<Mutator> _commands = b.getCommands();
@@ -26067,6 +26083,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t");
         _builder.append("numMutantsGenerated++;");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("k[0] = k[0] + 1;");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("}");
@@ -26845,9 +26864,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
           }
         }
-        _builder.append("\t\t");
-        _builder.append("k[0] = k[0] + 1;");
-        _builder.newLine();
         _builder.append("\t");
         _builder.append("}");
         _builder.newLine();
@@ -27422,9 +27438,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("\t\t");
-    _builder.append("k[0] = k[0] + 1;");
-    _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();

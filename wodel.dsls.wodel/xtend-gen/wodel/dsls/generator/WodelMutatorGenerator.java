@@ -9865,7 +9865,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t\t");
                 _builder.append("mutation");
                 _builder.append(this.nMethodCall, "\t\t");
-                _builder.append("(packages, model, hmObjects, hmList, hashmapModelFilenames,");
+                _builder.append("(packages, resource, hmObjects, hmList, hashmapModelFilenames,");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t");
                 _builder.append("\t\t\t\t\t");

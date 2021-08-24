@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -168,10 +169,18 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<EPackage> mutatorpackages = null;
 				List<Resource> models = null;
 				String ecore = null;
+				boolean isRegistered = false;
+				Map<String, EPackage> registeredPackages = new HashMap<String, EPackage>();
+				Class<?> cls = mutatorLauncher.getValue();
 				try {
 					ecore = FileLocator.resolve(fileURL).getFile();
 					mutatorpackages = ModelManager.loadMetaModel(ecore);
-					packages = ModelManager.loadMetaModel(metamodel);
+					packages = ModelManager.loadMetaModel(metamodel, cls);
+					//checks whether the meta-model is dynamically registered
+					isRegistered = ModelManager.isRegistered(packages);
+					if (isRegistered == true) {
+						registeredPackages = ModelManager.unregisterMetaModel(packages);
+					}
 				} catch (MetaModelNotFoundException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -179,7 +188,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Class<?> cls = mutatorLauncher.getValue();
 				File folder = new File(path + "/data");
 				if (!folder.exists()) {
 					folder.mkdir();
@@ -746,6 +754,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 					}
 				});
+				if (isRegistered == true) {
+					ModelManager.registerMetaModel(registeredPackages);
+				}
 			} catch (JavaModelException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();

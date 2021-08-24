@@ -203,10 +203,18 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				Bundle bundle = Platform.getBundle("wodel.models");
 				List<EPackage> mutatorpackages = null;
 				URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+				boolean isRegistered = false;
+				Map<String, EPackage> registeredPackages = new HashMap<String, EPackage>();
+				Class<?> cls = mutatorLauncher.getValue();
 				try {
 					String ecore = FileLocator.resolve(fileURL).getFile();
 					mutatorpackages = ModelManager.loadMetaModel(ecore);
-					packages = ModelManager.loadMetaModel(metamodel);
+					packages = ModelManager.loadMetaModel(metamodel, cls);
+					//checks whether the meta-model is dynamically registered
+					isRegistered = ModelManager.isRegistered(packages);
+					if (isRegistered == true) {
+						registeredPackages = ModelManager.unregisterMetaModel(packages);
+					}
 				} catch (MetaModelNotFoundException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -214,7 +222,6 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Class<?> cls = mutatorLauncher.getValue();
 				if (sourceProject.hasNature(JavaCore.NATURE_ID)) {
 					IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
 					IJavaProject javaTestSuiteProject = JavaCore.create(testSuiteProject);
@@ -731,6 +738,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 							}
 						}
 					});
+					if (isRegistered == true) {
+						ModelManager.registerMetaModel(registeredPackages);
+					}
 				}
 			} catch (JavaModelException e2) {
 				// TODO Auto-generated catch block

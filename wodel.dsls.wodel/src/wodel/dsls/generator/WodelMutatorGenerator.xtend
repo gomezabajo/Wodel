@@ -2577,7 +2577,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				if (mutator != null) {
 				//«nMethodCall = nMethodCall + 1»
 				«IF last == false»
-				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, resource, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];

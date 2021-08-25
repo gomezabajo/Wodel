@@ -267,6 +267,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 					e.printStackTrace();
 					return;
 				}
+				if (isRegistered == true) {
+					ModelManager.registerMetaModel(registeredPackages);
+				}
 				
 				long mutationTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 				if (mutationResults != null) {
@@ -754,9 +757,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 					}
 				});
-				if (isRegistered == true) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
 			} catch (JavaModelException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();

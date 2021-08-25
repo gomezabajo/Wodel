@@ -291,6 +291,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				if (isRegistered == true) {
+					ModelManager.registerMetaModel(registeredPackages);
+				}
 				
 				long mutationTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 
@@ -738,9 +741,6 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 							}
 						}
 					});
-					if (isRegistered == true) {
-						ModelManager.registerMetaModel(registeredPackages);
-					}
 				}
 			} catch (JavaModelException e2) {
 				// TODO Auto-generated catch block

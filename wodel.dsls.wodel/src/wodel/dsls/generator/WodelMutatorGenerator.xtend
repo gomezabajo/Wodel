@@ -3731,9 +3731,20 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«IF mut.container === null»
 		    for (int obn = 0; obn < objects.size(); obn++) {
 				Resource m = EMFCopier.copyResource(model);
+				«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
+				List<EObject> mObjects = ModelManager.getObjects(m, objects);
+				objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
+				«ENDIF»
+				«IF mut.object instanceof RandomTypeSelection»
 				rts = new RandomTypeSelection(packages, m, "«(mut.object as RandomTypeSelection).type.name»");
 				List<EObject> mObjects = rts.getObjects();
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				cts = new RandomTypeSelection(packages, m, "«(mut.object as CompleteTypeSelection).type.name»");
+				List<EObject> mObjects = rts.getObjects();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
+				«ENDIF»
 				EObject container = ModelManager.getContainer(m, objectSelection.getObject());
 				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
 				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
@@ -3861,6 +3872,13 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
+				«ENDIF»
+				«IF mut.container === null»
+				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+				numMutantsGenerated = k[0];
+				}
 				«ENDIF»
 				«ENDIF»
 				«IF last == true»

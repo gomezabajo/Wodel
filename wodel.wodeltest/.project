@@ -24,5 +24,6 @@
 	<natures>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.acceleo.ide.ui.acceleoNature</nature>
 	</natures>
 </projectDescription>

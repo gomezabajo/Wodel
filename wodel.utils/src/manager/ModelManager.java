@@ -1457,7 +1457,7 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObjectByURIEnding(Resource model, URI uri) {
-		ArrayList<EObject> objs = getAllObjects(model);
+		List<EObject> objs = getAllObjects(model);
 
 		String partialURI = uri.toString();
 		partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
@@ -1469,6 +1469,35 @@ public class ModelManager {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static List<EObject> getObjects(Resource model, List<EObject> objects) {
+		List<EObject> objs = new ArrayList<EObject>();
+		
+		for (EObject obj : objects) {
+			EObject ob = getObject(model, obj);
+			if (ob == null) {
+				 ob = getObjectByURI(model, EcoreUtil.getURI(obj));
+			}
+			if (ob == null) {
+				 ob = getObjectByURIEnding(model, EcoreUtil.getURI(obj));
+			}
+			if (ob == null) {
+				 ob = getObjectByID(model, EcoreUtil.getIdentification(obj));
+			}
+			if (ob == null) {
+				 ob = getObjectByPartialID(model, EcoreUtil.getIdentification(obj));
+			}
+			if (ob != null) {
+				objs.add(ob);
+			}
+		}
+		return objs;
 	}
 
 	/**

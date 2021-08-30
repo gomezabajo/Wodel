@@ -10,6 +10,7 @@ import org.eclipse.acceleo.common.IAcceleoConstants;
 import org.eclipse.acceleo.common.internal.utils.AcceleoPackageRegistry;
 import org.eclipse.acceleo.model.mtl.Module;
 import org.eclipse.acceleo.model.mtl.resource.AcceleoResourceSetImpl;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -126,7 +127,7 @@ public class MyGenerateJava extends GenerateJava {
 			modulesResourceSet.setURIConverter(uriConverter);
 		}
 
-		Map<URI, URI> uriMap = EcorePlugin.computePlatformURIMap();
+		Map<URI, URI> uriMap = EcorePlugin.computePlatformURIMap(false);
 
 		// make sure that metamodel projects in the workspace override those in plugins
 		modulesResourceSet.getURIConverter().getURIMap().putAll(uriMap);

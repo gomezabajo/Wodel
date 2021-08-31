@@ -140,7 +140,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 							List<WodelTestClass> wtcl = classes.get(key);
 							for (WodelTestClass wtc : wtcl) {
 								for (WodelTestClassInfo info : wtc.info) {
-									if (info.path.contains("/" + name + "/")) {
+									if (info.path.contains("/" + name + "/") || info.path.contains("\\" + name + "\\")) {
 										failures += info.numFailures;
 										numberOfMutants++;
 										paths.add(info.path);

@@ -5,19 +5,18 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -32,7 +31,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
@@ -62,6 +60,8 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	private static int LEFT_BUTTON = 1;
 	private static GlobalResultsProvider resultsProvider = null;
 	private static Composite composite = null;
+	private static Map<String, List<WodelTestClass>> classes = null;
+	
 	private static Map<String, List<WodelTestClass>> packageClasses = null;
 
 	private static int BAR_SIZE = 1000;
@@ -114,6 +114,11 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 		    String classespath = path + "/data/classes.txt";
 		    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
 	    	packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+		    classes = new HashMap<String, List<WodelTestClass>>();
+		    for (String pckName : packageClasses.keySet()) {
+		    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
+		    	classes.put(pckName, pckclasses);
+		    }
 			MutatorHelper mutatorHelper = new MutatorHelper(test);
 			Map<String, Class<?>> mutators = mutatorHelper.getMutators();
 			
@@ -131,8 +136,8 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 						int numberOfMutants = 0;
 						int failures = 0;
 						List<String> paths = new ArrayList<String>();
-						for (String key : packageClasses.keySet()) {
-							List<WodelTestClass> wtcl = packageClasses.get(key);
+						for (String key : classes.keySet()) {
+							List<WodelTestClass> wtcl = classes.get(key);
 							for (WodelTestClass wtc : wtcl) {
 								for (WodelTestClassInfo info : wtc.info) {
 									if (info.path.contains("/" + name + "/")) {
@@ -365,15 +370,20 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 		
 	    String classespath = path + "/data/classes.txt";
 	    String infopath = path + "/data/classes.results.txt";
-	    if (packageClasses == null) {
+	    if (classes == null) {
 	    	packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+		    classes = new HashMap<String, List<WodelTestClass>>();
+		    for (String pckName : packageClasses.keySet()) {
+		    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
+		    	classes.put(pckName, pckclasses);
+		    }
 	    }
 	    List<String> killedClasses = new ArrayList<String>();
 	    List<String> equivalentClasses = new ArrayList<String>();
 	    List<String> liveClasses = new ArrayList<String>();
-	    for (String classname : packageClasses.keySet()) {
-	    	List<WodelTestClass> classes = packageClasses.get(classname);
-			for (WodelTestClass cls : classes) {
+	    for (String classname : classes.keySet()) {
+	    	List<WodelTestClass> clss = classes.get(classname);
+			for (WodelTestClass cls : clss) {
 				for (WodelTestClassInfo info : cls.info) {
 					if (info.getNumFailedTests() > 0) {
 						if (!killedClasses.contains(info.path)) {

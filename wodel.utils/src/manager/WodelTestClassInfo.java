@@ -33,7 +33,19 @@ public class WodelTestClassInfo {
 					if (path.endsWith("/")) {
 						path = path.substring(0, path.length() - 1);
 					}
-					if (classpath.indexOf("/") != -1 && (classpath.substring(0, classpath.lastIndexOf("/")).startsWith(path))) {
+					String processedClasspath = classpath;
+					if (processedClasspath.indexOf("/") != -1) {
+						if (processedClasspath.indexOf("/src/") != -1) {
+							String pck = processedClasspath.substring(0, processedClasspath.indexOf("/src/"));
+							processedClasspath = processedClasspath.substring(processedClasspath.indexOf("/src/") + "/src".length(), processedClasspath.length());
+							processedClasspath = pck + "/" + processedClasspath.substring(1, processedClasspath.length()).replace("/", ".");
+							processedClasspath = processedClasspath.substring(0, processedClasspath.indexOf(".java"));
+						}
+					}
+					if (classpath.indexOf("/") != -1 && path.startsWith(processedClasspath)) {
+						infoLine = line;
+					}
+					if (infoLine == null && classpath.indexOf("/") != -1 && (classpath.substring(0, classpath.lastIndexOf("/")).startsWith(path))) {
 						infoLine = line;
 					}
 				}
@@ -70,17 +82,30 @@ public class WodelTestClassInfo {
 					for (String t : test) {
 						String[] pair = t.split("=");
 						if (pair.length > 1) {
+							WodelTestResultInfo result = null;
 							boolean notAdded = true;
 							for (WodelTestResultInfo tt : info.tests) {
 								if (tt.name.equals(pair[0])) {
+									result = tt;
 									notAdded = false;
 									break;
 								}
 							}
 							if (notAdded == false) {
+								result.value = result.value || Boolean.parseBoolean(pair[1]);
+								result.numExecutions ++;
+								result.numFailed = Boolean.parseBoolean(pair[1]) ? result.numFailed + 1 : result.numFailed;
+								result.message = messagesText.length > i ? result.message + "|" + messagesText[i].trim() : "";
+								if (Boolean.parseBoolean(pair[1]) == false) {
+									result.failure = failureText.length > i ? result.failure || Boolean.parseBoolean(failureText[i]) : false;
+									if (Boolean.parseBoolean(failureText[i]) == true) {
+										info.numFailures++;
+									}
+								}
+								i++;
 								continue;
 							}
-							WodelTestResultInfo result = new WodelTestResultInfo();
+							result = new WodelTestResultInfo();
 							result.name = pair[0];
 							result.value = Boolean.parseBoolean(pair[1]);
 							result.numExecutions = 1;

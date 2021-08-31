@@ -3,15 +3,14 @@ package test.views;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -40,7 +39,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -58,6 +56,8 @@ import manager.WodelTestResultInfo;
 public class WodelTestClassResultsViewPart extends ViewPart {
 	
 	public static final String ID = "test.views.WodelTestClassResultsViewPart"; //$NON-NLS-1$
+	
+	private static Map<String, List<WodelTestClass>> classes = null;
 	
 	private static Map<String, List<WodelTestClass>> packageClasses = null;
 	private static String[] equivalentMutants = new String[0];
@@ -102,8 +102,8 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			if (filterIndex == 1) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> classes = packageClasses.get((String) element);
-					for (WodelTestClass cls : classes) {
+					List<WodelTestClass> clss = classes.get((String) element);
+					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.getNumFailedTests() > 0) {
 								return true;
@@ -131,8 +131,8 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			if (filterIndex == 2) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> classes = packageClasses.get((String) element);
-					for (WodelTestClass cls : classes) {
+					List<WodelTestClass> clss = classes.get((String) element);
+					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.getNumFailedTests() == 0 && info.numFailures == 0) {
 								return true;
@@ -162,8 +162,8 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			if (filterIndex == 3) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> classes = packageClasses.get((String) element);
-					for (WodelTestClass cls : classes) {
+					List<WodelTestClass> clss = classes.get((String) element);
+					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.numFailures > 0) {
 								return true;
@@ -207,8 +207,13 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 	    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
 	    IWodelTest test = MutatorHelper.getTest(project);
 	    packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+	    classes = new HashMap<String, List<WodelTestClass>>();
+	    for (String pckName : packageClasses.keySet()) {
+	    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
+	    	classes.put(pckName, pckclasses);
+	    }
 	    boolean withErrors = false;
-	    for (List<WodelTestClass> l : packageClasses.values()) {
+	    for (List<WodelTestClass> l : classes.values()) {
 	    	for (WodelTestClass tc : l) {
 	    		for (WodelTestClassInfo info : tc.info) {
 	    			if (info.numFailures > 0) {
@@ -444,7 +449,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 		m_treeViewer.setContentProvider(new WodelTestClassResultsContentProvider());
 		m_treeViewer.setLabelProvider(new TableLabelProvider());
-		m_treeViewer.setInput(packageClasses);
+		m_treeViewer.setInput(classes);
 		m_treeViewer.addFilter(new DataFilter());
 		m_treeViewer.collapseAll();
 	}
@@ -462,7 +467,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				return ((Map<?, ?>) parentElement).keySet().toArray();
 			}
 			if (parentElement instanceof String) {
-				List<WodelTestClass> ret = packageClasses.get((String) parentElement);
+				List<WodelTestClass> ret = classes.get((String) parentElement);
 				if (ret != null) { 
 					return ret.toArray();
 				}
@@ -499,7 +504,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 		@Override
 		public boolean hasChildren(Object element) {
 			if (element instanceof String) {
-				List<WodelTestClass> ret = packageClasses.get((String) element);
+				List<WodelTestClass> ret = classes.get((String) element);
 				if (ret != null) { 
 					return ret.size() > 0;
 				}
@@ -518,19 +523,19 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			return false;
 		}
 	}
-	
+
 	class TableLabelProvider implements ITableLabelProvider, ITableColorProvider {
 
 		@Override
 		public void addListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -542,7 +547,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 		@Override
 		public void removeListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -550,13 +555,13 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 		private Color getBackground(Object element) {
 			if (element instanceof String) {
-				List<WodelTestClass> classes = packageClasses.get((String) element);
+				List<WodelTestClass> clss = classes.get((String) element);
 				boolean detected = false;
 				boolean error = false;
-				for (WodelTestClass cls : classes) {
+				for (WodelTestClass cls : clss) {
 					for (WodelTestClassInfo info : cls.info) {
 						if (info.numFailures > 0) {
 							error = true;
@@ -626,10 +631,10 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			String text = null;
 			if (element instanceof String) {
 				String result = (String) element;
-				List<WodelTestClass> classes = packageClasses.get((String) element);
-				int numExecutedTests = classes != null ? 0 : -1;
-				int numFailedTests = classes != null ? 0 : -1;
-				for (WodelTestClass cls : classes) {
+				List<WodelTestClass> clss = classes.get((String) element);
+				int numExecutedTests = clss != null ? 0 : -1;
+				int numFailedTests = clss != null ? 0 : -1;
+				for (WodelTestClass cls : clss) {
 					for (WodelTestClassInfo info : cls.info) {
 						numExecutedTests += info.getNumExecutedTests();
 						numFailedTests += info.getNumFailedTests();
@@ -662,11 +667,11 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				WodelTestClass wodelTestClass = (WodelTestClass) element;
 				int numExecutedTests = 0;
 				int numFailedTests = 0;
-				int numPassedTests = 0;
 				for (WodelTestClassInfo info : wodelTestClass.info) {
 					numExecutedTests += info.getNumExecutedTests();
 					numFailedTests += info.getNumFailedTests();
 				}
+				int numPassedTests = numExecutedTests - numFailedTests;
 				switch(columnIndex) {
 				case 0:
 					break;
@@ -705,9 +710,9 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				case 1:
 					text = info.path;
 					if (text.indexOf("/" + sourceProject.getName()) > 0) {
-            			text = text.substring(text.indexOf("/" + sourceProject.getName()), text.length());
-            		}
-            		if (text.indexOf("/" + testSuiteName) > 0) {
+						text = text.substring(text.indexOf("/" + sourceProject.getName()), text.length());
+					}
+					if (text.indexOf("/" + testSuiteName) > 0) {
 						text = text.substring(text.indexOf("/" + testSuiteName), text.length());
 					}
 					break;
@@ -739,9 +744,9 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				case 1:
 					text = info.name;
 					if (text.indexOf("/" + sourceProject.getName()) > 0) {
-            			text = text.substring(text.indexOf("/" + sourceProject.getName()), text.length());
-            		}
-            		if (text.indexOf("/" + testSuiteName) > 0) {
+						text = text.substring(text.indexOf("/" + sourceProject.getName()), text.length());
+					}
+					if (text.indexOf("/" + testSuiteName) > 0) {
 						text = text.substring(text.indexOf("/" + testSuiteName), text.length());
 					}
 					break;

@@ -12,13 +12,11 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -45,7 +43,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -180,6 +177,11 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 	    IWodelTest test = MutatorHelper.getTest(project);
 
 	    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+	    Map<String, List<WodelTestClass>> classes =  new HashMap<String, List<WodelTestClass>>();
+	    for (String pckName : packageClasses.keySet()) {
+	    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
+	    	classes.put(pckName, pckclasses);
+	    }
 		MutatorHelper mutatorHelper = new MutatorHelper(test);
 		Map<String, Class<?>> mutators = mutatorHelper.getMutators();
 
@@ -191,8 +193,8 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 		boolean withErrors = false;
 
 		List<String> pathsToProcess = new ArrayList<String>();
-		for (String key : packageClasses.keySet()) {
-			List<WodelTestClass> wtcl = packageClasses.get(key);
+		for (String key : classes.keySet()) {
+			List<WodelTestClass> wtcl = classes.get(key);
 			for (WodelTestClass wtc : wtcl) {
 				for (WodelTestClassInfo info : wtc.info) {
 					if (!pathsToProcess.contains(info.path)) {
@@ -221,14 +223,14 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 					lwtmr.add(wtmr);
 				}
 			}
-			for (String key : packageClasses.keySet()) {
-				List<WodelTestClass> wtcl = packageClasses.get(key);
+			for (String key : classes.keySet()) {
+				List<WodelTestClass> wtcl = classes.get(key);
 				for (WodelTestClass wtc : wtcl) {
 					for (WodelTestClassInfo info : wtc.info) { 
 						for (WodelTestMutatorGroup wtmg : lwtmg) {
 							List<WodelTestMutatorResult> lwtmr = wtmg.getResults();
 							for (WodelTestMutatorResult wtmr : lwtmr) {
-								if (info.path.contains("/" + wtmr.getMutatorName() + "/")) {
+								if (info.path.contains("/" + wtmr.getMutatorName() + "/") || info.path.contains("\\" + wtmr.getMutatorName() + "\\")) {
 									wtmr.setNumberOfMutants(wtmr.getNumberOfMutants() + 1);
 									wtmr.getPaths().add(info.path);
 									wtmr.setFailures(wtmr.getFailures() + info.numFailures);

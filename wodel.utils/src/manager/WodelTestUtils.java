@@ -655,6 +655,192 @@ public class WodelTestUtils {
 		return tests;
 	}
 	
+	public static List<WodelTestClass> getClasses(IWodelTest wodelTest, Map<String, List<WodelTestClass>> packageClasses, String pckName, String projectName, String path, String pathResults) {
+		List<WodelTestTest> tests = WodelTestTest.loadFile(pathResults);
+		List<WodelTestClass> testClasses = packageClasses.get(pckName);
+		Map<WodelTestTest, String> classNames = new HashMap<WodelTestTest, String>();
+		for (WodelTestClass testClass : testClasses) {
+			for (WodelTestClassInfo info : testClass.info) {
+				for (WodelTestTest test : tests) {
+					for (WodelTestResultTest testResult : test.getResults()) {
+						for (WodelTestResultTestInfo mutant : testResult.getMutants()) {
+							String mutantName = mutant.getName();
+							if (info.path.equals(mutantName)) {
+								mutant.setMutation(info.mutationText);
+								continue;
+							}
+							if (!mutantName.endsWith("/")) {
+								mutantName += "/";
+							}
+							if (!pckName.equals("default")) {
+								mutantName += "src/" + pckName.replaceAll("\\.", "/") + "/";
+							}
+							String infoPath = info.path.substring(0, info.path.lastIndexOf("/") + 1);
+							mutantName = mutantName.replaceAll("\\\\", "/");
+							if (infoPath.equals(mutantName)) {
+								mutant.setName(mutantName + testClass.classname + ".java");
+								mutant.setMutation(info.mutationText);
+							}
+							if (!(testClass.classname.contains("/") || testClass.classname.contains("\\"))) {
+								classNames.put(test, testClass.classname);
+							}
+							else {
+								String className = testClass.classname;
+								if (className.indexOf("/") != -1) {
+									className = mutantName;
+									className = className.substring(0, className.lastIndexOf("/"));
+									if (className.indexOf("/") != -1) {
+										className = className.substring(0, className.lastIndexOf("/"));
+									}
+									if (className.indexOf("/") != -1) {
+										className = className.substring(0, className.lastIndexOf("/"));
+									}
+									if (className.indexOf("/") != -1) {
+										className = className.substring(className.lastIndexOf("/") + 1, className.length());
+									}
+								}
+								else if (className.indexOf("\\") != -1) {
+									className = mutantName;
+									className = className.substring(0, className.lastIndexOf("\\"));
+									if (className.indexOf("\\") != -1) {
+										className = className.substring(0, className.lastIndexOf("\\"));
+									}
+									if (className.indexOf("\\") != -1) {
+										className = className.substring(0, className.lastIndexOf("\\"));
+									}
+									if (className.indexOf("\\") != -1) {
+										className = className.substring(className.lastIndexOf("\\") + 1, className.length());
+									}
+								}
+								classNames.put(test, className);
+							}
+						}
+					}
+				}
+			}
+		}
+		List<WodelTestClass> classes = new ArrayList<WodelTestClass>();
+		Map<WodelTestClass, WodelTestTest> classTest = new HashMap<WodelTestClass, WodelTestTest>();
+		for (WodelTestTest test : tests) {
+			for (WodelTestResultTest testResult : test.getResults()) {
+				for (WodelTestResultTestInfo mutant : testResult.getMutants()) {
+					String mutantName = mutant.getName();
+					WodelTestClass wt = null;
+					for (WodelTestClass wtcl : classes) {
+						if (wtcl.classname.equals(mutantName)) {
+							wt = wtcl;
+						}
+					}
+					if (wt == null) {
+						wt = new WodelTestClass();
+						wt.classname = mutantName;
+						classes.add(wt);
+					}
+					if (wt.info == null) {
+						wt.info = new ArrayList<WodelTestClassInfo>();
+					}
+					WodelTestClassInfo wtclinfo = new WodelTestClassInfo();
+					wtclinfo.mutationText = new ArrayList<String>();
+					wtclinfo.mutationText.add(mutant.getMessage());
+					wtclinfo.numFailures = mutant.getFailure() ? 1 : 0;
+					wtclinfo.packagename = pckName;
+					wtclinfo.path = wt.classname;
+					wtclinfo.tests = new ArrayList<WodelTestResultInfo>();
+					WodelTestResultInfo info = new WodelTestResultInfo();
+					info.failure = mutant.getFailure();
+					info.message = mutant.getMessage();
+					info.name = testResult.getName();
+					info.numExecutions = 1;
+					info.numFailed = mutant.getFailure() ? 1 : 0;
+					info.value = mutant.getValue();
+					wtclinfo.tests.add(info);
+					wt.info.add(wtclinfo);
+					classTest.put(wt, test);
+				}
+			}
+		}
+		for (WodelTestClass cls : classes) {
+			cls.classname = classNames.get(classTest.get(cls));
+		}
+		List<WodelTestClass> tmpClasses = new ArrayList<WodelTestClass>();
+		for (WodelTestClass cls : classes) {
+			String className = classNames.get(classTest.get(cls));
+			WodelTestClass wt = null;
+			for (WodelTestClass retCls : tmpClasses) {
+				if (retCls.classname.equals(className)) {
+					wt = retCls;
+					break;
+				}
+			}
+			if (wt == null) {
+				wt = new WodelTestClass();
+				wt.classname = className;
+				wt.depth = cls.depth;
+				wt.info = new ArrayList<WodelTestClassInfo>();
+				tmpClasses.add(wt);
+			}
+			for (WodelTestClassInfo info : cls.info) {
+				boolean found = false;
+				for (WodelTestClassInfo retInfo : wt.info) {
+					if (info.path.equals(retInfo.path)) {
+						found = true;
+						retInfo.tests.addAll(info.tests);
+						break;
+					}
+				}
+				if (found == false) {
+					wt.info.addAll(cls.info);
+				}
+			}
+		}
+		List<WodelTestClass> retClasses = new ArrayList<WodelTestClass>();
+		List<WodelTestClass> cClasses = new ArrayList<WodelTestClass>();
+		cClasses.addAll(tmpClasses);
+		while (cClasses.isEmpty() == false) {
+			WodelTestClass cls = cClasses.get(0);
+			cClasses.remove(cls);
+			WodelTestClass retClass = new WodelTestClass();
+			retClass.classname = cls.classname;
+			retClass.depth = cls.depth;
+			retClass.info = new ArrayList<WodelTestClassInfo>();
+			for (WodelTestClass tCls : tmpClasses) {
+				for (WodelTestClassInfo clsInfo : cls.info) {
+					WodelTestClassInfo info = new WodelTestClassInfo();
+					boolean exists = false;
+					for (WodelTestClassInfo retInfo : retClass.info) {
+						if (retInfo.path.equals(clsInfo.path)) {
+							exists = true;
+							break;
+						}
+					}
+					if (exists == true) {
+						continue;
+					}
+					info.path = clsInfo.path;
+					info.mutationText = new ArrayList<String>();
+					info.mutationText.addAll(clsInfo.mutationText);
+					info.numFailures = clsInfo.numFailures;
+					info.packagename = clsInfo.packagename;
+					info.tests = new ArrayList<WodelTestResultInfo>();
+					info.tests.addAll(clsInfo.tests);
+					for (WodelTestClassInfo cInfo : tCls.info) {
+						if (info.path.equals(cInfo.path)) {
+							for (WodelTestResultInfo testInfo : cInfo.tests) {
+								if (!info.tests.contains(testInfo)) {
+									info.tests.add(testInfo);
+								}
+							}
+						}
+					}
+					retClass.info.add(info);
+				}
+			}
+			retClasses.add(retClass);
+		}
+
+		return retClasses;
+	}
+
 	public static String getTestSuiteName(IProject project) {
 		String testSuiteName = "";
 		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();

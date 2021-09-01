@@ -650,6 +650,9 @@ public class WodelTestUtils {
 										if (mutantFile.exists()) {
 											mutant.setName(mutantName + testClass.classname + ".model");
 										}
+										else {
+											mutant.setName(mutantName + testClass.classname);
+										}
 									}
 								}
 								else {
@@ -696,6 +699,9 @@ public class WodelTestUtils {
 									mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
 									if (mutantFile.exists()) {
 										mutant.setName(mutantName + testClass.classname + ".model");
+									}
+									else {
+										mutant.setName(mutantName + testClass.classname);
 									}
 								}
 							}

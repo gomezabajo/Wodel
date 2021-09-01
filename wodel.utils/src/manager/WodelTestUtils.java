@@ -639,12 +639,23 @@ public class WodelTestUtils {
 								if (!packagename.equals("default")) {
 									mutantName += "src/" + packagename.replaceAll("\\.", "/") + "/";
 								}
-								String infoPath = info.path.substring(0, info.path.lastIndexOf("/") + 1);
 								mutantName = mutantName.replaceAll("\\\\", "/");
-								if (infoPath.equals(mutantName)) {
-									mutant.setName(mutantName + testClass.classname + ".java");
-									mutant.setMutation(info.mutationText);
+								if (testClass.classname.indexOf(".") == -1) {
+									File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
+									if (mutantFile.exists()) {
+										mutant.setName(mutantName + testClass.classname + ".java");
+									}
+									else {
+										mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+										if (mutantFile.exists()) {
+											mutant.setName(mutantName + testClass.classname + ".model");
+										}
+									}
 								}
+								else {
+									mutant.setName(mutantName + testClass.classname);
+								}
+								mutant.setMutation(info.mutationText);
 							}
 						}
 					}
@@ -675,12 +686,23 @@ public class WodelTestUtils {
 							if (!pckName.equals("default")) {
 								mutantName += "src/" + pckName.replaceAll("\\.", "/") + "/";
 							}
-							String infoPath = info.path.substring(0, info.path.lastIndexOf("/") + 1);
 							mutantName = mutantName.replaceAll("\\\\", "/");
-							if (infoPath.equals(mutantName)) {
-								mutant.setName(mutantName + testClass.classname + ".java");
-								mutant.setMutation(info.mutationText);
+							if (testClass.classname.indexOf(".") == -1) {
+								File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
+								if (mutantFile.exists()) {
+									mutant.setName(mutantName + testClass.classname + ".java");
+								}
+								else {
+									mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+									if (mutantFile.exists()) {
+										mutant.setName(mutantName + testClass.classname + ".model");
+									}
+								}
 							}
+							else {
+								mutant.setName(mutantName + testClass.classname);
+							}
+							mutant.setMutation(info.mutationText);
 							if (!(testClass.classname.contains("/") || testClass.classname.contains("\\"))) {
 								classNames.put(test, testClass.classname);
 							}

@@ -166,7 +166,7 @@ public class JavaValidate extends Validate {
 	}
 	
 	@Override
-	public boolean isValid(String metamodel, String seed, String model, IProject project) {
+	public boolean isValid(String metamodel, String seed, String model, Class<?> cls, IProject project) {
 		boolean isValid = false;
 		
 		try {
@@ -182,7 +182,7 @@ public class JavaValidate extends Validate {
 				className = mutantName.substring(mutantName.lastIndexOf(".") + 1, mutantName.length());
 				packageName = mutantName.substring(0, mutantName.lastIndexOf("."));
 			}
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			Resource resource = ModelManager.loadModel(packages, model);
 			modelToProject(resource, "", mutantName, project.getName());
 			IJavaProject javaProject = JavaCore.create(project);

@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.m2m.atl.common.ATL.ATLPackage;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IInjector;
 import org.eclipse.m2m.atl.core.IModel;
@@ -54,6 +55,7 @@ public class AtlValidate extends Validate {
 		try {
 			AtlSourceManager manager = new AtlSourceManager();
 			manager.updateDataSource(new FileInputStream(trafo));
+			System.out.println("trafo(in): " + trafo);
 			for (Iterator<?> iterator = manager.getInputModels().entrySet().iterator(); iterator.hasNext();) {
 				Entry<?, ?> entry = (Entry<?, ?>)iterator.next();
 				String modelName = (String) entry.getKey();
@@ -73,6 +75,7 @@ public class AtlValidate extends Validate {
 		try {
 			AtlSourceManager manager = new AtlSourceManager();
 			manager.updateDataSource(new FileInputStream(trafo));
+			System.out.println("trafo(out): " + trafo);
 			for (Iterator<?> iterator = manager.getOutputModels().entrySet().iterator(); iterator.hasNext();) {
 				Entry<?, ?> entry = (Entry<?, ?>)iterator.next();
 				String modelName = (String) entry.getKey();
@@ -136,6 +139,7 @@ public class AtlValidate extends Validate {
 	}
 	
 	private void modelToProject(File modelFile, String projectName) {
+		ATLPackage.eINSTANCE.eClass();
 		try {
 			ModelFactory modelFactory = new EMFModelFactory();
 			IReferenceModel atlMetamodel = AtlParser.getDefault().getAtlMetamodel();
@@ -151,14 +155,14 @@ public class AtlValidate extends Validate {
 			}
 			AtlParser atlParser = new AtlParser();
 			atlParser.extract(atlModel, "file:/" + outputPath + "/" + modelFile.getName().replace(".model", ".atl"));
-		} catch (ATLCoreException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public boolean isValid(String metamodel, String seed, String model, IProject project) {
+	public boolean isValid(String metamodel, String seed, String model, Class<?> cls, IProject project) {
 		boolean isValid = false;
 		
 		try {

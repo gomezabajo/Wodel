@@ -5373,7 +5373,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean validate(String metamodel, String seed, String model, IProject project) throws ModelNotFoundException {
+	protected boolean validate(String metamodel, String seed, String model, Class<?> cls, IProject project) throws ModelNotFoundException {
 		boolean isValid = false;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants valid programs extension", "", null);
 		if (extensionName.equals("")) {
@@ -5390,7 +5390,7 @@ public class MutatorUtils {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
 					Object validation =  extensionClass.newInstance();
 					Method getURI = extensionClass.getDeclaredMethod("getURI");
-					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+					List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 					String uri = (String) getURI.invoke(validation);
 					Method getName = extensionClass.getDeclaredMethod("getName");
 					String name = (String) getName.invoke(validation);
@@ -5403,8 +5403,8 @@ public class MutatorUtils {
 					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
 					Object validation =  extensionClass.newInstance();
 					Method getName = extensionClass.getDeclaredMethod("getName");
-					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, String.class, IProject.class});
-					isValid = (boolean) validate.invoke(validation, metamodel, seed, model, project);
+					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, String.class, Class.class, IProject.class});
+					isValid = (boolean) validate.invoke(validation, metamodel, seed, model, cls, project);
 				}
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -8847,20 +8847,22 @@ public class MutatorUtils {
 				}
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
-					isSaved = true;
+					if (new File(mutFilename).exists() == true) {
+						isSaved = true;
+					}
+					else {
+						isRepeated = true;
+						return isRepeated;
+					}
 				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
 				}
-				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, project);
+				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
 				if (isValid == false) {
 					IOUtils.deleteFile(mutFilename);
 					isRepeated = true;
-				}
-				if (isSaved == false) {
-					isRepeated = true;
-					return isRepeated;
 				}
 				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
@@ -9175,19 +9177,19 @@ public class MutatorUtils {
 					if (new File(mutFilename).exists() == true) {
 						isSaved = true;
 					}
+					else {
+						isRepeated = true;
+						return isRepeated;
+					}
 				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
 				}
-				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, project);
+				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
 				if (isValid == false) {
 					IOUtils.deleteFile(mutFilename);
 					isRepeated = true;
-				}
-				if (isSaved == false) {
-					isRepeated = true;
-					return isRepeated;
 				}
 				if (isValid == true) {
 					// VERIFY IF MUTANT IS DIFFERENT

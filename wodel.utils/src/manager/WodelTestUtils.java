@@ -633,32 +633,34 @@ public class WodelTestUtils {
 									mutant.setMutation(info.mutationText);
 									continue;
 								}
-								if (!mutantName.endsWith("/")) {
-									mutantName += "/";
-								}
-								if (!packagename.equals("default")) {
-									mutantName += "src/" + packagename.replaceAll("\\.", "/") + "/";
-								}
-								mutantName = mutantName.replaceAll("\\\\", "/");
-								if (testClass.classname.indexOf(".") == -1) {
-									File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
-									if (mutantFile.exists()) {
-										mutant.setName(mutantName + testClass.classname + ".java");
+								if (mutantName.indexOf(".") == -1 || (mutantName.indexOf(".") != -1 && !(packagename.equals("") || packagename.equals("default")))) {
+									if (!mutantName.endsWith("/")) {
+										mutantName += "/";
 									}
-									else {
-										mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+									if (!packagename.equals("default")) {
+										mutantName += "src/" + packagename.replaceAll("\\.", "/") + "/";
+									}
+									mutantName = mutantName.replaceAll("\\\\", "/");
+									if (testClass.classname.indexOf(".") == -1) {
+										File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
 										if (mutantFile.exists()) {
-											mutant.setName(mutantName + testClass.classname + ".model");
+											mutant.setName(mutantName + testClass.classname + ".java");
 										}
 										else {
-											mutant.setName(mutantName + testClass.classname);
+											mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+											if (mutantFile.exists()) {
+												mutant.setName(mutantName + testClass.classname + ".model");
+											}
+											else {
+												mutant.setName(mutantName + testClass.classname);
+											}
 										}
 									}
+									else {
+										mutant.setName(mutantName + testClass.classname);
+									}
+									mutant.setMutation(info.mutationText);
 								}
-								else {
-									mutant.setName(mutantName + testClass.classname);
-								}
-								mutant.setMutation(info.mutationText);
 							}
 						}
 					}
@@ -683,32 +685,34 @@ public class WodelTestUtils {
 								mutant.setMutation(info.mutationText);
 								continue;
 							}
-							if (!mutantName.endsWith("/")) {
-								mutantName += "/";
-							}
-							if (!pckName.equals("default")) {
-								mutantName += "src/" + pckName.replaceAll("\\.", "/") + "/";
-							}
-							mutantName = mutantName.replaceAll("\\\\", "/");
-							if (testClass.classname.indexOf(".") == -1) {
-								File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
-								if (mutantFile.exists()) {
-									mutant.setName(mutantName + testClass.classname + ".java");
+							if (mutantName.indexOf(".") == -1 || (mutantName.indexOf(".") != -1 && !(pckName.equals("") || pckName.equals("default")))) {
+								if (!mutantName.endsWith("/")) {
+									mutantName += "/";
 								}
-								else {
-									mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+								if (!pckName.equals("default")) {
+									mutantName += "src/" + pckName.replaceAll("\\.", "/") + "/";
+								}
+								mutantName = mutantName.replaceAll("\\\\", "/");
+								if (testClass.classname.indexOf(".") == -1) {
+									File mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".java");
 									if (mutantFile.exists()) {
-										mutant.setName(mutantName + testClass.classname + ".model");
+										mutant.setName(mutantName + testClass.classname + ".java");
 									}
 									else {
-										mutant.setName(mutantName + testClass.classname);
+										mutantFile = new File(ModelManager.getWorkspaceAbsolutePath() + mutantName + testClass.classname + ".model");
+										if (mutantFile.exists()) {
+											mutant.setName(mutantName + testClass.classname + ".model");
+										}
+										else {
+											mutant.setName(mutantName + testClass.classname);
+										}
 									}
 								}
+								else {
+									mutant.setName(mutantName + testClass.classname);
+								}
+								mutant.setMutation(info.mutationText);
 							}
-							else {
-								mutant.setName(mutantName + testClass.classname);
-							}
-							mutant.setMutation(info.mutationText);
 							if (!(testClass.classname.contains("/") || testClass.classname.contains("\\"))) {
 								classNames.put(test, testClass.classname);
 							}
@@ -850,7 +854,6 @@ public class WodelTestUtils {
 					info.numFailures = clsInfo.numFailures;
 					info.packagename = clsInfo.packagename;
 					info.tests = new ArrayList<WodelTestResultInfo>();
-					info.tests.addAll(clsInfo.tests);
 					for (WodelTestClassInfo cInfo : tCls.info) {
 						if (info.path.equals(cInfo.path)) {
 							for (WodelTestResultInfo testInfo : cInfo.tests) {

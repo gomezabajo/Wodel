@@ -125,21 +125,24 @@ public class AtlEquivalence extends Equivalence {
 		} catch (Exception e) {
 			return false;
 		}
-		return true;	}
+		return true;
+	}
 	
 	private String getXML(File modelFile, String projectName) {
 		String xml = "";
 		try {
 			String path = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/temp/" + modelFile.getName().replace(".model", ".asm");
 			File xmlFile = new File(path);
-			FileReader xmlReader = new FileReader(xmlFile);
-			BufferedReader bufferedReader = new BufferedReader(xmlReader);
-			String line = null;
-			while ((line = bufferedReader.readLine()) != null) {
-				xml += line + "\n";
+			if (xmlFile.exists()) {
+				FileReader xmlReader = new FileReader(xmlFile);
+				BufferedReader bufferedReader = new BufferedReader(xmlReader);
+				String line = null;
+				while ((line = bufferedReader.readLine()) != null) {
+					xml += line + "\n";
+				}
+				bufferedReader.close();
+				xmlReader.close();
 			}
-			bufferedReader.close();
-			xmlReader.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -233,15 +236,17 @@ public class AtlEquivalence extends Equivalence {
 			boolean done = modelToProject(modelFile1, project.getName());
 			if (!done) return false;
 			compile(project);
-			//String xml1 = getXML(modelFile, project.getName());
+			String xml1 = getXML(modelFile1, project.getName());
 			//GET XML FOR SECOND PROGRAM
 			File modelFile2 = new File(model2);
 			done = modelToProject(modelFile2, project.getName());
 			if (!done) return false;
 			compile(project);
-			//String xml2 = getXML(modelFile, project.getName());
+			String xml2 = getXML(modelFile2, project.getName());
 			//isRepeated = doCompare(xml1, xml2);
-			isRepeated = doCompare(getXML(modelFile1, project.getName()), getXML(modelFile2, project.getName()));
+			if (!xml1.equals("") && !xml2.equals("")) {
+				isRepeated = doCompare(xml1, xml2);
+			}
 			iFolder.delete(true, new NullProgressMonitor());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

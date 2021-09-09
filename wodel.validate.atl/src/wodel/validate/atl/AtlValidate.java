@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.m2m.atl.common.ATL.ATLPackage;
-import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IInjector;
 import org.eclipse.m2m.atl.core.IModel;
 import org.eclipse.m2m.atl.core.IReferenceModel;
@@ -55,7 +54,6 @@ public class AtlValidate extends Validate {
 		try {
 			AtlSourceManager manager = new AtlSourceManager();
 			manager.updateDataSource(new FileInputStream(trafo));
-			System.out.println("trafo(in): " + trafo);
 			for (Iterator<?> iterator = manager.getInputModels().entrySet().iterator(); iterator.hasNext();) {
 				Entry<?, ?> entry = (Entry<?, ?>)iterator.next();
 				String modelName = (String) entry.getKey();
@@ -75,7 +73,6 @@ public class AtlValidate extends Validate {
 		try {
 			AtlSourceManager manager = new AtlSourceManager();
 			manager.updateDataSource(new FileInputStream(trafo));
-			System.out.println("trafo(out): " + trafo);
 			for (Iterator<?> iterator = manager.getOutputModels().entrySet().iterator(); iterator.hasNext();) {
 				Entry<?, ?> entry = (Entry<?, ?>)iterator.next();
 				String modelName = (String) entry.getKey();
@@ -96,8 +93,9 @@ public class AtlValidate extends Validate {
 		try {
 			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp");
 			for (File atl_file : folder.listFiles()) {
-				if (atl_file.isFile() && atl_file.getName().endsWith(".atl")) {
+				if (atl_file.isFile() && atl_file.getName().endsWith(".atl") && atl_file.length() > 0) {
 					Resource atlTrafo = AtlLoader.load(atl_file.getPath());
+					
 					String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
 					String in = getIn(atl_file.getPath());
 					String inMetamodel = "file:/" + projectPath + "/" + in + ".ecore";
@@ -154,7 +152,7 @@ public class AtlValidate extends Validate {
 				outputFolder.mkdir();
 			}
 			AtlParser atlParser = new AtlParser();
-			atlParser.extract(atlModel, "file:/" + outputPath + "/" + modelFile.getName().replace(".model", ".atl"));
+			atlParser.extract(atlModel, outputPath + modelFile.getName().replace(".model", ".atl"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

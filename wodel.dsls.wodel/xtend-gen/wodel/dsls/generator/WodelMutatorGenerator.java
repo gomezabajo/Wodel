@@ -374,7 +374,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+    _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
     _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
@@ -409,14 +409,34 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("boolean isRegistered = ModelManager.isRegistered(packages);");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, EPackage> registeredPackages = new HashMap<String, EPackage>();");
+        _builder.append("Map<String, EPackage> localRegisteredPackages = null;");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("if (isRegistered == true) {");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t");
-        _builder.append("registeredPackages = ModelManager.unregisterMetaModel(packages);");
+        _builder.append("if (registeredPackages != null) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("List<EPackage> packageList = new ArrayList<EPackage>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("packageList.addAll(registeredPackages.values());");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("ModelManager.unregisterMetaModel(packageList);");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("localRegisteredPackages = ModelManager.unregisterMetaModel(packages);");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("}");
@@ -441,7 +461,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append(mutatorName_1, "\t");
         _builder.append(" = mut");
         _builder.append(mutatorName_1, "\t");
-        _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, blockNames, project, monitor, serialize, test, classes);");
+        _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, project, monitor, serialize, test, classes);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("mutationResults.numMutatorsApplied += results");
@@ -485,7 +505,16 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("if (isRegistered == true) {");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("ModelManager.registerMetaModel(localRegisteredPackages);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (registeredPackages != null) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("ModelManager.registerMetaModel(registeredPackages);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -5322,7 +5351,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
@@ -5435,10 +5464,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t   \t\t");
-            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
             _builder.newLine();
           } else {
-            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
             String _name_131 = b.getName();
             _builder.append(_name_131);
             _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -6127,7 +6156,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
@@ -6240,10 +6269,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t   \t\t");
-            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
             _builder.newLine();
           } else {
-            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
             String _name_27 = b.getName();
             _builder.append(_name_27);
             _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -9869,7 +9898,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t");
                 _builder.append("\t\t\t\t\t");
-                _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+                _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
                 _builder.newLine();
                 _builder.append("\t\t");
                 _builder.append("\t\t\t\t\t");
@@ -9982,10 +10011,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 {
                   if ((b == null)) {
                     _builder.append("\t\t   \t\t");
-                    _builder.append("boolean isRepeated = (ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+                    _builder.append("boolean isRepeated = (ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
                     _builder.newLine();
                   } else {
-                    _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+                    _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
                     String _name_57 = b.getName();
                     _builder.append(_name_57);
                     _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -11206,7 +11235,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t\t");
                     _builder.append("\t\t\t\t\t");
-                    _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+                    _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
                     _builder.newLine();
                     _builder.append("\t\t");
                     _builder.append("\t\t\t\t\t");
@@ -11319,10 +11348,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     {
                       if ((b == null)) {
                         _builder.append("\t\t   \t\t");
-                        _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+                        _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
                         _builder.newLine();
                       } else {
-                        _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+                        _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
                         String _name_119 = b.getName();
                         _builder.append(_name_119);
                         _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -11731,7 +11760,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t\t\t\t");
               _builder.append("\t\t");
-              _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+              _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t\t\t");
@@ -11851,10 +11880,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               }
               {
                 if ((b == null)) {
-                  _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+                  _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
                   _builder.newLine();
                 } else {
-                  _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+                  _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
                   String _name_147 = b.getName();
                   _builder.append(_name_147);
                   _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -12083,7 +12112,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t\t");
               _builder.append("\t\t");
-              _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+              _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t");
@@ -12211,12 +12240,12 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               }
               {
                 if ((b == null)) {
-                  _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+                  _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
                   _builder.newLine();
                 } else {
                   _builder.append("\t");
                   _builder.append("\t\t\t");
-                  _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+                  _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
                   String _name_158 = b.getName();
                   _builder.append(_name_158, "\t\t\t\t");
                   _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -14971,7 +15000,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
-            _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+            _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
@@ -14993,7 +15022,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
-            _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+            _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
@@ -15111,10 +15140,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("   \t\t");
-            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
             _builder.newLine();
           } else {
-            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
             String _name_57 = b.getName();
             _builder.append(_name_57);
             _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -18802,7 +18831,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
@@ -18918,10 +18947,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((b == null)) {
             _builder.append("\t\t   \t\t");
-            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);");
+            _builder.append("boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);");
             _builder.newLine();
           } else {
-            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+            _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
             String _name_59 = b.getName();
             _builder.append(_name_59);
             _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
@@ -19323,7 +19352,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("Map<String, String> hashmapModelFilenames, String modelFilename, List<String> mutPaths,");
         _builder.newLine();
         _builder.append("\t\t\t\t");
-        _builder.append("Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages,");
+        _builder.append("Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,");
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("Map<String, String> hashmapModelFolders, String ecoreURI, boolean registry,");
@@ -20915,7 +20944,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("public int block_");
     String _name = b.getName();
     _builder.append(_name, "\t");
-    _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+    _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
     _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
@@ -21219,7 +21248,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("@Override");
             _builder.newLine();
-            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
             _builder.newLine();
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
             _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
@@ -21513,7 +21542,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("@Override");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -21649,7 +21678,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("int numMutantsGenerated = block_");
             String _name_3 = b_1.getName();
             _builder.append(_name_3, "\t\t\t");
-            _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+            _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, localRegisteredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("\t");
@@ -25670,7 +25699,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, null, ecoreURI,");
+        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutants, null, hashmapMutVersions, project, monitor, 0, serialize, test, classes);");
@@ -25820,7 +25849,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("mutantIndex[0] = i;");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
+        _builder.append("isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("if (isRepeated == false) {");
@@ -25954,7 +25983,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t\t");
-        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,");
+        _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
         _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
@@ -26126,7 +26155,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("mutantIndex[0] = i;");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+        _builder.append("isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
         String _name_10 = b.getName();
         _builder.append(_name_10, "\t\t");
         _builder.append("\", fromNames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");

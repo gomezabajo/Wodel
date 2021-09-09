@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.java,
  wodel.utils,
  org.eclipse.jdt.core,
- wodel.wodeltest
+ wodel.wodeltest,
+ org.eclipse.modisco.java.generation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: wodel.validate.java
 Import-Package: wodel.validate

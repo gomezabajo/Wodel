@@ -99,6 +99,16 @@ public class ModelManager {
 		}
 	}
 
+	public static Map<String, EPackage> registeredMetaModels (List<EPackage> packages) {
+		Map<String, EPackage> packs = new HashMap<String, EPackage>(); 
+		for (EPackage pack : packages) {
+			if (EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
+				packs.put(pack.getNsURI(), EPackage.Registry.INSTANCE.getEPackage(pack.getNsURI()));
+			}
+		}
+		return packs;
+	}
+
 	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
 		try {

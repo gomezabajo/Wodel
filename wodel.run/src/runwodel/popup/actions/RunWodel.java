@@ -127,13 +127,13 @@ public class RunWodel extends AbstractHandler {
 			Object result = null;
 			try {
 				ob = cls.getDeclaredConstructor().newInstance();
-				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
+				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
 				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
-				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null);
+				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null, null);
 				// ime = (IMutatorExecutor)ob;
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -229,7 +229,8 @@ public class CreateObjectMutator extends Mutator {
 		//	newObj = EcoreFactory.eINSTANCE.create((EClass) obj);
 		//}
 		//else {
-			newObj = EcoreUtil.create((EClass) obj);
+			newObj = ((EClass) obj).getEPackage().getEFactoryInstance().create((EClass) obj);
+			//newObj = EcoreUtil.create((EClass) obj);
 		//}
 
 		// Attributes configuration

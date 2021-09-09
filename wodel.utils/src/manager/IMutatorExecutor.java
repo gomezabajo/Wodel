@@ -1,11 +1,13 @@
 package manager;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EPackage;
 
 import exceptions.*;
 import manager.MutatorUtils.MutationResults;
@@ -23,7 +25,8 @@ import manager.MutatorUtils.MutationResults;
 public interface IMutatorExecutor {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry,
 			boolean metrics, boolean debugMetrics, String[] blockNames, IProject project,
-			IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes) 
+			IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes,
+			HashMap<String, EPackage> registeredPackages)  
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 				AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 				MetaModelNotFoundException,	ModelNotFoundException, IOException;

@@ -179,7 +179,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 					//checks whether the meta-model is dynamically registered
 					isRegistered = ModelManager.isRegistered(packages);
 					if (isRegistered == true) {
-						registeredPackages = ModelManager.unregisterMetaModel(packages);
+						registeredPackages = ModelManager.registeredMetaModels(packages);
 					}
 				} catch (MetaModelNotFoundException e2) {
 					// TODO Auto-generated catch block
@@ -241,7 +241,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				boolean serialize = true;
 				try {
 					ob = cls.getDeclaredConstructor().newInstance();
-					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
+					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
 					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
@@ -261,15 +261,15 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					String[] blockNamesArray = new String[blockNames.size()];
 					blockNames.toArray(blockNamesArray);
-					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes);
+					mutationResults = (MutationResults) m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, blockNamesArray, sourceProject, monitor, serialize, test, classes, registeredPackages);
 					// ime = (IMutatorExecutor)ob;
 				} catch (Exception e) {
 					e.printStackTrace();
 					return;
 				}
-				if (isRegistered == true) {
-					ModelManager.registerMetaModel(registeredPackages);
-				}
+				//if (isRegistered == true) {
+				//	ModelManager.registerMetaModel(registeredPackages);
+				//}
 				
 				long mutationTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 				if (mutationResults != null) {

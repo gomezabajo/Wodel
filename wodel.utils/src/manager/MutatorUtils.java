@@ -8791,7 +8791,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	public boolean registryMutant(String metamodel, List<EPackage> packages, Map<String, EPackage> registeredPackages,
+	public boolean registryMutant(String metamodel, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, 
 			Resource seed, Resource model, Map<String, List<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
 			boolean registry, Set<String> hashsetMutants,
@@ -8806,7 +8806,15 @@ public class MutatorUtils {
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
+		if (localRegisteredPackages != null) {
+			ModelManager.registerMetaModel(localRegisteredPackages);
+		}
 		boolean valid = validation(metamodel, seed.getURI().toFileString());
+		if (localRegisteredPackages != null) {
+			List<EPackage> localRegistered = new ArrayList<EPackage>();
+			localRegistered.addAll(localRegisteredPackages.values());
+			ModelManager.unregisterMetaModel(localRegistered);
+		}
 		if (registeredPackages != null) {
 			List<EPackage> registered = new ArrayList<EPackage>();
 			registered.addAll(registeredPackages.values());
@@ -8821,13 +8829,31 @@ public class MutatorUtils {
 			if (registeredPackages != null) {
 				ModelManager.registerMetaModel(registeredPackages);
 			}
+			if (localRegisteredPackages != null) {
+				ModelManager.registerMetaModel(localRegisteredPackages);
+			}
 			boolean value = test.modelToProject(className, model, "", mutantName, project.getName(), null);
 			if (value == false) {
+				if (localRegisteredPackages != null) {
+					List<EPackage> localRegistered = new ArrayList<EPackage>();
+					localRegistered.addAll(localRegisteredPackages.values());
+					ModelManager.unregisterMetaModel(localRegistered);
+				}
+				if (registeredPackages != null) {
+					List<EPackage> registered = new ArrayList<EPackage>();
+					registered.addAll(registeredPackages.values());
+					ModelManager.unregisterMetaModel(registered);
+				}
 				return true;
 			}
 			if (value && classes.size() > 0) {
 				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
+			}
+			if (localRegisteredPackages != null) {
+				List<EPackage> localRegistered = new ArrayList<EPackage>();
+				localRegistered.addAll(localRegisteredPackages.values());
+				ModelManager.unregisterMetaModel(localRegistered);
 			}
 			if (registeredPackages != null) {
 				List<EPackage> registered = new ArrayList<EPackage>();
@@ -8859,6 +8885,9 @@ public class MutatorUtils {
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
 				}
+				if (localRegisteredPackages != null) {
+					ModelManager.registerMetaModel(localRegisteredPackages);
+				}
 				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
 				if (isValid == false) {
 					IOUtils.deleteFile(mutFilename);
@@ -8869,6 +8898,16 @@ public class MutatorUtils {
 					isRepeated = different(metamodel, mutFilename, hashsetMutants, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
+						if (localRegisteredPackages != null) {
+							List<EPackage> localRegistered = new ArrayList<EPackage>();
+							localRegistered.addAll(localRegisteredPackages.values());
+							ModelManager.unregisterMetaModel(localRegistered);
+						}
+						if (registeredPackages != null) {
+							List<EPackage> registered = new ArrayList<EPackage>();
+							registered.addAll(registeredPackages.values());
+							ModelManager.unregisterMetaModel(registered);
+						}
 						return isRepeated;
 					}
 				}
@@ -8878,8 +8917,23 @@ public class MutatorUtils {
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
+						if (localRegisteredPackages != null) {
+							List<EPackage> localRegistered = new ArrayList<EPackage>();
+							localRegistered.addAll(localRegisteredPackages.values());
+							ModelManager.unregisterMetaModel(localRegistered);
+						}
+						if (registeredPackages != null) {
+							List<EPackage> registered = new ArrayList<EPackage>();
+							registered.addAll(registeredPackages.values());
+							ModelManager.unregisterMetaModel(registered);
+						}
 						return isRepeated;
 					}
+				}
+				if (localRegisteredPackages != null) {
+					List<EPackage> localRegistered = new ArrayList<EPackage>();
+					localRegistered.addAll(localRegisteredPackages.values());
+					ModelManager.unregisterMetaModel(localRegistered);
 				}
 				if (registeredPackages != null) {
 					List<EPackage> registered = new ArrayList<EPackage>();
@@ -9106,7 +9160,8 @@ public class MutatorUtils {
 	 * @throws IOException 
 	 */
 	public boolean registryMutantWithBlocks(String metamodel, List<EPackage> packages,
-			Map<String, EPackage> registeredPackages, Resource seed, Resource model, Map<String, List<String>> rules,
+			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, 
+			Resource seed, Resource model, Map<String, List<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
 			boolean registry, Set<String> hashsetMutantsBlock,
 			Map<String, String> hashmapModelFilenames,
@@ -9121,7 +9176,15 @@ public class MutatorUtils {
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
+		if (localRegisteredPackages != null) {
+			ModelManager.registerMetaModel(localRegisteredPackages);
+		}
 		boolean valid = validation(metamodel, seed.getURI().toFileString());
+		if (localRegisteredPackages != null) {
+			List<EPackage> localRegistered = new ArrayList<EPackage>();
+			localRegistered.addAll(localRegisteredPackages.values());
+			ModelManager.unregisterMetaModel(localRegistered);
+		}
 		if (registeredPackages != null) {
 			List<EPackage> registered = new ArrayList<EPackage>();
 			registered.addAll(registeredPackages.values());
@@ -9136,13 +9199,31 @@ public class MutatorUtils {
 			if (registeredPackages != null) {
 				ModelManager.registerMetaModel(registeredPackages);
 			}
+			if (localRegisteredPackages != null) {
+				ModelManager.registerMetaModel(localRegisteredPackages);
+			}
 			boolean value = test.modelToProject(className, model, block, mutantName, project.getName(), null);
 			if (value == false) {
+				if (localRegisteredPackages != null) {
+					List<EPackage> localRegistered = new ArrayList<EPackage>();
+					localRegistered.addAll(localRegisteredPackages.values());
+					ModelManager.unregisterMetaModel(localRegistered);
+				}
+				if (registeredPackages != null) {
+					List<EPackage> registered = new ArrayList<EPackage>();
+					registered.addAll(registeredPackages.values());
+					ModelManager.unregisterMetaModel(registered);
+				}
 				return true;
 			}
 			if (value && classes.size() > 0) {
 				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
+			}
+			if (localRegisteredPackages != null) {
+				List<EPackage> localRegistered = new ArrayList<EPackage>();
+				localRegistered.addAll(localRegisteredPackages.values());
+				ModelManager.unregisterMetaModel(localRegistered);
 			}
 			if (registeredPackages != null) {
 				List<EPackage> registered = new ArrayList<EPackage>();
@@ -9153,6 +9234,16 @@ public class MutatorUtils {
 		else {
 			if (matchesOCL(model, rules) == false) {
 				isRepeated = true;
+				if (localRegisteredPackages != null) {
+					List<EPackage> localRegistered = new ArrayList<EPackage>();
+					localRegistered.addAll(localRegisteredPackages.values());
+					ModelManager.unregisterMetaModel(localRegistered);
+				}
+				if (registeredPackages != null) {
+					List<EPackage> registered = new ArrayList<EPackage>();
+					registered.addAll(registeredPackages.values());
+					ModelManager.unregisterMetaModel(registered);
+				}
 				return isRepeated;
 			}
 			else {
@@ -9179,12 +9270,25 @@ public class MutatorUtils {
 					}
 					else {
 						isRepeated = true;
+						if (localRegisteredPackages != null) {
+							List<EPackage> localRegistered = new ArrayList<EPackage>();
+							localRegistered.addAll(localRegisteredPackages.values());
+							ModelManager.unregisterMetaModel(localRegistered);
+						}
+						if (registeredPackages != null) {
+							List<EPackage> registered = new ArrayList<EPackage>();
+							registered.addAll(registeredPackages.values());
+							ModelManager.unregisterMetaModel(registered);
+						}
 						return isRepeated;
 					}
 				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
+				}
+				if (localRegisteredPackages != null) {
+					ModelManager.registerMetaModel(localRegisteredPackages);
 				}
 				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
 				if (isValid == false) {
@@ -9196,6 +9300,16 @@ public class MutatorUtils {
 					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
+						if (localRegisteredPackages != null) {
+							List<EPackage> localRegistered = new ArrayList<EPackage>();
+							localRegistered.addAll(localRegisteredPackages.values());
+							ModelManager.unregisterMetaModel(localRegistered);
+						}
+						if (registeredPackages != null) {
+							List<EPackage> registered = new ArrayList<EPackage>();
+							registered.addAll(registeredPackages.values());
+							ModelManager.unregisterMetaModel(registered);
+						}
 						return isRepeated;
 					}
 				}
@@ -9205,8 +9319,23 @@ public class MutatorUtils {
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
+						if (localRegisteredPackages != null) {
+							List<EPackage> localRegistered = new ArrayList<EPackage>();
+							localRegistered.addAll(localRegisteredPackages.values());
+							ModelManager.unregisterMetaModel(localRegistered);
+						}
+						if (registeredPackages != null) {
+							List<EPackage> registered = new ArrayList<EPackage>();
+							registered.addAll(registeredPackages.values());
+							ModelManager.unregisterMetaModel(registered);
+						}
 						return isRepeated;
 					}
+				}
+				if (localRegisteredPackages != null) {
+					List<EPackage> localRegistered = new ArrayList<EPackage>();
+					localRegistered.addAll(localRegisteredPackages.values());
+					ModelManager.unregisterMetaModel(localRegistered);
 				}
 				if (registeredPackages != null) {
 					List<EPackage> registered = new ArrayList<EPackage>();
@@ -10541,7 +10670,7 @@ public class MutatorUtils {
 		return numMutants;
 	}
 	
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, 
 			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {

@@ -16,11 +16,11 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.modisco.java.emf.JavaPackage;
+import org.eclipse.modisco.java.generation.files.GenerateJavaExtended;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -38,7 +38,6 @@ import manager.AcceleoUtils;
 import manager.IOUtils;
 import manager.ModelManager;
 import wodel.validate.Validate;
-import wodel.wodeltest.MyGenerateJavaExtended;
 
 public class JavaValidate extends Validate {
 	
@@ -74,13 +73,13 @@ public class JavaValidate extends Validate {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
 			String folder = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
-			boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
-			MyGenerateJavaExtended javaGenerator = new MyGenerateJavaExtended(model,
-				new File(folder), new ArrayList<Object>(), serialized);
-			if (javaGenerator.status == true) {
+			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
+			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
+				new File(folder), new ArrayList<Object>()); //serialized);
+			//if (javaGenerator.status == true) {
 				javaGenerator.doGenerate(null);
 				return true;
-			}
+			//}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,10 +174,16 @@ public class JavaValidate extends Validate {
 			if (iFolder.exists() == false) {
 				iFolder.create(true, true, new NullProgressMonitor());
 			}
-			String mutantName = seed.substring(seed.lastIndexOf("\\") + 1, seed.length()).replace(".model", "");
+			String mutantName = seed;
+			if (mutantName.indexOf("\\") != -1) {
+				mutantName = mutantName.substring(mutantName.lastIndexOf("\\") + 1, mutantName.length()).replace(".model", "");
+			}
+			if (mutantName.indexOf("/") != -1) {
+				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
+			}
 			String className = mutantName;
 			String packageName = "";
-			if (mutantName.lastIndexOf(".") > 0) {
+			if (mutantName.lastIndexOf(".") != -1) {
 				className = mutantName.substring(mutantName.lastIndexOf(".") + 1, mutantName.length());
 				packageName = mutantName.substring(0, mutantName.lastIndexOf("."));
 			}
@@ -199,8 +204,14 @@ public class JavaValidate extends Validate {
 				}
 			}
 			String javaFileName = className + ".java";
-			String block = seed.substring(0, seed.lastIndexOf(mutantName) - 1);
-			block = block.substring(block.lastIndexOf("\\") + 1, block.length());
+			String block = model.substring(0, model.lastIndexOf("Output") - 1);
+			if (block.indexOf("\\") != -1) {
+				block = block.substring(block.lastIndexOf("\\") + 1, block.length());
+			}
+			if (block.indexOf("/") != -1) {
+				block = block.substring(block.lastIndexOf("/") + 1, block.length());
+			}
+			System.out.println("block: " + block);
 			modelToProject(resource, block, mutantName, project.getName());
 			String artifactPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			String srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						

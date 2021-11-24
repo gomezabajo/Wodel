@@ -5168,6 +5168,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					cMut.getObject().add(object);
 				}
 				else {
+					if (mut.getModel() != null) {
+						mutant = mut.getModel();
+					}
+					else {
+						mutant = mut.getModels().get(0);
+					}
 					cMut.getObject().add(mut.getObject());
 				}
 			} catch (ModelNotFoundException e) {

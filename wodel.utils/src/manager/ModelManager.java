@@ -2445,7 +2445,6 @@ public class ModelManager {
 		}
 		return resource;
 	}
-	
 
 	/**
 	 * @param model

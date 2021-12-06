@@ -8773,59 +8773,59 @@ public class MutatorUtils {
 		return eClass;
 	}
 	
-	private static void replaceURI(EObject object, String stringURI) {
-		URI newURI = URI.createURI(stringURI);
-		if (object.eResource() != null && !object.eResource().getURI().equals(newURI)) {
-			object.eResource().setURI(URI.createURI(stringURI));
-			for (EReference ref : object.eClass().getEAllReferences()) {
-				Object ob = object.eGet(ref);
-				if (ob != null) {
-					if (ob instanceof EObject) {
-						replaceURI((EObject) ob, stringURI);
-					}
-					if (ob instanceof List<?>) {
-						for (EObject o : (List<EObject>) ob) {
-							replaceURI((EObject) o, stringURI);
-						}
-					}
-				}
-			}
-		}
-	}
+//	private static void replaceURI(EObject object, String stringURI) {
+//		URI newURI = URI.createURI(stringURI);
+//		if (object.eResource() != null && !object.eResource().getURI().equals(newURI)) {
+//			object.eResource().setURI(URI.createURI(stringURI));
+//			for (EReference ref : object.eClass().getEAllReferences()) {
+//				Object ob = object.eGet(ref);
+//				if (ob != null) {
+//					if (ob instanceof EObject) {
+//						replaceURI((EObject) ob, stringURI);
+//					}
+//					if (ob instanceof List<?>) {
+//						for (EObject o : (List<EObject>) ob) {
+//							replaceURI((EObject) o, stringURI);
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 	
-	private static String getNewURI(EObject mut, String stringURI) {
-		String newURI = mut.eResource().getURI().toFileString();
-		String fileNameURI = "";
-		if (newURI != null) {
-			if (newURI.indexOf("/") != -1) {
-				if (newURI.indexOf("/registry") != -1) {
-					newURI = newURI.substring(0, newURI.indexOf("/registry"));
-				}
-				fileNameURI = newURI.substring(newURI.lastIndexOf("/") + 1, newURI.length());
-			}
-			else if (newURI.indexOf("\\") != -1) {
-				if (newURI.indexOf("\\registry") != -1) {
-					newURI = newURI.substring(0, newURI.indexOf("\\registry"));
-				}
-				fileNameURI = newURI.substring(newURI.lastIndexOf("\\") + 1, newURI.length());
-			}
-		}
-		String newFileNameURI = "";
-		if (stringURI.indexOf("/") != -1) {
-			newFileNameURI = stringURI.substring(stringURI.lastIndexOf("/") + 1, stringURI.length());
-		}
-		if (stringURI.indexOf("\\") != -1) {
-			newFileNameURI = stringURI.substring(stringURI.lastIndexOf("\\") + 1, stringURI.length());
-		}
-		if (fileNameURI.length() > 0) {
-			fileNameURI = fileNameURI.substring(0, fileNameURI.indexOf("."));
-			newFileNameURI = "../../../../model/" + newFileNameURI.replace(newFileNameURI, fileNameURI + ".model");
-		}
-		else {
-			newFileNameURI = "../../../../model/" + newFileNameURI;
-		}
-		return newFileNameURI;
-	}
+//	private static String getNewURI(EObject mut, String stringURI) {
+//		String newURI = mut.eResource().getURI().toFileString();
+//		String fileNameURI = "";
+//		if (newURI != null) {
+//			if (newURI.indexOf("/") != -1) {
+//				if (newURI.indexOf("/registry") != -1) {
+//					newURI = newURI.substring(0, newURI.indexOf("/registry"));
+//				}
+//				fileNameURI = newURI.substring(newURI.lastIndexOf("/") + 1, newURI.length());
+//			}
+//			else if (newURI.indexOf("\\") != -1) {
+//				if (newURI.indexOf("\\registry") != -1) {
+//					newURI = newURI.substring(0, newURI.indexOf("\\registry"));
+//				}
+//				fileNameURI = newURI.substring(newURI.lastIndexOf("\\") + 1, newURI.length());
+//			}
+//		}
+//		String newFileNameURI = "";
+//		if (stringURI.indexOf("/") != -1) {
+//			newFileNameURI = stringURI.substring(stringURI.lastIndexOf("/") + 1, stringURI.length());
+//		}
+//		if (stringURI.indexOf("\\") != -1) {
+//			newFileNameURI = stringURI.substring(stringURI.lastIndexOf("\\") + 1, stringURI.length());
+//		}
+//		if (fileNameURI.length() > 0) {
+//			fileNameURI = fileNameURI.substring(0, fileNameURI.indexOf("."));
+//			newFileNameURI = "../../../../model/" + newFileNameURI.replace(newFileNameURI, fileNameURI + ".model");
+//		}
+//		else {
+//			newFileNameURI = "../../../../model/" + newFileNameURI;
+//		}
+//		return newFileNameURI;
+//	}
 	
 	/**
 	 * @param model
@@ -8833,59 +8833,59 @@ public class MutatorUtils {
 	 * @param outputURI
 	 *            URI of the new created Model
 	 */
-	public static void createModelWithURI(String stringURI, Mutations muts, String outputURI) {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put("*", new XMLResourceFactoryImpl());
-		URI uri = URI.createFileURI(outputURI);
-		Resource resource = rs.createResource(uri);
-		Map<Object, Object> saveOptions = ((XMLResource) resource)
-				.getDefaultSaveOptions();
-		saveOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
-		saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE,	new ArrayList<Object>());
-		saveOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, "DISCARD");
-		for (AppMutation mut : muts.getMuts()) {
-			if (mut instanceof ObjectCreated) {
-				List<EObject> emuts = ((ObjectCreated) mut).getObject();
-				for (EObject emut : emuts) {
-					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
-					replaceURI(emut, newFileNameURI);
-				}
-			}
-			if (mut instanceof ObjectCloned) {
-				List<EObject> emuts = ((ObjectCloned) mut).getObject();
-				for (EObject emut : emuts) {
-					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
-					replaceURI(emut, newFileNameURI);
-				}
-			}
-			if (mut instanceof ObjectRemoved) {
-				List<EObject> emuts = ((ObjectRemoved) mut).getObject();
-				for (EObject emut : emuts) {
-					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
-					replaceURI(emut, newFileNameURI);
-				}
-			}
-			if (mut instanceof InformationChanged) {
-				EObject emutated = ((InformationChanged) mut).getObject();
-				String newFileNameURI = MutatorUtils.getNewURI(emutated, stringURI);
-				replaceURI(emutated, newFileNameURI);
-			}
-			if (mut instanceof ObjectRetyped) {
-				List<EObject> emuts = ((ObjectRetyped) mut).getObject();
-				for (EObject emut : emuts) {
-					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
-					replaceURI(emut, newFileNameURI);
-				}
-			}
-		}
-		resource.getContents().add(muts);
-		try {
-			resource.save(saveOptions);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+//	public static void createModelWithURI(String stringURI, Mutations muts, String outputURI) {
+//		ResourceSet rs = new ResourceSetImpl();
+//		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+//				.put("*", new XMLResourceFactoryImpl());
+//		URI uri = URI.createFileURI(outputURI);
+//		Resource resource = rs.createResource(uri);
+//		Map<Object, Object> saveOptions = ((XMLResource) resource)
+//				.getDefaultSaveOptions();
+//		saveOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
+//		saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE,	new ArrayList<Object>());
+//		saveOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, "DISCARD");
+//		for (AppMutation mut : muts.getMuts()) {
+//			if (mut instanceof ObjectCreated) {
+//				List<EObject> emuts = ((ObjectCreated) mut).getObject();
+//				for (EObject emut : emuts) {
+//					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
+//					replaceURI(emut, newFileNameURI);
+//				}
+//			}
+//			if (mut instanceof ObjectCloned) {
+//				List<EObject> emuts = ((ObjectCloned) mut).getObject();
+//				for (EObject emut : emuts) {
+//					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
+//					replaceURI(emut, newFileNameURI);
+//				}
+//			}
+//			if (mut instanceof ObjectRemoved) {
+//				List<EObject> emuts = ((ObjectRemoved) mut).getObject();
+//				for (EObject emut : emuts) {
+//					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
+//					replaceURI(emut, newFileNameURI);
+//				}
+//			}
+//			if (mut instanceof InformationChanged) {
+//				EObject emutated = ((InformationChanged) mut).getObject();
+//				String newFileNameURI = MutatorUtils.getNewURI(emutated, stringURI);
+//				replaceURI(emutated, newFileNameURI);
+//			}
+//			if (mut instanceof ObjectRetyped) {
+//				List<EObject> emuts = ((ObjectRetyped) mut).getObject();
+//				for (EObject emut : emuts) {
+//					String newFileNameURI = MutatorUtils.getNewURI(emut, stringURI);
+//					replaceURI(emut, newFileNameURI);
+//				}
+//			}
+//		}
+//		resource.getContents().add(muts);
+//		try {
+//			resource.save(saveOptions);
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	/**
 	 * Mutant registry generation
@@ -9253,8 +9253,8 @@ public class MutatorUtils {
 							stringURI = stringURI.substring(stringURI.indexOf("\\") + 1, stringURI.length());
 						}
 						if (stringURI != null) {
-							MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
-							//ModelManager.createModel(muts, registryFilename);
+							//MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
+							ModelManager.createModel(muts, registryFilename);
 						}
 					}
 				}
@@ -9682,8 +9682,8 @@ public class MutatorUtils {
 							stringURI = stringURI.substring(stringURI.indexOf("\\") + 1, stringURI.length());
 						}
 						if (stringURI != null) {
-							MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
-							//ModelManager.createModel(muts, registryFilename);
+							//MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
+							ModelManager.createModel(muts, registryFilename);
 						}
 						else {
 							ModelManager.createModel(muts, registryFilename);

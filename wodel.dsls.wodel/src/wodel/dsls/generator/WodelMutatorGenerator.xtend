@@ -880,6 +880,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				}
 	   			ModifyInformationMutator mut = new ModifyInformationMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection, attsList, refsList, objsAttRef, attsRefList);
 	   			//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 	   			if (mut != null) {
 	   				mut.setId("m«nMutation»");
 	   				mutations.add(mut);
@@ -892,6 +893,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				}
 	   			ModifyInformationMutator mut = new ModifyInformationMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection, attsList, refsList, objsAttRef, attsRefList);
 	   			//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 	   			if (mut != null) {
 	   				mut.setId("m«nMutation»");
 	   				mutations.add(mut);
@@ -1504,7 +1506,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					obSelection.getMetaModel(), obSelection, attsList, refsList,
 					objsAttRef, attsRefList);
 			Mutator mutator = null;
-			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+			if (muts == null) {
+				muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+			}
 
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
@@ -1531,7 +1535,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF last == false»
 				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
@@ -1653,6 +1657,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«ENDFOR»
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "«mut.type.name»");
 		//INC COUNTER: «nMutation++»
+		//INC COUNTER: «nRegistryMutation++»
 		if (mut != null) {
 			mut.setId("m«nMutation»");
 			mutations.add(mut);
@@ -1741,7 +1746,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«ENDFOR»
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "«mut.type.name»");
 		Mutator mutator = null;
-		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+		if (muts == null) {
+			muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+		}
 
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
@@ -1768,7 +1775,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF last == false»
 				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
@@ -2291,6 +2298,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			for (EObject obj : objects) {
 				SelectObjectMutator mut = new SelectObjectMutator(resources, resourcePackages, referenceSelection, containerSelection, obj);
 			   	//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 			   	if (mut != null) {
 			   		mut.setId("m«nMutation»");
 					mutations.add(mut);
@@ -2302,6 +2310,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				mut = new SelectObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), referenceSelection, containerSelection, objectSelection);
 			}
 			//INC COUNTER: «nMutation++»
+   			//INC COUNTER: «nRegistryMutation++»
 			if (mut != null) {
 				mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -2561,7 +2570,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					objectSelection = new SpecificObjectSelection(packages, resource, object);
 					SelectObjectMutator mut = new SelectObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), referenceSelection, containerSelection, objectSelection);
 					Mutator mutator = null;
-					Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					if (muts == null) {
+						muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					}
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethodCall.toString()»
@@ -2587,7 +2598,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF last == false»
 				mutation«nMethodCall»(packages, resource, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
@@ -2887,7 +2898,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					objectSelection = new SpecificObjectSelection(packages, resource, object);
 					SelectObjectMutator mut = new SelectObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), referenceSelection, containerSelection, objectSelection);
 					Mutator mutator = null;
-					Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					if (muts == null) {
+						muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					}
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethodCall.toString()»
@@ -2913,7 +2926,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF last == false»
 				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF last == true»
@@ -3005,7 +3018,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							obSelection = new SpecificObjectSelection(packages, resource, object);
 							SelectObjectMutator mut = new SelectObjectMutator(obSelection.getModel(), obSelection.getMetaModel(), referenceSelection, containerSelection, obSelection);
 							Mutator mutator = null;
-							Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+							if (muts == null) {
+								muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+							}
 							//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 							//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
 							//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethodCall.toString()»
@@ -3031,7 +3046,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							«IF last == false»
 							mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 							«ENDIF»
 							«IF last == true»
 							// MUTANT COMPLETION AND REGISTRY
@@ -3097,7 +3112,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					obSelection = new SpecificObjectSelection(packages, resource, object);
 					SelectObjectMutator mut = new SelectObjectMutator(obSelection.getModel(), obSelection.getMetaModel(), referenceSelection, containerSelection, obSelection);
 					Mutator mutator = null;
-					Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					if (muts == null) {
+						muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					}
 					«IF executeMutation == true»
 					if (mut != null) {
 						Object mutated = mut.mutate();
@@ -3119,7 +3136,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					«IF last == false»
 					mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 					numMutantsGenerated = k[0];
 					«ENDIF»
 					«IF last == true»
@@ -3473,6 +3490,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			mut = new SelectSampleMutator(objectSelection.getModel(), objectSelection.getMetaModel(), referenceSelection, objectSelection, equals, features);
 		}
 		//INC COUNTER: «nMutation++»
+		//INC COUNTER: «nRegistryMutation++»
 		if (mut != null) {
 			mut.setId("m«nMutation»");
 			mutations.add(mut);
@@ -3632,6 +3650,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDIF»
 			}
 			//INC COUNTER: «nMutation++»
+  			//INC COUNTER: «nRegistryMutation++»
 			if (mut != null) {
 				mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -3850,7 +3869,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«ENDIF»
 		«ENDIF»
 		Mutator mutator = null;
-		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+		if (muts == null) {
+			muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+		}
 
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
@@ -3878,13 +3899,13 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF mut.container !== null»
 				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				«ENDIF»
 				«IF mut.container === null»
 				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				}
 				«ENDIF»
@@ -4102,6 +4123,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				mut = new RetypeObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, targetTypes);
 			}
 			//INC COUNTER: «nMutation++»
+   			//INC COUNTER: «nRegistryMutation++»
 			if (mut != null) {
 				mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -4177,6 +4199,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
 					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(sourceSelection.getModel(), sourceSelection.getMetaModel(), sourceSelection, newSourceSelection, "«mut.refType.name»");
 				   	//INC COUNTER: «nMutation++»
+		   			//INC COUNTER: «nRegistryMutation++»
 				   	if (mut != null) {
 				   		mut.setId("m«nMutation»");
 						mutations.add(mut);
@@ -4185,6 +4208,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ELSE»
 				ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(sourceSelection.getModel(), sourceSelection.getMetaModel(), sourceSelection, newSourceSelection, "«mut.refType.name»");
 				//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 				if (mut != null) {
 					mut.setId("m«nMutation»");
 					mutations.add(mut);
@@ -4264,6 +4288,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
    			«ELSE»
 				ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(sourceSelection.getModel(), sourceSelection.getMetaModel(), sourceSelection, newTargetSelection, "«mut.refType.name»");
 				//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 				if (mut != null) {
 					mut.setId("m«nMutation»");
 					mutations.add(mut);
@@ -4311,6 +4336,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDIF»
 			CreateReferenceMutator mut = new CreateReferenceMutator(sourceSelection.getModel(), sourceSelection.getMetaModel(), sourceSelection, targetSelection, "«mut.refType.name»");
 		   	//INC COUNTER: «nMutation++»
+   			//INC COUNTER: «nRegistryMutation++»
 		   	if (mut != null) {
 		   		mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -4573,6 +4599,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 							}
 							RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
 					   		//INC COUNTER: «nMutation++»
+				   			//INC COUNTER: «nRegistryMutation++»
 					   		if (mut != null) {
 					   			mut.setId("m«nMutation»");
 								mutations.add(mut);
@@ -4588,6 +4615,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 						mut = new RemoveObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection, referenceSelection, containerSelection);
 					}
 					//INC COUNTER: «nMutation++»
+		   			//INC COUNTER: «nRegistryMutation++»
 					if (mut != null) {
 				   		mut.setId("m«nMutation»");
 						mutations.add(mut);
@@ -4816,7 +4844,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					
 					RemoveObjectMutator mut = new RemoveObjectMutator(obSelection.getModel(), obSelection.getMetaModel(), object, referenceSelection, containerSelection);
 					Mutator mutator = null;
-					Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					if (muts == null) {
+						muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					}
 		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 		//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethodCall.toString()»
@@ -4837,7 +4867,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«IF last == false»
 				mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				numMutantsGenerated = k[0];
 				}
 				«ENDIF»
@@ -4892,6 +4922,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			RandomTypeSelection containerSelection = new RandomTypeSelection(packages, model, "«mut.type.name»");			
 			RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
 		  	//INC COUNTER: «nMutation++»
+   			//INC COUNTER: «nRegistryMutation++»
 		  	if (mut != null) {
 		  		mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -4921,6 +4952,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDIF»
 			RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
 		   	//INC COUNTER: «nMutation++»
+   			//INC COUNTER: «nRegistryMutation++»
 		   	if (mut != null) {
 		   		mut.setId("m«nMutation»");
 				mutations.add(mut);
@@ -4940,6 +4972,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			for (EObject obj : objects) {
 				RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, obj, "«mut.refType.name»");
 			   	//INC COUNTER: «nMutation++»
+	   			//INC COUNTER: «nRegistryMutation++»
 			   	if (mut != null) {
 			   		mut.setId("m«nMutation»");
 					mutations.add(mut);
@@ -5006,7 +5039,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 					Map<String, String> hashmapModelFolders, String ecoreURI, boolean registry,
 					Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,
-					List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+					List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
 					throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
@@ -5057,6 +5090,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 	def compositeMethod(CompositeMutator mut, boolean exhaustive)'''
 		«IF mut.eContainer instanceof MutatorEnvironment»
 		//INC COUNTER: «nMutation++»
+		//INC COUNTER: «nRegistryMutation++»
 		«ENDIF»
 		private List<Mutator> «compositeMethodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException {
 			List<Mutator> mutations = new ArrayList<Mutator>();
@@ -5143,7 +5177,6 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		«ENDIF»
 	'''
 	def registryMethod(Mutator mut, boolean exhaustive)'''
-	//REGISTRY COUNTER: «nRegistryMutation++»
 	private AppMutation «registryMethodName»(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 	«IF mut instanceof CreateObjectMutator»
@@ -5429,7 +5462,6 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
    
    	def compositeRegistryMethod(CompositeMutator mut, boolean exhaustive)'''
    	«IF mut.eContainer instanceof MutatorEnvironment»
-   	//REGISTRY COUNTER: «nRegistryMutation = nRegistryMutation + 1»
 	//LOCAL COPY REGISTRY COUNTER: «var localNRegistryMutation = nRegistryMutation»
 	private AppMutation «compositeRegistryMethodName»(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) {
 		CompositeMutation appMut = AppliedMutationsFactory.eINSTANCE.createCompositeMutation();
@@ -5577,6 +5609,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import manager.MutatorUtils;
 import manager.EMFCopier;
+import manager.EMFUtils;
 
 public class «className» extends MutatorUtils {
 	
@@ -6703,6 +6736,7 @@ public class «className» extends MutatorUtils {
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
+			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 		//COUNTER: «nMethod = nMethod + 1»
 		//COMMAND: «nCommands = nCommands + 1»
 		//REGISTRY COUNTER: «nRegistryMethod = nRegistryMethod + 1»
@@ -6716,7 +6750,7 @@ public class «className» extends MutatorUtils {
 		
 		mutationResults.numMutantsGenerated += «methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,
-							registry, hashsetMutants, null, hashmapMutVersions, project, monitor, 0, serialize, test, classes);
+							registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, 0, serialize, test, classes);
 		«ELSE»
 		int numMutantsToGenerate = numMutants;
 		«IF !(e instanceof Block)»
@@ -6806,9 +6840,10 @@ public class «className» extends MutatorUtils {
 		«IF (e.definition as Program).exhaustive == true»
 		Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
 		Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
-			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
-			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
-			List<String> mutPaths = new ArrayList<String>();
+		Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
+		Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
+		List<String> mutPaths = new ArrayList<String>();
+		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 
 		//COUNTER: «nMethod = nMethod + 1»	
 		//COMMAND: «nCommands = nCommands + 1»
@@ -6823,7 +6858,7 @@ public class «className» extends MutatorUtils {
 		
 		«methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
-							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 		numMutantsGenerated = k[0];
 		«ELSE»
 		int numMutantsToGenerate = numMutants;

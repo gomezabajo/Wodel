@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -320,7 +322,12 @@ public class EMFCopier {
 		rootobjects.addAll(copies);
 		return rootobjects;
 	}
-	
+
+	public static void copy(Resource input, Resource output) {
+		List<EObject> copied = copy(input);
+		output.getContents().addAll(copied);
+	}
+
 	public static Resource copyResource(Resource model) {
 		Resource copy = ModelManager.createModel(model.getURI().toString());
 		List<EObject> copied = copy(model);
@@ -328,6 +335,53 @@ public class EMFCopier {
 		return copy;
 	}
 	
+	private static EObject searchContainedByURIEnding(EObject current, String partialURI) {
+		URI uri = EcoreUtil.getURI(current);
+		String currentPartialURI = uri.toString();
+		currentPartialURI = currentPartialURI.substring(currentPartialURI.indexOf("#"), currentPartialURI.length());
+		if (partialURI.equals(currentPartialURI)) {
+			return current;
+		}
+		for (EStructuralFeature feature : current.eClass().getEAllStructuralFeatures()) {
+			if (feature instanceof EReference) {
+				EReference reference = (EReference) feature;
+				if (reference.isContainment() == true) {
+					Object value = current.eGet(reference); 
+					if (reference.isMany() == true) {
+						List<EObject> next = (List<EObject>) value;
+						for (EObject n : next) {
+							return searchContainedByURIEnding(n, partialURI);
+						}
+					}
+					if (reference.isMany() == false) {
+						EObject next = (EObject) value;
+						return searchContainedByURIEnding(next, partialURI);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static EObject copy(EObject object) {
+		Resource modelcopy = copyResource(object.eResource());
+		List<EObject> copied = modelcopy.getContents();
+		EObject target = null;
+		URI uri = EcoreUtil.getURI(object);
+		String partialURI = uri.toString();
+		partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+		for (EObject copy : copied) {
+			target = searchContainedByURIEnding(copy, partialURI);
+			if (target != null) {
+				break;
+			}
+		}
+		if (target == null) {
+			target = ModelManager.getObjectByName(modelcopy, object);
+		}
+		return target;
+	}
+
 	public static List<EObject> clone (List<EObject> objects) {
 		List<EObject> cloned = new ArrayList<EObject>();
 		for (EObject object : objects) {

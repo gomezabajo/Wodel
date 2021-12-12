@@ -346,5 +346,61 @@ public class EMFUtils {
 	public static boolean isBoolean  (String type)   { return type.equals("EBoolean") || type.equals("boolean") || type.equals("EBooleanObject") || type.equals("Boolean") || type.endsWith("Boolean"); }
 	public static boolean isFloating (String type)   { return type.equals("EFloat")  || type.equals("float")  || type.equals("EFloatObject")  || type.equals("Float")  || type.endsWith("Float") ||
 	                                                          type.equals("EDouble") || type.equals("double") || type.equals("EDoubleObject") || type.equals("Double") || type.endsWith("Double"); }
+	public static void print(EObject object) {
+		System.out.println("--------------------------------------------------------------------------------------------------------");
+		System.out.println("EClass: " + object.eClass().getName());
+		for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures()) {
+			if (feature instanceof EAttribute) {
+				EAttribute attribute = (EAttribute) feature;
+				Object value = object.eGet(attribute, true);
+				if (attribute.isMany() == false) {
+					System.out.println("EAttribute(" + attribute.getName() + ") of type " + attribute.getEType().getName() + ": " + value);
+				}
+				else {
+					List<Object> values = (List<Object>) value;
+					System.out.print("EAttribute(" + attribute.getName() + ") of type " + attribute.getEType().getName() + ": ");
+					for (Object v : values.subList(0, values.size() - 1)) {
+						System.out.print(v + ", ");
+					}
+					System.out.println(values.get(values.size() - 1));
+				}
+			}
+			if (feature instanceof EReference) {
+				EReference reference = (EReference) feature;
+				Object value = object.eGet(reference, true);
+				if (reference.isContainment() == true) {
+					if (reference.isMany() == false) {
+						EObject ob = (EObject) value;
+						print(ob);
+					}
+					else {
+						List<EObject> objects = (List<EObject>) value;
+						for (EObject ob : objects) {
+							print(ob);
+						}
+					}
+				}
+				else {
+					if (reference.isMany() == false) {
+						System.out.println("EReference(" + reference.getName() + ") of type " + reference.getEType().getName() + ": " + value);
+					}
+					else {
+						List<EObject> objects = (List<EObject>) value;
+						for (EObject ob : objects) {
+							System.out.println("EReference(" + reference.getName() + ") of type " + reference.getEType().getName() + ": " + ob);
+						}
+					}
+				}
+			}
+		}
+		System.out.println("--------------------------------------------------------------------------------------------------------");
+	}
+	
+	public static void print(Resource model) {
+		List<EObject> objects = model.getContents();
+		for (EObject object : objects) {
+			print(object);
+		}
+	}
 }
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import manager.EMFCopier;
 import manager.EMFUtils;
 import manager.ModelManager;
 
@@ -242,7 +243,7 @@ public class ModifyInformationMutator extends Mutator {
 						}
 						else {
 							oldAttValue.put(e.getKey(), ModelManager.getAttribute(e.getKey(), object));
-							eobjatt = EcoreUtil.copy(object);
+							eobjatt = EMFCopier.copy(object);
 						}
 						if (e.getValue() == null) {
 							ModelManager.unsetAttribute(e.getKey(), object);
@@ -266,8 +267,8 @@ public class ModifyInformationMutator extends Mutator {
 					for (ReferenceConfigurationStrategy refConfig : e.getValue()) {
 						if (refConfig instanceof SwapReferenceConfigurationStrategy) {
 							SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) refConfig;
-							eobjref = EcoreUtil.copy(srcf.getRefObject());
-							previous.put(e.getKey(), (EObject) srcf.getPrevious(eobjref));
+							eobjref = EMFCopier.copy(srcf.getRefObject());
+							previous.put(e.getKey(), (EObject) srcf.getPrevious());
 							next.put(e.getKey(), (EObject) srcf.getNext(eobjref));
 							oldRefValue.put(e.getKey(), srcf.getOtherSource());
 							oldRefNameValue.put(e.getKey(), srcf.getOtherSourceName());
@@ -277,8 +278,8 @@ public class ModifyInformationMutator extends Mutator {
 						else {
 							if (refConfig instanceof CopyReferenceConfigurationStrategy) {
 								CopyReferenceConfigurationStrategy crcf = (CopyReferenceConfigurationStrategy) refConfig;
-								eobjref = EcoreUtil.copy(crcf.getRefObject());
-								previous.put(e.getKey(), (EObject) crcf.getPrevious(eobjref));
+								eobjref = EMFCopier.copy(crcf.getRefObject());
+								previous.put(e.getKey(), (EObject) crcf.getPrevious());
 								next.put(e.getKey(), (EObject) crcf.getNext(eobjref));
 							}
 							else {
@@ -308,12 +309,18 @@ public class ModifyInformationMutator extends Mutator {
 									}
 									srcRefType = rrcf.getSrcRefType(); 
 								}
-								eobjref = EcoreUtil.copy(object);
+								eobjref = EMFCopier.copy(object);
 								try {
-									previous.put(e.getKey(), ModelManager.getReference(e.getKey(), object));
+									previous.put(e.getKey(), refConfig.getValue());
+									if (refConfig != null) {
+										next.put(e.getKey(), refConfig.getValue(object));
+									}
 								}
 								catch (ClassCastException ex) {
-									previous.put(e.getKey(), ModelManager.getReferences(e.getKey(), object));
+									previous.put(e.getKey(), refConfig.getValue());
+									if (refConfig != null) {
+										next.put(e.getKey(), refConfig.getValue(object));
+									}
 								}
 							}
 						}
@@ -348,7 +355,7 @@ public class ModifyInformationMutator extends Mutator {
 								}
 							}
 							//ModelManager.setReference(e.getKey(), object, refConfig);
-							next.put(e.getKey(), object);
+							next.put(e.getKey(), refConfig.getValue(object));
 							//ModelManager.setReference(e.getKey(), object, refConfig);
 							//next.put(e.getKey(), object);
 						}
@@ -360,7 +367,7 @@ public class ModifyInformationMutator extends Mutator {
 			if (this.objsAttRef != null && this.attsRef != null) {
 				if (this.objsAttRef.size() > 0 && this.attsRef.size() > 0) {
 					for (EObject obj : this.objsAttRef) {
-						objRefAttOld = EcoreUtil.copy(obj);
+						objRefAttOld = EMFCopier.copy(obj);
 						Iterator<Entry<String, List<AttributeConfigurationStrategy>>> atts = this.attsRef.entrySet().iterator();
 						while (atts.hasNext()) {
 							Map.Entry<String, List<AttributeConfigurationStrategy>> e = atts.next();

@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import manager.EMFCopier;
 import manager.EMFUtils;
 
 /**
@@ -25,6 +26,7 @@ public class SpecificReferenceConfigurationStrategy extends
 	protected EObject target;
 	protected EObject obj;
 	protected List<EObject> o;
+	protected Object value = null;
 	protected boolean removal = false;
 	/**
 	 * Source reference name of the relation
@@ -67,6 +69,7 @@ public class SpecificReferenceConfigurationStrategy extends
 						model.getContents().remove(this.target);
 					}
 					try {
+						this.value = this.object.eGet(reference);
 						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
 					}
 					catch (Exception ex) {
@@ -74,12 +77,13 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 				}
 				if (this.object.eGet(reference) instanceof EObject) {
-					this.obj = EcoreUtil.copy(this.object);
+					this.obj = EMFCopier.copy(this.object);
 					this.target = target;
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
 					try {
+						this.value = this.object.eGet(reference);
 						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
 					}
 					catch (Exception ex) {
@@ -88,8 +92,9 @@ public class SpecificReferenceConfigurationStrategy extends
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
-					this.obj = EcoreUtil.copy(this.object);
+					this.obj = EMFCopier.copy(this.object);
 					this.o = (List<EObject>) this.object.eGet(reference, true);
+					this.value = this.object.eGet(reference);
 					this.target = target;
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
@@ -120,6 +125,7 @@ public class SpecificReferenceConfigurationStrategy extends
 						model.getContents().remove(this.target);
 					}
 					try {
+						this.value = this.object.eGet(reference);
 						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
 					}
 					catch (Exception ex) {
@@ -127,12 +133,13 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 				}
 				if (this.object.eGet(reference) instanceof EObject) {
-					this.obj = EcoreUtil.copy(this.object);
+					this.obj = EMFCopier.copy(this.object);
 					this.target = target;
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
 					}
 					try {
+						this.value = this.object.eGet(reference);
 						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
 					}
 					catch (Exception ex) {
@@ -141,8 +148,9 @@ public class SpecificReferenceConfigurationStrategy extends
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
-					this.obj = EcoreUtil.copy(this.object);
+					this.obj = EMFCopier.copy(this.object);
 					this.o = (List<EObject>) this.object.eGet(reference, true);
+					this.value = this.object.eGet(reference);
 					this.target = target;
 					if (this.removal == false) {
 						if (model.getContents().contains(this.target)) {
@@ -161,6 +169,10 @@ public class SpecificReferenceConfigurationStrategy extends
 			}
 			this.srcRefType = this.reference.getName();
 		}
+	}
+	
+	public Object getValue() {
+		return this.value;
 	}
 	
 	public Object getValue(EObject o) {

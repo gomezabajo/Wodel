@@ -2823,6 +2823,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append(_plusPlus_2, "\t   \t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_3 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_3, "\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t   \t\t\t");
         _builder.append("if (mut != null) {");
         _builder.newLine();
         _builder.append("\t   \t\t\t\t");
@@ -2856,8 +2861,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t   \t\t\t");
         _builder.append("//INC COUNTER: ");
-        int _plusPlus_3 = this.nMutation++;
-        _builder.append(_plusPlus_3, "\t   \t\t\t");
+        int _plusPlus_4 = this.nMutation++;
+        _builder.append(_plusPlus_4, "\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_5 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_5, "\t   \t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t   \t\t\t");
         _builder.append("if (mut != null) {");
@@ -5267,7 +5277,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("Mutator mutator = null;");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.append("if (muts == null) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.newLine();
     _builder.append("//COUNTER: ");
@@ -5355,7 +5371,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("numMutantsGenerated = k[0];");
@@ -5795,6 +5811,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     int _plusPlus_1 = this.nMutation++;
     _builder.append(_plusPlus_1);
     _builder.newLineIfNotEmpty();
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_2 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_2);
+    _builder.newLineIfNotEmpty();
     _builder.append("if (mut != null) {");
     _builder.newLine();
     _builder.append("\t");
@@ -6072,7 +6092,12 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("Mutator mutator = null;");
     _builder.newLine();
-    _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.append("if (muts == null) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.newLine();
+    _builder.append("}");
     _builder.newLine();
     _builder.newLine();
     _builder.append("//COUNTER: ");
@@ -6160,7 +6185,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("numMutantsGenerated = k[0];");
@@ -8672,6 +8697,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = this.nMutation++;
         _builder.append(_plusPlus, "\t\t   \t");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_1 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_1, "\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("   \t");
         _builder.append("if (mut != null) {");
@@ -8709,8 +8739,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("//INC COUNTER: ");
-        int _plusPlus_1 = this.nMutation++;
-        _builder.append(_plusPlus_1, "\t\t");
+        int _plusPlus_2 = this.nMutation++;
+        _builder.append(_plusPlus_2, "\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_3 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_3, "   \t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("if (mut != null) {");
@@ -9815,7 +9850,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("Mutator mutator = null;");
             _builder.newLine();
             _builder.append("\t\t\t");
-            _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+            _builder.append("if (muts == null) {");
+            _builder.newLine();
+            _builder.append("\t\t\t\t");
+            _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+            _builder.newLine();
+            _builder.append("\t\t\t");
+            _builder.append("}");
             _builder.newLine();
             _builder.append("//COUNTER: ");
             _builder.append(this.nRegistryMutation = (this.nRegistryMutation + 1));
@@ -9902,7 +9943,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t");
                 _builder.append("\t\t\t\t\t");
-                _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+                _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
                 _builder.newLine();
                 _builder.append("\t\t");
                 _builder.append("numMutantsGenerated = k[0];");
@@ -11152,7 +11193,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("Mutator mutator = null;");
                 _builder.newLine();
                 _builder.append("\t\t\t");
-                _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+                _builder.append("if (muts == null) {");
+                _builder.newLine();
+                _builder.append("\t\t\t\t");
+                _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+                _builder.newLine();
+                _builder.append("\t\t\t");
+                _builder.append("}");
                 _builder.newLine();
                 _builder.append("//COUNTER: ");
                 _builder.append(this.nRegistryMutation = (this.nRegistryMutation + 1));
@@ -11239,7 +11286,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("\t\t");
                     _builder.append("\t\t\t\t\t");
-                    _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+                    _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
                     _builder.newLine();
                     _builder.append("\t\t");
                     _builder.append("numMutantsGenerated = k[0];");
@@ -11643,7 +11690,15 @@ public class WodelMutatorGenerator extends AbstractGenerator {
           _builder.newLine();
           _builder.append("\t");
           _builder.append("\t\t\t\t\t");
-          _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+          _builder.append("if (muts == null) {");
+          _builder.newLine();
+          _builder.append("\t");
+          _builder.append("\t\t\t\t\t\t");
+          _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+          _builder.newLine();
+          _builder.append("\t");
+          _builder.append("\t\t\t\t\t");
+          _builder.append("}");
           _builder.newLine();
           _builder.append("\t");
           _builder.append("\t\t\t\t\t");
@@ -11765,7 +11820,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t\t\t\t");
               _builder.append("\t\t");
-              _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+              _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
               _builder.newLine();
             }
           }
@@ -12018,7 +12073,15 @@ public class WodelMutatorGenerator extends AbstractGenerator {
           _builder.newLine();
           _builder.append("\t");
           _builder.append("\t\t\t");
-          _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+          _builder.append("if (muts == null) {");
+          _builder.newLine();
+          _builder.append("\t");
+          _builder.append("\t\t\t\t");
+          _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+          _builder.newLine();
+          _builder.append("\t");
+          _builder.append("\t\t\t");
+          _builder.append("}");
           _builder.newLine();
           {
             if ((this.executeMutation == true)) {
@@ -12117,7 +12180,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t");
               _builder.append("\t\t\t");
               _builder.append("\t\t");
-              _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+              _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t");
@@ -13422,6 +13485,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     int _plusPlus = this.nMutation++;
     _builder.append(_plusPlus);
     _builder.newLineIfNotEmpty();
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_1 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_1);
+    _builder.newLineIfNotEmpty();
     _builder.append("if (mut != null) {");
     _builder.newLine();
     _builder.append("\t");
@@ -14049,6 +14116,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("//INC COUNTER: ");
     int _plusPlus_1 = this.nMutation++;
     _builder.append(_plusPlus_1);
+    _builder.newLineIfNotEmpty();
+    _builder.append("  \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_2 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_2, "  \t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("if (mut != null) {");
     _builder.newLine();
@@ -14912,7 +14984,12 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     }
     _builder.append("Mutator mutator = null;");
     _builder.newLine();
-    _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.append("if (muts == null) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.newLine();
+    _builder.append("}");
     _builder.newLine();
     _builder.newLine();
     _builder.append("//COUNTER: ");
@@ -15004,7 +15081,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
-            _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+            _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("numMutantsGenerated = k[0];");
@@ -15026,7 +15103,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t\t\t\t");
-            _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+            _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("numMutantsGenerated = k[0];");
@@ -15818,6 +15895,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     int _plusPlus_1 = this.nMutation++;
     _builder.append(_plusPlus_1);
     _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_2 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_2, "   \t\t\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("if (mut != null) {");
     _builder.newLine();
     _builder.append("\t");
@@ -16130,6 +16212,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = this.nMutation++;
         _builder.append(_plusPlus, "\t   \t");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_1 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_1, "\t\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("   \t");
         _builder.append("if (mut != null) {");
@@ -16160,8 +16247,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("//INC COUNTER: ");
-        int _plusPlus_1 = this.nMutation++;
-        _builder.append(_plusPlus_1, "\t");
+        int _plusPlus_2 = this.nMutation++;
+        _builder.append(_plusPlus_2, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_3 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_3, "\t   \t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("if (mut != null) {");
@@ -16493,6 +16585,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = this.nMutation++;
         _builder.append(_plusPlus, "\t\t");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_1 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_1, "\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("if (mut != null) {");
         _builder.newLine();
@@ -16699,6 +16796,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("//INC COUNTER: ");
     int _plusPlus = this.nMutation++;
     _builder.append(_plusPlus, "   \t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_1 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_1, "   \t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("   \t");
     _builder.append("if (mut != null) {");
@@ -17756,6 +17858,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = this.nMutation++;
         _builder.append(_plusPlus, "\t\t   \t\t");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_1 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_1, "\t\t\t\t   \t\t\t");
+        _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("   \t\t");
         _builder.append("if (mut != null) {");
@@ -17809,8 +17916,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("//INC COUNTER: ");
-        int _plusPlus_1 = this.nMutation++;
-        _builder.append(_plusPlus_1, "\t\t");
+        int _plusPlus_2 = this.nMutation++;
+        _builder.append(_plusPlus_2, "\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t   \t\t\t");
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_3 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_3, "\t\t   \t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("if (mut != null) {");
@@ -18766,7 +18878,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("Mutator mutator = null;");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.append("if (muts == null) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.append("//COUNTER: ");
     _builder.append(this.nRegistryMutation = (this.nRegistryMutation + 1));
@@ -18835,7 +18953,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("numMutantsGenerated = k[0];");
@@ -19015,6 +19133,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     int _plusPlus = this.nMutation++;
     _builder.append(_plusPlus, "  \t");
     _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_1 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_1, "   \t\t\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("  \t");
     _builder.append("if (mut != null) {");
     _builder.newLine();
@@ -19136,6 +19259,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     int _plusPlus = this.nMutation++;
     _builder.append(_plusPlus, "   \t");
     _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_1 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_1, "   \t\t\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("   \t");
     _builder.append("if (mut != null) {");
     _builder.newLine();
@@ -19194,6 +19322,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("//INC COUNTER: ");
     int _plusPlus = this.nMutation++;
     _builder.append(_plusPlus, "\t   \t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t   \t\t\t");
+    _builder.append("//INC COUNTER: ");
+    int _plusPlus_1 = this.nRegistryMutation++;
+    _builder.append(_plusPlus_1, "\t   \t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t   \t");
     _builder.append("if (mut != null) {");
@@ -19361,7 +19494,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,");
         _builder.newLine();
         _builder.append("\t\t\t\t");
-        _builder.append("List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)");
+        _builder.append("List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)");
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,");
@@ -19495,6 +19628,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = this.nMutation++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
+        _builder.append("//INC COUNTER: ");
+        int _plusPlus_1 = this.nRegistryMutation++;
+        _builder.append(_plusPlus_1);
+        _builder.newLineIfNotEmpty();
       }
     }
     _builder.append("private List<Mutator> ");
@@ -19608,8 +19745,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t");
             _builder.append("\t");
             _builder.append("//COMPOSITE METHOD INC: ");
-            int _plusPlus_1 = localNCompositeMethod++;
-            _builder.append(_plusPlus_1, "\t\t");
+            int _plusPlus_2 = localNCompositeMethod++;
+            _builder.append(_plusPlus_2, "\t\t");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("\t");
@@ -19788,8 +19925,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("//METHOD INC: ");
-            int _plusPlus_2 = localNMethod++;
-            _builder.append(_plusPlus_2, "\t");
+            int _plusPlus_3 = localNMethod++;
+            _builder.append(_plusPlus_3, "\t");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -19864,10 +20001,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
   
   public CharSequence registryMethod(final Mutator mut, final boolean exhaustive) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//REGISTRY COUNTER: ");
-    int _plusPlus = this.nRegistryMutation++;
-    _builder.append(_plusPlus);
-    _builder.newLineIfNotEmpty();
     _builder.append("private AppMutation ");
     _builder.append(this.registryMethodName);
     _builder.append("(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {");
@@ -20384,8 +20517,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("//ATTRIBUTE COUNTER INC: ");
-                int _plusPlus_1 = attCounter++;
-                _builder.append(_plusPlus_1);
+                int _plusPlus = attCounter++;
+                _builder.append(_plusPlus);
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -20661,8 +20794,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("//REFERENCE COUNTER INC: ");
-                int _plusPlus_2 = refCounter++;
-                _builder.append(_plusPlus_2);
+                int _plusPlus_1 = refCounter++;
+                _builder.append(_plusPlus_1);
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -20750,10 +20883,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     {
       EObject _eContainer = mut.eContainer();
       if ((_eContainer instanceof MutatorEnvironment)) {
-        _builder.append("   \t");
-        _builder.append("//REGISTRY COUNTER: ");
-        _builder.append(this.nRegistryMutation = (this.nRegistryMutation + 1), "   \t");
-        _builder.newLineIfNotEmpty();
         _builder.append("//LOCAL COPY REGISTRY COUNTER: ");
         int localNRegistryMutation = this.nRegistryMutation;
         _builder.newLineIfNotEmpty();
@@ -21191,6 +21320,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("import manager.MutatorUtils;");
     _builder.newLine();
     _builder.append("import manager.EMFCopier;");
+    _builder.newLine();
+    _builder.append("import manager.EMFUtils;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
@@ -25676,6 +25807,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t");
         _builder.append("List<String> mutPaths = new ArrayList<String>();");
         _builder.newLine();
+        _builder.append("\t");
+        _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+        _builder.newLine();
         _builder.append("//COUNTER: ");
         _builder.append(this.nMethod = (this.nMethod + 1));
         _builder.newLineIfNotEmpty();
@@ -25720,7 +25854,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutants, null, hashmapMutVersions, project, monitor, 0, serialize, test, classes);");
+        _builder.append("registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, 0, serialize, test, classes);");
         _builder.newLine();
       } else {
         _builder.append("int numMutantsToGenerate = numMutants;");
@@ -25950,14 +26084,13 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
         _builder.newLine();
-        _builder.append("\t");
         _builder.append("Resource model = ModelManager.loadModel(packages, URI.createURI(\"file:/\" + modelFilename).toFileString());");
         _builder.newLine();
-        _builder.append("\t");
         _builder.append("Resource seed = ModelManager.loadModel(packages, URI.createURI(\"file:/\" + modelFilename).toFileString());");
         _builder.newLine();
-        _builder.append("\t");
         _builder.append("List<String> mutPaths = new ArrayList<String>();");
+        _builder.newLine();
+        _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
         _builder.newLine();
         _builder.newLine();
         _builder.append("//COUNTER: ");
@@ -26004,7 +26137,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
-        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+        _builder.append("registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);");
         _builder.newLine();
         _builder.append("numMutantsGenerated = k[0];");
         _builder.newLine();

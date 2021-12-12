@@ -249,18 +249,26 @@ public class CreateObjectMutator extends Mutator {
 						&& !(container.eGet(reference) instanceof List<?>)) {
 					if (e.getValue().getObject() != null) {
 						if (!this.getModel().getContents().contains(e.getValue().getObject())) {
-							EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
-							ModelManager.setReference(e.getKey(), newObj, eObject);
+							EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
+							if (eObject == null) {
+								eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
+							}
+							if (eObject != null) {
+								ModelManager.setReference(e.getKey(), newObj, eObject);
+							}
 						}
 						else {
-							EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
-							this.getModel().getContents().remove(e.getValue().getObject());
+							EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
+							if (eObject == null) {
+								eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
+							}
+							//this.getModel().getContents().remove(e.getValue().getObject());
 							ModelManager.setReference(e.getKey(), newObj, eObject);
 						}
 					}
 					if (e.getValue().getObjects() != null) {
 						for (EObject o : e.getValue().getObjects()) {
-							ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));
 						}
 					}
 				} else {
@@ -272,26 +280,29 @@ public class CreateObjectMutator extends Mutator {
 			else {
 				if (e.getValue().getObject() != null) {
 					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
-						//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+						//EObject eObject = EMFCopier.process(this.getModel(), EMFCopier.copy(e.getValue().getObject()));
 						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
 						if (eObject == null) {
 							//eObject = ModelManager.getObjectByPartialID(this.getModel(), EcoreUtil.getIdentification(e.getValue().getObject()));
-							eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+							eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
 						}
 						if (eObject != null) {
 							ModelManager.setReference(e.getKey(), newObj, eObject);
 						}
 					}
 					else {
-						EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
-						this.getModel().getContents().remove(e.getValue().getObject());
+						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
+						if (eObject == null) {
+							eObject = ModelManager.getObjectByName(this.getModel(), e.getValue().getObject());
+						}
+//						this.getModel().getContents().remove(e.getValue().getObject());
 						ModelManager.setReference(e.getKey(), newObj, eObject);
 					}
 				}
 				if (e.getValue().getObjects() != null) {
 					for (EObject o : e.getValue().getObjects()) {
 						if (o != null) {
-							ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));
 						}
 					}
 				}

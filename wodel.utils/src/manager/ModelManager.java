@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
@@ -737,6 +738,41 @@ public class ModelManager {
 	 * @return Resource Loaded Model
 	 * @throws
 	 */
+	public static Resource loadModelWithoutOptions(List<EPackage> packages,
+			String modelURI) throws ModelNotFoundException {
+		if (new File(modelURI).exists() == false) {
+			throw new ModelNotFoundException(modelURI);
+		}
+		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+		URI uri = ModelManager.getModelWithFolder(modelURI);
+		for (EPackage p : packages) {
+			// Add packages to package registry
+			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
+				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+			// nested packages
+		}
+		Resource model = null;
+		try {
+			model = resourceSet.createResource(uri);
+			model.load(null);
+			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+			// load model using the URI
+		} catch (IOException r) {
+			r.printStackTrace();
+			throw new ModelNotFoundException(modelURI);
+		}
+
+		return model;
+	}
+
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
 	public static Resource loadModel(List<EPackage> packages,
 			String modelURI) throws ModelNotFoundException {
 		if (new File(modelURI).exists() == false) {
@@ -750,10 +786,16 @@ public class ModelManager {
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
 		}
-		Resource model;
+		final Map<Object, Object> options = resourceSet.getLoadOptions();
+		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
-			model.load(null);
+			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
 		} catch (IOException r) {
@@ -805,10 +847,16 @@ public class ModelManager {
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
 		}
-		Resource model;
+		final Map<Object, Object> options = resourceSet.getLoadOptions();
+		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
-			model.load(null);
+			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
 		} catch (IOException r) {
@@ -1416,7 +1464,7 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObjectByID(Resource model, String identification) {
-		ArrayList<EObject> objs = getAllObjects(model);
+		List<EObject> objs = getAllObjects(model);
 
 		for (EObject obj : objs) {
 			if (EcoreUtil.getIdentification(obj).equals(identification)) {
@@ -1426,21 +1474,61 @@ public class ModelManager {
 		return null;
 	}
 	
+	private static String getURIToFind(String objectURI) {
+		String uriToFind = "";
+		int index = objectURI.indexOf(".");
+		String tmpURIToFind = objectURI.substring(objectURI.indexOf("/@") + 1, objectURI.length());
+//		int k = 0;
+		while (index >= 0) {
+			String featureURI = tmpURIToFind.substring(1, tmpURIToFind.indexOf("."));
+			int value = 0;
+			if (tmpURIToFind.indexOf("/") >= 0 && tmpURIToFind.indexOf(".") >= 0 && tmpURIToFind.indexOf("/") > tmpURIToFind.indexOf(".")) {
+				value = Integer.parseInt(tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/")));
+			}
+			else {
+				value = Integer.parseInt(tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.length()));
+			}
+//			if (tmpURIToFind.indexOf("/@") < 0 && k != 0) {
+//				value = value - 1;
+//			}
+//			k++;
+			String newFeatureURI = featureURI + "." + String.format("%d", value);
+			uriToFind += "/@" + newFeatureURI;
+			if (tmpURIToFind.indexOf("/@") < 0) {
+				break;
+			}
+			tmpURIToFind = tmpURIToFind.substring(tmpURIToFind.indexOf("/@") + 1, tmpURIToFind.length());
+			index = tmpURIToFind.indexOf(".");
+		}
+		if (uriToFind.isEmpty()) {
+			uriToFind = objectURI;
+		}
+		return uriToFind;
+	}
+	
 	/**
 	 * @param model
 	 *            Loaded Model
 	 * @return EObject
 	 */
 	public static EObject getObjectByPartialID(Resource model, String identification) {
-		ArrayList<EObject> objs = getAllObjects(model);
+		List<EObject> objs = getAllObjects(model);
 
-		String partialID = identification.substring(identification.indexOf("@"), identification.indexOf("{"));
+		String objectType = identification.substring(identification.indexOf("#"), identification.indexOf("@"));
+		String objectURI = identification.substring(identification.lastIndexOf("#/") + 2, identification.indexOf("}"));
+		String uriToFind = getURIToFind(objectURI);
+		//String partialID = identification.substring(identification.indexOf("#"), identification.indexOf("{"));
 		for (EObject obj : objs) {
-			String partialObjID = EcoreUtil.getIdentification(obj);
-			partialObjID = partialObjID.substring(partialObjID.indexOf("@"), partialObjID.indexOf("{"));
-			if (partialID.equals(partialObjID)) {
+			String objID = EcoreUtil.getIdentification(obj);
+			String objType = objID.substring(objID.indexOf("#"), objID.indexOf("@"));
+			String objURI = objID.substring(objID.lastIndexOf("#/") + 2, objID.indexOf("}"));
+			if (objURI.equals(uriToFind) && objType.equals(objectType)) {
 				return obj;
 			}
+			//partialObjID = partialObjID.substring(partialObjID.indexOf("#"), partialObjID.indexOf("{"));
+			//if (partialID.equals(partialObjID)) {
+			//	return obj;
+			//}
 		}
 		return null;
 	}
@@ -1476,6 +1564,56 @@ public class ModelManager {
 			partialObjURI = partialObjURI.substring(partialObjURI.indexOf("#"), partialObjURI.length());
 			if (partialURI.equals(partialObjURI)) {
 				return obj;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EObject getObjectByName(Resource model, EObject object) {
+		List<EObject> objs = getAllObjects(model);
+		
+		EStructuralFeature nameFeature = null;
+		for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures()) {
+			if (feature.getName().toLowerCase().equals("name")) {
+				nameFeature = feature;
+				break;
+			}
+		}
+		if (nameFeature == null) {
+			return null;
+		}
+		Object ob = object.eGet(nameFeature);
+		if (ob == null) {
+			return null;
+		}
+		String name = null;
+		if (ob instanceof String) {
+			name = (String) ob;
+		}
+		if (name == null) {
+			return null;
+		}
+		for (EObject obj : objs) {
+			if (EcoreUtil.equals(obj.eClass(), object.eClass())) {
+				ob = obj.eGet(nameFeature);
+				if (ob == null) {
+					continue;
+				}
+				String currentName = null;
+				if (ob instanceof String) {
+					currentName = (String) ob;
+				}
+				if (currentName == null) {
+					continue;
+				}
+				if (name.equals(currentName)) {
+					return obj;
+				}
 			}
 		}
 		return null;
@@ -2458,6 +2596,7 @@ public class ModelManager {
 				.put("*", new XMLResourceFactoryImpl());
 		URI uri = URI.createFileURI(outputURI);
 		Resource resource = rs.createResource(uri);
+//		EMFCopier.copy(model, resource);
 		List<EObject> clonedModel = EMFCopier.copy(model);
 		resource.getContents().addAll(clonedModel);
 		return resource;

@@ -3,6 +3,7 @@ package commands.strategies;
 import java.util.ArrayList;
 import java.util.List;
 
+import manager.EMFCopier;
 import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -78,7 +79,7 @@ public class RandomReferenceConfigurationStrategy extends
 						this.target = targets.get(ModelManager.getRandomIndex(targets));
 					}
 				}
-				this.obj = EcoreUtil.copy(this.object);
+				this.obj = EMFCopier.copy(this.object);
 				this.object.eSet(reference, this.target);
 			}
 			//multivalued
@@ -103,7 +104,7 @@ public class RandomReferenceConfigurationStrategy extends
 						this.target = targets.get(ModelManager.getRandomIndex(targets));
 					}
 				}
-				this.obj = EcoreUtil.copy(this.object);
+				this.obj = EMFCopier.copy(this.object);
 				this.o = (List<EObject>) this.object.eGet(reference, true);
 				if (this.target != null) {
 					if (this.o.size() > 0) {
@@ -144,7 +145,7 @@ public class RandomReferenceConfigurationStrategy extends
 						this.target = targets.get(ModelManager.getRandomIndex(targets));
 					}
 				}
-				this.obj = EcoreUtil.copy(this.object);
+				this.obj = EMFCopier.copy(this.object);
 				this.object.eSet(reference, this.target);
 			}
 			//multivalued
@@ -169,7 +170,7 @@ public class RandomReferenceConfigurationStrategy extends
 						this.target = targets.get(ModelManager.getRandomIndex(targets));
 					}
 				}
-				this.obj = EcoreUtil.copy(this.object);
+				this.obj = EMFCopier.copy(this.object);
 				this.o = (List<EObject>) this.object.eGet(reference, true);
 				if (this.target != null) {
 					if (this.o.size() > 0) {

@@ -2,6 +2,7 @@ package commands.strategies;
 
 import java.util.List;
 
+import manager.EMFCopier;
 import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EObject;
@@ -25,6 +26,7 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 	 */
 	protected EReference source;
 	protected EReference target;
+	protected EObject obj;
 	protected EObject eobjsrc;
 	protected EObject eobjtar;
 	protected EObject othereobjsrc;
@@ -75,8 +77,9 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 			}
 		}
 
-		eobjsrc = EcoreUtil.copy(o);
-		eobjtar = EcoreUtil.copy(o);
+		eobjsrc = EMFCopier.copy(o);
+		eobjtar = EMFCopier.copy(o);
+		obj = EMFCopier.copy(o);
 		
 		o.eSet(this.source, eobjsrc.eGet(this.target));
 	}
@@ -121,8 +124,9 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 			}
 		}
 
-		eobjsrc = EcoreUtil.copy(obj_src);
-		eobjtar = EcoreUtil.copy(obj_tar);
+		eobjsrc = EMFCopier.copy(obj_src);
+		eobjtar = EMFCopier.copy(obj_tar);
+		obj = EMFCopier.copy(obj_tar);
 
 		obj_tar.eSet(this.target, eobjsrc.eGet(this.source));
 	}
@@ -162,8 +166,9 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 			}
 		}
 		
-		eobjsrc = EcoreUtil.copy(obj_src);
-		eobjtar = EcoreUtil.copy(obj_tar);
+		eobjsrc = EMFCopier.copy(obj_src);
+		eobjtar = EMFCopier.copy(obj_tar);
+		obj = EMFCopier.copy(obj_tar);
 
 		obj_tar.eSet(this.target, eobjsrc.eGet(this.source));
 	}
@@ -173,8 +178,11 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 		return o.eGet(target);
 	}
 	
-	public Object getPrevious(EObject o) {
-		return o.eGet(this.source);
+	public Object getPrevious() {
+		if (obj != null) {
+			return obj.eGet(this.target);
+		}
+		return null;
 	}
 	
 	public Object getNext(EObject o) {

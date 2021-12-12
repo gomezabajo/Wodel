@@ -100,6 +100,7 @@ import appliedMutations.ObjectCloned;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
 import appliedMutations.ObjectRetyped;
+import appliedMutations.ReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 
 /**
@@ -5867,7 +5868,7 @@ public class MutatorUtils {
 				}
 			}
 		}
-
+		
 		return mutators;
 	}
 	
@@ -9074,13 +9075,12 @@ public class MutatorUtils {
 						List<Resource> pastVersions = new ArrayList<Resource>();
 						pastVersions.add(seed);
 						Resource lastVersion = seed;
-						String stringURI = "";
+						Resource mutant = ModelManager.loadModel(packages, mutFilename);
 						for (AppMutation mut : muts.getMuts()) {
 							String mutVersion = "";
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
 								if (emuts.size() > 0) {
-									stringURI = emuts.get(0).eResource().getURI().toFileString();
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
 										emutated = EcoreUtil.resolve(emuts.get(0), model);
@@ -9089,23 +9089,31 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(model, emutated) != null) {
-										emuts.add(ModelManager.getObject(model, emutated));
+									EObject object = ModelManager.getObjectByName(mutant, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(seed, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9114,7 +9122,6 @@ public class MutatorUtils {
 							if (mut instanceof ObjectCloned) {
 								List<EObject> emuts = ((ObjectCloned) mut).getObject();
 								if (emuts.size() > 0) {
-									stringURI = emuts.get(0).eResource().getURI().toFileString();
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
 										emutated = EcoreUtil.resolve(emuts.get(0), model);
@@ -9123,23 +9130,31 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(model, emutated) != null) {
-										emuts.add(ModelManager.getObject(model, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9147,7 +9162,6 @@ public class MutatorUtils {
 							}
 							if (mut instanceof ObjectRemoved) {
 								List<EObject> emuts = ((ObjectRemoved) mut).getObject();
-								stringURI = emuts.get(0).eResource().getURI().toFileString();
 								if (emuts.size() > 0) {
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
@@ -9157,19 +9171,27 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(seed, emutated) != null) {
-										emuts.add(ModelManager.getObject(seed, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
 											}
 											if (object != null) {
@@ -9181,53 +9203,77 @@ public class MutatorUtils {
 							}
 							if (mut instanceof InformationChanged) {
 								EObject emutated = ((InformationChanged) mut).getObject();
-								stringURI = emutated.eResource().getURI().toFileString();
-								if (ModelManager.getObject(model, emutated) == null) {
-									if ((mutPaths != null) && (packages != null)) {
-										EObject object = null;
-										for (String mutatorPath : mutPaths) {
-											Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-											object = ModelManager.getObject(mutantvs, emutated);
-											if (object != null) {
-												mutVersion = mutatorPath;
-												break;
+								EObject object = ModelManager.getObjectByName(seed, emutated);
+								if (object != null) {
+									((InformationChanged) mut).setObject(object);
+								}
+								for (ReferenceChanged mutRef : ((InformationChanged) mut).getRefChanges()) {
+									if (mutRef instanceof ReferenceChanged) {
+										EObject emutatedFrom = mutRef.getFrom();
+										if (emutatedFrom != null) {
+											EObject objectFrom =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedFrom));
+											if (objectFrom != null) {
+												mutRef.setFrom(objectFrom);
 											}
 										}
-										if (object != null) {
-											((InformationChanged) mut).setObject(object);
+										EObject emutatedTo = mutRef.getTo();
+										if (emutatedTo != null) {
+											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
+											if (objectTo != null) {
+												mutRef.setTo(objectTo);
+											}
 										}
+										List<EObject> emutatedObjects = new ArrayList<EObject>();
+										for (EObject emutatedOb : mutRef.getObject()) {
+											EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
+											if (ob != null) {
+												emutatedObjects.add(ob);
+											}
+											else {
+												emutatedObjects.add(emutatedOb);
+											}
+										}
+										mutRef.getObject().clear();
+										mutRef.getObject().addAll(emutatedObjects);
 									}
 								}
 							}
 							if (mut instanceof ObjectRetyped) {
 								List<EObject> emuts = ((ObjectRetyped) mut).getObject();
-								stringURI = emuts.get(0).eResource().getURI().toFileString();
 								if (emuts.size() > 0) {
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
-										emutated = EcoreUtil.resolve(emuts.get(0), model);
+										emutated = EcoreUtil.resolve(emuts.get(0), seed);
 									}
 									else {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(model, emutated) != null) {
-										emuts.add(ModelManager.getObject(model, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObject(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9246,16 +9292,7 @@ public class MutatorUtils {
 						}
 						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
 						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
-						if (stringURI.indexOf("/") != -1) {
-							stringURI = stringURI.substring(stringURI.indexOf("/") + 1, stringURI.length());
-						}
-						if (stringURI.indexOf("\\") != -1) {
-							stringURI = stringURI.substring(stringURI.indexOf("\\") + 1, stringURI.length());
-						}
-						if (stringURI != null) {
-							//MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
-							ModelManager.createModel(muts, registryFilename);
-						}
+						ModelManager.createModel(muts, registryFilename);
 					}
 				}
 				else {
@@ -9492,13 +9529,12 @@ public class MutatorUtils {
 						List<Resource> pastVersions = new ArrayList<Resource>();
 						pastVersions.add(seed);
 						Resource lastVersion = seed;
-						String stringURI = "";
+						Resource mutant = ModelManager.loadModel(packages, mutFilename);
 						for (AppMutation mut : muts.getMuts()) {
 							String mutVersion = "";
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
 								if (emuts.size() > 0) {
-									stringURI = emuts.get(0).eResource().getURI().toFileString();
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
 										emutated = EcoreUtil.resolve(emuts.get(0), model);
@@ -9507,23 +9543,31 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(seed, emutated) != null) {
-										emuts.add(ModelManager.getObject(seed, emutated));
+									EObject object = ModelManager.getObjectByName(mutant, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(seed, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9532,7 +9576,6 @@ public class MutatorUtils {
 							if (mut instanceof ObjectCloned) {
 								List<EObject> emuts = ((ObjectCloned) mut).getObject();
 								if (emuts.size() > 0) {
-									stringURI = emuts.get(0).eResource().getURI().toFileString();
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
 										emutated = EcoreUtil.resolve(emuts.get(0), model);
@@ -9541,23 +9584,31 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(seed, emutated) != null) {
-										emuts.add(ModelManager.getObject(seed, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9566,7 +9617,6 @@ public class MutatorUtils {
 							if (mut instanceof ObjectRemoved) {
 								List<EObject> emuts = ((ObjectRemoved) mut).getObject();
 								if (emuts.size() > 0) {
-									stringURI = emuts.get(0).eResource().getURI().toFileString();
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
 										emutated = EcoreUtil.resolve(emuts.get(0), seed);
@@ -9575,19 +9625,27 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(seed, emutated) != null) {
-										emuts.add(ModelManager.getObject(seed, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObjectByName(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
 											}
 											if (object != null) {
@@ -9599,27 +9657,43 @@ public class MutatorUtils {
 							}
 							if (mut instanceof InformationChanged) {
 								EObject emutated = ((InformationChanged) mut).getObject();
-								stringURI = emutated.eResource().getURI().toFileString();
-								if (ModelManager.getObject(model, emutated) == null) {
-									if ((mutPaths != null) && (packages != null)) {
-										EObject object = null;
-										for (String mutatorPath : mutPaths) {
-											Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-											object = ModelManager.getObject(mutantvs, emutated);
-											if (object != null) {
-												mutVersion = mutatorPath;
-												break;
+								EObject object = ModelManager.getObjectByName(seed, emutated);
+								if (object != null) {
+									((InformationChanged) mut).setObject(object);
+								}
+								for (ReferenceChanged mutRef : ((InformationChanged) mut).getRefChanges()) {
+									if (mutRef instanceof ReferenceChanged) {
+										EObject emutatedFrom = mutRef.getFrom();
+										if (emutatedFrom != null) {
+											EObject objectFrom =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedFrom));
+											if (objectFrom != null) {
+												mutRef.setFrom(objectFrom);
 											}
 										}
-										if (object != null) {
-											((InformationChanged) mut).setObject(object);
+										EObject emutatedTo = mutRef.getTo();
+										if (emutatedTo != null) {
+											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
+											if (objectTo != null) {
+												mutRef.setTo(objectTo);
+											}
 										}
+										List<EObject> emutatedObjects = new ArrayList<EObject>();
+										for (EObject emutatedOb : mutRef.getObject()) {
+											EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
+											if (ob != null) {
+												emutatedObjects.add(ob);
+											}
+											else {
+												emutatedObjects.add(emutatedOb);
+											}
+										}
+										mutRef.getObject().clear();
+										mutRef.getObject().addAll(emutatedObjects);
 									}
 								}
 							}
 							if (mut instanceof ObjectRetyped) {
 								List<EObject> emuts = ((ObjectRetyped) mut).getObject();
-								stringURI = emuts.get(0).eResource().getURI().toFileString();
 								if (emuts.size() > 0) {
 									EObject emutated = null;
 									if (emuts.get(0).eIsProxy()) {
@@ -9629,23 +9703,31 @@ public class MutatorUtils {
 										emutated = emuts.get(0);
 									}
 									emuts.remove(0);
-									if (ModelManager.getObject(seed, emutated) != null) {
-										emuts.add(ModelManager.getObject(seed, emutated));
+									EObject object = ModelManager.getObjectByName(seed, emutated);
+									if (object != null) {
+										emuts.add(object);
 										mutVersion = mutFilename;
 									}
 									else {
-										if ((mutPaths != null) && (packages != null)) {
-											EObject object = null;
-											for (String mutatorPath : mutPaths) {
-												Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
-												object = ModelManager.getObject(mutantvs, emutated);
-												if (object != null) {
-													mutVersion = mutatorPath;
-													break;
+										object = ModelManager.getObject(mutant, emutated);
+										if (object != null) {
+											emuts.add(object);
+											mutVersion = mutFilename;
+										}
+										else {
+											if ((mutPaths != null) && (packages != null)) {
+												object = null;
+												for (String mutatorPath : mutPaths) {
+													Resource mutantvs = ModelManager.loadModel(packages, mutatorPath);
+													object = ModelManager.getObject(mutantvs, emutated);
+													if (object != null) {
+														mutVersion = mutatorPath;
+														break;
+													}
 												}
-											}
-											if (object != null) {
-												emuts.add(object);
+												if (object != null) {
+													emuts.add(object);
+												}
 											}
 										}
 									}
@@ -9675,19 +9757,7 @@ public class MutatorUtils {
 						} else {
 							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
 						}
-						if (stringURI != null && stringURI.indexOf("/") != -1) {
-							stringURI = stringURI.substring(stringURI.indexOf("/") + 1, stringURI.length());
-						}
-						if (stringURI != null && stringURI.indexOf("\\") != -1) {
-							stringURI = stringURI.substring(stringURI.indexOf("\\") + 1, stringURI.length());
-						}
-						if (stringURI != null) {
-							//MutatorUtils.createModelWithURI(stringURI, muts, registryFilename);
-							ModelManager.createModel(muts, registryFilename);
-						}
-						else {
-							ModelManager.createModel(muts, registryFilename);
-						}
+						ModelManager.createModel(muts, registryFilename);
 
 						if (reverse == true && save == true) {
 							List<EPackage> registryPackages = new ArrayList<EPackage>();
@@ -9695,7 +9765,6 @@ public class MutatorUtils {
 								registryPackages.add(muts.getMuts().get(0).eClass().getEPackage());
 								Resource currentRegistry = ModelManager.loadModel(registryPackages, registryFilename);
 								List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(currentRegistry));
-								Resource mutant = ModelManager.loadModel(packages, mutFilename);
 								for (EObject mutation : mutations) {
 									String text = "";
 									List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();

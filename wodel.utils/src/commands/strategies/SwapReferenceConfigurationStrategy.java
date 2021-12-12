@@ -2,6 +2,7 @@ package commands.strategies;
 
 import java.util.List;
 
+import manager.EMFCopier;
 import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EReference;
@@ -24,6 +25,7 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	 */
 	protected EReference source;
 	protected EReference target;
+	protected EObject obj;
 	protected EObject eobjsrc;
 	protected EObject eobjtar;
 	protected EObject othereobjsrc;
@@ -82,9 +84,9 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				othereobjtarname = r.getName();
 			}
 		}
-
-		eobjsrc = EcoreUtil.copy(o);
-		eobjtar = EcoreUtil.copy(o);
+		
+		eobjsrc = EMFCopier.copy(o);
+		eobjtar = EMFCopier.copy(o);
 		
 		Object src = null;
 		Object tar = null;
@@ -124,6 +126,7 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				}
 			}
 		}
+		obj = EMFCopier.copy(o);
 		o.eSet(this.source, tar);
 		o.eSet(this.target, src);
 	}
@@ -172,8 +175,8 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			}
 		}
 
-		eobjsrc = EcoreUtil.copy(obj_src);
-		eobjtar = EcoreUtil.copy(obj_tar);
+		eobjsrc = EMFCopier.copy(obj_src);
+		eobjtar = EMFCopier.copy(obj_tar);
 
 		Object src = null;
 		Object tar = null;
@@ -213,6 +216,7 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				}
 			}
 		}
+		obj = EMFCopier.copy(obj_tar);
 		obj_src.eSet(this.source, tar);
 		obj_tar.eSet(this.target, src);
 	}
@@ -256,8 +260,8 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			}
 		}
 		
-		eobjsrc = EcoreUtil.copy(obj_src);
-		eobjtar = EcoreUtil.copy(obj_tar);
+		eobjsrc = EMFCopier.copy(obj_src);
+		eobjtar = EMFCopier.copy(obj_tar);
 
 		Object src = null;
 		Object tar = null;
@@ -297,6 +301,7 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				}
 			}
 		}
+		obj = EMFCopier.copy(obj_tar);
 		obj_src.eSet(this.source, tar);
 		obj_tar.eSet(this.target, src);
 	}
@@ -306,8 +311,11 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		return o.eGet(target);
 	}
 	
-	public Object getPrevious(EObject o) {
-		return o.eGet(this.source);
+	public Object getPrevious() {
+		if (obj != null) {
+			return obj.eGet(this.target);
+		}
+		return null;
 	}
 	
 	public Object getNext(EObject o) {

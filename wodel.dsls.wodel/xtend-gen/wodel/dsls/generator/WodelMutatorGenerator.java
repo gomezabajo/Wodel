@@ -21321,8 +21321,6 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import manager.EMFCopier;");
     _builder.newLine();
-    _builder.append("import manager.EMFUtils;");
-    _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
     _builder.append(this.className);

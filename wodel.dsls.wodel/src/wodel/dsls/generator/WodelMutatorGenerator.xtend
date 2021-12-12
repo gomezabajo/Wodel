@@ -5609,7 +5609,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import manager.MutatorUtils;
 import manager.EMFCopier;
-import manager.EMFUtils;
 
 public class «className» extends MutatorUtils {
 	

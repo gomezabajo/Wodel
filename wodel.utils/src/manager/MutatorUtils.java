@@ -65,11 +65,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
@@ -101,6 +97,7 @@ import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
 import appliedMutations.ObjectRetyped;
 import appliedMutations.ReferenceChanged;
+import appliedMutations.ReferenceSwap;
 import appliedMutations.TargetReferenceChanged;
 
 /**
@@ -9223,6 +9220,22 @@ public class MutatorUtils {
 												mutRef.setTo(objectTo);
 											}
 										}
+										if (mutRef instanceof ReferenceSwap) {
+											EObject emutatedOtherFrom = ((ReferenceSwap) mutRef).getOtherFrom();
+											if (emutatedOtherFrom != null) {
+												EObject objectOtherFrom = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherFrom));
+												if (objectOtherFrom != null) {
+													((ReferenceSwap) mutRef).setOtherFrom(objectOtherFrom);
+												}
+											}
+											EObject emutatedOtherTo = ((ReferenceSwap) mutRef).getOtherTo();
+											if (emutatedOtherTo != null) {
+												EObject objectOtherTo = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherTo));
+												if (objectOtherTo != null) {
+													((ReferenceSwap) mutRef).setOtherTo(objectOtherTo);
+												}
+											}
+										}
 										List<EObject> emutatedObjects = new ArrayList<EObject>();
 										for (EObject emutatedOb : mutRef.getObject()) {
 											EObject ob = ModelManager.getObjectByName(seed, emutatedOb);
@@ -9675,6 +9688,22 @@ public class MutatorUtils {
 											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
 											if (objectTo != null) {
 												mutRef.setTo(objectTo);
+											}
+										}
+										if (mutRef instanceof ReferenceSwap) {
+											EObject emutatedOtherFrom = ((ReferenceSwap) mutRef).getOtherFrom();
+											if (emutatedOtherFrom != null) {
+												EObject objectOtherFrom = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherFrom));
+												if (objectOtherFrom != null) {
+													((ReferenceSwap) mutRef).setOtherFrom(objectOtherFrom);
+												}
+											}
+											EObject emutatedOtherTo = ((ReferenceSwap) mutRef).getOtherTo();
+											if (emutatedOtherTo != null) {
+												EObject objectOtherTo = ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedOtherTo));
+												if (objectOtherTo != null) {
+													((ReferenceSwap) mutRef).setOtherTo(objectOtherTo);
+												}
 											}
 										}
 										List<EObject> emutatedObjects = new ArrayList<EObject>();

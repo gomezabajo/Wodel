@@ -9213,11 +9213,25 @@ public class MutatorUtils {
 												mutRef.setFrom(objectFrom);
 											}
 										}
+										EObject emutatedMutantFrom = mutRef.getMutantFrom();
+										if (emutatedMutantFrom != null) {
+											EObject objectMutantFrom =  ModelManager.getObjectByPartialID(mutant, EcoreUtil.getIdentification(emutatedMutantFrom));
+											if (objectMutantFrom != null) {
+												mutRef.setMutantFrom(objectMutantFrom);
+											}
+										}
 										EObject emutatedTo = mutRef.getTo();
 										if (emutatedTo != null) {
 											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
 											if (objectTo != null) {
 												mutRef.setTo(objectTo);
+											}
+										}
+										EObject emutatedMutantTo = mutRef.getMutantTo();
+										if (emutatedMutantTo != null) {
+											EObject objectMutantTo =  ModelManager.getObjectByPartialID(mutant, EcoreUtil.getIdentification(emutatedMutantTo));
+											if (objectMutantTo != null) {
+												mutRef.setMutantTo(objectMutantTo);
 											}
 										}
 										if (mutRef instanceof ReferenceSwap) {
@@ -9683,11 +9697,25 @@ public class MutatorUtils {
 												mutRef.setFrom(objectFrom);
 											}
 										}
+										EObject emutatedMutantFrom = mutRef.getMutantFrom();
+										if (emutatedMutantFrom != null) {
+											EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
+											if (objectMutantFrom != null) {
+												mutRef.setMutantFrom(objectMutantFrom);
+											}
+										}
 										EObject emutatedTo = mutRef.getTo();
 										if (emutatedTo != null) {
 											EObject objectTo =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedTo));
 											if (objectTo != null) {
 												mutRef.setTo(objectTo);
+											}
+										}
+										EObject emutatedMutantTo = mutRef.getMutantTo();
+										if (emutatedMutantTo != null) {
+											EObject objectMutantTo =  ModelManager.getObjectByName(mutant, emutatedMutantTo);
+											if (objectMutantTo != null) {
+												mutRef.setMutantTo(objectMutantTo);
 											}
 										}
 										if (mutRef instanceof ReferenceSwap) {

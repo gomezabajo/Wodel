@@ -1006,7 +1006,7 @@ ruleEdge returns [EObject current=null]
 					}
 				)
 			)
-		)
+		)?
 		(
 			otherlv_45='src_decoration'
 			{
@@ -1499,7 +1499,7 @@ ruleLevel returns [EObject current=null]
 					}
 				)
 			)
-		)
+		)?
 		(
 			otherlv_42='src_decoration'
 			{

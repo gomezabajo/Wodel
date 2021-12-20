@@ -23,8 +23,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/object"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceChanged/srcRefName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/mutantFrom"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceChanged/refName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/to"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/mutantTo"/>
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//SourceReferenceChanged">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//SourceReferenceChanged/oldFrom"/>

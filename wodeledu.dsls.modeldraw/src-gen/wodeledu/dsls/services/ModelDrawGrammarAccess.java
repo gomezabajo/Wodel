@@ -531,7 +531,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)*
-		//	"}")) ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
+		//	"}"))? ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
 		//	('tar_decoration' '=' tar_decoration=Decoration)? ('tar_label' '=' tar_label=[ecore::EAttribute])?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -541,7 +541,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//label+=[ecore::EAttribute] ("(" (reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')?
 		//label+=[ecore::EAttribute] ")")? ("," (reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')?
 		//label+=[ecore::EAttribute] ("(" (reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')?
-		//label+=[ecore::EAttribute] ")")?)* "}")) ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '='
+		//label+=[ecore::EAttribute] ")")?)* "}"))? ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '='
 		//src_label=[ecore::EAttribute])? ('tar_decoration' '=' tar_decoration=Decoration)? ('tar_label' '='
 		//tar_label=[ecore::EAttribute])?
 		public Group getGroup() { return cGroup; }
@@ -606,11 +606,11 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getAttNameEAttributeIDTerminalRuleCall_9_1_0_1() { return cAttNameEAttributeIDTerminalRuleCall_9_1_0_1; }
 		
-		//'label' '=' ((reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] | "{"
-		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
+		//('label' '=' ((reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] |
+		//"{" (reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
-		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}")
+		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}"))?
 		public Group getGroup_10() { return cGroup_10; }
 		
 		//'label'
@@ -1057,7 +1057,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 		//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)*
-		//	"}")) ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
+		//	"}"))? ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
 		//	('tar_decoration' '=' tar_decoration=Decoration)? ('tar_label' '=' tar_label=[ecore::EAttribute])?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1066,7 +1066,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
-		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}"))
+		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}"))?
 		//('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])? ('tar_decoration'
 		//'=' tar_decoration=Decoration)? ('tar_label' '=' tar_label=[ecore::EAttribute])?
 		public Group getGroup() { return cGroup; }
@@ -1116,11 +1116,11 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getAttNameEAttributeIDTerminalRuleCall_6_1_0_1() { return cAttNameEAttributeIDTerminalRuleCall_6_1_0_1; }
 		
-		//'label' '=' ((reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] | "{"
-		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
+		//('label' '=' ((reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] |
+		//"{" (reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
-		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}")
+		//(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)* "}"))?
 		public Group getGroup_7() { return cGroup_7; }
 		
 		//'label'
@@ -2022,7 +2022,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)*
-	//	"}")) ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
+	//	"}"))? ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
 	//	('tar_decoration' '=' tar_decoration=Decoration)? ('tar_label' '=' tar_label=[ecore::EAttribute])?;
 	public EdgeElements getEdgeAccess() {
 		return pEdge;
@@ -2040,7 +2040,7 @@ public class ModelDrawGrammarAccess extends AbstractGrammarElementFinder {
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")? (","
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ("("
 	//	(reference+=[ecore::EReference] ('->' refType+=[ecore::EReference])? '.')? label+=[ecore::EAttribute] ")")?)*
-	//	"}")) ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
+	//	"}"))? ('src_decoration' '=' src_decoration=Decoration)? ('src_label' '=' src_label=[ecore::EAttribute])?
 	//	('tar_decoration' '=' tar_decoration=Decoration)? ('tar_label' '=' tar_label=[ecore::EAttribute])?;
 	public LevelElements getLevelAccess() {
 		return pLevel;

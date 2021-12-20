@@ -50,7 +50,7 @@ Edge returns Edge:
 				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )?
 			("," (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
 				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )? )*
-		"}" ))
+		"}" ))?
 	( 'src_decoration' '=' src_decoration=Decoration)?
 	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
 	( 'tar_decoration' '=' tar_decoration=Decoration)?
@@ -66,7 +66,7 @@ Level returns Level:
 				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )?
 			("," (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
 				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )? )*
-		"}" ))
+		"}" ))?
 	( 'src_decoration' '=' src_decoration=Decoration)?
 	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
 	( 'tar_decoration' '=' tar_decoration=Decoration)?

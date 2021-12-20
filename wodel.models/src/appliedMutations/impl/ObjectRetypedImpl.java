@@ -96,6 +96,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_RETYPED__OBJECT);
@@ -108,6 +109,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getRemovedObject() {
 		if (removedObject == null) {
 			removedObject = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_RETYPED__REMOVED_OBJECT);
@@ -120,6 +122,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -146,6 +149,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;
@@ -158,6 +162,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNewType() {
 		if (newType != null && newType.eIsProxy()) {
 			InternalEObject oldNewType = (InternalEObject)newType;
@@ -184,6 +189,7 @@ public class ObjectRetypedImpl extends AppMutationImpl implements ObjectRetyped 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewType(EClass newNewType) {
 		EClass oldNewType = newType;
 		newType = newNewType;

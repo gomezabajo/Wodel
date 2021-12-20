@@ -82,6 +82,7 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getAttObject() {
 		if (attObject != null && attObject.eIsProxy()) {
 			InternalEObject oldAttObject = (InternalEObject)attObject;
@@ -108,6 +109,7 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttObject(EObject newAttObject) {
 		EObject oldAttObject = attObject;
 		attObject = newAttObject;
@@ -120,6 +122,7 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -129,6 +132,7 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFirstName(String newFirstName) {
 		String oldFirstName = firstName;
 		firstName = newFirstName;
@@ -214,7 +218,7 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (firstName: ");
 		result.append(firstName);
 		result.append(')');

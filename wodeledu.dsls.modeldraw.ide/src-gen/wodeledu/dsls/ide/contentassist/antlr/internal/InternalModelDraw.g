@@ -2176,7 +2176,7 @@ rule__Edge__Group__10__Impl
 :
 (
 	{ before(grammarAccess.getEdgeAccess().getGroup_10()); }
-	(rule__Edge__Group_10__0)
+	(rule__Edge__Group_10__0)?
 	{ after(grammarAccess.getEdgeAccess().getGroup_10()); }
 )
 ;
@@ -4174,7 +4174,7 @@ rule__Level__Group__7__Impl
 :
 (
 	{ before(grammarAccess.getLevelAccess().getGroup_7()); }
-	(rule__Level__Group_7__0)
+	(rule__Level__Group_7__0)?
 	{ after(grammarAccess.getLevelAccess().getGroup_7()); }
 )
 ;

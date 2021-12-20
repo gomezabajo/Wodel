@@ -27,8 +27,10 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getSrcRefName <em>Src Ref Name</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getFrom <em>From</em>}</li>
+ *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getMutantFrom <em>Mutant From</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getTo <em>To</em>}</li>
+ *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getMutantTo <em>Mutant To</em>}</li>
  * </ul>
  *
  * @generated
@@ -75,6 +77,16 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	protected EObject from;
 
 	/**
+	 * The cached value of the '{@link #getMutantFrom() <em>Mutant From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMutantFrom()
+	 * @generated
+	 * @ordered
+	 */
+	protected EObject mutantFrom;
+
+	/**
 	 * The default value of the '{@link #getRefName() <em>Ref Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -105,6 +117,16 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	protected EObject to;
 
 	/**
+	 * The cached value of the '{@link #getMutantTo() <em>Mutant To</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMutantTo()
+	 * @generated
+	 * @ordered
+	 */
+	protected EObject mutantTo;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,6 +150,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT);
@@ -140,6 +163,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSrcRefName() {
 		return srcRefName;
 	}
@@ -149,6 +173,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSrcRefName(String newSrcRefName) {
 		String oldSrcRefName = srcRefName;
 		srcRefName = newSrcRefName;
@@ -161,6 +186,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getRefName() {
 		return refName;
 	}
@@ -170,6 +196,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefName(String newRefName) {
 		String oldRefName = refName;
 		refName = newRefName;
@@ -182,6 +209,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getFrom() {
 		if (from != null && from.eIsProxy()) {
 			InternalEObject oldFrom = (InternalEObject)from;
@@ -208,6 +236,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFrom(EObject newFrom) {
 		EObject oldFrom = from;
 		from = newFrom;
@@ -220,6 +249,47 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EObject getMutantFrom() {
+		if (mutantFrom != null && mutantFrom.eIsProxy()) {
+			InternalEObject oldMutantFrom = (InternalEObject)mutantFrom;
+			mutantFrom = eResolveProxy(oldMutantFrom);
+			if (mutantFrom != oldMutantFrom) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM, oldMutantFrom, mutantFrom));
+			}
+		}
+		return mutantFrom;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject basicGetMutantFrom() {
+		return mutantFrom;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setMutantFrom(EObject newMutantFrom) {
+		EObject oldMutantFrom = mutantFrom;
+		mutantFrom = newMutantFrom;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM, oldMutantFrom, mutantFrom));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EObject getTo() {
 		if (to != null && to.eIsProxy()) {
 			InternalEObject oldTo = (InternalEObject)to;
@@ -246,11 +316,52 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTo(EObject newTo) {
 		EObject oldTo = to;
 		to = newTo;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AppliedMutationsPackage.REFERENCE_CHANGED__TO, oldTo, to));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EObject getMutantTo() {
+		if (mutantTo != null && mutantTo.eIsProxy()) {
+			InternalEObject oldMutantTo = (InternalEObject)mutantTo;
+			mutantTo = eResolveProxy(oldMutantTo);
+			if (mutantTo != oldMutantTo) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO, oldMutantTo, mutantTo));
+			}
+		}
+		return mutantTo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject basicGetMutantTo() {
+		return mutantTo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setMutantTo(EObject newMutantTo) {
+		EObject oldMutantTo = mutantTo;
+		mutantTo = newMutantTo;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO, oldMutantTo, mutantTo));
 	}
 
 	/**
@@ -268,11 +379,17 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:
 				if (resolve) return getFrom();
 				return basicGetFrom();
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM:
+				if (resolve) return getMutantFrom();
+				return basicGetMutantFrom();
 			case AppliedMutationsPackage.REFERENCE_CHANGED__REF_NAME:
 				return getRefName();
 			case AppliedMutationsPackage.REFERENCE_CHANGED__TO:
 				if (resolve) return getTo();
 				return basicGetTo();
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO:
+				if (resolve) return getMutantTo();
+				return basicGetMutantTo();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -296,11 +413,17 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:
 				setFrom((EObject)newValue);
 				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM:
+				setMutantFrom((EObject)newValue);
+				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__REF_NAME:
 				setRefName((String)newValue);
 				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__TO:
 				setTo((EObject)newValue);
+				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO:
+				setMutantTo((EObject)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -323,11 +446,17 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:
 				setFrom((EObject)null);
 				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM:
+				setMutantFrom((EObject)null);
+				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__REF_NAME:
 				setRefName(REF_NAME_EDEFAULT);
 				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__TO:
 				setTo((EObject)null);
+				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO:
+				setMutantTo((EObject)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -347,10 +476,14 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 				return SRC_REF_NAME_EDEFAULT == null ? srcRefName != null : !SRC_REF_NAME_EDEFAULT.equals(srcRefName);
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:
 				return from != null;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_FROM:
+				return mutantFrom != null;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__REF_NAME:
 				return REF_NAME_EDEFAULT == null ? refName != null : !REF_NAME_EDEFAULT.equals(refName);
 			case AppliedMutationsPackage.REFERENCE_CHANGED__TO:
 				return to != null;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_TO:
+				return mutantTo != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -364,7 +497,7 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (srcRefName: ");
 		result.append(srcRefName);
 		result.append(", refName: ");

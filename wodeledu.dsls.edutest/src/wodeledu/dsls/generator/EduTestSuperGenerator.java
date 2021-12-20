@@ -1755,7 +1755,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			String refName = referenceChanged.getRefName();
 			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
 			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
-			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
+			EObject from = null;
+			if (referenceChanged.getFrom() != null) {
+				from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
+			}
 			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
 			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
 			Element toElement = MutatorUtils.getElement(to, idelemsresource);

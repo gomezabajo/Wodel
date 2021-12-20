@@ -1479,7 +1479,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEdge"
-    // InternalModelDraw.g:611:1: ruleEdge returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) ) (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? ) ;
+    // InternalModelDraw.g:611:1: ruleEdge returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )? (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? ) ;
     public final EObject ruleEdge() throws RecognitionException {
         EObject current = null;
 
@@ -1546,11 +1546,11 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalModelDraw.g:617:2: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) ) (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? ) )
-            // InternalModelDraw.g:618:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) ) (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? )
+            // InternalModelDraw.g:617:2: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )? (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? ) )
+            // InternalModelDraw.g:618:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )? (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? )
             {
-            // InternalModelDraw.g:618:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) ) (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? )
-            // InternalModelDraw.g:619:3: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) ) (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )?
+            // InternalModelDraw.g:618:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )? (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )? )
+            // InternalModelDraw.g:619:3: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) otherlv_6= ')' otherlv_7= ':' otherlv_8= 'edge' (otherlv_9= '=' ( (otherlv_10= RULE_ID ) ) )? (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )? (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )? (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )? (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )? (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )?
             {
             // InternalModelDraw.g:619:3: ()
             // InternalModelDraw.g:620:4: 
@@ -1688,355 +1688,114 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalModelDraw.g:704:3: (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )
-            // InternalModelDraw.g:705:4: otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) )
-            {
-            otherlv_11=(Token)match(input,25,FOLLOW_15); 
+            // InternalModelDraw.g:704:3: (otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) ) )?
+            int alt30=2;
+            int LA30_0 = input.LA(1);
 
-            				newLeafNode(otherlv_11, grammarAccess.getEdgeAccess().getLabelKeyword_10_0());
-            			
-            otherlv_12=(Token)match(input,18,FOLLOW_28); 
-
-            				newLeafNode(otherlv_12, grammarAccess.getEdgeAccess().getEqualsSignKeyword_10_1());
-            			
-            // InternalModelDraw.g:713:4: ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) )
-            int alt29=2;
-            int LA29_0 = input.LA(1);
-
-            if ( (LA29_0==RULE_ID) ) {
-                alt29=1;
+            if ( (LA30_0==25) ) {
+                alt30=1;
             }
-            else if ( (LA29_0==13) ) {
-                alt29=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 29, 0, input);
-
-                throw nvae;
-            }
-            switch (alt29) {
+            switch (alt30) {
                 case 1 :
-                    // InternalModelDraw.g:714:5: ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) )
+                    // InternalModelDraw.g:705:4: otherlv_11= 'label' otherlv_12= '=' ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) )
                     {
-                    // InternalModelDraw.g:714:5: ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) )
-                    // InternalModelDraw.g:715:6: ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) )
-                    {
-                    // InternalModelDraw.g:715:6: ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )?
-                    int alt17=2;
-                    int LA17_0 = input.LA(1);
+                    otherlv_11=(Token)match(input,25,FOLLOW_15); 
 
-                    if ( (LA17_0==RULE_ID) ) {
-                        int LA17_1 = input.LA(2);
+                    				newLeafNode(otherlv_11, grammarAccess.getEdgeAccess().getLabelKeyword_10_0());
+                    			
+                    otherlv_12=(Token)match(input,18,FOLLOW_28); 
 
-                        if ( ((LA17_1>=26 && LA17_1<=27)) ) {
-                            alt17=1;
-                        }
+                    				newLeafNode(otherlv_12, grammarAccess.getEdgeAccess().getEqualsSignKeyword_10_1());
+                    			
+                    // InternalModelDraw.g:713:4: ( ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) ) | (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' ) )
+                    int alt29=2;
+                    int LA29_0 = input.LA(1);
+
+                    if ( (LA29_0==RULE_ID) ) {
+                        alt29=1;
                     }
-                    switch (alt17) {
+                    else if ( (LA29_0==13) ) {
+                        alt29=2;
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 29, 0, input);
+
+                        throw nvae;
+                    }
+                    switch (alt29) {
                         case 1 :
-                            // InternalModelDraw.g:716:7: ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.'
+                            // InternalModelDraw.g:714:5: ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) )
                             {
-                            // InternalModelDraw.g:716:7: ( (otherlv_13= RULE_ID ) )
-                            // InternalModelDraw.g:717:8: (otherlv_13= RULE_ID )
+                            // InternalModelDraw.g:714:5: ( ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) ) )
+                            // InternalModelDraw.g:715:6: ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )? ( (otherlv_17= RULE_ID ) )
                             {
-                            // InternalModelDraw.g:717:8: (otherlv_13= RULE_ID )
-                            // InternalModelDraw.g:718:9: otherlv_13= RULE_ID
-                            {
-
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getEdgeRule());
-                            									}
-                            								
-                            otherlv_13=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                            									newLeafNode(otherlv_13, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_0_0_0_0());
-                            								
-
-                            }
-
-
-                            }
-
-                            // InternalModelDraw.g:729:7: (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )?
-                            int alt16=2;
-                            int LA16_0 = input.LA(1);
-
-                            if ( (LA16_0==26) ) {
-                                alt16=1;
-                            }
-                            switch (alt16) {
-                                case 1 :
-                                    // InternalModelDraw.g:730:8: otherlv_14= '->' ( (otherlv_15= RULE_ID ) )
-                                    {
-                                    otherlv_14=(Token)match(input,26,FOLLOW_4); 
-
-                                    								newLeafNode(otherlv_14, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_0_0_1_0());
-                                    							
-                                    // InternalModelDraw.g:734:8: ( (otherlv_15= RULE_ID ) )
-                                    // InternalModelDraw.g:735:9: (otherlv_15= RULE_ID )
-                                    {
-                                    // InternalModelDraw.g:735:9: (otherlv_15= RULE_ID )
-                                    // InternalModelDraw.g:736:10: otherlv_15= RULE_ID
-                                    {
-
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getEdgeRule());
-                                    										}
-                                    									
-                                    otherlv_15=(Token)match(input,RULE_ID,FOLLOW_30); 
-
-                                    										newLeafNode(otherlv_15, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_0_0_1_1_0());
-                                    									
-
-                                    }
-
-
-                                    }
-
-
-                                    }
-                                    break;
-
-                            }
-
-                            otherlv_16=(Token)match(input,27,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_16, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_0_0_2());
-                            						
-
-                            }
-                            break;
-
-                    }
-
-                    // InternalModelDraw.g:753:6: ( (otherlv_17= RULE_ID ) )
-                    // InternalModelDraw.g:754:7: (otherlv_17= RULE_ID )
-                    {
-                    // InternalModelDraw.g:754:7: (otherlv_17= RULE_ID )
-                    // InternalModelDraw.g:755:8: otherlv_17= RULE_ID
-                    {
-
-                    								if (current==null) {
-                    									current = createModelElement(grammarAccess.getEdgeRule());
-                    								}
-                    							
-                    otherlv_17=(Token)match(input,RULE_ID,FOLLOW_31); 
-
-                    								newLeafNode(otherlv_17, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_0_1_0());
-                    							
-
-                    }
-
-
-                    }
-
-
-                    }
-
-
-                    }
-                    break;
-                case 2 :
-                    // InternalModelDraw.g:768:5: (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' )
-                    {
-                    // InternalModelDraw.g:768:5: (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' )
-                    // InternalModelDraw.g:769:6: otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}'
-                    {
-                    otherlv_18=(Token)match(input,13,FOLLOW_4); 
-
-                    						newLeafNode(otherlv_18, grammarAccess.getEdgeAccess().getLeftCurlyBracketKeyword_10_2_1_0());
-                    					
-                    // InternalModelDraw.g:773:6: ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )?
-                    int alt19=2;
-                    int LA19_0 = input.LA(1);
-
-                    if ( (LA19_0==RULE_ID) ) {
-                        int LA19_1 = input.LA(2);
-
-                        if ( ((LA19_1>=26 && LA19_1<=27)) ) {
-                            alt19=1;
-                        }
-                    }
-                    switch (alt19) {
-                        case 1 :
-                            // InternalModelDraw.g:774:7: ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.'
-                            {
-                            // InternalModelDraw.g:774:7: ( (otherlv_19= RULE_ID ) )
-                            // InternalModelDraw.g:775:8: (otherlv_19= RULE_ID )
-                            {
-                            // InternalModelDraw.g:775:8: (otherlv_19= RULE_ID )
-                            // InternalModelDraw.g:776:9: otherlv_19= RULE_ID
-                            {
-
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getEdgeRule());
-                            									}
-                            								
-                            otherlv_19=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                            									newLeafNode(otherlv_19, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_1_0_0());
-                            								
-
-                            }
-
-
-                            }
-
-                            // InternalModelDraw.g:787:7: (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )?
-                            int alt18=2;
-                            int LA18_0 = input.LA(1);
-
-                            if ( (LA18_0==26) ) {
-                                alt18=1;
-                            }
-                            switch (alt18) {
-                                case 1 :
-                                    // InternalModelDraw.g:788:8: otherlv_20= '->' ( (otherlv_21= RULE_ID ) )
-                                    {
-                                    otherlv_20=(Token)match(input,26,FOLLOW_4); 
-
-                                    								newLeafNode(otherlv_20, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_1_1_0());
-                                    							
-                                    // InternalModelDraw.g:792:8: ( (otherlv_21= RULE_ID ) )
-                                    // InternalModelDraw.g:793:9: (otherlv_21= RULE_ID )
-                                    {
-                                    // InternalModelDraw.g:793:9: (otherlv_21= RULE_ID )
-                                    // InternalModelDraw.g:794:10: otherlv_21= RULE_ID
-                                    {
-
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getEdgeRule());
-                                    										}
-                                    									
-                                    otherlv_21=(Token)match(input,RULE_ID,FOLLOW_30); 
-
-                                    										newLeafNode(otherlv_21, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_1_1_1_0());
-                                    									
-
-                                    }
-
-
-                                    }
-
-
-                                    }
-                                    break;
-
-                            }
-
-                            otherlv_22=(Token)match(input,27,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_22, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_1_2());
-                            						
-
-                            }
-                            break;
-
-                    }
-
-                    // InternalModelDraw.g:811:6: ( (otherlv_23= RULE_ID ) )
-                    // InternalModelDraw.g:812:7: (otherlv_23= RULE_ID )
-                    {
-                    // InternalModelDraw.g:812:7: (otherlv_23= RULE_ID )
-                    // InternalModelDraw.g:813:8: otherlv_23= RULE_ID
-                    {
-
-                    								if (current==null) {
-                    									current = createModelElement(grammarAccess.getEdgeRule());
-                    								}
-                    							
-                    otherlv_23=(Token)match(input,RULE_ID,FOLLOW_32); 
-
-                    								newLeafNode(otherlv_23, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_2_0());
-                    							
-
-                    }
-
-
-                    }
-
-                    // InternalModelDraw.g:824:6: (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )?
-                    int alt22=2;
-                    int LA22_0 = input.LA(1);
-
-                    if ( (LA22_0==15) ) {
-                        alt22=1;
-                    }
-                    switch (alt22) {
-                        case 1 :
-                            // InternalModelDraw.g:825:7: otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')'
-                            {
-                            otherlv_24=(Token)match(input,15,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_24, grammarAccess.getEdgeAccess().getLeftParenthesisKeyword_10_2_1_3_0());
-                            						
-                            // InternalModelDraw.g:829:7: ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )?
-                            int alt21=2;
-                            int LA21_0 = input.LA(1);
-
-                            if ( (LA21_0==RULE_ID) ) {
-                                int LA21_1 = input.LA(2);
-
-                                if ( ((LA21_1>=26 && LA21_1<=27)) ) {
-                                    alt21=1;
+                            // InternalModelDraw.g:715:6: ( ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.' )?
+                            int alt17=2;
+                            int LA17_0 = input.LA(1);
+
+                            if ( (LA17_0==RULE_ID) ) {
+                                int LA17_1 = input.LA(2);
+
+                                if ( ((LA17_1>=26 && LA17_1<=27)) ) {
+                                    alt17=1;
                                 }
                             }
-                            switch (alt21) {
+                            switch (alt17) {
                                 case 1 :
-                                    // InternalModelDraw.g:830:8: ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.'
+                                    // InternalModelDraw.g:716:7: ( (otherlv_13= RULE_ID ) ) (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )? otherlv_16= '.'
                                     {
-                                    // InternalModelDraw.g:830:8: ( (otherlv_25= RULE_ID ) )
-                                    // InternalModelDraw.g:831:9: (otherlv_25= RULE_ID )
+                                    // InternalModelDraw.g:716:7: ( (otherlv_13= RULE_ID ) )
+                                    // InternalModelDraw.g:717:8: (otherlv_13= RULE_ID )
                                     {
-                                    // InternalModelDraw.g:831:9: (otherlv_25= RULE_ID )
-                                    // InternalModelDraw.g:832:10: otherlv_25= RULE_ID
+                                    // InternalModelDraw.g:717:8: (otherlv_13= RULE_ID )
+                                    // InternalModelDraw.g:718:9: otherlv_13= RULE_ID
                                     {
 
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getEdgeRule());
-                                    										}
-                                    									
-                                    otherlv_25=(Token)match(input,RULE_ID,FOLLOW_29); 
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getEdgeRule());
+                                    									}
+                                    								
+                                    otherlv_13=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                                    										newLeafNode(otherlv_25, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_3_1_0_0());
-                                    									
+                                    									newLeafNode(otherlv_13, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_0_0_0_0());
+                                    								
 
                                     }
 
 
                                     }
 
-                                    // InternalModelDraw.g:843:8: (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )?
-                                    int alt20=2;
-                                    int LA20_0 = input.LA(1);
+                                    // InternalModelDraw.g:729:7: (otherlv_14= '->' ( (otherlv_15= RULE_ID ) ) )?
+                                    int alt16=2;
+                                    int LA16_0 = input.LA(1);
 
-                                    if ( (LA20_0==26) ) {
-                                        alt20=1;
+                                    if ( (LA16_0==26) ) {
+                                        alt16=1;
                                     }
-                                    switch (alt20) {
+                                    switch (alt16) {
                                         case 1 :
-                                            // InternalModelDraw.g:844:9: otherlv_26= '->' ( (otherlv_27= RULE_ID ) )
+                                            // InternalModelDraw.g:730:8: otherlv_14= '->' ( (otherlv_15= RULE_ID ) )
                                             {
-                                            otherlv_26=(Token)match(input,26,FOLLOW_4); 
+                                            otherlv_14=(Token)match(input,26,FOLLOW_4); 
 
-                                            									newLeafNode(otherlv_26, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_3_1_1_0());
-                                            								
-                                            // InternalModelDraw.g:848:9: ( (otherlv_27= RULE_ID ) )
-                                            // InternalModelDraw.g:849:10: (otherlv_27= RULE_ID )
+                                            								newLeafNode(otherlv_14, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_0_0_1_0());
+                                            							
+                                            // InternalModelDraw.g:734:8: ( (otherlv_15= RULE_ID ) )
+                                            // InternalModelDraw.g:735:9: (otherlv_15= RULE_ID )
                                             {
-                                            // InternalModelDraw.g:849:10: (otherlv_27= RULE_ID )
-                                            // InternalModelDraw.g:850:11: otherlv_27= RULE_ID
+                                            // InternalModelDraw.g:735:9: (otherlv_15= RULE_ID )
+                                            // InternalModelDraw.g:736:10: otherlv_15= RULE_ID
                                             {
 
-                                            											if (current==null) {
-                                            												current = createModelElement(grammarAccess.getEdgeRule());
-                                            											}
-                                            										
-                                            otherlv_27=(Token)match(input,RULE_ID,FOLLOW_30); 
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getEdgeRule());
+                                            										}
+                                            									
+                                            otherlv_15=(Token)match(input,RULE_ID,FOLLOW_30); 
 
-                                            											newLeafNode(otherlv_27, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_3_1_1_1_0());
-                                            										
+                                            										newLeafNode(otherlv_15, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_0_0_1_1_0());
+                                            									
 
                                             }
 
@@ -2049,322 +1808,577 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
                                     }
 
-                                    otherlv_28=(Token)match(input,27,FOLLOW_4); 
+                                    otherlv_16=(Token)match(input,27,FOLLOW_4); 
 
-                                    								newLeafNode(otherlv_28, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_3_1_2());
-                                    							
+                                    							newLeafNode(otherlv_16, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_0_0_2());
+                                    						
 
                                     }
                                     break;
 
                             }
 
-                            // InternalModelDraw.g:867:7: ( (otherlv_29= RULE_ID ) )
-                            // InternalModelDraw.g:868:8: (otherlv_29= RULE_ID )
+                            // InternalModelDraw.g:753:6: ( (otherlv_17= RULE_ID ) )
+                            // InternalModelDraw.g:754:7: (otherlv_17= RULE_ID )
                             {
-                            // InternalModelDraw.g:868:8: (otherlv_29= RULE_ID )
-                            // InternalModelDraw.g:869:9: otherlv_29= RULE_ID
+                            // InternalModelDraw.g:754:7: (otherlv_17= RULE_ID )
+                            // InternalModelDraw.g:755:8: otherlv_17= RULE_ID
                             {
 
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getEdgeRule());
-                            									}
-                            								
-                            otherlv_29=(Token)match(input,RULE_ID,FOLLOW_24); 
+                            								if (current==null) {
+                            									current = createModelElement(grammarAccess.getEdgeRule());
+                            								}
+                            							
+                            otherlv_17=(Token)match(input,RULE_ID,FOLLOW_31); 
 
-                            									newLeafNode(otherlv_29, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_3_2_0());
-                            								
+                            								newLeafNode(otherlv_17, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_0_1_0());
+                            							
 
                             }
 
 
                             }
 
-                            otherlv_30=(Token)match(input,17,FOLLOW_33); 
 
-                            							newLeafNode(otherlv_30, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_10_2_1_3_3());
-                            						
+                            }
+
 
                             }
                             break;
+                        case 2 :
+                            // InternalModelDraw.g:768:5: (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' )
+                            {
+                            // InternalModelDraw.g:768:5: (otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}' )
+                            // InternalModelDraw.g:769:6: otherlv_18= '{' ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )? ( (otherlv_23= RULE_ID ) ) (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )? (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )* otherlv_44= '}'
+                            {
+                            otherlv_18=(Token)match(input,13,FOLLOW_4); 
+
+                            						newLeafNode(otherlv_18, grammarAccess.getEdgeAccess().getLeftCurlyBracketKeyword_10_2_1_0());
+                            					
+                            // InternalModelDraw.g:773:6: ( ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.' )?
+                            int alt19=2;
+                            int LA19_0 = input.LA(1);
+
+                            if ( (LA19_0==RULE_ID) ) {
+                                int LA19_1 = input.LA(2);
+
+                                if ( ((LA19_1>=26 && LA19_1<=27)) ) {
+                                    alt19=1;
+                                }
+                            }
+                            switch (alt19) {
+                                case 1 :
+                                    // InternalModelDraw.g:774:7: ( (otherlv_19= RULE_ID ) ) (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )? otherlv_22= '.'
+                                    {
+                                    // InternalModelDraw.g:774:7: ( (otherlv_19= RULE_ID ) )
+                                    // InternalModelDraw.g:775:8: (otherlv_19= RULE_ID )
+                                    {
+                                    // InternalModelDraw.g:775:8: (otherlv_19= RULE_ID )
+                                    // InternalModelDraw.g:776:9: otherlv_19= RULE_ID
+                                    {
+
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getEdgeRule());
+                                    									}
+                                    								
+                                    otherlv_19=(Token)match(input,RULE_ID,FOLLOW_29); 
+
+                                    									newLeafNode(otherlv_19, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_1_0_0());
+                                    								
+
+                                    }
+
+
+                                    }
+
+                                    // InternalModelDraw.g:787:7: (otherlv_20= '->' ( (otherlv_21= RULE_ID ) ) )?
+                                    int alt18=2;
+                                    int LA18_0 = input.LA(1);
+
+                                    if ( (LA18_0==26) ) {
+                                        alt18=1;
+                                    }
+                                    switch (alt18) {
+                                        case 1 :
+                                            // InternalModelDraw.g:788:8: otherlv_20= '->' ( (otherlv_21= RULE_ID ) )
+                                            {
+                                            otherlv_20=(Token)match(input,26,FOLLOW_4); 
+
+                                            								newLeafNode(otherlv_20, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_1_1_0());
+                                            							
+                                            // InternalModelDraw.g:792:8: ( (otherlv_21= RULE_ID ) )
+                                            // InternalModelDraw.g:793:9: (otherlv_21= RULE_ID )
+                                            {
+                                            // InternalModelDraw.g:793:9: (otherlv_21= RULE_ID )
+                                            // InternalModelDraw.g:794:10: otherlv_21= RULE_ID
+                                            {
+
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getEdgeRule());
+                                            										}
+                                            									
+                                            otherlv_21=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                                            										newLeafNode(otherlv_21, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_1_1_1_0());
+                                            									
+
+                                            }
+
+
+                                            }
+
+
+                                            }
+                                            break;
+
+                                    }
+
+                                    otherlv_22=(Token)match(input,27,FOLLOW_4); 
+
+                                    							newLeafNode(otherlv_22, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_1_2());
+                                    						
+
+                                    }
+                                    break;
+
+                            }
+
+                            // InternalModelDraw.g:811:6: ( (otherlv_23= RULE_ID ) )
+                            // InternalModelDraw.g:812:7: (otherlv_23= RULE_ID )
+                            {
+                            // InternalModelDraw.g:812:7: (otherlv_23= RULE_ID )
+                            // InternalModelDraw.g:813:8: otherlv_23= RULE_ID
+                            {
+
+                            								if (current==null) {
+                            									current = createModelElement(grammarAccess.getEdgeRule());
+                            								}
+                            							
+                            otherlv_23=(Token)match(input,RULE_ID,FOLLOW_32); 
+
+                            								newLeafNode(otherlv_23, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_2_0());
+                            							
+
+                            }
+
+
+                            }
+
+                            // InternalModelDraw.g:824:6: (otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')' )?
+                            int alt22=2;
+                            int LA22_0 = input.LA(1);
 
-                    }
+                            if ( (LA22_0==15) ) {
+                                alt22=1;
+                            }
+                            switch (alt22) {
+                                case 1 :
+                                    // InternalModelDraw.g:825:7: otherlv_24= '(' ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )? ( (otherlv_29= RULE_ID ) ) otherlv_30= ')'
+                                    {
+                                    otherlv_24=(Token)match(input,15,FOLLOW_4); 
+
+                                    							newLeafNode(otherlv_24, grammarAccess.getEdgeAccess().getLeftParenthesisKeyword_10_2_1_3_0());
+                                    						
+                                    // InternalModelDraw.g:829:7: ( ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.' )?
+                                    int alt21=2;
+                                    int LA21_0 = input.LA(1);
+
+                                    if ( (LA21_0==RULE_ID) ) {
+                                        int LA21_1 = input.LA(2);
 
-                    // InternalModelDraw.g:885:6: (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )*
-                    loop28:
-                    do {
-                        int alt28=2;
-                        int LA28_0 = input.LA(1);
+                                        if ( ((LA21_1>=26 && LA21_1<=27)) ) {
+                                            alt21=1;
+                                        }
+                                    }
+                                    switch (alt21) {
+                                        case 1 :
+                                            // InternalModelDraw.g:830:8: ( (otherlv_25= RULE_ID ) ) (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )? otherlv_28= '.'
+                                            {
+                                            // InternalModelDraw.g:830:8: ( (otherlv_25= RULE_ID ) )
+                                            // InternalModelDraw.g:831:9: (otherlv_25= RULE_ID )
+                                            {
+                                            // InternalModelDraw.g:831:9: (otherlv_25= RULE_ID )
+                                            // InternalModelDraw.g:832:10: otherlv_25= RULE_ID
+                                            {
 
-                        if ( (LA28_0==16) ) {
-                            alt28=1;
-                        }
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getEdgeRule());
+                                            										}
+                                            									
+                                            otherlv_25=(Token)match(input,RULE_ID,FOLLOW_29); 
 
+                                            										newLeafNode(otherlv_25, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_3_1_0_0());
+                                            									
 
-                        switch (alt28) {
-                    	case 1 :
-                    	    // InternalModelDraw.g:886:7: otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )?
-                    	    {
-                    	    otherlv_31=(Token)match(input,16,FOLLOW_4); 
+                                            }
 
-                    	    							newLeafNode(otherlv_31, grammarAccess.getEdgeAccess().getCommaKeyword_10_2_1_4_0());
-                    	    						
-                    	    // InternalModelDraw.g:890:7: ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )?
-                    	    int alt24=2;
-                    	    int LA24_0 = input.LA(1);
-
-                    	    if ( (LA24_0==RULE_ID) ) {
-                    	        int LA24_1 = input.LA(2);
 
-                    	        if ( ((LA24_1>=26 && LA24_1<=27)) ) {
-                    	            alt24=1;
-                    	        }
-                    	    }
-                    	    switch (alt24) {
-                    	        case 1 :
-                    	            // InternalModelDraw.g:891:8: ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.'
-                    	            {
-                    	            // InternalModelDraw.g:891:8: ( (otherlv_32= RULE_ID ) )
-                    	            // InternalModelDraw.g:892:9: (otherlv_32= RULE_ID )
-                    	            {
-                    	            // InternalModelDraw.g:892:9: (otherlv_32= RULE_ID )
-                    	            // InternalModelDraw.g:893:10: otherlv_32= RULE_ID
-                    	            {
+                                            }
 
-                    	            										if (current==null) {
-                    	            											current = createModelElement(grammarAccess.getEdgeRule());
-                    	            										}
-                    	            									
-                    	            otherlv_32=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                    	            										newLeafNode(otherlv_32, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_4_1_0_0());
-                    	            									
+                                            // InternalModelDraw.g:843:8: (otherlv_26= '->' ( (otherlv_27= RULE_ID ) ) )?
+                                            int alt20=2;
+                                            int LA20_0 = input.LA(1);
 
-                    	            }
+                                            if ( (LA20_0==26) ) {
+                                                alt20=1;
+                                            }
+                                            switch (alt20) {
+                                                case 1 :
+                                                    // InternalModelDraw.g:844:9: otherlv_26= '->' ( (otherlv_27= RULE_ID ) )
+                                                    {
+                                                    otherlv_26=(Token)match(input,26,FOLLOW_4); 
 
+                                                    									newLeafNode(otherlv_26, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_3_1_1_0());
+                                                    								
+                                                    // InternalModelDraw.g:848:9: ( (otherlv_27= RULE_ID ) )
+                                                    // InternalModelDraw.g:849:10: (otherlv_27= RULE_ID )
+                                                    {
+                                                    // InternalModelDraw.g:849:10: (otherlv_27= RULE_ID )
+                                                    // InternalModelDraw.g:850:11: otherlv_27= RULE_ID
+                                                    {
+
+                                                    											if (current==null) {
+                                                    												current = createModelElement(grammarAccess.getEdgeRule());
+                                                    											}
+                                                    										
+                                                    otherlv_27=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                                                    											newLeafNode(otherlv_27, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_3_1_1_1_0());
+                                                    										
+
+                                                    }
+
+
+                                                    }
+
 
-                    	            }
-
-                    	            // InternalModelDraw.g:904:8: (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )?
-                    	            int alt23=2;
-                    	            int LA23_0 = input.LA(1);
-
-                    	            if ( (LA23_0==26) ) {
-                    	                alt23=1;
-                    	            }
-                    	            switch (alt23) {
-                    	                case 1 :
-                    	                    // InternalModelDraw.g:905:9: otherlv_33= '->' ( (otherlv_34= RULE_ID ) )
-                    	                    {
-                    	                    otherlv_33=(Token)match(input,26,FOLLOW_4); 
-
-                    	                    									newLeafNode(otherlv_33, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_4_1_1_0());
-                    	                    								
-                    	                    // InternalModelDraw.g:909:9: ( (otherlv_34= RULE_ID ) )
-                    	                    // InternalModelDraw.g:910:10: (otherlv_34= RULE_ID )
-                    	                    {
-                    	                    // InternalModelDraw.g:910:10: (otherlv_34= RULE_ID )
-                    	                    // InternalModelDraw.g:911:11: otherlv_34= RULE_ID
-                    	                    {
-
-                    	                    											if (current==null) {
-                    	                    												current = createModelElement(grammarAccess.getEdgeRule());
-                    	                    											}
-                    	                    										
-                    	                    otherlv_34=(Token)match(input,RULE_ID,FOLLOW_30); 
-
-                    	                    											newLeafNode(otherlv_34, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_4_1_1_1_0());
-                    	                    										
-
-                    	                    }
-
-
-                    	                    }
-
-
-                    	                    }
-                    	                    break;
-
-                    	            }
-
-                    	            otherlv_35=(Token)match(input,27,FOLLOW_4); 
-
-                    	            								newLeafNode(otherlv_35, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_4_1_2());
-                    	            							
-
-                    	            }
-                    	            break;
-
-                    	    }
-
-                    	    // InternalModelDraw.g:928:7: ( (otherlv_36= RULE_ID ) )
-                    	    // InternalModelDraw.g:929:8: (otherlv_36= RULE_ID )
-                    	    {
-                    	    // InternalModelDraw.g:929:8: (otherlv_36= RULE_ID )
-                    	    // InternalModelDraw.g:930:9: otherlv_36= RULE_ID
-                    	    {
-
-                    	    									if (current==null) {
-                    	    										current = createModelElement(grammarAccess.getEdgeRule());
-                    	    									}
-                    	    								
-                    	    otherlv_36=(Token)match(input,RULE_ID,FOLLOW_32); 
-
-                    	    									newLeafNode(otherlv_36, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_4_2_0());
-                    	    								
-
-                    	    }
+                                                    }
+                                                    break;
 
+                                            }
 
-                    	    }
+                                            otherlv_28=(Token)match(input,27,FOLLOW_4); 
 
-                    	    // InternalModelDraw.g:941:7: (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )?
-                    	    int alt27=2;
-                    	    int LA27_0 = input.LA(1);
+                                            								newLeafNode(otherlv_28, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_3_1_2());
+                                            							
 
-                    	    if ( (LA27_0==15) ) {
-                    	        alt27=1;
-                    	    }
-                    	    switch (alt27) {
-                    	        case 1 :
-                    	            // InternalModelDraw.g:942:8: otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')'
-                    	            {
-                    	            otherlv_37=(Token)match(input,15,FOLLOW_4); 
+                                            }
+                                            break;
+
+                                    }
+
+                                    // InternalModelDraw.g:867:7: ( (otherlv_29= RULE_ID ) )
+                                    // InternalModelDraw.g:868:8: (otherlv_29= RULE_ID )
+                                    {
+                                    // InternalModelDraw.g:868:8: (otherlv_29= RULE_ID )
+                                    // InternalModelDraw.g:869:9: otherlv_29= RULE_ID
+                                    {
+
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getEdgeRule());
+                                    									}
+                                    								
+                                    otherlv_29=(Token)match(input,RULE_ID,FOLLOW_24); 
+
+                                    									newLeafNode(otherlv_29, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_3_2_0());
+                                    								
+
+                                    }
+
+
+                                    }
+
+                                    otherlv_30=(Token)match(input,17,FOLLOW_33); 
 
-                    	            								newLeafNode(otherlv_37, grammarAccess.getEdgeAccess().getLeftParenthesisKeyword_10_2_1_4_3_0());
-                    	            							
-                    	            // InternalModelDraw.g:946:8: ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )?
-                    	            int alt26=2;
-                    	            int LA26_0 = input.LA(1);
-
-                    	            if ( (LA26_0==RULE_ID) ) {
-                    	                int LA26_1 = input.LA(2);
+                                    							newLeafNode(otherlv_30, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_10_2_1_3_3());
+                                    						
 
-                    	                if ( ((LA26_1>=26 && LA26_1<=27)) ) {
-                    	                    alt26=1;
-                    	                }
-                    	            }
-                    	            switch (alt26) {
-                    	                case 1 :
-                    	                    // InternalModelDraw.g:947:9: ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.'
-                    	                    {
-                    	                    // InternalModelDraw.g:947:9: ( (otherlv_38= RULE_ID ) )
-                    	                    // InternalModelDraw.g:948:10: (otherlv_38= RULE_ID )
-                    	                    {
-                    	                    // InternalModelDraw.g:948:10: (otherlv_38= RULE_ID )
-                    	                    // InternalModelDraw.g:949:11: otherlv_38= RULE_ID
-                    	                    {
+                                    }
+                                    break;
 
-                    	                    											if (current==null) {
-                    	                    												current = createModelElement(grammarAccess.getEdgeRule());
-                    	                    											}
-                    	                    										
-                    	                    otherlv_38=(Token)match(input,RULE_ID,FOLLOW_29); 
+                            }
 
-                    	                    											newLeafNode(otherlv_38, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_4_3_1_0_0());
-                    	                    										
+                            // InternalModelDraw.g:885:6: (otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )? )*
+                            loop28:
+                            do {
+                                int alt28=2;
+                                int LA28_0 = input.LA(1);
 
-                    	                    }
+                                if ( (LA28_0==16) ) {
+                                    alt28=1;
+                                }
 
 
-                    	                    }
+                                switch (alt28) {
+                            	case 1 :
+                            	    // InternalModelDraw.g:886:7: otherlv_31= ',' ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )? ( (otherlv_36= RULE_ID ) ) (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )?
+                            	    {
+                            	    otherlv_31=(Token)match(input,16,FOLLOW_4); 
 
-                    	                    // InternalModelDraw.g:960:9: (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )?
-                    	                    int alt25=2;
-                    	                    int LA25_0 = input.LA(1);
+                            	    							newLeafNode(otherlv_31, grammarAccess.getEdgeAccess().getCommaKeyword_10_2_1_4_0());
+                            	    						
+                            	    // InternalModelDraw.g:890:7: ( ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.' )?
+                            	    int alt24=2;
+                            	    int LA24_0 = input.LA(1);
 
-                    	                    if ( (LA25_0==26) ) {
-                    	                        alt25=1;
-                    	                    }
-                    	                    switch (alt25) {
-                    	                        case 1 :
-                    	                            // InternalModelDraw.g:961:10: otherlv_39= '->' ( (otherlv_40= RULE_ID ) )
-                    	                            {
-                    	                            otherlv_39=(Token)match(input,26,FOLLOW_4); 
+                            	    if ( (LA24_0==RULE_ID) ) {
+                            	        int LA24_1 = input.LA(2);
 
-                    	                            										newLeafNode(otherlv_39, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_4_3_1_1_0());
-                    	                            									
-                    	                            // InternalModelDraw.g:965:10: ( (otherlv_40= RULE_ID ) )
-                    	                            // InternalModelDraw.g:966:11: (otherlv_40= RULE_ID )
-                    	                            {
-                    	                            // InternalModelDraw.g:966:11: (otherlv_40= RULE_ID )
-                    	                            // InternalModelDraw.g:967:12: otherlv_40= RULE_ID
-                    	                            {
+                            	        if ( ((LA24_1>=26 && LA24_1<=27)) ) {
+                            	            alt24=1;
+                            	        }
+                            	    }
+                            	    switch (alt24) {
+                            	        case 1 :
+                            	            // InternalModelDraw.g:891:8: ( (otherlv_32= RULE_ID ) ) (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )? otherlv_35= '.'
+                            	            {
+                            	            // InternalModelDraw.g:891:8: ( (otherlv_32= RULE_ID ) )
+                            	            // InternalModelDraw.g:892:9: (otherlv_32= RULE_ID )
+                            	            {
+                            	            // InternalModelDraw.g:892:9: (otherlv_32= RULE_ID )
+                            	            // InternalModelDraw.g:893:10: otherlv_32= RULE_ID
+                            	            {
 
-                    	                            												if (current==null) {
-                    	                            													current = createModelElement(grammarAccess.getEdgeRule());
-                    	                            												}
-                    	                            											
-                    	                            otherlv_40=(Token)match(input,RULE_ID,FOLLOW_30); 
+                            	            										if (current==null) {
+                            	            											current = createModelElement(grammarAccess.getEdgeRule());
+                            	            										}
+                            	            									
+                            	            otherlv_32=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                    	                            												newLeafNode(otherlv_40, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_4_3_1_1_1_0());
-                    	                            											
+                            	            										newLeafNode(otherlv_32, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_4_1_0_0());
+                            	            									
 
-                    	                            }
+                            	            }
 
 
-                    	                            }
+                            	            }
 
+                            	            // InternalModelDraw.g:904:8: (otherlv_33= '->' ( (otherlv_34= RULE_ID ) ) )?
+                            	            int alt23=2;
+                            	            int LA23_0 = input.LA(1);
 
-                    	                            }
-                    	                            break;
+                            	            if ( (LA23_0==26) ) {
+                            	                alt23=1;
+                            	            }
+                            	            switch (alt23) {
+                            	                case 1 :
+                            	                    // InternalModelDraw.g:905:9: otherlv_33= '->' ( (otherlv_34= RULE_ID ) )
+                            	                    {
+                            	                    otherlv_33=(Token)match(input,26,FOLLOW_4); 
+
+                            	                    									newLeafNode(otherlv_33, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_4_1_1_0());
+                            	                    								
+                            	                    // InternalModelDraw.g:909:9: ( (otherlv_34= RULE_ID ) )
+                            	                    // InternalModelDraw.g:910:10: (otherlv_34= RULE_ID )
+                            	                    {
+                            	                    // InternalModelDraw.g:910:10: (otherlv_34= RULE_ID )
+                            	                    // InternalModelDraw.g:911:11: otherlv_34= RULE_ID
+                            	                    {
+
+                            	                    											if (current==null) {
+                            	                    												current = createModelElement(grammarAccess.getEdgeRule());
+                            	                    											}
+                            	                    										
+                            	                    otherlv_34=(Token)match(input,RULE_ID,FOLLOW_30); 
 
-                    	                    }
+                            	                    											newLeafNode(otherlv_34, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_4_1_1_1_0());
+                            	                    										
 
-                    	                    otherlv_41=(Token)match(input,27,FOLLOW_4); 
+                            	                    }
 
-                    	                    									newLeafNode(otherlv_41, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_4_3_1_2());
-                    	                    								
+
+                            	                    }
+
+
+                            	                    }
+                            	                    break;
+
+                            	            }
+
+                            	            otherlv_35=(Token)match(input,27,FOLLOW_4); 
+
+                            	            								newLeafNode(otherlv_35, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_4_1_2());
+                            	            							
+
+                            	            }
+                            	            break;
+
+                            	    }
+
+                            	    // InternalModelDraw.g:928:7: ( (otherlv_36= RULE_ID ) )
+                            	    // InternalModelDraw.g:929:8: (otherlv_36= RULE_ID )
+                            	    {
+                            	    // InternalModelDraw.g:929:8: (otherlv_36= RULE_ID )
+                            	    // InternalModelDraw.g:930:9: otherlv_36= RULE_ID
+                            	    {
+
+                            	    									if (current==null) {
+                            	    										current = createModelElement(grammarAccess.getEdgeRule());
+                            	    									}
+                            	    								
+                            	    otherlv_36=(Token)match(input,RULE_ID,FOLLOW_32); 
 
-                    	                    }
-                    	                    break;
+                            	    									newLeafNode(otherlv_36, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_4_2_0());
+                            	    								
 
-                    	            }
+                            	    }
 
-                    	            // InternalModelDraw.g:984:8: ( (otherlv_42= RULE_ID ) )
-                    	            // InternalModelDraw.g:985:9: (otherlv_42= RULE_ID )
-                    	            {
-                    	            // InternalModelDraw.g:985:9: (otherlv_42= RULE_ID )
-                    	            // InternalModelDraw.g:986:10: otherlv_42= RULE_ID
-                    	            {
 
-                    	            										if (current==null) {
-                    	            											current = createModelElement(grammarAccess.getEdgeRule());
-                    	            										}
-                    	            									
-                    	            otherlv_42=(Token)match(input,RULE_ID,FOLLOW_24); 
+                            	    }
 
-                    	            										newLeafNode(otherlv_42, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_4_3_2_0());
-                    	            									
+                            	    // InternalModelDraw.g:941:7: (otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')' )?
+                            	    int alt27=2;
+                            	    int LA27_0 = input.LA(1);
 
-                    	            }
+                            	    if ( (LA27_0==15) ) {
+                            	        alt27=1;
+                            	    }
+                            	    switch (alt27) {
+                            	        case 1 :
+                            	            // InternalModelDraw.g:942:8: otherlv_37= '(' ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )? ( (otherlv_42= RULE_ID ) ) otherlv_43= ')'
+                            	            {
+                            	            otherlv_37=(Token)match(input,15,FOLLOW_4); 
 
+                            	            								newLeafNode(otherlv_37, grammarAccess.getEdgeAccess().getLeftParenthesisKeyword_10_2_1_4_3_0());
+                            	            							
+                            	            // InternalModelDraw.g:946:8: ( ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.' )?
+                            	            int alt26=2;
+                            	            int LA26_0 = input.LA(1);
 
-                    	            }
+                            	            if ( (LA26_0==RULE_ID) ) {
+                            	                int LA26_1 = input.LA(2);
 
-                    	            otherlv_43=(Token)match(input,17,FOLLOW_33); 
+                            	                if ( ((LA26_1>=26 && LA26_1<=27)) ) {
+                            	                    alt26=1;
+                            	                }
+                            	            }
+                            	            switch (alt26) {
+                            	                case 1 :
+                            	                    // InternalModelDraw.g:947:9: ( (otherlv_38= RULE_ID ) ) (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )? otherlv_41= '.'
+                            	                    {
+                            	                    // InternalModelDraw.g:947:9: ( (otherlv_38= RULE_ID ) )
+                            	                    // InternalModelDraw.g:948:10: (otherlv_38= RULE_ID )
+                            	                    {
+                            	                    // InternalModelDraw.g:948:10: (otherlv_38= RULE_ID )
+                            	                    // InternalModelDraw.g:949:11: otherlv_38= RULE_ID
+                            	                    {
 
-                    	            								newLeafNode(otherlv_43, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_10_2_1_4_3_3());
-                    	            							
+                            	                    											if (current==null) {
+                            	                    												current = createModelElement(grammarAccess.getEdgeRule());
+                            	                    											}
+                            	                    										
+                            	                    otherlv_38=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                    	            }
-                    	            break;
+                            	                    											newLeafNode(otherlv_38, grammarAccess.getEdgeAccess().getReferenceEReferenceCrossReference_10_2_1_4_3_1_0_0());
+                            	                    										
 
-                    	    }
+                            	                    }
 
 
-                    	    }
-                    	    break;
+                            	                    }
 
-                    	default :
-                    	    break loop28;
-                        }
-                    } while (true);
+                            	                    // InternalModelDraw.g:960:9: (otherlv_39= '->' ( (otherlv_40= RULE_ID ) ) )?
+                            	                    int alt25=2;
+                            	                    int LA25_0 = input.LA(1);
 
-                    otherlv_44=(Token)match(input,14,FOLLOW_31); 
+                            	                    if ( (LA25_0==26) ) {
+                            	                        alt25=1;
+                            	                    }
+                            	                    switch (alt25) {
+                            	                        case 1 :
+                            	                            // InternalModelDraw.g:961:10: otherlv_39= '->' ( (otherlv_40= RULE_ID ) )
+                            	                            {
+                            	                            otherlv_39=(Token)match(input,26,FOLLOW_4); 
 
-                    						newLeafNode(otherlv_44, grammarAccess.getEdgeAccess().getRightCurlyBracketKeyword_10_2_1_5());
-                    					
+                            	                            										newLeafNode(otherlv_39, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_10_2_1_4_3_1_1_0());
+                            	                            									
+                            	                            // InternalModelDraw.g:965:10: ( (otherlv_40= RULE_ID ) )
+                            	                            // InternalModelDraw.g:966:11: (otherlv_40= RULE_ID )
+                            	                            {
+                            	                            // InternalModelDraw.g:966:11: (otherlv_40= RULE_ID )
+                            	                            // InternalModelDraw.g:967:12: otherlv_40= RULE_ID
+                            	                            {
+
+                            	                            												if (current==null) {
+                            	                            													current = createModelElement(grammarAccess.getEdgeRule());
+                            	                            												}
+                            	                            											
+                            	                            otherlv_40=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                            	                            												newLeafNode(otherlv_40, grammarAccess.getEdgeAccess().getRefTypeEReferenceCrossReference_10_2_1_4_3_1_1_1_0());
+                            	                            											
+
+                            	                            }
+
+
+                            	                            }
+
+
+                            	                            }
+                            	                            break;
+
+                            	                    }
+
+                            	                    otherlv_41=(Token)match(input,27,FOLLOW_4); 
+
+                            	                    									newLeafNode(otherlv_41, grammarAccess.getEdgeAccess().getFullStopKeyword_10_2_1_4_3_1_2());
+                            	                    								
+
+                            	                    }
+                            	                    break;
+
+                            	            }
+
+                            	            // InternalModelDraw.g:984:8: ( (otherlv_42= RULE_ID ) )
+                            	            // InternalModelDraw.g:985:9: (otherlv_42= RULE_ID )
+                            	            {
+                            	            // InternalModelDraw.g:985:9: (otherlv_42= RULE_ID )
+                            	            // InternalModelDraw.g:986:10: otherlv_42= RULE_ID
+                            	            {
+
+                            	            										if (current==null) {
+                            	            											current = createModelElement(grammarAccess.getEdgeRule());
+                            	            										}
+                            	            									
+                            	            otherlv_42=(Token)match(input,RULE_ID,FOLLOW_24); 
+
+                            	            										newLeafNode(otherlv_42, grammarAccess.getEdgeAccess().getLabelEAttributeCrossReference_10_2_1_4_3_2_0());
+                            	            									
+
+                            	            }
+
+
+                            	            }
+
+                            	            otherlv_43=(Token)match(input,17,FOLLOW_33); 
+
+                            	            								newLeafNode(otherlv_43, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_10_2_1_4_3_3());
+                            	            							
+
+                            	            }
+                            	            break;
+
+                            	    }
+
+
+                            	    }
+                            	    break;
+
+                            	default :
+                            	    break loop28;
+                                }
+                            } while (true);
+
+                            otherlv_44=(Token)match(input,14,FOLLOW_31); 
+
+                            						newLeafNode(otherlv_44, grammarAccess.getEdgeAccess().getRightCurlyBracketKeyword_10_2_1_5());
+                            					
+
+                            }
+
+
+                            }
+                            break;
 
                     }
 
@@ -2374,17 +2388,14 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
             }
 
-
-            }
-
             // InternalModelDraw.g:1010:3: (otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) ) )?
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            int alt31=2;
+            int LA31_0 = input.LA(1);
 
-            if ( (LA30_0==28) ) {
-                alt30=1;
+            if ( (LA31_0==28) ) {
+                alt31=1;
             }
-            switch (alt30) {
+            switch (alt31) {
                 case 1 :
                     // InternalModelDraw.g:1011:4: otherlv_45= 'src_decoration' otherlv_46= '=' ( (lv_src_decoration_47_0= ruleDecoration ) )
                     {
@@ -2434,13 +2445,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1039:3: (otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) ) )?
-            int alt31=2;
-            int LA31_0 = input.LA(1);
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            if ( (LA31_0==29) ) {
-                alt31=1;
+            if ( (LA32_0==29) ) {
+                alt32=1;
             }
-            switch (alt31) {
+            switch (alt32) {
                 case 1 :
                     // InternalModelDraw.g:1040:4: otherlv_48= 'src_label' otherlv_49= '=' ( (otherlv_50= RULE_ID ) )
                     {
@@ -2480,13 +2491,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1062:3: (otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) ) )?
-            int alt32=2;
-            int LA32_0 = input.LA(1);
+            int alt33=2;
+            int LA33_0 = input.LA(1);
 
-            if ( (LA32_0==30) ) {
-                alt32=1;
+            if ( (LA33_0==30) ) {
+                alt33=1;
             }
-            switch (alt32) {
+            switch (alt33) {
                 case 1 :
                     // InternalModelDraw.g:1063:4: otherlv_51= 'tar_decoration' otherlv_52= '=' ( (lv_tar_decoration_53_0= ruleDecoration ) )
                     {
@@ -2536,13 +2547,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1091:3: (otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) ) )?
-            int alt33=2;
-            int LA33_0 = input.LA(1);
+            int alt34=2;
+            int LA34_0 = input.LA(1);
 
-            if ( (LA33_0==31) ) {
-                alt33=1;
+            if ( (LA34_0==31) ) {
+                alt34=1;
             }
-            switch (alt33) {
+            switch (alt34) {
                 case 1 :
                     // InternalModelDraw.g:1092:4: otherlv_54= 'tar_label' otherlv_55= '=' ( (otherlv_56= RULE_ID ) )
                     {
@@ -2640,7 +2651,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLevel"
-    // InternalModelDraw.g:1125:1: ruleLevel returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) ) (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? ) ;
+    // InternalModelDraw.g:1125:1: ruleLevel returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )? (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? ) ;
     public final EObject ruleLevel() throws RecognitionException {
         EObject current = null;
 
@@ -2704,11 +2715,11 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalModelDraw.g:1131:2: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) ) (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? ) )
-            // InternalModelDraw.g:1132:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) ) (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? )
+            // InternalModelDraw.g:1131:2: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )? (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? ) )
+            // InternalModelDraw.g:1132:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )? (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? )
             {
-            // InternalModelDraw.g:1132:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) ) (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? )
-            // InternalModelDraw.g:1133:3: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) ) (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )?
+            // InternalModelDraw.g:1132:2: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )? (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )? )
+            // InternalModelDraw.g:1133:3: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) otherlv_4= ':' otherlv_5= 'edge' (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )? (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )? (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )? (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )? (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )? (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )?
             {
             // InternalModelDraw.g:1133:3: ()
             // InternalModelDraw.g:1134:4: 
@@ -2776,13 +2787,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             			newLeafNode(otherlv_5, grammarAccess.getLevelAccess().getEdgeKeyword_5());
             		
             // InternalModelDraw.g:1178:3: (otherlv_6= '=' ( (otherlv_7= RULE_ID ) ) )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA34_0==18) ) {
-                alt34=1;
+            if ( (LA35_0==18) ) {
+                alt35=1;
             }
-            switch (alt34) {
+            switch (alt35) {
                 case 1 :
                     // InternalModelDraw.g:1179:4: otherlv_6= '=' ( (otherlv_7= RULE_ID ) )
                     {
@@ -2817,355 +2828,114 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalModelDraw.g:1197:3: (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )
-            // InternalModelDraw.g:1198:4: otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) )
-            {
-            otherlv_8=(Token)match(input,25,FOLLOW_15); 
+            // InternalModelDraw.g:1197:3: (otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) ) )?
+            int alt50=2;
+            int LA50_0 = input.LA(1);
 
-            				newLeafNode(otherlv_8, grammarAccess.getLevelAccess().getLabelKeyword_7_0());
-            			
-            otherlv_9=(Token)match(input,18,FOLLOW_28); 
-
-            				newLeafNode(otherlv_9, grammarAccess.getLevelAccess().getEqualsSignKeyword_7_1());
-            			
-            // InternalModelDraw.g:1206:4: ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) )
-            int alt48=2;
-            int LA48_0 = input.LA(1);
-
-            if ( (LA48_0==RULE_ID) ) {
-                alt48=1;
+            if ( (LA50_0==25) ) {
+                alt50=1;
             }
-            else if ( (LA48_0==13) ) {
-                alt48=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 48, 0, input);
-
-                throw nvae;
-            }
-            switch (alt48) {
+            switch (alt50) {
                 case 1 :
-                    // InternalModelDraw.g:1207:5: ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) )
+                    // InternalModelDraw.g:1198:4: otherlv_8= 'label' otherlv_9= '=' ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) )
                     {
-                    // InternalModelDraw.g:1207:5: ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) )
-                    // InternalModelDraw.g:1208:6: ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) )
-                    {
-                    // InternalModelDraw.g:1208:6: ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )?
-                    int alt36=2;
-                    int LA36_0 = input.LA(1);
+                    otherlv_8=(Token)match(input,25,FOLLOW_15); 
 
-                    if ( (LA36_0==RULE_ID) ) {
-                        int LA36_1 = input.LA(2);
+                    				newLeafNode(otherlv_8, grammarAccess.getLevelAccess().getLabelKeyword_7_0());
+                    			
+                    otherlv_9=(Token)match(input,18,FOLLOW_28); 
 
-                        if ( ((LA36_1>=26 && LA36_1<=27)) ) {
-                            alt36=1;
-                        }
+                    				newLeafNode(otherlv_9, grammarAccess.getLevelAccess().getEqualsSignKeyword_7_1());
+                    			
+                    // InternalModelDraw.g:1206:4: ( ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) ) | (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' ) )
+                    int alt49=2;
+                    int LA49_0 = input.LA(1);
+
+                    if ( (LA49_0==RULE_ID) ) {
+                        alt49=1;
                     }
-                    switch (alt36) {
+                    else if ( (LA49_0==13) ) {
+                        alt49=2;
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 49, 0, input);
+
+                        throw nvae;
+                    }
+                    switch (alt49) {
                         case 1 :
-                            // InternalModelDraw.g:1209:7: ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.'
+                            // InternalModelDraw.g:1207:5: ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) )
                             {
-                            // InternalModelDraw.g:1209:7: ( (otherlv_10= RULE_ID ) )
-                            // InternalModelDraw.g:1210:8: (otherlv_10= RULE_ID )
+                            // InternalModelDraw.g:1207:5: ( ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) ) )
+                            // InternalModelDraw.g:1208:6: ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )? ( (otherlv_14= RULE_ID ) )
                             {
-                            // InternalModelDraw.g:1210:8: (otherlv_10= RULE_ID )
-                            // InternalModelDraw.g:1211:9: otherlv_10= RULE_ID
-                            {
-
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getLevelRule());
-                            									}
-                            								
-                            otherlv_10=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                            									newLeafNode(otherlv_10, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_0_0_0_0());
-                            								
-
-                            }
-
-
-                            }
-
-                            // InternalModelDraw.g:1222:7: (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )?
-                            int alt35=2;
-                            int LA35_0 = input.LA(1);
-
-                            if ( (LA35_0==26) ) {
-                                alt35=1;
-                            }
-                            switch (alt35) {
-                                case 1 :
-                                    // InternalModelDraw.g:1223:8: otherlv_11= '->' ( (otherlv_12= RULE_ID ) )
-                                    {
-                                    otherlv_11=(Token)match(input,26,FOLLOW_4); 
-
-                                    								newLeafNode(otherlv_11, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_0_0_1_0());
-                                    							
-                                    // InternalModelDraw.g:1227:8: ( (otherlv_12= RULE_ID ) )
-                                    // InternalModelDraw.g:1228:9: (otherlv_12= RULE_ID )
-                                    {
-                                    // InternalModelDraw.g:1228:9: (otherlv_12= RULE_ID )
-                                    // InternalModelDraw.g:1229:10: otherlv_12= RULE_ID
-                                    {
-
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getLevelRule());
-                                    										}
-                                    									
-                                    otherlv_12=(Token)match(input,RULE_ID,FOLLOW_30); 
-
-                                    										newLeafNode(otherlv_12, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_0_0_1_1_0());
-                                    									
-
-                                    }
-
-
-                                    }
-
-
-                                    }
-                                    break;
-
-                            }
-
-                            otherlv_13=(Token)match(input,27,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_13, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_0_0_2());
-                            						
-
-                            }
-                            break;
-
-                    }
-
-                    // InternalModelDraw.g:1246:6: ( (otherlv_14= RULE_ID ) )
-                    // InternalModelDraw.g:1247:7: (otherlv_14= RULE_ID )
-                    {
-                    // InternalModelDraw.g:1247:7: (otherlv_14= RULE_ID )
-                    // InternalModelDraw.g:1248:8: otherlv_14= RULE_ID
-                    {
-
-                    								if (current==null) {
-                    									current = createModelElement(grammarAccess.getLevelRule());
-                    								}
-                    							
-                    otherlv_14=(Token)match(input,RULE_ID,FOLLOW_31); 
-
-                    								newLeafNode(otherlv_14, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_0_1_0());
-                    							
-
-                    }
-
-
-                    }
-
-
-                    }
-
-
-                    }
-                    break;
-                case 2 :
-                    // InternalModelDraw.g:1261:5: (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' )
-                    {
-                    // InternalModelDraw.g:1261:5: (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' )
-                    // InternalModelDraw.g:1262:6: otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}'
-                    {
-                    otherlv_15=(Token)match(input,13,FOLLOW_4); 
-
-                    						newLeafNode(otherlv_15, grammarAccess.getLevelAccess().getLeftCurlyBracketKeyword_7_2_1_0());
-                    					
-                    // InternalModelDraw.g:1266:6: ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )?
-                    int alt38=2;
-                    int LA38_0 = input.LA(1);
-
-                    if ( (LA38_0==RULE_ID) ) {
-                        int LA38_1 = input.LA(2);
-
-                        if ( ((LA38_1>=26 && LA38_1<=27)) ) {
-                            alt38=1;
-                        }
-                    }
-                    switch (alt38) {
-                        case 1 :
-                            // InternalModelDraw.g:1267:7: ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.'
-                            {
-                            // InternalModelDraw.g:1267:7: ( (otherlv_16= RULE_ID ) )
-                            // InternalModelDraw.g:1268:8: (otherlv_16= RULE_ID )
-                            {
-                            // InternalModelDraw.g:1268:8: (otherlv_16= RULE_ID )
-                            // InternalModelDraw.g:1269:9: otherlv_16= RULE_ID
-                            {
-
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getLevelRule());
-                            									}
-                            								
-                            otherlv_16=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                            									newLeafNode(otherlv_16, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_1_0_0());
-                            								
-
-                            }
-
-
-                            }
-
-                            // InternalModelDraw.g:1280:7: (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )?
+                            // InternalModelDraw.g:1208:6: ( ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.' )?
                             int alt37=2;
                             int LA37_0 = input.LA(1);
 
-                            if ( (LA37_0==26) ) {
-                                alt37=1;
+                            if ( (LA37_0==RULE_ID) ) {
+                                int LA37_1 = input.LA(2);
+
+                                if ( ((LA37_1>=26 && LA37_1<=27)) ) {
+                                    alt37=1;
+                                }
                             }
                             switch (alt37) {
                                 case 1 :
-                                    // InternalModelDraw.g:1281:8: otherlv_17= '->' ( (otherlv_18= RULE_ID ) )
+                                    // InternalModelDraw.g:1209:7: ( (otherlv_10= RULE_ID ) ) (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )? otherlv_13= '.'
                                     {
-                                    otherlv_17=(Token)match(input,26,FOLLOW_4); 
-
-                                    								newLeafNode(otherlv_17, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_1_1_0());
-                                    							
-                                    // InternalModelDraw.g:1285:8: ( (otherlv_18= RULE_ID ) )
-                                    // InternalModelDraw.g:1286:9: (otherlv_18= RULE_ID )
+                                    // InternalModelDraw.g:1209:7: ( (otherlv_10= RULE_ID ) )
+                                    // InternalModelDraw.g:1210:8: (otherlv_10= RULE_ID )
                                     {
-                                    // InternalModelDraw.g:1286:9: (otherlv_18= RULE_ID )
-                                    // InternalModelDraw.g:1287:10: otherlv_18= RULE_ID
+                                    // InternalModelDraw.g:1210:8: (otherlv_10= RULE_ID )
+                                    // InternalModelDraw.g:1211:9: otherlv_10= RULE_ID
                                     {
 
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getLevelRule());
-                                    										}
-                                    									
-                                    otherlv_18=(Token)match(input,RULE_ID,FOLLOW_30); 
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getLevelRule());
+                                    									}
+                                    								
+                                    otherlv_10=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                                    										newLeafNode(otherlv_18, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_1_1_1_0());
-                                    									
+                                    									newLeafNode(otherlv_10, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_0_0_0_0());
+                                    								
 
                                     }
 
 
                                     }
 
+                                    // InternalModelDraw.g:1222:7: (otherlv_11= '->' ( (otherlv_12= RULE_ID ) ) )?
+                                    int alt36=2;
+                                    int LA36_0 = input.LA(1);
 
+                                    if ( (LA36_0==26) ) {
+                                        alt36=1;
                                     }
-                                    break;
-
-                            }
-
-                            otherlv_19=(Token)match(input,27,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_19, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_1_2());
-                            						
-
-                            }
-                            break;
-
-                    }
-
-                    // InternalModelDraw.g:1304:6: ( (otherlv_20= RULE_ID ) )
-                    // InternalModelDraw.g:1305:7: (otherlv_20= RULE_ID )
-                    {
-                    // InternalModelDraw.g:1305:7: (otherlv_20= RULE_ID )
-                    // InternalModelDraw.g:1306:8: otherlv_20= RULE_ID
-                    {
-
-                    								if (current==null) {
-                    									current = createModelElement(grammarAccess.getLevelRule());
-                    								}
-                    							
-                    otherlv_20=(Token)match(input,RULE_ID,FOLLOW_32); 
-
-                    								newLeafNode(otherlv_20, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_2_0());
-                    							
-
-                    }
-
-
-                    }
-
-                    // InternalModelDraw.g:1317:6: (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )?
-                    int alt41=2;
-                    int LA41_0 = input.LA(1);
-
-                    if ( (LA41_0==15) ) {
-                        alt41=1;
-                    }
-                    switch (alt41) {
-                        case 1 :
-                            // InternalModelDraw.g:1318:7: otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')'
-                            {
-                            otherlv_21=(Token)match(input,15,FOLLOW_4); 
-
-                            							newLeafNode(otherlv_21, grammarAccess.getLevelAccess().getLeftParenthesisKeyword_7_2_1_3_0());
-                            						
-                            // InternalModelDraw.g:1322:7: ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )?
-                            int alt40=2;
-                            int LA40_0 = input.LA(1);
-
-                            if ( (LA40_0==RULE_ID) ) {
-                                int LA40_1 = input.LA(2);
-
-                                if ( ((LA40_1>=26 && LA40_1<=27)) ) {
-                                    alt40=1;
-                                }
-                            }
-                            switch (alt40) {
-                                case 1 :
-                                    // InternalModelDraw.g:1323:8: ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.'
-                                    {
-                                    // InternalModelDraw.g:1323:8: ( (otherlv_22= RULE_ID ) )
-                                    // InternalModelDraw.g:1324:9: (otherlv_22= RULE_ID )
-                                    {
-                                    // InternalModelDraw.g:1324:9: (otherlv_22= RULE_ID )
-                                    // InternalModelDraw.g:1325:10: otherlv_22= RULE_ID
-                                    {
-
-                                    										if (current==null) {
-                                    											current = createModelElement(grammarAccess.getLevelRule());
-                                    										}
-                                    									
-                                    otherlv_22=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                                    										newLeafNode(otherlv_22, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_3_1_0_0());
-                                    									
-
-                                    }
-
-
-                                    }
-
-                                    // InternalModelDraw.g:1336:8: (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )?
-                                    int alt39=2;
-                                    int LA39_0 = input.LA(1);
-
-                                    if ( (LA39_0==26) ) {
-                                        alt39=1;
-                                    }
-                                    switch (alt39) {
+                                    switch (alt36) {
                                         case 1 :
-                                            // InternalModelDraw.g:1337:9: otherlv_23= '->' ( (otherlv_24= RULE_ID ) )
+                                            // InternalModelDraw.g:1223:8: otherlv_11= '->' ( (otherlv_12= RULE_ID ) )
                                             {
-                                            otherlv_23=(Token)match(input,26,FOLLOW_4); 
+                                            otherlv_11=(Token)match(input,26,FOLLOW_4); 
 
-                                            									newLeafNode(otherlv_23, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_3_1_1_0());
-                                            								
-                                            // InternalModelDraw.g:1341:9: ( (otherlv_24= RULE_ID ) )
-                                            // InternalModelDraw.g:1342:10: (otherlv_24= RULE_ID )
+                                            								newLeafNode(otherlv_11, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_0_0_1_0());
+                                            							
+                                            // InternalModelDraw.g:1227:8: ( (otherlv_12= RULE_ID ) )
+                                            // InternalModelDraw.g:1228:9: (otherlv_12= RULE_ID )
                                             {
-                                            // InternalModelDraw.g:1342:10: (otherlv_24= RULE_ID )
-                                            // InternalModelDraw.g:1343:11: otherlv_24= RULE_ID
+                                            // InternalModelDraw.g:1228:9: (otherlv_12= RULE_ID )
+                                            // InternalModelDraw.g:1229:10: otherlv_12= RULE_ID
                                             {
 
-                                            											if (current==null) {
-                                            												current = createModelElement(grammarAccess.getLevelRule());
-                                            											}
-                                            										
-                                            otherlv_24=(Token)match(input,RULE_ID,FOLLOW_30); 
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getLevelRule());
+                                            										}
+                                            									
+                                            otherlv_12=(Token)match(input,RULE_ID,FOLLOW_30); 
 
-                                            											newLeafNode(otherlv_24, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_3_1_1_1_0());
-                                            										
+                                            										newLeafNode(otherlv_12, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_0_0_1_1_0());
+                                            									
 
                                             }
 
@@ -3178,322 +2948,577 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
                                     }
 
-                                    otherlv_25=(Token)match(input,27,FOLLOW_4); 
+                                    otherlv_13=(Token)match(input,27,FOLLOW_4); 
 
-                                    								newLeafNode(otherlv_25, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_3_1_2());
-                                    							
+                                    							newLeafNode(otherlv_13, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_0_0_2());
+                                    						
 
                                     }
                                     break;
 
                             }
 
-                            // InternalModelDraw.g:1360:7: ( (otherlv_26= RULE_ID ) )
-                            // InternalModelDraw.g:1361:8: (otherlv_26= RULE_ID )
+                            // InternalModelDraw.g:1246:6: ( (otherlv_14= RULE_ID ) )
+                            // InternalModelDraw.g:1247:7: (otherlv_14= RULE_ID )
                             {
-                            // InternalModelDraw.g:1361:8: (otherlv_26= RULE_ID )
-                            // InternalModelDraw.g:1362:9: otherlv_26= RULE_ID
+                            // InternalModelDraw.g:1247:7: (otherlv_14= RULE_ID )
+                            // InternalModelDraw.g:1248:8: otherlv_14= RULE_ID
                             {
 
-                            									if (current==null) {
-                            										current = createModelElement(grammarAccess.getLevelRule());
-                            									}
-                            								
-                            otherlv_26=(Token)match(input,RULE_ID,FOLLOW_24); 
+                            								if (current==null) {
+                            									current = createModelElement(grammarAccess.getLevelRule());
+                            								}
+                            							
+                            otherlv_14=(Token)match(input,RULE_ID,FOLLOW_31); 
 
-                            									newLeafNode(otherlv_26, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_3_2_0());
-                            								
+                            								newLeafNode(otherlv_14, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_0_1_0());
+                            							
 
                             }
 
 
                             }
 
-                            otherlv_27=(Token)match(input,17,FOLLOW_33); 
 
-                            							newLeafNode(otherlv_27, grammarAccess.getLevelAccess().getRightParenthesisKeyword_7_2_1_3_3());
-                            						
+                            }
+
 
                             }
                             break;
+                        case 2 :
+                            // InternalModelDraw.g:1261:5: (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' )
+                            {
+                            // InternalModelDraw.g:1261:5: (otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}' )
+                            // InternalModelDraw.g:1262:6: otherlv_15= '{' ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )? ( (otherlv_20= RULE_ID ) ) (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )? (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )* otherlv_41= '}'
+                            {
+                            otherlv_15=(Token)match(input,13,FOLLOW_4); 
+
+                            						newLeafNode(otherlv_15, grammarAccess.getLevelAccess().getLeftCurlyBracketKeyword_7_2_1_0());
+                            					
+                            // InternalModelDraw.g:1266:6: ( ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.' )?
+                            int alt39=2;
+                            int LA39_0 = input.LA(1);
+
+                            if ( (LA39_0==RULE_ID) ) {
+                                int LA39_1 = input.LA(2);
+
+                                if ( ((LA39_1>=26 && LA39_1<=27)) ) {
+                                    alt39=1;
+                                }
+                            }
+                            switch (alt39) {
+                                case 1 :
+                                    // InternalModelDraw.g:1267:7: ( (otherlv_16= RULE_ID ) ) (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )? otherlv_19= '.'
+                                    {
+                                    // InternalModelDraw.g:1267:7: ( (otherlv_16= RULE_ID ) )
+                                    // InternalModelDraw.g:1268:8: (otherlv_16= RULE_ID )
+                                    {
+                                    // InternalModelDraw.g:1268:8: (otherlv_16= RULE_ID )
+                                    // InternalModelDraw.g:1269:9: otherlv_16= RULE_ID
+                                    {
+
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getLevelRule());
+                                    									}
+                                    								
+                                    otherlv_16=(Token)match(input,RULE_ID,FOLLOW_29); 
+
+                                    									newLeafNode(otherlv_16, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_1_0_0());
+                                    								
+
+                                    }
+
+
+                                    }
+
+                                    // InternalModelDraw.g:1280:7: (otherlv_17= '->' ( (otherlv_18= RULE_ID ) ) )?
+                                    int alt38=2;
+                                    int LA38_0 = input.LA(1);
+
+                                    if ( (LA38_0==26) ) {
+                                        alt38=1;
+                                    }
+                                    switch (alt38) {
+                                        case 1 :
+                                            // InternalModelDraw.g:1281:8: otherlv_17= '->' ( (otherlv_18= RULE_ID ) )
+                                            {
+                                            otherlv_17=(Token)match(input,26,FOLLOW_4); 
+
+                                            								newLeafNode(otherlv_17, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_1_1_0());
+                                            							
+                                            // InternalModelDraw.g:1285:8: ( (otherlv_18= RULE_ID ) )
+                                            // InternalModelDraw.g:1286:9: (otherlv_18= RULE_ID )
+                                            {
+                                            // InternalModelDraw.g:1286:9: (otherlv_18= RULE_ID )
+                                            // InternalModelDraw.g:1287:10: otherlv_18= RULE_ID
+                                            {
+
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getLevelRule());
+                                            										}
+                                            									
+                                            otherlv_18=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                                            										newLeafNode(otherlv_18, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_1_1_1_0());
+                                            									
+
+                                            }
+
+
+                                            }
+
+
+                                            }
+                                            break;
+
+                                    }
+
+                                    otherlv_19=(Token)match(input,27,FOLLOW_4); 
+
+                                    							newLeafNode(otherlv_19, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_1_2());
+                                    						
+
+                                    }
+                                    break;
+
+                            }
+
+                            // InternalModelDraw.g:1304:6: ( (otherlv_20= RULE_ID ) )
+                            // InternalModelDraw.g:1305:7: (otherlv_20= RULE_ID )
+                            {
+                            // InternalModelDraw.g:1305:7: (otherlv_20= RULE_ID )
+                            // InternalModelDraw.g:1306:8: otherlv_20= RULE_ID
+                            {
+
+                            								if (current==null) {
+                            									current = createModelElement(grammarAccess.getLevelRule());
+                            								}
+                            							
+                            otherlv_20=(Token)match(input,RULE_ID,FOLLOW_32); 
+
+                            								newLeafNode(otherlv_20, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_2_0());
+                            							
+
+                            }
+
+
+                            }
+
+                            // InternalModelDraw.g:1317:6: (otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')' )?
+                            int alt42=2;
+                            int LA42_0 = input.LA(1);
 
-                    }
+                            if ( (LA42_0==15) ) {
+                                alt42=1;
+                            }
+                            switch (alt42) {
+                                case 1 :
+                                    // InternalModelDraw.g:1318:7: otherlv_21= '(' ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )? ( (otherlv_26= RULE_ID ) ) otherlv_27= ')'
+                                    {
+                                    otherlv_21=(Token)match(input,15,FOLLOW_4); 
+
+                                    							newLeafNode(otherlv_21, grammarAccess.getLevelAccess().getLeftParenthesisKeyword_7_2_1_3_0());
+                                    						
+                                    // InternalModelDraw.g:1322:7: ( ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.' )?
+                                    int alt41=2;
+                                    int LA41_0 = input.LA(1);
+
+                                    if ( (LA41_0==RULE_ID) ) {
+                                        int LA41_1 = input.LA(2);
 
-                    // InternalModelDraw.g:1378:6: (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )*
-                    loop47:
-                    do {
-                        int alt47=2;
-                        int LA47_0 = input.LA(1);
+                                        if ( ((LA41_1>=26 && LA41_1<=27)) ) {
+                                            alt41=1;
+                                        }
+                                    }
+                                    switch (alt41) {
+                                        case 1 :
+                                            // InternalModelDraw.g:1323:8: ( (otherlv_22= RULE_ID ) ) (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )? otherlv_25= '.'
+                                            {
+                                            // InternalModelDraw.g:1323:8: ( (otherlv_22= RULE_ID ) )
+                                            // InternalModelDraw.g:1324:9: (otherlv_22= RULE_ID )
+                                            {
+                                            // InternalModelDraw.g:1324:9: (otherlv_22= RULE_ID )
+                                            // InternalModelDraw.g:1325:10: otherlv_22= RULE_ID
+                                            {
 
-                        if ( (LA47_0==16) ) {
-                            alt47=1;
-                        }
+                                            										if (current==null) {
+                                            											current = createModelElement(grammarAccess.getLevelRule());
+                                            										}
+                                            									
+                                            otherlv_22=(Token)match(input,RULE_ID,FOLLOW_29); 
 
+                                            										newLeafNode(otherlv_22, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_3_1_0_0());
+                                            									
 
-                        switch (alt47) {
-                    	case 1 :
-                    	    // InternalModelDraw.g:1379:7: otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )?
-                    	    {
-                    	    otherlv_28=(Token)match(input,16,FOLLOW_4); 
+                                            }
 
-                    	    							newLeafNode(otherlv_28, grammarAccess.getLevelAccess().getCommaKeyword_7_2_1_4_0());
-                    	    						
-                    	    // InternalModelDraw.g:1383:7: ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )?
-                    	    int alt43=2;
-                    	    int LA43_0 = input.LA(1);
-
-                    	    if ( (LA43_0==RULE_ID) ) {
-                    	        int LA43_1 = input.LA(2);
 
-                    	        if ( ((LA43_1>=26 && LA43_1<=27)) ) {
-                    	            alt43=1;
-                    	        }
-                    	    }
-                    	    switch (alt43) {
-                    	        case 1 :
-                    	            // InternalModelDraw.g:1384:8: ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.'
-                    	            {
-                    	            // InternalModelDraw.g:1384:8: ( (otherlv_29= RULE_ID ) )
-                    	            // InternalModelDraw.g:1385:9: (otherlv_29= RULE_ID )
-                    	            {
-                    	            // InternalModelDraw.g:1385:9: (otherlv_29= RULE_ID )
-                    	            // InternalModelDraw.g:1386:10: otherlv_29= RULE_ID
-                    	            {
+                                            }
 
-                    	            										if (current==null) {
-                    	            											current = createModelElement(grammarAccess.getLevelRule());
-                    	            										}
-                    	            									
-                    	            otherlv_29=(Token)match(input,RULE_ID,FOLLOW_29); 
-
-                    	            										newLeafNode(otherlv_29, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_4_1_0_0());
-                    	            									
+                                            // InternalModelDraw.g:1336:8: (otherlv_23= '->' ( (otherlv_24= RULE_ID ) ) )?
+                                            int alt40=2;
+                                            int LA40_0 = input.LA(1);
 
-                    	            }
+                                            if ( (LA40_0==26) ) {
+                                                alt40=1;
+                                            }
+                                            switch (alt40) {
+                                                case 1 :
+                                                    // InternalModelDraw.g:1337:9: otherlv_23= '->' ( (otherlv_24= RULE_ID ) )
+                                                    {
+                                                    otherlv_23=(Token)match(input,26,FOLLOW_4); 
 
+                                                    									newLeafNode(otherlv_23, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_3_1_1_0());
+                                                    								
+                                                    // InternalModelDraw.g:1341:9: ( (otherlv_24= RULE_ID ) )
+                                                    // InternalModelDraw.g:1342:10: (otherlv_24= RULE_ID )
+                                                    {
+                                                    // InternalModelDraw.g:1342:10: (otherlv_24= RULE_ID )
+                                                    // InternalModelDraw.g:1343:11: otherlv_24= RULE_ID
+                                                    {
+
+                                                    											if (current==null) {
+                                                    												current = createModelElement(grammarAccess.getLevelRule());
+                                                    											}
+                                                    										
+                                                    otherlv_24=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                                                    											newLeafNode(otherlv_24, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_3_1_1_1_0());
+                                                    										
+
+                                                    }
+
+
+                                                    }
+
 
-                    	            }
-
-                    	            // InternalModelDraw.g:1397:8: (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )?
-                    	            int alt42=2;
-                    	            int LA42_0 = input.LA(1);
-
-                    	            if ( (LA42_0==26) ) {
-                    	                alt42=1;
-                    	            }
-                    	            switch (alt42) {
-                    	                case 1 :
-                    	                    // InternalModelDraw.g:1398:9: otherlv_30= '->' ( (otherlv_31= RULE_ID ) )
-                    	                    {
-                    	                    otherlv_30=(Token)match(input,26,FOLLOW_4); 
-
-                    	                    									newLeafNode(otherlv_30, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_4_1_1_0());
-                    	                    								
-                    	                    // InternalModelDraw.g:1402:9: ( (otherlv_31= RULE_ID ) )
-                    	                    // InternalModelDraw.g:1403:10: (otherlv_31= RULE_ID )
-                    	                    {
-                    	                    // InternalModelDraw.g:1403:10: (otherlv_31= RULE_ID )
-                    	                    // InternalModelDraw.g:1404:11: otherlv_31= RULE_ID
-                    	                    {
-
-                    	                    											if (current==null) {
-                    	                    												current = createModelElement(grammarAccess.getLevelRule());
-                    	                    											}
-                    	                    										
-                    	                    otherlv_31=(Token)match(input,RULE_ID,FOLLOW_30); 
-
-                    	                    											newLeafNode(otherlv_31, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_4_1_1_1_0());
-                    	                    										
-
-                    	                    }
-
-
-                    	                    }
-
-
-                    	                    }
-                    	                    break;
-
-                    	            }
-
-                    	            otherlv_32=(Token)match(input,27,FOLLOW_4); 
-
-                    	            								newLeafNode(otherlv_32, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_4_1_2());
-                    	            							
-
-                    	            }
-                    	            break;
-
-                    	    }
-
-                    	    // InternalModelDraw.g:1421:7: ( (otherlv_33= RULE_ID ) )
-                    	    // InternalModelDraw.g:1422:8: (otherlv_33= RULE_ID )
-                    	    {
-                    	    // InternalModelDraw.g:1422:8: (otherlv_33= RULE_ID )
-                    	    // InternalModelDraw.g:1423:9: otherlv_33= RULE_ID
-                    	    {
-
-                    	    									if (current==null) {
-                    	    										current = createModelElement(grammarAccess.getLevelRule());
-                    	    									}
-                    	    								
-                    	    otherlv_33=(Token)match(input,RULE_ID,FOLLOW_32); 
-
-                    	    									newLeafNode(otherlv_33, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_4_2_0());
-                    	    								
-
-                    	    }
+                                                    }
+                                                    break;
 
+                                            }
 
-                    	    }
+                                            otherlv_25=(Token)match(input,27,FOLLOW_4); 
 
-                    	    // InternalModelDraw.g:1434:7: (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )?
-                    	    int alt46=2;
-                    	    int LA46_0 = input.LA(1);
+                                            								newLeafNode(otherlv_25, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_3_1_2());
+                                            							
 
-                    	    if ( (LA46_0==15) ) {
-                    	        alt46=1;
-                    	    }
-                    	    switch (alt46) {
-                    	        case 1 :
-                    	            // InternalModelDraw.g:1435:8: otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')'
-                    	            {
-                    	            otherlv_34=(Token)match(input,15,FOLLOW_4); 
+                                            }
+                                            break;
+
+                                    }
+
+                                    // InternalModelDraw.g:1360:7: ( (otherlv_26= RULE_ID ) )
+                                    // InternalModelDraw.g:1361:8: (otherlv_26= RULE_ID )
+                                    {
+                                    // InternalModelDraw.g:1361:8: (otherlv_26= RULE_ID )
+                                    // InternalModelDraw.g:1362:9: otherlv_26= RULE_ID
+                                    {
+
+                                    									if (current==null) {
+                                    										current = createModelElement(grammarAccess.getLevelRule());
+                                    									}
+                                    								
+                                    otherlv_26=(Token)match(input,RULE_ID,FOLLOW_24); 
+
+                                    									newLeafNode(otherlv_26, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_3_2_0());
+                                    								
+
+                                    }
+
+
+                                    }
+
+                                    otherlv_27=(Token)match(input,17,FOLLOW_33); 
 
-                    	            								newLeafNode(otherlv_34, grammarAccess.getLevelAccess().getLeftParenthesisKeyword_7_2_1_4_3_0());
-                    	            							
-                    	            // InternalModelDraw.g:1439:8: ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )?
-                    	            int alt45=2;
-                    	            int LA45_0 = input.LA(1);
-
-                    	            if ( (LA45_0==RULE_ID) ) {
-                    	                int LA45_1 = input.LA(2);
+                                    							newLeafNode(otherlv_27, grammarAccess.getLevelAccess().getRightParenthesisKeyword_7_2_1_3_3());
+                                    						
 
-                    	                if ( ((LA45_1>=26 && LA45_1<=27)) ) {
-                    	                    alt45=1;
-                    	                }
-                    	            }
-                    	            switch (alt45) {
-                    	                case 1 :
-                    	                    // InternalModelDraw.g:1440:9: ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.'
-                    	                    {
-                    	                    // InternalModelDraw.g:1440:9: ( (otherlv_35= RULE_ID ) )
-                    	                    // InternalModelDraw.g:1441:10: (otherlv_35= RULE_ID )
-                    	                    {
-                    	                    // InternalModelDraw.g:1441:10: (otherlv_35= RULE_ID )
-                    	                    // InternalModelDraw.g:1442:11: otherlv_35= RULE_ID
-                    	                    {
+                                    }
+                                    break;
 
-                    	                    											if (current==null) {
-                    	                    												current = createModelElement(grammarAccess.getLevelRule());
-                    	                    											}
-                    	                    										
-                    	                    otherlv_35=(Token)match(input,RULE_ID,FOLLOW_29); 
+                            }
 
-                    	                    											newLeafNode(otherlv_35, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_4_3_1_0_0());
-                    	                    										
+                            // InternalModelDraw.g:1378:6: (otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )? )*
+                            loop48:
+                            do {
+                                int alt48=2;
+                                int LA48_0 = input.LA(1);
 
-                    	                    }
+                                if ( (LA48_0==16) ) {
+                                    alt48=1;
+                                }
 
 
-                    	                    }
+                                switch (alt48) {
+                            	case 1 :
+                            	    // InternalModelDraw.g:1379:7: otherlv_28= ',' ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )? ( (otherlv_33= RULE_ID ) ) (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )?
+                            	    {
+                            	    otherlv_28=(Token)match(input,16,FOLLOW_4); 
 
-                    	                    // InternalModelDraw.g:1453:9: (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )?
-                    	                    int alt44=2;
-                    	                    int LA44_0 = input.LA(1);
+                            	    							newLeafNode(otherlv_28, grammarAccess.getLevelAccess().getCommaKeyword_7_2_1_4_0());
+                            	    						
+                            	    // InternalModelDraw.g:1383:7: ( ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.' )?
+                            	    int alt44=2;
+                            	    int LA44_0 = input.LA(1);
 
-                    	                    if ( (LA44_0==26) ) {
-                    	                        alt44=1;
-                    	                    }
-                    	                    switch (alt44) {
-                    	                        case 1 :
-                    	                            // InternalModelDraw.g:1454:10: otherlv_36= '->' ( (otherlv_37= RULE_ID ) )
-                    	                            {
-                    	                            otherlv_36=(Token)match(input,26,FOLLOW_4); 
+                            	    if ( (LA44_0==RULE_ID) ) {
+                            	        int LA44_1 = input.LA(2);
 
-                    	                            										newLeafNode(otherlv_36, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_4_3_1_1_0());
-                    	                            									
-                    	                            // InternalModelDraw.g:1458:10: ( (otherlv_37= RULE_ID ) )
-                    	                            // InternalModelDraw.g:1459:11: (otherlv_37= RULE_ID )
-                    	                            {
-                    	                            // InternalModelDraw.g:1459:11: (otherlv_37= RULE_ID )
-                    	                            // InternalModelDraw.g:1460:12: otherlv_37= RULE_ID
-                    	                            {
+                            	        if ( ((LA44_1>=26 && LA44_1<=27)) ) {
+                            	            alt44=1;
+                            	        }
+                            	    }
+                            	    switch (alt44) {
+                            	        case 1 :
+                            	            // InternalModelDraw.g:1384:8: ( (otherlv_29= RULE_ID ) ) (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )? otherlv_32= '.'
+                            	            {
+                            	            // InternalModelDraw.g:1384:8: ( (otherlv_29= RULE_ID ) )
+                            	            // InternalModelDraw.g:1385:9: (otherlv_29= RULE_ID )
+                            	            {
+                            	            // InternalModelDraw.g:1385:9: (otherlv_29= RULE_ID )
+                            	            // InternalModelDraw.g:1386:10: otherlv_29= RULE_ID
+                            	            {
 
-                    	                            												if (current==null) {
-                    	                            													current = createModelElement(grammarAccess.getLevelRule());
-                    	                            												}
-                    	                            											
-                    	                            otherlv_37=(Token)match(input,RULE_ID,FOLLOW_30); 
+                            	            										if (current==null) {
+                            	            											current = createModelElement(grammarAccess.getLevelRule());
+                            	            										}
+                            	            									
+                            	            otherlv_29=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                    	                            												newLeafNode(otherlv_37, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_4_3_1_1_1_0());
-                    	                            											
+                            	            										newLeafNode(otherlv_29, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_4_1_0_0());
+                            	            									
 
-                    	                            }
+                            	            }
 
 
-                    	                            }
+                            	            }
 
+                            	            // InternalModelDraw.g:1397:8: (otherlv_30= '->' ( (otherlv_31= RULE_ID ) ) )?
+                            	            int alt43=2;
+                            	            int LA43_0 = input.LA(1);
 
-                    	                            }
-                    	                            break;
+                            	            if ( (LA43_0==26) ) {
+                            	                alt43=1;
+                            	            }
+                            	            switch (alt43) {
+                            	                case 1 :
+                            	                    // InternalModelDraw.g:1398:9: otherlv_30= '->' ( (otherlv_31= RULE_ID ) )
+                            	                    {
+                            	                    otherlv_30=(Token)match(input,26,FOLLOW_4); 
+
+                            	                    									newLeafNode(otherlv_30, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_4_1_1_0());
+                            	                    								
+                            	                    // InternalModelDraw.g:1402:9: ( (otherlv_31= RULE_ID ) )
+                            	                    // InternalModelDraw.g:1403:10: (otherlv_31= RULE_ID )
+                            	                    {
+                            	                    // InternalModelDraw.g:1403:10: (otherlv_31= RULE_ID )
+                            	                    // InternalModelDraw.g:1404:11: otherlv_31= RULE_ID
+                            	                    {
+
+                            	                    											if (current==null) {
+                            	                    												current = createModelElement(grammarAccess.getLevelRule());
+                            	                    											}
+                            	                    										
+                            	                    otherlv_31=(Token)match(input,RULE_ID,FOLLOW_30); 
 
-                    	                    }
+                            	                    											newLeafNode(otherlv_31, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_4_1_1_1_0());
+                            	                    										
 
-                    	                    otherlv_38=(Token)match(input,27,FOLLOW_4); 
+                            	                    }
 
-                    	                    									newLeafNode(otherlv_38, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_4_3_1_2());
-                    	                    								
+
+                            	                    }
+
+
+                            	                    }
+                            	                    break;
+
+                            	            }
+
+                            	            otherlv_32=(Token)match(input,27,FOLLOW_4); 
+
+                            	            								newLeafNode(otherlv_32, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_4_1_2());
+                            	            							
+
+                            	            }
+                            	            break;
+
+                            	    }
+
+                            	    // InternalModelDraw.g:1421:7: ( (otherlv_33= RULE_ID ) )
+                            	    // InternalModelDraw.g:1422:8: (otherlv_33= RULE_ID )
+                            	    {
+                            	    // InternalModelDraw.g:1422:8: (otherlv_33= RULE_ID )
+                            	    // InternalModelDraw.g:1423:9: otherlv_33= RULE_ID
+                            	    {
+
+                            	    									if (current==null) {
+                            	    										current = createModelElement(grammarAccess.getLevelRule());
+                            	    									}
+                            	    								
+                            	    otherlv_33=(Token)match(input,RULE_ID,FOLLOW_32); 
 
-                    	                    }
-                    	                    break;
+                            	    									newLeafNode(otherlv_33, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_4_2_0());
+                            	    								
 
-                    	            }
+                            	    }
 
-                    	            // InternalModelDraw.g:1477:8: ( (otherlv_39= RULE_ID ) )
-                    	            // InternalModelDraw.g:1478:9: (otherlv_39= RULE_ID )
-                    	            {
-                    	            // InternalModelDraw.g:1478:9: (otherlv_39= RULE_ID )
-                    	            // InternalModelDraw.g:1479:10: otherlv_39= RULE_ID
-                    	            {
 
-                    	            										if (current==null) {
-                    	            											current = createModelElement(grammarAccess.getLevelRule());
-                    	            										}
-                    	            									
-                    	            otherlv_39=(Token)match(input,RULE_ID,FOLLOW_24); 
+                            	    }
 
-                    	            										newLeafNode(otherlv_39, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_4_3_2_0());
-                    	            									
+                            	    // InternalModelDraw.g:1434:7: (otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')' )?
+                            	    int alt47=2;
+                            	    int LA47_0 = input.LA(1);
 
-                    	            }
+                            	    if ( (LA47_0==15) ) {
+                            	        alt47=1;
+                            	    }
+                            	    switch (alt47) {
+                            	        case 1 :
+                            	            // InternalModelDraw.g:1435:8: otherlv_34= '(' ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )? ( (otherlv_39= RULE_ID ) ) otherlv_40= ')'
+                            	            {
+                            	            otherlv_34=(Token)match(input,15,FOLLOW_4); 
 
+                            	            								newLeafNode(otherlv_34, grammarAccess.getLevelAccess().getLeftParenthesisKeyword_7_2_1_4_3_0());
+                            	            							
+                            	            // InternalModelDraw.g:1439:8: ( ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.' )?
+                            	            int alt46=2;
+                            	            int LA46_0 = input.LA(1);
 
-                    	            }
+                            	            if ( (LA46_0==RULE_ID) ) {
+                            	                int LA46_1 = input.LA(2);
 
-                    	            otherlv_40=(Token)match(input,17,FOLLOW_33); 
+                            	                if ( ((LA46_1>=26 && LA46_1<=27)) ) {
+                            	                    alt46=1;
+                            	                }
+                            	            }
+                            	            switch (alt46) {
+                            	                case 1 :
+                            	                    // InternalModelDraw.g:1440:9: ( (otherlv_35= RULE_ID ) ) (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )? otherlv_38= '.'
+                            	                    {
+                            	                    // InternalModelDraw.g:1440:9: ( (otherlv_35= RULE_ID ) )
+                            	                    // InternalModelDraw.g:1441:10: (otherlv_35= RULE_ID )
+                            	                    {
+                            	                    // InternalModelDraw.g:1441:10: (otherlv_35= RULE_ID )
+                            	                    // InternalModelDraw.g:1442:11: otherlv_35= RULE_ID
+                            	                    {
 
-                    	            								newLeafNode(otherlv_40, grammarAccess.getLevelAccess().getRightParenthesisKeyword_7_2_1_4_3_3());
-                    	            							
+                            	                    											if (current==null) {
+                            	                    												current = createModelElement(grammarAccess.getLevelRule());
+                            	                    											}
+                            	                    										
+                            	                    otherlv_35=(Token)match(input,RULE_ID,FOLLOW_29); 
 
-                    	            }
-                    	            break;
+                            	                    											newLeafNode(otherlv_35, grammarAccess.getLevelAccess().getReferenceEReferenceCrossReference_7_2_1_4_3_1_0_0());
+                            	                    										
 
-                    	    }
+                            	                    }
 
 
-                    	    }
-                    	    break;
+                            	                    }
 
-                    	default :
-                    	    break loop47;
-                        }
-                    } while (true);
+                            	                    // InternalModelDraw.g:1453:9: (otherlv_36= '->' ( (otherlv_37= RULE_ID ) ) )?
+                            	                    int alt45=2;
+                            	                    int LA45_0 = input.LA(1);
 
-                    otherlv_41=(Token)match(input,14,FOLLOW_31); 
+                            	                    if ( (LA45_0==26) ) {
+                            	                        alt45=1;
+                            	                    }
+                            	                    switch (alt45) {
+                            	                        case 1 :
+                            	                            // InternalModelDraw.g:1454:10: otherlv_36= '->' ( (otherlv_37= RULE_ID ) )
+                            	                            {
+                            	                            otherlv_36=(Token)match(input,26,FOLLOW_4); 
 
-                    						newLeafNode(otherlv_41, grammarAccess.getLevelAccess().getRightCurlyBracketKeyword_7_2_1_5());
-                    					
+                            	                            										newLeafNode(otherlv_36, grammarAccess.getLevelAccess().getHyphenMinusGreaterThanSignKeyword_7_2_1_4_3_1_1_0());
+                            	                            									
+                            	                            // InternalModelDraw.g:1458:10: ( (otherlv_37= RULE_ID ) )
+                            	                            // InternalModelDraw.g:1459:11: (otherlv_37= RULE_ID )
+                            	                            {
+                            	                            // InternalModelDraw.g:1459:11: (otherlv_37= RULE_ID )
+                            	                            // InternalModelDraw.g:1460:12: otherlv_37= RULE_ID
+                            	                            {
+
+                            	                            												if (current==null) {
+                            	                            													current = createModelElement(grammarAccess.getLevelRule());
+                            	                            												}
+                            	                            											
+                            	                            otherlv_37=(Token)match(input,RULE_ID,FOLLOW_30); 
+
+                            	                            												newLeafNode(otherlv_37, grammarAccess.getLevelAccess().getRefTypeEReferenceCrossReference_7_2_1_4_3_1_1_1_0());
+                            	                            											
+
+                            	                            }
+
+
+                            	                            }
+
+
+                            	                            }
+                            	                            break;
+
+                            	                    }
+
+                            	                    otherlv_38=(Token)match(input,27,FOLLOW_4); 
+
+                            	                    									newLeafNode(otherlv_38, grammarAccess.getLevelAccess().getFullStopKeyword_7_2_1_4_3_1_2());
+                            	                    								
+
+                            	                    }
+                            	                    break;
+
+                            	            }
+
+                            	            // InternalModelDraw.g:1477:8: ( (otherlv_39= RULE_ID ) )
+                            	            // InternalModelDraw.g:1478:9: (otherlv_39= RULE_ID )
+                            	            {
+                            	            // InternalModelDraw.g:1478:9: (otherlv_39= RULE_ID )
+                            	            // InternalModelDraw.g:1479:10: otherlv_39= RULE_ID
+                            	            {
+
+                            	            										if (current==null) {
+                            	            											current = createModelElement(grammarAccess.getLevelRule());
+                            	            										}
+                            	            									
+                            	            otherlv_39=(Token)match(input,RULE_ID,FOLLOW_24); 
+
+                            	            										newLeafNode(otherlv_39, grammarAccess.getLevelAccess().getLabelEAttributeCrossReference_7_2_1_4_3_2_0());
+                            	            									
+
+                            	            }
+
+
+                            	            }
+
+                            	            otherlv_40=(Token)match(input,17,FOLLOW_33); 
+
+                            	            								newLeafNode(otherlv_40, grammarAccess.getLevelAccess().getRightParenthesisKeyword_7_2_1_4_3_3());
+                            	            							
+
+                            	            }
+                            	            break;
+
+                            	    }
+
+
+                            	    }
+                            	    break;
+
+                            	default :
+                            	    break loop48;
+                                }
+                            } while (true);
+
+                            otherlv_41=(Token)match(input,14,FOLLOW_31); 
+
+                            						newLeafNode(otherlv_41, grammarAccess.getLevelAccess().getRightCurlyBracketKeyword_7_2_1_5());
+                            					
+
+                            }
+
+
+                            }
+                            break;
 
                     }
 
@@ -3503,17 +3528,14 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
 
             }
 
-
-            }
-
             // InternalModelDraw.g:1503:3: (otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) ) )?
-            int alt49=2;
-            int LA49_0 = input.LA(1);
+            int alt51=2;
+            int LA51_0 = input.LA(1);
 
-            if ( (LA49_0==28) ) {
-                alt49=1;
+            if ( (LA51_0==28) ) {
+                alt51=1;
             }
-            switch (alt49) {
+            switch (alt51) {
                 case 1 :
                     // InternalModelDraw.g:1504:4: otherlv_42= 'src_decoration' otherlv_43= '=' ( (lv_src_decoration_44_0= ruleDecoration ) )
                     {
@@ -3563,13 +3585,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1532:3: (otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) ) )?
-            int alt50=2;
-            int LA50_0 = input.LA(1);
+            int alt52=2;
+            int LA52_0 = input.LA(1);
 
-            if ( (LA50_0==29) ) {
-                alt50=1;
+            if ( (LA52_0==29) ) {
+                alt52=1;
             }
-            switch (alt50) {
+            switch (alt52) {
                 case 1 :
                     // InternalModelDraw.g:1533:4: otherlv_45= 'src_label' otherlv_46= '=' ( (otherlv_47= RULE_ID ) )
                     {
@@ -3609,13 +3631,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1555:3: (otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) ) )?
-            int alt51=2;
-            int LA51_0 = input.LA(1);
+            int alt53=2;
+            int LA53_0 = input.LA(1);
 
-            if ( (LA51_0==30) ) {
-                alt51=1;
+            if ( (LA53_0==30) ) {
+                alt53=1;
             }
-            switch (alt51) {
+            switch (alt53) {
                 case 1 :
                     // InternalModelDraw.g:1556:4: otherlv_48= 'tar_decoration' otherlv_49= '=' ( (lv_tar_decoration_50_0= ruleDecoration ) )
                     {
@@ -3665,13 +3687,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1584:3: (otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) ) )?
-            int alt52=2;
-            int LA52_0 = input.LA(1);
+            int alt54=2;
+            int LA54_0 = input.LA(1);
 
-            if ( (LA52_0==31) ) {
-                alt52=1;
+            if ( (LA54_0==31) ) {
+                alt54=1;
             }
-            switch (alt52) {
+            switch (alt54) {
                 case 1 :
                     // InternalModelDraw.g:1585:4: otherlv_51= 'tar_label' otherlv_52= '=' ( (otherlv_53= RULE_ID ) )
                     {
@@ -3838,17 +3860,17 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             			newLeafNode(otherlv_2, grammarAccess.getContentAccess().getColonKeyword_2());
             		
             // InternalModelDraw.g:1650:3: ( ( (lv_nodenum_3_0= ruleNodeEnumerator ) ) ( (lv_nodenum_4_0= ruleNodeEnumerator ) )* )?
-            int alt54=2;
-            int LA54_0 = input.LA(1);
+            int alt56=2;
+            int LA56_0 = input.LA(1);
 
-            if ( (LA54_0==RULE_ID) ) {
-                int LA54_1 = input.LA(2);
+            if ( (LA56_0==RULE_ID) ) {
+                int LA56_1 = input.LA(2);
 
-                if ( (LA54_1==33) ) {
-                    alt54=1;
+                if ( (LA56_1==33) ) {
+                    alt56=1;
                 }
             }
-            switch (alt54) {
+            switch (alt56) {
                 case 1 :
                     // InternalModelDraw.g:1651:4: ( (lv_nodenum_3_0= ruleNodeEnumerator ) ) ( (lv_nodenum_4_0= ruleNodeEnumerator ) )*
                     {
@@ -3884,23 +3906,23 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
                     }
 
                     // InternalModelDraw.g:1670:4: ( (lv_nodenum_4_0= ruleNodeEnumerator ) )*
-                    loop53:
+                    loop55:
                     do {
-                        int alt53=2;
-                        int LA53_0 = input.LA(1);
+                        int alt55=2;
+                        int LA55_0 = input.LA(1);
 
-                        if ( (LA53_0==RULE_ID) ) {
-                            int LA53_1 = input.LA(2);
+                        if ( (LA55_0==RULE_ID) ) {
+                            int LA55_1 = input.LA(2);
 
-                            if ( (LA53_1==33) ) {
-                                alt53=1;
+                            if ( (LA55_1==33) ) {
+                                alt55=1;
                             }
 
 
                         }
 
 
-                        switch (alt53) {
+                        switch (alt55) {
                     	case 1 :
                     	    // InternalModelDraw.g:1671:5: (lv_nodenum_4_0= ruleNodeEnumerator )
                     	    {
@@ -3934,7 +3956,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop53;
+                    	    break loop55;
                         }
                     } while (true);
 
@@ -3945,17 +3967,17 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1690:3: ( ( (lv_info_5_0= ruleInformation ) ) ( (lv_info_6_0= ruleInformation ) )* )?
-            int alt56=2;
-            int LA56_0 = input.LA(1);
+            int alt58=2;
+            int LA58_0 = input.LA(1);
 
-            if ( (LA56_0==RULE_ID) ) {
-                int LA56_1 = input.LA(2);
+            if ( (LA58_0==RULE_ID) ) {
+                int LA58_1 = input.LA(2);
 
-                if ( (LA56_1==EOF||LA56_1==RULE_ID||(LA56_1>=13 && LA56_1<=14)||LA56_1==27||LA56_1==32) ) {
-                    alt56=1;
+                if ( (LA58_1==EOF||LA58_1==RULE_ID||(LA58_1>=13 && LA58_1<=14)||LA58_1==27||LA58_1==32) ) {
+                    alt58=1;
                 }
             }
-            switch (alt56) {
+            switch (alt58) {
                 case 1 :
                     // InternalModelDraw.g:1691:4: ( (lv_info_5_0= ruleInformation ) ) ( (lv_info_6_0= ruleInformation ) )*
                     {
@@ -3991,23 +4013,23 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
                     }
 
                     // InternalModelDraw.g:1710:4: ( (lv_info_6_0= ruleInformation ) )*
-                    loop55:
+                    loop57:
                     do {
-                        int alt55=2;
-                        int LA55_0 = input.LA(1);
+                        int alt57=2;
+                        int LA57_0 = input.LA(1);
 
-                        if ( (LA55_0==RULE_ID) ) {
-                            int LA55_2 = input.LA(2);
+                        if ( (LA57_0==RULE_ID) ) {
+                            int LA57_2 = input.LA(2);
 
-                            if ( (LA55_2==EOF||LA55_2==RULE_ID||(LA55_2>=13 && LA55_2<=14)||LA55_2==27||LA55_2==32) ) {
-                                alt55=1;
+                            if ( (LA57_2==EOF||LA57_2==RULE_ID||(LA57_2>=13 && LA57_2<=14)||LA57_2==27||LA57_2==32) ) {
+                                alt57=1;
                             }
 
 
                         }
 
 
-                        switch (alt55) {
+                        switch (alt57) {
                     	case 1 :
                     	    // InternalModelDraw.g:1711:5: (lv_info_6_0= ruleInformation )
                     	    {
@@ -4041,7 +4063,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop55;
+                    	    break loop57;
                         }
                     } while (true);
 
@@ -4052,13 +4074,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1730:3: (otherlv_7= '{' ( (otherlv_8= RULE_ID ) ) otherlv_9= '}' )?
-            int alt57=2;
-            int LA57_0 = input.LA(1);
+            int alt59=2;
+            int LA59_0 = input.LA(1);
 
-            if ( (LA57_0==13) ) {
-                alt57=1;
+            if ( (LA59_0==13) ) {
+                alt59=1;
             }
-            switch (alt57) {
+            switch (alt59) {
                 case 1 :
                     // InternalModelDraw.g:1731:4: otherlv_7= '{' ( (otherlv_8= RULE_ID ) ) otherlv_9= '}'
                     {
@@ -4098,13 +4120,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1753:3: (otherlv_10= 'text' otherlv_11= '=' ( (lv_symbol_12_0= ruleEString ) ) )?
-            int alt58=2;
-            int LA58_0 = input.LA(1);
+            int alt60=2;
+            int LA60_0 = input.LA(1);
 
-            if ( (LA58_0==32) ) {
-                alt58=1;
+            if ( (LA60_0==32) ) {
+                alt60=1;
             }
-            switch (alt58) {
+            switch (alt60) {
                 case 1 :
                     // InternalModelDraw.g:1754:4: otherlv_10= 'text' otherlv_11= '=' ( (lv_symbol_12_0= ruleEString ) )
                     {
@@ -4302,17 +4324,17 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1844:3: ( (lv_enumerator_4_0= ruleEnumerator ) )*
-            loop59:
+            loop61:
             do {
-                int alt59=2;
-                int LA59_0 = input.LA(1);
+                int alt61=2;
+                int LA61_0 = input.LA(1);
 
-                if ( (LA59_0==RULE_ID) ) {
-                    alt59=1;
+                if ( (LA61_0==RULE_ID) ) {
+                    alt61=1;
                 }
 
 
-                switch (alt59) {
+                switch (alt61) {
             	case 1 :
             	    // InternalModelDraw.g:1845:4: (lv_enumerator_4_0= ruleEnumerator )
             	    {
@@ -4346,7 +4368,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop59;
+            	    break loop61;
                 }
             } while (true);
 
@@ -4609,13 +4631,13 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             }
 
             // InternalModelDraw.g:1968:3: (otherlv_2= '.' ( (otherlv_3= RULE_ID ) ) )?
-            int alt60=2;
-            int LA60_0 = input.LA(1);
+            int alt62=2;
+            int LA62_0 = input.LA(1);
 
-            if ( (LA60_0==27) ) {
-                alt60=1;
+            if ( (LA62_0==27) ) {
+                alt62=1;
             }
-            switch (alt60) {
+            switch (alt62) {
                 case 1 :
                     // InternalModelDraw.g:1969:4: otherlv_2= '.' ( (otherlv_3= RULE_ID ) )
                     {
@@ -4732,22 +4754,22 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             // InternalModelDraw.g:2015:2: ( (enumLiteral_0= 'node' ) | (enumLiteral_1= 'markednode' ) )
             {
             // InternalModelDraw.g:2015:2: ( (enumLiteral_0= 'node' ) | (enumLiteral_1= 'markednode' ) )
-            int alt61=2;
-            int LA61_0 = input.LA(1);
+            int alt63=2;
+            int LA63_0 = input.LA(1);
 
-            if ( (LA61_0==36) ) {
-                alt61=1;
+            if ( (LA63_0==36) ) {
+                alt63=1;
             }
-            else if ( (LA61_0==37) ) {
-                alt61=2;
+            else if ( (LA63_0==37) ) {
+                alt63=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 61, 0, input);
+                    new NoViableAltException("", 63, 0, input);
 
                 throw nvae;
             }
-            switch (alt61) {
+            switch (alt63) {
                 case 1 :
                     // InternalModelDraw.g:2016:3: (enumLiteral_0= 'node' )
                     {
@@ -4821,31 +4843,31 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             // InternalModelDraw.g:2042:2: ( (enumLiteral_0= 'circle' ) | (enumLiteral_1= 'doublecircle' ) | (enumLiteral_2= 'record' ) )
             {
             // InternalModelDraw.g:2042:2: ( (enumLiteral_0= 'circle' ) | (enumLiteral_1= 'doublecircle' ) | (enumLiteral_2= 'record' ) )
-            int alt62=3;
+            int alt64=3;
             switch ( input.LA(1) ) {
             case 38:
                 {
-                alt62=1;
+                alt64=1;
                 }
                 break;
             case 39:
                 {
-                alt62=2;
+                alt64=2;
                 }
                 break;
             case 40:
                 {
-                alt62=3;
+                alt64=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 62, 0, input);
+                    new NoViableAltException("", 64, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt62) {
+            switch (alt64) {
                 case 1 :
                     // InternalModelDraw.g:2043:3: (enumLiteral_0= 'circle' )
                     {
@@ -4979,22 +5001,22 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             // InternalModelDraw.g:2094:2: ( (enumLiteral_0= 'italic' ) | (enumLiteral_1= 'underline' ) )
             {
             // InternalModelDraw.g:2094:2: ( (enumLiteral_0= 'italic' ) | (enumLiteral_1= 'underline' ) )
-            int alt63=2;
-            int LA63_0 = input.LA(1);
+            int alt65=2;
+            int LA65_0 = input.LA(1);
 
-            if ( (LA63_0==42) ) {
-                alt63=1;
+            if ( (LA65_0==42) ) {
+                alt65=1;
             }
-            else if ( (LA63_0==43) ) {
-                alt63=2;
+            else if ( (LA65_0==43) ) {
+                alt65=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 63, 0, input);
+                    new NoViableAltException("", 65, 0, input);
 
                 throw nvae;
             }
-            switch (alt63) {
+            switch (alt65) {
                 case 1 :
                     // InternalModelDraw.g:2095:3: (enumLiteral_0= 'italic' )
                     {
@@ -5071,46 +5093,46 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
             // InternalModelDraw.g:2121:2: ( (enumLiteral_0= 'none' ) | (enumLiteral_1= 'triangle' ) | (enumLiteral_2= 'diamond' ) | (enumLiteral_3= 'odiamond' ) | (enumLiteral_4= 'open' ) | (enumLiteral_5= 'empty' ) )
             {
             // InternalModelDraw.g:2121:2: ( (enumLiteral_0= 'none' ) | (enumLiteral_1= 'triangle' ) | (enumLiteral_2= 'diamond' ) | (enumLiteral_3= 'odiamond' ) | (enumLiteral_4= 'open' ) | (enumLiteral_5= 'empty' ) )
-            int alt64=6;
+            int alt66=6;
             switch ( input.LA(1) ) {
             case 44:
                 {
-                alt64=1;
+                alt66=1;
                 }
                 break;
             case 45:
                 {
-                alt64=2;
+                alt66=2;
                 }
                 break;
             case 46:
                 {
-                alt64=3;
+                alt66=3;
                 }
                 break;
             case 47:
                 {
-                alt64=4;
+                alt66=4;
                 }
                 break;
             case 48:
                 {
-                alt64=5;
+                alt66=5;
                 }
                 break;
             case 49:
                 {
-                alt64=6;
+                alt66=6;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 64, 0, input);
+                    new NoViableAltException("", 66, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt64) {
+            switch (alt66) {
                 case 1 :
                     // InternalModelDraw.g:2122:3: (enumLiteral_0= 'none' )
                     {
@@ -5240,15 +5262,15 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
     protected DFA1 dfa1 = new DFA1(this);
     static final String dfa_1s = "\13\uffff";
     static final String dfa_2s = "\1\4\1\14\1\uffff\2\4\1\uffff\1\20\1\4\1\20\1\14\1\30";
-    static final String dfa_3s = "\1\16\1\33\1\uffff\1\27\1\45\1\uffff\1\21\1\27\1\21\1\14\1\45";
+    static final String dfa_3s = "\1\16\1\33\1\uffff\1\45\1\27\1\uffff\1\21\1\27\1\21\1\14\1\45";
     static final String dfa_4s = "\2\uffff\1\2\2\uffff\1\1\5\uffff";
     static final String dfa_5s = "\13\uffff}>";
     static final String[] dfa_6s = {
             "\1\1\11\uffff\1\2",
-            "\1\4\2\uffff\1\3\13\uffff\1\2",
+            "\1\3\2\uffff\1\4\13\uffff\1\2",
             "",
-            "\1\6\22\uffff\1\5",
             "\1\2\10\uffff\2\2\21\uffff\1\2\3\uffff\2\5",
+            "\1\6\22\uffff\1\5",
             "",
             "\1\7\1\5",
             "\1\10\22\uffff\1\5",
@@ -5308,8 +5330,8 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000000000010000L});
     public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000000000020000L});
     public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000000002040000L});
-    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x00000000F2040002L});
+    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x00000000F2000002L});
     public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000000000002010L});
     public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x000000000C000000L});
     public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000008000000L});

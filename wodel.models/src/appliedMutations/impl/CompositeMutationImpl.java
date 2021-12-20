@@ -87,6 +87,7 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getSize() {
 		return size;
 	}
@@ -96,6 +97,7 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSize(int newSize) {
 		int oldSize = size;
 		size = newSize;
@@ -108,6 +110,7 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AppMutation> getMuts() {
 		if (muts == null) {
 			muts = new EObjectContainmentEList<AppMutation>(AppMutation.class, this, AppliedMutationsPackage.COMPOSITE_MUTATION__MUTS);
@@ -208,7 +211,7 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (size: ");
 		result.append(size);
 		result.append(')');

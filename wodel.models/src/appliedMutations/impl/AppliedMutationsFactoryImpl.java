@@ -83,6 +83,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mutations createMutations() {
 		MutationsImpl mutations = new MutationsImpl();
 		return mutations;
@@ -93,6 +94,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AppMutation createAppMutation() {
 		AppMutationImpl appMutation = new AppMutationImpl();
 		return appMutation;
@@ -103,6 +105,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectCreated createObjectCreated() {
 		ObjectCreatedImpl objectCreated = new ObjectCreatedImpl();
 		return objectCreated;
@@ -113,6 +116,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectRemoved createObjectRemoved() {
 		ObjectRemovedImpl objectRemoved = new ObjectRemovedImpl();
 		return objectRemoved;
@@ -123,6 +127,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceChanged createReferenceChanged() {
 		ReferenceChangedImpl referenceChanged = new ReferenceChangedImpl();
 		return referenceChanged;
@@ -133,6 +138,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SourceReferenceChanged createSourceReferenceChanged() {
 		SourceReferenceChangedImpl sourceReferenceChanged = new SourceReferenceChangedImpl();
 		return sourceReferenceChanged;
@@ -143,6 +149,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TargetReferenceChanged createTargetReferenceChanged() {
 		TargetReferenceChangedImpl targetReferenceChanged = new TargetReferenceChangedImpl();
 		return targetReferenceChanged;
@@ -153,6 +160,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceCreated createReferenceCreated() {
 		ReferenceCreatedImpl referenceCreated = new ReferenceCreatedImpl();
 		return referenceCreated;
@@ -163,6 +171,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceRemoved createReferenceRemoved() {
 		ReferenceRemovedImpl referenceRemoved = new ReferenceRemovedImpl();
 		return referenceRemoved;
@@ -173,6 +182,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InformationChanged createInformationChanged() {
 		InformationChangedImpl informationChanged = new InformationChangedImpl();
 		return informationChanged;
@@ -183,6 +193,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeChanged createAttributeChanged() {
 		AttributeChangedImpl attributeChanged = new AttributeChangedImpl();
 		return attributeChanged;
@@ -193,6 +204,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceSwap createReferenceSwap() {
 		ReferenceSwapImpl referenceSwap = new ReferenceSwapImpl();
 		return referenceSwap;
@@ -203,6 +215,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceAtt createReferenceAtt() {
 		ReferenceAttImpl referenceAtt = new ReferenceAttImpl();
 		return referenceAtt;
@@ -213,6 +226,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeSwap createAttributeSwap() {
 		AttributeSwapImpl attributeSwap = new AttributeSwapImpl();
 		return attributeSwap;
@@ -223,6 +237,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CompositeMutation createCompositeMutation() {
 		CompositeMutationImpl compositeMutation = new CompositeMutationImpl();
 		return compositeMutation;
@@ -233,6 +248,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectCloned createObjectCloned() {
 		ObjectClonedImpl objectCloned = new ObjectClonedImpl();
 		return objectCloned;
@@ -243,6 +259,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectRetyped createObjectRetyped() {
 		ObjectRetypedImpl objectRetyped = new ObjectRetypedImpl();
 		return objectRetyped;
@@ -253,6 +270,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AppliedMutationsPackage getAppliedMutationsPackage() {
 		return (AppliedMutationsPackage)getEPackage();
 	}

@@ -5415,9 +5415,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			next = ((ModifyInformationMutator) mut).getNext("«ref.reference.get(0).name»");
 			if (previous != null) {
 				refMut«refCounter».setFrom(previous);
+				refMut«refCounter».setMutantFrom(previous);
 			}
 			if (next != null) {
 				refMut«refCounter».setTo(next);
+				refMut«refCounter».setMutantTo(next);
 			}
 			refMut«refCounter».setSrcRefName(((ModifyInformationMutator) mut).getSrcRefType());
 			refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));

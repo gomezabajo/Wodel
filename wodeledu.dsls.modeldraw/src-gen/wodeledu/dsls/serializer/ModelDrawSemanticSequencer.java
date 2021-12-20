@@ -125,7 +125,7 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *                     ((reference+=[EReference|ID] refType+=[EReference|ID]?)? label+=[EAttribute|ID])?
 	 *                 )*
 	 *             )
-	 *         ) 
+	 *         )? 
 	 *         src_decoration=Decoration? 
 	 *         src_label=[EAttribute|ID]? 
 	 *         tar_decoration=Decoration? 
@@ -192,7 +192,7 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *                     ((reference+=[EReference|ID] refType+=[EReference|ID]?)? label+=[EAttribute|ID])?
 	 *                 )*
 	 *             )
-	 *         ) 
+	 *         )? 
 	 *         src_decoration=Decoration? 
 	 *         src_label=[EAttribute|ID]? 
 	 *         tar_decoration=Decoration? 

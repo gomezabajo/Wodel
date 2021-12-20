@@ -17,8 +17,10 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link appliedMutations.ReferenceChanged#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getSrcRefName <em>Src Ref Name</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getFrom <em>From</em>}</li>
+ *   <li>{@link appliedMutations.ReferenceChanged#getMutantFrom <em>Mutant From</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getTo <em>To</em>}</li>
+ *   <li>{@link appliedMutations.ReferenceChanged#getMutantTo <em>Mutant To</em>}</li>
  * </ul>
  *
  * @see appliedMutations.AppliedMutationsPackage#getReferenceChanged()
@@ -121,6 +123,28 @@ public interface ReferenceChanged extends AppMutation {
 	void setFrom(EObject value);
 
 	/**
+	 * Returns the value of the '<em><b>Mutant From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mutant From</em>' reference.
+	 * @see #setMutantFrom(EObject)
+	 * @see appliedMutations.AppliedMutationsPackage#getReferenceChanged_MutantFrom()
+	 * @model required="true"
+	 * @generated
+	 */
+	EObject getMutantFrom();
+
+	/**
+	 * Sets the value of the '{@link appliedMutations.ReferenceChanged#getMutantFrom <em>Mutant From</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Mutant From</em>' reference.
+	 * @see #getMutantFrom()
+	 * @generated
+	 */
+	void setMutantFrom(EObject value);
+
+	/**
 	 * Returns the value of the '<em><b>To</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -145,5 +169,27 @@ public interface ReferenceChanged extends AppMutation {
 	 * @generated
 	 */
 	void setTo(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Mutant To</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mutant To</em>' reference.
+	 * @see #setMutantTo(EObject)
+	 * @see appliedMutations.AppliedMutationsPackage#getReferenceChanged_MutantTo()
+	 * @model required="true"
+	 * @generated
+	 */
+	EObject getMutantTo();
+
+	/**
+	 * Sets the value of the '{@link appliedMutations.ReferenceChanged#getMutantTo <em>Mutant To</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Mutant To</em>' reference.
+	 * @see #getMutantTo()
+	 * @generated
+	 */
+	void setMutantTo(EObject value);
 
 } // ReferenceChanged

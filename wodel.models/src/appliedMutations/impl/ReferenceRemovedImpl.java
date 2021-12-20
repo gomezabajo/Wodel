@@ -93,6 +93,7 @@ public class ReferenceRemovedImpl extends AppMutationImpl implements ReferenceRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.REFERENCE_REMOVED__OBJECT);
@@ -105,6 +106,7 @@ public class ReferenceRemovedImpl extends AppMutationImpl implements ReferenceRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EReference> getRef() {
 		if (ref == null) {
 			ref = new EObjectResolvingEList<EReference>(EReference.class, this, AppliedMutationsPackage.REFERENCE_REMOVED__REF);
@@ -117,6 +119,7 @@ public class ReferenceRemovedImpl extends AppMutationImpl implements ReferenceRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getRefName() {
 		return refName;
 	}
@@ -126,6 +129,7 @@ public class ReferenceRemovedImpl extends AppMutationImpl implements ReferenceRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefName(String newRefName) {
 		String oldRefName = refName;
 		refName = newRefName;
@@ -223,7 +227,7 @@ public class ReferenceRemovedImpl extends AppMutationImpl implements ReferenceRe
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (refName: ");
 		result.append(refName);
 		result.append(')');

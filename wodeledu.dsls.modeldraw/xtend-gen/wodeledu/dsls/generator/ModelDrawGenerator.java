@@ -496,7 +496,19 @@ public class ModelDrawGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
+        _builder.append("if (tar_label != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("parameters.put(\"headlabel\", tar_label);");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("parameters.put(\"headlabel\", \"\");");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
       }
     }
@@ -568,7 +580,19 @@ public class ModelDrawGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
+        _builder.append("if (src_label != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("parameters.put(\"taillabel\", src_label);");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("parameters.put(\"taillabel\", \"\");");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
       }
     }

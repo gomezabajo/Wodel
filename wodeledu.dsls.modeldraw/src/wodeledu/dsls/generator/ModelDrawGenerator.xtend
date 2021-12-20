@@ -203,7 +203,12 @@ class ModelDrawGenerator extends AbstractGenerator {
 		if (parameters.containsKey("arrowtail") == false) {
 			parameters.put("arrowtail", "none");
 		}
-		parameters.put("headlabel", tar_label);
+		if (tar_label != null) {
+			parameters.put("headlabel", tar_label);
+		}
+		else {
+			parameters.put("headlabel", "");
+		}
 		«ENDIF»
 		«IF rel.src_decoration != Decoration.NONE»
 		if (parameters.containsKey("dir") == false) {
@@ -232,7 +237,12 @@ class ModelDrawGenerator extends AbstractGenerator {
 		if (parameters.containsKey("arrowtail") == false) {
 			parameters.put("arrowtail", "none");
 		}
-		parameters.put("taillabel", src_label);
+		if (src_label != null) {
+			parameters.put("taillabel", src_label);
+		}
+		else {
+			parameters.put("taillabel", "");
+		}
 		«ENDIF»
 	'''
 	

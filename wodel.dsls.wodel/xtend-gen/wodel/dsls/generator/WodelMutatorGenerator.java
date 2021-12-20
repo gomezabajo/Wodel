@@ -20764,6 +20764,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append(refCounter, "\t");
                 _builder.append(".setFrom(previous);");
                 _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("refMut");
+                _builder.append(refCounter, "\t");
+                _builder.append(".setMutantFrom(previous);");
+                _builder.newLineIfNotEmpty();
                 _builder.append("}");
                 _builder.newLine();
                 _builder.append("if (next != null) {");
@@ -20772,6 +20777,11 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("refMut");
                 _builder.append(refCounter, "\t");
                 _builder.append(".setTo(next);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("refMut");
+                _builder.append(refCounter, "\t");
+                _builder.append(".setMutantTo(next);");
                 _builder.newLineIfNotEmpty();
                 _builder.append("}");
                 _builder.newLine();

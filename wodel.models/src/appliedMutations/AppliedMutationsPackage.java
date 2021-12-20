@@ -264,13 +264,22 @@ public interface AppliedMutationsPackage extends EPackage {
 	int REFERENCE_CHANGED__OBJECT = APP_MUTATION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Mutant Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGED__MUTANT_OBJECT = APP_MUTATION_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__SRC_REF_NAME = APP_MUTATION_FEATURE_COUNT + 1;
+	int REFERENCE_CHANGED__SRC_REF_NAME = APP_MUTATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>From</b></em>' reference.
@@ -279,7 +288,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__FROM = APP_MUTATION_FEATURE_COUNT + 2;
+	int REFERENCE_CHANGED__FROM = APP_MUTATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Mutant From</b></em>' reference.
@@ -288,7 +297,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__MUTANT_FROM = APP_MUTATION_FEATURE_COUNT + 3;
+	int REFERENCE_CHANGED__MUTANT_FROM = APP_MUTATION_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Ref Name</b></em>' attribute.
@@ -297,7 +306,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__REF_NAME = APP_MUTATION_FEATURE_COUNT + 4;
+	int REFERENCE_CHANGED__REF_NAME = APP_MUTATION_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>To</b></em>' reference.
@@ -306,7 +315,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__TO = APP_MUTATION_FEATURE_COUNT + 5;
+	int REFERENCE_CHANGED__TO = APP_MUTATION_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Mutant To</b></em>' reference.
@@ -315,7 +324,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED__MUTANT_TO = APP_MUTATION_FEATURE_COUNT + 6;
+	int REFERENCE_CHANGED__MUTANT_TO = APP_MUTATION_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Reference Changed</em>' class.
@@ -324,7 +333,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CHANGED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 7;
+	int REFERENCE_CHANGED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>Reference Changed</em>' class.
@@ -362,6 +371,15 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int SOURCE_REFERENCE_CHANGED__OBJECT = REFERENCE_CHANGED__OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Mutant Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCE_REFERENCE_CHANGED__MUTANT_OBJECT = REFERENCE_CHANGED__MUTANT_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
@@ -471,6 +489,15 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int TARGET_REFERENCE_CHANGED__OBJECT = REFERENCE_CHANGED__OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Mutant Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGET_REFERENCE_CHANGED__MUTANT_OBJECT = REFERENCE_CHANGED__MUTANT_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
@@ -839,6 +866,15 @@ public interface AppliedMutationsPackage extends EPackage {
 	int REFERENCE_SWAP__OBJECT = REFERENCE_CHANGED__OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Mutant Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_SWAP__MUTANT_OBJECT = REFERENCE_CHANGED__MUTANT_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -992,6 +1028,15 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_ATT__OBJECT = REFERENCE_CHANGED__OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Mutant Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__MUTANT_OBJECT = REFERENCE_CHANGED__MUTANT_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
@@ -1467,6 +1512,17 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReferenceChanged_Object();
+
+	/**
+	 * Returns the meta object for the reference list '{@link appliedMutations.ReferenceChanged#getMutantObject <em>Mutant Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Mutant Object</em>'.
+	 * @see appliedMutations.ReferenceChanged#getMutantObject()
+	 * @see #getReferenceChanged()
+	 * @generated
+	 */
+	EReference getReferenceChanged_MutantObject();
 
 	/**
 	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceChanged#getSrcRefName <em>Src Ref Name</em>}'.
@@ -2126,6 +2182,14 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFERENCE_CHANGED__OBJECT = eINSTANCE.getReferenceChanged_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Mutant Object</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_CHANGED__MUTANT_OBJECT = eINSTANCE.getReferenceChanged_MutantObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Src Ref Name</b></em>' attribute feature.

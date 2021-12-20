@@ -5370,6 +5370,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceChanged();
 			refMut«refCounter».setRefName("«eref.name»");
 			refMut«refCounter».getObject().add(((ModifyInformationMutator) mut).getObject());
+			refMut«refCounter».getMutantObject().add(((ModifyInformationMutator) mut).getObject());
 			«ENDIF»
 			«IF ref instanceof ReferenceSwap»
 			//«var ereffirst = ref.reference.get(0)»

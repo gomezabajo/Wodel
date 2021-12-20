@@ -20568,6 +20568,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append(refCounter);
                     _builder.append(".getObject().add(((ModifyInformationMutator) mut).getObject());");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter);
+                    _builder.append(".getMutantObject().add(((ModifyInformationMutator) mut).getObject());");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 {

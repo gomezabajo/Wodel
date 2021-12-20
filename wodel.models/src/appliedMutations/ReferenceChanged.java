@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link appliedMutations.ReferenceChanged#getObject <em>Object</em>}</li>
+ *   <li>{@link appliedMutations.ReferenceChanged#getMutantObject <em>Mutant Object</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getSrcRefName <em>Src Ref Name</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getFrom <em>From</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getMutantFrom <em>Mutant From</em>}</li>
@@ -43,6 +44,18 @@ public interface ReferenceChanged extends AppMutation {
 	 * @generated
 	 */
 	EList<EObject> getObject();
+
+	/**
+	 * Returns the value of the '<em><b>Mutant Object</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mutant Object</em>' reference list.
+	 * @see appliedMutations.AppliedMutationsPackage#getReferenceChanged_MutantObject()
+	 * @model ordered="false"
+	 * @generated
+	 */
+	EList<EObject> getMutantObject();
 
 	/**
 	 * Returns the value of the '<em><b>Src Ref Name</b></em>' attribute.

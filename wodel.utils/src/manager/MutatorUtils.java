@@ -9262,6 +9262,18 @@ public class MutatorUtils {
 										}
 										mutRef.getObject().clear();
 										mutRef.getObject().addAll(emutatedObjects);
+										List<EObject> emutatedMutantObjects = new ArrayList<EObject>();
+										for (EObject emutatedMutantOb : mutRef.getMutantObject()) {
+											EObject ob = ModelManager.getObjectByName(mutant, emutatedMutantOb);
+											if (ob != null) {
+												emutatedMutantObjects.add(ob);
+											}
+											else {
+												emutatedMutantObjects.add(emutatedMutantOb);
+											}
+										}
+										mutRef.getMutantObject().clear();
+										mutRef.getMutantObject().addAll(emutatedMutantObjects);
 									}
 								}
 							}
@@ -9746,6 +9758,18 @@ public class MutatorUtils {
 										}
 										mutRef.getObject().clear();
 										mutRef.getObject().addAll(emutatedObjects);
+										List<EObject> emutatedMutantObjects = new ArrayList<EObject>();
+										for (EObject emutatedMutantOb : mutRef.getMutantObject()) {
+											EObject ob = ModelManager.getObjectByName(mutant, emutatedMutantOb);
+											if (ob != null) {
+												emutatedMutantObjects.add(ob);
+											}
+											else {
+												emutatedMutantObjects.add(emutatedMutantOb);
+											}
+										}
+										mutRef.getMutantObject().clear();
+										mutRef.getMutantObject().addAll(emutatedMutantObjects);
 									}
 								}
 							}

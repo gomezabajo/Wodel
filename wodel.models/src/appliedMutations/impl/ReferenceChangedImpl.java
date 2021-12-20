@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getObject <em>Object</em>}</li>
+ *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getMutantObject <em>Mutant Object</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getSrcRefName <em>Src Ref Name</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getFrom <em>From</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getMutantFrom <em>Mutant From</em>}</li>
@@ -45,6 +46,16 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 	 * @ordered
 	 */
 	protected EList<EObject> object;
+
+	/**
+	 * The cached value of the '{@link #getMutantObject() <em>Mutant Object</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMutantObject()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EObject> mutantObject;
 
 	/**
 	 * The default value of the '{@link #getSrcRefName() <em>Src Ref Name</em>}' attribute.
@@ -156,6 +167,19 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT);
 		}
 		return object;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<EObject> getMutantObject() {
+		if (mutantObject == null) {
+			mutantObject = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_OBJECT);
+		}
+		return mutantObject;
 	}
 
 	/**
@@ -374,6 +398,8 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 		switch (featureID) {
 			case AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT:
 				return getObject();
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_OBJECT:
+				return getMutantObject();
 			case AppliedMutationsPackage.REFERENCE_CHANGED__SRC_REF_NAME:
 				return getSrcRefName();
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:
@@ -406,6 +432,10 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			case AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT:
 				getObject().clear();
 				getObject().addAll((Collection<? extends EObject>)newValue);
+				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_OBJECT:
+				getMutantObject().clear();
+				getMutantObject().addAll((Collection<? extends EObject>)newValue);
 				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__SRC_REF_NAME:
 				setSrcRefName((String)newValue);
@@ -440,6 +470,9 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 			case AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT:
 				getObject().clear();
 				return;
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_OBJECT:
+				getMutantObject().clear();
+				return;
 			case AppliedMutationsPackage.REFERENCE_CHANGED__SRC_REF_NAME:
 				setSrcRefName(SRC_REF_NAME_EDEFAULT);
 				return;
@@ -472,6 +505,8 @@ public class ReferenceChangedImpl extends AppMutationImpl implements ReferenceCh
 		switch (featureID) {
 			case AppliedMutationsPackage.REFERENCE_CHANGED__OBJECT:
 				return object != null && !object.isEmpty();
+			case AppliedMutationsPackage.REFERENCE_CHANGED__MUTANT_OBJECT:
+				return mutantObject != null && !mutantObject.isEmpty();
 			case AppliedMutationsPackage.REFERENCE_CHANGED__SRC_REF_NAME:
 				return SRC_REF_NAME_EDEFAULT == null ? srcRefName != null : !SRC_REF_NAME_EDEFAULT.equals(srcRefName);
 			case AppliedMutationsPackage.REFERENCE_CHANGED__FROM:

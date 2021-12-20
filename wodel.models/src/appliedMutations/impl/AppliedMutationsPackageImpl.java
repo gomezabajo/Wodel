@@ -330,8 +330,18 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * @generated
 	 */
 	@Override
+	public EReference getReferenceChanged_MutantObject() {
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EAttribute getReferenceChanged_SrcRefName() {
-		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -341,7 +351,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 */
 	@Override
 	public EAttribute getReferenceChanged_RefName() {
-		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -351,16 +361,6 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 */
 	@Override
 	public EReference getReferenceChanged_From() {
-		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getReferenceChanged_MutantFrom() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -370,8 +370,18 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * @generated
 	 */
 	@Override
+	public EReference getReferenceChanged_MutantFrom() {
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getReferenceChanged_To() {
-		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(5);
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -381,7 +391,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 */
 	@Override
 	public EReference getReferenceChanged_MutantTo() {
-		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(6);
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -868,6 +878,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		referenceChangedEClass = createEClass(REFERENCE_CHANGED);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__OBJECT);
+		createEReference(referenceChangedEClass, REFERENCE_CHANGED__MUTANT_OBJECT);
 		createEAttribute(referenceChangedEClass, REFERENCE_CHANGED__SRC_REF_NAME);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__FROM);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__MUTANT_FROM);
@@ -992,6 +1003,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		initEClass(referenceChangedEClass, ReferenceChanged.class, "ReferenceChanged", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceChanged_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getReferenceChanged_MutantObject(), ecorePackage.getEObject(), null, "mutantObject", null, 0, -1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getReferenceChanged_SrcRefName(), ecorePackage.getEString(), "srcRefName", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceChanged_From(), ecorePackage.getEObject(), null, "from", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceChanged_MutantFrom(), ecorePackage.getEObject(), null, "mutantFrom", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -1482,25 +1482,22 @@ public class ModelManager {
 		while (index >= 0) {
 			String featureURI = tmpURIToFind.substring(1, tmpURIToFind.indexOf("."));
 			int value = 0;
+			String newFeatureURI = "";
 			if (tmpURIToFind.indexOf("/") >= 0 && tmpURIToFind.indexOf(".") >= 0 && tmpURIToFind.indexOf("/") > tmpURIToFind.indexOf(".")) {
 				String str = tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/"));
 				if (!JavaUtils.isNumeric(str)) {
 					break;
 				}
 				value = Integer.valueOf(str);
+				newFeatureURI = featureURI + "." + String.format("%d", value);
 			}
 			else {
-				String str = tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/"));
-				if (!JavaUtils.isNumeric(str)) {
-					break;
-				}
-				value = Integer.valueOf(str);
+				newFeatureURI = featureURI;
 			}
 //			if (tmpURIToFind.indexOf("/@") < 0 && k != 0) {
 //				value = value - 1;
 //			}
 //			k++;
-			String newFeatureURI = featureURI + "." + String.format("%d", value);
 			uriToFind += "/@" + newFeatureURI;
 			if (tmpURIToFind.indexOf("/@") < 0) {
 				break;

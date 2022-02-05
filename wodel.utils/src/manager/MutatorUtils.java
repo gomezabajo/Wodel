@@ -9208,16 +9208,28 @@ public class MutatorUtils {
 									if (mutRef instanceof ReferenceChanged) {
 										EObject emutatedFrom = mutRef.getFrom();
 										if (emutatedFrom != null) {
-											EObject objectFrom =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedFrom));
+											EObject objectFrom =  ModelManager.getObjectByName(mutant, emutatedFrom);
 											if (objectFrom != null) {
 												mutRef.setFrom(objectFrom);
+											}
+											else {
+												objectFrom =  ModelManager.getObjectByName(seed, emutatedFrom);
+												if (objectFrom != null) {
+													mutRef.setFrom(objectFrom);
+												}
 											}
 										}
 										EObject emutatedMutantFrom = mutRef.getMutantFrom();
 										if (emutatedMutantFrom != null) {
-											EObject objectMutantFrom =  ModelManager.getObjectByPartialID(mutant, EcoreUtil.getIdentification(emutatedMutantFrom));
+											EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
 											if (objectMutantFrom != null) {
 												mutRef.setMutantFrom(objectMutantFrom);
+											}
+											else {
+												objectMutantFrom =  ModelManager.getObjectByName(seed, emutatedMutantFrom);
+												if (objectMutantFrom != null) {
+													mutRef.setMutantFrom(objectMutantFrom);
+												}
 											}
 										}
 										EObject emutatedTo = mutRef.getTo();
@@ -9704,9 +9716,15 @@ public class MutatorUtils {
 									if (mutRef instanceof ReferenceChanged) {
 										EObject emutatedFrom = mutRef.getFrom();
 										if (emutatedFrom != null) {
-											EObject objectFrom =  ModelManager.getObjectByPartialID(seed, EcoreUtil.getIdentification(emutatedFrom));
+											EObject objectFrom =  ModelManager.getObjectByName(mutant, emutatedFrom);
 											if (objectFrom != null) {
 												mutRef.setFrom(objectFrom);
+											}
+											else {
+												objectFrom =  ModelManager.getObjectByName(seed, emutatedFrom);
+												if (objectFrom != null) {
+													mutRef.setFrom(objectFrom);
+												}
 											}
 										}
 										EObject emutatedMutantFrom = mutRef.getMutantFrom();
@@ -9714,6 +9732,12 @@ public class MutatorUtils {
 											EObject objectMutantFrom =  ModelManager.getObjectByName(mutant, emutatedMutantFrom);
 											if (objectMutantFrom != null) {
 												mutRef.setMutantFrom(objectMutantFrom);
+											}
+											else {
+												objectMutantFrom =  ModelManager.getObjectByName(seed, emutatedMutantFrom);
+												if (objectMutantFrom != null) {
+													mutRef.setMutantFrom(objectMutantFrom);
+												}
 											}
 										}
 										EObject emutatedTo = mutRef.getTo();

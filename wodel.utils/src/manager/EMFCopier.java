@@ -336,6 +336,9 @@ public class EMFCopier {
 	}
 	
 	private static EObject searchContainedByURIEnding(EObject current, String partialURI) {
+		if (current == null) {
+			return null;
+		}
 		URI uri = EcoreUtil.getURI(current);
 		String currentPartialURI = uri.toString();
 		currentPartialURI = currentPartialURI.substring(currentPartialURI.indexOf("#"), currentPartialURI.length());

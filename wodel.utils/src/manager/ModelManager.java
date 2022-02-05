@@ -1483,10 +1483,18 @@ public class ModelManager {
 			String featureURI = tmpURIToFind.substring(1, tmpURIToFind.indexOf("."));
 			int value = 0;
 			if (tmpURIToFind.indexOf("/") >= 0 && tmpURIToFind.indexOf(".") >= 0 && tmpURIToFind.indexOf("/") > tmpURIToFind.indexOf(".")) {
-				value = Integer.parseInt(tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/")));
+				String str = tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/"));
+				if (!JavaUtils.isNumeric(str)) {
+					break;
+				}
+				value = Integer.valueOf(str);
 			}
 			else {
-				value = Integer.parseInt(tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.length()));
+				String str = tmpURIToFind.substring(tmpURIToFind.indexOf(".") + 1, tmpURIToFind.indexOf("/"));
+				if (!JavaUtils.isNumeric(str)) {
+					break;
+				}
+				value = Integer.valueOf(str);
 			}
 //			if (tmpURIToFind.indexOf("/@") < 0 && k != 0) {
 //				value = value - 1;

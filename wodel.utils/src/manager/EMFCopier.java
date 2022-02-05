@@ -364,6 +364,9 @@ public class EMFCopier {
 	}
 	
 	public static EObject copy(EObject object) {
+		if (object == null) {
+			return null;
+		}
 		Resource modelcopy = copyResource(object.eResource());
 		List<EObject> copied = modelcopy.getContents();
 		EObject target = null;

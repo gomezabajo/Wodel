@@ -9,9 +9,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import wodeledu.dsls.generator.EduTestMobileAppGenerator;
+import wodeledu.dsls.generator.EduTestAndroidAppGenerator;
 import wodeledu.dsls.generator.EduTestMoodleGenerator;
 import wodeledu.dsls.generator.EduTestWebGenerator;
+import wodeledu.dsls.generator.EduTestiOSAppGenerator;
 
 /**
  * @author Pablo Gomez-Abajo - Main Wodel-Edu code generator.
@@ -28,7 +29,10 @@ public class EduTestGenerator extends AbstractGenerator {
   private EduTestMoodleGenerator moodleGenerator;
   
   @Inject
-  private EduTestMobileAppGenerator mobileAppGenerator;
+  private EduTestAndroidAppGenerator androidAppGenerator;
+  
+  @Inject
+  private EduTestiOSAppGenerator iOSAppGenerator;
   
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -41,9 +45,13 @@ public class EduTestGenerator extends AbstractGenerator {
     if (_equals_1) {
       this.moodleGenerator.doGenerate(input, fsa, context);
     }
-    boolean _equals_2 = eduTestMode.equals("MobileApp");
+    boolean _equals_2 = eduTestMode.equals("AndroidApp");
     if (_equals_2) {
-      this.mobileAppGenerator.doGenerate(input, fsa, context);
+      this.androidAppGenerator.doGenerate(input, fsa, context);
+    }
+    boolean _equals_3 = eduTestMode.equals("iOSApp");
+    if (_equals_3) {
+      this.iOSAppGenerator.doGenerate(input, fsa, context);
     }
   }
 }

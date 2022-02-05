@@ -20,7 +20,8 @@ public class EduTestGenerator extends AbstractGenerator {
 
 	@Inject EduTestWebGenerator webGenerator
 	@Inject EduTestMoodleGenerator moodleGenerator
-	@Inject EduTestMobileAppGenerator mobileAppGenerator
+	@Inject EduTestAndroidAppGenerator androidAppGenerator
+	@Inject EduTestiOSAppGenerator iOSAppGenerator
 
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null);
@@ -30,8 +31,11 @@ public class EduTestGenerator extends AbstractGenerator {
 		if (eduTestMode.equals("Moodle")) {
 			moodleGenerator.doGenerate(input, fsa, context)
 		}
-		if (eduTestMode.equals("MobileApp")) {
-			mobileAppGenerator.doGenerate(input, fsa, context)
+		if (eduTestMode.equals("AndroidApp")) {
+			androidAppGenerator.doGenerate(input, fsa, context)
+		}
+		if (eduTestMode.equals("iOSApp")) {
+			iOSAppGenerator.doGenerate(input, fsa, context)
 		}
 	}
 	

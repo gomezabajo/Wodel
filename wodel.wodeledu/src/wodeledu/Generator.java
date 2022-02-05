@@ -329,6 +329,12 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		}
 		
+		final IFolder iOSFolder = appFolder.getFolder(new Path("ios"));
+		try {
+			iOSFolder.create(true, true, monitor);
+		} catch (CoreException e) {
+		}
+
 		try {
 		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 		//URL fileURL = bundle.getEntry("content");
@@ -363,6 +369,47 @@ public class Generator implements IGenerator {
 			srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "mobile";
 			final File src = new Path(srcName).toFile();
 			final File dest = mobileFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolder(src, dest);
+			}
+		}
+		} catch (IOException e) {
+		}
+
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("ios")) {
+		    			final File f = iOSFolder.getRawLocation().makeAbsolute().toFile();
+		    			File path = new File(f.getPath() + '/' + entry.getName().replace("ios/", "").split("/")[0]);
+		    			if (!path.exists()) {
+		    				path.mkdir();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("ios/", ""));
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "ios";
+			final File src = new Path(srcName).toFile();
+			final File dest = iOSFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
 				IOUtils.copyFolder(src, dest);
 			}

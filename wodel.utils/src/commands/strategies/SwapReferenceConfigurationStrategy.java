@@ -319,6 +319,9 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	}
 	
 	public Object getNext(EObject o) {
+		if (o == null) {
+			return null;
+		}
 		return o.eGet(this.target);
 	}
 	

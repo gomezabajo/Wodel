@@ -306,7 +306,9 @@ class ModelDrawGenerator extends AbstractGenerator {
 				«FOR att : node.attribute»
 				for (EAttribute att : node.eClass().getEAllAttributes()) {
 					if (att.getName().equals("«att.att.name»")) {
-						Boolean value = (Boolean) node.eGet(att);
+						Object attObject = node.eGet(att);
+						if (attObject instanceof Boolean) {
+						Boolean value = (Boolean) attObject;
 						«IF att.negation == true»
 						if (value == false) {
 						«ELSE»
@@ -363,6 +365,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 							style.shape ="shape = plaintext, style= filled, fillcolor=«node.color»";
 							dotnodes.put(node, style);
 						«ENDIF»
+						}
 						«IF node.reference !== null»
 						«IF node.reference.size() > 0»
 						HashMap<EObject, String> table = new HashMap<EObject, String>();

@@ -792,7 +792,19 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t\t");
-                            _builder.append("Boolean value = (Boolean) node.eGet(att);");
+                            _builder.append("Object attObject = node.eGet(att);");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t\t");
+                            _builder.append("if (attObject instanceof Boolean) {");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t\t");
+                            _builder.append("Boolean value = (Boolean) attObject;");
                             _builder.newLine();
                             {
                               boolean _isNegation = att.isNegation();
@@ -1108,6 +1120,12 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                 _builder.newLine();
                               }
                             }
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t\t");
+                            _builder.append("}");
+                            _builder.newLine();
                             {
                               EList<EReference> _reference = node.getReference();
                               boolean _tripleNotEquals_3 = (_reference != null);

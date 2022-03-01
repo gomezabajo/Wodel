@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import manager.ModelManager;
-import manager.WodelContext;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -60,15 +59,13 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
-      WodelContext.setProject(null);
-      ModelManager.setProjectNameByResource(resource);
       try {
         int i = 0;
         String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
         String _plus = ("file:/" + _workspaceAbsolutePath);
         String _plus_1 = (_plus + "/");
-        String _project = WodelContext.getProject();
-        String _plus_2 = (_plus_1 + _project);
+        String _name = this.project.getName();
+        String _plus_2 = (_plus_1 + _name);
         String _plus_3 = (_plus_2 + 
           "/");
         String _outputFolder = ModelManager.getOutputFolder();

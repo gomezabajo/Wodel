@@ -18,14 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 import manager.ModelManager;
+import manager.ProjectUtils;
 import wodel.metrics.fixed.MetaModelMutatorMetrics;
-import manager.WodelContext;
 import manager.StaticMutatorMetrics.WodelMetric;
 import manager.StaticMutatorMetrics.WodelMetricAttribute;
 import manager.StaticMutatorMetrics.WodelMetricClass;
 import manager.StaticMutatorMetrics.WodelMetricFeature;
 import manager.StaticMutatorMetrics.WodelMetricReference;
-import manager.ViewUtils;
 
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;
@@ -161,9 +160,11 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 	}
 
 	public void createPartControl(Composite parent) {
-		WodelContext.setProject(null);
+		if (ProjectUtils.isReadyProject() != true) {
+			return;
+		}
 		String metamodel = ModelManager.getMetaModel();
-		String project = manager.WodelContext.getProject();
+		String project = ProjectUtils.getProject().getName();
 		metrics = new ArrayList<WodelMetricClass>();
 		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(project, metamodel)));
 

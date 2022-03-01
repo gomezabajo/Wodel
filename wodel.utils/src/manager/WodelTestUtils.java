@@ -19,8 +19,11 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
@@ -32,9 +35,13 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.osgi.framework.Bundle;
@@ -48,6 +55,13 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 
 public class WodelTestUtils {
+	
+	public static final String NATURE_ID = "builder.wodelTestProjectNature";
+	
+	private static IProject project = null;
+	private static IFile file = null;
+	private static IStructuredSelection selection = null;
+	private static IWorkbenchWindow window = null;
 	
 	public static Class<?> loadClass(String className, Object source) {
 		Class<?> cls = null;
@@ -901,4 +915,106 @@ public class WodelTestUtils {
 		}
 		return null;
 	}
+
+	private static IFile getFile(IEditorPart part)
+	{
+		return (IFile) part.getEditorInput().getAdapter(IFile.class);
+	}
+
+	private static IFile getFile(IStructuredSelection structuredSelection)
+	{
+		IFile file = null;
+		Object element = structuredSelection.getFirstElement();
+
+		if (element instanceof IFile)
+		{
+			file = (IFile) element;
+		}
+		return file;
+	}
+
+	public static boolean isReadyProject() {
+		if (project != null) {
+			return true;
+		}
+	    try {
+			String workspacePath = ModelManager.getWorkspaceAbsolutePath();
+			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			File workspaceFolder = new File(workspacePath);
+			for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
+				if (workspaceProjectFolder.isDirectory()) {
+					IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
+					if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+						project = workspaceProject;
+						break;
+					}
+				}
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	    if (project == null) {
+	    	return false;
+	    }
+	    return true;
+	}
+	
+	public static boolean isReadyFile() {
+		window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window == null) {
+			window = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+		}
+	    if (window != null && window.getSelectionService().getSelection() instanceof IStructuredSelection)
+	    {
+	        selection = (IStructuredSelection) window.getSelectionService().getSelection();
+	        if (selection != null) {
+	        	file = getFile(selection);
+	        }
+	    }
+	    if (window != null && window.getSelectionService().getSelection() instanceof ITextSelection) {
+	    	IEditorPart part = window.getActivePage().getActiveEditor();
+	    	if (part == null) {
+	    		part = window.getActivePage().getEditorReferences()[0].getEditor(true);
+	    	}
+	    	if (part != null) {
+	    		file = getFile(part);
+	    	}
+	    }
+	    if (file == null) {
+	    	return false;
+	    }
+	    return true;
+	}
+
+	public static IProject getProject() {
+		if (project == null) {
+			isReadyProject();
+		}
+		return project;
+	}
+	
+	public static IFile getFile() {
+		if (file == null) {
+			isReadyFile();
+		}
+		return file;
+	}
+	
+	public static IWorkbenchWindow getWorkbenchWindow() {
+		if (window == null) {
+			isReadyFile();
+		}
+		return window;
+	}
+
+	public static IStructuredSelection getSelection() {
+		if (selection == null) {
+			isReadyFile();
+		}
+		return selection;
+	}
+	
 }

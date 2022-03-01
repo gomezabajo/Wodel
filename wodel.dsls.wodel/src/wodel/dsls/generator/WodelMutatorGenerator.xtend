@@ -94,6 +94,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EClass
 import java.util.Map
 import java.util.HashMap
+import org.eclipse.core.resources.IProject
+import manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -107,6 +109,7 @@ import java.util.HashMap
 
 public class WodelMutatorGenerator extends AbstractGenerator {
 	
+	private IProject project = ProjectUtils.getProject();
 	private int nMethod = 0;
 	private int nMethodCall = 0;
 	private int nCompositeMethod = 0;
@@ -172,7 +175,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 			var File file = files.get(i)
 			if (file.isFile == true) {
 				if (file.getName().equals(fileName)) {
-					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(manager.WodelContext.getProject)).replace("\\", "/")
+					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
 					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
 				}
 			}
@@ -186,11 +189,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
-		path = ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject		
+		path = ModelManager.getWorkspaceAbsolutePath + "/" + project.name
 
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath+ "/" +manager.WodelContext.getProject + "/"
+		var projectFolderName = ModelManager.getWorkspaceAbsolutePath+ "/" + project.name + "/"
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var MutatorEnvironment mutatorEnvironment = null
@@ -199,7 +200,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 			fileName = resource.URI.lastSegment
 			var String xTextFileName = getMutatorPath(files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + program.output + fileName.replaceAll(".mutator", ".model")
 			WodelUtils.serialize(xTextFileName, xmiFileName)
 
 			fileName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
@@ -221,12 +222,12 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 		
 		var List<String> mutators = getMutators(files)
 		
-		fsa.generateFile("mutator/" + manager.WodelContext.getProject.replaceAll("[.]", "/") + "/" + manager.WodelContext.getProject.replaceAll("[.]", "_") + "Launcher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
+		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "Launcher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
 	
 	def launcher(MutatorEnvironment e, List<String> mutators) '''
 
-package mutator.«manager.WodelContext.getProject»;
+package mutator.«project.name»;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -250,7 +251,7 @@ import manager.ModelManager;
 import manager.MutatorUtils;
 import manager.MutatorUtils.MutationResults;
 
-public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher implements IMutatorExecutor {
+public class «project.name.replaceAll("[.]", "_")»Launcher implements IMutatorExecutor {
 
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
@@ -2024,7 +2025,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + manager.WodelContext.getProject + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -2656,7 +2657,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + manager.WodelContext.getProject + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -3335,7 +3336,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + manager.WodelContext.getProject + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -5684,14 +5685,14 @@ public class «className» extends MutatorUtils {
 	   	if (metrics == true) {
 	   		List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic net metrics");
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
 	   	}
 	   	if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic debug metrics");
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);   			
 	   	}
@@ -5772,14 +5773,14 @@ public class «className» extends MutatorUtils {
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
 		}
 		if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 			monitor.worked(1);   			
 		}

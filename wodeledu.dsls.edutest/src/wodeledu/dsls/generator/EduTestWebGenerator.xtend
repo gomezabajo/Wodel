@@ -46,17 +46,15 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 	private List<EObject> blocks
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject +
+			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
 			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
-			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore";
+			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/resources/MutatorEnvironment.ecore";
 			val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
 			//val EPackage epackage = mutatorpackages.get(0);
 			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);

@@ -29,6 +29,8 @@ import java.util.ArrayList
 import mutatorenvironment.MutatorenvironmentFactory
 import java.util.Map
 import java.util.AbstractMap.SimpleEntry
+import org.eclipse.core.resources.IProject
+import manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel USE code generator.
@@ -45,6 +47,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 		int max = 0
 	}
 	
+	private IProject project = ProjectUtils.getProject();
 	private String fileName
 	private String modelName
 	private String useName
@@ -102,8 +105,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 			var File file = files.get(i)
 			if (file.isFile == true) {
 				if (file.getName().equals(fileName)) {
-					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(manager.WodelContext.getProject)).replace("\\", "/")
-					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
+					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
+					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + mutatorFolderAndFile
 				}
 			}
 			else {
@@ -115,9 +118,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	}
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
-		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
+		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
 
 		var MutatorEnvironment mutatorEnvironment = null
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
@@ -146,7 +147,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 				val MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment
 				blockMutatorEnvironment.definition = EcoreUtil.copy(e.definition)
 				blockMutatorEnvironment.blocks.add(EcoreUtil.copy(b))
-				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
+				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath + '/' + project.name + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
 				blockResource.contents.add(blockMutatorEnvironment)
 				fsa.generateFile(useName, blockMutatorEnvironment.use(resource, blockResource).removeComments("use"))
 				fsa.generateFile(propertiesName, blockMutatorEnvironment.properties(resource, blockResource).removeComments("properties"))

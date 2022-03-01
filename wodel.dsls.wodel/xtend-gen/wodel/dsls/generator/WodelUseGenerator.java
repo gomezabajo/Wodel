@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import manager.ModelManager;
+import manager.ProjectUtils;
 import manager.UseGeneratorUtils;
-import manager.WodelContext;
 import mutatorenvironment.Block;
 import mutatorenvironment.Constraint;
 import mutatorenvironment.Definition;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.miniOCL.InvariantCS;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -53,6 +54,8 @@ public class WodelUseGenerator extends AbstractGenerator {
     
     private int max = 0;
   }
+  
+  private IProject project = ProjectUtils.getProject();
   
   private String fileName;
   
@@ -137,7 +140,7 @@ public class WodelUseGenerator extends AbstractGenerator {
         if (_equals) {
           boolean _equals_1 = file.getName().equals(this.fileName);
           if (_equals_1) {
-            String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(WodelContext.getProject())).replace("\\", "/");
+            String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.project.getName())).replace("\\", "/");
             String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
             String _plus = ("file:/" + _workspaceAbsolutePath);
             String _plus_1 = (_plus + "/");
@@ -155,12 +158,10 @@ public class WodelUseGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    WodelContext.setProject(null);
-    ModelManager.setProjectNameByResource(resource);
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
-    String _project = WodelContext.getProject();
-    String _plus_1 = (_plus + _project);
+    String _name = this.project.getName();
+    String _plus_1 = (_plus + _name);
     this.path = _plus_1;
     MutatorEnvironment mutatorEnvironment = null;
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
@@ -185,12 +186,12 @@ public class WodelUseGenerator extends AbstractGenerator {
         for (final Block b : _blocks) {
           {
             this.fileName = resource.getURI().lastSegment();
-            String _name = b.getName();
-            String _plus_2 = ("_" + _name);
+            String _name_1 = b.getName();
+            String _plus_2 = ("_" + _name_1);
             String _plus_3 = (_plus_2 + ".java");
             String _replaceAll = this.fileName.replaceAll(".mutator", _plus_3);
-            String _name_1 = b.getName();
-            String _plus_4 = ("_" + _name_1);
+            String _name_2 = b.getName();
+            String _plus_4 = ("_" + _name_2);
             String _plus_5 = (_plus_4 + ".java");
             this.fileName = _replaceAll.replace(".model", _plus_5);
             this.modelName = this.fileName.replaceAll(".java", "");
@@ -202,8 +203,8 @@ public class WodelUseGenerator extends AbstractGenerator {
             String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
             String _plus_6 = ("file://" + _workspaceAbsolutePath_1);
             String _plus_7 = (_plus_6 + "/");
-            String _project_1 = WodelContext.getProject();
-            String _plus_8 = (_plus_7 + _project_1);
+            String _name_3 = this.project.getName();
+            String _plus_8 = (_plus_7 + _name_3);
             String _plus_9 = (_plus_8 + "/");
             String _outputFolder = ModelManager.getOutputFolder();
             String _plus_10 = (_plus_9 + _outputFolder);

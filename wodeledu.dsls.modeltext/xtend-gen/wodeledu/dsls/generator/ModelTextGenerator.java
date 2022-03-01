@@ -5,8 +5,9 @@ package wodeledu.dsls.generator;
 
 import com.google.common.collect.Iterables;
 import manager.ModelManager;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import modeltext.IdentifyElements;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
@@ -22,6 +23,8 @@ import wodeledu.dsls.ModelTextUtils;
  */
 @SuppressWarnings("all")
 public class ModelTextGenerator extends AbstractGenerator {
+  protected IProject project = ProjectUtils.getProject();
+  
   private String fileName;
   
   private String path;
@@ -30,12 +33,10 @@ public class ModelTextGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    WodelContext.setProject(null);
-    ModelManager.setProjectNameByResource(resource);
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
-    String _project = WodelContext.getProject();
-    String _plus_1 = (_plus + _project);
+    String _name = this.project.getName();
+    String _plus_1 = (_plus + _name);
     this.path = _plus_1;
     Iterable<IdentifyElements> _filter = Iterables.<IdentifyElements>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), IdentifyElements.class);
     for (final IdentifyElements e : _filter) {

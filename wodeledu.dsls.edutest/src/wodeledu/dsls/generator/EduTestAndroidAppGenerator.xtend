@@ -22,7 +22,6 @@ import edutest.MultiChoiceDiagram
 import edutest.MultiChoiceEmendation
 import java.util.ArrayList
 import manager.IOUtils
-import manager.WodelContext
 import java.io.File
 import java.util.AbstractMap.SimpleEntry
 import java.util.HashMap
@@ -42,12 +41,10 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	//private String pageName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject +
+			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
 			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
@@ -117,7 +114,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 				«FOR test : exercise.tests»
 					«IF rand.get(exercise).get(test).size() > 0»
 						«var diagram = rand.get(exercise).get(test).get(0)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 						«drawable.put(i,"q" + i + "_enunciado.png")»
 						«{i++; ""}»
 					«ENDIF»
@@ -131,7 +128,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 								«IF opt.text.size > 0»
 									«IF opt.solution == true»
 										«var diagram=opt.path»
-										«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+										«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 										«drawable.put(i,"q" + i + "_enunciado.png")»
 		 								«{i++; ""}»
 									«ENDIF»
@@ -146,7 +143,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 					«var int j = 0»
 					«var HashMap<Integer,String> diccAux = new HashMap()»
 					«FOR diag : diagrams.get(exercise).get(test)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
+						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
 						«diccAux.put(j, "q" + i + "_respuesta" + j+".png")»
 						«{j++; ""}»
 					«ENDFOR»
@@ -188,7 +185,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 					«ENDIF»
 					«IF opt !== null»
 					    «var diagram=opt.path»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 						«drawable.put(i,"q" + i + "_enunciado.png")»
 						«{i++; ""}»
 					«ENDIF»

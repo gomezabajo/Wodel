@@ -45,7 +45,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import manager.ModelManager;
-import manager.ViewUtils;
 import utils.MutatorHelper;
 import manager.WodelTestUtils;
 import manager.IWodelTest;
@@ -197,10 +196,10 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (!ViewUtils.isReady()) {
+		if (WodelTestUtils.isReadyProject() != true) {
 			return;
 		}
-		IProject project = ViewUtils.getProject();
+		IProject project = WodelTestUtils.getProject();
 	    
 	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
 	    String classespath = path + "/data/classes.txt";

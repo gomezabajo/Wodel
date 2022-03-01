@@ -7,6 +7,7 @@ Bundle-Activator: wodel.metrics.command.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  wodel.utils,
- wodel.models
+ wodel.models,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

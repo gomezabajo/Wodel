@@ -53,7 +53,6 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.ViewUtils;
 import utils.MutatorHelper;
 import manager.IWodelTest;
 import manager.WodelTestClass;
@@ -166,10 +165,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		// TODO Auto-generated method stub
-		if (!ViewUtils.isReady()) {
+		if (WodelTestUtils.isReadyProject() != true) {
 			return;
 		}
-		IProject project = ViewUtils.getProject();
+		IProject project = WodelTestUtils.getProject();
 	    
 	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
 	    String classespath = path + "/data/classes.txt";

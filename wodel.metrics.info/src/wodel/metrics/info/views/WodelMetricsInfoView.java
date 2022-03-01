@@ -11,8 +11,7 @@ import java.util.List;
 
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.ViewUtils;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import mutatorenvironment.MutatorEnvironment;
 import wodel.metrics.info.MutatorInfo;
 import wodel.metrics.info.MutatorInfo.MutatorInfoClass;
@@ -26,6 +25,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -82,14 +82,13 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 	}
 
 	public void createPartControl(Composite parent) {
-		if (!ViewUtils.isReady()) {
+		if (ProjectUtils.isReadyProject() != true) {
 			return;
 		}
 		try {
-			WodelContext.setProject(null);
 			String output = ModelManager.getOutputPath();
 			String metamodel = ModelManager.getMetaModel();
-			String fileName = manager.WodelContext.getFileName();
+			String fileName = ProjectUtils.getFileName();
 			if (fileName.endsWith(".mutator") == false) {
 				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
@@ -291,6 +290,7 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 		}
 		 
 		public String getColumnText(Object element, int columnIndex) {
+			IProject iProject = ProjectUtils.getProject();
 			switch (columnIndex) {
 			case 0:
 				if (element instanceof MutatorInfoClass) {
@@ -304,12 +304,12 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 					return ((MutatorInfoFeature) element).getName() + " (" + ((MutatorInfoFeature) element).getSeeds().length + " s./" + count + " m.)";
 				}
 				if (element instanceof MutatorInfoSeed) {
-					return getRelativePath(((MutatorInfoSeed) element).getPath(), WodelContext.getProject()) + " (" + ((MutatorInfoSeed) element).getMutants().length + "m.)";
+					return getRelativePath(((MutatorInfoSeed) element).getPath(), iProject.getName()) + " (" + ((MutatorInfoSeed) element).getMutants().length + "m.)";
 				}
 				break;
 			case 1:
 				if (element instanceof MutatorInfoMutant) {
-					return getRelativePath(((MutatorInfoMutant) element).getPath(), WodelContext.getProject());
+					return getRelativePath(((MutatorInfoMutant) element).getPath(), iProject.getName());
 				}
 				break;
 			}

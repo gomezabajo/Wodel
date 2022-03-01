@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.TreeMap;
 import manager.IOUtils;
 import manager.ModelManager;
-import manager.WodelContext;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -39,15 +38,13 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
-      WodelContext.setProject(null);
-      ModelManager.setProjectNameByResource(resource);
       try {
         int i = 0;
         String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
         String _plus = ("file:/" + _workspaceAbsolutePath);
         String _plus_1 = (_plus + "/");
-        String _project = WodelContext.getProject();
-        String _plus_2 = (_plus_1 + _project);
+        String _name = this.project.getName();
+        String _plus_2 = (_plus_1 + _name);
         String _plus_3 = (_plus_2 + 
           "/");
         String _outputFolder = ModelManager.getOutputFolder();
@@ -129,8 +126,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
                       String _plus = (_workspaceAbsolutePath + "/");
-                      String _project = WodelContext.getProject();
-                      String _plus_1 = (_plus + _project);
+                      String _name = this.project.getName();
+                      String _plus_1 = (_plus + _name);
                       String _plus_2 = (_plus_1 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
                       String _plus_3 = (_plus_2 + Integer.valueOf(i));
                       String diagramFolderName = (_plus_3 + ".imageset/");
@@ -155,8 +152,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_4 = (_workspaceAbsolutePath_1 + "/");
-                      String _project_1 = WodelContext.getProject();
-                      String _plus_5 = (_plus_4 + _project_1);
+                      String _name_1 = this.project.getName();
+                      String _plus_5 = (_plus_4 + _name_1);
                       String _plus_6 = (_plus_5 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
                       String _plus_7 = (_plus_6 + Integer.valueOf(i));
                       String _plus_8 = (_plus_7 + ".imageset/ejercicio");
@@ -166,8 +163,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_10 = (_workspaceAbsolutePath_2 + "/");
-                      String _project_2 = WodelContext.getProject();
-                      String _plus_11 = (_plus_10 + _project_2);
+                      String _name_2 = this.project.getName();
+                      String _plus_11 = (_plus_10 + _name_2);
                       String _plus_12 = (_plus_11 + "/src-gen/html/diagrams/");
                       String _replace = test.getSource().replace(".model", "");
                       String _plus_13 = (_plus_12 + _replace);

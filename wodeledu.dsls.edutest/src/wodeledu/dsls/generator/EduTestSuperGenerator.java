@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
@@ -62,7 +62,7 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import modeltext.Element;
 import mutatext.Constant;
 import mutatext.Option;
@@ -75,6 +75,7 @@ import mutatorenvironment.ModifyInformationMutator;
 
 public class EduTestSuperGenerator extends AbstractGenerator {
 
+	protected IProject project = ProjectUtils.getProject();
 	protected Map<MutatorTests, List<Test>> tests = new HashMap<MutatorTests, List<Test>>();
 	protected Map<MutatorTests, Map<Test, List<String>>> diagrams = new HashMap<MutatorTests, Map<Test, List<String>>>();
 	protected Map<MutatorTests, Map<Test, List<String>>> rand = new HashMap<MutatorTests, Map<Test, List<String>>>();
@@ -499,7 +500,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + manager.WodelContext.getProject() +
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", ".model");
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
 			EObject definition = ModelManager.getObjectsOfType("Definition", mutatormodel).get(0);
@@ -641,7 +642,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private void buildAlternativeResponseOrMultiChoiceDiagram(MutatorTests exercise, Map<Test, List<String>> diags) {
 		for (Test test : exercise.getTests()) {
-			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
+			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
 			List<String> fileNames = new ArrayList<String>();
 			if (folder.isDirectory() == true) {
 				for (File f : folder.listFiles()) {
@@ -652,7 +653,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			}
 			if (exercise.getBlocks() != null) {
 				for (Block block : exercise.getBlocks()) {
-					folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + block.getName());
+					folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + block.getName());
 					if (folder.isDirectory() == true) {
 						for (File f : folder.listFiles()) {
 							if (f.getName().endsWith(".png")) {
@@ -662,7 +663,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 					if (block.getFrom().size() > 0) {
 						for (Block b : block.getFrom()) {
-						File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + b.getName() + "/" + block.getName());
+						File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + b.getName() + "/" + block.getName());
 							if (wrongFolder.isDirectory() == true) {
 								for (File f : wrongFolder.listFiles()) {
 									for (File w : f.listFiles()) {
@@ -3893,13 +3894,13 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
-			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
 			fileURL = bundle.getEntry("/models/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
 			fileURL = bundle.getEntry("/models/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
@@ -4390,13 +4391,13 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
-			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
 			fileURL = bundle.getEntry("/models/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
 			fileURL = bundle.getEntry("/models/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
@@ -4563,13 +4564,13 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
-			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
 			fileURL = bundle.getEntry("/models/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
 			fileURL = bundle.getEntry("/models/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
@@ -4670,7 +4671,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	
 	protected String getStringBase64(String fileName) {
 		String base64 = "";
-		File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + fileName);
+		File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + fileName);
 		try {
 			byte[] bytes = Base64.getEncoder().withoutPadding().encode(Files.readAllBytes(file.toPath()));
 			base64 = new String(bytes, StandardCharsets.UTF_8);

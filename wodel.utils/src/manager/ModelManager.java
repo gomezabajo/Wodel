@@ -73,6 +73,7 @@ import exceptions.WrongAttributeTypeException;
 public class ModelManager {
 
 	public static Random rn = new Random((int) System.currentTimeMillis());
+	public static IProject wodelProject = null;
 	
 	public static boolean isRegistered(List<EPackage> packages) {
 		for (EPackage pack : packages) {
@@ -115,17 +116,27 @@ public class ModelManager {
 		try {
 			metamodel = new ArrayList<EPackage>();
 			
+			String mmURI = uri;
+			
+			File fmm = new File(uri);
+			if (fmm.exists() == false && uri.indexOf("/") != -1) {
+				mmURI = getMetaModelPath() + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+			}
+			if (fmm.exists() == false && uri.indexOf("/") == -1) {
+				mmURI = getMetaModelPath() + "/" + uri;
+			}
+			
 			// check if it is already registered
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(uri);
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
 			
 			// otherwise
-			if (pck==null) {
+			if (pck == null) {
 				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
 				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
 					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 				
 				ResourceSetImpl resourceSet = new ResourceSetImpl();
-				Resource        resource    = resourceSet.getResource(URI.createFileURI(uri), true);
+				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
 				for (EObject obj : resource.getContents()) {
 					if (obj instanceof EPackage) {
 						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
@@ -150,15 +161,17 @@ public class ModelManager {
 		try {
 			metamodel = new ArrayList<EPackage>();
 			
+			String mmURI = uri;
+			
 			// check if it is already registered
 			File fmm = new File(uri);
-			if (fmm.exists() == false && uri.indexOf("/") != -1) {
-				uri = getMetaModelPath(cls) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+			if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
+				mmURI = getMetaModelPath(cls) + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
 			}
-			if (fmm.exists() == false && uri.indexOf("/") == -1) {
-				uri = getMetaModelPath(cls) + "/" + uri;
+			if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
+				mmURI = getMetaModelPath(cls) + "/" + mmURI;
 			}
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(uri);
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
 			
 			// otherwise
 			if (pck==null) {
@@ -167,7 +180,7 @@ public class ModelManager {
 					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 				
 				ResourceSetImpl resourceSet = new ResourceSetImpl();
-				Resource        resource    = resourceSet.getResource(URI.createFileURI(uri), true);
+				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
 				for (EObject obj : resource.getContents()) {
 					if (obj instanceof EPackage) {
 						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
@@ -249,11 +262,15 @@ public class ModelManager {
 		IPath path = Platform.getLocation().makeAbsolute();
 
 		URI uri = URI.createFileURI(model);
+		IProject project = ProjectUtils.getProject();
+		if (project != null) {
+			wodelProject = project;
+		}
 
 		// The URI is relative so we have to complete it
 		if (uri.hasAbsolutePath() != true) {
 			uri = URI.createFileURI(path.toString() + "/"
-					+ WodelContext.getProject() + "/" + model);
+					+ wodelProject.getName() + "/" + model);
 		}
 
 		return uri;
@@ -317,9 +334,13 @@ public class ModelManager {
 	}
 
 	public static String getMetaModelPath() {
+		IProject project = ProjectUtils.getProject();
+		if (project != null) {
+			wodelProject = project;
+		}
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ wodelProject.getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -551,18 +572,20 @@ public class ModelManager {
 	}
 
 	public static String getOutputPath() {
+		IProject project = ProjectUtils.getProject();
+		if (project != null) {
+			wodelProject = project;
+		}
 		try {
-			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+			String path = getWorkspaceAbsolutePath() + "/" + wodelProject.getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
 			br.readLine();
-			String mutantName = br.readLine();
+			String mutatorName = br.readLine();
 			br.close();
-			return getWorkspaceAbsolutePath() + '/' + WodelContext.getProject()
-					+ '/' + mutantName;
+			return getWorkspaceAbsolutePath() + '/' + wodelProject.getName() + "/" + mutatorName;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

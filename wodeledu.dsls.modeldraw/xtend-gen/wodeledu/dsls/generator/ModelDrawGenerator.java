@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import manager.JavaUtils;
 import manager.ModelManager;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import modeldraw.BooleanAttribute;
 import modeldraw.Content;
 import modeldraw.Decoration;
@@ -23,6 +23,7 @@ import modeldraw.NodeShape;
 import modeldraw.NodeStyle;
 import modeldraw.NodeType;
 import modeldraw.Relation;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -42,14 +43,14 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
  */
 @SuppressWarnings("all")
 public class ModelDrawGenerator extends AbstractGenerator {
+  protected IProject project = ProjectUtils.getProject();
+  
   private String fileName;
   
   private String className;
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    WodelContext.setProject(null);
-    ModelManager.setProjectNameByResource(resource);
     int i = 0;
     this.fileName = resource.getURI().lastSegment();
     String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
@@ -602,8 +603,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
   public CharSequence compile(final MutatorDraw draw) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("package mutator.");
-    String _project = WodelContext.getProject();
-    _builder.append(_project);
+    String _name = this.project.getName();
+    _builder.append(_name);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
@@ -665,8 +666,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.append("   \t\t");
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
-    String _project_1 = WodelContext.getProject();
-    String folder = (_plus + _project_1);
+    String _name_1 = this.project.getName();
+    String folder = (_plus + _name_1);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     {
@@ -693,8 +694,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.append("ArrayList<EObject> lnode_");
                 _builder.append(counter, "\t\t");
                 _builder.append(" = ModelManager.getObjectsOfType(\"");
-                String _name = node.getName().getName();
-                _builder.append(_name, "\t\t");
+                String _name_2 = node.getName().getName();
+                _builder.append(_name_2, "\t\t");
                 _builder.append("\", model);");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -731,8 +732,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.append("\t");
                     _builder.append("\t\t");
                     _builder.append("if (att.getName().equals(\"");
-                    String _name_1 = node.getAttName().getName();
-                    _builder.append(_name_1, "\t\t\t\t");
+                    String _name_3 = node.getAttName().getName();
+                    _builder.append(_name_3, "\t\t\t\t");
                     _builder.append("\")) {");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -784,8 +785,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_2 = att.getAtt().getName();
-                            _builder.append(_name_2, "\t\t\t\t");
+                            String _name_4 = att.getAtt().getName();
+                            _builder.append(_name_4, "\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t");
@@ -1184,8 +1185,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("if (ref.getName().equals(\"");
-                                                String _name_3 = ref.getName();
-                                                _builder.append(_name_3, "\t\t\t\t\t\t");
+                                                String _name_5 = ref.getName();
+                                                _builder.append(_name_5, "\t\t\t\t\t\t");
                                                 _builder.append("\")) {");
                                                 _builder.newLineIfNotEmpty();
                                                 _builder.append("\t");
@@ -1221,8 +1222,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                     _builder.append("\t\t");
                                                     _builder.append("\t\t");
                                                     _builder.append("cl = ModelManager.getEClassByName(packages, \"");
-                                                    String _name_4 = content.getName().getName();
-                                                    _builder.append(_name_4, "\t\t\t\t\t\t\t");
+                                                    String _name_6 = content.getName().getName();
+                                                    _builder.append(_name_6, "\t\t\t\t\t\t\t");
                                                     _builder.append("\");");
                                                     _builder.newLineIfNotEmpty();
                                                     _builder.append("\t");
@@ -1309,8 +1310,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                     _builder.append("\t\t");
                                                     _builder.append("\t\t\t\t\t\t");
                                                     _builder.append("if (obj.eClass().getName().equals(\"");
-                                                    String _name_5 = content.getName().getName();
-                                                    _builder.append(_name_5, "\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                                                    String _name_7 = content.getName().getName();
+                                                    _builder.append(_name_7, "\t\t\t\t\t\t\t\t\t\t\t\t\t");
                                                     _builder.append("\")) {");
                                                     _builder.newLineIfNotEmpty();
                                                     _builder.append("\t");
@@ -1505,8 +1506,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                     _builder.append("\t\t");
                                                     _builder.append("\t\t\t\t");
                                                     _builder.append("if (obj.eClass().getName().equals(\"");
-                                                    String _name_6 = content.getName().getName();
-                                                    _builder.append(_name_6, "\t\t\t\t\t\t\t\t\t\t\t");
+                                                    String _name_8 = content.getName().getName();
+                                                    _builder.append(_name_8, "\t\t\t\t\t\t\t\t\t\t\t");
                                                     _builder.append("\")) {");
                                                     _builder.newLineIfNotEmpty();
                                                     _builder.append("\t");
@@ -1975,8 +1976,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.append("ArrayList<EObject> ledge_");
                     _builder.append(counter_1, "\t\t");
                     _builder.append(" = ModelManager.getObjectsOfType(\"");
-                    String _name_7 = edge.getName().getName();
-                    _builder.append(_name_7, "\t\t");
+                    String _name_9 = edge.getName().getName();
+                    _builder.append(_name_9, "\t\t");
                     _builder.append("\", model);");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2033,8 +2034,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.append("\t");
                         _builder.append("\t\t");
                         _builder.append("if (ref.getName().equals(\"");
-                        String _name_8 = edge.getSource().getName();
-                        _builder.append(_name_8, "\t\t\t\t");
+                        String _name_10 = edge.getSource().getName();
+                        _builder.append(_name_10, "\t\t\t\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                         _builder.append("\t");
@@ -2064,8 +2065,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t\t");
                             _builder.append("\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_9 = edge.getAttName().getName();
-                            _builder.append(_name_9, "\t\t\t\t\t\t");
+                            String _name_11 = edge.getAttName().getName();
+                            _builder.append(_name_11, "\t\t\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {
@@ -2120,8 +2121,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                       if (_tripleNotEquals_8) {
                         _builder.append("\t");
                         _builder.append("if (ref.getName().equals(\"");
-                        String _name_10 = edge.getTarget().getName();
-                        _builder.append(_name_10, "\t");
+                        String _name_12 = edge.getTarget().getName();
+                        _builder.append(_name_12, "\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                         _builder.append("\t\t");
@@ -2139,8 +2140,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                           if (_tripleNotEquals_9) {
                             _builder.append("\t\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_11 = edge.getAttName().getName();
-                            _builder.append(_name_11, "\t\t\t\t");
+                            String _name_13 = edge.getAttName().getName();
+                            _builder.append(_name_13, "\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {
@@ -2211,8 +2212,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("if (ref.getName().equals(\"");
-                                    String _name_12 = reference.getName();
-                                    _builder.append(_name_12, "\t\t\t\t");
+                                    String _name_14 = reference.getName();
+                                    _builder.append(_name_14, "\t\t\t\t");
                                     _builder.append("\")) {");
                                     _builder.newLineIfNotEmpty();
                                     _builder.append("\t");
@@ -2258,8 +2259,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                 _builder.append("\t\t");
                                                 _builder.append("    ");
                                                 _builder.append("if (att.getName().equals(\"");
-                                                String _name_13 = edge.getLabel().get(i).getName();
-                                                _builder.append(_name_13, "\t\t\t\t\t\t    ");
+                                                String _name_15 = edge.getLabel().get(i).getName();
+                                                _builder.append(_name_15, "\t\t\t\t\t\t    ");
                                                 _builder.append("\")) {");
                                                 _builder.newLineIfNotEmpty();
                                                 _builder.append("\t");
@@ -2366,8 +2367,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                             _builder.append("\t\t");
                                             _builder.append("    ");
                                             _builder.append("if (refType.getName().equals(\"");
-                                            String _name_14 = edge.getRefType().get(j).getName();
-                                            _builder.append(_name_14, "\t\t\t\t\t\t    ");
+                                            String _name_16 = edge.getRefType().get(j).getName();
+                                            _builder.append(_name_16, "\t\t\t\t\t\t    ");
                                             _builder.append("\")) {");
                                             _builder.newLineIfNotEmpty();
                                             _builder.append("\t");
@@ -2401,8 +2402,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                             _builder.append("\t\t");
                                             _builder.append("    \t\t    ");
                                             _builder.append("if (att.getName().equals(\"");
-                                            String _name_15 = edge.getLabel().get(i).getName();
-                                            _builder.append(_name_15, "\t\t\t\t\t\t    \t\t    ");
+                                            String _name_17 = edge.getLabel().get(i).getName();
+                                            _builder.append(_name_17, "\t\t\t\t\t\t    \t\t    ");
                                             _builder.append("\")) {");
                                             _builder.newLineIfNotEmpty();
                                             _builder.append("\t");
@@ -2519,8 +2520,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                       boolean _tripleNotEquals_11 = (_src_label != null);
                                       if (_tripleNotEquals_11) {
                                         _builder.append("if (att.getName().equals(\"");
-                                        String _name_16 = edge.getSrc_label().getName();
-                                        _builder.append(_name_16);
+                                        String _name_18 = edge.getSrc_label().getName();
+                                        _builder.append(_name_18);
                                         _builder.append("\")) {");
                                         _builder.newLineIfNotEmpty();
                                         _builder.append("\t\t\t\t\t\t\t    ");
@@ -2535,8 +2536,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                       boolean _tripleNotEquals_12 = (_tar_label != null);
                                       if (_tripleNotEquals_12) {
                                         _builder.append("if (att.getName().equals(\"");
-                                        String _name_17 = edge.getTar_label().getName();
-                                        _builder.append(_name_17);
+                                        String _name_19 = edge.getTar_label().getName();
+                                        _builder.append(_name_19);
                                         _builder.append("\")) {");
                                         _builder.newLineIfNotEmpty();
                                         _builder.append("    ");
@@ -2618,8 +2619,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("if (att.getName().equals(\"");
-                                    String _name_18 = label.getName();
-                                    _builder.append(_name_18, "\t\t\t");
+                                    String _name_20 = label.getName();
+                                    _builder.append(_name_20, "\t\t\t");
                                     _builder.append("\")) {");
                                     _builder.newLineIfNotEmpty();
                                     _builder.append("\t");
@@ -2688,8 +2689,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("if (att.getName().equals(\"");
-                                String _name_19 = edge.getSrc_label().getName();
-                                _builder.append(_name_19, "\t\t\t");
+                                String _name_21 = edge.getSrc_label().getName();
+                                _builder.append(_name_21, "\t\t\t");
                                 _builder.append("\")) {");
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t");
@@ -2713,8 +2714,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("if (att.getName().equals(\"");
-                                String _name_20 = edge.getTar_label().getName();
-                                _builder.append(_name_20, "\t\t\t");
+                                String _name_22 = edge.getTar_label().getName();
+                                _builder.append(_name_22, "\t\t\t");
                                 _builder.append("\")) {");
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t");
@@ -2914,8 +2915,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.append("ArrayList<EObject> llevel_");
                     _builder.append(counter_1, "\t\t");
                     _builder.append(" = ModelManager.getObjectsOfType(\"");
-                    String _name_21 = level.getName().getName();
-                    _builder.append(_name_21, "\t\t");
+                    String _name_23 = level.getName().getName();
+                    _builder.append(_name_23, "\t\t");
                     _builder.append("\", model);");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2957,8 +2958,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.append("\t");
                         _builder.append("\t\t");
                         _builder.append("if (att.getName().equals(\"");
-                        String _name_22 = level.getAttName().getName();
-                        _builder.append(_name_22, "\t\t\t\t");
+                        String _name_24 = level.getAttName().getName();
+                        _builder.append(_name_24, "\t\t\t\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -3002,8 +3003,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.append("\t");
                         _builder.append("\t\t");
                         _builder.append("if (ref.getName().equals(\"");
-                        String _name_23 = level.getUpper().getName();
-                        _builder.append(_name_23, "\t\t\t\t");
+                        String _name_25 = level.getUpper().getName();
+                        _builder.append(_name_25, "\t\t\t\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                         _builder.append("\t");
@@ -3051,8 +3052,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t\t");
                             _builder.append("\t\t\t\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_24 = level.getAttName().getName();
-                            _builder.append(_name_24, "\t\t\t\t\t\t\t\t\t\t");
+                            String _name_26 = level.getAttName().getName();
+                            _builder.append(_name_26, "\t\t\t\t\t\t\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {
@@ -3145,8 +3146,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t\t");
                             _builder.append("\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_25 = level.getAttName().getName();
-                            _builder.append(_name_25, "\t\t\t\t\t\t\t");
+                            String _name_27 = level.getAttName().getName();
+                            _builder.append(_name_27, "\t\t\t\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {

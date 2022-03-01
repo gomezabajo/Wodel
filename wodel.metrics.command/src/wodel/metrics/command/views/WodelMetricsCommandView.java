@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import wodel.metrics.command.CommandMutatorMetrics;
-import manager.WodelContext;
 import manager.StaticMutatorMetrics.WodelMetric;
 import manager.StaticMutatorMetrics.WodelMetricAttribute;
 import manager.StaticMutatorMetrics.WodelMetricClass;
@@ -14,13 +13,14 @@ import manager.StaticMutatorMetrics.WodelMetricFeature;
 import manager.StaticMutatorMetrics.WodelMetricReference;
 import wodel.metrics.command.CommandMutatorMetrics.WodelMetricCommand;
 import manager.ModelManager;
-import manager.ViewUtils;
+import manager.ProjectUtils;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Color;
@@ -74,9 +74,11 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		WodelContext.setProject(null);
+		if (ProjectUtils.isReadyProject() != true) {
+			return;
+		}
 		String metamodel = ModelManager.getMetaModel();
-		String project = manager.WodelContext.getProject();
+		String project = ProjectUtils.getProject().getName();
 		List<WodelMetricCommand> metrics = new ArrayList<WodelMetricCommand>();
 		metrics.addAll(Arrays.asList(CommandMutatorMetrics.createWodelCommandMetrics(project, metamodel)));
 

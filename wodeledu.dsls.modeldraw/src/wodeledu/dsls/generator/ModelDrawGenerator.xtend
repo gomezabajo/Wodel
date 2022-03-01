@@ -9,7 +9,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 
 import modeldraw.MutatorDraw
-import manager.WodelContext
 import manager.ModelManager
 import modeldraw.NodeType
 import modeldraw.NodeShape
@@ -22,6 +21,8 @@ import modeldraw.Relation
 import manager.JavaUtils
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.core.resources.IProject
+import manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw code generator.
@@ -31,13 +32,14 @@ import org.eclipse.emf.ecore.EReference
  *  
  */
 class ModelDrawGenerator extends AbstractGenerator {
+	
+	protected IProject project = ProjectUtils.getProject()
+	
+	private String fileName
+	private String className
 
-	private String fileName;
-	private String className;
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
@@ -248,7 +250,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	
 	
 	def compile(MutatorDraw draw) '''
-	package mutator.«manager.WodelContext.getProject»;
+	package mutator.«project.name»;
 	
 	import java.io.File;
 	import java.io.FileNotFoundException;
@@ -279,7 +281,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	public class «className»Draw implements manager.IMutatorDraw {
 		
    		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
-	   			+ WodelContext.getProject()»
+	   			+ project.name»
 
 		«IF draw.nodes !== null»
 		«IF draw.nodes.size() > 0»

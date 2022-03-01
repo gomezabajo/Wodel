@@ -9,8 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import manager.ModelManager;
-import manager.ViewUtils;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import manager.DynamicMutatorMetrics.WodelMetric;
 import manager.DynamicMutatorMetrics.WodelMetricAttribute;
 import manager.DynamicMutatorMetrics.WodelMetricBlock;
@@ -34,8 +33,6 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
@@ -90,10 +87,12 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 	}
 
 	public void createPartControl(Composite parent) {
+		if (ProjectUtils.isReadyProject() != true) {
+			return;
+		}
 		try {
-			WodelContext.setProject(null);
 			String output = ModelManager.getOutputPath();
-			String fileName = manager.WodelContext.getFileName();
+			String fileName = ProjectUtils.getFileName();
 			if (fileName.endsWith(".mutator") == false) {
 				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
@@ -238,10 +237,9 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 					if (itemToShow.exists()) {
 						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						IViewPart view = page.findView(IPageLayout.ID_PROJECT_EXPLORER);
-						IWorkspace workspace = ResourcesPlugin.getWorkspace();
-						IProject project = workspace.getRoot().getProject(WodelContext.getProject());
+						IProject project = ProjectUtils.getProject();
 						String path = itemToShow.getPath();
-						String projectName = WodelContext.getProject();
+						String projectName = project.getName();
 						String substringPath = path.substring(path.indexOf(projectName) + projectName.length() + 1);
 						IResource resource = null;
 						if (itemToShow.isFile()) {

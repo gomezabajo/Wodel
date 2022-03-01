@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import manager.IOUtils;
 import manager.ModelManager;
-import manager.WodelContext;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -61,15 +60,13 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
-      WodelContext.setProject(null);
-      ModelManager.setProjectNameByResource(resource);
       try {
         int i = 0;
         String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
         String _plus = ("file:/" + _workspaceAbsolutePath);
         String _plus_1 = (_plus + "/");
-        String _project = WodelContext.getProject();
-        String _plus_2 = (_plus_1 + _project);
+        String _name = this.project.getName();
+        String _plus_2 = (_plus_1 + _name);
         String _plus_3 = (_plus_2 + 
           "/");
         String _outputFolder = ModelManager.getOutputFolder();
@@ -191,8 +188,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t");
                       String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
                       String _plus = (_workspaceAbsolutePath + "/");
-                      String _project = WodelContext.getProject();
-                      String _plus_1 = (_plus + _project);
+                      String _name = this.project.getName();
+                      String _plus_1 = (_plus + _name);
                       String _plus_2 = (_plus_1 + "/src-gen/html/diagrams/");
                       String _replace = test.getSource().replace(".model", "");
                       String _plus_3 = (_plus_2 + _replace);
@@ -201,8 +198,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       File _file = new File(_plus_5);
                       String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_6 = (_workspaceAbsolutePath_1 + "/");
-                      String _project_1 = WodelContext.getProject();
-                      String _plus_7 = (_plus_6 + _project_1);
+                      String _name_1 = this.project.getName();
+                      String _plus_7 = (_plus_6 + _name_1);
                       String _plus_8 = (_plus_7 + "/app/mobile/app/src/main/res/drawable/q");
                       String _plus_9 = (_plus_8 + Integer.valueOf(i));
                       String _plus_10 = (_plus_9 + "_enunciado.png");
@@ -253,15 +250,15 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                       _builder.append("\t");
                                       String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
                                       String _plus_11 = (_workspaceAbsolutePath_2 + "/");
-                                      String _project_2 = WodelContext.getProject();
-                                      String _plus_12 = (_plus_11 + _project_2);
+                                      String _name_2 = this.project.getName();
+                                      String _plus_12 = (_plus_11 + _name_2);
                                       String _plus_13 = (_plus_12 + "/src-gen/html/");
                                       String _plus_14 = (_plus_13 + diagram_1);
                                       File _file_2 = new File(_plus_14);
                                       String _workspaceAbsolutePath_3 = ModelManager.getWorkspaceAbsolutePath();
                                       String _plus_15 = (_workspaceAbsolutePath_3 + "/");
-                                      String _project_3 = WodelContext.getProject();
-                                      String _plus_16 = (_plus_15 + _project_3);
+                                      String _name_3 = this.project.getName();
+                                      String _plus_16 = (_plus_15 + _name_3);
                                       String _plus_17 = (_plus_16 + "/app/mobile/app/src/main/res/drawable/q");
                                       String _plus_18 = (_plus_17 + Integer.valueOf(i));
                                       String _plus_19 = (_plus_18 + "_enunciado.png");
@@ -311,8 +308,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t");
                       String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_20 = (_workspaceAbsolutePath_4 + "/");
-                      String _project_4 = WodelContext.getProject();
-                      String _plus_21 = (_plus_20 + _project_4);
+                      String _name_4 = this.project.getName();
+                      String _plus_21 = (_plus_20 + _name_4);
                       String _plus_22 = (_plus_21 + "/src-gen/html/diagrams/");
                       String _replace_1 = test_2.getSource().replace(".model", "");
                       String _plus_23 = (_plus_22 + _replace_1);
@@ -321,8 +318,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       File _file_4 = new File(_plus_25);
                       String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_26 = (_workspaceAbsolutePath_5 + "/");
-                      String _project_5 = WodelContext.getProject();
-                      String _plus_27 = (_plus_26 + _project_5);
+                      String _name_5 = this.project.getName();
+                      String _plus_27 = (_plus_26 + _name_5);
                       String _plus_28 = (_plus_27 + "/app/mobile/app/src/main/res/drawable/q");
                       String _plus_29 = (_plus_28 + Integer.valueOf(i));
                       String _plus_30 = (_plus_29 + "_respuesta");
@@ -478,15 +475,15 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t");
                       String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_33 = (_workspaceAbsolutePath_6 + "/");
-                      String _project_6 = WodelContext.getProject();
-                      String _plus_34 = (_plus_33 + _project_6);
+                      String _name_6 = this.project.getName();
+                      String _plus_34 = (_plus_33 + _name_6);
                       String _plus_35 = (_plus_34 + "/src-gen/html/");
                       String _plus_36 = (_plus_35 + diagram_2);
                       File _file_6 = new File(_plus_36);
                       String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_37 = (_workspaceAbsolutePath_7 + "/");
-                      String _project_7 = WodelContext.getProject();
-                      String _plus_38 = (_plus_37 + _project_7);
+                      String _name_7 = this.project.getName();
+                      String _plus_38 = (_plus_37 + _name_7);
                       String _plus_39 = (_plus_38 + "/app/mobile/app/src/main/res/drawable/q");
                       String _plus_40 = (_plus_39 + Integer.valueOf(i));
                       String _plus_41 = (_plus_40 + "_enunciado.png");

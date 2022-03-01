@@ -10,6 +10,8 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import manager.ModelManager
 import modeltext.IdentifyElements
 import wodeledu.dsls.ModelTextUtils
+import org.eclipse.core.resources.IProject
+import manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - modelText code generator.
@@ -18,15 +20,15 @@ import wodeledu.dsls.ModelTextUtils
  *  
  */
 class ModelTextGenerator extends AbstractGenerator {
-
-	private String fileName;
-	private String path;
-	private String xmiFileName;
+	
+	protected IProject project = ProjectUtils.getProject()
+	
+	private String fileName
+	private String path
+	private String xmiFileName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
-		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
+		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
 
 		for(e: resource.allContents.toIterable.filter(IdentifyElements)) {
 			

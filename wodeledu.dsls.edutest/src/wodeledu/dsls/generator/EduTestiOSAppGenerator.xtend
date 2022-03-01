@@ -16,7 +16,6 @@ import org.eclipse.emf.common.util.URI
 import edutest.Program
 import edutest.AlternativeResponse
 import java.util.TreeMap
-import manager.WodelContext
 import manager.IOUtils
 import java.io.File
 
@@ -27,17 +26,15 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	private String viewControllerSwift
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		manager.WodelContext.setProject(null)
-		ModelManager.setProjectNameByResource(resource)
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject +
+			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
 			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
-			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore";
+			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/resources/MutatorEnvironment.ecore";
 			val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
 			//val EPackage epackage = mutatorpackages.get(0);
 			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);
@@ -72,13 +69,13 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 				«FOR test : exercise.tests»
 					«IF rand.get(exercise).get(test).size() > 0»
 						«var diagram = rand.get(exercise).get(test).get(0)»
-						«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
+						«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
 						«var File diagramFolder = new File(diagramFolderName)»
 						«IF diagramFolder.exists() == false»
 						«{diagramFolder.mkdir(); ""}»
 						«ENDIF»
-						«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
+						«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
+						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
 						«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
 						«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
 						«drawable.put(i, "ejercicio" + i + ".png")»
@@ -245,7 +242,7 @@ class ViewController: UIViewController {
 				«FOR test : exercise.tests»
 					«IF rand.get(exercise).get(test).size() > 0»
 						«var diagram = rand.get(exercise).get(test).get(0)»
-						«/*IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))*/»
+						«/*IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))*/»
 						«/*drawable.put(i,"q" + i + "_enunciado.png")*/»
 						«{i++; ""}»
 					«ENDIF»

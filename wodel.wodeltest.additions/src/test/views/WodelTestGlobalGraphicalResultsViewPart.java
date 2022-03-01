@@ -39,7 +39,6 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.ViewUtils;
 import utils.MutatorHelper;
 import manager.IWodelTest;
 import manager.WodelTestClass;
@@ -281,10 +280,10 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		if (!ViewUtils.isReady()) {
+		if (WodelTestUtils.isReadyProject() != true) {
 			return;
 		}
-		project = ViewUtils.getProject();
+		project = WodelTestUtils.getProject();
 	    composite = parent;
 	    resultsProvider = new GlobalResultsProvider(); 
 	    final Canvas canvas = new Canvas(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);

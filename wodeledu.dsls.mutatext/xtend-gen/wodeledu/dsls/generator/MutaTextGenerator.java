@@ -5,8 +5,10 @@ package wodeledu.dsls.generator;
 
 import com.google.common.collect.Iterables;
 import manager.ModelManager;
+import manager.ProjectUtils;
 import manager.WodelContext;
 import mutatext.Configuration;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
@@ -22,6 +24,8 @@ import wodeledu.dsls.MutaTextUtils;
  */
 @SuppressWarnings("all")
 public class MutaTextGenerator extends AbstractGenerator {
+  protected IProject project = ProjectUtils.getProject();
+  
   private String fileName;
   
   private String path;
@@ -30,8 +34,6 @@ public class MutaTextGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    WodelContext.setProject(null);
-    ModelManager.setProjectNameByResource(resource);
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _project = WodelContext.getProject();
@@ -44,15 +46,15 @@ public class MutaTextGenerator extends AbstractGenerator {
         String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
         String _plus_2 = ("file:/" + _workspaceAbsolutePath_1);
         String _plus_3 = (_plus_2 + "/");
-        String _project_1 = WodelContext.getProject();
-        String _plus_4 = (_plus_3 + _project_1);
+        String _name = this.project.getName();
+        String _plus_4 = (_plus_3 + _name);
         String _plus_5 = (_plus_4 + "/src/");
         String xTextFileName = (_plus_5 + this.fileName);
         String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
         String _plus_6 = ("file:/" + _workspaceAbsolutePath_2);
         String _plus_7 = (_plus_6 + "/");
-        String _project_2 = WodelContext.getProject();
-        String _plus_8 = (_plus_7 + _project_2);
+        String _name_1 = this.project.getName();
+        String _plus_8 = (_plus_7 + _name_1);
         String _plus_9 = (_plus_8 + "/");
         String _outputFolder = ModelManager.getOutputFolder();
         String _plus_10 = (_plus_9 + _outputFolder);

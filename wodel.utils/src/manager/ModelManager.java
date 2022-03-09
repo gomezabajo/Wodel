@@ -279,7 +279,7 @@ public class ModelManager {
 	public static String getMetaModel() {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -378,7 +378,7 @@ public class ModelManager {
 	
 	public static String getDifferentRatioPath(String mutatorName) {
 		String path = getWorkspaceAbsolutePath() + '/'
-				+ WodelContext.getProject();
+				+ ProjectUtils.getProject().getName();
 		String ret = path.replaceAll("\\\\", "/") + "/data/config/" + mutatorName + ".different.txt";
 		return ret;
 	}
@@ -391,7 +391,7 @@ public class ModelManager {
 	
 	public static String getGeneratedMutantsPath(String mutatorName) {
 		String path = getWorkspaceAbsolutePath() + '/'
-				+ WodelContext.getProject();
+				+ ProjectUtils.getProject().getName();
 		String ret = path.replaceAll("\\\\", "/") + "/data/config/" + mutatorName + ".generated.txt";
 		return ret;
 	}
@@ -423,7 +423,7 @@ public class ModelManager {
 		HashSet<String> extensions = new HashSet<String>();
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -473,7 +473,7 @@ public class ModelManager {
 		List<String> modelpaths = null;
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -531,13 +531,14 @@ public class ModelManager {
 
 	public static String getModelsFolder() {
 		try {
+			IProject project = ProjectUtils.getProject();
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ project.getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
-			String ret = getWorkspaceAbsolutePath() + '/' + WodelContext.getProject()
+			String ret = getWorkspaceAbsolutePath() + '/' + project.getName()
 				+ '/' + br.readLine();
 			br.close();
 			return ret;
@@ -619,7 +620,7 @@ public class ModelManager {
 	public static String getOutputFolder() {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -662,7 +663,7 @@ public class ModelManager {
 	public static String getMutatorName() {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -682,7 +683,7 @@ public class ModelManager {
 	public static String getModelName() {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject();
+					+ ProjectUtils.getProject().getName();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));

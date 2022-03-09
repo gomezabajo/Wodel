@@ -75,7 +75,7 @@ import mutatorenvironment.ModifyInformationMutator;
 
 public class EduTestSuperGenerator extends AbstractGenerator {
 
-	protected IProject project = ProjectUtils.getProject();
+	protected IProject project = null;
 	protected Map<MutatorTests, List<Test>> tests = new HashMap<MutatorTests, List<Test>>();
 	protected Map<MutatorTests, Map<Test, List<String>>> diagrams = new HashMap<MutatorTests, Map<Test, List<String>>>();
 	protected Map<MutatorTests, Map<Test, List<String>>> rand = new HashMap<MutatorTests, Map<Test, List<String>>>();
@@ -84,6 +84,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected Map<MutatorTests, Map<Test, Double>> penalty = new HashMap<MutatorTests, Map<Test, Double>>();
 	protected Map<MutatorTests, Integer> total = new HashMap<MutatorTests, Integer>();
 	protected Map<MutatorTests, Map<Test, List<TestOption>>> options = new HashMap<MutatorTests, Map<Test, List<TestOption>>>();
+	
+	public EduTestSuperGenerator() {
+		ProjectUtils.resetProject();
+		project = ProjectUtils.getProject();
+	}
 
 	private class Registry {
 		public Resource seed;

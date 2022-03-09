@@ -33,13 +33,14 @@ import manager.ProjectUtils
  */
 class ModelDrawGenerator extends AbstractGenerator {
 	
-	protected IProject project = ProjectUtils.getProject()
+	protected IProject project = null
 	
 	private String fileName
 	private String className
-
-
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		ProjectUtils.resetProject()
+		project = ProjectUtils.getProject()
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
@@ -445,7 +446,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 								«ENDFOR»
 								if (dotnodes.containsKey(node) == true) {
 									if (dotnodes.get(node) != null) {
-										style = dotnodes.get(node);
+										LabelStyle style = dotnodes.get(node);
 										style.label = style.label + label;
 										dotnodes.put(node, style);
 									}

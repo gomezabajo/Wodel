@@ -21,13 +21,15 @@ import manager.ProjectUtils
  */
 class ModelTextGenerator extends AbstractGenerator {
 	
-	protected IProject project = ProjectUtils.getProject()
+	protected IProject project = null
 	
 	private String fileName
 	private String path
 	private String xmiFileName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		ProjectUtils.resetProject()
+		project = ProjectUtils.getProject()
 		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
 
 		for(e: resource.allContents.toIterable.filter(IdentifyElements)) {

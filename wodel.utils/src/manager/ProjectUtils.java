@@ -12,15 +12,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.model.IWorkbenchAdapter;
 
 public class ProjectUtils {
 	
@@ -28,43 +29,76 @@ public class ProjectUtils {
 	
 	private static IProject project = null;
 	private static IFile file = null;
-	private static IStructuredSelection selection = null;
+	private static ISelection selection = null;
 	private static IWorkbenchWindow window = null;
 	
+	private static IResource extractSelection(ISelection sel) {
+		if (!(sel instanceof IStructuredSelection))
+			return null;
+		IStructuredSelection ss = (IStructuredSelection) sel;
+		Object element = ss.getFirstElement();
+		if (element instanceof IResource)
+			return (IResource) element;
+		if (!(element instanceof IAdaptable))
+			return null;
+		IAdaptable adaptable = (IAdaptable)element;
+		Object adapter = adaptable.getAdapter(IResource.class);
+		return (IResource) adapter;
+	}
+
+
 	private static IFile getFile(IEditorPart part)
 	{
 		return (IFile) part.getEditorInput().getAdapter(IFile.class);
 	}
 
-	private static IFile getFile(IStructuredSelection structuredSelection)
+	private static IFile getFile(ISelection structuredSelection)
 	{
+		IResource element = extractSelection(structuredSelection);
 		IFile file = null;
-		Object element = structuredSelection.getFirstElement();
-
-		if (element instanceof IFile)
-		{
+		if (element instanceof IFile) {
 			file = (IFile) element;
 		}
 		return file;
 	}
-
+	
 	public static boolean isReadyProject() {
-		if (project != null) {
-			return true;
-		}
 	    try {
-			String workspacePath = ModelManager.getWorkspaceAbsolutePath();
-			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-			workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			File workspaceFolder = new File(workspacePath);
-			for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
-				if (workspaceProjectFolder.isDirectory()) {
-					IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-					if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
-						project = workspaceProject;
-						break;
-					}
+		    if (project == null) {
+		    	IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
+
+		    	IEditorPart editor = page.getActiveEditor();
+		    	IProject currentProject = null;
+		    	if (editor != null) {
+			    	IEditorInput input = editor.getEditorInput();
+			    	IFile f = (IFile) Platform.getAdapterManager().getAdapter(input, IFile.class);
+			    	if (f != null) {
+			    		currentProject = f.getProject();			    		
+			    	}
+		    	}
+				if (currentProject != null && currentProject.exists() && currentProject.isOpen() && currentProject.hasNature(JavaCore.NATURE_ID) && currentProject.hasNature(NATURE_ID)) {
+					project = currentProject;
+					return true;
 				}
+				if (currentProject == null) {
+					return false;
+				}
+	    		String workspacePath = ModelManager.getWorkspaceAbsolutePath();
+	    		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+	    		workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+	    		File workspaceFolder = new File(workspacePath);
+	    		for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
+	    			if (workspaceProjectFolder.isDirectory()) {
+	    				IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
+	    				if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID) && workspaceProject.getName().equals(currentProject.getName())) {
+	    					project = workspaceProject;
+	    					break;
+	    				}
+	    			}
+				}
+		    }
+			if (project != null && project.exists() && project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
+				return true;
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -105,29 +139,33 @@ public class ProjectUtils {
 	}
 
 	public static IProject getProject() {
-		if (project == null) {
-			isReadyProject();
+		if (isReadyProject() == false) {
+			return null;
 		}
 		return project;
 	}
 	
+	public static void resetProject() {
+		project = null;
+	}
+	
 	public static IFile getFile() {
-		if (file == null) {
-			isReadyFile();
+		if (isReadyFile() == false) {
+			return null;
 		}
 		return file;
 	}
 	
 	public static IWorkbenchWindow getWorkbenchWindow() {
-		if (window == null) {
-			isReadyFile();
+		if (isReadyFile() == false) {
+			return null;
 		}
 		return window;
 	}
 
-	public static IStructuredSelection getSelection() {
-		if (selection == null) {
-			isReadyFile();
+	public static ISelection getSelection() {
+		if (isReadyFile() == false) {
+			return null;
 		}
 		return selection;
 	}

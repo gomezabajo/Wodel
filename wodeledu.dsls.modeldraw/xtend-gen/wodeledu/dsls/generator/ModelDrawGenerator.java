@@ -43,7 +43,7 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
  */
 @SuppressWarnings("all")
 public class ModelDrawGenerator extends AbstractGenerator {
-  protected IProject project = ProjectUtils.getProject();
+  protected IProject project = null;
   
   private String fileName;
   
@@ -51,6 +51,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    ProjectUtils.resetProject();
+    this.project = ProjectUtils.getProject();
     int i = 0;
     this.fileName = resource.getURI().lastSegment();
     String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
@@ -1713,7 +1715,7 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
                                                 _builder.append("\t\t\t\t");
-                                                _builder.append("style = dotnodes.get(node);");
+                                                _builder.append("LabelStyle style = dotnodes.get(node);");
                                                 _builder.newLine();
                                                 _builder.append("\t");
                                                 _builder.append("\t");

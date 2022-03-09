@@ -55,7 +55,7 @@ public class WodelUseGenerator extends AbstractGenerator {
     private int max = 0;
   }
   
-  private IProject project = ProjectUtils.getProject();
+  private IProject project = null;
   
   private String fileName;
   
@@ -158,6 +158,8 @@ public class WodelUseGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    ProjectUtils.resetProject();
+    this.project = ProjectUtils.getProject();
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _name = this.project.getName();

@@ -109,38 +109,38 @@ import manager.ProjectUtils
 
 public class WodelMutatorGenerator extends AbstractGenerator {
 	
-	private IProject project = ProjectUtils.getProject();
-	private int nMethod = 0;
-	private int nMethodCall = 0;
-	private int nCompositeMethod = 0;
-	private int nRegistryMethod = 0;
-	private int nRegistryMethodCall = 0;
-	private int nCompositeRegistryMethod = 0;
-	private List<String> compositeCommands;
-	private List<String> compositeRegistryCommands;
-	private int nCommands = 0;
-	private int nMutation = 0;
-	private int nRegistryMutation = 0;
-	private int nCompositeCommands = 0;
-	private int nExpression = 0;
-	private List<Integer> expressionList;
-	private int nReference = 0;
-	private String methodName;
-	private String registryMethodName;
-	private String commandName;
-	private String attributeName;
-	private String referenceName;
-	private String compositeMethodName;
-	private String compositeRegistryMethodName;
-	private String compositeCommandName;
-	private boolean executeMutation = true;
-	private String fileName;
-	private String className;
-	private String path;
-	private String xmiFileName;
-	private int nMut;
-	private Program program;
-	private Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>();
+	private IProject project = null
+	private int nMethod = 0
+	private int nMethodCall = 0
+	private int nCompositeMethod = 0
+	private int nRegistryMethod = 0
+	private int nRegistryMethodCall = 0
+	private int nCompositeRegistryMethod = 0
+	private List<String> compositeCommands
+	private List<String> compositeRegistryCommands
+	private int nCommands = 0
+	private int nMutation = 0
+	private int nRegistryMutation = 0
+	private int nCompositeCommands = 0
+	private int nExpression = 0
+	private List<Integer> expressionList
+	private int nReference = 0
+	private String methodName
+	private String registryMethodName
+	private String commandName
+	private String attributeName
+	private String referenceName
+	private String compositeMethodName
+	private String compositeRegistryMethodName
+	private String compositeCommandName
+	private boolean executeMutation = true
+	private String fileName
+	private String className
+	private String path
+	private String xmiFileName
+	private int nMut
+	private Program program
+	private Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>()
 	
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
@@ -188,6 +188,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 	}
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		ProjectUtils.resetProject()
+		project = ProjectUtils.getProject()
 		
 		path = ModelManager.getWorkspaceAbsolutePath + "/" + project.name
 

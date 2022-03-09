@@ -122,7 +122,7 @@ import wodel.dsls.WodelUtils;
  */
 @SuppressWarnings("all")
 public class WodelMutatorGenerator extends AbstractGenerator {
-  private IProject project = ProjectUtils.getProject();
+  private IProject project = null;
   
   private int nMethod = 0;
   
@@ -249,6 +249,8 @@ public class WodelMutatorGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    ProjectUtils.resetProject();
+    this.project = ProjectUtils.getProject();
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _name = this.project.getName();

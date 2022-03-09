@@ -24,7 +24,7 @@ import wodeledu.dsls.MutaTextUtils;
  */
 @SuppressWarnings("all")
 public class MutaTextGenerator extends AbstractGenerator {
-  protected IProject project = ProjectUtils.getProject();
+  protected IProject project = null;
   
   private String fileName;
   
@@ -34,6 +34,8 @@ public class MutaTextGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    ProjectUtils.resetProject();
+    this.project = ProjectUtils.getProject();
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _project = WodelContext.getProject();

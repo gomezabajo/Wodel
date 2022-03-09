@@ -47,7 +47,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 		int max = 0
 	}
 	
-	private IProject project = ProjectUtils.getProject();
+	private IProject project = null
 	private String fileName
 	private String modelName
 	private String useName
@@ -118,6 +118,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 	}
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		ProjectUtils.resetProject()
+		project = ProjectUtils.getProject()
 		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
 
 		var MutatorEnvironment mutatorEnvironment = null

@@ -262,15 +262,12 @@ public class ModelManager {
 		IPath path = Platform.getLocation().makeAbsolute();
 
 		URI uri = URI.createFileURI(model);
-		IProject project = ProjectUtils.getProject();
-		if (project != null) {
-			wodelProject = project;
-		}
-
-		// The URI is relative so we have to complete it
-		if (uri.hasAbsolutePath() != true) {
-			uri = URI.createFileURI(path.toString() + "/"
-					+ wodelProject.getName() + "/" + model);
+		if (wodelProject != null) {
+			// The URI is relative so we have to complete it
+			if (uri.hasAbsolutePath() != true) {
+				uri = URI.createFileURI(path.toString() + "/"
+						+ wodelProject.getName() + "/" + model);
+			}
 		}
 
 		return uri;

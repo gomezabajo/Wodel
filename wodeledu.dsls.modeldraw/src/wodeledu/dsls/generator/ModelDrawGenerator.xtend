@@ -680,8 +680,16 @@ class ModelDrawGenerator extends AbstractGenerator {
 							for (String keyParameters : parameters.keySet()) {
 								if (key.equals(keyParameters)) {
 									String value = rel.get(key);
-									value = value.substring(0, value.length() - 1);
-									value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
+									if (value != null && value.length() > 0) { 
+										value = value.substring(0, value.length() - 1);
+									}
+									else {
+										value = "";
+									}
+									String valueText = parameters.get(keyParameters);
+									if (valueText != null && valueText.length() > 1) {
+										value += "\n" + valueText.substring(1, valueText.length());
+									}
 									rel.put(key, value);
 									found = true;
 								}

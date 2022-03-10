@@ -206,12 +206,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		if (parameters.containsKey("arrowtail") == false) {
 			parameters.put("arrowtail", "none");
 		}
-		if (tar_label != null) {
-			parameters.put("headlabel", tar_label);
-		}
-		else {
-			parameters.put("headlabel", "");
-		}
+		parameters.put("headlabel", tar_label != null ? tar_label : "");
 		«ENDIF»
 		«IF rel.src_decoration != Decoration.NONE»
 		if (parameters.containsKey("dir") == false) {
@@ -240,12 +235,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		if (parameters.containsKey("arrowtail") == false) {
 			parameters.put("arrowtail", "none");
 		}
-		if (src_label != null) {
-			parameters.put("taillabel", src_label);
-		}
-		else {
-			parameters.put("taillabel", "");
-		}
+		parameters.put("taillabel", src_label != null ? src_label : "");
 		«ENDIF»
 	'''
 	
@@ -257,6 +247,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	import java.io.FileNotFoundException;
 	import java.io.PrintWriter;
 	import java.io.IOException;
+	import java.io.UnsupportedEncodingException;
 	import java.lang.InterruptedException;
 	import java.util.Arrays;
 	import java.util.ArrayList;
@@ -560,8 +551,8 @@ class ModelDrawGenerator extends AbstractGenerator {
 				«IF edge.reference !== null»
 				«IF edge.label !== null || edge.src_label !== null || edge.tar_label !== null»
 				label += "\"";
+				«IF edge.reference.size > 0»
 				for (EReference ref : edge.eClass().getEAllReferences()) {
-					«IF edge.reference.size > 0»
 					«var int i = 0»
 					«var int j = 0»
 					«FOR EReference reference : edge.reference»
@@ -623,8 +614,8 @@ class ModelDrawGenerator extends AbstractGenerator {
 						}
 					}
 					«ENDFOR»
-					«ENDIF»
 				}
+				«ENDIF»
 				if (label.indexOf(",") > 0) {
 					label = label.substring(0, label.lastIndexOf(","));
 				}
@@ -677,21 +668,19 @@ class ModelDrawGenerator extends AbstractGenerator {
 					boolean found = false;
 					for (HashMap<String, String> rel : rels) {
 						for (String key : rel.keySet()) {
-							for (String keyParameters : parameters.keySet()) {
-								if (key.equals(keyParameters)) {
-									String value = rel.get(key);
-									if (value != null && value.length() > 0) { 
-										value = value.substring(0, value.length() - 1);
+							if (key.equals("label")) {
+								for (String keyParameters : parameters.keySet()) {
+									if (key.equals(keyParameters)) {
+										if (parameters.get(keyParameters).length() > 1) {
+											String value = rel.get(key);
+											if (value.length() > 0) {
+												value = value.substring(0, value.length() - 1);
+											}
+											value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
+											rel.put(key, value);
+											found = true;
+										}
 									}
-									else {
-										value = "";
-									}
-									String valueText = parameters.get(keyParameters);
-									if (valueText != null && valueText.length() > 1) {
-										value += "\n" + valueText.substring(1, valueText.length());
-									}
-									rel.put(key, value);
-									found = true;
 								}
 							}
 						}
@@ -822,7 +811,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		«ENDIF»
 		«ENDIF»
 		
-		public static void generateGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException {
+		public static void generateGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
@@ -858,7 +847,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 							}
 						}
 					}
-					PrintWriter dotwriter = new PrintWriter(dotfile);
+					PrintWriter dotwriter = new PrintWriter(dotfile, "UTF-8");
 					for (String dotline : dotcode) {
 						dotwriter.println(dotline);
 					}
@@ -918,11 +907,21 @@ class ModelDrawGenerator extends AbstractGenerator {
 						if (dotfolder.exists() != true) {
 							dotfolder.mkdir();
 						}
-						PrintWriter dotwriter = new PrintWriter(dotfile);
-						for (String dotline : dotcode) {
-							dotwriter.println(dotline);
+						PrintWriter dotwriter = null;
+						try {
+							dotwriter = new PrintWriter(dotfile, "UTF-8");
+							for (String dotline : dotcode) {
+								dotwriter.println(dotline);
+							}
+							dotwriter.close();
+						} catch (UnsupportedEncodingException e) {
+							//Reload input
+		    				try {
+								model.unload();
+								model.load(null);
+							} catch (Exception ex) {}
+							continue;
 						}
-						dotwriter.close();
 						String[] command = {"dot", "-Tpng", dotfile, "-o", pngfile};
 						try {
 							Process proc = Runtime.getRuntime().exec(command);
@@ -965,11 +964,21 @@ class ModelDrawGenerator extends AbstractGenerator {
 								if (dotfolder.exists() != true) {
 									dotfolder.mkdir();
 								}
-								PrintWriter dotwriter = new PrintWriter(dotfile);
-								for (String dotline : dotcode) {
-									dotwriter.println(dotline);
+								PrintWriter dotwriter = null;
+								try {
+									dotwriter = new PrintWriter(dotfile, "UTF-8");
+									for (String dotline : dotcode) {
+										dotwriter.println(dotline);
+									}
+									dotwriter.close();
+								} catch (UnsupportedEncodingException e) {
+									//Reload input
+		    						try {
+										model.unload();
+										model.load(null);
+									} catch (Exception ex) {}
+									continue;
 								}
-								dotwriter.close();
 								String[] command = {"dot", "-Tpng", dotfile, "-o", pngfile};
 								try {
 									Process proc = Runtime.getRuntime().exec(command);
@@ -992,7 +1001,11 @@ class ModelDrawGenerator extends AbstractGenerator {
 							if (file.getName().equals("registry") != true) {
 								File[] filesBlock = file.listFiles();
 								for (File fileBlock : filesBlock) {
-									generateGraphs(fileBlock, file.getName(), packages, exercise);
+									try {
+										generateGraphs(fileBlock, file.getName(), packages, exercise);
+									} catch (UnsupportedEncodingException e) {
+										continue;
+									}
 								}
 							}
 						}

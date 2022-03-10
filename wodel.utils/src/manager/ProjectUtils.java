@@ -80,9 +80,6 @@ public class ProjectUtils {
 					project = currentProject;
 					return true;
 				}
-				if (currentProject == null) {
-					return false;
-				}
 	    		String workspacePath = ModelManager.getWorkspaceAbsolutePath();
 	    		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 	    		workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -90,7 +87,7 @@ public class ProjectUtils {
 	    		for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 	    			if (workspaceProjectFolder.isDirectory()) {
 	    				IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-	    				if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID) && workspaceProject.getName().equals(currentProject.getName())) {
+	    				if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
 	    					project = workspaceProject;
 	    					break;
 	    				}

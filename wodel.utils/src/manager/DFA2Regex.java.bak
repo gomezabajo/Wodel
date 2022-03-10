@@ -1,0 +1,218 @@
+package manager;
+
+//import java.awt.Point;
+//import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+//import java.util.List;
+import java.util.Map;
+//import java.util.Vector;
+
+//import com.google.common.collect.ArrayListMultimap;
+
+//import wodel.fa2re.Conversor;
+//import wodel.jflap.automata.Automaton;
+//import wodel.jflap.automata.fsa.FSAToRegularExpressionConverter;
+//import wodel.jflap.automata.fsa.FiniteStateAutomaton;
+import manager.DFAUtils.State;
+import manager.DFAUtils.Transition;
+
+final public class DFA2Regex {
+	
+	private static int numStates = 0;
+	private static int inputAlphaSize = 0;
+	private static String inputAlpha = "";
+	private static HashSet<Integer> accepting = null;
+	private static int[][] nextState;
+
+	public static String toRegExp(DFAUtils.DFA automata) {
+		
+//		Automaton automaton = new FiniteStateAutomaton();
+//		automaton.clear();
+		
+//		String[] b = new String[automata.states.size()];
+//		String[][] a = new String[automata.states.size()][automata.states.size()];
+
+		numStates = automata.states.size() + 1;
+		
+		for (DFAUtils.Symbol symbol : automata.alphabet) {
+			inputAlpha += symbol.symbol;
+		}
+		inputAlphaSize = inputAlpha.length();
+		
+		nextState = new int[numStates][inputAlphaSize];
+		accepting = new HashSet<Integer>();
+		
+		boolean[][] done = new boolean[numStates][inputAlphaSize];
+		
+		for (int i = 0; i < numStates; i++) {
+			for (int j = 0; j < inputAlphaSize; j++) {
+				nextState[i][j] = numStates - 1;
+				done[i][j] = false;
+			}
+		}
+		
+		int index = 0;
+		Map<State, Integer> mapStates = new HashMap<State, Integer>();
+		for (State state : automata.states) {
+			mapStates.put(state, index);
+			if (state.isFinal) {
+				accepting.add(index);
+			}
+			index++;
+		}
+		for (Transition transition : automata.transitions) {
+			index = mapStates.get(transition.src);
+			int j = inputAlpha.indexOf(transition.symbol.symbol);
+			done[index][j] = true;
+			
+			nextState[index][j] = mapStates.get(transition.tar);
+		}
+		
+		String[][][] R = new String[numStates][numStates][numStates];
+
+		for (int i = 0; i < numStates; i++) {
+			for (int j = 0; j < numStates; j++) {
+				R[i][j][0] = "";
+				for (int k = 0; k < inputAlphaSize; k++) {
+					if (nextState[i][k] == j) {
+						if (R[i][j][0].equals(""))
+							R[i][j][0] = inputAlpha.substring(k, k + 1);
+						else
+							R[i][j][0] = R[i][j][0] + "|" + inputAlpha.substring(k, k + 1);
+					}
+				}
+				if (R[i][j][0].equals("")) {
+					if (i == j) R[i][j][0]="e";
+					else R[i][j][0] = "E";
+				} else if (i == j)
+					R[i][j][0] = R[i][j][0] + "|e";
+			}
+		}
+		for (int k = 1; k < numStates; k++) 
+			for (int i = 0; i < numStates; i++) 
+				for (int j = 0; j < numStates; j++) 
+					R[i][j][k] = R[i][j][k-1] + "|(" + R[i][k][k - 1] + ")(" + 
+							R[k][k][k - 1] + ")*(" + R[k][j][k - 1] + ")";
+		String result = "";
+		if (accepting.isEmpty())
+			result = "E";
+		else {
+			boolean first = true;
+			for (int j : accepting) {
+				if (first) first = false;
+				else result = result + "|";
+				result = result + R[0][j][numStates-1];
+			}
+		}
+		
+		return result;
+
+		
+//		Map<DFAUtils.State, wodel.jflap.automata.State> states = new HashMap<DFAUtils.State, wodel.jflap.automata.State>();
+//		DFAUtils.State initial = automata.getInitial();
+//		wodel.jflap.automata.State initialState = new wodel.jflap.automata.State(0, new Point(), automaton);
+//		initialState.setName(initial.name);
+//		automaton.setInitialState(initialState);
+//		automaton.addState(initialState);
+//		states.put(initial, initialState);
+//
+//		int i = 1;
+//		for (State state : automata.states) {
+//			if (!state.equals(initial)) {
+//				wodel.jflap.automata.State st = new wodel.jflap.automata.State(i, new Point(), automaton);
+//				st.setName(state.name);
+//				st.setLabel(state.name);
+//				automaton.addState(st);
+//				states.put(state, st);
+//				if (state.isFinal) {
+//					automaton.addFinalState(st);
+//				}
+//				i++;
+//			}
+//		}
+//		
+//		Map<DFAUtils.Transition, wodel.jflap.automata.fsa.FSATransition> transitions = new HashMap<DFAUtils.Transition, wodel.jflap.automata.fsa.FSATransition>();
+//		for (Transition transition : automata.transitions) {
+//			wodel.jflap.automata.State from = states.get(transition.src);
+//			wodel.jflap.automata.State to = states.get(transition.tar);
+//			wodel.jflap.automata.fsa.FSATransition trans = new wodel.jflap.automata.fsa.FSATransition(from, to, transition.symbol.symbol);
+//			trans.setFromState(from);
+//			trans.setToState(to);
+//			automaton.addTransition(trans);
+//			transitions.put(transition, trans);
+//		}
+//		
+//		return FSAToRegularExpressionConverter.getExpression(0, i, i, automaton);
+		
+//		Vector<wodel.fa2re.State> states = new Vector<wodel.fa2re.State>();
+//		int id = 0;
+//		List<String> order = new ArrayList<String>();
+//		Map<DFAUtils.State, wodel.fa2re.State> stateMap = new HashMap<DFAUtils.State, wodel.fa2re.State>();
+//		for (DFAUtils.State state : automata.states) {
+//			order.add(String.format("%d", id));
+//			wodel.fa2re.State st = new wodel.fa2re.State(id++, ArrayListMultimap.create(), state.isInitial, state.isFinal);
+//			stateMap.put(state, st);
+//			states.add(st);
+//		}
+//		for (Transition transition : automata.transitions) {
+//			wodel.fa2re.State from = stateMap.get(transition.src);
+//			wodel.fa2re.State to = stateMap.get(transition.tar);
+//			from.addTransition(transition.symbol.symbol, to.getIdentifier());
+//		}
+//
+//		wodel.fa2re.Conversor conversor = new wodel.fa2re.Conversor(states, order);
+//		return Conversor.minimize(conversor.convert2());
+		
+//		List<State> states = new ArrayList<State>();
+//		DFAUtils.State initial = automata.getInitial();
+//		states.add(initial);
+//		for (State state : automata.states) {
+//			if (!state.equals(initial)) {
+//				states.add(state);
+//			}
+//		}
+//		int i = 0;
+//		for (DFAUtils.State state : states) {
+//			if (state.isFinal) {
+//				b[i] = "lambda";
+//			}
+//			else {
+//				b[i] = "";
+//			}
+//			i++;
+//		}
+//		
+//		i = 0;
+//		for (DFAUtils.State sti : states) {
+//			int j = 0;
+//			for (DFAUtils.State stj : states) {
+//				for (DFAUtils.Symbol symbol : automata.alphabet) {
+//					if (automata.existsTransition(sti, symbol, stj)) {
+//						a[i][j] = symbol.symbol;
+//					}
+//					else {
+//						a[i][j] = "";
+//					}
+//				}
+//				j++;
+//			}
+//			i++;
+//		}
+//		
+//		for (int n = states.size() - 1; n >= 0; n--) {
+//			b[n] = "(" + a[n][n] + ")*" + b[n];
+//			for (int m = 0; m < n; m++) {
+//				a[n][m] = "(" + a[n][n] + ")*" + a[n][m]; 
+//			}
+//			for (int m = 0; m < n; m++) {
+//				b[m] += a[m][n] + b[n];
+//				for (int k = 0; k < n; k++) {
+//					a[m][k] += a[m][n] + a[n][k];
+//				}
+//			}
+//		}
+		
+//		return b[0];
+	}
+}

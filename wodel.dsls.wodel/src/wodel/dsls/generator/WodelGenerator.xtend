@@ -28,5 +28,4 @@ public class WodelGenerator extends AbstractGenerator {
 			useGenerator.doGenerate(input, fsa, context)
 		}
 	}
-	
 }

@@ -21,3 +21,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: mutatorenvironment,
  org.eclipse.jdt.core,
  postprocessor.run
+Export-Package: runwodel,
+ runwodel.popup.actions

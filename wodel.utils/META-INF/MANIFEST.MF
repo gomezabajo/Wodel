@@ -35,7 +35,9 @@ Import-Package: comparison.run,
  org.eclipse.emf.codegen.ecore.generator,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore.xmi.impl
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.e4.ui.model,
+ org.eclipse.e4.ui.model.application.ui.basic
 Export-Package: commands,
  commands.selection.strategies,
  commands.strategies,

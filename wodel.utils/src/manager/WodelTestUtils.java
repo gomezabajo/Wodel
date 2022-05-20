@@ -168,6 +168,52 @@ public class WodelTestUtils {
 		return cls;
 	}
 	
+	public static Class<?> loadClass(IProject project, String className) {
+		Class<?> cls = null;
+		String classname = className;
+
+		try {
+			cls = Class.forName(classname);
+		} catch (ClassNotFoundException e) {
+		}
+		
+		URLClassLoader classLoader = null;
+		if (cls == null) {
+			try {
+				if (project.hasNature(JavaCore.NATURE_ID)) {
+					IJavaProject javaProject = JavaCore.create(project);
+					// read class path entries of the project
+					String[] classPathEntries = JavaRuntime
+							.computeDefaultRuntimeClassPath(javaProject);
+					List<URL> urlList = new ArrayList<URL>();
+					for (String classPathEntry : classPathEntries) {
+						Path path = new Path(classPathEntry);
+						urlList.add(path.toFile().toURI().toURL());
+					}
+					// create url class loader whose parent is the class loader
+					// of the project
+					// and containing the class path entries of the project
+					ClassLoader parentClassLoader = project.getClass()
+							.getClassLoader();
+					URL[] urls = (URL[]) urlList
+							.toArray(new URL[urlList.size()]);
+					classLoader = new URLClassLoader(urls,
+							parentClassLoader);
+					// load class
+					cls = classLoader.loadClass(classname);
+				}
+			} catch (ClassNotFoundException e) {
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return cls;
+	}
+
 	private static List<Class<?>> getClasses(IProject project, IContainer container, Object source, String pk) {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		try {

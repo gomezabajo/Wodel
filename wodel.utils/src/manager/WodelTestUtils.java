@@ -991,7 +991,7 @@ public class WodelTestUtils {
 			for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 				if (workspaceProjectFolder.isDirectory()) {
 					IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-					if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+					if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(NATURE_ID)) {
 						project = workspaceProject;
 						break;
 					}

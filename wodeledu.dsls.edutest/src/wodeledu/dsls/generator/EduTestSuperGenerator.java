@@ -86,7 +86,6 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected Map<MutatorTests, Map<Test, List<TestOption>>> options = new HashMap<MutatorTests, Map<Test, List<TestOption>>>();
 	
 	public EduTestSuperGenerator() {
-		ProjectUtils.resetProject();
 		project = ProjectUtils.getProject();
 	}
 

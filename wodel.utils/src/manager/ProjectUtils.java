@@ -63,39 +63,22 @@ public class ProjectUtils {
 	}
 	
 	public static boolean isReadyProject() {
+		if (project != null) {
+			return true;
+		}
 	    try {
-		    if (project == null) {
-		    	IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
-
-		    	IEditorPart editor = page.getActiveEditor();
-		    	IProject currentProject = null;
-		    	if (editor != null) {
-			    	IEditorInput input = editor.getEditorInput();
-			    	IFile f = (IFile) Platform.getAdapterManager().getAdapter(input, IFile.class);
-			    	if (f != null) {
-			    		currentProject = f.getProject();			    		
-			    	}
-		    	}
-				if (currentProject != null && currentProject.exists() && currentProject.isOpen() && currentProject.hasNature(JavaCore.NATURE_ID) && currentProject.hasNature(NATURE_ID)) {
-					project = currentProject;
-					return true;
+			String workspacePath = ModelManager.getWorkspaceAbsolutePath();
+			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			File workspaceFolder = new File(workspacePath);
+			for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
+				if (workspaceProjectFolder.isDirectory()) {
+					IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
+					if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+						project = workspaceProject;
+						break;
+					}
 				}
-	    		String workspacePath = ModelManager.getWorkspaceAbsolutePath();
-	    		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-	    		workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-	    		File workspaceFolder = new File(workspacePath);
-	    		for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
-	    			if (workspaceProjectFolder.isDirectory()) {
-	    				IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-	    				if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
-	    					project = workspaceProject;
-	    					break;
-	    				}
-	    			}
-				}
-		    }
-			if (project != null && project.exists() && project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
-				return true;
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

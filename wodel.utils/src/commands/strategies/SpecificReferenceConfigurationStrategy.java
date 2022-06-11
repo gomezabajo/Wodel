@@ -18,8 +18,7 @@ import manager.EMFUtils;
  * SpecificReferenceConfigurationStrategy specific reference configuration
  * 
  */
-public class SpecificReferenceConfigurationStrategy extends
-		ReferenceConfigurationStrategy {
+public class SpecificReferenceConfigurationStrategy extends ReferenceConfigurationStrategy {
 
 	protected EReference reference;
 	protected EObject object;
@@ -77,7 +76,11 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 				}
 				if (this.object.eGet(reference) instanceof EObject) {
-					this.obj = EMFCopier.copy(this.object);
+					try { 
+						this.obj = EMFCopier.copy(this.object);
+					} catch (Exception ex) {
+						this.obj = this.object;
+					}
 					this.target = target;
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
@@ -92,7 +95,11 @@ public class SpecificReferenceConfigurationStrategy extends
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
-					this.obj = EMFCopier.copy(this.object);
+					try { 
+						this.obj = EMFCopier.copy(this.object);
+					} catch (Exception ex) {
+						this.obj = this.object;
+					}
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.value = this.object.eGet(reference);
 					this.target = target;
@@ -133,7 +140,11 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 				}
 				if (this.object.eGet(reference) instanceof EObject) {
-					this.obj = EMFCopier.copy(this.object);
+					try { 
+						this.obj = EMFCopier.copy(this.object);
+					} catch (Exception ex) {
+						this.obj = this.object;
+					}
 					this.target = target;
 					if (model.getContents().contains(this.target)) {
 						model.getContents().remove(this.target);
@@ -148,7 +159,11 @@ public class SpecificReferenceConfigurationStrategy extends
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
-					this.obj = EMFCopier.copy(this.object);
+					try { 
+						this.obj = EMFCopier.copy(this.object);
+					} catch (Exception ex) {
+						this.obj = this.object;
+					}
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.value = this.object.eGet(reference);
 					this.target = target;

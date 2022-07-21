@@ -302,6 +302,10 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             this.mutIndexes.put(mut_1, Integer.valueOf(_plusPlus_1));
           }
         }
+        boolean _isFile = fsa.isFile(((("mutator/" + this.className) + "/") + this.fileName));
+        if (_isFile) {
+          fsa.deleteFile(((("mutator/" + this.className) + "/") + this.fileName));
+        }
         fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
         mutatorEnvironment = e;
       }
@@ -313,7 +317,23 @@ public class WodelMutatorGenerator extends AbstractGenerator {
     String _replaceAll_1 = this.project.getName().replaceAll("[.]", "_");
     String _plus_6 = (_plus_5 + _replaceAll_1);
     String _plus_7 = (_plus_6 + "Launcher.java");
-    fsa.generateFile(_plus_7, JavaUtils.format(this.launcher(mutatorEnvironment, mutators), false));
+    boolean _isFile = fsa.isFile(_plus_7);
+    if (_isFile) {
+      String _replaceAll_2 = this.project.getName().replaceAll("[.]", "/");
+      String _plus_8 = ("mutator/" + _replaceAll_2);
+      String _plus_9 = (_plus_8 + "/");
+      String _replaceAll_3 = this.project.getName().replaceAll("[.]", "_");
+      String _plus_10 = (_plus_9 + _replaceAll_3);
+      String _plus_11 = (_plus_10 + "Launcher.java");
+      fsa.deleteFile(_plus_11);
+    }
+    String _replaceAll_4 = this.project.getName().replaceAll("[.]", "/");
+    String _plus_12 = ("mutator/" + _replaceAll_4);
+    String _plus_13 = (_plus_12 + "/");
+    String _replaceAll_5 = this.project.getName().replaceAll("[.]", "_");
+    String _plus_14 = (_plus_13 + _replaceAll_5);
+    String _plus_15 = (_plus_14 + "Launcher.java");
+    fsa.generateFile(_plus_15, JavaUtils.format(this.launcher(mutatorEnvironment, mutators), false));
   }
   
   public CharSequence launcher(final MutatorEnvironment e, final List<String> mutators) {

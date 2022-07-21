@@ -218,12 +218,18 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 					mutIndexes.put(mut, i++)
 				}
 			}
+     		if (fsa.isFile("mutator/" + className + "/" + fileName)) {
+				fsa.deleteFile("mutator/" + className + "/" + fileName)
+     		}
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
      		mutatorEnvironment = e
 		}
 		
 		var List<String> mutators = getMutators(files)
 		
+		if (fsa.isFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "Launcher.java")) {
+			fsa.deleteFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "Launcher.java")
+     	}
 		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "Launcher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
 	

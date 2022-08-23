@@ -13,7 +13,7 @@ This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I
 [contributors-url]: https://github.com/gomezabajo/Wodel/graphs/contributors
 
 [stars-shield]: https://img.shields.io/github/stars/gomezabajo/Wodel?style=for-the-badge
-[stars-url]: https://github.com/gomezabajo/Wodel/network/stargazers
+[stars-url]: https://github.com/gomezabajo/Wodel/stargazers
 
 [forks-shield]: https://img.shields.io/github/forks/gomezabajo/Wodel?style=for-the-badge
 [forks-url]: https://github.com/gomezabajo/Wodel/network/members

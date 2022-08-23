@@ -22,4 +22,4 @@ This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I
 [issues-url]: https://github.com/gomezabajo/Wodel/issues
 
 [license-shield]: https://img.shields.io/github/license/gomezabajo/Wodel?style=for-the-badge
-[license-url]: https://github.com/gomezabajo/Wodel/blob/main/Wodel/LICENSE.txt
+[license-url]: https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE.txt

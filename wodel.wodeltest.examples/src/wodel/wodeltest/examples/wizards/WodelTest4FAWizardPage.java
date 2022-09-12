@@ -131,7 +131,7 @@ public class WodelTest4FAWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("WodelTestFA");
+		this.projectText.setText("WodelTest4FA");
 		this.fileText.setText("WodelTest4FA.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:persons="http://persons/1.0">
-  <persons:Male fullName="Andrew org.eclipse.m2m.atl.engine.emfvm.lib.OclUndefined@737ec81c"/>
-  <persons:Female fullName="Sophia org.eclipse.m2m.atl.engine.emfvm.lib.OclUndefined@737ec81c"/>
-  <persons:Female fullName="Olivia org.eclipse.m2m.atl.engine.emfvm.lib.OclUndefined@737ec81c"/>
+  <persons:Male fullName="Andrew Brown"/>
+  <persons:Female fullName="Sophia Brown"/>
+  <persons:Female fullName="Olivia Brown"/>
 </xmi:XMI>

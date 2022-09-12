@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:persons="http://persons/1.0">
-  <persons:Male fullName="Luis Gomez Abajo"/>
-  <persons:Male fullName="Pablo Gomez Abajo"/>
-  <persons:Male fullName="Luis Manuel Gomez Abajo"/>
-  <persons:Male fullName="Carlos Gomez Abajo"/>
-  <persons:Female fullName="Maria Teresa Gomez Abajo"/>
+  <persons:Male xmi:id="_U1kiYDKgEe2ORa7g7deL1Q" fullName="Michael Faraday"/>
+  <persons:Male xmi:id="_U1kiYTKgEe2ORa7g7deL1Q" fullName="Isaac Newton"/>
+  <persons:Male xmi:id="_U1kiYjKgEe2ORa7g7deL1Q" fullName="Santiago Ramon y Cajal"/>
+  <persons:Male xmi:id="_U1kiYzKgEe2ORa7g7deL1Q" fullName="Leonardo Torres Quevedo"/>
+  <persons:Female xmi:id="_U1kiZDKgEe2ORa7g7deL1Q" fullName="Marie Curie"/>
 </xmi:XMI>

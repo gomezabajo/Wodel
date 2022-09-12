@@ -200,11 +200,10 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("models/atl")) {
 							final File f = modelFolder.getRawLocation().makeAbsolute().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("models/atl", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
 							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/atl", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
 							if (entry.getName().endsWith(".ecore")) {
 								srcMetamodel = dest.getPath();
 							}
@@ -279,47 +278,46 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("mutator/atl")) {
-		    			final String name = entry.getName();
-		    			final File f = srcFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("mutator/atl", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("mutator/atl", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
-		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
-		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
-	    		}
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("mutator/atl")) {
+						final String name = entry.getName();
+						final File f = srcFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("mutator/atl", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
 		    }
-		    jar.close();
+			jar.close();
 		}
-		else {
-			srcName = WodelTest4ATLWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "mutator/atl";
-			final File src = new Path(srcName).toFile();
-			final File dest = srcFolder.getRawLocation().makeAbsolute().toFile();
-			if ((src != null) && (dest != null)) {
-				IOUtils.copyFolderWithReplacements(src, dest, replacements);
-			}
-		}
+	    else {
+	    	srcName = WodelTest4ATLWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "mutator/atl";
+	    	final File src = new Path(srcName).toFile();
+	    	final File dest = srcFolder.getRawLocation().makeAbsolute().toFile();
+	    	if ((src != null) && (dest != null)) {
+	    		IOUtils.copyFolderWithReplacements(src, dest, replacements);
+	    	}
+	    }
 		} catch (IOException e) {
 		}
 		
@@ -366,42 +364,41 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("wodeltest/atl")) {
-		    			final String name = entry.getName();
-		    			final File f = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/atl", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/atl", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
-		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
-		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
-	    		}
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/atl")) {
+						final String name = entry.getName();
+						final File f = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/atl", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
 		    }
-		    jar.close();
+			jar.close();
 		}
 		else {
-			srcName = WodelTest4ATLWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/atl";
-			final File src = new Path(srcName).toFile();
+		   	srcName = WodelTest4ATLWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/atl";
+		   	final File src = new Path(srcName).toFile();
 			final File dest = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
 				IOUtils.copyFolderWithReplacements(src, dest, replacements);
@@ -437,36 +434,35 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("wodeltest/sample/atl")) {
-		    			final String name = entry.getName();
-		    			final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/atl", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/atl", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
-		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
-		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
-	    		}
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/sample/atl")) {
+						final String name = entry.getName();
+						final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/atl", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
 		    }
 		    jar.close();
 		}
@@ -495,11 +491,10 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("icons")) {
 							final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("icons", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", "").split("/")[0]);
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
 							}
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", ""));
 							InputStream input = jar.getInputStream(entry);
 							FileOutputStream output = new FileOutputStream(dest);
 							while (input.available() > 0) {

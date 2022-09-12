@@ -203,25 +203,22 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
-					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("models/java")) {
-							final File f = modelFolder.getRawLocation().makeAbsolute().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("models/java", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/java", ""));
-							if (entry.getName().endsWith(".ecore")) {
-								srcMetamodel = dest.getPath();
-							}
-							InputStream input = jar.getInputStream(entry);
-							FileOutputStream output = new FileOutputStream(dest);
-							while (input.available() > 0) {
-								output.write(input.read());
-							}
-							output.close();
-							input.close();
+					if (entry.getName().startsWith("models/java")) {
+						final File f = modelFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("models/java", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
 						}
+						if (entry.getName().endsWith(".ecore")) {
+							srcMetamodel = dest.getPath();
+						}
+						InputStream input = jar.getInputStream(entry);
+						FileOutputStream output = new FileOutputStream(dest);
+						while (input.available() > 0) {
+							output.write(input.read());
+						}
+						output.close();
+						input.close();
 					}
 				}
 				jar.close();
@@ -285,35 +282,32 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("mutator/java")) {
-		    			final String name = entry.getName();
-		    			final File f = srcFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("mutator/java", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("mutator/java", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
-		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
-		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
+	    		if (entry.getName().startsWith("mutator/java")) {
+	    			final String name = entry.getName();
+	    			final File f = srcFolder.getRawLocation().makeAbsolute().toFile();
+	    			File dest = new File(f.getPath() + '/' + entry.getName().replace("mutator/java", ""));
+					if (!dest.exists()) {
+						dest.getParentFile().mkdirs();
+					}
+	    			InputStream input = jar.getInputStream(entry);
+	    			InputStreamReader isr = new InputStreamReader(input);
+	    			BufferedReader br = new BufferedReader(isr);
+	    			FileOutputStream output = new FileOutputStream(dest);
+	    			OutputStreamWriter osw = new OutputStreamWriter(output); 
+	    			for (SimpleEntry<String, String> rep: replacements) {
+	    				String line = null;
+	    				while ((line = br.readLine()) != null) {
+	    					if (line.indexOf(rep.getKey()) != -1) {
+	    						line = line.replace(rep.getKey(), rep.getValue());
+	    					}
+	    					osw.write(line + "\n");
+	    				}
+	    			}
+	    			osw.close();
+	    			output.close();
+	    			br.close();
+	    			isr.close();
+	    			input.close();
 	    		}
 		    }
 		    jar.close();
@@ -372,35 +366,32 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("wodeltest/java")) {
-		    			final String name = entry.getName();
-		    			final File f = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/java", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/java", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
-		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
+	    		if (entry.getName().startsWith("wodeltest/java")) {
+	    			final String name = entry.getName();
+	    			final File f = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
+	    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/java", ""));
+					if (!dest.exists()) {
+						dest.getParentFile().mkdirs();
+					}
+	    			InputStream input = jar.getInputStream(entry);
+	    			InputStreamReader isr = new InputStreamReader(input);
+	    			BufferedReader br = new BufferedReader(isr);
+	    			FileOutputStream output = new FileOutputStream(dest);
+	    			OutputStreamWriter osw = new OutputStreamWriter(output); 
+	    			for (SimpleEntry<String, String> rep: replacements) {
+	    				String line = null;
+	    				while ((line = br.readLine()) != null) {
+	    					if (line.indexOf(rep.getKey()) != -1) {
+	    						line = line.replace(rep.getKey(), rep.getValue());
+	    					}
 		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
+	    				}
+	    			}
+	    			osw.close();
+	    			output.close();
+	    			br.close();
+	    			isr.close();
+	    			input.close();
 	    		}
 		    }
 		    jar.close();
@@ -443,35 +434,32 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("wodeltest/sample/java")) {
-		    			final String name = entry.getName();
-		    			final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/java", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/java", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			InputStreamReader isr = new InputStreamReader(input);
-		    			BufferedReader br = new BufferedReader(isr);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			OutputStreamWriter osw = new OutputStreamWriter(output); 
-		    			for (SimpleEntry<String, String> rep: replacements) {
-		    				String line = null;
+	    		if (entry.getName().startsWith("wodeltest/sample/java")) {
+	    			final String name = entry.getName();
+	    			final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
+	    			File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/java", ""));
+					if (!dest.exists()) {
+						dest.getParentFile().mkdirs();
+					}
+	    			InputStream input = jar.getInputStream(entry);
+	    			InputStreamReader isr = new InputStreamReader(input);
+	    			BufferedReader br = new BufferedReader(isr);
+	    			FileOutputStream output = new FileOutputStream(dest);
+	    			OutputStreamWriter osw = new OutputStreamWriter(output); 
+	    			for (SimpleEntry<String, String> rep: replacements) {
+	    				String line = null;
 		    				while ((line = br.readLine()) != null) {
-		    					if (line.indexOf(rep.getKey()) != -1) {
-		    						line = line.replace(rep.getKey(), rep.getValue());
-		    					}
-		    					osw.write(line + "\n");
-		    				}
-		    			}
-		    			osw.close();
-		    			output.close();
-		    			br.close();
-		    			isr.close();
-		    			input.close();
-		    		}
+	    					if (line.indexOf(rep.getKey()) != -1) {
+	    						line = line.replace(rep.getKey(), rep.getValue());
+	    					}
+	    					osw.write(line + "\n");
+	    				}
+	    			}
+	    			osw.close();
+	    			output.close();
+	    			br.close();
+	    			isr.close();
+	    			input.close();
 	    		}
 		    }
 		    jar.close();
@@ -501,11 +489,10 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("icons")) {
 							final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("icons", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
 							File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
 							InputStream input = jar.getInputStream(entry);
 							FileOutputStream output = new FileOutputStream(dest);
 							while (input.available() > 0) {

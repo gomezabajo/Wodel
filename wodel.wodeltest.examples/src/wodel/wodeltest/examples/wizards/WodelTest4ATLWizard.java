@@ -491,7 +491,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("icons")) {
 							final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", "").split("/")[0]);
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}

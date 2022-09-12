@@ -1,0 +1,20 @@
+generate exhaustive mutants
+in "data/out/"
+from "data/model/"
+metamodel "/[@**@]/data/model/java.ecore"
+description "Conditional operator replacement"
+
+with blocks {
+	cora "And" {
+		modify one InfixExpression where {operator in ['||', '^'] and leftOperand <> null and rightOperand <> null}
+		with {operator = '&&'}
+	}
+	coro "Or" {
+		modify one InfixExpression where {operator in ['&&', '^'] and leftOperand <> null and rightOperand <> null}
+		with {operator = '||'}
+	}
+	corx "Xor" {
+		modify one InfixExpression where {operator in ['&&', '||'] and leftOperand <> null and rightOperand <> null}
+		with {operator = '^'}
+	}
+}

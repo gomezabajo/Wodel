@@ -1,0 +1,33 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/[@**@]/data/model/ATL.ecore"
+with resources from
+	{input="data/model/in" metamodel="/[@**@]/data/model/Ecore.ecore"},
+	{output="data/model/out" metamodel="/[@**@]/data/model/Ecore.ecore"}
+
+with blocks {
+	cb "Create binding" {
+		sope = select one SimpleOutPatternElement
+		type = select one OclModelElement in sope->type
+		cl = select one EClass from output resources where {name = type.name}
+		att = select one EAttribute in cl->eAllAttributes
+		b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+		create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+	}
+	rb "Remove binding" {
+		remove one Binding
+	} 
+	vcb "Value change binding" {
+		b = select one Binding where {value is typed OperatorCallExp}
+		create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+	}
+	fc "Feature change binding" {
+		sope = select one SimpleOutPatternElement
+		type = select one OclModelElement in sope->type
+		cl = select one EClass from output resources where {name = type.name}
+		b = select one Binding in sope->bindings
+		att = select one EAttribute in cl->eAllAttributes where {name <> b.propertyName}
+		modify b with {copy(propertyName, att.name)}
+	}
+}

@@ -179,7 +179,7 @@ public class BPELWizard extends Wizard implements INewWizard {
 		modelFolder.create(true, true, monitor);
 		String srcMetamodel = "";
 		try {
-			final File jarFile = new File(AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			final File jarFile = new File(BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -210,7 +210,7 @@ public class BPELWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				srcName = AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/bpel";
+				srcName = BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/bpel";
 				final File src = new Path(srcName).toFile();
 				final File dest = modelFolder.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {

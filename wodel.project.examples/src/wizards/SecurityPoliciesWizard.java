@@ -179,7 +179,7 @@ public class SecurityPoliciesWizard extends Wizard implements INewWizard {
 		modelFolder.create(true, true, monitor);
 		String srcMetamodel = "";
 		try {
-			final File jarFile = new File(AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			final File jarFile = new File(SecurityPoliciesWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -206,7 +206,7 @@ public class SecurityPoliciesWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				srcName = AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/security";
+				srcName = SecurityPoliciesWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/security";
 				final File src = new Path(srcName).toFile();
 				final File dest = modelFolder.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {

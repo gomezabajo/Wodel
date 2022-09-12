@@ -178,7 +178,7 @@ public class UMLClassDiagramsWizard extends Wizard implements INewWizard {
 		modelFolder.create(true, true, monitor);
 		String srcMetamodel = "";
 		try {
-			final File jarFile = new File(AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			final File jarFile = new File(UMLClassDiagramsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -209,7 +209,7 @@ public class UMLClassDiagramsWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				srcName = AutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/umlcd";
+				srcName = UMLClassDiagramsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/umlcd";
 				final File src = new Path(srcName).toFile();
 				final File dest = modelFolder.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {

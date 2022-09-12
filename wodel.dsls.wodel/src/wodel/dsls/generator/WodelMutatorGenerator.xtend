@@ -2034,6 +2034,7 @@ public class «project.name.replaceAll("[.]", "_")»Launcher implements IMutatorEx
 			«IF resource !== null»
 			//«val Source source = resource.path»
 			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
+			«IF (new File(resourcePath)).exists()»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -2042,6 +2043,7 @@ public class «project.name.replaceAll("[.]", "_")»Launcher implements IMutatorEx
 					//«ecoreURIs.add(resourceFile.path)»
 				«ENDIF»
 			«ENDFOR»
+			«ENDIF»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
 			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
 			resources = new ArrayList<Resource>();

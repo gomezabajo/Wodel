@@ -7422,26 +7422,31 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                 final String resourcePath = (_plus_2 + _path);
                 _builder.newLineIfNotEmpty();
                 {
-                  File[] _listFiles = new File(resourcePath).listFiles();
-                  for(final File resourceFile : _listFiles) {
+                  boolean _exists = new File(resourcePath).exists();
+                  if (_exists) {
                     {
-                      boolean _endsWith = resourceFile.getName().endsWith(".model");
-                      if (_endsWith) {
-                        _builder.append("\t");
-                        _builder.append("//");
-                        boolean _add = resourceURIs.add(resourceFile.getPath());
-                        _builder.append(_add, "\t");
-                        _builder.newLineIfNotEmpty();
-                      }
-                    }
-                    {
-                      boolean _endsWith_1 = resourceFile.getName().endsWith(".ecore");
-                      if (_endsWith_1) {
-                        _builder.append("\t");
-                        _builder.append("//");
-                        boolean _add_1 = ecoreURIs.add(resourceFile.getPath());
-                        _builder.append(_add_1, "\t");
-                        _builder.newLineIfNotEmpty();
+                      File[] _listFiles = new File(resourcePath).listFiles();
+                      for(final File resourceFile : _listFiles) {
+                        {
+                          boolean _endsWith = resourceFile.getName().endsWith(".model");
+                          if (_endsWith) {
+                            _builder.append("\t");
+                            _builder.append("//");
+                            boolean _add = resourceURIs.add(resourceFile.getPath());
+                            _builder.append(_add, "\t");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                        {
+                          boolean _endsWith_1 = resourceFile.getName().endsWith(".ecore");
+                          if (_endsWith_1) {
+                            _builder.append("\t");
+                            _builder.append("//");
+                            boolean _add_1 = ecoreURIs.add(resourceFile.getPath());
+                            _builder.append(_add_1, "\t");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
                       }
                     }
                   }

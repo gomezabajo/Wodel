@@ -116,11 +116,10 @@ public class FASuTAndTestSuiteWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("sample/sut")) {
 							final File f = sut.getLocation().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("sample/sut", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
 							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/sut", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
 							InputStream input = jar.getInputStream(entry);
 							FileOutputStream output = new FileOutputStream(dest);
 							while (input.available() > 0) {
@@ -156,11 +155,10 @@ public class FASuTAndTestSuiteWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("sample/data")) {
 							final File f = dataSut.getRawLocation().makeAbsolute().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("sample/data", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
 							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/data", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
 							InputStream input = jar.getInputStream(entry);
 							FileOutputStream output = new FileOutputStream(dest);
 							while (input.available() > 0) {
@@ -204,11 +202,10 @@ public class FASuTAndTestSuiteWizard extends Wizard implements INewWizard {
 					if (! entry.isDirectory()) {
 						if (entry.getName().startsWith("sample/test")) {
 							final File f = test.getLocation().toFile();
-							File path = new File(f.getPath() + '/' + entry.getName().replace("sample/test", "").split("/")[0]);
-							if (!path.exists()) {
-								path.mkdir();
-							}
 							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/test", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
 							InputStream input = jar.getInputStream(entry);
 							FileOutputStream output = new FileOutputStream(dest);
 							while (input.available() > 0) {

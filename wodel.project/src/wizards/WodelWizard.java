@@ -320,6 +320,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 	/**
 	 * Toggles the finish button
 	 */
+	@Override
 	public boolean canFinish()
 	{
 		if(getContainer().getCurrentPage() == _pageTwo) {

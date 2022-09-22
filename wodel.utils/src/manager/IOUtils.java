@@ -79,6 +79,67 @@ public class IOUtils {
 		}
 	}
 
+	public static void deleteFolder(String foldername, List<String> exceptions) {
+		File folder = new File(foldername);
+		if (folder != null) {
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					if (file.isFile() && !exceptions.contains(file.getName())) {
+						file.delete();
+					}
+					else if (file.isDirectory()) {
+						deleteFolder(file.getPath(), exceptions);
+					}
+				}
+			}
+			folder.delete();
+		}
+	}
+
+	public static void deleteFolder(String foldername, String ext) {
+		File folder = new File(foldername);
+		if (folder != null) {
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					if (file.isFile() && file.getName().endsWith("." + ext)) {
+						file.delete();
+					}
+					else if (file.isDirectory()) {
+						deleteFolder(file.getPath(), ext);
+						if (file.listFiles() == null || file.listFiles().length == 0) {
+							file.delete();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static void deleteFolder(String foldername, String ext, List<String> exceptions) {
+		File folder = new File(foldername);
+		if (folder != null) {
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					if (file.isFile() && file.getName().endsWith("." + ext)) {
+						String name = file.getName();
+						if (name.indexOf(".") > 0) {
+							name = name.substring(0, name.lastIndexOf("."));
+						}
+						if (!exceptions.contains(name)) {
+							file.delete();
+						}
+					}
+					else if (file.isDirectory()) {
+						deleteFolder(file.getPath(), ext, exceptions);
+						if (file.listFiles() == null || file.listFiles().length == 0) {
+							file.delete();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static void copyFile(File src, File dest) throws IOException {
 		
 		// if file, then copy it
@@ -136,7 +197,130 @@ public class IOUtils {
 			out.close();
 		}
 	}
+
+	public static void copyFolder(File src, File dest, List<String> exceptions) throws IOException {
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdirs();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				// construct the src and dest file structure
+				File srcFile = new File(src, file);
+				File destFile = new File(dest, file);
+				// recursive copy
+				copyFolder(srcFile, destFile, exceptions);
+			}
+
+		} else if (!exceptions.contains(src.getName())) {
+			// if file, then copy it
+			// Use bytes stream to support all file types
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			// copy the file content in bytes
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
+		}
+	}
+
+	public static void copyFolder(File src, File dest, String ext) throws IOException {
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdirs();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				// construct the src and dest file structure
+				File srcFile = new File(src, file);
+				File destFile = new File(dest, file);
+				// recursive copy
+				copyFolder(srcFile, destFile, ext);
+			}
+
+		} else if (src.getName().endsWith("." + ext)) {
+			// if file, then copy it
+			// Use bytes stream to support all file types
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			// copy the file content in bytes
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
+		}
+	}
 	
+	public static void copyFolder(File src, File dest, String ext, List<String> exceptions) throws IOException {
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdirs();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				// construct the src and dest file structure
+				File srcFile = new File(src, file);
+				File destFile = new File(dest, file);
+				// recursive copy
+				copyFolder(srcFile, destFile, ext, exceptions);
+			}
+
+		} else if (src.getName().endsWith("." + ext)) {
+			String name = src.getName();
+			if (name.indexOf(".") > 0) {
+				name = name.substring(0, name.lastIndexOf("."));
+			}
+			if (!exceptions.contains(name)) {
+				// if file, then copy it
+				// Use bytes stream to support all file types
+				InputStream in = new FileInputStream(src);
+				OutputStream out = new FileOutputStream(dest);
+
+				byte[] buffer = new byte[1024];
+
+				int length;
+				// copy the file content in bytes
+				while ((length = in.read(buffer)) > 0) {
+					out.write(buffer, 0, length);
+				}
+
+				in.close();
+				out.close();
+			}
+		}
+	}
+
 	public static void copyFolderWithReplacements(File src, File dest, List<SimpleEntry<String, String>> replacements) throws IOException {
 		
 		if (src.isDirectory()) {

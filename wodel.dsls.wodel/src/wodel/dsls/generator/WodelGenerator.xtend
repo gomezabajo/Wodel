@@ -20,6 +20,7 @@ public class WodelGenerator extends AbstractGenerator {
 
 	@Inject WodelMutatorGenerator mutatorGenerator
 	@Inject WodelUseGenerator useGenerator
+	@Inject WodelAPIGenerator apiGenerator
 
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		mutatorGenerator.doGenerate(input, fsa, context)
@@ -27,5 +28,6 @@ public class WodelGenerator extends AbstractGenerator {
 		if (seedModelSynthesis == true) {
 			useGenerator.doGenerate(input, fsa, context)
 		}
+		apiGenerator.doGenerate(input, fsa, context)
 	}
 }

@@ -205,12 +205,17 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             }
           }
         } else {
-          List<String> nextMutators = this.getMutators(file.listFiles());
-          for (final String nextMutator : nextMutators) {
-            boolean _contains_1 = mutators.contains(nextMutator);
-            boolean _not_1 = (!_contains_1);
-            if (_not_1) {
-              mutators.add(nextMutator);
+          boolean _isDirectory = file.isDirectory();
+          boolean _equals_1 = (_isDirectory == true);
+          if (_equals_1) {
+            List<String> nextMutators = new ArrayList<String>();
+            nextMutators.addAll(this.getMutators(file.listFiles()));
+            for (final String nextMutator : nextMutators) {
+              boolean _contains_1 = mutators.contains(nextMutator);
+              boolean _not_1 = (!_contains_1);
+              if (_not_1) {
+                mutators.add(nextMutator);
+              }
             }
           }
         }

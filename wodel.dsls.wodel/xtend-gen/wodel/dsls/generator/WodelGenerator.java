@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import wodel.dsls.generator.WodelAPIGenerator;
 import wodel.dsls.generator.WodelMutatorGenerator;
 import wodel.dsls.generator.WodelUseGenerator;
 
@@ -26,6 +27,9 @@ public class WodelGenerator extends AbstractGenerator {
   @Inject
   private WodelUseGenerator useGenerator;
   
+  @Inject
+  private WodelAPIGenerator apiGenerator;
+  
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.mutatorGenerator.doGenerate(input, fsa, context);
@@ -33,5 +37,6 @@ public class WodelGenerator extends AbstractGenerator {
     if ((seedModelSynthesis == true)) {
       this.useGenerator.doGenerate(input, fsa, context);
     }
+    this.apiGenerator.doGenerate(input, fsa, context);
   }
 }

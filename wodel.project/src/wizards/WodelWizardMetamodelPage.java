@@ -1,7 +1,5 @@
 package wizards;
 
-import manager.ModelManager;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelection;
@@ -26,6 +24,7 @@ import org.eclipse.swt.widgets.Label;
 
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
+import manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel new project meta-model selection Wizard page.

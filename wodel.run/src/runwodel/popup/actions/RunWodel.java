@@ -38,6 +38,9 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import exceptions.MetaModelNotFoundException;
@@ -138,6 +141,16 @@ public class RunWodel extends AbstractHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			final String textToShow = "Wodel mutants generation process finished succesfully";
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+					MessageBox messageBox = new MessageBox(shell);
+					messageBox.setText("Wodel mutants generation process completed");
+					messageBox.setMessage(textToShow);
+					messageBox.open();
+				}
+			});
 			
 			try {
 				File[] files = null;

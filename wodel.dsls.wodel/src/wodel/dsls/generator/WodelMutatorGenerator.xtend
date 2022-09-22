@@ -155,8 +155,9 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 					}
 				}
 			}
-			else {
-				var List<String> nextMutators = getMutators(file.listFiles)
+			else if (file.isDirectory == true) {
+				var List<String> nextMutators = new ArrayList<String>()
+				nextMutators.addAll(getMutators(file.listFiles))
 				for (String nextMutator : nextMutators) {
 					if (!mutators.contains(nextMutator)) {
 						mutators.add(nextMutator)

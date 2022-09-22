@@ -5837,6 +5837,33 @@ public class MutatorUtils {
 		return null;
 	}
 	
+	public static List<String> getMutators(File[] files) {
+		List<String> mutators = new ArrayList<String>();
+		int i = 0;
+		while (files != null && i < files.length) {
+			File file = files[i];
+			if (file.isFile() == true) {
+				if (file.getName().endsWith(".mutator")) {
+					String mutator = file.getName().replaceAll(".mutator", "");
+					if (!mutators.contains(mutator)) {
+						mutators.add(mutator);
+					}
+				}
+			}
+			else if (file.isDirectory() == true) {
+				List<String> nextMutators = new ArrayList<String>();
+				nextMutators.addAll(getMutators(file.listFiles()));
+				for (String nextMutator : nextMutators) {
+					if (!mutators.contains(nextMutator)) {
+						mutators.add(nextMutator);
+					}
+				}
+			}
+			i++;
+		}
+		return mutators;
+	}
+	
 	/**
 	 * Creates a map with all the mutations in the Wodel program
 	 * This method assigns a unique name for each mutation

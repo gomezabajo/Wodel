@@ -34,6 +34,7 @@ import java.util.Map
 import java.util.ArrayList
 import java.util.TreeMap
 import java.util.HashMap
+import edutest.MultiChoiceText
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -580,7 +581,79 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         </question>
 	    «ENDFOR»
         «ENDIF»
-	    «ENDFOR»
+    	«IF exercise instanceof MultiChoiceText»
+           «var int min = Integer.MAX_VALUE»
+		«FOR test : exercise.tests»
+           «var int counter = diagrams.get(exercise).get(test).size()»
+           «IF min > diagrams.get(exercise).get(test).size()»
+           «{min = counter; ""}»
+           «ENDIF»
+         «ENDFOR»
+		«FOR Test test : exercise.tests»
+         <question type="multichoice">
+           <name>
+             <text>Question «i++»</text>
+           </name>
+           <questiontext format="html">
+		   <!-- «var UUID uuid = UUID.randomUUID()»-->
+           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + test.source.replace('.model', '.png'))»</file>
+           </questiontext>
+           <generalfeedback format="html">
+           <text></text>
+           </generalfeedback>
+           <defaultgrade>1.0000000</defaultgrade>
+           <penalty>1.0000000</penalty>
+           <hidden>0</hidden>
+           <idnumber></idnumber>
+           <single>true</single>
+           <shuffleanswers>true</shuffleanswers>
+           <answernumbering>abc</answernumbering>
+           <correctfeedback format="html">
+           <!--<text>Respuesta correcta</text>-->
+           <text>Right answer.</text>
+           </correctfeedback>
+           <partiallycorrectfeedback format="html">
+           <!--<text>Respuesta parcialmente correcta.</text>-->
+           <text>Partially right answer.</text>
+           </partiallycorrectfeedback>
+           <incorrectfeedback format="html">
+           <!--<text>Respuesta incorrecta.</text>-->
+           <text>Wrong answer.</text>
+           </incorrectfeedback>
+           <shownumcorrect/>
+           «var counter = 0»
+           «FOR diagram : diagrams.get(exercise).get(test)»
+		   <!-- «uuid = UUID.randomUUID()»-->
+           «IF diagram.equals(test.source.replace('.model', '.png'))»
+           «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getMetaModelPath() + "/" + test.source, resource)»
+           <answer fraction="100" format="html">
+           <text><![CDATA[<p>«text»<br></p>]]></text>
+           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
+           <feedback format="html">
+           <text></text>
+           </feedback>
+           </answer>
+           «ELSE»
+           «IF counter < min - 1»
+           «{counter++; ""}»
+           «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getOutputPath() + "/" + test.source.replace('.model', '') + "/" + diagram.replace(".png", ".model"), resource)»
+           <answer fraction="0" format="html">
+           <text><![CDATA[<p>«text»<br></p>]]></text>
+           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
+           <feedback format="html">
+           <text></text>
+           </feedback>
+           </answer>
+           «ENDIF»
+           «ENDIF»
+           «ENDFOR»
+         </question>
+    	«ENDFOR»
+		«ENDIF»
+		«ENDFOR»
 		</quiz>
 	'''
 }

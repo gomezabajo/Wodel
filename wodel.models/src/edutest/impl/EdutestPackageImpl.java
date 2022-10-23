@@ -12,6 +12,8 @@ import edutest.Mode;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
 import edutest.MultiChoiceEmendation;
+import edutest.MultiChoiceText;
+import edutest.MultiChoiceTextConfig;
 import edutest.MutatorTests;
 import edutest.Navigation;
 import edutest.Order;
@@ -87,6 +89,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass multiChoiceTextConfigEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass alternativeResponseEClass = null;
 
 	/**
@@ -116,6 +125,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	private EClass missingWordsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiChoiceTextEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -382,6 +398,26 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	@Override
+	public EClass getMultiChoiceTextConfig() {
+		return multiChoiceTextConfigEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMultiChoiceTextConfig_Identifier() {
+		return (EAttribute)multiChoiceTextConfigEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getAlternativeResponse() {
 		return alternativeResponseEClass;
 	}
@@ -474,6 +510,26 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	@Override
 	public EReference getMissingWords_Config() {
 		return (EReference)missingWordsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getMultiChoiceText() {
+		return multiChoiceTextEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMultiChoiceText_Config() {
+		return (EReference)multiChoiceTextEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -607,6 +663,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__ORDER);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__MODE);
 
+		multiChoiceTextConfigEClass = createEClass(MULTI_CHOICE_TEXT_CONFIG);
+		createEAttribute(multiChoiceTextConfigEClass, MULTI_CHOICE_TEXT_CONFIG__IDENTIFIER);
+
 		alternativeResponseEClass = createEClass(ALTERNATIVE_RESPONSE);
 		createEReference(alternativeResponseEClass, ALTERNATIVE_RESPONSE__CONFIG);
 
@@ -621,6 +680,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		missingWordsEClass = createEClass(MISSING_WORDS);
 		createEReference(missingWordsEClass, MISSING_WORDS__CONFIG);
+
+		multiChoiceTextEClass = createEClass(MULTI_CHOICE_TEXT);
+		createEReference(multiChoiceTextEClass, MULTI_CHOICE_TEXT__CONFIG);
 
 		testEClass = createEClass(TEST);
 		createEAttribute(testEClass, TEST__SOURCE);
@@ -668,11 +730,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		programConfigurationEClass.getESuperTypes().add(this.getConfiguration());
 		testConfigurationEClass.getESuperTypes().add(this.getConfiguration());
 		multiChoiceEmConfigEClass.getESuperTypes().add(this.getTestConfiguration());
+		multiChoiceTextConfigEClass.getESuperTypes().add(this.getTestConfiguration());
 		alternativeResponseEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceDiagramEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceEmendationEClass.getESuperTypes().add(this.getMutatorTests());
 		matchPairsEClass.getESuperTypes().add(this.getMutatorTests());
 		missingWordsEClass.getESuperTypes().add(this.getMutatorTests());
+		multiChoiceTextEClass.getESuperTypes().add(this.getMutatorTests());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(programEClass, Program.class, "Program", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -697,6 +761,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEAttribute(getMultiChoiceEmConfig_Order(), this.getOrder(), "order", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMultiChoiceEmConfig_Mode(), this.getMode(), "mode", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(multiChoiceTextConfigEClass, MultiChoiceTextConfig.class, "MultiChoiceTextConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMultiChoiceTextConfig_Identifier(), ecorePackage.getEString(), "identifier", null, 1, 1, MultiChoiceTextConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(alternativeResponseEClass, AlternativeResponse.class, "AlternativeResponse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAlternativeResponse_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, AlternativeResponse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -711,6 +778,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		initEClass(missingWordsEClass, MissingWords.class, "MissingWords", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMissingWords_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, MissingWords.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiChoiceTextEClass, MultiChoiceText.class, "MultiChoiceText", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMultiChoiceText_Config(), this.getMultiChoiceTextConfig(), null, "config", null, 1, 1, MultiChoiceText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testEClass, Test.class, "Test", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTest_Source(), ecorePackage.getEString(), "source", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

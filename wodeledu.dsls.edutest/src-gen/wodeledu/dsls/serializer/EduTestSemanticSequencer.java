@@ -11,6 +11,8 @@ import edutest.MissingWords;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
 import edutest.MultiChoiceEmendation;
+import edutest.MultiChoiceText;
+import edutest.MultiChoiceTextConfig;
 import edutest.Program;
 import edutest.ProgramConfiguration;
 import edutest.Test;
@@ -58,6 +60,12 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 				return; 
 			case EdutestPackage.MULTI_CHOICE_EMENDATION:
 				sequence_MultiChoiceEmendation(context, (MultiChoiceEmendation) semanticObject); 
+				return; 
+			case EdutestPackage.MULTI_CHOICE_TEXT:
+				sequence_MultiChoiceText(context, (MultiChoiceText) semanticObject); 
+				return; 
+			case EdutestPackage.MULTI_CHOICE_TEXT_CONFIG:
+				sequence_MultiChoiceTextConfig(context, (MultiChoiceTextConfig) semanticObject); 
 				return; 
 			case EdutestPackage.PROGRAM:
 				sequence_Program(context, (Program) semanticObject); 
@@ -149,6 +157,31 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=MultiChoiceEmConfig tests+=Test*)
 	 */
 	protected void sequence_MultiChoiceEmendation(ISerializationContext context, MultiChoiceEmendation semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MultiChoiceTextConfig returns MultiChoiceTextConfig
+	 *
+	 * Constraint:
+	 *     ((retry?='yes' | retry?='no') identifier=EString)
+	 */
+	protected void sequence_MultiChoiceTextConfig(ISerializationContext context, MultiChoiceTextConfig semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MutatorTests returns MultiChoiceText
+	 *     MultiChoiceText returns MultiChoiceText
+	 *
+	 * Constraint:
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=MultiChoiceTextConfig tests+=Test*)
+	 */
+	protected void sequence_MultiChoiceText(ISerializationContext context, MultiChoiceText semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

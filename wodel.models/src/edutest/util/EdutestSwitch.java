@@ -106,6 +106,14 @@ public class EdutestSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EdutestPackage.MULTI_CHOICE_TEXT_CONFIG: {
+				MultiChoiceTextConfig multiChoiceTextConfig = (MultiChoiceTextConfig)theEObject;
+				T result = caseMultiChoiceTextConfig(multiChoiceTextConfig);
+				if (result == null) result = caseTestConfiguration(multiChoiceTextConfig);
+				if (result == null) result = caseConfiguration(multiChoiceTextConfig);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case EdutestPackage.ALTERNATIVE_RESPONSE: {
 				AlternativeResponse alternativeResponse = (AlternativeResponse)theEObject;
 				T result = caseAlternativeResponse(alternativeResponse);
@@ -138,6 +146,13 @@ public class EdutestSwitch<T> extends Switch<T> {
 				MissingWords missingWords = (MissingWords)theEObject;
 				T result = caseMissingWords(missingWords);
 				if (result == null) result = caseMutatorTests(missingWords);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EdutestPackage.MULTI_CHOICE_TEXT: {
+				MultiChoiceText multiChoiceText = (MultiChoiceText)theEObject;
+				T result = caseMultiChoiceText(multiChoiceText);
+				if (result == null) result = caseMutatorTests(multiChoiceText);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -242,6 +257,21 @@ public class EdutestSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Text Config</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Text Config</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiChoiceTextConfig(MultiChoiceTextConfig object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Alternative Response</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -313,6 +343,21 @@ public class EdutestSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMissingWords(MissingWords object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Text</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiChoiceText(MultiChoiceText object) {
 		return null;
 	}
 

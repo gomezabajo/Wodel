@@ -9,6 +9,7 @@ import edutest.MatchPairs;
 import edutest.MissingWords;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmendation;
+import edutest.MultiChoiceText;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.Test;
@@ -1826,6 +1827,282 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                     }
                   }
                   _builder.append("        ");
+                  _builder.append("</question>");
+                  _builder.newLine();
+                }
+              }
+            }
+          }
+          {
+            if ((exercise instanceof MultiChoiceText)) {
+              _builder.append("           ");
+              int min_3 = Integer.MAX_VALUE;
+              _builder.newLineIfNotEmpty();
+              {
+                EList<Test> _tests_9 = ((MultiChoiceText)exercise).getTests();
+                for(final Test test_9 : _tests_9) {
+                  int counter_7 = this.diagrams.get(exercise).get(test_9).size();
+                  _builder.newLineIfNotEmpty();
+                  {
+                    int _size_6 = this.diagrams.get(exercise).get(test_9).size();
+                    boolean _greaterThan_6 = (min_3 > _size_6);
+                    if (_greaterThan_6) {
+                      String _xblockexpression_29 = null;
+                      {
+                        min_3 = counter_7;
+                        _xblockexpression_29 = "";
+                      }
+                      _builder.append(_xblockexpression_29);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              {
+                EList<Test> _tests_10 = ((MultiChoiceText)exercise).getTests();
+                for(final Test test_10 : _tests_10) {
+                  _builder.append("<question type=\"multichoice\">");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<name>");
+                  _builder.newLine();
+                  _builder.append("    ");
+                  _builder.append("<text>Question ");
+                  int _plusPlus_6 = i++;
+                  _builder.append(_plusPlus_6, "    ");
+                  _builder.append("</text>");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("  ");
+                  _builder.append("</name>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<questiontext format=\"html\">");
+                  _builder.newLine();
+                  _builder.append("\t\t   ");
+                  _builder.append("<!-- ");
+                  UUID uuid_5 = UUID.randomUUID();
+                  _builder.append("-->");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("  ");
+                  _builder.append("<text><![CDATA[<p>");
+                  String _replace_10 = test_10.getQuestion().replace("\"", "\'");
+                  _builder.append(_replace_10, "  ");
+                  _builder.append("<br><img src=\"@@PLUGINFILE@@/exercise_");
+                  _builder.append(uuid_5, "  ");
+                  _builder.append(".png\" alt=\"\" width=\"46%\" height=\"46%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("  ");
+                  _builder.append("<file name=\"exercise_");
+                  _builder.append(uuid_5, "  ");
+                  _builder.append(".png\" path=\"/\" encoding=\"base64\">");
+                  String _replace_11 = test_10.getSource().replace(".model", "");
+                  String _plus_13 = ("diagrams/" + _replace_11);
+                  String _plus_14 = (_plus_13 + "/");
+                  String _replace_12 = test_10.getSource().replace(".model", ".png");
+                  String _plus_15 = (_plus_14 + _replace_12);
+                  String _stringBase64_6 = this.getStringBase64(_plus_15);
+                  _builder.append(_stringBase64_6, "  ");
+                  _builder.append("</file>");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("  ");
+                  _builder.append("</questiontext>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<generalfeedback format=\"html\">");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<text></text>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("</generalfeedback>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<defaultgrade>1.0000000</defaultgrade>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<penalty>1.0000000</penalty>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<hidden>0</hidden>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<idnumber></idnumber>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<single>true</single>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<shuffleanswers>true</shuffleanswers>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<answernumbering>abc</answernumbering>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<correctfeedback format=\"html\">");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<!--<text>Respuesta correcta</text>-->");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<text>Right answer.</text>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("</correctfeedback>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<partiallycorrectfeedback format=\"html\">");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<!--<text>Respuesta parcialmente correcta.</text>-->");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<text>Partially right answer.</text>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("</partiallycorrectfeedback>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<incorrectfeedback format=\"html\">");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<!--<text>Respuesta incorrecta.</text>-->");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<text>Wrong answer.</text>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("</incorrectfeedback>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  _builder.append("<shownumcorrect/>");
+                  _builder.newLine();
+                  _builder.append("  ");
+                  int counter_8 = 0;
+                  _builder.newLineIfNotEmpty();
+                  {
+                    List<String> _get_22 = this.diagrams.get(exercise).get(test_10);
+                    for(final String diagram_5 : _get_22) {
+                      _builder.append("<!-- ");
+                      _builder.append(uuid_5 = UUID.randomUUID());
+                      _builder.append("-->");
+                      _builder.newLineIfNotEmpty();
+                      {
+                        boolean _equals_8 = diagram_5.equals(test_10.getSource().replace(".model", ".png"));
+                        if (_equals_8) {
+                          _builder.append("           ");
+                          String _identifier = ((MultiChoiceText) exercise).getConfig().getIdentifier();
+                          String _metaModelPath = ModelManager.getMetaModelPath();
+                          String _plus_16 = (_metaModelPath + "/");
+                          String _source = test_10.getSource();
+                          String _plus_17 = (_plus_16 + _source);
+                          String text_7 = this.getText(_identifier, _plus_17, resource);
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("           ");
+                          _builder.append("<answer fraction=\"100\" format=\"html\">");
+                          _builder.newLine();
+                          _builder.append("           ");
+                          _builder.append("<text><![CDATA[<p>");
+                          _builder.append(text_7, "           ");
+                          _builder.append("<br></p>]]></text>");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("           ");
+                          _builder.append("<!--<text><![CDATA[<p>");
+                          _builder.append(text_7, "           ");
+                          _builder.append("<img src=\"@@PLUGINFILE@@/exercise_");
+                          _builder.append(uuid_5, "           ");
+                          _builder.append(".png\" alt=\"\" width=\"46%\" height=\"46%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("           ");
+                          _builder.append("<file name=\"exercise_");
+                          _builder.append(uuid_5, "           ");
+                          _builder.append(".png\" path=\"/\" encoding=\"base64\">");
+                          String _replace_13 = test_10.getSource().replace(".model", "");
+                          String _plus_18 = ("diagrams/" + _replace_13);
+                          String _plus_19 = (_plus_18 + "/");
+                          String _plus_20 = (_plus_19 + diagram_5);
+                          String _stringBase64_7 = this.getStringBase64(_plus_20);
+                          _builder.append(_stringBase64_7, "           ");
+                          _builder.append("</file>-->");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("           ");
+                          _builder.append("<feedback format=\"html\">");
+                          _builder.newLine();
+                          _builder.append("           ");
+                          _builder.append("<text></text>");
+                          _builder.newLine();
+                          _builder.append("           ");
+                          _builder.append("</feedback>");
+                          _builder.newLine();
+                          _builder.append("           ");
+                          _builder.append("</answer>");
+                          _builder.newLine();
+                        } else {
+                          {
+                            if ((counter_8 < (min_3 - 1))) {
+                              _builder.append("           ");
+                              String _xblockexpression_30 = null;
+                              {
+                                counter_8++;
+                                _xblockexpression_30 = "";
+                              }
+                              _builder.append(_xblockexpression_30, "           ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("           ");
+                              String _identifier_1 = ((MultiChoiceText) exercise).getConfig().getIdentifier();
+                              String _outputPath = ModelManager.getOutputPath();
+                              String _plus_21 = (_outputPath + "/");
+                              String _replace_14 = test_10.getSource().replace(".model", "");
+                              String _plus_22 = (_plus_21 + _replace_14);
+                              String _plus_23 = (_plus_22 + "/");
+                              String _replace_15 = diagram_5.replace(".png", ".model");
+                              String _plus_24 = (_plus_23 + _replace_15);
+                              String text_8 = this.getText(_identifier_1, _plus_24, resource);
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("           ");
+                              _builder.append("<answer fraction=\"0\" format=\"html\">");
+                              _builder.newLine();
+                              _builder.append("           ");
+                              _builder.append("<text><![CDATA[<p>");
+                              _builder.append(text_8, "           ");
+                              _builder.append("<br></p>]]></text>");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("           ");
+                              _builder.append("<!--<text><![CDATA[<p>");
+                              _builder.append(text_8, "           ");
+                              _builder.append("<img src=\"@@PLUGINFILE@@/exercise_");
+                              _builder.append(uuid_5, "           ");
+                              _builder.append(".png\" alt=\"\" width=\"46%\" height=\"46%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("           ");
+                              _builder.append("<file name=\"exercise_");
+                              _builder.append(uuid_5, "           ");
+                              _builder.append(".png\" path=\"/\" encoding=\"base64\">");
+                              String _replace_16 = test_10.getSource().replace(".model", "");
+                              String _plus_25 = ("diagrams/" + _replace_16);
+                              String _plus_26 = (_plus_25 + "/");
+                              String _plus_27 = (_plus_26 + diagram_5);
+                              String _stringBase64_8 = this.getStringBase64(_plus_27);
+                              _builder.append(_stringBase64_8, "           ");
+                              _builder.append("</file>-->");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("           ");
+                              _builder.append("<feedback format=\"html\">");
+                              _builder.newLine();
+                              _builder.append("           ");
+                              _builder.append("<text></text>");
+                              _builder.newLine();
+                              _builder.append("           ");
+                              _builder.append("</feedback>");
+                              _builder.newLine();
+                              _builder.append("           ");
+                              _builder.append("</answer>");
+                              _builder.newLine();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                   _builder.append("</question>");
                   _builder.newLine();
                 }

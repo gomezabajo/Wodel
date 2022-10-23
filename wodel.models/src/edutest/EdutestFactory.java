@@ -58,6 +58,15 @@ public interface EdutestFactory extends EFactory {
 	MultiChoiceEmConfig createMultiChoiceEmConfig();
 
 	/**
+	 * Returns a new object of class '<em>Multi Choice Text Config</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Choice Text Config</em>'.
+	 * @generated
+	 */
+	MultiChoiceTextConfig createMultiChoiceTextConfig();
+
+	/**
 	 * Returns a new object of class '<em>Alternative Response</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -101,6 +110,15 @@ public interface EdutestFactory extends EFactory {
 	 * @generated
 	 */
 	MissingWords createMissingWords();
+
+	/**
+	 * Returns a new object of class '<em>Multi Choice Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Choice Text</em>'.
+	 * @generated
+	 */
+	MultiChoiceText createMultiChoiceText();
 
 	/**
 	 * Returns a new object of class '<em>Test</em>'.

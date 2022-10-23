@@ -55,6 +55,7 @@ import edutest.MissingWords;
 import edutest.Mode;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmendation;
+import edutest.MultiChoiceText;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.Test;
@@ -644,7 +645,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param exercise
 	 * @param diags
 	 */
-	private void buildAlternativeResponseOrMultiChoiceDiagram(MutatorTests exercise, Map<Test, List<String>> diags) {
+	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, List<String>> diags) {
 		for (Test test : exercise.getTests()) {
 			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
 			List<String> fileNames = new ArrayList<String>();
@@ -4658,8 +4659,8 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
 			Map<Test, List<String>> diags = new HashMap<Test, List<String>>();
-			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram) {
-				buildAlternativeResponseOrMultiChoiceDiagram(exercise, diags);
+			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText) {
+				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags);
 			}
 			if (exercise instanceof MultiChoiceEmendation) {
 				buildMultiChoiceEmendation(resource, (MultiChoiceEmendation) exercise, blocks, cls);

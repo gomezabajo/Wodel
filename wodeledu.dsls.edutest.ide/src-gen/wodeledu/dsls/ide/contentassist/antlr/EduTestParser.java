@@ -35,6 +35,7 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getTestConfigurationAccess().getRetryAlternatives_3_0(), "rule__TestConfiguration__RetryAlternatives_3_0");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAlternatives_3_0(), "rule__MultiChoiceEmConfig__RetryAlternatives_3_0");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAlternatives_7_0(), "rule__MultiChoiceEmConfig__WeightedAlternatives_7_0");
+					put(grammarAccess.getMultiChoiceTextConfigAccess().getRetryAlternatives_3_0(), "rule__MultiChoiceTextConfig__RetryAlternatives_3_0");
 					put(grammarAccess.getEStringAccess().getAlternatives(), "rule__EString__Alternatives");
 					put(grammarAccess.getEDoubleAccess().getAlternatives_4_0(), "rule__EDouble__Alternatives_4_0");
 					put(grammarAccess.getOrderAccess().getAlternatives(), "rule__Order__Alternatives");
@@ -56,9 +57,13 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMissingWordsAccess().getGroup(), "rule__MissingWords__Group__0");
 					put(grammarAccess.getMissingWordsAccess().getGroup_1(), "rule__MissingWords__Group_1__0");
 					put(grammarAccess.getMissingWordsAccess().getGroup_1_1(), "rule__MissingWords__Group_1_1__0");
+					put(grammarAccess.getMultiChoiceTextAccess().getGroup(), "rule__MultiChoiceText__Group__0");
+					put(grammarAccess.getMultiChoiceTextAccess().getGroup_1(), "rule__MultiChoiceText__Group_1__0");
+					put(grammarAccess.getMultiChoiceTextAccess().getGroup_1_1(), "rule__MultiChoiceText__Group_1_1__0");
 					put(grammarAccess.getProgramConfigurationAccess().getGroup(), "rule__ProgramConfiguration__Group__0");
 					put(grammarAccess.getTestConfigurationAccess().getGroup(), "rule__TestConfiguration__Group__0");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getGroup(), "rule__MultiChoiceEmConfig__Group__0");
+					put(grammarAccess.getMultiChoiceTextConfigAccess().getGroup(), "rule__MultiChoiceTextConfig__Group__0");
 					put(grammarAccess.getTestAccess().getGroup(), "rule__Test__Group__0");
 					put(grammarAccess.getTestAccess().getGroup_5(), "rule__Test__Group_5__0");
 					put(grammarAccess.getTestAccess().getGroup_5_1(), "rule__Test__Group_5_1__0");
@@ -86,6 +91,10 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_1_1(), "rule__MissingWords__BlocksAssignment_1_1_1");
 					put(grammarAccess.getMissingWordsAccess().getConfigAssignment_3(), "rule__MissingWords__ConfigAssignment_3");
 					put(grammarAccess.getMissingWordsAccess().getTestsAssignment_4(), "rule__MissingWords__TestsAssignment_4");
+					put(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_0(), "rule__MultiChoiceText__BlocksAssignment_1_0");
+					put(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_1_1(), "rule__MultiChoiceText__BlocksAssignment_1_1_1");
+					put(grammarAccess.getMultiChoiceTextAccess().getConfigAssignment_3(), "rule__MultiChoiceText__ConfigAssignment_3");
+					put(grammarAccess.getMultiChoiceTextAccess().getTestsAssignment_4(), "rule__MultiChoiceText__TestsAssignment_4");
 					put(grammarAccess.getProgramConfigurationAccess().getNavigationAssignment_2(), "rule__ProgramConfiguration__NavigationAssignment_2");
 					put(grammarAccess.getTestConfigurationAccess().getRetryAssignment_3(), "rule__TestConfiguration__RetryAssignment_3");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAssignment_3(), "rule__MultiChoiceEmConfig__RetryAssignment_3");
@@ -93,6 +102,8 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyAssignment_11(), "rule__MultiChoiceEmConfig__PenaltyAssignment_11");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getOrderAssignment_15(), "rule__MultiChoiceEmConfig__OrderAssignment_15");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getModeAssignment_19(), "rule__MultiChoiceEmConfig__ModeAssignment_19");
+					put(grammarAccess.getMultiChoiceTextConfigAccess().getRetryAssignment_3(), "rule__MultiChoiceTextConfig__RetryAssignment_3");
+					put(grammarAccess.getMultiChoiceTextConfigAccess().getIdentifierAssignment_7(), "rule__MultiChoiceTextConfig__IdentifierAssignment_7");
 					put(grammarAccess.getTestAccess().getSourceAssignment_2(), "rule__Test__SourceAssignment_2");
 					put(grammarAccess.getTestAccess().getQuestionAssignment_4(), "rule__Test__QuestionAssignment_4");
 					put(grammarAccess.getTestAccess().getExpressionAssignment_5_0(), "rule__Test__ExpressionAssignment_5_0");

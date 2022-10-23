@@ -1,5 +1,6 @@
 package commands.strategies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import manager.EMFCopier;
@@ -9,6 +10,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import exceptions.ReferenceNonExistingException;
+import exceptions.WrongAttributeTypeException;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -88,47 +92,31 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EMFCopier.copy(o);
 		eobjtar = EMFCopier.copy(o);
 		
-		Object src = null;
-		Object tar = null;
-		if (this.target.isContainment() == false) {
-			tar = o.eGet(this.target);
-			if (this.source.isContainment() == false) {
-				src = o.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = o.eGet(this.source);
-				if (src instanceof EObject) {
-					o.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					o.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
-		if (this.target.isContainment() == true) {
-			tar = o.eGet(this.target);
-			if (tar instanceof EObject) {
-				o.eResource().getContents().add((EObject) tar);
-			}
-			if (tar instanceof List<?>) {
-				o.eResource().getContents().addAll((List<EObject>) tar);
-			}
-			if (this.source.isContainment() == false) {
-				src = o.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = o.eGet(this.source);
-				if (src instanceof EObject) {
-					o.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					o.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
+		Object src = o.eGet(this.source, true);
+		Object tar = o.eGet(this.target, true);
+
 		obj = EMFCopier.copy(o);
-		o.eSet(this.source, tar);
-		o.eSet(this.target, src);
+
+		try {
+			if (this.target.isMany() == false && this.source.isMany() == false) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.add((EObject) src);
+				ModelManager.setReference(this.source.getName(), o, (EObject) tar);
+				ModelManager.setReference(this.target.getName(), o, tmp.get(0));
+			}
+			if (this.target.isMany() == true && this.source.isMany() == true) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.addAll((List<EObject>) tar);
+				((List<EObject>) tar).clear();
+				((List<EObject>) tar).addAll((List<EObject>) src);
+				((List<EObject>) src).clear();
+				((List<EObject>) src).addAll(tmp);
+			}
+		}
+		catch (ReferenceNonExistingException ex) {
+		}
+		catch (WrongAttributeTypeException ex) {
+		}
 	}
 	
 	public SwapReferenceConfigurationStrategy(EObject obj_tar, String src_name, String target, String source, Resource model) {
@@ -178,47 +166,31 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EMFCopier.copy(obj_src);
 		eobjtar = EMFCopier.copy(obj_tar);
 
-		Object src = null;
-		Object tar = null;
-		if (this.target.isContainment() == false) {
-			tar = obj_tar.eGet(this.target);
-			if (this.source.isContainment() == false) {
-				src = obj_src.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = obj_src.eGet(this.source);
-				if (src instanceof EObject) {
-					obj_src.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					obj_src.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
-		if (this.target.isContainment() == true) {
-			tar = obj_tar.eGet(this.target);
-			if (tar instanceof EObject) {
-				obj_tar.eResource().getContents().add((EObject) tar);
-			}
-			if (tar instanceof List<?>) {
-				obj_tar.eResource().getContents().addAll((List<EObject>) tar);
-			}
-			if (this.source.isContainment() == false) {
-				src = obj_src.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = obj_src.eGet(this.source);
-				if (src instanceof EObject) {
-					obj_src.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					obj_src.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
+		Object src = obj_src.eGet(this.source, true);
+		Object tar = obj_tar.eGet(this.target, true);
+
 		obj = EMFCopier.copy(obj_tar);
-		obj_src.eSet(this.source, tar);
-		obj_tar.eSet(this.target, src);
+
+		try {
+			if (this.target.isMany() == false && this.source.isMany() == false) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.add((EObject) src);
+				ModelManager.setReference(this.source.getName(), obj_src, (EObject) tar);
+				ModelManager.setReference(this.target.getName(), obj_tar, tmp.get(0));
+			}
+			if (this.target.isMany() == true && this.source.isMany() == true) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.addAll((List<EObject>) tar);
+				((List<EObject>) tar).clear();
+				((List<EObject>) tar).addAll((List<EObject>) src);
+				((List<EObject>) src).clear();
+				((List<EObject>) src).addAll(tmp);
+			}
+		}
+		catch (ReferenceNonExistingException ex) {
+		}
+		catch (WrongAttributeTypeException ex) {
+		}
 	}
 
 	public SwapReferenceConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
@@ -241,9 +213,20 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				continue;
 			}
 			if (obj_src.eGet(this.source) != null) {
-				if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
-					othereobjsrc = (EObject) obj_src.eGet(r, true);
-					othereobjsrcname = r.getName();
+				Object o = obj_src.eGet(this.source);
+				if (o instanceof EObject) {
+					EObject eObject = (EObject) o;
+					if (r.getEType().getName().equals(eObject.eClass().getName())) {
+						othereobjsrc = (EObject) obj_src.eGet(r, true);
+						othereobjsrcname = r.getName();
+					}
+				}
+				if (o instanceof List<?>) {
+					List<EObject> eObjects = (List<EObject>) o;
+					if (r.getEType().getName().equals(eObjects.get(0).eClass().getName())) {
+						othereobjsrc = ((List<EObject>) obj_src.eGet(r, true)).get(0);
+						othereobjsrcname = r.getName();
+					}
 				}
 			}
 		}
@@ -253,9 +236,20 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				continue;
 			}
 			if (obj_tar.eGet(this.target) != null) {
-				if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
-					othereobjtar = (EObject) obj_tar.eGet(r, true);
-					othereobjtarname = r.getName();
+				Object o = obj_src.eGet(this.target);
+				if (o instanceof EObject) {
+					EObject eObject = (EObject) o;
+					if (r.getEType().getName().equals(eObject.eClass().getName())) {
+						othereobjtar = (EObject) obj_tar.eGet(r, true);
+						othereobjtarname = r.getName();
+					}
+				}
+				if (o instanceof List<?>) {
+					List<EObject> eObjects = (List<EObject>) o;
+					if (r.getEType().getName().equals(eObjects.get(0).eClass().getName())) {
+						othereobjtar = ((List<EObject>) obj_tar.eGet(r, true)).get(0);
+						othereobjtarname = r.getName();
+					}
 				}
 			}
 		}
@@ -263,52 +257,36 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		eobjsrc = EMFCopier.copy(obj_src);
 		eobjtar = EMFCopier.copy(obj_tar);
 
-		Object src = null;
-		Object tar = null;
-		if (this.target.isContainment() == false) {
-			tar = obj_tar.eGet(this.target);
-			if (this.source.isContainment() == false) {
-				src = obj_src.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = obj_src.eGet(this.source);
-				if (src instanceof EObject) {
-					obj_src.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					obj_src.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
-		if (this.target.isContainment() == true) {
-			tar = obj_tar.eGet(this.target);
-			if (tar instanceof EObject) {
-				obj_tar.eResource().getContents().add((EObject) tar);
-			}
-			if (tar instanceof List<?>) {
-				obj_tar.eResource().getContents().addAll((List<EObject>) tar);
-			}
-			if (this.source.isContainment() == false) {
-				src = obj_src.eGet(this.source);
-			}
-			if (this.source.isContainment() == true) {
-				src = obj_src.eGet(this.source);
-				if (src instanceof EObject) {
-					obj_src.eResource().getContents().add((EObject) src);
-				}
-				if (src instanceof List<?>) {
-					obj_src.eResource().getContents().addAll((List<EObject>) src);
-				}
-			}
-		}
+		Object src = obj_src.eGet(this.source, true);
+		Object tar = obj_tar.eGet(this.target, true);
+
 		obj = EMFCopier.copy(obj_tar);
-		obj_src.eSet(this.source, tar);
-		obj_tar.eSet(this.target, src);
+
+		try {
+			if (this.target.isMany() == false && this.source.isMany() == false) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.add((EObject) src);
+				ModelManager.setReference(this.source.getName(), obj_src, (EObject) tar);
+				ModelManager.setReference(this.target.getName(), obj_tar, tmp.get(0));
+			}
+			if (this.target.isMany() == true && this.source.isMany() == true) {
+				List<EObject> tmp = new ArrayList<EObject>();
+				tmp.addAll((List<EObject>) tar);
+				((List<EObject>) tar).clear();
+				((List<EObject>) tar).addAll((List<EObject>) src);
+				((List<EObject>) src).clear();
+				((List<EObject>) src).addAll(tmp);
+			}
+		}
+		catch (ReferenceNonExistingException ex) {
+		}
+		catch (WrongAttributeTypeException ex) {
+		}
 	}
 
 	
 	public Object getValue(EObject o) {
-		return o.eGet(target);
+		return o.eGet(this.target);
 	}
 	
 	public Object getPrevious() {
@@ -325,10 +303,14 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		return o.eGet(this.target);
 	}
 	
-	public EObject getRefObject() {
+	public EObject getSourceObject() {
+		return eobjsrc;
+	}
+
+	public EObject getTargetObject() {
 		return eobjtar;
 	}
-	
+
 	public EObject getOtherSource() {
 		return othereobjsrc;
 	}

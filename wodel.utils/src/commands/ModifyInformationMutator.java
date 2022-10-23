@@ -267,9 +267,25 @@ public class ModifyInformationMutator extends Mutator {
 					for (ReferenceConfigurationStrategy refConfig : e.getValue()) {
 						if (refConfig instanceof SwapReferenceConfigurationStrategy) {
 							SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) refConfig;
-							eobjref = EMFCopier.copy(srcf.getRefObject());
-							previous.put(e.getKey(), (EObject) srcf.getPrevious());
-							next.put(e.getKey(), (EObject) srcf.getNext(eobjref));
+							eobjref = EMFCopier.copy(srcf.getTargetObject());
+							Object p = srcf.getPrevious();
+							EObject prev = null;
+							if (p instanceof EObject) {
+								prev = (EObject) p;
+							}
+							if (p instanceof List<?>) {
+								prev = ((List<EObject>) p).get(0);
+							}
+							previous.put(e.getKey(), prev);
+							Object n = srcf.getNext(eobjref);
+							EObject nxt = null;
+							if (n instanceof EObject) {
+								nxt = (EObject) p;
+							}
+							if (n instanceof List<?>) {
+								nxt = ((List<EObject>) n).get(0);
+							}
+							next.put(e.getKey(), nxt);
 							oldRefValue.put(e.getKey(), srcf.getOtherSource());
 							oldRefNameValue.put(e.getKey(), srcf.getOtherSourceName());
 							newRefValue.put(e.getKey(), srcf.getOtherTarget());
@@ -279,8 +295,24 @@ public class ModifyInformationMutator extends Mutator {
 							if (refConfig instanceof CopyReferenceConfigurationStrategy) {
 								CopyReferenceConfigurationStrategy crcf = (CopyReferenceConfigurationStrategy) refConfig;
 								eobjref = EMFCopier.copy(crcf.getRefObject());
-								previous.put(e.getKey(), (EObject) crcf.getPrevious());
-								next.put(e.getKey(), (EObject) crcf.getNext(eobjref));
+								Object p = crcf.getPrevious();
+								EObject prev = null;
+								if (p instanceof EObject) {
+									prev = (EObject) p;
+								}
+								if (p instanceof List<?>) {
+									prev = ((List<EObject>) p).get(0);
+								}
+								previous.put(e.getKey(), prev);
+								Object n = crcf.getNext(eobjref);
+								EObject nxt = null;
+								if (n instanceof EObject) {
+									nxt = (EObject) p;
+								}
+								if (n instanceof List<?>) {
+									nxt = ((List<EObject>) n).get(0);
+								}
+								next.put(e.getKey(), nxt);
 							}
 							else {
 								if (refConfig instanceof RandomReferenceConfigurationStrategy) {
@@ -329,35 +361,29 @@ public class ModifyInformationMutator extends Mutator {
 							next.put(e.getKey(), null);
 						} else {
 							EReference r = (EReference) ModelManager.getReferenceByName(e.getKey(), object);
-							Object ob = object.eGet(r);
+							Object ob = object.eGet(r, true);
 							if (ob instanceof EObject) {
-								//EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
-								//EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), eObject);
-								EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), (EObject) refConfig.getValue(object));
-							}
-							else if (ob != null) {
-								List<EObject> list = (List<EObject>) ob;
+								List<EObject> list = new ArrayList<EObject>();
+								list.add((EObject) ob);
 								if (refConfig.getValue(object) instanceof EObject) {
-									//EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
-									//list.add(eObject);
 									list.add((EObject) refConfig.getValue(object));
 								}
-								else {
-									//List<EObject> processed = new ArrayList<EObject>();
-									//List<EObject> copies = new ArrayList<EObject>();
-									//copies.addAll((List<EObject>) refConfig.getValue(object));
-									//for (EObject o : copies) {
-									//	EObject eObject = EMFCopier.process(this.getModel(), o);
-									//	processed.add(eObject);
-									//}
+								if (refConfig.getValue(object) instanceof List<?>) {
 									list.addAll((List<EObject>) refConfig.getValue(object));
-									//list.addAll((List<EObject>) refConfig.getValue(object));
 								}
+								next.put(e.getKey(), list);
 							}
-							//ModelManager.setReference(e.getKey(), object, refConfig);
-							next.put(e.getKey(), refConfig.getValue(object));
-							//ModelManager.setReference(e.getKey(), object, refConfig);
-							//next.put(e.getKey(), object);
+							if (ob instanceof List<?>) {
+								List<EObject> list = new ArrayList<EObject>();
+								list.addAll((List<EObject>) ob);
+								if (refConfig.getValue(object) instanceof EObject) {
+									list.add((EObject) refConfig.getValue(object));
+								}
+								if (refConfig.getValue(object) instanceof List<?>) {
+									list.addAll((List<EObject>) refConfig.getValue(object));
+								}
+								next.put(e.getKey(), list);
+							}
 						}
 					}
 				}

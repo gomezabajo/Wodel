@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<electriccircuit:ElectricCircuit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:electriccircuit="http://electriccircuit/1.0" xsi:schemaLocation="http://electriccircuit/1.0 ElectricCircuit.ecore" xmi:id="_8MPWgFE7Ee2BZ8yL4U2WDQ">
+  <gates xsi:type="electriccircuit:NOT" xmi:id="_AtZNgFE8Ee2BZ8yL4U2WDQ" name="not2" output="_SE66AFE8Ee2BZ8yL4U2WDQ" input="_9pn6gFE7Ee2BZ8yL4U2WDQ">
+    <input xmi:id="_9pn6gFE7Ee2BZ8yL4U2WDQ" name="a"/>
+  </gates>
+  <gates xsi:type="electriccircuit:NOT" xmi:id="_HDWqAFE8Ee2BZ8yL4U2WDQ" name="not3" output="__4JnkFE7Ee2BZ8yL4U2WDQ">
+  	<input xmi:id="_-qs9AFE7Ee2BZ8yL4U2WDQ" name="b"/>
+  </gates>
+  <gates xsi:type="electriccircuit:AND" xmi:id="_ZufTcFE8Ee2BZ8yL4U2WDQ" name="and6" output="_snq_8FE8Ee2BZ8yL4U2WDQ">
+    <input xmi:id="_jamzcFE8Ee2BZ8yL4U2WDQ" name="c" end="__4JnkFE7Ee2BZ8yL4U2WDQ"/>
+  	<input xmi:id="_lCbs4FE8Ee2BZ8yL4U2WDQ" name="d" end="_SE66AFE8Ee2BZ8yL4U2WDQ"/>
+  </gates>
+  <wires xmi:id="__4JnkFE7Ee2BZ8yL4U2WDQ" name="w1"/>
+  <wires xmi:id="_SE66AFE8Ee2BZ8yL4U2WDQ" name="w2"/>
+  <wires xmi:id="_snq_8FE8Ee2BZ8yL4U2WDQ" name="w3"/>
+</electriccircuit:ElectricCircuit>

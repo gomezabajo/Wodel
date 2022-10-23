@@ -92,6 +92,10 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 				return createMultiChoiceEmConfigAdapter();
 			}
 			@Override
+			public Adapter caseMultiChoiceTextConfig(MultiChoiceTextConfig object) {
+				return createMultiChoiceTextConfigAdapter();
+			}
+			@Override
 			public Adapter caseAlternativeResponse(AlternativeResponse object) {
 				return createAlternativeResponseAdapter();
 			}
@@ -110,6 +114,10 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMissingWords(MissingWords object) {
 				return createMissingWordsAdapter();
+			}
+			@Override
+			public Adapter caseMultiChoiceText(MultiChoiceText object) {
+				return createMultiChoiceTextAdapter();
 			}
 			@Override
 			public Adapter caseTest(Test object) {
@@ -220,6 +228,20 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link edutest.MultiChoiceTextConfig <em>Multi Choice Text Config</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.MultiChoiceTextConfig
+	 * @generated
+	 */
+	public Adapter createMultiChoiceTextConfigAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link edutest.AlternativeResponse <em>Alternative Response</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -286,6 +308,20 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMissingWordsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.MultiChoiceText <em>Multi Choice Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.MultiChoiceText
+	 * @generated
+	 */
+	public Adapter createMultiChoiceTextAdapter() {
 		return null;
 	}
 

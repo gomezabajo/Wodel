@@ -185,6 +185,15 @@ ruleMutatorTests returns [EObject current=null]
 			$current = $this_MissingWords_4.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getMutatorTestsAccess().getMultiChoiceTextParserRuleCall_5());
+		}
+		this_MultiChoiceText_5=ruleMultiChoiceText
+		{
+			$current = $this_MultiChoiceText_5.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -703,6 +712,109 @@ ruleMissingWords returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleMultiChoiceText
+entryRuleMultiChoiceText returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMultiChoiceTextRule()); }
+	iv_ruleMultiChoiceText=ruleMultiChoiceText
+	{ $current=$iv_ruleMultiChoiceText.current; }
+	EOF;
+
+// Rule MultiChoiceText
+ruleMultiChoiceText returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='MultiChoiceText'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getMultiChoiceTextAccess().getMultiChoiceTextKeyword_0());
+		}
+		(
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getMultiChoiceTextRule());
+						}
+					}
+					otherlv_1=RULE_ID
+					{
+						newLeafNode(otherlv_1, grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_0_0());
+					}
+				)
+			)
+			(
+				otherlv_2=','
+				{
+					newLeafNode(otherlv_2, grammarAccess.getMultiChoiceTextAccess().getCommaKeyword_1_1_0());
+				}
+				(
+					(
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getMultiChoiceTextRule());
+							}
+						}
+						otherlv_3=RULE_ID
+						{
+							newLeafNode(otherlv_3, grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+						}
+					)
+				)
+			)*
+		)?
+		otherlv_4='{'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getMultiChoiceTextAccess().getLeftCurlyBracketKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getConfigMultiChoiceTextConfigParserRuleCall_3_0());
+				}
+				lv_config_5_0=ruleMultiChoiceTextConfig
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMultiChoiceTextRule());
+					}
+					set(
+						$current,
+						"config",
+						lv_config_5_0,
+						"wodeledu.dsls.EduTest.MultiChoiceTextConfig");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getTestsTestParserRuleCall_4_0());
+				}
+				lv_tests_6_0=ruleTest
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMultiChoiceTextRule());
+					}
+					add(
+						$current,
+						"tests",
+						lv_tests_6_0,
+						"wodeledu.dsls.EduTest.Test");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_7='}'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getMultiChoiceTextAccess().getRightCurlyBracketKeyword_5());
+		}
+	)
+;
+
 // Entry rule entryRuleProgramConfiguration
 entryRuleProgramConfiguration returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getProgramConfigurationRule()); }
@@ -996,6 +1108,98 @@ ruleMultiChoiceEmConfig returns [EObject current=null]
 						"mode",
 						lv_mode_19_0,
 						"wodeledu.dsls.EduTest.Mode");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+	)
+;
+
+// Entry rule entryRuleMultiChoiceTextConfig
+entryRuleMultiChoiceTextConfig returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMultiChoiceTextConfigRule()); }
+	iv_ruleMultiChoiceTextConfig=ruleMultiChoiceTextConfig
+	{ $current=$iv_ruleMultiChoiceTextConfig.current; }
+	EOF;
+
+// Rule MultiChoiceTextConfig
+ruleMultiChoiceTextConfig returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getMultiChoiceTextConfigAccess().getMultiChoiceTextConfigAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='retry'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getMultiChoiceTextConfigAccess().getRetryKeyword_1());
+		}
+		otherlv_2='='
+		{
+			newLeafNode(otherlv_2, grammarAccess.getMultiChoiceTextConfigAccess().getEqualsSignKeyword_2());
+		}
+		(
+			(
+				(
+					lv_retry_3_1='yes'
+					{
+						newLeafNode(lv_retry_3_1, grammarAccess.getMultiChoiceTextConfigAccess().getRetryYesKeyword_3_0_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getMultiChoiceTextConfigRule());
+						}
+						setWithLastConsumed($current, "retry", true, null);
+					}
+					    |
+					lv_retry_3_2='no'
+					{
+						newLeafNode(lv_retry_3_2, grammarAccess.getMultiChoiceTextConfigAccess().getRetryNoKeyword_3_0_1());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getMultiChoiceTextConfigRule());
+						}
+						setWithLastConsumed($current, "retry", true, null);
+					}
+				)
+			)
+		)
+		otherlv_4=','
+		{
+			newLeafNode(otherlv_4, grammarAccess.getMultiChoiceTextConfigAccess().getCommaKeyword_4());
+		}
+		otherlv_5='text'
+		{
+			newLeafNode(otherlv_5, grammarAccess.getMultiChoiceTextConfigAccess().getTextKeyword_5());
+		}
+		otherlv_6='='
+		{
+			newLeafNode(otherlv_6, grammarAccess.getMultiChoiceTextConfigAccess().getEqualsSignKeyword_6());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMultiChoiceTextConfigAccess().getIdentifierEStringParserRuleCall_7_0());
+				}
+				lv_identifier_7_0=ruleEString
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMultiChoiceTextConfigRule());
+					}
+					set(
+						$current,
+						"identifier",
+						lv_identifier_7_0,
+						"wodeledu.dsls.EduTest.EString");
 					afterParserOrEnumRuleCall();
 				}
 			)

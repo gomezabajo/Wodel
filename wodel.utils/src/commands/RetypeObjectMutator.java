@@ -278,16 +278,8 @@ public class RetypeObjectMutator extends Mutator {
 						}
 						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
 							List<EObject> oo = (List<EObject>) obj.eGet(sf1);
-							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
-								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
-								if (sf1.getUpperBound() > 1) {
-									newoo = newoo.subList(0, sf1.getUpperBound());
-								}
-								oo.addAll(newoo);
-							}
-							else if (oo.size() > 0) {
-								newObj.eSet(sf2, oo.get(0));
-							}
+							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+							newoo.addAll(oo);
 						}
 					}
 				}
@@ -306,16 +298,8 @@ public class RetypeObjectMutator extends Mutator {
 						}
 						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
 							List<EObject> oo = (List<EObject>) obj.eGet(sf1);
-							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
-								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
-								if (sf1.getUpperBound() > 1) {
-									newoo = newoo.subList(0, sf1.getUpperBound());
-								}
-								oo.addAll(newoo);
-							}
-							else if (oo.size() > 0) {
-								newObj.eSet(sf2, oo.get(0));
-							}
+							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+							newoo.addAll(oo);
 						}
 					}
 				}

@@ -67,12 +67,13 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cMultiChoiceEmendationParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cMatchPairsParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cMissingWordsParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cMultiChoiceTextParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//MutatorTests:
-		//	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords;
+		//	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords
+		//AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//AlternativeResponse
@@ -89,6 +90,9 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//MissingWords
 		public RuleCall getMissingWordsParserRuleCall_4() { return cMissingWordsParserRuleCall_4; }
+		
+		//MultiChoiceText
+		public RuleCall getMultiChoiceTextParserRuleCall_5() { return cMultiChoiceTextParserRuleCall_5; }
 	}
 	public class AlternativeResponseElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.AlternativeResponse");
@@ -485,6 +489,85 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
+	public class MultiChoiceTextElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MultiChoiceText");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cMultiChoiceTextKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
+		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
+		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
+		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
+		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cConfigMultiChoiceTextConfigParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
+		private final Assignment cTestsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cTestsTestParserRuleCall_4_0 = (RuleCall)cTestsAssignment_4.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		
+		//MultiChoiceText:
+		//	'MultiChoiceText' (blocks+=[mutatorenvironment::Block] (',' blocks+=[mutatorenvironment::Block])*)? '{'
+		//	config=MultiChoiceTextConfig
+		//	tests+=Test*
+		//	'}';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'MultiChoiceText' (blocks+=[mutatorenvironment::Block] (',' blocks+=[mutatorenvironment::Block])*)? '{'
+		//config=MultiChoiceTextConfig tests+=Test* '}'
+		public Group getGroup() { return cGroup; }
+		
+		//'MultiChoiceText'
+		public Keyword getMultiChoiceTextKeyword_0() { return cMultiChoiceTextKeyword_0; }
+		
+		//(blocks+=[mutatorenvironment::Block] (',' blocks+=[mutatorenvironment::Block])*)?
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//blocks+=[mutatorenvironment::Block]
+		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		
+		//[mutatorenvironment::Block]
+		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		
+		//ID
+		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
+		
+		//(',' blocks+=[mutatorenvironment::Block])*
+		public Group getGroup_1_1() { return cGroup_1_1; }
+		
+		//','
+		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
+		
+		//blocks+=[mutatorenvironment::Block]
+		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		
+		//[mutatorenvironment::Block]
+		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
+		
+		//ID
+		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
+		
+		//config=MultiChoiceTextConfig
+		public Assignment getConfigAssignment_3() { return cConfigAssignment_3; }
+		
+		//MultiChoiceTextConfig
+		public RuleCall getConfigMultiChoiceTextConfigParserRuleCall_3_0() { return cConfigMultiChoiceTextConfigParserRuleCall_3_0; }
+		
+		//tests+=Test*
+		public Assignment getTestsAssignment_4() { return cTestsAssignment_4; }
+		
+		//Test
+		public RuleCall getTestsTestParserRuleCall_4_0() { return cTestsTestParserRuleCall_4_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
+	}
 	public class ProgramConfigurationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.ProgramConfiguration");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -681,6 +764,66 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//Mode
 		public RuleCall getModeModeEnumRuleCall_19_0() { return cModeModeEnumRuleCall_19_0; }
+	}
+	public class MultiChoiceTextConfigElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MultiChoiceTextConfig");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cMultiChoiceTextConfigAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cRetryKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cRetryAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final Alternatives cRetryAlternatives_3_0 = (Alternatives)cRetryAssignment_3.eContents().get(0);
+		private final Keyword cRetryYesKeyword_3_0_0 = (Keyword)cRetryAlternatives_3_0.eContents().get(0);
+		private final Keyword cRetryNoKeyword_3_0_1 = (Keyword)cRetryAlternatives_3_0.eContents().get(1);
+		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cTextKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Assignment cIdentifierAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cIdentifierEStringParserRuleCall_7_0 = (RuleCall)cIdentifierAssignment_7.eContents().get(0);
+		
+		//MultiChoiceTextConfig:
+		//	{MultiChoiceTextConfig}
+		//	'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{MultiChoiceTextConfig} 'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
+		public Group getGroup() { return cGroup; }
+		
+		//{MultiChoiceTextConfig}
+		public Action getMultiChoiceTextConfigAction_0() { return cMultiChoiceTextConfigAction_0; }
+		
+		//'retry'
+		public Keyword getRetryKeyword_1() { return cRetryKeyword_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		
+		//retry?=('yes' | 'no')
+		public Assignment getRetryAssignment_3() { return cRetryAssignment_3; }
+		
+		//('yes' | 'no')
+		public Alternatives getRetryAlternatives_3_0() { return cRetryAlternatives_3_0; }
+		
+		//'yes'
+		public Keyword getRetryYesKeyword_3_0_0() { return cRetryYesKeyword_3_0_0; }
+		
+		//'no'
+		public Keyword getRetryNoKeyword_3_0_1() { return cRetryNoKeyword_3_0_1; }
+		
+		//','
+		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		
+		//'text'
+		public Keyword getTextKeyword_5() { return cTextKeyword_5; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		
+		//identifier=EString
+		public Assignment getIdentifierAssignment_7() { return cIdentifierAssignment_7; }
+		
+		//EString
+		public RuleCall getIdentifierEStringParserRuleCall_7_0() { return cIdentifierEStringParserRuleCall_7_0; }
 	}
 	public class TestElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.Test");
@@ -929,9 +1072,11 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	private final MultiChoiceEmendationElements pMultiChoiceEmendation;
 	private final MatchPairsElements pMatchPairs;
 	private final MissingWordsElements pMissingWords;
+	private final MultiChoiceTextElements pMultiChoiceText;
 	private final ProgramConfigurationElements pProgramConfiguration;
 	private final TestConfigurationElements pTestConfiguration;
 	private final MultiChoiceEmConfigElements pMultiChoiceEmConfig;
+	private final MultiChoiceTextConfigElements pMultiChoiceTextConfig;
 	private final TestElements pTest;
 	private final EStringElements pEString;
 	private final EDoubleElements pEDouble;
@@ -955,9 +1100,11 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		this.pMultiChoiceEmendation = new MultiChoiceEmendationElements();
 		this.pMatchPairs = new MatchPairsElements();
 		this.pMissingWords = new MissingWordsElements();
+		this.pMultiChoiceText = new MultiChoiceTextElements();
 		this.pProgramConfiguration = new ProgramConfigurationElements();
 		this.pTestConfiguration = new TestConfigurationElements();
 		this.pMultiChoiceEmConfig = new MultiChoiceEmConfigElements();
+		this.pMultiChoiceTextConfig = new MultiChoiceTextConfigElements();
 		this.pTest = new TestElements();
 		this.pEString = new EStringElements();
 		this.pEDouble = new EDoubleElements();
@@ -1005,7 +1152,7 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//MutatorTests:
-	//	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords;
+	//	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText;
 	public MutatorTestsElements getMutatorTestsAccess() {
 		return pMutatorTests;
 	}
@@ -1079,6 +1226,19 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		return getMissingWordsAccess().getRule();
 	}
 	
+	//MultiChoiceText:
+	//	'MultiChoiceText' (blocks+=[mutatorenvironment::Block] (',' blocks+=[mutatorenvironment::Block])*)? '{'
+	//	config=MultiChoiceTextConfig
+	//	tests+=Test*
+	//	'}';
+	public MultiChoiceTextElements getMultiChoiceTextAccess() {
+		return pMultiChoiceText;
+	}
+	
+	public ParserRule getMultiChoiceTextRule() {
+		return getMultiChoiceTextAccess().getRule();
+	}
+	
 	//ProgramConfiguration:
 	//	'navigation' '=' navigation=Navigation;
 	public ProgramConfigurationElements getProgramConfigurationAccess() {
@@ -1110,6 +1270,17 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getMultiChoiceEmConfigRule() {
 		return getMultiChoiceEmConfigAccess().getRule();
+	}
+	
+	//MultiChoiceTextConfig:
+	//	{MultiChoiceTextConfig}
+	//	'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString;
+	public MultiChoiceTextConfigElements getMultiChoiceTextConfigAccess() {
+		return pMultiChoiceTextConfig;
+	}
+	
+	public ParserRule getMultiChoiceTextConfigRule() {
+		return getMultiChoiceTextConfigAccess().getRule();
 	}
 	
 	//Test:

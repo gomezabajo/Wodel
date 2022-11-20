@@ -441,4 +441,18 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="wodel.logic"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wodel.model2text.logic"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

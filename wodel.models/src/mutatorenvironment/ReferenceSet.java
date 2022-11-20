@@ -29,10 +29,6 @@ public interface ReferenceSet extends EObject {
 	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Reference</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference</em>' reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceSet_Reference()
@@ -44,10 +40,6 @@ public interface ReferenceSet extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' containment reference.
 	 * @see #setObject(ObSelectionStrategy)

@@ -4,13 +4,13 @@ package modeldraw.impl;
 
 import java.util.Collection;
 
-import modeldraw.BooleanAttribute;
 import modeldraw.ModeldrawPackage;
 import modeldraw.Node;
 import modeldraw.NodeColor;
 import modeldraw.NodeShape;
 import modeldraw.NodeStyle;
 import modeldraw.NodeType;
+import modeldraw.ValuedFeature;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -35,26 +35,29 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link modeldraw.impl.NodeImpl#getAttribute <em>Attribute</em>}</li>
+ *   <li>{@link modeldraw.impl.NodeImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link modeldraw.impl.NodeImpl#getReference <em>Reference</em>}</li>
  *   <li>{@link modeldraw.impl.NodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link modeldraw.impl.NodeImpl#getShape <em>Shape</em>}</li>
  *   <li>{@link modeldraw.impl.NodeImpl#getColor <em>Color</em>}</li>
  *   <li>{@link modeldraw.impl.NodeImpl#getStyle <em>Style</em>}</li>
+ *   <li>{@link modeldraw.impl.NodeImpl#getPathShape <em>Path Shape</em>}</li>
+ *   <li>{@link modeldraw.impl.NodeImpl#getTargetNode <em>Target Node</em>}</li>
+ *   <li>{@link modeldraw.impl.NodeImpl#getTargetFeature <em>Target Feature</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class NodeImpl extends NamedItemImpl implements Node {
 	/**
-	 * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' containment reference list.
+	 * The cached value of the '{@link #getFeature() <em>Feature</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAttribute()
+	 * @see #getFeature()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<BooleanAttribute> attribute;
+	protected EList<ValuedFeature> feature;
 
 	/**
 	 * The cached value of the '{@link #getReference() <em>Reference</em>}' reference list.
@@ -147,6 +150,46 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	protected NodeStyle style = STYLE_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getPathShape() <em>Path Shape</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPathShape()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PATH_SHAPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPathShape() <em>Path Shape</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPathShape()
+	 * @generated
+	 * @ordered
+	 */
+	protected String pathShape = PATH_SHAPE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTargetNode() <em>Target Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected EClass targetNode;
+
+	/**
+	 * The cached value of the '{@link #getTargetFeature() <em>Target Feature</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetFeature()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ValuedFeature> targetFeature;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -170,11 +213,12 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<BooleanAttribute> getAttribute() {
-		if (attribute == null) {
-			attribute = new EObjectContainmentEList<BooleanAttribute>(BooleanAttribute.class, this, ModeldrawPackage.NODE__ATTRIBUTE);
+	@Override
+	public EList<ValuedFeature> getFeature() {
+		if (feature == null) {
+			feature = new EObjectContainmentEList<ValuedFeature>(ValuedFeature.class, this, ModeldrawPackage.NODE__FEATURE);
 		}
-		return attribute;
+		return feature;
 	}
 
 	/**
@@ -182,6 +226,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EReference> getReference() {
 		if (reference == null) {
 			reference = new EObjectResolvingEList<EReference>(EReference.class, this, ModeldrawPackage.NODE__REFERENCE);
@@ -194,6 +239,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeType getType() {
 		return type;
 	}
@@ -203,6 +249,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(NodeType newType) {
 		NodeType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
@@ -215,6 +262,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeShape getShape() {
 		return shape;
 	}
@@ -224,6 +272,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setShape(NodeShape newShape) {
 		NodeShape oldShape = shape;
 		shape = newShape == null ? SHAPE_EDEFAULT : newShape;
@@ -236,6 +285,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeColor getColor() {
 		return color;
 	}
@@ -245,6 +295,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setColor(NodeColor newColor) {
 		NodeColor oldColor = color;
 		color = newColor == null ? COLOR_EDEFAULT : newColor;
@@ -257,6 +308,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeStyle getStyle() {
 		return style;
 	}
@@ -266,6 +318,7 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStyle(NodeStyle newStyle) {
 		NodeStyle oldStyle = style;
 		style = newStyle == null ? STYLE_EDEFAULT : newStyle;
@@ -279,10 +332,88 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	 * @generated
 	 */
 	@Override
+	public String getPathShape() {
+		return pathShape;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPathShape(String newPathShape) {
+		String oldPathShape = pathShape;
+		pathShape = newPathShape;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeldrawPackage.NODE__PATH_SHAPE, oldPathShape, pathShape));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getTargetNode() {
+		if (targetNode != null && targetNode.eIsProxy()) {
+			InternalEObject oldTargetNode = (InternalEObject)targetNode;
+			targetNode = (EClass)eResolveProxy(oldTargetNode);
+			if (targetNode != oldTargetNode) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeldrawPackage.NODE__TARGET_NODE, oldTargetNode, targetNode));
+			}
+		}
+		return targetNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass basicGetTargetNode() {
+		return targetNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setTargetNode(EClass newTargetNode) {
+		EClass oldTargetNode = targetNode;
+		targetNode = newTargetNode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeldrawPackage.NODE__TARGET_NODE, oldTargetNode, targetNode));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<ValuedFeature> getTargetFeature() {
+		if (targetFeature == null) {
+			targetFeature = new EObjectContainmentEList<ValuedFeature>(ValuedFeature.class, this, ModeldrawPackage.NODE__TARGET_FEATURE);
+		}
+		return targetFeature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModeldrawPackage.NODE__ATTRIBUTE:
-				return ((InternalEList<?>)getAttribute()).basicRemove(otherEnd, msgs);
+			case ModeldrawPackage.NODE__FEATURE:
+				return ((InternalEList<?>)getFeature()).basicRemove(otherEnd, msgs);
+			case ModeldrawPackage.NODE__TARGET_FEATURE:
+				return ((InternalEList<?>)getTargetFeature()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -295,8 +426,8 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModeldrawPackage.NODE__ATTRIBUTE:
-				return getAttribute();
+			case ModeldrawPackage.NODE__FEATURE:
+				return getFeature();
 			case ModeldrawPackage.NODE__REFERENCE:
 				return getReference();
 			case ModeldrawPackage.NODE__TYPE:
@@ -307,6 +438,13 @@ public class NodeImpl extends NamedItemImpl implements Node {
 				return getColor();
 			case ModeldrawPackage.NODE__STYLE:
 				return getStyle();
+			case ModeldrawPackage.NODE__PATH_SHAPE:
+				return getPathShape();
+			case ModeldrawPackage.NODE__TARGET_NODE:
+				if (resolve) return getTargetNode();
+				return basicGetTargetNode();
+			case ModeldrawPackage.NODE__TARGET_FEATURE:
+				return getTargetFeature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -320,9 +458,9 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModeldrawPackage.NODE__ATTRIBUTE:
-				getAttribute().clear();
-				getAttribute().addAll((Collection<? extends BooleanAttribute>)newValue);
+			case ModeldrawPackage.NODE__FEATURE:
+				getFeature().clear();
+				getFeature().addAll((Collection<? extends ValuedFeature>)newValue);
 				return;
 			case ModeldrawPackage.NODE__REFERENCE:
 				getReference().clear();
@@ -340,6 +478,16 @@ public class NodeImpl extends NamedItemImpl implements Node {
 			case ModeldrawPackage.NODE__STYLE:
 				setStyle((NodeStyle)newValue);
 				return;
+			case ModeldrawPackage.NODE__PATH_SHAPE:
+				setPathShape((String)newValue);
+				return;
+			case ModeldrawPackage.NODE__TARGET_NODE:
+				setTargetNode((EClass)newValue);
+				return;
+			case ModeldrawPackage.NODE__TARGET_FEATURE:
+				getTargetFeature().clear();
+				getTargetFeature().addAll((Collection<? extends ValuedFeature>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -352,8 +500,8 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModeldrawPackage.NODE__ATTRIBUTE:
-				getAttribute().clear();
+			case ModeldrawPackage.NODE__FEATURE:
+				getFeature().clear();
 				return;
 			case ModeldrawPackage.NODE__REFERENCE:
 				getReference().clear();
@@ -370,6 +518,15 @@ public class NodeImpl extends NamedItemImpl implements Node {
 			case ModeldrawPackage.NODE__STYLE:
 				setStyle(STYLE_EDEFAULT);
 				return;
+			case ModeldrawPackage.NODE__PATH_SHAPE:
+				setPathShape(PATH_SHAPE_EDEFAULT);
+				return;
+			case ModeldrawPackage.NODE__TARGET_NODE:
+				setTargetNode((EClass)null);
+				return;
+			case ModeldrawPackage.NODE__TARGET_FEATURE:
+				getTargetFeature().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -382,8 +539,8 @@ public class NodeImpl extends NamedItemImpl implements Node {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModeldrawPackage.NODE__ATTRIBUTE:
-				return attribute != null && !attribute.isEmpty();
+			case ModeldrawPackage.NODE__FEATURE:
+				return feature != null && !feature.isEmpty();
 			case ModeldrawPackage.NODE__REFERENCE:
 				return reference != null && !reference.isEmpty();
 			case ModeldrawPackage.NODE__TYPE:
@@ -394,6 +551,12 @@ public class NodeImpl extends NamedItemImpl implements Node {
 				return color != COLOR_EDEFAULT;
 			case ModeldrawPackage.NODE__STYLE:
 				return style != STYLE_EDEFAULT;
+			case ModeldrawPackage.NODE__PATH_SHAPE:
+				return PATH_SHAPE_EDEFAULT == null ? pathShape != null : !PATH_SHAPE_EDEFAULT.equals(pathShape);
+			case ModeldrawPackage.NODE__TARGET_NODE:
+				return targetNode != null;
+			case ModeldrawPackage.NODE__TARGET_FEATURE:
+				return targetFeature != null && !targetFeature.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -416,6 +579,8 @@ public class NodeImpl extends NamedItemImpl implements Node {
 		result.append(color);
 		result.append(", style: ");
 		result.append(style);
+		result.append(", pathShape: ");
+		result.append(pathShape);
 		result.append(')');
 		return result.toString();
 	}

@@ -25,12 +25,12 @@ public interface MultiChoiceText extends MutatorTests {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Config</em>' containment reference.
-	 * @see #setConfig(MultiChoiceTextConfig)
+	 * @see #setConfig(TextConfiguration)
 	 * @see edutest.EdutestPackage#getMultiChoiceText_Config()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	MultiChoiceTextConfig getConfig();
+	TextConfiguration getConfig();
 
 	/**
 	 * Sets the value of the '{@link edutest.MultiChoiceText#getConfig <em>Config</em>}' containment reference.
@@ -40,6 +40,6 @@ public interface MultiChoiceText extends MutatorTests {
 	 * @see #getConfig()
 	 * @generated
 	 */
-	void setConfig(MultiChoiceTextConfig value);
+	void setConfig(TextConfiguration value);
 
 } // MultiChoiceText

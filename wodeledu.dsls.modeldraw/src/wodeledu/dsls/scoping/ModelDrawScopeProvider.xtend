@@ -23,6 +23,8 @@ import modeldraw.Information
 import modeldraw.NodeEnumerator
 import modeldraw.Content
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.emf.ecore.EStructuralFeature
+import modeldraw.ValuedFeature
 
 /**
  * @author Pablo Gomez-Abajo
@@ -56,12 +58,38 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
 		Scopes.scopeFor(scope)
 	}
 
-	def IScope scope_BooleanAttribute_att(Node node, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
-		scope.addAll(getEAttributes((node.eContainer as MutatorDraw).metamodel, node.name.name))
+	def IScope scope_Node_targetNode(Node node, EReference ref) {
+		val scope = new ArrayList<EClass>()
+		scope.addAll(getEClasses((node.eContainer as MutatorDraw).metamodel))
+		Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_ValuedFeature_feat(Node node, EReference ref) {
+		val scope = new ArrayList<EStructuralFeature>()
+		scope.addAll(getEStructuralFeatures((node.eContainer as MutatorDraw).metamodel, node.name.name))
+		if (node.targetNode !== null) {
+			scope.addAll(getEStructuralFeatures((node.eContainer as MutatorDraw).metamodel, node.targetNode.name))
+		}
        	Scopes.scopeFor(scope)
 	}
 	
+	def IScope scope_ValuedFeature_refFeature(Node node, EReference ref) {
+		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> features = new ArrayList<EStructuralFeature>()
+		if (node.feature !== null && node.feature.size > 0) {
+			for (ValuedFeature feature : node.feature) {
+				features.addAll(getEStructuralFeatures((node.eContainer as MutatorDraw).metamodel, feature.feat.EType.name))
+			}
+		}
+		if (node.targetFeature !== null && node.targetFeature.size > 0) {
+			for (ValuedFeature feature : node.targetFeature) {
+				features.addAll(getEStructuralFeatures((node.eContainer as MutatorDraw).metamodel, feature.feat.EType.name))
+			}
+		}
+		scope.addAll(features)
+       	Scopes.scopeFor(scope)
+	}
+
 	def IScope scope_NamedItem_attName(Node node, EReference ref) {
 		val scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes((node.eContainer as MutatorDraw).metamodel, node.name.name))
@@ -139,6 +167,38 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
        	Scopes.scopeFor(scope)
 	}
 
+	def IScope scope_Relation_targetNode(Edge edge, EReference ref) {
+		val scope = new ArrayList<EClass>()
+		scope.addAll(getEClasses((edge.eContainer as MutatorDraw).metamodel))
+		Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_ValuedFeature_feat(Edge edge, EReference ref) {
+		val scope = new ArrayList<EStructuralFeature>()
+		scope.addAll(getEStructuralFeatures((edge.eContainer as MutatorDraw).metamodel, edge.name.name))
+		if (edge.targetNode !== null) {
+			scope.addAll(getEStructuralFeatures((edge.eContainer as MutatorDraw).metamodel, edge.targetNode.name))
+		}
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_ValuedFeature_refFeature(Edge edge, EReference ref) {
+		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> features = new ArrayList<EStructuralFeature>()
+		if (edge.feature !== null && edge.feature.size > 0) {
+			for (ValuedFeature feature : edge.feature) {
+				features.addAll(getEStructuralFeatures((edge.eContainer as MutatorDraw).metamodel, feature.feat.EType.name))
+			}
+		}
+		if (edge.targetFeature !== null && edge.targetFeature.size > 0) {
+			for (ValuedFeature feature : edge.targetFeature) {
+				features.addAll(getEStructuralFeatures((edge.eContainer as MutatorDraw).metamodel, feature.feat.EType.name))
+			}
+		}
+		scope.addAll(features)
+       	Scopes.scopeFor(scope)
+	}
+
 	def IScope scope_Level_upper(Level level, EReference ref) {
 		val scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences((level.eContainer as MutatorDraw).metamodel, level.name.name))
@@ -190,6 +250,25 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
         return classes
 	 }
 	 
+	 /**
+	   * It return the list of structural features of a class.
+	   * @param String file containing the metamodel
+	   * @param String class name
+	   * @return List<EStructuralFeature> list of structural features
+	   */ 
+	 def private List<EStructuralFeature> getEStructuralFeatures (String metamodelFile, String eclassName) {
+	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
+	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+        val ArrayList<EStructuralFeature> features = new ArrayList<EStructuralFeature>()
+        if (eclass !== null) {
+        	features.addAll(eclass.EAllStructuralFeatures)
+        	for (EClass c : eclass.getESuperTypes) {
+        		features.addAll(c.EAllStructuralFeatures)
+        	}
+        }
+        return features
+  	}
+
 	 /**
 	   * It return the list of attributes of a class.
 	   * @param String file containing the metamodel

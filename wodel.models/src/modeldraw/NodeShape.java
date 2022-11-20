@@ -46,15 +46,31 @@ public enum NodeShape implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	RECORD(2, "record", "record");
+	RECORD(2, "record", "record"),
+
+	/**
+	 * The '<em><b>Load</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LOAD_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LOAD(3, "load", "load"),
+
+	/**
+	 * The '<em><b>Logic</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LOGIC_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LOGIC(4, "logic", "logic");
 
 	/**
 	 * The '<em><b>Circle</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Circle</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CIRCLE
 	 * @model name="circle"
@@ -66,10 +82,6 @@ public enum NodeShape implements Enumerator {
 	/**
 	 * The '<em><b>Doublecircle</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Doublecircle</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DOUBLECIRCLE
 	 * @model name="doublecircle"
@@ -81,10 +93,6 @@ public enum NodeShape implements Enumerator {
 	/**
 	 * The '<em><b>Record</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Record</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RECORD
 	 * @model name="record"
@@ -92,6 +100,28 @@ public enum NodeShape implements Enumerator {
 	 * @ordered
 	 */
 	public static final int RECORD_VALUE = 2;
+
+	/**
+	 * The '<em><b>Load</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LOAD
+	 * @model name="load"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LOAD_VALUE = 3;
+
+	/**
+	 * The '<em><b>Logic</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LOGIC
+	 * @model name="logic"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LOGIC_VALUE = 4;
 
 	/**
 	 * An array of all the '<em><b>Node Shape</b></em>' enumerators.
@@ -104,6 +134,8 @@ public enum NodeShape implements Enumerator {
 			CIRCLE,
 			DOUBLECIRCLE,
 			RECORD,
+			LOAD,
+			LOGIC,
 		};
 
 	/**
@@ -163,6 +195,8 @@ public enum NodeShape implements Enumerator {
 			case CIRCLE_VALUE: return CIRCLE;
 			case DOUBLECIRCLE_VALUE: return DOUBLECIRCLE;
 			case RECORD_VALUE: return RECORD;
+			case LOAD_VALUE: return LOAD;
+			case LOGIC_VALUE: return LOGIC;
 		}
 		return null;
 	}
@@ -205,6 +239,7 @@ public enum NodeShape implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -214,6 +249,7 @@ public enum NodeShape implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -223,6 +259,7 @@ public enum NodeShape implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

@@ -106,11 +106,11 @@ public class EdutestSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EdutestPackage.MULTI_CHOICE_TEXT_CONFIG: {
-				MultiChoiceTextConfig multiChoiceTextConfig = (MultiChoiceTextConfig)theEObject;
-				T result = caseMultiChoiceTextConfig(multiChoiceTextConfig);
-				if (result == null) result = caseTestConfiguration(multiChoiceTextConfig);
-				if (result == null) result = caseConfiguration(multiChoiceTextConfig);
+			case EdutestPackage.TEXT_CONFIGURATION: {
+				TextConfiguration textConfiguration = (TextConfiguration)theEObject;
+				T result = caseTextConfiguration(textConfiguration);
+				if (result == null) result = caseTestConfiguration(textConfiguration);
+				if (result == null) result = caseConfiguration(textConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -153,6 +153,20 @@ public class EdutestSwitch<T> extends Switch<T> {
 				MultiChoiceText multiChoiceText = (MultiChoiceText)theEObject;
 				T result = caseMultiChoiceText(multiChoiceText);
 				if (result == null) result = caseMutatorTests(multiChoiceText);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EdutestPackage.ALTERNATIVE_TEXT: {
+				AlternativeText alternativeText = (AlternativeText)theEObject;
+				T result = caseAlternativeText(alternativeText);
+				if (result == null) result = caseMutatorTests(alternativeText);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EdutestPackage.DRAG_AND_DROP_TEXT: {
+				DragAndDropText dragAndDropText = (DragAndDropText)theEObject;
+				T result = caseDragAndDropText(dragAndDropText);
+				if (result == null) result = caseMutatorTests(dragAndDropText);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -257,17 +271,17 @@ public class EdutestSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Text Config</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Text Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Text Config</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Text Configuration</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseMultiChoiceTextConfig(MultiChoiceTextConfig object) {
+	public T caseTextConfiguration(TextConfiguration object) {
 		return null;
 	}
 
@@ -358,6 +372,36 @@ public class EdutestSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMultiChoiceText(MultiChoiceText object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Alternative Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Alternative Text</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAlternativeText(AlternativeText object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Drag And Drop Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Drag And Drop Text</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDragAndDropText(DragAndDropText object) {
 		return null;
 	}
 

@@ -81,10 +81,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>None</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NONE
 	 * @model name="none"
@@ -96,10 +92,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>Triangle</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Triangle</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TRIANGLE
 	 * @model name="triangle"
@@ -111,10 +103,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>Diamond</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Diamond</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DIAMOND
 	 * @model name="diamond"
@@ -126,10 +114,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>Odiamond</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Odiamond</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ODIAMOND
 	 * @model name="odiamond"
@@ -141,10 +125,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>Open</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Open</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OPEN
 	 * @model name="open"
@@ -156,10 +136,6 @@ public enum Decoration implements Enumerator {
 	/**
 	 * The '<em><b>Empty</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Empty</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EMPTY
 	 * @model name="empty"
@@ -286,6 +262,7 @@ public enum Decoration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -295,6 +272,7 @@ public enum Decoration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -304,6 +282,7 @@ public enum Decoration implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

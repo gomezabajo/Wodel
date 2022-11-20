@@ -28,10 +28,6 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Type</em>' reference.
 	 * @see #setRefType(EReference)
@@ -54,10 +50,6 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	/**
 	 * Returns the value of the '<em><b>Expression</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Expression</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Expression</em>' containment reference.
 	 * @see #setExpression(Expression)
@@ -80,10 +72,6 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	/**
 	 * Returns the value of the '<em><b>Resource</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resource</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Resource</em>' attribute.
 	 * @see #setResource(String)
@@ -106,10 +94,6 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	/**
 	 * Returns the value of the '<em><b>Ref Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Ref Type</em>' reference.
 	 * @see #setRefRefType(EReference)
@@ -132,10 +116,6 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	/**
 	 * Returns the value of the '<em><b>Ref Ref Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Ref Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Ref Ref Type</em>' reference.
 	 * @see #setRefRefRefType(EReference)

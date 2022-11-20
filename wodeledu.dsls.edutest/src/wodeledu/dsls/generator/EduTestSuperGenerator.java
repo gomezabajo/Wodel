@@ -42,6 +42,7 @@ import appliedMutations.AttributeSwap;
 import appliedMutations.InformationChanged;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
+import appliedMutations.ObjectRetyped;
 import appliedMutations.ReferenceChanged;
 //import appliedMutations.ObjectRetyped;
 import appliedMutations.ReferenceCreated;
@@ -50,6 +51,8 @@ import appliedMutations.ReferenceRemoved;
 import appliedMutations.SourceReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 import edutest.AlternativeResponse;
+import edutest.AlternativeText;
+import edutest.DragAndDropText;
 import edutest.MatchPairs;
 import edutest.MissingWords;
 import edutest.Mode;
@@ -96,6 +99,27 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		public List<Resource> history;
 		public Map<Resource, List<Registry>> wrong;
 	}
+	
+	protected class ComparableSimpleEntry<T1, T2> extends SimpleEntry<T1, T2> implements Comparable<ComparableSimpleEntry<T1, T2>> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5891016691019556492L;
+
+		public ComparableSimpleEntry(T1 arg0, T2 arg1) {
+			super(arg0, arg1);
+		}
+
+		@Override
+		public int compareTo(ComparableSimpleEntry<T1, T2> o) {
+			if (this.getKey() instanceof String && o.getKey() instanceof String) {
+				return ((String) this.getKey()).compareTo((String) o.getKey());
+			}
+			return this.getKey().equals(o.getKey()) ? 0 : -1;
+		}
+		
+	}
 
 	protected class TestOption implements Cloneable {
 		public String path;
@@ -108,8 +132,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		public boolean solution;
 		public int total;
 		
-		public Map<String, List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> options;
+		public Map<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>> options;
 		
+		public Map<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>> sortedOptions;
+
 		@Override
 		public Object clone() throws CloneNotSupportedException {
 			return super.clone();
@@ -182,6 +208,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
         }
 
         return text.replaceAll("(?m)^[ \t]*\r?\n", "");
+	}
+	
+	protected static void addValue(List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries, 
+			ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value) {
+		int k = Collections.binarySearch(entries, value);
+		if (k < 0) {
+			k = -k - 1;
+		}
+		entries.add(null);
+		for (int i = entries.size() - 1; i > k; i--) {
+			entries.set(i, entries.get(i - 1));
+		}
+		entries.set(k, value);
 	}
 
 	/**
@@ -300,7 +339,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 																		}
 																	}
 																}
-																registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()).add(wrongRegistry);
+																if (wrongRegistry.mutants.size() > 0) {
+																	registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()).add(wrongRegistry);
+																}
 															}
 														}
 													}
@@ -715,7 +756,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							break;
 						}
 					}
-					if (txt.length() > 0 && found == false) {
+					if (found == false || txt.isEmpty()) {
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -730,7 +771,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							break;
 						}
 					}
-					if (txt.length() > 0 && found == false) {
+					if (found == false || txt.isEmpty()) {
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -751,7 +792,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							break;
 						}
 					}
-					if (txt.length() > 0 && found == false) {
+					if (found == false || txt.isEmpty()) {
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -798,7 +839,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							break;
 						}
 					}
-					if (txt.length() > 0 && found == false) {
+					if (found == false || txt.isEmpty()) {
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -819,7 +860,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							break;
 						}
 					}
-					if (txt.length() > 0 && found == false) {
+					if (found == false || txt.isEmpty()) {
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -938,6 +979,144 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		return text;
 	}
 
+	/**
+	 * Gets the natural language option
+	 * for the retype object mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param objectRetyped
+	 * @param opt
+	 * @return
+	 */
+	private String getObjectRetypedOption(Resource cfgoptsresource, Resource idelemsresource, ObjectRetyped objectRetyped, TestOption opt) {
+		String text = "";
+		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
+		if (objectRetyped.getObject().size() == 0) {
+			return text;
+		}
+		EObject object = ModelManager.getEObject(objectRetyped.getObject().get(0), opt.seed);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+		if (objectRetyped.getRemovedObject().size() == 0) {
+			return text;
+		}
+		EObject to = ModelManager.getEObject(objectRetyped.getRemovedObject().get(0), opt.seed);
+		Element toElement = MutatorUtils.getElement(object, idelemsresource);
+		Element toElementValues = MutatorUtils.getElementValues(to, idelemsresource, opt.solution);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				text += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					if (elementValues != null) {
+						for (modeltext.Word v : elementValues.getWords()) {
+							if (v instanceof modeltext.Constant) {
+								text += ((modeltext.Constant) v).getValue() + " ";
+							}
+							if (v instanceof modeltext.Variable) {
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = object;
+								}
+								else {
+									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+								}
+								if (o != null) {
+									text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								}
+							}
+							if (v instanceof modeltext.Macro) {
+								if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+									text += object.eClass().getName() + " ";
+								}
+							}
+						}
+					}
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							text += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+							}
+						}
+						if (v instanceof modeltext.Macro) {
+							if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+								text += object.eClass().getName() + " ";
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.TO_OBJECT) {
+					if (toElementValues != null) {
+						for (modeltext.Word v : toElementValues.getWords()) {
+							if (v instanceof modeltext.Constant) {
+								text += ((modeltext.Constant) v).getValue() + " ";
+							}
+							if (v instanceof modeltext.Variable) {
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = to;
+								}
+								else {
+									o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+								}
+								if (o != null) {
+									text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								}
+							}
+							if (v instanceof modeltext.Macro) {
+								if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+									text += to.eClass().getName() + " ";
+								}
+							}
+						}
+					}
+					for (modeltext.Word v : toElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							text += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = to;
+							}
+							else {
+								o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+							}
+							if (o != null) {
+								text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+							}
+						}
+						if (v instanceof modeltext.Macro) {
+							if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+								text += to.eClass().getName() + " ";
+							}
+						}
+					}
+				}
+			}
+		}
+		return text;
+	}
+	
 	/**
 	 * Gets the natural language options
 	 * for the modify source reference mutation
@@ -1276,6 +1455,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param mode
 	 */
 	private void storeAttributeChangedOptions(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
+		if (informationChanged.getDef() == null) {
+			return;
+		}
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> attributes = new ArrayList<String>();
@@ -1746,6 +1928,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param mode
 	 */
 	private void storeReferenceChangedOptions(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
+		if (informationChanged.getDef() == null) {
+			return;
+		}
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> references = new ArrayList<String>();
@@ -1809,6 +1994,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getObjectCreatedText(Resource cfgoptsresource, Resource idelemsresource, ObjectCreated objectCreated, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (objectCreated.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectCreated.getObject().get(0), opt.seed);
 		Element element = MutatorUtils.getElement(object, idelemsresource);
@@ -1852,10 +2040,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(objectCreated.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -1864,14 +2052,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -1889,6 +2078,333 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	
 	/**
 	 * Gets the natural language option
+	 * for the create object mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param objectCreated
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getObjectRetypedText(Resource cfgoptsresource, Resource idelemsresource, ObjectRetyped objectRetyped, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		if (objectRetyped.getDef() == null) {
+			return text;
+		}
+		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
+		if (objectRetyped.getObject().size() == 0) {
+			return text;
+		}
+		EObject object = ModelManager.getEObject(objectRetyped.getObject().get(0), opt.seed);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		List<Element> allElementValues = MutatorUtils.getAllElementValues(object, idelemsresource);
+		if (objectRetyped.getRemovedObject().size() == 0) {
+			return text;
+		}
+		EObject to = ModelManager.getEObject(objectRetyped.getRemovedObject().get(0), opt.seed);
+		Element toElement = MutatorUtils.getElement(object, idelemsresource);
+		List<Element> allToElementValues = MutatorUtils.getAllElementValues(object, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					if (allElementValues != null) {
+						createText = true;
+						Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+						index[0]++;
+						for (Element elValues : allElementValues) {
+							List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+							mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+							if (opt.options.get(mutURI[0]) == null) {
+								entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+								opt.options.put(mutURI[0], entries);
+							}
+							else {
+								entries = opt.options.get(mutURI[0]);
+							}
+							String tx = "";
+							for (modeltext.Word vv : elValues.getWords()) {
+								if (vv instanceof modeltext.Constant) {
+									tx += ((modeltext.Constant) vv).getValue() + " ";
+								}
+								if (vv instanceof modeltext.Variable) {
+									EObject o = null;
+									if (((modeltext.Variable) vv).getRef() == null) {
+										o = object;
+									}
+									else {
+										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) vv).getRef().getName(), object));
+									}
+									if (o != null) {
+										tx +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) vv).getId().getName(), o)) + " ";
+									}
+								}
+								if (vv instanceof modeltext.Macro) {
+									if (((modeltext.Macro) vv).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+										tx += object.eClass().getName() + " ";
+									}
+								}
+							}
+							ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+							if (EcoreUtil.equals(elementValues, elValues)) {
+								value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(tx, new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(element.getType(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("parameters", new SimpleEntry<Integer, Boolean>(index[0], true))));
+							}
+							else {
+								value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(tx, new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(element.getType(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("parameters", new SimpleEntry<Integer, Boolean>(index[0], false))));
+							}
+							entries.add(value);
+						}
+					}
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+							}
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
+								index[0]++;
+								for (EObject ob : objects) {
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
+									}
+									else {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
+									}
+									entries.add(value);
+								}
+							}
+						}
+						if (v instanceof modeltext.Macro) {
+							if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+								if (createText == true) {
+									text.add(txt);
+									txt = "";
+								}
+								createText = true;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass elementType = element.getType();
+								List<EPackage> packages = new ArrayList<EPackage>();
+								packages.add(elementType.getEPackage());
+								List<EClass> eTypes = ModelManager.getESubClasses(packages, elementType);
+								if (elementType.isAbstract() == false) {
+									eTypes.add(elementType);
+								}
+								index[0]++;
+								for (EClass cl : eTypes) {
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+									if (EcoreUtil.equals(object.eClass(), cl)) {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(cl.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(elementType, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("type", new SimpleEntry<Integer, Boolean>(index[0], true))));
+									}
+									else {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(cl.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(elementType, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("type", new SimpleEntry<Integer, Boolean>(index[0], false))));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.TO_OBJECT) {
+					if (allToElementValues != null) {
+						createText = true;
+						Element toElementValues = MutatorUtils.getElementValues(to, idelemsresource, opt.solution);
+						index[0]++;
+						for (Element elValues : allToElementValues) {
+							List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+							mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+							if (opt.options.get(mutURI[0]) == null) {
+								entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+								opt.options.put(mutURI[0], entries);
+							}
+							else {
+								entries = opt.options.get(mutURI[0]);
+							}
+							String tx = "";
+							for (modeltext.Word vv : elValues.getWords()) {
+								if (vv instanceof modeltext.Constant) {
+									tx += ((modeltext.Constant) vv).getValue() + " ";
+								}
+								if (vv instanceof modeltext.Variable) {
+									EObject o = null;
+									if (((modeltext.Variable) vv).getRef() == null) {
+										o = object;
+									}
+									else {
+										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) vv).getRef().getName(), object));
+									}
+									if (o != null) {
+										tx +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) vv).getId().getName(), o)) + " ";
+									}
+								}
+								if (vv instanceof modeltext.Macro) {
+									if (((modeltext.Macro) vv).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+										tx += object.eClass().getName() + " ";
+									}
+								}
+							}
+							ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+							if (EcoreUtil.equals(toElementValues, elValues)) {
+								value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(tx, new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(element.getType(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("parameters", new SimpleEntry<Integer, Boolean>(index[0], true))));
+							}
+							else {
+								value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(tx, new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(element.getType(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("parameters", new SimpleEntry<Integer, Boolean>(index[0], false))));
+							}
+							entries.add(value);
+						}
+					}
+					for (modeltext.Word v : toElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+							}
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
+								index[0]++;
+								for (EObject ob : objects) {
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
+									}
+									else {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
+									}
+									entries.add(value);
+								}
+							}
+						}
+						if (v instanceof modeltext.Macro) {
+							if (((modeltext.Macro) v).getItem().getLiteral().equals(modeltext.MacroItem.TYPE.getLiteral())) {
+								if (createText == true) {
+									text.add(txt);
+									txt = "";
+								}
+								createText = true;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectRetyped.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass elementType = toElement.getType();
+								List<EPackage> packages = new ArrayList<EPackage>();
+								packages.add(elementType.getEPackage());
+								List<EClass> eTypes = ModelManager.getESubClasses(packages, elementType);
+								if (elementType.isAbstract() == false) {
+									eTypes.add(elementType);
+								}
+								index[0]++;
+								for (EClass cl : eTypes) {
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
+									if (EcoreUtil.equals(to.eClass(), cl)) {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(cl.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(elementType, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("type", new SimpleEntry<Integer, Boolean>(index[0], true))));
+									}
+									else {
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(cl.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(elementType, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("type", new SimpleEntry<Integer, Boolean>(index[0], false))));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Gets the natural language option
 	 * for the remove object mutation
 	 * @param cfgoptsresource
 	 * @param idelemsresource
@@ -1898,6 +2414,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getObjectRemovedText(Resource cfgoptsresource, Resource idelemsresource, ObjectRemoved objectRemoved, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (objectRemoved.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectRemoved.getObject().get(0), opt.seed);
 		Element element = MutatorUtils.getElement(object, idelemsresource);
@@ -1941,10 +2460,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(objectRemoved.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -1953,14 +2472,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -1987,6 +2507,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getSourceReferenceChangedText(Resource cfgoptsresource, Resource idelemsresource, SourceReferenceChanged sourceReferenceChanged, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (sourceReferenceChanged.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
 		EObject from = ModelManager.getEObject(sourceReferenceChanged.getFrom(), opt.seed);
 		String refName = sourceReferenceChanged.getRefName();
@@ -2035,10 +2558,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) ((EObject) from.eGet(srcRef)).eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), (EObject) from.eGet(srcRef)));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(sourceReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2047,14 +2570,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
-								index[0]++;									
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
+								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2082,10 +2606,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) ((EObject) to.eGet(tarRef)).eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), (EObject) to.eGet(tarRef)));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(sourceReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2094,14 +2618,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2140,6 +2665,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getTargetReferenceChangedText(Resource cfgoptsresource, Resource idelemsresource, TargetReferenceChanged targetReferenceChanged, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (targetReferenceChanged.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
 		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
 		Element element = MutatorUtils.getElement(object, idelemsresource);
@@ -2194,10 +2722,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2206,14 +2734,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2241,10 +2770,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2253,14 +2782,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2288,10 +2818,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2300,14 +2830,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2335,10 +2866,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) oldTo.eGet(((modeltext.Variable) v).getRef());
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2347,14 +2878,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2405,6 +2937,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getReferenceCreatedText(Resource cfgoptsresource, Resource idelemsresource, ReferenceCreated referenceCreated, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (referenceCreated.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceCreated.getObject().get(0), opt.seed);
 		String refName = referenceCreated.getRefName();
@@ -2448,10 +2983,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(referenceCreated.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2460,14 +2995,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2502,6 +3038,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getReferenceRemovedText(Resource cfgoptsresource, Resource idelemsresource, ReferenceRemoved referenceRemoved, TestOption opt, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (referenceRemoved.getDef() == null) {
+			return text;
+		}
 		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceRemoved.getObject().get(0), opt.seed);
 		EObject ref = ModelManager.getEObject(referenceRemoved.getRef().get(0), opt.seed);
@@ -2547,10 +3086,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(referenceRemoved.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -2559,14 +3098,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -2602,6 +3142,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param mode
 	 */
 	private void storeAttributeChangedText(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode, String[] mutURI, int[] index) {
+		if (informationChanged.getDef() == null) {
+			return;
+		}
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> attributes = new ArrayList<String>();
@@ -2657,9 +3200,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 									}
 									if (o != null) {
-										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 										if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 											opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 										}
 										else {
@@ -2668,14 +3211,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 										String type = o.eClass().getName();
 										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										String attNm = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 										index[0]++;
 										for (EObject ob : objects) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (EcoreUtil.equals(o, ob)) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -2703,10 +3247,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) attObject.eGet(((modeltext.Variable) v).getRef());
 									}
 									if (o != null) {
-										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 										mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 										if (opt.options.get(mutURI[0]) == null) {
-											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 											opt.options.put(mutURI[0], entries);
 										}
 										else {
@@ -2715,14 +3259,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 										String type = o.eClass().getName();
 										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										String attNm = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 										index[0]++;
 										for (EObject ob : objects) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (EcoreUtil.equals(o, ob)) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -2734,9 +3279,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -2755,12 +3300,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									index[0]++;
 									for (EAttribute attribute : eClass.getEAllAttributes()) {
 										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (attribute.getName().equals(eAttribute.getName())) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -2772,9 +3317,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -2793,12 +3338,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									index[0]++;
 									for (EAttribute attribute : eClass.getEAllAttributes()) {
 										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (attribute.getName().equals(eAttribute.getName())) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -2810,9 +3355,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -2834,12 +3379,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										if (object.eGet(attributeName).equals("true")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("true", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 										solution = false;
 										if (object.eGet(attributeName).equals("false")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("false", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 									}
 								}
 							}
@@ -2848,9 +3393,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -2869,15 +3414,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									index[0]++;
 									if (eAttribute.getEAttributeType().getInstanceTypeName().equals("boolean")) {
 										boolean solution = false;
-										if (newVal.equals("true")) {
+										if (object.eGet(attributeName).equals("true")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("true", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 										solution = false;
-										if (newVal.equals("false")) {
+										if (object.eGet(attributeName).equals("false")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("false", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 									}
 								}
 							}
@@ -2935,10 +3480,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 									}
 									if (o != null) {
-										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 										mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 										if (opt.options.get(mutURI[0]) == null) {
-											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 											opt.options.put(mutURI[0], entries);
 										}
 										else {
@@ -2947,14 +3492,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 										String type = o.eClass().getName();
 										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										String attNm = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 										index[0]++;
 										for (EObject ob : objects) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (EcoreUtil.equals(o, ob)) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attNm, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attNm, new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -2966,9 +3512,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -2987,12 +3533,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									index[0]++;
 									for (EAttribute attribute : eClass.getEAllAttributes()) {
 										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
-											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 											if (attribute.getName().equals(eAttribute.getName())) {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true))));
 											}
 											else {
-												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+												value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(attribute.getName(), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false))));
 											}
 											entries.add(value);
 										}
@@ -3004,9 +3550,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -3028,12 +3574,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										if (oldVal.equals("true")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("true", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 										solution = false;
 										if (oldVal.equals("false")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("false", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 									}
 								}
 							}
@@ -3042,9 +3588,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -3066,12 +3612,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										if (newVal.equals("true")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("true", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 										solution = false;
 										if (newVal.equals("false")) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean >>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>("false", new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(eAttribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 									}
 								}
 							}
@@ -3080,9 +3626,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							createText = true;
 							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
 							if (modify != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -3113,7 +3659,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										if (optionText.equals(solutionText)) {
 											solution = true;
 										}
-										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(optionText, new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										entries.add(new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(optionText, new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(eClass, new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], solution)))));
 									}
 								}
 							}
@@ -3150,6 +3696,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getReferenceChangedTextNewerOlder(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject from, EObject to, Element element, Element fromElement, Element toElement, Element refTarElement, Element refSrcElement, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (informationChanged.getDef() == null) {
+			return text;
+		}
 		String txt = "";
 		boolean createText = false;
 		for (Word w : t.getWords()) {
@@ -3183,9 +3732,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 								}
 								else {
@@ -3194,14 +3743,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -3229,10 +3779,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -3241,14 +3791,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -3276,10 +3827,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = (EObject) to.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), to));
 							}
 							if (o != null) {
-								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 								mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 								if (opt.options.get(mutURI[0]) == null) {
-									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 									opt.options.put(mutURI[0], entries);
 								}
 								else {
@@ -3288,14 +3839,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								String type = o.eClass().getName();
 								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 								index[0]++;
 								for (EObject ob : objects) {
-									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 									if (EcoreUtil.equals(o, ob)) {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 									}
 									else {
-										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 									}
 									entries.add(value);
 								}
@@ -3352,6 +3904,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private List<String> getReferenceChangedTextNotOlder(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject to, Element element, Element toElement, Element refSrcElement, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (informationChanged.getDef() == null) {
+			return text;
+		}
 		String txt = "";
 		boolean createText = false;
 		if (opt.solution == true) {
@@ -3381,9 +3936,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3392,14 +3947,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3419,10 +3975,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 									if (opt.options.get(mutURI[0]) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(mutURI[0], entries);
 									}
 									else {
@@ -3431,14 +3987,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3479,9 +4036,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3490,14 +4047,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3517,9 +4075,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3528,14 +4086,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3554,6 +4113,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	
 	private List<String> getReferenceChangedTextNotNewer(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject from, Element fromElement, Element toElement, Element refSrcElement, String[] mutURI, int[] index) {
 		List<String> text = new ArrayList<String>();
+		if (informationChanged.getDef() == null) {
+			return text;
+		}
 		String txt = "";
 		boolean createText = false;
 		if (opt.solution == true) {
@@ -3584,9 +4146,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3595,14 +4157,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3622,10 +4185,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
 									if (opt.options.get(mutURI[0]) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(mutURI[0], entries);
 									}
 									else {
@@ -3634,14 +4197,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3682,9 +4246,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3693,14 +4257,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3720,9 +4285,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 								}
 								if (o != null) {
-									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
 									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
-										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
 										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
 									}
 									else {
@@ -3731,14 +4296,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									String type = o.eClass().getName();
 									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									String attName = ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName();
 									index[0]++;
 									for (EObject ob : objects) {
-										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value = null;
 										if (EcoreUtil.equals(o, ob)) {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], true))));
 										}
 										else {
-											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											value = new ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>(ModelManager.getStringAttribute(attName, ob), new SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>(ob.eClass(), new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attName, new SimpleEntry<Integer, Boolean>(index[0], false))));
 										}
 										entries.add(value);
 									}
@@ -3767,6 +4333,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param mode
 	 */
 	private void storeReferenceChangedText(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode, String[] mutURI, int[] index) {
+		if (informationChanged.getDef() == null) {
+			return;
+		}
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> references = new ArrayList<String>();
@@ -3841,7 +4410,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							if (mutation instanceof ObjectRemoved) {
 								text.add(getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt));
 								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
-							}							
+							}
+							if (mutation instanceof ObjectRetyped) {
+								text.add(getObjectRetypedOption(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
+							}
 							if (mutation instanceof SourceReferenceChanged) {
 								text.add(getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt));
 								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
@@ -3936,15 +4509,29 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					opts.add(opt);
 					for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(rnd).getKey())) {
 						if (wrongRegistry.mutants.size() > 0) {
-							rnd = ModelManager.getRandomIndex(wrongRegistry.mutants);
-							opt = new TestOption();
-							opt.path = "diagrams" + wrongRegistry.mutants.get(rnd).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
-							opt.resource = wrongRegistry.history.get(rnd);
-							opt.seed = wrongRegistry.seed;
-							opt.solution = false;
-							opts.add(opt);
+							List<Integer> sorted = new ArrayList<Integer>();
+							int size = wrongRegistry.mutants.size();
+							for (int i = 0; i < size; i++) {
+								sorted.add(i);
+							}
+							List<Integer> random = new ArrayList<Integer>();
+							for (int i = 0; i < size; i++) {
+								int rndIndex = ModelManager.getRandomIndex(sorted);
+								rnd = sorted.get(rndIndex);
+								random.add(rnd);
+								sorted.remove(rndIndex);
+							}
+							for (int i = 0; i < wrongRegistry.mutants.size(); i++) {
+								opt = new TestOption();
+								opt.path = "diagrams" + wrongRegistry.mutants.get(random.get(i)).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+								opt.resource = wrongRegistry.history.get(random.get(i));
+								opt.seed = wrongRegistry.seed;
+								opt.solution = false;
+								opts.add(opt);
+							}
 						}
 					}
+					Collections.shuffle(opts);
 					testOptions.put(test, opts);
 				}
 			}
@@ -3998,6 +4585,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								text.add(getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt));
 								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}							
+							if (mutation instanceof ObjectRetyped) {
+								text.add(getObjectRetypedOption(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
+							}
 							if (mutation instanceof SourceReferenceChanged) {
 								text.add(getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt));
 								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
@@ -4342,7 +4933,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //							boolean found = false;
 //							for (TestOption op : testOptions.get(test)) {
 //								if (op.mutant.getURI().equals(previous.getValue().getURI())) {
-//									previous = new SimpleEntry<Resource, Resource>(op.mutant, op.seed);
+//									previous = new SimpleEntry<Re= new ComparableSimpleEntry<op.mutant, op.seed);
 //									found = true;
 //									previousBlock = previous.getKey().getURI().path();
 //									previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
@@ -4382,7 +4973,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //	}
 	
 	/**
-	 * Builds the options for the MultiChoiceEmendation
+	 * Builds the options for the MatchPairs
 	 * @param resource
 	 * @param exercise
 	 * @param blocks
@@ -4483,7 +5074,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 
 	
 	/**
-	 * Builds the match pairs
+	 * Builds the missing words
 	 * natural language options
 	 * @param cfgoptsresource
 	 * @param idelemsresource
@@ -4496,7 +5087,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			List<TestOption> opts = new ArrayList<TestOption>();
 			if (options.get(exercise).get(test) != null) {
 				for (TestOption opt : options.get(exercise).get(test)) {
-					opt.options = new TreeMap<String, List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>();
+					opt.options = new TreeMap<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>>();
 					opt.text = new TreeMap<String, List<String>>();
 					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
 					int[] index = new int[1];
@@ -4521,6 +5112,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								text = getObjectRemovedText(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt, mutationURI, index);
 								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
 							}							
+							if (mutation instanceof ObjectRetyped) {
+								text = getObjectRetypedText(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
 							if (mutation instanceof SourceReferenceChanged) {
 								text = getSourceReferenceChangedText(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt, mutationURI, index);
 								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
@@ -4555,7 +5150,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	}
 
 	/**
-	 * Builds the options for the MultiChoiceEmendation
+	 * Builds the options for the MissingWords
 	 * @param resource
 	 * @param exercise
 	 * @param blocks
@@ -4611,27 +5206,27 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			options.put(exercise, testOptions);
 			buildOptionsMissingWords(cfgoptsresource, idelemsresource, exercise, testOptions);
 	        for (Test test : exercise.getTests()) {
-		        String textWithGaps = "";
 				int k = 0;
 				int solution = 0;
 	        	for (TestOption opt : options.get(exercise).get(test)) {
-	        		for (String key : opt.options.keySet()) {
-        				String opWithGaps = "";
+	        		for (String key : opt.text.keySet()) {
+       				String opWithGaps = "";
         				int tmp = k;
 	        			for (String text : opt.text.get(key)) {
 	        				k++;
 	        				opWithGaps += text + "%" + k+ " ";
 	        			}
 	        			k = tmp;
-	        			List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = opt.options.get(key);
-	        			for (SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries) {
+	        			List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = opt.options.get(key);
+	        			for (ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries) {
 	        				solution++;
-	        				if (entry.getValue().getValue() == true) {
+	        				if (entry.getValue().getValue().getValue().getValue() == true) {
 	        					k++;
 	        					opWithGaps = opWithGaps.replace("%" + k, "[[" + solution + "]]");
 	        				}
 	        			}
-	    	        	textWithGaps += opWithGaps.trim() + ". ";
+	        			k++;
+	        			opWithGaps = opWithGaps.replace("%" + k, "");
 	        		}
 	        	}
 	        }
@@ -4648,6 +5243,182 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 	}
 
+	/**
+	 * Builds the drag and drop text options
+	 * natural language options
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param exercise
+	 * @param testOptions
+	 * @param mode
+	 */
+	private void buildOptionsDragAndDropText(Resource cfgoptsresource, Resource idelemsresource, DragAndDropText exercise, Map<Test, List<TestOption>> testOptions) {
+		for (Test test : exercise.getTests()) {
+			List<TestOption> opts = new ArrayList<TestOption>();
+			if (options.get(exercise).get(test) != null) {
+				for (TestOption opt : options.get(exercise).get(test)) {
+					opt.options = new TreeMap<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>>();
+					opt.text = new TreeMap<String, List<String>>();
+					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
+					int[] index = new int[1];
+					index[0] = 0;
+					for (EObject mutation : mutations) {
+						List<String> text = new ArrayList<String>();
+						List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+						boolean flag = false;
+						for (EClass cl : superTypes) {
+							if (cl.getName().equals("AppMutation")) {
+								flag = true;
+								break;
+							}
+						}
+						if (flag == true) {
+							String[] mutationURI = new String[1];
+							if (mutation instanceof ObjectCreated) {
+								text = getObjectCreatedText(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof ObjectRemoved) {
+								text = getObjectRemovedText(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}							
+							if (mutation instanceof ObjectRetyped) {
+								text = getObjectRetypedText(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof SourceReferenceChanged) {
+								text = getSourceReferenceChangedText(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof TargetReferenceChanged) {
+								text = getTargetReferenceChangedText(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+//							if (mutation instanceof ReferenceSwap) {
+//							}
+							if (mutation instanceof ReferenceCreated) {
+								text = getReferenceCreatedText(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof ReferenceRemoved) {
+								text = getReferenceRemovedText(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof InformationChanged) {
+								storeAttributeChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);
+								storeReferenceChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);
+							}
+//							if (mutation instanceof ObjectRetyped) {
+//							}
+						}
+					}
+				}
+			}
+			for (TestOption opt : opts) {
+				opt.sortedOptions = new TreeMap<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>>();
+				for (String key : opt.options.keySet()) {
+					List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = new ArrayList<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>();
+					for (ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> value : opt.options.get(key)) {
+						addValue(entries, value);
+					}
+					opt.sortedOptions.put(key, entries);
+				}
+			}
+			testOptions.put(test, opts);
+		}
+	}
+
+	/**
+	 * Builds the options for the DragAndDropText
+	 * @param resource
+	 * @param exercise
+	 * @param blocks
+	 */
+	private void buildDragAndDropText(Resource resource, DragAndDropText exercise, List<EObject> blocks, Class<?> cls) {
+		try {
+			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Bundle bundle = Platform.getBundle("wodel.models");
+			String ecore = ModelManager.getMetaModel().replace("\\", "/");
+			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
+			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			String registryecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
+			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			String idelemsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
+			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
+			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
+			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
+			for (Test test : exercise.getTests()) {
+				dataReg.put(test, getRegistry((DragAndDropText) exercise, test, blocks, packages, registrypackages));
+			}
+			dataRegistry.put(exercise, dataReg);
+			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			for (Test test : exercise.getTests()) {
+				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
+					List<TestOption> opts = new ArrayList<TestOption>();
+					for (int k = 0; k < dataRegistry.get(exercise).get(test).mutants.size(); k++) {
+						TestOption opt = new TestOption();
+						Registry reg = dataRegistry.get(exercise).get(test);
+						String diagramPath = "";
+						if (ModelManager.getOutputPath().indexOf(":") != -1) {
+							diagramPath = reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+						}
+						else {
+							diagramPath = reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+						}
+						opt.path = "diagrams" + diagramPath;
+						opt.resource = reg.history.get(k);
+						opt.seed = reg.seed;
+						opt.solution = true;
+						opts.add(opt);
+					}
+					testOptions.put(test, opts);
+				}
+			}
+			options.put(exercise, testOptions);
+			buildOptionsDragAndDropText(cfgoptsresource, idelemsresource, exercise, testOptions);
+	        for (Test test : exercise.getTests()) {
+				int k = 0;
+				int solution = 0;
+	        	for (TestOption opt : options.get(exercise).get(test)) {
+	        		for (String key : opt.options.keySet()) {
+        				String opWithGaps = "";
+        				int tmp = k;
+	        			for (String text : opt.text.get(key)) {
+	        				k++;
+	        				opWithGaps += text + "%" + k+ " ";
+	        			}
+	        			k = tmp;
+	        			List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = opt.options.get(key);
+	        			for (ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries) {
+	        				solution++;
+	        				if (entry.getValue().getValue().getValue().getValue() == true) {
+	        					k++;
+	        					opWithGaps = opWithGaps.replace("%" + k, "[[" + solution + "]]");
+	        				}
+	        			}
+	        		}
+	        	}
+	        }
+			options.put(exercise, testOptions);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Generates the options for the test exercises application
@@ -4659,7 +5430,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
 			Map<Test, List<String>> diags = new HashMap<Test, List<String>>();
-			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText) {
+			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText || exercise instanceof AlternativeText) {
 				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags);
 			}
 			if (exercise instanceof MultiChoiceEmendation) {
@@ -4670,6 +5441,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			}
 			if (exercise instanceof MissingWords) {
 				buildMissingWords(resource, (MissingWords) exercise, blocks, cls);
+			}
+			if (exercise instanceof DragAndDropText) {
+				buildDragAndDropText(resource, (DragAndDropText) exercise, blocks, cls);
 			}
 		}
 	}

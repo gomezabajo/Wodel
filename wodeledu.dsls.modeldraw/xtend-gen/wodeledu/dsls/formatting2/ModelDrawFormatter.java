@@ -5,11 +5,11 @@ package wodeledu.dsls.formatting2;
 
 import com.google.inject.Inject;
 import java.util.Arrays;
-import modeldraw.BooleanAttribute;
 import modeldraw.Content;
 import modeldraw.MutatorDraw;
 import modeldraw.Node;
 import modeldraw.Relation;
+import modeldraw.ValuedFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting2.AbstractFormatter2;
@@ -40,9 +40,9 @@ public class ModelDrawFormatter extends AbstractFormatter2 {
   }
   
   protected void _format(final Node node, @Extension final IFormattableDocument document) {
-    EList<BooleanAttribute> _attribute = node.getAttribute();
-    for (final BooleanAttribute booleanAttribute : _attribute) {
-      document.<BooleanAttribute>format(booleanAttribute);
+    EList<ValuedFeature> _feature = node.getFeature();
+    for (final ValuedFeature feature : _feature) {
+      document.<ValuedFeature>format(feature);
     }
   }
   

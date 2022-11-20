@@ -58,7 +58,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModeldrawPackage.MUTATOR_DRAW: return createMutatorDraw();
-			case ModeldrawPackage.BOOLEAN_ATTRIBUTE: return createBooleanAttribute();
+			case ModeldrawPackage.VALUED_FEATURE: return createValuedFeature();
 			case ModeldrawPackage.NODE: return createNode();
 			case ModeldrawPackage.EDGE: return createEdge();
 			case ModeldrawPackage.LEVEL: return createLevel();
@@ -126,6 +126,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MutatorDraw createMutatorDraw() {
 		MutatorDrawImpl mutatorDraw = new MutatorDrawImpl();
 		return mutatorDraw;
@@ -136,9 +137,10 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanAttribute createBooleanAttribute() {
-		BooleanAttributeImpl booleanAttribute = new BooleanAttributeImpl();
-		return booleanAttribute;
+	@Override
+	public ValuedFeature createValuedFeature() {
+		ValuedFeatureImpl valuedFeature = new ValuedFeatureImpl();
+		return valuedFeature;
 	}
 
 	/**
@@ -146,6 +148,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node createNode() {
 		NodeImpl node = new NodeImpl();
 		return node;
@@ -156,6 +159,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge createEdge() {
 		EdgeImpl edge = new EdgeImpl();
 		return edge;
@@ -166,6 +170,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Level createLevel() {
 		LevelImpl level = new LevelImpl();
 		return level;
@@ -176,6 +181,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeEnumerator createNodeEnumerator() {
 		NodeEnumeratorImpl nodeEnumerator = new NodeEnumeratorImpl();
 		return nodeEnumerator;
@@ -186,6 +192,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Enumerator createEnumerator() {
 		EnumeratorImpl enumerator = new EnumeratorImpl();
 		return enumerator;
@@ -196,6 +203,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Information createInformation() {
 		InformationImpl information = new InformationImpl();
 		return information;
@@ -206,6 +214,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Content createContent() {
 		ContentImpl content = new ContentImpl();
 		return content;
@@ -336,6 +345,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModeldrawPackage getModeldrawPackage() {
 		return (ModeldrawPackage)getEPackage();
 	}

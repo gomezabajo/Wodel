@@ -14,5 +14,6 @@ public class DrawUtils {
 		public String shape = "";
 		public String label = "";
 		public String border = "";
+		public String path = "";
 	}
 }

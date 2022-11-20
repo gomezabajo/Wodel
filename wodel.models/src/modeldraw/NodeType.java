@@ -41,10 +41,6 @@ public enum NodeType implements Enumerator {
 	/**
 	 * The '<em><b>Node</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Node</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NODE
 	 * @model name="node"
@@ -56,10 +52,6 @@ public enum NodeType implements Enumerator {
 	/**
 	 * The '<em><b>Markednode</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Markednode</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MARKEDNODE
 	 * @model name="markednode"
@@ -178,6 +170,7 @@ public enum NodeType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -187,6 +180,7 @@ public enum NodeType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -196,6 +190,7 @@ public enum NodeType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

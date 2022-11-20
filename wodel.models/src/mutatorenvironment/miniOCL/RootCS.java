@@ -28,10 +28,6 @@ public interface RootCS extends EObject {
 	 * Returns the value of the '<em><b>Packages</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.PackageCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Packages</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Packages</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getRootCS_Packages()
@@ -44,10 +40,6 @@ public interface RootCS extends EObject {
 	 * Returns the value of the '<em><b>Contraints</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.ConstraintCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Contraints</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Contraints</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getRootCS_Contraints()

@@ -140,8 +140,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("wodel.utils;bundle-version=\"1.0.0\"");
 		requiredBundles.add("wodel.models;bundle-version=\"1.0.0\"");
 		requiredBundles.add("wodel.wodeltest;bundle-version=\"1.0.0\"");
-		requiredBundles
-				.add("org.eclipse.emf.ecore.xmi;bundle-version=\"2.9.0\"");
+		requiredBundles.add("org.eclipse.emf.ecore.xmi;bundle-version=\"2.9.0\"");
 		requiredBundles.add("org.eclipse.emf.ecore");
 		requiredBundles.add("org.eclipse.emf.compare;bundle-version=\"3.1.2\"");
 		requiredBundles.add("com.google.guava;bundle-version=\"15.0.0\"");
@@ -154,7 +153,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.text");
 		requiredBundles.add("org.eclipse.ui");
 		requiredBundles.add("org.eclipse.e4.ui.workbench");
-
+		
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());

@@ -5,6 +5,7 @@ package modeltext.impl;
 import modeltext.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -57,10 +58,11 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModeltextPackage.IDENTIFY_ELEMENTS: return createIdentifyElements();
+			case ModeltextPackage.VALUED_FEATURE: return createValuedFeature();
 			case ModeltextPackage.ELEMENT: return createElement();
-			case ModeltextPackage.ATTRIBUTE: return createAttribute();
 			case ModeltextPackage.CONSTANT: return createConstant();
 			case ModeltextPackage.VARIABLE: return createVariable();
+			case ModeltextPackage.MACRO: return createMacro();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -71,6 +73,37 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case ModeltextPackage.MACRO_ITEM:
+				return createMacroItemFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case ModeltextPackage.MACRO_ITEM:
+				return convertMacroItemToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public IdentifyElements createIdentifyElements() {
 		IdentifyElementsImpl identifyElements = new IdentifyElementsImpl();
 		return identifyElements;
@@ -81,6 +114,18 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public ValuedFeature createValuedFeature() {
+		ValuedFeatureImpl valuedFeature = new ValuedFeatureImpl();
+		return valuedFeature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Element createElement() {
 		ElementImpl element = new ElementImpl();
 		return element;
@@ -91,16 +136,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Attribute createAttribute() {
-		AttributeImpl attribute = new AttributeImpl();
-		return attribute;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public Constant createConstant() {
 		ConstantImpl constant = new ConstantImpl();
 		return constant;
@@ -111,6 +147,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Variable createVariable() {
 		VariableImpl variable = new VariableImpl();
 		return variable;
@@ -121,6 +158,38 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Macro createMacro() {
+		MacroImpl macro = new MacroImpl();
+		return macro;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MacroItem createMacroItemFromString(EDataType eDataType, String initialValue) {
+		MacroItem result = MacroItem.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMacroItemToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public ModeltextPackage getModeltextPackage() {
 		return (ModeltextPackage)getEPackage();
 	}

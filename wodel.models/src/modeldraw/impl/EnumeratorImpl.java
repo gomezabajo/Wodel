@@ -83,6 +83,7 @@ public class EnumeratorImpl extends MinimalEObjectImpl.Container implements Enum
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnumLiteral getLiteral() {
 		if (literal != null && literal.eIsProxy()) {
 			InternalEObject oldLiteral = (InternalEObject)literal;
@@ -109,6 +110,7 @@ public class EnumeratorImpl extends MinimalEObjectImpl.Container implements Enum
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLiteral(EEnumLiteral newLiteral) {
 		EEnumLiteral oldLiteral = literal;
 		literal = newLiteral;
@@ -121,6 +123,7 @@ public class EnumeratorImpl extends MinimalEObjectImpl.Container implements Enum
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -130,6 +133,7 @@ public class EnumeratorImpl extends MinimalEObjectImpl.Container implements Enum
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;

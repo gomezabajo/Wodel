@@ -23,10 +23,6 @@ public interface StringLiteralExpCS extends LiteralExpCS {
 	/**
 	 * Returns the value of the '<em><b>String Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>String Symbol</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>String Symbol</em>' attribute.
 	 * @see #setStringSymbol(String)

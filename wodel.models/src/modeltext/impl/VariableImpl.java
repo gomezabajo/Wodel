@@ -73,6 +73,7 @@ public class VariableImpl extends WordImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRef() {
 		if (ref != null && ref.eIsProxy()) {
 			InternalEObject oldRef = (InternalEObject)ref;
@@ -99,6 +100,7 @@ public class VariableImpl extends WordImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRef(EReference newRef) {
 		EReference oldRef = ref;
 		ref = newRef;
@@ -111,6 +113,7 @@ public class VariableImpl extends WordImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getId() {
 		if (id != null && id.eIsProxy()) {
 			InternalEObject oldId = (InternalEObject)id;
@@ -137,6 +140,7 @@ public class VariableImpl extends WordImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(EAttribute newId) {
 		EAttribute oldId = id;
 		id = newId;

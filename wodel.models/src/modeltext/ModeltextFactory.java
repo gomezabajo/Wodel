@@ -31,6 +31,15 @@ public interface ModeltextFactory extends EFactory {
 	IdentifyElements createIdentifyElements();
 
 	/**
+	 * Returns a new object of class '<em>Valued Feature</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Valued Feature</em>'.
+	 * @generated
+	 */
+	ValuedFeature createValuedFeature();
+
+	/**
 	 * Returns a new object of class '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -38,15 +47,6 @@ public interface ModeltextFactory extends EFactory {
 	 * @generated
 	 */
 	Element createElement();
-
-	/**
-	 * Returns a new object of class '<em>Attribute</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute</em>'.
-	 * @generated
-	 */
-	Attribute createAttribute();
 
 	/**
 	 * Returns a new object of class '<em>Constant</em>'.
@@ -65,6 +65,15 @@ public interface ModeltextFactory extends EFactory {
 	 * @generated
 	 */
 	Variable createVariable();
+
+	/**
+	 * Returns a new object of class '<em>Macro</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Macro</em>'.
+	 * @generated
+	 */
+	Macro createMacro();
 
 	/**
 	 * Returns the package supported by this factory.

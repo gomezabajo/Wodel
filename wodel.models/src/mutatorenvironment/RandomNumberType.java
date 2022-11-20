@@ -25,10 +25,6 @@ public interface RandomNumberType extends NumberType {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' containment reference.
 	 * @see #setObject(ObSelectionStrategy)
@@ -51,10 +47,6 @@ public interface RandomNumberType extends NumberType {
 	/**
 	 * Returns the value of the '<em><b>Max</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Max</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Max</em>' reference.
 	 * @see #setMax(EAttribute)

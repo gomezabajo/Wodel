@@ -4,6 +4,7 @@ package modeltext.impl;
 
 import modeltext.Constant;
 import modeltext.ModeltextPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -68,6 +69,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -77,6 +79,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;

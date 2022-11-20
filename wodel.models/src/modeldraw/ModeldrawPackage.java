@@ -224,14 +224,14 @@ public interface ModeldrawPackage extends EPackage {
 	int NAMED_ITEM_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link modeldraw.impl.BooleanAttributeImpl <em>Boolean Attribute</em>}' class.
+	 * The meta object id for the '{@link modeldraw.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see modeldraw.impl.BooleanAttributeImpl
-	 * @see modeldraw.impl.ModeldrawPackageImpl#getBooleanAttribute()
+	 * @see modeldraw.impl.ValuedFeatureImpl
+	 * @see modeldraw.impl.ModeldrawPackageImpl#getValuedFeature()
 	 * @generated
 	 */
-	int BOOLEAN_ATTRIBUTE = 3;
+	int VALUED_FEATURE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -240,7 +240,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE__NAME = ITEM__NAME;
+	int VALUED_FEATURE__NAME = ITEM__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Negation</b></em>' attribute.
@@ -249,34 +249,52 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE__NEGATION = ITEM_FEATURE_COUNT + 0;
+	int VALUED_FEATURE__NEGATION = ITEM_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Att</b></em>' reference.
+	 * The feature id for the '<em><b>Feat</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE__ATT = ITEM_FEATURE_COUNT + 1;
+	int VALUED_FEATURE__FEAT = ITEM_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Boolean Attribute</em>' class.
+	 * The feature id for the '<em><b>Ref Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE_FEATURE_COUNT = ITEM_FEATURE_COUNT + 2;
+	int VALUED_FEATURE__REF_FEATURE = ITEM_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Boolean Attribute</em>' class.
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
+	int VALUED_FEATURE__VALUE = ITEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Valued Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE_FEATURE_COUNT = ITEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Valued Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.impl.NodeImpl <em>Node</em>}' class.
@@ -307,13 +325,13 @@ public interface ModeldrawPackage extends EPackage {
 	int NODE__ATT_NAME = NAMED_ITEM__ATT_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Feature</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ATTRIBUTE = NAMED_ITEM_FEATURE_COUNT + 0;
+	int NODE__FEATURE = NAMED_ITEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Reference</b></em>' reference list.
@@ -361,13 +379,40 @@ public interface ModeldrawPackage extends EPackage {
 	int NODE__STYLE = NAMED_ITEM_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Path Shape</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__PATH_SHAPE = NAMED_ITEM_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__TARGET_NODE = NAMED_ITEM_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Target Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__TARGET_FEATURE = NAMED_ITEM_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 6;
+	int NODE_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Node</em>' class.
@@ -470,13 +515,40 @@ public interface ModeldrawPackage extends EPackage {
 	int RELATION__TAR_LABEL = NAMED_ITEM_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__FEATURE = NAMED_ITEM_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__TARGET_NODE = NAMED_ITEM_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Target Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__TARGET_FEATURE = NAMED_ITEM_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Relation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 7;
+	int RELATION_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of operations of the '<em>Relation</em>' class.
@@ -577,6 +649,33 @@ public interface ModeldrawPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDGE__TAR_LABEL = RELATION__TAR_LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__FEATURE = RELATION__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__TARGET_NODE = RELATION__TARGET_NODE;
+
+	/**
+	 * The feature id for the '<em><b>Target Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__TARGET_FEATURE = RELATION__TARGET_FEATURE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -704,6 +803,33 @@ public interface ModeldrawPackage extends EPackage {
 	 * @ordered
 	 */
 	int LEVEL__TAR_LABEL = RELATION__TAR_LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL__FEATURE = RELATION__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL__TARGET_NODE = RELATION__TARGET_NODE;
+
+	/**
+	 * The feature id for the '<em><b>Target Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL__TARGET_FEATURE = RELATION__TARGET_FEATURE;
 
 	/**
 	 * The feature id for the '<em><b>Upper</b></em>' reference.
@@ -1130,36 +1256,58 @@ public interface ModeldrawPackage extends EPackage {
 	EReference getNamedItem_AttName();
 
 	/**
-	 * Returns the meta object for class '{@link modeldraw.BooleanAttribute <em>Boolean Attribute</em>}'.
+	 * Returns the meta object for class '{@link modeldraw.ValuedFeature <em>Valued Feature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Boolean Attribute</em>'.
-	 * @see modeldraw.BooleanAttribute
+	 * @return the meta object for class '<em>Valued Feature</em>'.
+	 * @see modeldraw.ValuedFeature
 	 * @generated
 	 */
-	EClass getBooleanAttribute();
+	EClass getValuedFeature();
 
 	/**
-	 * Returns the meta object for the attribute '{@link modeldraw.BooleanAttribute#isNegation <em>Negation</em>}'.
+	 * Returns the meta object for the attribute '{@link modeldraw.ValuedFeature#isNegation <em>Negation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Negation</em>'.
-	 * @see modeldraw.BooleanAttribute#isNegation()
-	 * @see #getBooleanAttribute()
+	 * @see modeldraw.ValuedFeature#isNegation()
+	 * @see #getValuedFeature()
 	 * @generated
 	 */
-	EAttribute getBooleanAttribute_Negation();
+	EAttribute getValuedFeature_Negation();
 
 	/**
-	 * Returns the meta object for the reference '{@link modeldraw.BooleanAttribute#getAtt <em>Att</em>}'.
+	 * Returns the meta object for the reference '{@link modeldraw.ValuedFeature#getFeat <em>Feat</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Att</em>'.
-	 * @see modeldraw.BooleanAttribute#getAtt()
-	 * @see #getBooleanAttribute()
+	 * @return the meta object for the reference '<em>Feat</em>'.
+	 * @see modeldraw.ValuedFeature#getFeat()
+	 * @see #getValuedFeature()
 	 * @generated
 	 */
-	EReference getBooleanAttribute_Att();
+	EReference getValuedFeature_Feat();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeldraw.ValuedFeature#getRefFeature <em>Ref Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Feature</em>'.
+	 * @see modeldraw.ValuedFeature#getRefFeature()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EReference getValuedFeature_RefFeature();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeldraw.ValuedFeature#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see modeldraw.ValuedFeature#getValue()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EAttribute getValuedFeature_Value();
 
 	/**
 	 * Returns the meta object for class '{@link modeldraw.Node <em>Node</em>}'.
@@ -1172,15 +1320,15 @@ public interface ModeldrawPackage extends EPackage {
 	EClass getNode();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link modeldraw.Node#getAttribute <em>Attribute</em>}'.
+	 * Returns the meta object for the containment reference list '{@link modeldraw.Node#getFeature <em>Feature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Attribute</em>'.
-	 * @see modeldraw.Node#getAttribute()
+	 * @return the meta object for the containment reference list '<em>Feature</em>'.
+	 * @see modeldraw.Node#getFeature()
 	 * @see #getNode()
 	 * @generated
 	 */
-	EReference getNode_Attribute();
+	EReference getNode_Feature();
 
 	/**
 	 * Returns the meta object for the reference list '{@link modeldraw.Node#getReference <em>Reference</em>}'.
@@ -1236,6 +1384,39 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNode_Style();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeldraw.Node#getPathShape <em>Path Shape</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Path Shape</em>'.
+	 * @see modeldraw.Node#getPathShape()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EAttribute getNode_PathShape();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeldraw.Node#getTargetNode <em>Target Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Node</em>'.
+	 * @see modeldraw.Node#getTargetNode()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_TargetNode();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.Node#getTargetFeature <em>Target Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Target Feature</em>'.
+	 * @see modeldraw.Node#getTargetFeature()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_TargetFeature();
 
 	/**
 	 * Returns the meta object for class '{@link modeldraw.Relation <em>Relation</em>}'.
@@ -1323,6 +1504,39 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRelation_Tar_label();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.Relation#getFeature <em>Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Feature</em>'.
+	 * @see modeldraw.Relation#getFeature()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EReference getRelation_Feature();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeldraw.Relation#getTargetNode <em>Target Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Node</em>'.
+	 * @see modeldraw.Relation#getTargetNode()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EReference getRelation_TargetNode();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.Relation#getTargetFeature <em>Target Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Target Feature</em>'.
+	 * @see modeldraw.Relation#getTargetFeature()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EReference getRelation_TargetFeature();
 
 	/**
 	 * Returns the meta object for class '{@link modeldraw.Edge <em>Edge</em>}'.
@@ -1686,14 +1900,14 @@ public interface ModeldrawPackage extends EPackage {
 		EReference NAMED_ITEM__ATT_NAME = eINSTANCE.getNamedItem_AttName();
 
 		/**
-		 * The meta object literal for the '{@link modeldraw.impl.BooleanAttributeImpl <em>Boolean Attribute</em>}' class.
+		 * The meta object literal for the '{@link modeldraw.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see modeldraw.impl.BooleanAttributeImpl
-		 * @see modeldraw.impl.ModeldrawPackageImpl#getBooleanAttribute()
+		 * @see modeldraw.impl.ValuedFeatureImpl
+		 * @see modeldraw.impl.ModeldrawPackageImpl#getValuedFeature()
 		 * @generated
 		 */
-		EClass BOOLEAN_ATTRIBUTE = eINSTANCE.getBooleanAttribute();
+		EClass VALUED_FEATURE = eINSTANCE.getValuedFeature();
 
 		/**
 		 * The meta object literal for the '<em><b>Negation</b></em>' attribute feature.
@@ -1701,15 +1915,31 @@ public interface ModeldrawPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BOOLEAN_ATTRIBUTE__NEGATION = eINSTANCE.getBooleanAttribute_Negation();
+		EAttribute VALUED_FEATURE__NEGATION = eINSTANCE.getValuedFeature_Negation();
 
 		/**
-		 * The meta object literal for the '<em><b>Att</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Feat</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BOOLEAN_ATTRIBUTE__ATT = eINSTANCE.getBooleanAttribute_Att();
+		EReference VALUED_FEATURE__FEAT = eINSTANCE.getValuedFeature_Feat();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Feature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUED_FEATURE__REF_FEATURE = eINSTANCE.getValuedFeature_RefFeature();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALUED_FEATURE__VALUE = eINSTANCE.getValuedFeature_Value();
 
 		/**
 		 * The meta object literal for the '{@link modeldraw.impl.NodeImpl <em>Node</em>}' class.
@@ -1722,12 +1952,12 @@ public interface ModeldrawPackage extends EPackage {
 		EClass NODE = eINSTANCE.getNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Attribute</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Feature</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE__ATTRIBUTE = eINSTANCE.getNode_Attribute();
+		EReference NODE__FEATURE = eINSTANCE.getNode_Feature();
 
 		/**
 		 * The meta object literal for the '<em><b>Reference</b></em>' reference list feature.
@@ -1768,6 +1998,30 @@ public interface ModeldrawPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NODE__STYLE = eINSTANCE.getNode_Style();
+
+		/**
+		 * The meta object literal for the '<em><b>Path Shape</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE__PATH_SHAPE = eINSTANCE.getNode_PathShape();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__TARGET_NODE = eINSTANCE.getNode_TargetNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Feature</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__TARGET_FEATURE = eINSTANCE.getNode_TargetFeature();
 
 		/**
 		 * The meta object literal for the '{@link modeldraw.impl.RelationImpl <em>Relation</em>}' class.
@@ -1834,6 +2088,30 @@ public interface ModeldrawPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RELATION__TAR_LABEL = eINSTANCE.getRelation_Tar_label();
+
+		/**
+		 * The meta object literal for the '<em><b>Feature</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATION__FEATURE = eINSTANCE.getRelation_Feature();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATION__TARGET_NODE = eINSTANCE.getRelation_TargetNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Feature</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATION__TARGET_FEATURE = eINSTANCE.getRelation_TargetFeature();
 
 		/**
 		 * The meta object literal for the '{@link modeldraw.impl.EdgeImpl <em>Edge</em>}' class.

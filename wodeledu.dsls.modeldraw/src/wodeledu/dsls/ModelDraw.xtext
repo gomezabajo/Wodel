@@ -24,17 +24,17 @@ enum DrawType returns DrawType:
 
 Node returns Node:
 	{Node}
-	name=[ecore::EClass|ID] ('(' attribute+=BooleanAttribute (',' attribute+=BooleanAttribute)* ')')? ':'
+	name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('->' targetNode=[ecore::EClass|ID] ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?)? ':'
 	type=NodeType ('=' attName=[ecore::EAttribute|ID])?
 	( 'compartments' '=' '{' reference+=[ecore::EReference|ID] ( reference+=[ecore::EReference|ID])* '}')?
-	( 'shape' '=' shape=NodeShape)?
+	( 'shape' '=' shape=NodeShape ( '(' pathShape=EString ')')? )?
 	( 'color' '=' color=NodeColor)?
 	( 'style' '=' style=NodeStyle)?
 ;
 
-BooleanAttribute returns BooleanAttribute:
-	{BooleanAttribute}
-	(negation?='not')? att=[ecore::EAttribute|ID]
+ValuedFeature returns ValuedFeature:
+	{ValuedFeature}
+	(negation?='not')? feat=[ecore::EStructuralFeature|ID] ('->' refFeature=[ecore::EStructuralFeature|ID])? ('==' value='null')?
 ;
 
 Relation returns Relation:
@@ -43,7 +43,7 @@ Relation returns Relation:
 
 Edge returns Edge:
 	{Edge}
-	name=[ecore::EClass|ID] '('source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' ':'
+	name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
 	'edge' ('=' attName=[ecore::EAttribute|ID])?
 	( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
 		"{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
@@ -101,7 +101,7 @@ enum NodeType returns NodeType:
 	node = 'node' | markednode = 'markednode';
 
 enum NodeShape returns NodeShape:
-	circle = 'circle' | doublecircle = 'doublecircle' | record = 'record';
+	circle = 'circle' | doublecircle = 'doublecircle' | record = 'record' | load = 'load' | logic = 'logic';
 				
 enum NodeColor returns NodeColor:
 	gray95 = 'gray95';

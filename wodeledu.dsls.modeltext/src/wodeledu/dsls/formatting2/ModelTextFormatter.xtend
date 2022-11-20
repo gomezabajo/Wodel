@@ -10,7 +10,7 @@ import modeltext.Word
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import wodeledu.dsls.services.ModelTextGrammarAccess
-import modeltext.Attribute
+import modeltext.ValuedFeature
 
 class ModelTextFormatter extends AbstractFormatter2 {
 	
@@ -25,8 +25,8 @@ class ModelTextFormatter extends AbstractFormatter2 {
 
 	def dispatch void format(Element element, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc.
-		for (Attribute att : element.getAtt()) {
-			att.format;
+		for (ValuedFeature feature : element.getFeature()) {
+			feature.format;
 			for (Word word : element.getWords()) {
 				word.format;
 			}

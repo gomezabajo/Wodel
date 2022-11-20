@@ -4080,11 +4080,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(RandomTypeSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
@@ -4092,20 +4093,31 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
     
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(OtherTypeSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
@@ -4113,125 +4125,223 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
 
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(CompleteTypeSelection com, EReference ref) {
-    	val MutatorEnvironment env = getMutatorEnvironment(com)
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
     
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificObjectSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
     
     /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificClosureSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }        
     
      /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refName(TypedSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-   			//val List<EReference> refs = getEReferences(definition?.metamodel, className)
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
 
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refRefName(RandomTypeSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
 
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refRefName(OtherTypeSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
 
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_attName(RandomTypeSelection com, EReference ref) {
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
@@ -4239,20 +4349,31 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( atts )
     }
     
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_attName(OtherTypeSelection com, EReference ref) {
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
@@ -4260,135 +4381,275 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( atts )
     }
     
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_attName(CompleteTypeSelection com, EReference ref) {
-    	val MutatorEnvironment env = getMutatorEnvironment(com)
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEAttributes(definition?.metamodel, className) )
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( atts )
     }
     
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_attName(SpecificObjectSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+   			
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( atts )
     }
     
     /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_attName(SpecificClosureSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
-		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEAttributes(definition?.metamodel, className) )
-       	}
-       	else Scopes.scopeFor(new ArrayList())
-    }        
-    
-     /**
-     * ReferenceEvaluation.name must contain the references defined by ... 
-     */
-     def IScope scope_ReferenceEvaluation_attName(TypedSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
-		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			val String       className = reference.EType.name
-   			//val List<EReference> refs = getEReferences(definition?.metamodel, className)
-       		Scopes.scopeFor( getEAttributes(definition?.metamodel, className) )
-       	}
-       	else Scopes.scopeFor(new ArrayList())
-    }
-
-  	/**
-     * ReferenceEvaluation.refName must contain the references defined by com.type 
-     */
-     def IScope scope_ReferenceEvaluation_refRefName(CompleteTypeSelection com, EReference ref) {
-    	val MutatorEnvironment env = getMutatorEnvironment(com)
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
         	val Definition  definition = env.definition
-   			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
-       	}
-       	else Scopes.scopeFor(new ArrayList())
-    }
-    
-  	/**
-     * ReferenceEvaluation.refName must contain the references defined by com.type 
-     */
-     def IScope scope_ReferenceEvaluation_refRefName(SpecificObjectSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
-		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
    			var String       metamodel = definition?.metamodel
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
    			var EClass eclass = ModelManager.getEClassByName(packages, className)
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+   			
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( atts )
+    }        
+    
+     /**
+     * ReferenceEvaluation.name must contain the references defined by ... 
+     */
+     def IScope scope_ReferenceEvaluation_attName(TypedSelection com, EReference ref) {
+		var List<EAttribute> atts = new ArrayList<EAttribute>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
+		if (env !== null) {
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			atts.addAll(getEAttributes(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.name
+		        		className = reference.EType.name
+		        		atts.addAll(getEAttributes(metamodel, className))
+	        		}
+	        	}
+   			}
+       	}
+   		Scopes.scopeFor( atts )
+    }
+
+  	/**
+     * ReferenceEvaluation.refName must contain the references defined by com.type 
+     */
+     def IScope scope_ReferenceEvaluation_refRefName(CompleteTypeSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
+		if (env !== null) {
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
+       	}
+   		Scopes.scopeFor( refs )
+    }
+    
+  	/**
+     * ReferenceEvaluation.refName must contain the references defined by com.type 
+     */
+     def IScope scope_ReferenceEvaluation_refRefName(SpecificObjectSelection com, EReference ref) {
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
+		if (env !== null) {
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
+       	}
+   		Scopes.scopeFor( refs )
     }
     
     /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refRefName(SpecificClosureSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }        
     
      /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refRefName(TypedSelection com, EReference ref) {
-		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> refs = new ArrayList<EReference>()
+		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env !== null) {
-			val Definition  definition = env.definition
-			val EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
-   			val String       className = reference.EType.name
-   			//val List<EReference> refs = getEReferences(definition?.metamodel, className)
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+        	val Definition  definition = env.definition
+   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).refName
+   			var String       className = reference.EType.name
+   			var String       metamodel = definition?.metamodel
+   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass === null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			
+   			refs.addAll(getEReferences(metamodel, className))
+   			
+   			if (com.expression?.second !== null) {
+   				for (Evaluation second : com.expression?.second) {
+		        	if (second instanceof ReferenceEvaluation) {
+		        		reference = second.refName
+		        		className = reference.EType.name
+		        		refs.addAll(getEReferences(metamodel, className))
+	        		}
+	        	}
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+   		Scopes.scopeFor( refs )
     }
 
     /**

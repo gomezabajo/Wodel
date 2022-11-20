@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ecore:EPackage [
+<!ENTITY _0 "http://www.eclipse.org/emf/2002/Ecore">
+]>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modeltext" nsURI="http://modeltext/1.0" nsPrefix="modeltext">
   <eAnnotations source="http://www.eclipse.org/OCL/Import">
@@ -6,26 +9,29 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="IdentifyElements">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodel" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        eType="ecore:EDataType &_0;#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//Element" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValuedFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="ecore:EClass &_0;#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" lowerBound="1"
+        eType="ecore:EDataType &_0;#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feat" lowerBound="1" eType="ecore:EClass &_0;#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refFeature" eType="ecore:EClass &_0;#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType &_0;#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="att" upperBound="-1" eType="#//Attribute"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass &_0;#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass &_0;#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
         eType="#//Word" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="att" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" upperBound="-1"
+        eType="#//ValuedFeature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Word" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//Word">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType &_0;#//EString">
       <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
         <details key="body" value="Variable"/>
         <details key="unique" value="false"/>
@@ -34,7 +40,13 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//Word">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass &_0;#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="ecore:EClass &_0;#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Macro" eSuperTypes="#//Word">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="item" lowerBound="1" eType="#//MacroItem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MacroItem">
+    <eLiterals name="type"/>
   </eClassifiers>
 </ecore:EPackage>

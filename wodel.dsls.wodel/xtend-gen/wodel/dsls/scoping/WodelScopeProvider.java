@@ -5720,37 +5720,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -5765,37 +5778,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -5807,35 +5833,58 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refName(final CompleteTypeSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
@@ -5845,37 +5894,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -5887,70 +5949,116 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refName(final SpecificClosureSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refName(final TypedSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
@@ -5960,37 +6068,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6005,37 +6126,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6050,37 +6184,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(atts);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6095,37 +6242,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(atts);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6137,35 +6297,58 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_attName(final CompleteTypeSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(atts);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
@@ -6175,37 +6358,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(atts);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6217,105 +6413,174 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_attName(final SpecificClosureSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(atts);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_attName(final TypedSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EAttribute> atts = new ArrayList<EAttribute>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          atts.addAll(this.getEAttributes(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getName();
+                className = reference.getEType().getName();
+                atts.addAll(this.getEAttributes(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(atts);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refRefName(final CompleteTypeSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
@@ -6325,37 +6590,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
+        List<EReference> refs = new ArrayList<EReference>();
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        IScope _xifexpression = null;
         if ((env != null)) {
-          IScope _xblockexpression_1 = null;
-          {
-            final Definition definition = env.getDefinition();
-            Expression _expression = com.getExpression();
-            Evaluation _first = null;
-            if (_expression!=null) {
-              _first=_expression.getFirst();
-            }
-            final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-            final String className = reference.getEType().getName();
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            String metamodel = _metamodel;
-            List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-            EClass eclass = ModelManager.getEClassByName(packages, className);
-            if ((eclass == null)) {
-              metamodel = this.getMetamodel(definition, className);
-            }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
           }
-          _xifexpression = _xblockexpression_1;
-        } else {
-          ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-          _xifexpression = Scopes.scopeFor(_arrayList);
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xblockexpression = _xifexpression;
+        _xblockexpression = Scopes.scopeFor(refs);
       }
       return _xblockexpression;
     } catch (Throwable _e) {
@@ -6367,70 +6645,116 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refRefName(final SpecificClosureSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refRefName(final TypedSelection com, final EReference ref) {
-    IScope _xblockexpression = null;
-    {
-      final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      IScope _xifexpression = null;
-      if ((env != null)) {
-        IScope _xblockexpression_1 = null;
-        {
+    try {
+      IScope _xblockexpression = null;
+      {
+        List<EReference> refs = new ArrayList<EReference>();
+        final MutatorEnvironment env = this.getMutatorEnvironment(com);
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           Expression _expression = com.getExpression();
           Evaluation _first = null;
           if (_expression!=null) {
             _first=_expression.getFirst();
           }
-          final EReference reference = ((ReferenceEvaluation) _first).getRefName();
-          final String className = reference.getEType().getName();
+          EReference reference = ((ReferenceEvaluation) _first).getRefName();
+          String className = reference.getEType().getName();
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          String metamodel = _metamodel;
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          if ((eclass == null)) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          refs.addAll(this.getEReferences(metamodel, className));
+          Expression _expression_1 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_1!=null) {
+            _second=_expression_1.getSecond();
+          }
+          boolean _tripleNotEquals = (_second != null);
+          if (_tripleNotEquals) {
+            Expression _expression_2 = com.getExpression();
+            EList<Evaluation> _second_1 = null;
+            if (_expression_2!=null) {
+              _second_1=_expression_2.getSecond();
+            }
+            for (final Evaluation second : _second_1) {
+              if ((second instanceof ReferenceEvaluation)) {
+                reference = ((ReferenceEvaluation)second).getRefName();
+                className = reference.getEType().getName();
+                refs.addAll(this.getEReferences(metamodel, className));
+              }
+            }
+          }
         }
-        _xifexpression = _xblockexpression_1;
-      } else {
-        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
-        _xifexpression = Scopes.scopeFor(_arrayList);
+        _xblockexpression = Scopes.scopeFor(refs);
       }
-      _xblockexpression = _xifexpression;
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    return _xblockexpression;
   }
   
   /**

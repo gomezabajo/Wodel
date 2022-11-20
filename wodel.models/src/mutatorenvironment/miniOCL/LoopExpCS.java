@@ -26,10 +26,6 @@ public interface LoopExpCS extends NavigationExpCS {
 	/**
 	 * Returns the value of the '<em><b>It Var</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>It Var</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>It Var</em>' containment reference.
 	 * @see #setItVar(IteratorVarCS)
@@ -53,10 +49,6 @@ public interface LoopExpCS extends NavigationExpCS {
 	 * Returns the value of the '<em><b>Logic Op</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Logic Op</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Logic Op</em>' attribute list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getLoopExpCS_LogicOp()
@@ -69,10 +61,6 @@ public interface LoopExpCS extends NavigationExpCS {
 	 * Returns the value of the '<em><b>Exp</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.ExpCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exp</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exp</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getLoopExpCS_Exp()

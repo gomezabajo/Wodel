@@ -33,10 +33,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' reference.
 	 * @see #setName(EReference)
@@ -59,10 +55,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Ref Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Name</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Name</em>' reference.
 	 * @see #setRefName(EReference)
@@ -85,10 +77,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Ref Ref Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Ref Name</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Ref Name</em>' reference.
 	 * @see #setRefRefName(EReference)
@@ -112,10 +100,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.Operator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' attribute.
 	 * @see mutatorenvironment.Operator
@@ -140,10 +124,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Value</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' containment reference.
 	 * @see #setValue(ObSelectionStrategy)
@@ -166,10 +146,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Type</em>' reference.
 	 * @see #setRefType(EReference)
@@ -192,10 +168,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Att Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Name</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Name</em>' reference.
 	 * @see #setAttName(EAttribute)
@@ -218,10 +190,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	/**
 	 * Returns the value of the '<em><b>Att Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Value</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Value</em>' containment reference.
 	 * @see #setAttValue(AttributeEvaluationType)
@@ -245,10 +213,6 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * Returns the value of the '<em><b>Container</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Container</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Container</em>' attribute.
 	 * @see #setContainer(boolean)

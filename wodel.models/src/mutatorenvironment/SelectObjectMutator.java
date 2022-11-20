@@ -24,10 +24,6 @@ public interface SelectObjectMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Container</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Container</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Container</em>' containment reference.
 	 * @see #setContainer(ObSelectionStrategy)
@@ -50,10 +46,6 @@ public interface SelectObjectMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' containment reference.
 	 * @see #setObject(ObSelectionStrategy)

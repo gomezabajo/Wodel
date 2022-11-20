@@ -29,10 +29,6 @@ public interface MutatorDraw extends Item {
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.DrawType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see modeldraw.DrawType
@@ -58,10 +54,6 @@ public interface MutatorDraw extends Item {
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
 	 * The list contents are of type {@link modeldraw.Node}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Nodes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see modeldraw.ModeldrawPackage#getMutatorDraw_Nodes()
@@ -74,10 +66,6 @@ public interface MutatorDraw extends Item {
 	 * Returns the value of the '<em><b>Relations</b></em>' containment reference list.
 	 * The list contents are of type {@link modeldraw.Relation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Relations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Relations</em>' containment reference list.
 	 * @see modeldraw.ModeldrawPackage#getMutatorDraw_Relations()
@@ -90,10 +78,6 @@ public interface MutatorDraw extends Item {
 	 * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
 	 * The list contents are of type {@link modeldraw.Content}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Contents</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Contents</em>' containment reference list.
 	 * @see modeldraw.ModeldrawPackage#getMutatorDraw_Contents()
@@ -105,10 +89,6 @@ public interface MutatorDraw extends Item {
 	/**
 	 * Returns the value of the '<em><b>Metamodel</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Metamodel</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Metamodel</em>' attribute.
 	 * @see #setMetamodel(String)

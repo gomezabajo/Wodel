@@ -69,63 +69,63 @@ public class EMFCopier {
 	}
 
 	
-	public static EObject process (Resource model, EObject object) {
-		EObject processed = createEObject(object.eClass().getEPackage(), object.eClass().getName());
-		Object value = null;
-		for (EAttribute att : object.eClass().getEAllAttributes()) {
-			if ((value = object.eGet(att)) != null) {
-				if (att.isMany()) {
-					for (Object elem : (EList<?>)value) { 
-						EMFUtils.setAttribute(object.eClass().getEPackage(), processed, att.getName(), elem.toString());
-					}
-				}
-				else EMFUtils.setAttribute(object.eClass().getEPackage(), processed, att.getName(), value.toString());
-			}
-		}
-
-		// reference clones
-		for (EReference ref : object.eClass().getEAllReferences()) {
-			if ((value = object.eGet(ref)) != null) {
-				if (ref.isContainment()) {
-					if (ref.isMany()) {
-						EObject found = ModelManager.getObject(model, object);
-						if (found != null) {
-							value = found.eGet(ref);
-						}
-						List<EObject> list = (List<EObject>) processed.eGet(ref);
-						list.clear();
-						list.addAll((EList<EObject>) value);
-					}
-					else {
-						EObject found = ModelManager.getObject(model, (EObject) value);
-						if (found == null) {
-							found = (EObject) value;
-						}
-						EMFUtils.setReference(object.eClass().getEPackage(), processed, ref.getName(), found);
-					}
-				}
-				else {
-					if (ref.isMany()) {
-						EObject found = ModelManager.getObject(model, object);
-						if (found != null) {
-							value = found.eGet(ref);
-						}
-						List<EObject> list = (List<EObject>) processed.eGet(ref);
-						list.clear();
-						list.addAll((EList<EObject>) value);
-					}
-					else {
-						EObject found = ModelManager.getObject(model, (EObject) value);
-						if (found == null) {
-							found = (EObject) value;
-						}
-						EMFUtils.setReference(object.eClass().getEPackage(), processed, ref.getName(), found);
-					}
-				}
-			}
-		}
-		return processed;
-	}
+//	public static EObject process (Resource model, EObject object) {
+//		EObject processed = createEObject(object.eClass().getEPackage(), object.eClass().getName());
+//		Object value = null;
+//		for (EAttribute att : object.eClass().getEAllAttributes()) {
+//			if ((value = object.eGet(att)) != null) {
+//				if (att.isMany()) {
+//					for (Object elem : (EList<?>)value) { 
+//						EMFUtils.setAttribute(object.eClass().getEPackage(), processed, att.getName(), elem.toString());
+//					}
+//				}
+//				else EMFUtils.setAttribute(object.eClass().getEPackage(), processed, att.getName(), value.toString());
+//			}
+//		}
+//
+//		// reference clones
+//		for (EReference ref : object.eClass().getEAllReferences()) {
+//			if ((value = object.eGet(ref)) != null) {
+//				if (ref.isContainment()) {
+//					if (ref.isMany()) {
+//						EObject found = ModelManager.getObject(model, object);
+//						if (found != null) {
+//							value = found.eGet(ref);
+//						}
+//						List<EObject> list = (List<EObject>) processed.eGet(ref);
+//						list.clear();
+//						list.addAll((EList<EObject>) value);
+//					}
+//					else {
+//						EObject found = ModelManager.getObject(model, (EObject) value);
+//						if (found == null) {
+//							found = (EObject) value;
+//						}
+//						EMFUtils.setReference(object.eClass().getEPackage(), processed, ref.getName(), found);
+//					}
+//				}
+//				else {
+//					if (ref.isMany()) {
+//						EObject found = ModelManager.getObject(model, object);
+//						if (found != null) {
+//							value = found.eGet(ref);
+//						}
+//						List<EObject> list = (List<EObject>) processed.eGet(ref);
+//						list.clear();
+//						list.addAll((EList<EObject>) value);
+//					}
+//					else {
+//						EObject found = ModelManager.getObject(model, (EObject) value);
+//						if (found == null) {
+//							found = (EObject) value;
+//						}
+//						EMFUtils.setReference(object.eClass().getEPackage(), processed, ref.getName(), found);
+//					}
+//				}
+//			}
+//		}
+//		return processed;
+//	}
 	
 
 	public static EObject clone (EObject source) {

@@ -102,6 +102,7 @@ public class ContentImpl extends NamedItemImpl implements Content {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<NodeEnumerator> getNodenum() {
 		if (nodenum == null) {
 			nodenum = new EObjectContainmentEList<NodeEnumerator>(NodeEnumerator.class, this, ModeldrawPackage.CONTENT__NODENUM);
@@ -114,6 +115,7 @@ public class ContentImpl extends NamedItemImpl implements Content {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Information> getInfo() {
 		if (info == null) {
 			info = new EObjectContainmentEList<Information>(Information.class, this, ModeldrawPackage.CONTENT__INFO);
@@ -126,6 +128,7 @@ public class ContentImpl extends NamedItemImpl implements Content {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSymbol() {
 		return symbol;
 	}
@@ -135,6 +138,7 @@ public class ContentImpl extends NamedItemImpl implements Content {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSymbol(String newSymbol) {
 		String oldSymbol = symbol;
 		symbol = newSymbol;

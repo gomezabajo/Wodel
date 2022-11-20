@@ -81,6 +81,7 @@ public class NodeEnumeratorImpl extends ItemImpl implements NodeEnumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAtt() {
 		if (att != null && att.eIsProxy()) {
 			InternalEObject oldAtt = (InternalEObject)att;
@@ -107,6 +108,7 @@ public class NodeEnumeratorImpl extends ItemImpl implements NodeEnumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAtt(EAttribute newAtt) {
 		EAttribute oldAtt = att;
 		att = newAtt;
@@ -119,6 +121,7 @@ public class NodeEnumeratorImpl extends ItemImpl implements NodeEnumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Enumerator> getEnumerator() {
 		if (enumerator == null) {
 			enumerator = new EObjectContainmentEList<Enumerator>(Enumerator.class, this, ModeldrawPackage.NODE_ENUMERATOR__ENUMERATOR);

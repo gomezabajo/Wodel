@@ -5,9 +5,9 @@ package wodeledu.dsls.formatting2;
 
 import com.google.inject.Inject;
 import java.util.Arrays;
-import modeltext.Attribute;
 import modeltext.Element;
 import modeltext.IdentifyElements;
+import modeltext.ValuedFeature;
 import modeltext.Word;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -31,10 +31,10 @@ public class ModelTextFormatter extends AbstractFormatter2 {
   }
   
   protected void _format(final Element element, @Extension final IFormattableDocument document) {
-    EList<Attribute> _att = element.getAtt();
-    for (final Attribute att : _att) {
+    EList<ValuedFeature> _feature = element.getFeature();
+    for (final ValuedFeature feature : _feature) {
       {
-        document.<Attribute>format(att);
+        document.<ValuedFeature>format(feature);
         EList<Word> _words = element.getWords();
         for (final Word word : _words) {
           document.<Word>format(word);

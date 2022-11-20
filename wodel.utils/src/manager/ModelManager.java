@@ -912,7 +912,9 @@ public class ModelManager {
 		List<EPackage> packages = loadMetaModel(metamodel);
 		Resource rs = loadModel(packages, model);
 		
-		for (EObject eObject : rs.getContents()) {
+		Iterator<EObject> objects = rs.getAllContents();
+		while (objects.hasNext()) {
+			EObject eObject = objects.next();
 			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
 			if (diagnostic.getSeverity() == Diagnostic.ERROR) {
 				return false;
@@ -923,7 +925,9 @@ public class ModelManager {
 	
 	public static boolean validateModel(Resource model)
 			throws MetaModelNotFoundException, ModelNotFoundException {
-		for (EObject eObject : model.getContents()) {
+		Iterator<EObject> objects = model.getAllContents();
+		while (objects.hasNext()) {
+			EObject eObject = objects.next();
 			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
 			if (diagnostic.getSeverity() == Diagnostic.ERROR) {
 				return false;
@@ -931,14 +935,13 @@ public class ModelManager {
 		}
 		return true;		
 	}
-
-	/**
-	 * Checks whether a certain model exists or not
-	 * 
-	 * @return
-	 */
+	
 	public static boolean checkModel(String model) {
-		return true;
+		File file = new File(model);
+		if (file.exists() && !file.isDirectory()) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1003,6 +1006,280 @@ public class ModelManager {
 		return objs;
 	}
 	
+	/**
+	 * @param type
+	 *            Name of the wanted object
+	 * @param source
+	 *            Source object
+	 * @param processed
+	 *            Processed objects
+	 * @return List<EObject> All the classes or objects of the specified
+	 *         type
+	 */
+	private static List<EObject> getConnectedObjectsOfType(String type,
+			EObject source, EObject initial, List<EObject> processed) {
+
+		// first round direct references
+		boolean found = false;
+		List<EObject> objs = new ArrayList<EObject>();
+		for (EReference ref : source.eClass().getEAllReferences()) {
+			List<EClass> types = new ArrayList<EClass>();
+			if (ref.getEType() instanceof EClass) {
+				EClass eType = (EClass) ref.getEType();
+				types.add(eType);
+				types.addAll(eType.getEAllSuperTypes());
+				List<EPackage> packages = new ArrayList<EPackage>();
+				packages.add(eType.getEPackage());
+				types.addAll(ModelManager.getESubClasses(packages, eType));
+			}
+			for (EClass t : types) {
+				if (type.equals(t.getName())) {
+					found = true;
+					Object obj = source.eGet(ref);
+					if (obj instanceof EObject && !EcoreUtil.equals((EObject) obj, initial)) {
+						objs.add((EObject) obj);
+					}
+					if (obj instanceof List<?>) {
+						for (EObject ob : (List<EObject>) obj) {
+							if (!EcoreUtil.equals(ob, initial)) {
+								objs.add(ob);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+
+		//second round direct inverted references
+		List<EObject> objects = ModelManager.getObjectsOfType(type, source.eResource());
+		List<EObject> objectsOfType = new ArrayList<EObject>();
+		for (EObject object : objects) {
+			if (!EcoreUtil.equals(object, initial)) {
+				objectsOfType.add(object);
+			}
+		}
+		for (EObject object : objectsOfType) {
+			for (EReference refToSource : object.eClass().getEAllReferences()) {
+				if (refToSource.getEType().getName().equals(source.eClass().getName())) {
+					Object obj = object.eGet(refToSource);
+					if (obj instanceof EObject) {
+						if (EcoreUtil.equals((EObject) obj, source)) {
+							found = true;
+							objs.add(object);
+						}
+					}
+					if (obj instanceof List<?>) {
+						for (EObject ob : (List<EObject>) obj) {
+							if (EcoreUtil.equals(ob, source)) {
+								found = true;
+								objs.add(object);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+		// third round secondary references
+		List<EObject> target = new ArrayList<EObject>();
+		processed.add(source);
+		for (EReference ref : source.eClass().getEAllReferences()) {
+			Object obj = source.eGet(ref);
+			if (obj instanceof EObject) {
+				EObject eObject = (EObject) obj;
+				if (!processed.contains(eObject)) {
+					processed.add(eObject);
+					List<EObject> result = getConnectedObjectsOfType(type, eObject, initial, processed);
+					for (EObject r : result) {
+						if (!target.contains(r)) {
+							found = true;
+							target.add(r);
+						}
+					}
+					if (found == true) {
+						break;
+					}
+				}
+			}
+			if (obj instanceof List<?>) {
+				for (EObject src : (List<EObject>) obj) {
+					if (!processed.contains(src)) {
+						processed.add((EObject) src);
+						List<EObject> result = getConnectedObjectsOfType(type, src, initial, processed);
+						for (EObject r : result) {
+							if (!target.contains(r)) {
+								found = true;
+								target.add(r);
+							}
+						}
+						if (found == true) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		for (EObject tar : target) {
+			if (!objs.contains(tar)) {
+				found = true;
+				objs.add(tar);
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+		
+		// fourth round recursive inverted search
+		for (EObject object : objectsOfType) {
+			processed.add(object);
+			List<EObject> result = getConnectedObjectsOfType(source.eClass().getName(), object, initial, processed);
+			if (result.size() > 0) {
+				objs.add(object);
+			}
+		}
+		return objs;
+	}
+
+	/**
+	 * @param type
+	 *            Name of the wanted object
+	 * @param source
+	 *            Source object
+	 * @return List<EObject> All the classes or objects of the specified
+	 *         type
+	 */
+	public static List<EObject> getConnectedObjectsOfType(String type,
+			EObject source) {
+
+		// first round direct references
+		boolean found = false;
+		List<EObject> objs = new ArrayList<EObject>();
+		for (EReference ref : source.eClass().getEAllReferences()) {
+			List<EClass> types = new ArrayList<EClass>();
+			if (ref.getEType() instanceof EClass) {
+				EClass eType = (EClass) ref.getEType();
+				types.add(eType);
+				types.addAll(eType.getEAllSuperTypes());
+				List<EPackage> packages = new ArrayList<EPackage>();
+				packages.add(eType.getEPackage());
+				types.addAll(ModelManager.getESubClasses(packages, eType));
+			}
+			for (EClass t : types) {
+				if (type.equals(t.getName())) {
+					found = true;
+					Object obj = source.eGet(ref);
+					if (obj instanceof EObject) {
+						objs.add((EObject) obj);
+					}
+					if (obj instanceof List<?>) {
+						objs.addAll((List<EObject>) obj);
+					}
+				}
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+		
+		//second round direct inverted references
+		List<EObject> objects = ModelManager.getObjectsOfType(type, source.eResource());
+		List<EObject> objectsOfType = new ArrayList<EObject>();
+		for (EObject object : objects) {
+			if (!EcoreUtil.equals(object, source)) {
+				objectsOfType.add(object);
+			}
+		}
+		for (EObject object : objectsOfType) {
+			for (EReference refToSource : object.eClass().getEAllReferences()) {
+				if (refToSource.getEType().getName().equals(source.eClass().getName())) {
+					Object obj = object.eGet(refToSource);
+					if (obj instanceof EObject) {
+						if (EcoreUtil.equals((EObject) obj, source)) {
+							found = true;
+							objs.add(object);
+						}
+					}
+					if (obj instanceof List<?>) {
+						for (EObject o : (List<EObject>) obj) {
+							if (EcoreUtil.equals(o, source)) {
+								found = true;
+								objs.add(object);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+			
+		// third round recursive direct search
+		List<EObject> processed = new ArrayList<EObject>();
+		List<EObject> target = new ArrayList<EObject>();
+		processed.add(source);
+		for (EReference ref : source.eClass().getEAllReferences()) {
+			Object obj = source.eGet(ref);
+			if (obj instanceof EObject) {
+				EObject eObject = (EObject) obj;
+				if (!processed.contains(eObject)) {
+					processed.add(eObject);
+					List<EObject> result = getConnectedObjectsOfType(type, eObject, source, processed);
+					for (EObject r : result) {
+						if (!target.contains(r)) {
+							found = true;
+							target.add(r);
+						}
+					}
+					if (found == true) {
+						break;
+					}
+				}
+			}
+			if (obj instanceof List<?>) {
+				for (EObject src : (List<EObject>) obj) {
+					if (!processed.contains(src)) {
+						processed.add((EObject) src);
+						List<EObject> result = getConnectedObjectsOfType(type, src, source, processed);
+						for (EObject r : result) {
+							if (!target.contains(r)) {
+								found = true;
+								target.add(r);
+							}
+						}
+						if (found == true) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		for (EObject tar : target) {
+			if (!objs.contains(tar)) {
+				found = true;
+				objs.add(tar);
+			}
+		}
+		if (found == true) {
+			return objs;
+		}
+		// fourth round recursive inverted search
+		for (EObject object : objectsOfType) {
+			processed.add(object);
+			List<EObject> result = getConnectedObjectsOfType(source.eClass().getName(), object, source, processed);
+			if (result.size() > 0) {
+				objs.add(object);
+			}
+		}
+		return objs;
+	}
+
+
 	/**
 	 * @param refName
 	 *            Name of the reference to the target object
@@ -1469,10 +1746,10 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObject(Resource model, EObject eobj) {
-		ArrayList<EObject> objs = getAllObjects(model);
+		List<EObject> objs = getAllObjects(model);
 
 		for (EObject obj : objs) {
-			if (EcoreUtil.equals(eobj, obj)) {
+			if (EcoreUtil.equals(obj.eClass(),eobj.eClass()) && EMFComparison.equals(obj, eobj)) {
 				return obj;
 			}
 		}

@@ -13,7 +13,7 @@ Program returns Program:
 ;
 
 MutatorTests returns MutatorTests:
-	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText
+	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText | AlternativeText | DragAndDropText
 ;
 
 AlternativeResponse returns AlternativeResponse:
@@ -39,7 +39,7 @@ MultiChoiceEmendation returns MultiChoiceEmendation:
 
 MatchPairs returns MatchPairs:
 	'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
-		config = TestConfiguration
+		config = TextConfiguration
 		(tests += Test)*
 	'}'
 ;
@@ -53,7 +53,21 @@ MissingWords returns MissingWords:
 
 MultiChoiceText returns MultiChoiceText:
 	'MultiChoiceText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
-		config = MultiChoiceTextConfig
+		config = TextConfiguration
+		(tests += Test)*
+	'}'
+;
+
+AlternativeText returns AlternativeText:
+	'AlternativeTextResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		config = TextConfiguration
+		(tests += Test)*
+	'}'
+;
+
+DragAndDropText returns DragAndDropText:
+	'DragAndDropText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
@@ -72,8 +86,8 @@ MultiChoiceEmConfig returns MultiChoiceEmConfig:
 	'retry' '=' retry?=('yes' | 'no') ',' 'weighted' '=' weighted?=('yes' | 'no') ',' 'penalty' '=' penalty=EDouble ',' 'order' '=' order=Order ',' 'mode' '=' mode=Mode
 ;
 
-MultiChoiceTextConfig returns MultiChoiceTextConfig:
-	{MultiChoiceTextConfig}
+TextConfiguration returns TextConfiguration:
+	{TextConfiguration}
 	'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
 ;
 

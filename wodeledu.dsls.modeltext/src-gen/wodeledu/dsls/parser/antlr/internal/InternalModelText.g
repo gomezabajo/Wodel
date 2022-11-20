@@ -23,6 +23,7 @@ import org.eclipse.xtext.parser.*;
 import org.eclipse.xtext.parser.impl.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
@@ -219,18 +220,18 @@ ruleElement returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getElementAccess().getAttAttributeParserRuleCall_4_1_0());
+						newCompositeNode(grammarAccess.getElementAccess().getFeatureValuedFeatureParserRuleCall_4_1_0());
 					}
-					lv_att_6_0=ruleAttribute
+					lv_feature_6_0=ruleValuedFeature
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getElementRule());
 						}
 						add(
 							$current,
-							"att",
-							lv_att_6_0,
-							"wodeledu.dsls.ModelText.Attribute");
+							"feature",
+							lv_feature_6_0,
+							"wodeledu.dsls.ModelText.ValuedFeature");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -243,18 +244,18 @@ ruleElement returns [EObject current=null]
 				(
 					(
 						{
-							newCompositeNode(grammarAccess.getElementAccess().getAttAttributeParserRuleCall_4_2_1_0());
+							newCompositeNode(grammarAccess.getElementAccess().getFeatureValuedFeatureParserRuleCall_4_2_1_0());
 						}
-						lv_att_8_0=ruleAttribute
+						lv_feature_8_0=ruleValuedFeature
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getElementRule());
 							}
 							add(
 								$current,
-								"att",
-								lv_att_8_0,
-								"wodeledu.dsls.ModelText.Attribute");
+								"feature",
+								lv_feature_8_0,
+								"wodeledu.dsls.ModelText.ValuedFeature");
 							afterParserOrEnumRuleCall();
 						}
 					)
@@ -312,15 +313,15 @@ ruleElement returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleAttribute
-entryRuleAttribute returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getAttributeRule()); }
-	iv_ruleAttribute=ruleAttribute
-	{ $current=$iv_ruleAttribute.current; }
+// Entry rule entryRuleValuedFeature
+entryRuleValuedFeature returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getValuedFeatureRule()); }
+	iv_ruleValuedFeature=ruleValuedFeature
+	{ $current=$iv_ruleValuedFeature.current; }
 	EOF;
 
-// Rule Attribute
-ruleAttribute returns [EObject current=null]
+// Rule ValuedFeature
+ruleValuedFeature returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -331,7 +332,7 @@ ruleAttribute returns [EObject current=null]
 		(
 			{
 				$current = forceCreateModelElement(
-					grammarAccess.getAttributeAccess().getAttributeAction_0(),
+					grammarAccess.getValuedFeatureAccess().getValuedFeatureAction_0(),
 					$current);
 			}
 		)
@@ -339,11 +340,11 @@ ruleAttribute returns [EObject current=null]
 			(
 				lv_negation_1_0='not'
 				{
-					newLeafNode(lv_negation_1_0, grammarAccess.getAttributeAccess().getNegationNotKeyword_1_0());
+					newLeafNode(lv_negation_1_0, grammarAccess.getValuedFeatureAccess().getNegationNotKeyword_1_0());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getAttributeRule());
+						$current = createModelElement(grammarAccess.getValuedFeatureRule());
 					}
 					setWithLastConsumed($current, "negation", true, "not");
 				}
@@ -353,15 +354,54 @@ ruleAttribute returns [EObject current=null]
 			(
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getAttributeRule());
+						$current = createModelElement(grammarAccess.getValuedFeatureRule());
 					}
 				}
 				otherlv_2=RULE_ID
 				{
-					newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getAttEAttributeCrossReference_2_0());
+					newLeafNode(otherlv_2, grammarAccess.getValuedFeatureAccess().getFeatEStructuralFeatureCrossReference_2_0());
 				}
 			)
 		)
+		(
+			otherlv_3='->'
+			{
+				newLeafNode(otherlv_3, grammarAccess.getValuedFeatureAccess().getHyphenMinusGreaterThanSignKeyword_3_0());
+			}
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getValuedFeatureRule());
+						}
+					}
+					otherlv_4=RULE_ID
+					{
+						newLeafNode(otherlv_4, grammarAccess.getValuedFeatureAccess().getRefFeatureEStructuralFeatureCrossReference_3_1_0());
+					}
+				)
+			)
+		)?
+		(
+			otherlv_5='=='
+			{
+				newLeafNode(otherlv_5, grammarAccess.getValuedFeatureAccess().getEqualsSignEqualsSignKeyword_4_0());
+			}
+			(
+				(
+					lv_value_6_0='null'
+					{
+						newLeafNode(lv_value_6_0, grammarAccess.getValuedFeatureAccess().getValueNullKeyword_4_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getValuedFeatureRule());
+						}
+						setWithLastConsumed($current, "value", lv_value_6_0, "null");
+					}
+				)
+			)
+		)?
 	)
 ;
 
@@ -396,6 +436,15 @@ ruleWord returns [EObject current=null]
 		this_Variable_1=ruleVariable
 		{
 			$current = $this_Variable_1.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getWordAccess().getMacroParserRuleCall_2());
+		}
+		this_Macro_2=ruleMacro
+		{
+			$current = $this_Macro_2.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -508,6 +557,55 @@ ruleVariable returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleMacro
+entryRuleMacro returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMacroRule()); }
+	iv_ruleMacro=ruleMacro
+	{ $current=$iv_ruleMacro.current; }
+	EOF;
+
+// Rule Macro
+ruleMacro returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getMacroAccess().getMacroAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='%'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getMacroAccess().getPercentSignKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMacroAccess().getItemMacroItemEnumRuleCall_2_0());
+				}
+				lv_item_2_0=ruleMacroItem
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMacroRule());
+					}
+					set(
+						$current,
+						"item",
+						lv_item_2_0,
+						"wodeledu.dsls.ModelText.MacroItem");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+	)
+;
+
 // Entry rule entryRuleEString
 entryRuleEString returns [String current=null]:
 	{ newCompositeNode(grammarAccess.getEStringRule()); }
@@ -538,6 +636,23 @@ ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
 		}
 		{
 			newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1());
+		}
+	)
+;
+
+// Rule MacroItem
+ruleMacroItem returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		enumLiteral_0='type'
+		{
+			$current = grammarAccess.getMacroItemAccess().getTypeEnumLiteralDeclaration().getEnumLiteral().getInstance();
+			newLeafNode(enumLiteral_0, grammarAccess.getMacroItemAccess().getTypeEnumLiteralDeclaration());
 		}
 	)
 ;

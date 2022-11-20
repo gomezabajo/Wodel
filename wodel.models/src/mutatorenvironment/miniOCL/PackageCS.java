@@ -28,10 +28,6 @@ public interface PackageCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -55,10 +51,6 @@ public interface PackageCS extends EObject {
 	 * Returns the value of the '<em><b>Packages</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.PackageCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Packages</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Packages</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getPackageCS_Packages()
@@ -71,10 +63,6 @@ public interface PackageCS extends EObject {
 	 * Returns the value of the '<em><b>Classes</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.ClassCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Classes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Classes</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getPackageCS_Classes()

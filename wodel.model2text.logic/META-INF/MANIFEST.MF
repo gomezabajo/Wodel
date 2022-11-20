@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Electric
+Bundle-SymbolicName: wodel.model2text.logic;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.model2text.logic.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ wodel.model2text,
+ org.eclipse.emf.ecore,
+ wodel.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: wodel.model2text.electric
+Bundle-ActivationPolicy: lazy

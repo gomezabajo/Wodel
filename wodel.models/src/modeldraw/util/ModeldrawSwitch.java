@@ -86,10 +86,10 @@ public class ModeldrawSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModeldrawPackage.BOOLEAN_ATTRIBUTE: {
-				BooleanAttribute booleanAttribute = (BooleanAttribute)theEObject;
-				T result = caseBooleanAttribute(booleanAttribute);
-				if (result == null) result = caseItem(booleanAttribute);
+			case ModeldrawPackage.VALUED_FEATURE: {
+				ValuedFeature valuedFeature = (ValuedFeature)theEObject;
+				T result = caseValuedFeature(valuedFeature);
+				if (result == null) result = caseItem(valuedFeature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -205,17 +205,17 @@ public class ModeldrawSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Boolean Attribute</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Valued Feature</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Boolean Attribute</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Valued Feature</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseBooleanAttribute(BooleanAttribute object) {
+	public T caseValuedFeature(ValuedFeature object) {
 		return null;
 	}
 

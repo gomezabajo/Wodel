@@ -33,10 +33,6 @@ public interface Block extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -60,10 +56,6 @@ public interface Block extends EObject {
 	 * Returns the value of the '<em><b>Commands</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Mutator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Commands</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Commands</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getBlock_Commands()
@@ -76,10 +68,6 @@ public interface Block extends EObject {
 	 * Returns the value of the '<em><b>From</b></em>' reference list.
 	 * The list contents are of type {@link mutatorenvironment.Block}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>From</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>From</em>' reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getBlock_From()
@@ -92,10 +80,6 @@ public interface Block extends EObject {
 	 * Returns the value of the '<em><b>Repeat</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.Repeat}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Repeat</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Repeat</em>' attribute.
 	 * @see mutatorenvironment.Repeat
@@ -120,10 +104,6 @@ public interface Block extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Min</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Min</em>' attribute.
 	 * @see #setMin(int)
@@ -146,10 +126,6 @@ public interface Block extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Max</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Max</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Max</em>' attribute.
 	 * @see #setMax(int)
@@ -172,10 +148,6 @@ public interface Block extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Fixed</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fixed</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fixed</em>' attribute.
 	 * @see #setFixed(int)
@@ -198,10 +170,6 @@ public interface Block extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)

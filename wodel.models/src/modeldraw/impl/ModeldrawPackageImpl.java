@@ -2,7 +2,6 @@
  */
 package modeldraw.impl;
 
-import modeldraw.BooleanAttribute;
 import modeldraw.Content;
 import modeldraw.Decoration;
 import modeldraw.DrawType;
@@ -22,6 +21,7 @@ import modeldraw.NodeShape;
 import modeldraw.NodeStyle;
 import modeldraw.NodeType;
 import modeldraw.Relation;
+import modeldraw.ValuedFeature;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -64,7 +64,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass booleanAttributeEClass = null;
+	private EClass valuedFeatureEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -230,6 +230,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getItem() {
 		return itemEClass;
 	}
@@ -239,6 +240,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getItem_Name() {
 		return (EReference)itemEClass.getEStructuralFeatures().get(0);
 	}
@@ -248,6 +250,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMutatorDraw() {
 		return mutatorDrawEClass;
 	}
@@ -257,6 +260,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMutatorDraw_Type() {
 		return (EAttribute)mutatorDrawEClass.getEStructuralFeatures().get(0);
 	}
@@ -266,6 +270,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutatorDraw_Nodes() {
 		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(1);
 	}
@@ -275,6 +280,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutatorDraw_Relations() {
 		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(2);
 	}
@@ -284,6 +290,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutatorDraw_Contents() {
 		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(3);
 	}
@@ -293,6 +300,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMutatorDraw_Metamodel() {
 		return (EAttribute)mutatorDrawEClass.getEStructuralFeatures().get(4);
 	}
@@ -302,6 +310,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNamedItem() {
 		return namedItemEClass;
 	}
@@ -311,6 +320,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNamedItem_AttName() {
 		return (EReference)namedItemEClass.getEStructuralFeatures().get(0);
 	}
@@ -320,8 +330,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanAttribute() {
-		return booleanAttributeEClass;
+	@Override
+	public EClass getValuedFeature() {
+		return valuedFeatureEClass;
 	}
 
 	/**
@@ -329,8 +340,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBooleanAttribute_Negation() {
-		return (EAttribute)booleanAttributeEClass.getEStructuralFeatures().get(0);
+	@Override
+	public EAttribute getValuedFeature_Negation() {
+		return (EAttribute)valuedFeatureEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -338,8 +350,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBooleanAttribute_Att() {
-		return (EReference)booleanAttributeEClass.getEStructuralFeatures().get(1);
+	@Override
+	public EReference getValuedFeature_Feat() {
+		return (EReference)valuedFeatureEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -347,6 +360,27 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EReference getValuedFeature_RefFeature() {
+		return (EReference)valuedFeatureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getValuedFeature_Value() {
+		return (EAttribute)valuedFeatureEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getNode() {
 		return nodeEClass;
 	}
@@ -356,7 +390,8 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Attribute() {
+	@Override
+	public EReference getNode_Feature() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -365,6 +400,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Reference() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
 	}
@@ -374,6 +410,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNode_Type() {
 		return (EAttribute)nodeEClass.getEStructuralFeatures().get(2);
 	}
@@ -383,6 +420,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNode_Shape() {
 		return (EAttribute)nodeEClass.getEStructuralFeatures().get(3);
 	}
@@ -392,6 +430,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNode_Color() {
 		return (EAttribute)nodeEClass.getEStructuralFeatures().get(4);
 	}
@@ -401,6 +440,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNode_Style() {
 		return (EAttribute)nodeEClass.getEStructuralFeatures().get(5);
 	}
@@ -410,6 +450,37 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getNode_PathShape() {
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getNode_TargetNode() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getNode_TargetFeature() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getRelation() {
 		return relationEClass;
 	}
@@ -419,6 +490,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRelation_Reference() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(0);
 	}
@@ -428,6 +500,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRelation_RefType() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(1);
 	}
@@ -437,6 +510,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRelation_Label() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(2);
 	}
@@ -446,6 +520,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRelation_Src_decoration() {
 		return (EAttribute)relationEClass.getEStructuralFeatures().get(3);
 	}
@@ -455,6 +530,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRelation_Src_label() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(4);
 	}
@@ -464,6 +540,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRelation_Tar_decoration() {
 		return (EAttribute)relationEClass.getEStructuralFeatures().get(5);
 	}
@@ -473,6 +550,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRelation_Tar_label() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(6);
 	}
@@ -482,6 +560,37 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EReference getRelation_Feature() {
+		return (EReference)relationEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRelation_TargetNode() {
+		return (EReference)relationEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRelation_TargetFeature() {
+		return (EReference)relationEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getEdge() {
 		return edgeEClass;
 	}
@@ -491,6 +600,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Source() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(0);
 	}
@@ -500,6 +610,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Target() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(1);
 	}
@@ -509,6 +620,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLevel() {
 		return levelEClass;
 	}
@@ -518,6 +630,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLevel_Upper() {
 		return (EReference)levelEClass.getEStructuralFeatures().get(0);
 	}
@@ -527,6 +640,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNodeEnumerator() {
 		return nodeEnumeratorEClass;
 	}
@@ -536,6 +650,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNodeEnumerator_Att() {
 		return (EReference)nodeEnumeratorEClass.getEStructuralFeatures().get(0);
 	}
@@ -545,6 +660,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNodeEnumerator_Enumerator() {
 		return (EReference)nodeEnumeratorEClass.getEStructuralFeatures().get(1);
 	}
@@ -554,6 +670,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEnumerator() {
 		return enumeratorEClass;
 	}
@@ -563,6 +680,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEnumerator_Literal() {
 		return (EReference)enumeratorEClass.getEStructuralFeatures().get(0);
 	}
@@ -572,6 +690,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEnumerator_Value() {
 		return (EAttribute)enumeratorEClass.getEStructuralFeatures().get(1);
 	}
@@ -581,6 +700,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInformation() {
 		return informationEClass;
 	}
@@ -590,6 +710,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInformation_Type() {
 		return (EReference)informationEClass.getEStructuralFeatures().get(0);
 	}
@@ -599,6 +720,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInformation_Att() {
 		return (EReference)informationEClass.getEStructuralFeatures().get(1);
 	}
@@ -608,6 +730,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getContent() {
 		return contentEClass;
 	}
@@ -617,6 +740,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContent_Nodenum() {
 		return (EReference)contentEClass.getEStructuralFeatures().get(0);
 	}
@@ -626,6 +750,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContent_Info() {
 		return (EReference)contentEClass.getEStructuralFeatures().get(1);
 	}
@@ -635,6 +760,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getContent_Symbol() {
 		return (EAttribute)contentEClass.getEStructuralFeatures().get(2);
 	}
@@ -644,6 +770,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getDrawType() {
 		return drawTypeEEnum;
 	}
@@ -653,6 +780,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
 	}
@@ -662,6 +790,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getNodeShape() {
 		return nodeShapeEEnum;
 	}
@@ -671,6 +800,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getNodeColor() {
 		return nodeColorEEnum;
 	}
@@ -680,6 +810,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getDecoration() {
 		return decorationEEnum;
 	}
@@ -689,6 +820,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getNodeStyle() {
 		return nodeStyleEEnum;
 	}
@@ -698,6 +830,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModeldrawFactory getModeldrawFactory() {
 		return (ModeldrawFactory)getEFactoryInstance();
 	}
@@ -734,17 +867,22 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		namedItemEClass = createEClass(NAMED_ITEM);
 		createEReference(namedItemEClass, NAMED_ITEM__ATT_NAME);
 
-		booleanAttributeEClass = createEClass(BOOLEAN_ATTRIBUTE);
-		createEAttribute(booleanAttributeEClass, BOOLEAN_ATTRIBUTE__NEGATION);
-		createEReference(booleanAttributeEClass, BOOLEAN_ATTRIBUTE__ATT);
+		valuedFeatureEClass = createEClass(VALUED_FEATURE);
+		createEAttribute(valuedFeatureEClass, VALUED_FEATURE__NEGATION);
+		createEReference(valuedFeatureEClass, VALUED_FEATURE__FEAT);
+		createEReference(valuedFeatureEClass, VALUED_FEATURE__REF_FEATURE);
+		createEAttribute(valuedFeatureEClass, VALUED_FEATURE__VALUE);
 
 		nodeEClass = createEClass(NODE);
-		createEReference(nodeEClass, NODE__ATTRIBUTE);
+		createEReference(nodeEClass, NODE__FEATURE);
 		createEReference(nodeEClass, NODE__REFERENCE);
 		createEAttribute(nodeEClass, NODE__TYPE);
 		createEAttribute(nodeEClass, NODE__SHAPE);
 		createEAttribute(nodeEClass, NODE__COLOR);
 		createEAttribute(nodeEClass, NODE__STYLE);
+		createEAttribute(nodeEClass, NODE__PATH_SHAPE);
+		createEReference(nodeEClass, NODE__TARGET_NODE);
+		createEReference(nodeEClass, NODE__TARGET_FEATURE);
 
 		relationEClass = createEClass(RELATION);
 		createEReference(relationEClass, RELATION__REFERENCE);
@@ -754,6 +892,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		createEReference(relationEClass, RELATION__SRC_LABEL);
 		createEAttribute(relationEClass, RELATION__TAR_DECORATION);
 		createEReference(relationEClass, RELATION__TAR_LABEL);
+		createEReference(relationEClass, RELATION__FEATURE);
+		createEReference(relationEClass, RELATION__TARGET_NODE);
+		createEReference(relationEClass, RELATION__TARGET_FEATURE);
 
 		edgeEClass = createEClass(EDGE);
 		createEReference(edgeEClass, EDGE__SOURCE);
@@ -818,7 +959,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		// Add supertypes to classes
 		mutatorDrawEClass.getESuperTypes().add(this.getItem());
 		namedItemEClass.getESuperTypes().add(this.getItem());
-		booleanAttributeEClass.getESuperTypes().add(this.getItem());
+		valuedFeatureEClass.getESuperTypes().add(this.getItem());
 		nodeEClass.getESuperTypes().add(this.getNamedItem());
 		relationEClass.getESuperTypes().add(this.getNamedItem());
 		edgeEClass.getESuperTypes().add(this.getRelation());
@@ -841,17 +982,22 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		initEClass(namedItemEClass, NamedItem.class, "NamedItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNamedItem_AttName(), ecorePackage.getEAttribute(), null, "attName", null, 0, 1, NamedItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(booleanAttributeEClass, BooleanAttribute.class, "BooleanAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanAttribute_Negation(), ecorePackage.getEBoolean(), "negation", "false", 0, 1, BooleanAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBooleanAttribute_Att(), ecorePackage.getEAttribute(), null, "att", null, 1, 1, BooleanAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(valuedFeatureEClass, ValuedFeature.class, "ValuedFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getValuedFeature_Negation(), ecorePackage.getEBoolean(), "negation", "false", 0, 1, ValuedFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getValuedFeature_Feat(), ecorePackage.getEStructuralFeature(), null, "feat", null, 1, 1, ValuedFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getValuedFeature_RefFeature(), ecorePackage.getEStructuralFeature(), null, "refFeature", null, 0, 1, ValuedFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValuedFeature_Value(), ecorePackage.getEString(), "value", null, 0, 1, ValuedFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNode_Attribute(), this.getBooleanAttribute(), null, "attribute", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_Feature(), this.getValuedFeature(), null, "feature", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Reference(), ecorePackage.getEReference(), null, "reference", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Type(), this.getNodeType(), "type", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Shape(), this.getNodeShape(), "shape", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Color(), this.getNodeColor(), "color", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Style(), this.getNodeStyle(), "style", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNode_PathShape(), ecorePackage.getEString(), "pathShape", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_TargetNode(), ecorePackage.getEClass(), null, "targetNode", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_TargetFeature(), this.getValuedFeature(), null, "targetFeature", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(relationEClass, Relation.class, "Relation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRelation_Reference(), ecorePackage.getEReference(), null, "reference", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -861,6 +1007,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		initEReference(getRelation_Src_label(), ecorePackage.getEAttribute(), null, "src_label", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRelation_Tar_decoration(), this.getDecoration(), "tar_decoration", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelation_Tar_label(), ecorePackage.getEAttribute(), null, "tar_label", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_Feature(), this.getValuedFeature(), null, "feature", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_TargetNode(), ecorePackage.getEClass(), null, "targetNode", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_TargetFeature(), this.getValuedFeature(), null, "targetFeature", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEdge_Source(), ecorePackage.getEReference(), null, "source", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -898,6 +1047,8 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		addEEnumLiteral(nodeShapeEEnum, NodeShape.CIRCLE);
 		addEEnumLiteral(nodeShapeEEnum, NodeShape.DOUBLECIRCLE);
 		addEEnumLiteral(nodeShapeEEnum, NodeShape.RECORD);
+		addEEnumLiteral(nodeShapeEEnum, NodeShape.LOAD);
+		addEEnumLiteral(nodeShapeEEnum, NodeShape.LOGIC);
 
 		initEEnum(nodeColorEEnum, NodeColor.class, "NodeColor");
 		addEEnumLiteral(nodeColorEEnum, NodeColor.GRAY95);

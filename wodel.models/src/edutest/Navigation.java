@@ -41,10 +41,6 @@ public enum Navigation implements Enumerator {
 	/**
 	 * The '<em><b>Free</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Free</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FREE
 	 * @model name="free"
@@ -56,10 +52,6 @@ public enum Navigation implements Enumerator {
 	/**
 	 * The '<em><b>Locked</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Locked</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LOCKED
 	 * @model name="locked"

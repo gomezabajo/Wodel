@@ -61,13 +61,15 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 			case EdutestPackage.PROGRAM_CONFIGURATION: return createProgramConfiguration();
 			case EdutestPackage.TEST_CONFIGURATION: return createTestConfiguration();
 			case EdutestPackage.MULTI_CHOICE_EM_CONFIG: return createMultiChoiceEmConfig();
-			case EdutestPackage.MULTI_CHOICE_TEXT_CONFIG: return createMultiChoiceTextConfig();
+			case EdutestPackage.TEXT_CONFIGURATION: return createTextConfiguration();
 			case EdutestPackage.ALTERNATIVE_RESPONSE: return createAlternativeResponse();
 			case EdutestPackage.MULTI_CHOICE_DIAGRAM: return createMultiChoiceDiagram();
 			case EdutestPackage.MULTI_CHOICE_EMENDATION: return createMultiChoiceEmendation();
 			case EdutestPackage.MATCH_PAIRS: return createMatchPairs();
 			case EdutestPackage.MISSING_WORDS: return createMissingWords();
 			case EdutestPackage.MULTI_CHOICE_TEXT: return createMultiChoiceText();
+			case EdutestPackage.ALTERNATIVE_TEXT: return createAlternativeText();
+			case EdutestPackage.DRAG_AND_DROP_TEXT: return createDragAndDropText();
 			case EdutestPackage.TEST: return createTest();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -162,9 +164,9 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * @generated
 	 */
 	@Override
-	public MultiChoiceTextConfig createMultiChoiceTextConfig() {
-		MultiChoiceTextConfigImpl multiChoiceTextConfig = new MultiChoiceTextConfigImpl();
-		return multiChoiceTextConfig;
+	public TextConfiguration createTextConfiguration() {
+		TextConfigurationImpl textConfiguration = new TextConfigurationImpl();
+		return textConfiguration;
 	}
 
 	/**
@@ -231,6 +233,28 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	public MultiChoiceText createMultiChoiceText() {
 		MultiChoiceTextImpl multiChoiceText = new MultiChoiceTextImpl();
 		return multiChoiceText;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public AlternativeText createAlternativeText() {
+		AlternativeTextImpl alternativeText = new AlternativeTextImpl();
+		return alternativeText;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public DragAndDropText createDragAndDropText() {
+		DragAndDropTextImpl dragAndDropText = new DragAndDropTextImpl();
+		return dragAndDropText;
 	}
 
 	/**

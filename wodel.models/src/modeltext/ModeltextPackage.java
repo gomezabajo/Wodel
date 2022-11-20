@@ -4,6 +4,7 @@ package modeltext;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -104,6 +105,79 @@ public interface ModeltextPackage extends EPackage {
 	int IDENTIFY_ELEMENTS_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link modeltext.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeltext.impl.ValuedFeatureImpl
+	 * @see modeltext.impl.ModeltextPackageImpl#getValuedFeature()
+	 * @generated
+	 */
+	int VALUED_FEATURE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Negation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE__NEGATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Feat</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE__FEAT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Ref Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE__REF_FEATURE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE__VALUE = 4;
+
+	/**
+	 * The number of structural features of the '<em>Valued Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE_FEATURE_COUNT = 5;
+
+	/**
+	 * The number of operations of the '<em>Valued Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUED_FEATURE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link modeltext.impl.ElementImpl <em>Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -111,7 +185,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getElement()
 	 * @generated
 	 */
-	int ELEMENT = 1;
+	int ELEMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -132,22 +206,22 @@ public interface ModeltextPackage extends EPackage {
 	int ELEMENT__REF = 1;
 
 	/**
-	 * The feature id for the '<em><b>Att</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ELEMENT__ATT = 2;
-
-	/**
 	 * The feature id for the '<em><b>Words</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ELEMENT__WORDS = 3;
+	int ELEMENT__WORDS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT__FEATURE = 3;
 
 	/**
 	 * The number of structural features of the '<em>Element</em>' class.
@@ -166,52 +240,6 @@ public interface ModeltextPackage extends EPackage {
 	 * @ordered
 	 */
 	int ELEMENT_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link modeltext.impl.AttributeImpl <em>Attribute</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see modeltext.impl.AttributeImpl
-	 * @see modeltext.impl.ModeltextPackageImpl#getAttribute()
-	 * @generated
-	 */
-	int ATTRIBUTE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Negation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__NEGATION = 0;
-
-	/**
-	 * The feature id for the '<em><b>Att</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__ATT = 1;
-
-	/**
-	 * The number of structural features of the '<em>Attribute</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Attribute</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link modeltext.impl.WordImpl <em>Word</em>}' class.
@@ -324,6 +352,53 @@ public interface ModeltextPackage extends EPackage {
 	 */
 	int VARIABLE_OPERATION_COUNT = WORD_OPERATION_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link modeltext.impl.MacroImpl <em>Macro</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeltext.impl.MacroImpl
+	 * @see modeltext.impl.ModeltextPackageImpl#getMacro()
+	 * @generated
+	 */
+	int MACRO = 6;
+
+	/**
+	 * The feature id for the '<em><b>Item</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MACRO__ITEM = WORD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Macro</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MACRO_FEATURE_COUNT = WORD_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Macro</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MACRO_OPERATION_COUNT = WORD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link modeltext.MacroItem <em>Macro Item</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeltext.MacroItem
+	 * @see modeltext.impl.ModeltextPackageImpl#getMacroItem()
+	 * @generated
+	 */
+	int MACRO_ITEM = 7;
+
 
 	/**
 	 * Returns the meta object for class '{@link modeltext.IdentifyElements <em>Identify Elements</em>}'.
@@ -358,6 +433,71 @@ public interface ModeltextPackage extends EPackage {
 	EReference getIdentifyElements_Elements();
 
 	/**
+	 * Returns the meta object for class '{@link modeltext.ValuedFeature <em>Valued Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Valued Feature</em>'.
+	 * @see modeltext.ValuedFeature
+	 * @generated
+	 */
+	EClass getValuedFeature();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeltext.ValuedFeature#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Name</em>'.
+	 * @see modeltext.ValuedFeature#getName()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EReference getValuedFeature_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeltext.ValuedFeature#isNegation <em>Negation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Negation</em>'.
+	 * @see modeltext.ValuedFeature#isNegation()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EAttribute getValuedFeature_Negation();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeltext.ValuedFeature#getFeat <em>Feat</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Feat</em>'.
+	 * @see modeltext.ValuedFeature#getFeat()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EReference getValuedFeature_Feat();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeltext.ValuedFeature#getRefFeature <em>Ref Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Feature</em>'.
+	 * @see modeltext.ValuedFeature#getRefFeature()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EReference getValuedFeature_RefFeature();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeltext.ValuedFeature#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see modeltext.ValuedFeature#getValue()
+	 * @see #getValuedFeature()
+	 * @generated
+	 */
+	EAttribute getValuedFeature_Value();
+
+	/**
 	 * Returns the meta object for class '{@link modeltext.Element <em>Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -390,17 +530,6 @@ public interface ModeltextPackage extends EPackage {
 	EReference getElement_Ref();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link modeltext.Element#getAtt <em>Att</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Att</em>'.
-	 * @see modeltext.Element#getAtt()
-	 * @see #getElement()
-	 * @generated
-	 */
-	EReference getElement_Att();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link modeltext.Element#getWords <em>Words</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,36 +541,15 @@ public interface ModeltextPackage extends EPackage {
 	EReference getElement_Words();
 
 	/**
-	 * Returns the meta object for class '{@link modeltext.Attribute <em>Attribute</em>}'.
+	 * Returns the meta object for the containment reference list '{@link modeltext.Element#getFeature <em>Feature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Attribute</em>'.
-	 * @see modeltext.Attribute
+	 * @return the meta object for the containment reference list '<em>Feature</em>'.
+	 * @see modeltext.Element#getFeature()
+	 * @see #getElement()
 	 * @generated
 	 */
-	EClass getAttribute();
-
-	/**
-	 * Returns the meta object for the attribute '{@link modeltext.Attribute#isNegation <em>Negation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Negation</em>'.
-	 * @see modeltext.Attribute#isNegation()
-	 * @see #getAttribute()
-	 * @generated
-	 */
-	EAttribute getAttribute_Negation();
-
-	/**
-	 * Returns the meta object for the reference '{@link modeltext.Attribute#getAtt <em>Att</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Att</em>'.
-	 * @see modeltext.Attribute#getAtt()
-	 * @see #getAttribute()
-	 * @generated
-	 */
-	EReference getAttribute_Att();
+	EReference getElement_Feature();
 
 	/**
 	 * Returns the meta object for class '{@link modeltext.Word <em>Word</em>}'.
@@ -507,6 +615,37 @@ public interface ModeltextPackage extends EPackage {
 	EReference getVariable_Id();
 
 	/**
+	 * Returns the meta object for class '{@link modeltext.Macro <em>Macro</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Macro</em>'.
+	 * @see modeltext.Macro
+	 * @generated
+	 */
+	EClass getMacro();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeltext.Macro#getItem <em>Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Item</em>'.
+	 * @see modeltext.Macro#getItem()
+	 * @see #getMacro()
+	 * @generated
+	 */
+	EAttribute getMacro_Item();
+
+	/**
+	 * Returns the meta object for enum '{@link modeltext.MacroItem <em>Macro Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Macro Item</em>'.
+	 * @see modeltext.MacroItem
+	 * @generated
+	 */
+	EEnum getMacroItem();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -556,6 +695,56 @@ public interface ModeltextPackage extends EPackage {
 		EReference IDENTIFY_ELEMENTS__ELEMENTS = eINSTANCE.getIdentifyElements_Elements();
 
 		/**
+		 * The meta object literal for the '{@link modeltext.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeltext.impl.ValuedFeatureImpl
+		 * @see modeltext.impl.ModeltextPackageImpl#getValuedFeature()
+		 * @generated
+		 */
+		EClass VALUED_FEATURE = eINSTANCE.getValuedFeature();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUED_FEATURE__NAME = eINSTANCE.getValuedFeature_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Negation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALUED_FEATURE__NEGATION = eINSTANCE.getValuedFeature_Negation();
+
+		/**
+		 * The meta object literal for the '<em><b>Feat</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUED_FEATURE__FEAT = eINSTANCE.getValuedFeature_Feat();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Feature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUED_FEATURE__REF_FEATURE = eINSTANCE.getValuedFeature_RefFeature();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALUED_FEATURE__VALUE = eINSTANCE.getValuedFeature_Value();
+
+		/**
 		 * The meta object literal for the '{@link modeltext.impl.ElementImpl <em>Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -582,14 +771,6 @@ public interface ModeltextPackage extends EPackage {
 		EReference ELEMENT__REF = eINSTANCE.getElement_Ref();
 
 		/**
-		 * The meta object literal for the '<em><b>Att</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ELEMENT__ATT = eINSTANCE.getElement_Att();
-
-		/**
 		 * The meta object literal for the '<em><b>Words</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -598,30 +779,12 @@ public interface ModeltextPackage extends EPackage {
 		EReference ELEMENT__WORDS = eINSTANCE.getElement_Words();
 
 		/**
-		 * The meta object literal for the '{@link modeltext.impl.AttributeImpl <em>Attribute</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see modeltext.impl.AttributeImpl
-		 * @see modeltext.impl.ModeltextPackageImpl#getAttribute()
-		 * @generated
-		 */
-		EClass ATTRIBUTE = eINSTANCE.getAttribute();
-
-		/**
-		 * The meta object literal for the '<em><b>Negation</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Feature</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ATTRIBUTE__NEGATION = eINSTANCE.getAttribute_Negation();
-
-		/**
-		 * The meta object literal for the '<em><b>Att</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ATTRIBUTE__ATT = eINSTANCE.getAttribute_Att();
+		EReference ELEMENT__FEATURE = eINSTANCE.getElement_Feature();
 
 		/**
 		 * The meta object literal for the '{@link modeltext.impl.WordImpl <em>Word</em>}' class.
@@ -676,6 +839,34 @@ public interface ModeltextPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIABLE__ID = eINSTANCE.getVariable_Id();
+
+		/**
+		 * The meta object literal for the '{@link modeltext.impl.MacroImpl <em>Macro</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeltext.impl.MacroImpl
+		 * @see modeltext.impl.ModeltextPackageImpl#getMacro()
+		 * @generated
+		 */
+		EClass MACRO = eINSTANCE.getMacro();
+
+		/**
+		 * The meta object literal for the '<em><b>Item</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MACRO__ITEM = eINSTANCE.getMacro_Item();
+
+		/**
+		 * The meta object literal for the '{@link modeltext.MacroItem <em>Macro Item</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeltext.MacroItem
+		 * @see modeltext.impl.ModeltextPackageImpl#getMacroItem()
+		 * @generated
+		 */
+		EEnum MACRO_ITEM = eINSTANCE.getMacroItem();
 
 	}
 

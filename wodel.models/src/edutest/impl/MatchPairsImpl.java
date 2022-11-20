@@ -4,7 +4,7 @@ package edutest.impl;
 
 import edutest.EdutestPackage;
 import edutest.MatchPairs;
-import edutest.TestConfiguration;
+import edutest.TextConfiguration;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -36,7 +36,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * @generated
 	 * @ordered
 	 */
-	protected TestConfiguration config;
+	protected TextConfiguration config;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -63,7 +63,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * @generated
 	 */
 	@Override
-	public TestConfiguration getConfig() {
+	public TextConfiguration getConfig() {
 		return config;
 	}
 
@@ -72,8 +72,8 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetConfig(TestConfiguration newConfig, NotificationChain msgs) {
-		TestConfiguration oldConfig = config;
+	public NotificationChain basicSetConfig(TextConfiguration newConfig, NotificationChain msgs) {
+		TextConfiguration oldConfig = config;
 		config = newConfig;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EdutestPackage.MATCH_PAIRS__CONFIG, oldConfig, newConfig);
@@ -88,7 +88,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * @generated
 	 */
 	@Override
-	public void setConfig(TestConfiguration newConfig) {
+	public void setConfig(TextConfiguration newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;
 			if (config != null)
@@ -139,7 +139,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EdutestPackage.MATCH_PAIRS__CONFIG:
-				setConfig((TestConfiguration)newValue);
+				setConfig((TextConfiguration)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -154,7 +154,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EdutestPackage.MATCH_PAIRS__CONFIG:
-				setConfig((TestConfiguration)null);
+				setConfig((TextConfiguration)null);
 				return;
 		}
 		super.eUnset(featureID);

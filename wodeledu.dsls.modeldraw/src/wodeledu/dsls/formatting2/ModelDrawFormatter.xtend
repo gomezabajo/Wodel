@@ -4,7 +4,6 @@
 package wodeledu.dsls.formatting2
 
 import com.google.inject.Inject
-import modeldraw.BooleanAttribute
 import modeldraw.Content
 import modeldraw.MutatorDraw
 import modeldraw.Node
@@ -12,6 +11,7 @@ import modeldraw.Relation
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import wodeledu.dsls.services.ModelDrawGrammarAccess
+import modeldraw.ValuedFeature
 
 class ModelDrawFormatter extends AbstractFormatter2 {
 	
@@ -32,8 +32,8 @@ class ModelDrawFormatter extends AbstractFormatter2 {
 
 	def dispatch void format(Node node, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (BooleanAttribute booleanAttribute : node.getAttribute()) {
-			booleanAttribute.format;
+		for (ValuedFeature feature : node.getFeature()) {
+			feature.format;
 		}
 	}
 	

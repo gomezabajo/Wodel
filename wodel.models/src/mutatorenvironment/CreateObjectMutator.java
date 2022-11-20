@@ -26,10 +26,6 @@ public interface CreateObjectMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Container</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Container</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Container</em>' containment reference.
 	 * @see #setContainer(ObSelectionStrategy)
@@ -53,10 +49,6 @@ public interface CreateObjectMutator extends Mutator {
 	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.AttributeSet}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getCreateObjectMutator_Attributes()
@@ -69,10 +61,6 @@ public interface CreateObjectMutator extends Mutator {
 	 * Returns the value of the '<em><b>References</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.ReferenceSet}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>References</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>References</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getCreateObjectMutator_References()

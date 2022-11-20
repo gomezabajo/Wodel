@@ -92,8 +92,8 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 				return createMultiChoiceEmConfigAdapter();
 			}
 			@Override
-			public Adapter caseMultiChoiceTextConfig(MultiChoiceTextConfig object) {
-				return createMultiChoiceTextConfigAdapter();
+			public Adapter caseTextConfiguration(TextConfiguration object) {
+				return createTextConfigurationAdapter();
 			}
 			@Override
 			public Adapter caseAlternativeResponse(AlternativeResponse object) {
@@ -118,6 +118,14 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMultiChoiceText(MultiChoiceText object) {
 				return createMultiChoiceTextAdapter();
+			}
+			@Override
+			public Adapter caseAlternativeText(AlternativeText object) {
+				return createAlternativeTextAdapter();
+			}
+			@Override
+			public Adapter caseDragAndDropText(DragAndDropText object) {
+				return createDragAndDropTextAdapter();
 			}
 			@Override
 			public Adapter caseTest(Test object) {
@@ -228,16 +236,16 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link edutest.MultiChoiceTextConfig <em>Multi Choice Text Config</em>}'.
+	 * Creates a new adapter for an object of class '{@link edutest.TextConfiguration <em>Text Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see edutest.MultiChoiceTextConfig
+	 * @see edutest.TextConfiguration
 	 * @generated
 	 */
-	public Adapter createMultiChoiceTextConfigAdapter() {
+	public Adapter createTextConfigurationAdapter() {
 		return null;
 	}
 
@@ -322,6 +330,34 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMultiChoiceTextAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.AlternativeText <em>Alternative Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.AlternativeText
+	 * @generated
+	 */
+	public Adapter createAlternativeTextAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.DragAndDropText <em>Drag And Drop Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.DragAndDropText
+	 * @generated
+	 */
+	public Adapter createDragAndDropTextAdapter() {
 		return null;
 	}
 

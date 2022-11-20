@@ -13,16 +13,16 @@ IdentifyElements returns IdentifyElements:
 
 Element returns Element:
 	{Element}
-	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference|ID])? ('(' att+=Attribute (',' att+=Attribute)* ')')? ':' ((words+=Word) (words+=Word)*)?
+	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference|ID])? ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ':' ((words+=Word) (words+=Word)*)?
 ;
 
-Attribute returns Attribute:
-	{Attribute}
-	(negation?='not')? att=[ecore::EAttribute|ID]
+ValuedFeature returns ValuedFeature:
+	{ValuedFeature}
+	(negation?='not')? feat=[ecore::EStructuralFeature|ID] ('->' refFeature=[ecore::EStructuralFeature|ID])? ('==' value='null')?
 ;
 
 Word returns Word:
-	Constant | Variable
+	Constant | Variable | Macro
 ;
 Constant returns Constant:
 	{Constant}
@@ -33,6 +33,14 @@ Variable returns Variable:
 	{Variable}
 	'%'(ref=[ecore::EReference]'.')?id=[ecore::EAttribute]
 ;
+
+Macro returns Macro:
+	{Macro}
+	'%' item = MacroItem
+;
+
+enum MacroItem returns MacroItem:
+	type = 'type';
 
 EString returns ecore::EString:
 	STRING | ID

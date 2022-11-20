@@ -66,7 +66,9 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NOT(4, "not", "not"), /**
+	NOT(4, "not", "not"),
+
+	/**
 	 * The '<em><b>Gt</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,7 +76,9 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	GT(5, "gt", "gt"), /**
+	GT(5, "gt", "gt"),
+
+	/**
 	 * The '<em><b>Gte</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,7 +86,9 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	GTE(6, "gte", "gte"), /**
+	GTE(6, "gte", "gte"),
+
+	/**
 	 * The '<em><b>Lt</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -90,7 +96,9 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	LT(7, "lt", "lt"), /**
+	LT(7, "lt", "lt"),
+
+	/**
 	 * The '<em><b>Lte</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -103,10 +111,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Equals</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Equals</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EQUALS
 	 * @model name="equals"
@@ -118,10 +122,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Different</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Different</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DIFFERENT
 	 * @model name="different"
@@ -133,10 +133,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>In</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>In</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IN
 	 * @model name="in"
@@ -148,10 +144,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Is</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Is</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IS
 	 * @model name="is"
@@ -163,10 +155,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Not</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Not</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NOT
 	 * @model name="not"
@@ -178,10 +166,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Gt</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Gt</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GT
 	 * @model name="gt"
@@ -193,10 +177,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Gte</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Gte</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GTE
 	 * @model name="gte"
@@ -208,10 +188,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Lt</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Lt</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LT
 	 * @model name="lt"
@@ -223,10 +199,6 @@ public enum Operator implements Enumerator {
 	/**
 	 * The '<em><b>Lte</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Lte</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LTE
 	 * @model name="lte"

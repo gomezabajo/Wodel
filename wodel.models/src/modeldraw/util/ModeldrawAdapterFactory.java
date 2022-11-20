@@ -80,8 +80,8 @@ public class ModeldrawAdapterFactory extends AdapterFactoryImpl {
 				return createNamedItemAdapter();
 			}
 			@Override
-			public Adapter caseBooleanAttribute(BooleanAttribute object) {
-				return createBooleanAttributeAdapter();
+			public Adapter caseValuedFeature(ValuedFeature object) {
+				return createValuedFeatureAdapter();
 			}
 			@Override
 			public Adapter caseNode(Node object) {
@@ -178,16 +178,16 @@ public class ModeldrawAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link modeldraw.BooleanAttribute <em>Boolean Attribute</em>}'.
+	 * Creates a new adapter for an object of class '{@link modeldraw.ValuedFeature <em>Valued Feature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see modeldraw.BooleanAttribute
+	 * @see modeldraw.ValuedFeature
 	 * @generated
 	 */
-	public Adapter createBooleanAttributeAdapter() {
+	public Adapter createValuedFeatureAdapter() {
 		return null;
 	}
 

@@ -7,6 +7,7 @@ import java.util.Collection;
 import modeltext.Element;
 import modeltext.IdentifyElements;
 import modeltext.ModeltextPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -90,6 +91,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMetamodel() {
 		return metamodel;
 	}
@@ -99,6 +101,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMetamodel(String newMetamodel) {
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;
@@ -111,6 +114,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Element> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentEList<Element>(Element.class, this, ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS);

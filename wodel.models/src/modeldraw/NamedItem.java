@@ -24,10 +24,6 @@ public interface NamedItem extends Item {
 	/**
 	 * Returns the value of the '<em><b>Att Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Name</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Name</em>' reference.
 	 * @see #setAttName(EAttribute)

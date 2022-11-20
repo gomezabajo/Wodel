@@ -5,7 +5,6 @@ package wodeledu.dsls.serializer;
 
 import com.google.inject.Inject;
 import java.util.Set;
-import modeldraw.BooleanAttribute;
 import modeldraw.Content;
 import modeldraw.Edge;
 import modeldraw.Enumerator;
@@ -15,6 +14,7 @@ import modeldraw.ModeldrawPackage;
 import modeldraw.MutatorDraw;
 import modeldraw.Node;
 import modeldraw.NodeEnumerator;
+import modeldraw.ValuedFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.xtext.Action;
@@ -40,9 +40,6 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == ModeldrawPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case ModeldrawPackage.BOOLEAN_ATTRIBUTE:
-				sequence_BooleanAttribute(context, (BooleanAttribute) semanticObject); 
-				return; 
 			case ModeldrawPackage.CONTENT:
 				sequence_Content(context, (Content) semanticObject); 
 				return; 
@@ -67,22 +64,13 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 			case ModeldrawPackage.NODE_ENUMERATOR:
 				sequence_NodeEnumerator(context, (NodeEnumerator) semanticObject); 
 				return; 
+			case ModeldrawPackage.VALUED_FEATURE:
+				sequence_ValuedFeature(context, (ValuedFeature) semanticObject); 
+				return; 
 			}
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
-	
-	/**
-	 * Contexts:
-	 *     BooleanAttribute returns BooleanAttribute
-	 *
-	 * Constraint:
-	 *     (negation?='not'? att=[EAttribute|ID])
-	 */
-	protected void sequence_BooleanAttribute(ISerializationContext context, BooleanAttribute semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
 	
 	/**
 	 * Contexts:
@@ -110,8 +98,8 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 * Constraint:
 	 *     (
 	 *         name=[EClass|ID] 
-	 *         source=[EReference|ID] 
-	 *         target=[EReference|ID] 
+	 *         (feature+=ValuedFeature feature+=ValuedFeature*)? 
+	 *         ((source=[EReference|ID] target=[EReference|ID]) | (targetNode=[EClass|ID] (targetFeature+=ValuedFeature targetFeature+=ValuedFeature*)?)) 
 	 *         attName=[EAttribute|ID]? 
 	 *         (
 	 *             ((reference+=[EReference|ID] refType+=[EReference|ID]?)? label+=[EAttribute|ID]) | 
@@ -242,16 +230,29 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 * Constraint:
 	 *     (
 	 *         name=[EClass|ID] 
-	 *         (attribute+=BooleanAttribute attribute+=BooleanAttribute*)? 
+	 *         (feature+=ValuedFeature feature+=ValuedFeature*)? 
+	 *         (targetNode=[EClass|ID] (targetFeature+=ValuedFeature targetFeature+=ValuedFeature*)?)? 
 	 *         type=NodeType 
 	 *         attName=[EAttribute|ID]? 
 	 *         (reference+=[EReference|ID] reference+=[EReference|ID]*)? 
-	 *         shape=NodeShape? 
+	 *         (shape=NodeShape pathShape=EString?)? 
 	 *         color=NodeColor? 
 	 *         style=NodeStyle?
 	 *     )
 	 */
 	protected void sequence_Node(ISerializationContext context, Node semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ValuedFeature returns ValuedFeature
+	 *
+	 * Constraint:
+	 *     (negation?='not'? feat=[EStructuralFeature|ID] refFeature=[EStructuralFeature|ID]? value='null'?)
+	 */
+	protected void sequence_ValuedFeature(ISerializationContext context, ValuedFeature semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

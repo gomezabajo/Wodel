@@ -13,6 +13,7 @@ import modeldraw.Level;
 import modeldraw.MutatorDraw;
 import modeldraw.Node;
 import modeldraw.NodeEnumerator;
+import modeldraw.ValuedFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
@@ -77,12 +79,54 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
     return _xblockexpression;
   }
   
-  public IScope scope_BooleanAttribute_att(final Node node, final EReference ref) {
+  public IScope scope_Node_targetNode(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final ArrayList<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = node.eContainer();
-      scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer).getMetamodel(), node.getName().getName()));
+      scope.addAll(this.getEClasses(((MutatorDraw) _eContainer).getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ValuedFeature_feat(final Node node, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      EObject _eContainer = node.eContainer();
+      scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer).getMetamodel(), node.getName().getName()));
+      EClass _targetNode = node.getTargetNode();
+      boolean _tripleNotEquals = (_targetNode != null);
+      if (_tripleNotEquals) {
+        EObject _eContainer_1 = node.eContainer();
+        scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), node.getTargetNode().getName()));
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ValuedFeature_refFeature(final Node node, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
+      if (((node.getFeature() != null) && (node.getFeature().size() > 0))) {
+        EList<ValuedFeature> _feature = node.getFeature();
+        for (final ValuedFeature feature : _feature) {
+          EObject _eContainer = node.eContainer();
+          features.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer).getMetamodel(), feature.getFeat().getEType().getName()));
+        }
+      }
+      if (((node.getTargetFeature() != null) && (node.getTargetFeature().size() > 0))) {
+        EList<ValuedFeature> _targetFeature = node.getTargetFeature();
+        for (final ValuedFeature feature_1 : _targetFeature) {
+          EObject _eContainer_1 = node.eContainer();
+          features.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), feature_1.getFeat().getEType().getName()));
+        }
+      }
+      scope.addAll(features);
       _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
@@ -222,6 +266,59 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
     return _xblockexpression;
   }
   
+  public IScope scope_Relation_targetNode(final Edge edge, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      EObject _eContainer = edge.eContainer();
+      scope.addAll(this.getEClasses(((MutatorDraw) _eContainer).getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ValuedFeature_feat(final Edge edge, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      EObject _eContainer = edge.eContainer();
+      scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer).getMetamodel(), edge.getName().getName()));
+      EClass _targetNode = edge.getTargetNode();
+      boolean _tripleNotEquals = (_targetNode != null);
+      if (_tripleNotEquals) {
+        EObject _eContainer_1 = edge.eContainer();
+        scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getTargetNode().getName()));
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ValuedFeature_refFeature(final Edge edge, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
+      if (((edge.getFeature() != null) && (edge.getFeature().size() > 0))) {
+        EList<ValuedFeature> _feature = edge.getFeature();
+        for (final ValuedFeature feature : _feature) {
+          EObject _eContainer = edge.eContainer();
+          features.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer).getMetamodel(), feature.getFeat().getEType().getName()));
+        }
+      }
+      if (((edge.getTargetFeature() != null) && (edge.getTargetFeature().size() > 0))) {
+        EList<ValuedFeature> _targetFeature = edge.getTargetFeature();
+        for (final ValuedFeature feature_1 : _targetFeature) {
+          EObject _eContainer_1 = edge.eContainer();
+          features.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), feature_1.getFeat().getEType().getName()));
+        }
+      }
+      scope.addAll(features);
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
   public IScope scope_Level_upper(final Level level, final EReference ref) {
     IScope _xblockexpression = null;
     {
@@ -308,6 +405,31 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       }
       return classes;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  /**
+   * It return the list of structural features of a class.
+   * @param String file containing the metamodel
+   * @param String class name
+   * @return List<EStructuralFeature> list of structural features
+   */
+  private List<EStructuralFeature> getEStructuralFeatures(final String metamodelFile, final String eclassName) {
+    try {
+      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
+      final EClass eclass = ((EClass) _objectOfType);
+      final ArrayList<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
+      if ((eclass != null)) {
+        features.addAll(eclass.getEAllStructuralFeatures());
+        EList<EClass> _eSuperTypes = eclass.getESuperTypes();
+        for (final EClass c : _eSuperTypes) {
+          features.addAll(c.getEAllStructuralFeatures());
+        }
+      }
+      return features;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

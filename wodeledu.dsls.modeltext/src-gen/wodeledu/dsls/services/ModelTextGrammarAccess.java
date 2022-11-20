@@ -10,6 +10,8 @@ import org.eclipse.xtext.Action;
 import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.EnumLiteralDeclaration;
+import org.eclipse.xtext.EnumRule;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
@@ -18,6 +20,7 @@ import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
+import org.eclipse.xtext.service.AbstractElementFinder.AbstractEnumRuleElementFinder;
 import org.eclipse.xtext.service.AbstractElementFinder.AbstractGrammarElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
 
@@ -87,12 +90,12 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRefEReferenceIDTerminalRuleCall_3_1_0_1 = (RuleCall)cRefEReferenceCrossReference_3_1_0.eContents().get(1);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
 		private final Keyword cLeftParenthesisKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
-		private final Assignment cAttAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
-		private final RuleCall cAttAttributeParserRuleCall_4_1_0 = (RuleCall)cAttAssignment_4_1.eContents().get(0);
+		private final Assignment cFeatureAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final RuleCall cFeatureValuedFeatureParserRuleCall_4_1_0 = (RuleCall)cFeatureAssignment_4_1.eContents().get(0);
 		private final Group cGroup_4_2 = (Group)cGroup_4.eContents().get(2);
 		private final Keyword cCommaKeyword_4_2_0 = (Keyword)cGroup_4_2.eContents().get(0);
-		private final Assignment cAttAssignment_4_2_1 = (Assignment)cGroup_4_2.eContents().get(1);
-		private final RuleCall cAttAttributeParserRuleCall_4_2_1_0 = (RuleCall)cAttAssignment_4_2_1.eContents().get(0);
+		private final Assignment cFeatureAssignment_4_2_1 = (Assignment)cGroup_4_2.eContents().get(1);
+		private final RuleCall cFeatureValuedFeatureParserRuleCall_4_2_1_0 = (RuleCall)cFeatureAssignment_4_2_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_4_3 = (Keyword)cGroup_4.eContents().get(3);
 		private final Keyword cColonKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
@@ -103,12 +106,12 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//Element:
 		//	{Element}
-		//	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' att+=Attribute (',' att+=Attribute)* ')')? ':'
-		//	(words+=Word words+=Word*)?;
+		//	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' feature+=ValuedFeature (','
+		//	feature+=ValuedFeature)* ')')? ':' (words+=Word words+=Word*)?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Element} '>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' att+=Attribute (',' att+=Attribute)*
-		//')')? ':' (words+=Word words+=Word*)?
+		//{Element} '>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' feature+=ValuedFeature (','
+		//feature+=ValuedFeature)* ')')? ':' (words+=Word words+=Word*)?
 		public Group getGroup() { return cGroup; }
 		
 		//{Element}
@@ -141,29 +144,29 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getRefEReferenceIDTerminalRuleCall_3_1_0_1() { return cRefEReferenceIDTerminalRuleCall_3_1_0_1; }
 		
-		//('(' att+=Attribute (',' att+=Attribute)* ')')?
+		//('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')?
 		public Group getGroup_4() { return cGroup_4; }
 		
 		//'('
 		public Keyword getLeftParenthesisKeyword_4_0() { return cLeftParenthesisKeyword_4_0; }
 		
-		//att+=Attribute
-		public Assignment getAttAssignment_4_1() { return cAttAssignment_4_1; }
+		//feature+=ValuedFeature
+		public Assignment getFeatureAssignment_4_1() { return cFeatureAssignment_4_1; }
 		
-		//Attribute
-		public RuleCall getAttAttributeParserRuleCall_4_1_0() { return cAttAttributeParserRuleCall_4_1_0; }
+		//ValuedFeature
+		public RuleCall getFeatureValuedFeatureParserRuleCall_4_1_0() { return cFeatureValuedFeatureParserRuleCall_4_1_0; }
 		
-		//(',' att+=Attribute)*
+		//(',' feature+=ValuedFeature)*
 		public Group getGroup_4_2() { return cGroup_4_2; }
 		
 		//','
 		public Keyword getCommaKeyword_4_2_0() { return cCommaKeyword_4_2_0; }
 		
-		//att+=Attribute
-		public Assignment getAttAssignment_4_2_1() { return cAttAssignment_4_2_1; }
+		//feature+=ValuedFeature
+		public Assignment getFeatureAssignment_4_2_1() { return cFeatureAssignment_4_2_1; }
 		
-		//Attribute
-		public RuleCall getAttAttributeParserRuleCall_4_2_1_0() { return cAttAttributeParserRuleCall_4_2_1_0; }
+		//ValuedFeature
+		public RuleCall getFeatureValuedFeatureParserRuleCall_4_2_1_0() { return cFeatureValuedFeatureParserRuleCall_4_2_1_0; }
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_4_3() { return cRightParenthesisKeyword_4_3; }
@@ -186,25 +189,36 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		//Word
 		public RuleCall getWordsWordParserRuleCall_6_1_0() { return cWordsWordParserRuleCall_6_1_0; }
 	}
-	public class AttributeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.Attribute");
+	public class ValuedFeatureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.ValuedFeature");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cAttributeAction_0 = (Action)cGroup.eContents().get(0);
+		private final Action cValuedFeatureAction_0 = (Action)cGroup.eContents().get(0);
 		private final Assignment cNegationAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final Keyword cNegationNotKeyword_1_0 = (Keyword)cNegationAssignment_1.eContents().get(0);
-		private final Assignment cAttAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cAttEAttributeCrossReference_2_0 = (CrossReference)cAttAssignment_2.eContents().get(0);
-		private final RuleCall cAttEAttributeIDTerminalRuleCall_2_0_1 = (RuleCall)cAttEAttributeCrossReference_2_0.eContents().get(1);
+		private final Assignment cFeatAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cFeatEStructuralFeatureCrossReference_2_0 = (CrossReference)cFeatAssignment_2.eContents().get(0);
+		private final RuleCall cFeatEStructuralFeatureIDTerminalRuleCall_2_0_1 = (RuleCall)cFeatEStructuralFeatureCrossReference_2_0.eContents().get(1);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cRefFeatureAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final CrossReference cRefFeatureEStructuralFeatureCrossReference_3_1_0 = (CrossReference)cRefFeatureAssignment_3_1.eContents().get(0);
+		private final RuleCall cRefFeatureEStructuralFeatureIDTerminalRuleCall_3_1_0_1 = (RuleCall)cRefFeatureEStructuralFeatureCrossReference_3_1_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cEqualsSignEqualsSignKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cValueAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final Keyword cValueNullKeyword_4_1_0 = (Keyword)cValueAssignment_4_1.eContents().get(0);
 		
-		//Attribute:
-		//	{Attribute} negation?='not'? att=[ecore::EAttribute];
+		//ValuedFeature:
+		//	{ValuedFeature} negation?='not'? feat=[ecore::EStructuralFeature] ('->' refFeature=[ecore::EStructuralFeature])?
+		//	('==' value='null')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Attribute} negation?='not'? att=[ecore::EAttribute]
+		//{ValuedFeature} negation?='not'? feat=[ecore::EStructuralFeature] ('->' refFeature=[ecore::EStructuralFeature])? ('=='
+		//value='null')?
 		public Group getGroup() { return cGroup; }
 		
-		//{Attribute}
-		public Action getAttributeAction_0() { return cAttributeAction_0; }
+		//{ValuedFeature}
+		public Action getValuedFeatureAction_0() { return cValuedFeatureAction_0; }
 		
 		//negation?='not'?
 		public Assignment getNegationAssignment_1() { return cNegationAssignment_1; }
@@ -212,26 +226,54 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		//'not'
 		public Keyword getNegationNotKeyword_1_0() { return cNegationNotKeyword_1_0; }
 		
-		//att=[ecore::EAttribute]
-		public Assignment getAttAssignment_2() { return cAttAssignment_2; }
+		//feat=[ecore::EStructuralFeature]
+		public Assignment getFeatAssignment_2() { return cFeatAssignment_2; }
 		
-		//[ecore::EAttribute]
-		public CrossReference getAttEAttributeCrossReference_2_0() { return cAttEAttributeCrossReference_2_0; }
+		//[ecore::EStructuralFeature]
+		public CrossReference getFeatEStructuralFeatureCrossReference_2_0() { return cFeatEStructuralFeatureCrossReference_2_0; }
 		
 		//ID
-		public RuleCall getAttEAttributeIDTerminalRuleCall_2_0_1() { return cAttEAttributeIDTerminalRuleCall_2_0_1; }
+		public RuleCall getFeatEStructuralFeatureIDTerminalRuleCall_2_0_1() { return cFeatEStructuralFeatureIDTerminalRuleCall_2_0_1; }
+		
+		//('->' refFeature=[ecore::EStructuralFeature])?
+		public Group getGroup_3() { return cGroup_3; }
+		
+		//'->'
+		public Keyword getHyphenMinusGreaterThanSignKeyword_3_0() { return cHyphenMinusGreaterThanSignKeyword_3_0; }
+		
+		//refFeature=[ecore::EStructuralFeature]
+		public Assignment getRefFeatureAssignment_3_1() { return cRefFeatureAssignment_3_1; }
+		
+		//[ecore::EStructuralFeature]
+		public CrossReference getRefFeatureEStructuralFeatureCrossReference_3_1_0() { return cRefFeatureEStructuralFeatureCrossReference_3_1_0; }
+		
+		//ID
+		public RuleCall getRefFeatureEStructuralFeatureIDTerminalRuleCall_3_1_0_1() { return cRefFeatureEStructuralFeatureIDTerminalRuleCall_3_1_0_1; }
+		
+		//('==' value='null')?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'=='
+		public Keyword getEqualsSignEqualsSignKeyword_4_0() { return cEqualsSignEqualsSignKeyword_4_0; }
+		
+		//value='null'
+		public Assignment getValueAssignment_4_1() { return cValueAssignment_4_1; }
+		
+		//'null'
+		public Keyword getValueNullKeyword_4_1_0() { return cValueNullKeyword_4_1_0; }
 	}
 	public class WordElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.Word");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cConstantParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cVariableParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cMacroParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//Word:
-		//	Constant | Variable;
+		//	Constant | Variable | Macro;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Constant | Variable
+		//Constant | Variable | Macro
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//Constant
@@ -239,6 +281,9 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//Variable
 		public RuleCall getVariableParserRuleCall_1() { return cVariableParserRuleCall_1; }
+		
+		//Macro
+		public RuleCall getMacroParserRuleCall_2() { return cMacroParserRuleCall_2; }
 	}
 	public class ConstantElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.Constant");
@@ -315,6 +360,34 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getIdEAttributeIDTerminalRuleCall_3_0_1() { return cIdEAttributeIDTerminalRuleCall_3_0_1; }
 	}
+	public class MacroElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.Macro");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cMacroAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cPercentSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cItemAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cItemMacroItemEnumRuleCall_2_0 = (RuleCall)cItemAssignment_2.eContents().get(0);
+		
+		//Macro:
+		//	{Macro}
+		//	'%' item=MacroItem;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{Macro} '%' item=MacroItem
+		public Group getGroup() { return cGroup; }
+		
+		//{Macro}
+		public Action getMacroAction_0() { return cMacroAction_0; }
+		
+		//'%'
+		public Keyword getPercentSignKeyword_1() { return cPercentSignKeyword_1; }
+		
+		//item=MacroItem
+		public Assignment getItemAssignment_2() { return cItemAssignment_2; }
+		
+		//MacroItem
+		public RuleCall getItemMacroItemEnumRuleCall_2_0() { return cItemMacroItemEnumRuleCall_2_0; }
+	}
 	public class EStringElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.EString");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -335,13 +408,30 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
 	}
 	
+	public class MacroItemElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelText.MacroItem");
+		private final EnumLiteralDeclaration cTypeEnumLiteralDeclaration = (EnumLiteralDeclaration)rule.eContents().get(1);
+		private final Keyword cTypeTypeKeyword_0 = (Keyword)cTypeEnumLiteralDeclaration.eContents().get(0);
+		
+		//enum MacroItem:
+		//	type;
+		public EnumRule getRule() { return rule; }
+		
+		//type
+		public EnumLiteralDeclaration getTypeEnumLiteralDeclaration() { return cTypeEnumLiteralDeclaration; }
+		
+		//'type'
+		public Keyword getTypeTypeKeyword_0() { return cTypeTypeKeyword_0; }
+	}
 	
 	private final IdentifyElementsElements pIdentifyElements;
 	private final ElementElements pElement;
-	private final AttributeElements pAttribute;
+	private final ValuedFeatureElements pValuedFeature;
 	private final WordElements pWord;
 	private final ConstantElements pConstant;
 	private final VariableElements pVariable;
+	private final MacroElements pMacro;
+	private final MacroItemElements eMacroItem;
 	private final EStringElements pEString;
 	
 	private final Grammar grammar;
@@ -355,10 +445,12 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		this.gaTerminals = gaTerminals;
 		this.pIdentifyElements = new IdentifyElementsElements();
 		this.pElement = new ElementElements();
-		this.pAttribute = new AttributeElements();
+		this.pValuedFeature = new ValuedFeatureElements();
 		this.pWord = new WordElements();
 		this.pConstant = new ConstantElements();
 		this.pVariable = new VariableElements();
+		this.pMacro = new MacroElements();
+		this.eMacroItem = new MacroItemElements();
 		this.pEString = new EStringElements();
 	}
 	
@@ -402,8 +494,8 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//Element:
 	//	{Element}
-	//	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' att+=Attribute (',' att+=Attribute)* ')')? ':'
-	//	(words+=Word words+=Word*)?;
+	//	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference])? ('(' feature+=ValuedFeature (','
+	//	feature+=ValuedFeature)* ')')? ':' (words+=Word words+=Word*)?;
 	public ElementElements getElementAccess() {
 		return pElement;
 	}
@@ -412,18 +504,19 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 		return getElementAccess().getRule();
 	}
 	
-	//Attribute:
-	//	{Attribute} negation?='not'? att=[ecore::EAttribute];
-	public AttributeElements getAttributeAccess() {
-		return pAttribute;
+	//ValuedFeature:
+	//	{ValuedFeature} negation?='not'? feat=[ecore::EStructuralFeature] ('->' refFeature=[ecore::EStructuralFeature])?
+	//	('==' value='null')?;
+	public ValuedFeatureElements getValuedFeatureAccess() {
+		return pValuedFeature;
 	}
 	
-	public ParserRule getAttributeRule() {
-		return getAttributeAccess().getRule();
+	public ParserRule getValuedFeatureRule() {
+		return getValuedFeatureAccess().getRule();
 	}
 	
 	//Word:
-	//	Constant | Variable;
+	//	Constant | Variable | Macro;
 	public WordElements getWordAccess() {
 		return pWord;
 	}
@@ -451,6 +544,27 @@ public class ModelTextGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getVariableRule() {
 		return getVariableAccess().getRule();
+	}
+	
+	//Macro:
+	//	{Macro}
+	//	'%' item=MacroItem;
+	public MacroElements getMacroAccess() {
+		return pMacro;
+	}
+	
+	public ParserRule getMacroRule() {
+		return getMacroAccess().getRule();
+	}
+	
+	//enum MacroItem:
+	//	type;
+	public MacroItemElements getMacroItemAccess() {
+		return eMacroItem;
+	}
+	
+	public EnumRule getMacroItemRule() {
+		return getMacroItemAccess().getRule();
 	}
 	
 	//EString:

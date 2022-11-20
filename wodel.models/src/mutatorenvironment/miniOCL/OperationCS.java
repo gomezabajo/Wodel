@@ -29,10 +29,6 @@ public interface OperationCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -56,10 +52,6 @@ public interface OperationCS extends EObject {
 	 * Returns the value of the '<em><b>Params</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.ParameterCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Params</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Params</em>' containment reference list.
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getOperationCS_Params()
@@ -71,10 +63,6 @@ public interface OperationCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Result Ref</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Result Ref</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Result Ref</em>' containment reference.
 	 * @see #setResultRef(PathNameCS)
@@ -97,10 +85,6 @@ public interface OperationCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' containment reference.
 	 * @see #setBody(ExpCS)

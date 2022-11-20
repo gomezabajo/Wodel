@@ -16,8 +16,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import modeltext.Attribute;
 import modeltext.Element;
+import modeltext.ModeltextFactory;
+import modeltext.ValuedFeature;
 import mutatext.Option;
 import mutatext.Variable;
 import mutatext.Word;
@@ -10065,84 +10066,78 @@ public class MutatorUtils {
 		if (ModelManager.getObject(seed, object) != null) {
 			return ModelManager.getObject(seed, object);
 		}
-		else {
-			if (ModelManager.getObject(seed, objectByID) != null) {
-				EObject o = ModelManager.getObject(seed, objectByID);
-				if (o.eIsProxy()) {
-					return EcoreUtil.resolve(o, seed);
-				}
-				else {
-					return o;
-				}
+		if (ModelManager.getObject(seed, objectByID) != null) {
+			EObject o = ModelManager.getObject(seed, objectByID);
+			if (o.eIsProxy()) {
+				return EcoreUtil.resolve(o, seed);
 			}
 			else {
-				if (ModelManager.getObject(seed, objectByURI) != null) {
-					EObject o = ModelManager.getObject(seed, objectByURI);
-					if (o.eIsProxy()) {
-						return EcoreUtil.resolve(o, seed);
+				return o;
+			}
+		}
+		if (ModelManager.getObject(seed, objectByURI) != null) {
+			EObject o = ModelManager.getObject(seed, objectByURI);
+			if (o.eIsProxy()) {
+				return EcoreUtil.resolve(o, seed);
+			}
+			else {
+				return o;
+			}
+		}
+		if ((mutPaths != null) && (packages != null)) {
+			try {
+				Resource mutant = null;
+				EObject obj = null;
+				for (String mutatorPath : mutPaths) {
+					mutant = ModelManager.loadModel(packages, mutatorPath);
+					obj = ModelManager.getObject(mutant, object);
+					if (obj != null) {
+						break;
 					}
 					else {
-						return o;
-					}
-				}
-				else {
-					if ((mutPaths != null) && (packages != null)) {
-						try {
-							Resource mutant = null;
-							EObject obj = null;
-							for (String mutatorPath : mutPaths) {
-								mutant = ModelManager.loadModel(packages, mutatorPath);
-								obj = ModelManager.getObject(mutant, object);
-								if (obj != null) {
-									break;
-								}
-								else {
-									EObject o = ModelManager.getObject(mutant, objectByID);
-									if (o != null) {
-										if (o.eIsProxy()) {
-											obj = EcoreUtil.resolve(o, mutant);
-										}
-										else {
-											obj = o;
-										}
-									}
-								}
-								//Reload input
-								try {
-									mutant.unload();
-									mutant.load(null); 
-								} catch (Exception e) {}
-							}
-							if (obj != null) {
-								return obj;
+						EObject o = ModelManager.getObject(mutant, objectByID);
+						if (o != null) {
+							if (o.eIsProxy()) {
+								obj = EcoreUtil.resolve(o, mutant);
 							}
 							else {
-								for (String mutatorPath : mutPaths) {
-									mutant = ModelManager.loadModel(packages, mutatorPath);
-									IComparisonScope scope = new DefaultComparisonScope(seed, mutant, null);
-									Comparison comparison = EMFCompare.builder().build().compare(scope);
-									List<Diff> differences = comparison.getDifferences();
-									for (Diff diff : differences) {
-										if (diff instanceof ReferenceChange) {
-											obj = ((ReferenceChange) diff).getValue();
-											if (obj.eClass().getName().equals(object.eClass().getName())) {
-												return obj;
-											}
-										}
-									}
-									//Reload input
-									try {
-										mutant.unload();
-										mutant.load(null); 
-									} catch (Exception e) {}
-								}
+								obj = o;
 							}
-						} catch (ModelNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
 					}
+					//Reload input
+					try {
+						mutant.unload();
+						mutant.load(null); 
+					} catch (Exception e) {}
 				}
+				if (obj != null) {
+					return obj;
+				}
+				else {
+					for (String mutatorPath : mutPaths) {
+						mutant = ModelManager.loadModel(packages, mutatorPath);
+						IComparisonScope scope = new DefaultComparisonScope(seed, mutant, null);
+						Comparison comparison = EMFCompare.builder().build().compare(scope);
+						List<Diff> differences = comparison.getDifferences();
+						for (Diff diff : differences) {
+							if (diff instanceof ReferenceChange) {
+								obj = ((ReferenceChange) diff).getValue();
+								if (obj.eClass().getName().equals(object.eClass().getName())) {
+									return obj;
+								}
+							}
+						}
+						//Reload input
+						try {
+							mutant.unload();
+							mutant.load(null); 
+						} catch (Exception e) {}
+					}
+				}
+			} catch (ModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return null;
@@ -10423,6 +10418,10 @@ public class MutatorUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static Element getElement(EObject object, Resource model) {
+		List<EClass> types = new ArrayList<EClass>();
+		types.add(object.eClass());
+		types.addAll(object.eClass().getEAllSuperTypes());
+		
 		Iterator<EObject> objects = model.getAllContents();
 
 		if (object != null) {
@@ -10431,9 +10430,12 @@ public class MutatorUtils {
 				EObject obj = objects.next();
 				if (obj instanceof Element) {
 					Element element = (Element) obj;
-					if (EcoreUtil.equals(element.getType(), object.eClass())) {
-						if (element.getAtt() == null || element.getAtt().size() == 0) {
-							return element;
+					EClass type = element.getType();
+					for (EClass t : types) { 
+						if (type.getName().equals(t.getName())) {
+							if (element.getFeature() == null || element.getFeature().size() == 0) {
+								return element;
+							}
 						}
 					}
 				}
@@ -10446,6 +10448,10 @@ public class MutatorUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static Element getElementValues(EObject object, Resource model, boolean order) {
+		List<EClass> types = new ArrayList<EClass>();
+		types.add(object.eClass());
+		types.addAll(object.eClass().getEAllSuperTypes());
+
 		Iterator<EObject> objects = model.getAllContents();
 		
 		if (object != null) {
@@ -10454,45 +10460,160 @@ public class MutatorUtils {
 				EObject obj = objects.next();
 				if (obj instanceof Element) {
 					Element element = (Element) obj;
-					if (EcoreUtil.equals(element.getType(), object.eClass())) {
-						if (element.getAtt() == null || element.getAtt().size() == 0) {
-							continue;
-						}
-						Map<Attribute, EAttribute> atts = new HashMap<Attribute, EAttribute>();
-						for (Attribute att : element.getAtt()) {
-							EAttribute eAttribute = att.getAtt();
-							for (EAttribute eAtt : object.eClass().getEAllAttributes()) {
-								if (EcoreUtil.equals(eAttribute, eAtt)) {
-									atts.put(att, eAtt);
+					EClass type = element.getType();
+					for (EClass t : types) { 
+						if (type.getName().equals(t.getName())) {
+							if (element.getFeature() == null || element.getFeature().size() == 0) {
+								continue;
+							}
+							Map<ValuedFeature, EStructuralFeature> features = new HashMap<ValuedFeature, EStructuralFeature>();
+							for (ValuedFeature feature : element.getFeature()) {
+								EStructuralFeature eFeat = feature.getFeat();
+								for (EStructuralFeature eFeature : object.eClass().getEAllStructuralFeatures()) {
+									if (EcoreUtil.equals(eFeat, eFeature)) {
+										features.put(feature, eFeature);
+									}
 								}
 							}
-						}
-						boolean found = true;
-						for (Attribute att : atts.keySet()) {
-							Object value = object.eGet(atts.get(att));
-							if (order == true) {
-								if (att.isNegation() && (boolean) value == true) {
-									found = false;
-									break;
+							boolean found = true;
+							for (ValuedFeature feature : features.keySet()) {
+								Object value = object.eGet(features.get(feature));
+								if (value != null) {
+									if (feature.getRefFeature() == null && feature.getValue() == null) {
+										continue;
+									}
+									if (feature.getRefFeature() == null) {
+										if (value instanceof Boolean) {
+											Boolean booleanValue = (Boolean) value; 
+											if (order == true) {
+												if (feature.isNegation() && booleanValue == true) {
+													found = false;
+													break;
+												}
+												else if (!feature.isNegation() && booleanValue == false) {
+													found = false;
+													break;
+												}
+											}
+											else {
+												if (!feature.isNegation() && booleanValue == true) {
+													found = false;
+													break;
+												}
+												else if (feature.isNegation() && booleanValue == false) {
+													found = false;
+													break;
+												}
+											}
+										}
+									}
 								}
-								else if (!att.isNegation() && (boolean) value == false) {
+								if (value instanceof EObject) {
+									EObject ob = (EObject) value;
+									if (feature.getRefFeature() != null) {
+										EStructuralFeature eRefFeat = feature.getRefFeature();
+										EStructuralFeature eRefFeature = null;
+										for (EStructuralFeature eFeature : ob.eClass().getEAllStructuralFeatures()) {
+											if (EcoreUtil.equals(eRefFeat, eFeature)) {
+												eRefFeature = eFeature;
+											}
+										}
+										if (eRefFeature != null) {
+											Object v = ob.eGet(eRefFeature);
+											if (v != null) {
+												if (v instanceof Boolean) {
+													Boolean booleanValue = (Boolean) v; 
+													if (order == true) {
+														if (feature.isNegation() && booleanValue == true) {
+															found = false;
+															break;
+														}
+														else if (!feature.isNegation() && booleanValue == false) {
+															found = false;
+															break;
+														}
+													}
+													else {
+														if (!feature.isNegation() && booleanValue == true) {
+															found = false;
+															break;
+														}
+														else if (feature.isNegation() && booleanValue == false) {
+															found = false;
+															break;
+														}
+													}
+												}
+											}
+											if (feature.getValue().equals("null") && v != null) {
+												found = false;
+												break;
+											}
+										}
+									}
+								}
+								if (value instanceof List<?>) {
+									List<EObject> values = (List<EObject>) value;
+									if (feature.getRefFeature() == null && feature.getValue() == null && values.size() == 0) {
+										break;
+									}
+									if (feature.getRefFeature() != null) {
+										boolean one = false;
+										for (EObject ob : values) {
+											EStructuralFeature eRefFeat = feature.getRefFeature();
+											EStructuralFeature eRefFeature = null;
+											for (EStructuralFeature eFeature : ob.eClass().getEAllStructuralFeatures()) {
+												if (EcoreUtil.equals(eRefFeat, eFeature)) {
+													eRefFeature = eFeature;
+												}
+											}
+											if (eRefFeature != null) {
+												Object v = ob.eGet(eRefFeature);
+												if (v != null) {
+													if (v instanceof Boolean) {
+														Boolean booleanValue = (Boolean) v; 
+														if (order == true) {
+															if (feature.isNegation() && booleanValue == false) {
+																one = true;
+																break;
+															}
+															else if (!feature.isNegation() && booleanValue == true) {
+																one = true;
+																break;
+															}
+														}
+														else {
+															if (!feature.isNegation() && booleanValue == false) {
+																one = true;
+																break;
+															}
+															else if (feature.isNegation() && booleanValue == true) {
+																one = true;
+																break;
+															}
+														}
+													}
+												}
+												if (feature.getValue().equals("null") && v == null) {
+													one = true;
+													break;
+												}
+											}
+										}
+										if (one == false) {
+											found = false;
+											break;
+										}
+									}
+								}
+								if (feature.getValue().equals("null") && feature.getRefFeature() == null && value != null) {
 									found = false;
 									break;
 								}
 							}
-							else {
-								if (!att.isNegation() && (boolean) value == true) {
-									found = false;
-									break;
-								}
-								else if (att.isNegation() && (boolean) value == false) {
-									found = false;
-									break;
-								}
+							if (found == true) {
+								return element;
 							}
-						}
-						if (found == true) {
-							return element;
 						}
 					}
 				}
@@ -10505,6 +10626,10 @@ public class MutatorUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static List<Element> getAllElementValues(EObject object, Resource model) {
+		List<EClass> types = new ArrayList<EClass>();
+		types.add(object.eClass());
+		types.addAll(object.eClass().getEAllSuperTypes());
+
 		Iterator<EObject> objects = model.getAllContents();
 		
 		List<Element> elements = new ArrayList<Element>();
@@ -10514,11 +10639,17 @@ public class MutatorUtils {
 				EObject obj = objects.next();
 				if (obj instanceof Element) {
 					Element element = (Element) obj;
-					if (EcoreUtil.equals(element.getType(), object.eClass())) {
-						if (element.getAtt() == null || element.getAtt().size() == 0) {
-							continue;
+					EClass type = element.getType();
+					for (EClass t : types) { 
+						if (type.getName().equals(t.getName())) {
+							if (element.getFeature() == null || element.getFeature().size() == 0) {
+								Element emptyElement = ModeltextFactory.eINSTANCE.createElement();
+								emptyElement.setType(t);
+								elements.add(emptyElement);
+								continue;
+							}
+							elements.add(element);
 						}
-						elements.add(element);
 					}
 				}
 			}
@@ -10531,6 +10662,10 @@ public class MutatorUtils {
 	 * DSL modelText
 	 */
 	public static Element getRefElement(EObject object, EStructuralFeature feature, Resource model) {
+		List<EClass> types = new ArrayList<EClass>();
+		types.add(object.eClass());
+		types.addAll(object.eClass().getEAllSuperTypes());
+
 		Iterator<EObject> objects = model.getAllContents();
 
 		objects = model.getAllContents();
@@ -10539,16 +10674,21 @@ public class MutatorUtils {
 			if (obj instanceof Element) {
 				Element element = (Element) obj;
 				if (EcoreUtil.equals(element.getType(), object.eClass())) {
-					if (element.getAtt() == null || element.getAtt().size() == 0) {
-						if (feature != null) {
-							if (element.getRef() != null) {
-								if (EcoreUtil.equals(element.getRef().getEReferenceType(), feature.getEType())) {
+					EClass type = element.getType();
+					for (EClass t : types) { 
+						if (type.getName().equals(t.getName())) {
+							if (element.getFeature() == null || element.getFeature().size() == 0) {
+								if (feature != null) {
+									if (element.getRef() != null) {
+										if (EcoreUtil.equals(element.getRef().getEReferenceType(), feature.getEType())) {
+											return element;
+										}
+									}
+								}
+								else {
 									return element;
 								}
 							}
-						}
-						else {
-							return element;
 						}
 					}
 				}

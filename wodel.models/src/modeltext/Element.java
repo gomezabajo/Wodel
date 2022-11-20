@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>{@link modeltext.Element#getType <em>Type</em>}</li>
  *   <li>{@link modeltext.Element#getRef <em>Ref</em>}</li>
- *   <li>{@link modeltext.Element#getAtt <em>Att</em>}</li>
  *   <li>{@link modeltext.Element#getWords <em>Words</em>}</li>
+ *   <li>{@link modeltext.Element#getFeature <em>Feature</em>}</li>
  * </ul>
  *
  * @see modeltext.ModeltextPackage#getElement()
@@ -31,10 +31,6 @@ public interface Element extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
@@ -57,10 +53,6 @@ public interface Element extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref</em>' reference.
 	 * @see #setRef(EReference)
@@ -81,29 +73,9 @@ public interface Element extends EObject {
 	void setRef(EReference value);
 
 	/**
-	 * Returns the value of the '<em><b>Att</b></em>' containment reference list.
-	 * The list contents are of type {@link modeltext.Attribute}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Att</em>' containment reference list.
-	 * @see modeltext.ModeltextPackage#getElement_Att()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Attribute> getAtt();
-
-	/**
 	 * Returns the value of the '<em><b>Words</b></em>' containment reference list.
 	 * The list contents are of type {@link modeltext.Word}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Words</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Words</em>' containment reference list.
 	 * @see modeltext.ModeltextPackage#getElement_Words()
@@ -111,5 +83,17 @@ public interface Element extends EObject {
 	 * @generated
 	 */
 	EList<Word> getWords();
+
+	/**
+	 * Returns the value of the '<em><b>Feature</b></em>' containment reference list.
+	 * The list contents are of type {@link modeltext.ValuedFeature}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Feature</em>' containment reference list.
+	 * @see modeltext.ModeltextPackage#getElement_Feature()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ValuedFeature> getFeature();
 
 } // Element

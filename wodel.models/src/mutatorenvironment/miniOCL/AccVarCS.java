@@ -26,10 +26,6 @@ public interface AccVarCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Acc Var Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Acc Var Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Acc Var Name</em>' attribute.
 	 * @see #setAccVarName(String)
@@ -52,10 +48,6 @@ public interface AccVarCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Acc Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Acc Type</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Acc Type</em>' containment reference.
 	 * @see #setAccType(PathNameCS)
@@ -78,10 +70,6 @@ public interface AccVarCS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Acc Init Exp</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Acc Init Exp</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Acc Init Exp</em>' containment reference.
 	 * @see #setAccInitExp(ExpCS)

@@ -34,7 +34,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" lowerBound="1" eType="#//Order"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="#//Mode"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceTextConfig" eSuperTypes="#//TestConfiguration">
+  <eClassifiers xsi:type="ecore:EClass" name="TextConfiguration" eSuperTypes="#//TestConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -52,7 +52,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MatchPairs" eSuperTypes="#//MutatorTests">
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
-        eType="#//TestConfiguration" containment="true"/>
+        eType="#//TextConfiguration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MissingWords" eSuperTypes="#//MutatorTests">
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
@@ -60,7 +60,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceText" eSuperTypes="#//MutatorTests">
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
-        eType="#//MultiChoiceTextConfig" containment="true"/>
+        eType="#//TextConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlternativeText" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//TextConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragAndDropText" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//TestConfiguration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Test">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"

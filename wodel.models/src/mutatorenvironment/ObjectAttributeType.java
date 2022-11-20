@@ -26,10 +26,6 @@ public interface ObjectAttributeType extends AttributeEvaluationType {
 	/**
 	 * Returns the value of the '<em><b>Obj Sel</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Obj Sel</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Obj Sel</em>' reference.
 	 * @see #setObjSel(ObjectEmitter)
@@ -52,10 +48,6 @@ public interface ObjectAttributeType extends AttributeEvaluationType {
 	/**
 	 * Returns the value of the '<em><b>Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attribute</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute</em>' reference.
 	 * @see #setAttribute(EAttribute)
@@ -79,10 +71,6 @@ public interface ObjectAttributeType extends AttributeEvaluationType {
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.Operator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' attribute.
 	 * @see mutatorenvironment.Operator

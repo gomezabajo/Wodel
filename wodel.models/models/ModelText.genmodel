@@ -6,19 +6,25 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>ModelText.ecore</foreignModel>
   <genPackages prefix="Modeltext" disposableProviderFactory="true" ecorePackage="ModelText.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ModelText.ecore#//MacroItem">
+      <genEnumLiterals ecoreEnumLiteral="ModelText.ecore#//MacroItem/type"/>
+    </genEnums>
     <genClasses ecoreClass="ModelText.ecore#//IdentifyElements">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelText.ecore#//IdentifyElements/metamodel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelText.ecore#//IdentifyElements/elements"/>
     </genClasses>
+    <genClasses ecoreClass="ModelText.ecore#//ValuedFeature">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//ValuedFeature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelText.ecore#//ValuedFeature/negation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//ValuedFeature/feat"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//ValuedFeature/refFeature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelText.ecore#//ValuedFeature/value"/>
+    </genClasses>
     <genClasses ecoreClass="ModelText.ecore#//Element">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//Element/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//Element/ref"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelText.ecore#//Element/att"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelText.ecore#//Element/words"/>
-    </genClasses>
-    <genClasses ecoreClass="ModelText.ecore#//Attribute">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelText.ecore#//Attribute/negation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//Attribute/att"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelText.ecore#//Element/feature"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ModelText.ecore#//Word"/>
     <genClasses ecoreClass="ModelText.ecore#//Constant">
@@ -27,6 +33,9 @@
     <genClasses ecoreClass="ModelText.ecore#//Variable">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//Variable/ref"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelText.ecore#//Variable/id"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelText.ecore#//Macro">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelText.ecore#//Macro/item"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

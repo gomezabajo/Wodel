@@ -27,10 +27,6 @@ public interface MultiChoiceEmConfig extends TestConfiguration {
 	 * Returns the value of the '<em><b>Weighted</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Weighted</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Weighted</em>' attribute.
 	 * @see #setWeighted(boolean)
@@ -53,10 +49,6 @@ public interface MultiChoiceEmConfig extends TestConfiguration {
 	/**
 	 * Returns the value of the '<em><b>Penalty</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Penalty</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Penalty</em>' attribute.
 	 * @see #setPenalty(double)
@@ -80,10 +72,6 @@ public interface MultiChoiceEmConfig extends TestConfiguration {
 	 * Returns the value of the '<em><b>Order</b></em>' attribute.
 	 * The literals are from the enumeration {@link edutest.Order}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Order</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Order</em>' attribute.
 	 * @see edutest.Order
@@ -109,10 +97,6 @@ public interface MultiChoiceEmConfig extends TestConfiguration {
 	 * Returns the value of the '<em><b>Mode</b></em>' attribute.
 	 * The literals are from the enumeration {@link edutest.Mode}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mode</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mode</em>' attribute.
 	 * @see edutest.Mode

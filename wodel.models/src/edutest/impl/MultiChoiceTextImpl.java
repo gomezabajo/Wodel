@@ -4,7 +4,8 @@ package edutest.impl;
 
 import edutest.EdutestPackage;
 import edutest.MultiChoiceText;
-import edutest.MultiChoiceTextConfig;
+import edutest.TextConfiguration;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -35,7 +36,7 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	 * @generated
 	 * @ordered
 	 */
-	protected MultiChoiceTextConfig config;
+	protected TextConfiguration config;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,7 +63,7 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	 * @generated
 	 */
 	@Override
-	public MultiChoiceTextConfig getConfig() {
+	public TextConfiguration getConfig() {
 		return config;
 	}
 
@@ -71,8 +72,8 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetConfig(MultiChoiceTextConfig newConfig, NotificationChain msgs) {
-		MultiChoiceTextConfig oldConfig = config;
+	public NotificationChain basicSetConfig(TextConfiguration newConfig, NotificationChain msgs) {
+		TextConfiguration oldConfig = config;
 		config = newConfig;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EdutestPackage.MULTI_CHOICE_TEXT__CONFIG, oldConfig, newConfig);
@@ -87,7 +88,7 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	 * @generated
 	 */
 	@Override
-	public void setConfig(MultiChoiceTextConfig newConfig) {
+	public void setConfig(TextConfiguration newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;
 			if (config != null)
@@ -138,7 +139,7 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EdutestPackage.MULTI_CHOICE_TEXT__CONFIG:
-				setConfig((MultiChoiceTextConfig)newValue);
+				setConfig((TextConfiguration)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -153,7 +154,7 @@ public class MultiChoiceTextImpl extends MutatorTestsImpl implements MultiChoice
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EdutestPackage.MULTI_CHOICE_TEXT__CONFIG:
-				setConfig((MultiChoiceTextConfig)null);
+				setConfig((TextConfiguration)null);
 				return;
 		}
 		super.eUnset(featureID);

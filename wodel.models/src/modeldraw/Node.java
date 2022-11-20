@@ -4,6 +4,7 @@ package modeldraw;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -15,12 +16,15 @@ import org.eclipse.emf.ecore.EReference;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link modeldraw.Node#getAttribute <em>Attribute</em>}</li>
+ *   <li>{@link modeldraw.Node#getFeature <em>Feature</em>}</li>
  *   <li>{@link modeldraw.Node#getReference <em>Reference</em>}</li>
  *   <li>{@link modeldraw.Node#getType <em>Type</em>}</li>
  *   <li>{@link modeldraw.Node#getShape <em>Shape</em>}</li>
  *   <li>{@link modeldraw.Node#getColor <em>Color</em>}</li>
  *   <li>{@link modeldraw.Node#getStyle <em>Style</em>}</li>
+ *   <li>{@link modeldraw.Node#getPathShape <em>Path Shape</em>}</li>
+ *   <li>{@link modeldraw.Node#getTargetNode <em>Target Node</em>}</li>
+ *   <li>{@link modeldraw.Node#getTargetFeature <em>Target Feature</em>}</li>
  * </ul>
  *
  * @see modeldraw.ModeldrawPackage#getNode()
@@ -29,29 +33,21 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface Node extends NamedItem {
 	/**
-	 * Returns the value of the '<em><b>Attribute</b></em>' containment reference list.
-	 * The list contents are of type {@link modeldraw.BooleanAttribute}.
+	 * Returns the value of the '<em><b>Feature</b></em>' containment reference list.
+	 * The list contents are of type {@link modeldraw.ValuedFeature}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attribute</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attribute</em>' containment reference list.
-	 * @see modeldraw.ModeldrawPackage#getNode_Attribute()
+	 * @return the value of the '<em>Feature</em>' containment reference list.
+	 * @see modeldraw.ModeldrawPackage#getNode_Feature()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<BooleanAttribute> getAttribute();
+	EList<ValuedFeature> getFeature();
 
 	/**
 	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Reference</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getNode_Reference()
@@ -64,10 +60,6 @@ public interface Node extends NamedItem {
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.NodeType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see modeldraw.NodeType
@@ -93,10 +85,6 @@ public interface Node extends NamedItem {
 	 * Returns the value of the '<em><b>Shape</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.NodeShape}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Shape</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Shape</em>' attribute.
 	 * @see modeldraw.NodeShape
@@ -122,10 +110,6 @@ public interface Node extends NamedItem {
 	 * Returns the value of the '<em><b>Color</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.NodeColor}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Color</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Color</em>' attribute.
 	 * @see modeldraw.NodeColor
@@ -151,10 +135,6 @@ public interface Node extends NamedItem {
 	 * Returns the value of the '<em><b>Style</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.NodeStyle}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Style</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Style</em>' attribute.
 	 * @see modeldraw.NodeStyle
@@ -175,5 +155,61 @@ public interface Node extends NamedItem {
 	 * @generated
 	 */
 	void setStyle(NodeStyle value);
+
+	/**
+	 * Returns the value of the '<em><b>Path Shape</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Path Shape</em>' attribute.
+	 * @see #setPathShape(String)
+	 * @see modeldraw.ModeldrawPackage#getNode_PathShape()
+	 * @model
+	 * @generated
+	 */
+	String getPathShape();
+
+	/**
+	 * Sets the value of the '{@link modeldraw.Node#getPathShape <em>Path Shape</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Path Shape</em>' attribute.
+	 * @see #getPathShape()
+	 * @generated
+	 */
+	void setPathShape(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Node</em>' reference.
+	 * @see #setTargetNode(EClass)
+	 * @see modeldraw.ModeldrawPackage#getNode_TargetNode()
+	 * @model
+	 * @generated
+	 */
+	EClass getTargetNode();
+
+	/**
+	 * Sets the value of the '{@link modeldraw.Node#getTargetNode <em>Target Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Node</em>' reference.
+	 * @see #getTargetNode()
+	 * @generated
+	 */
+	void setTargetNode(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Feature</b></em>' containment reference list.
+	 * The list contents are of type {@link modeldraw.ValuedFeature}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Feature</em>' containment reference list.
+	 * @see modeldraw.ModeldrawPackage#getNode_TargetFeature()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ValuedFeature> getTargetFeature();
 
 } // Node

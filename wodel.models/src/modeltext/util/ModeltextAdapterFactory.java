@@ -72,12 +72,12 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 				return createIdentifyElementsAdapter();
 			}
 			@Override
-			public Adapter caseElement(Element object) {
-				return createElementAdapter();
+			public Adapter caseValuedFeature(ValuedFeature object) {
+				return createValuedFeatureAdapter();
 			}
 			@Override
-			public Adapter caseAttribute(Attribute object) {
-				return createAttributeAdapter();
+			public Adapter caseElement(Element object) {
+				return createElementAdapter();
 			}
 			@Override
 			public Adapter caseWord(Word object) {
@@ -90,6 +90,10 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseVariable(Variable object) {
 				return createVariableAdapter();
+			}
+			@Override
+			public Adapter caseMacro(Macro object) {
+				return createMacroAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -126,6 +130,20 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link modeltext.ValuedFeature <em>Valued Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see modeltext.ValuedFeature
+	 * @generated
+	 */
+	public Adapter createValuedFeatureAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link modeltext.Element <em>Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -136,20 +154,6 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link modeltext.Attribute <em>Attribute</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see modeltext.Attribute
-	 * @generated
-	 */
-	public Adapter createAttributeAdapter() {
 		return null;
 	}
 
@@ -192,6 +196,20 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link modeltext.Macro <em>Macro</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see modeltext.Macro
+	 * @generated
+	 */
+	public Adapter createMacroAdapter() {
 		return null;
 	}
 

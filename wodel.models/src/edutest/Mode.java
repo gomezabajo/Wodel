@@ -41,10 +41,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>Radiobutton</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Radiobutton</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RADIOBUTTON
 	 * @model name="radiobutton"
@@ -56,10 +52,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>Checkbox</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Checkbox</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CHECKBOX
 	 * @model name="checkbox"

@@ -4,9 +4,9 @@ package modeltext.impl;
 
 import java.util.Collection;
 
-import modeltext.Attribute;
 import modeltext.Element;
 import modeltext.ModeltextPackage;
+import modeltext.ValuedFeature;
 import modeltext.Word;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -34,8 +34,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link modeltext.impl.ElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link modeltext.impl.ElementImpl#getRef <em>Ref</em>}</li>
- *   <li>{@link modeltext.impl.ElementImpl#getAtt <em>Att</em>}</li>
  *   <li>{@link modeltext.impl.ElementImpl#getWords <em>Words</em>}</li>
+ *   <li>{@link modeltext.impl.ElementImpl#getFeature <em>Feature</em>}</li>
  * </ul>
  *
  * @generated
@@ -62,16 +62,6 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	protected EReference ref;
 
 	/**
-	 * The cached value of the '{@link #getAtt() <em>Att</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAtt()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Attribute> att;
-
-	/**
 	 * The cached value of the '{@link #getWords() <em>Words</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -80,6 +70,16 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * @ordered
 	 */
 	protected EList<Word> words;
+
+	/**
+	 * The cached value of the '{@link #getFeature() <em>Feature</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFeature()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ValuedFeature> feature;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -105,6 +105,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -131,6 +132,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;
@@ -143,6 +145,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRef() {
 		if (ref != null && ref.eIsProxy()) {
 			InternalEObject oldRef = (InternalEObject)ref;
@@ -169,6 +172,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRef(EReference newRef) {
 		EReference oldRef = ref;
 		ref = newRef;
@@ -181,18 +185,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Attribute> getAtt() {
-		if (att == null) {
-			att = new EObjectContainmentEList<Attribute>(Attribute.class, this, ModeltextPackage.ELEMENT__ATT);
-		}
-		return att;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public EList<Word> getWords() {
 		if (words == null) {
 			words = new EObjectContainmentEList<Word>(Word.class, this, ModeltextPackage.ELEMENT__WORDS);
@@ -206,12 +199,25 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * @generated
 	 */
 	@Override
+	public EList<ValuedFeature> getFeature() {
+		if (feature == null) {
+			feature = new EObjectContainmentEList<ValuedFeature>(ValuedFeature.class, this, ModeltextPackage.ELEMENT__FEATURE);
+		}
+		return feature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModeltextPackage.ELEMENT__ATT:
-				return ((InternalEList<?>)getAtt()).basicRemove(otherEnd, msgs);
 			case ModeltextPackage.ELEMENT__WORDS:
 				return ((InternalEList<?>)getWords()).basicRemove(otherEnd, msgs);
+			case ModeltextPackage.ELEMENT__FEATURE:
+				return ((InternalEList<?>)getFeature()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -230,10 +236,10 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			case ModeltextPackage.ELEMENT__REF:
 				if (resolve) return getRef();
 				return basicGetRef();
-			case ModeltextPackage.ELEMENT__ATT:
-				return getAtt();
 			case ModeltextPackage.ELEMENT__WORDS:
 				return getWords();
+			case ModeltextPackage.ELEMENT__FEATURE:
+				return getFeature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -253,13 +259,13 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			case ModeltextPackage.ELEMENT__REF:
 				setRef((EReference)newValue);
 				return;
-			case ModeltextPackage.ELEMENT__ATT:
-				getAtt().clear();
-				getAtt().addAll((Collection<? extends Attribute>)newValue);
-				return;
 			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
 				getWords().addAll((Collection<? extends Word>)newValue);
+				return;
+			case ModeltextPackage.ELEMENT__FEATURE:
+				getFeature().clear();
+				getFeature().addAll((Collection<? extends ValuedFeature>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -279,11 +285,11 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			case ModeltextPackage.ELEMENT__REF:
 				setRef((EReference)null);
 				return;
-			case ModeltextPackage.ELEMENT__ATT:
-				getAtt().clear();
-				return;
 			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
+				return;
+			case ModeltextPackage.ELEMENT__FEATURE:
+				getFeature().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -301,10 +307,10 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 				return type != null;
 			case ModeltextPackage.ELEMENT__REF:
 				return ref != null;
-			case ModeltextPackage.ELEMENT__ATT:
-				return att != null && !att.isEmpty();
 			case ModeltextPackage.ELEMENT__WORDS:
 				return words != null && !words.isEmpty();
+			case ModeltextPackage.ELEMENT__FEATURE:
+				return feature != null && !feature.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

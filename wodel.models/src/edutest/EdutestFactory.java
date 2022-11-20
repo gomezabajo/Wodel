@@ -58,13 +58,13 @@ public interface EdutestFactory extends EFactory {
 	MultiChoiceEmConfig createMultiChoiceEmConfig();
 
 	/**
-	 * Returns a new object of class '<em>Multi Choice Text Config</em>'.
+	 * Returns a new object of class '<em>Text Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Multi Choice Text Config</em>'.
+	 * @return a new object of class '<em>Text Configuration</em>'.
 	 * @generated
 	 */
-	MultiChoiceTextConfig createMultiChoiceTextConfig();
+	TextConfiguration createTextConfiguration();
 
 	/**
 	 * Returns a new object of class '<em>Alternative Response</em>'.
@@ -119,6 +119,24 @@ public interface EdutestFactory extends EFactory {
 	 * @generated
 	 */
 	MultiChoiceText createMultiChoiceText();
+
+	/**
+	 * Returns a new object of class '<em>Alternative Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Alternative Text</em>'.
+	 * @generated
+	 */
+	AlternativeText createAlternativeText();
+
+	/**
+	 * Returns a new object of class '<em>Drag And Drop Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Drag And Drop Text</em>'.
+	 * @generated
+	 */
+	DragAndDropText createDragAndDropText();
 
 	/**
 	 * Returns a new object of class '<em>Test</em>'.

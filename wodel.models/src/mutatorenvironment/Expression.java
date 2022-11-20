@@ -28,10 +28,6 @@ public interface Expression extends EObject {
 	/**
 	 * Returns the value of the '<em><b>First</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>First</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First</em>' containment reference.
 	 * @see #setFirst(Evaluation)
@@ -55,10 +51,6 @@ public interface Expression extends EObject {
 	 * Returns the value of the '<em><b>Operator</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.BinaryOperator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operator</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getExpression_Operator()
@@ -71,10 +63,6 @@ public interface Expression extends EObject {
 	 * Returns the value of the '<em><b>Second</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Evaluation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Second</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Second</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getExpression_Second()

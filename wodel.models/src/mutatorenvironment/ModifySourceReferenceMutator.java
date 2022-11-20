@@ -26,10 +26,6 @@ public interface ModifySourceReferenceMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Type</em>' reference.
 	 * @see #setRefType(EReference)
@@ -52,10 +48,6 @@ public interface ModifySourceReferenceMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' containment reference.
 	 * @see #setSource(ObSelectionStrategy)
@@ -78,10 +70,6 @@ public interface ModifySourceReferenceMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>New Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>New Source</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Source</em>' containment reference.
 	 * @see #setNewSource(ObSelectionStrategy)

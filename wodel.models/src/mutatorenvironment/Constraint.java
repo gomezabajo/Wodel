@@ -32,10 +32,6 @@ public interface Constraint extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
@@ -58,10 +54,6 @@ public interface Constraint extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
@@ -85,10 +77,6 @@ public interface Constraint extends EObject {
 	 * Returns the value of the '<em><b>Expressions</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.miniOCL.InvariantCS}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Expressions</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Expressions</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint_Expressions()
@@ -101,10 +89,6 @@ public interface Constraint extends EObject {
 	 * Returns the value of the '<em><b>Rules</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rules</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rules</em>' attribute list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint_Rules()

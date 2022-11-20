@@ -61,6 +61,7 @@ public abstract class ItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getName() {
 		if (name != null && name.eIsProxy()) {
 			InternalEObject oldName = (InternalEObject)name;
@@ -87,6 +88,7 @@ public abstract class ItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(EClass newName) {
 		EClass oldName = name;
 		name = newName;

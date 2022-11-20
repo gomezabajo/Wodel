@@ -3,7 +3,9 @@
 package edutest.impl;
 
 import edutest.AlternativeResponse;
+import edutest.AlternativeText;
 import edutest.Configuration;
+import edutest.DragAndDropText;
 import edutest.EdutestFactory;
 import edutest.EdutestPackage;
 import edutest.MatchPairs;
@@ -13,7 +15,6 @@ import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
 import edutest.MultiChoiceEmendation;
 import edutest.MultiChoiceText;
-import edutest.MultiChoiceTextConfig;
 import edutest.MutatorTests;
 import edutest.Navigation;
 import edutest.Order;
@@ -21,12 +22,16 @@ import edutest.Program;
 import edutest.ProgramConfiguration;
 import edutest.Test;
 import edutest.TestConfiguration;
+import edutest.TextConfiguration;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import mutatorenvironment.impl.MutatorenvironmentPackageImpl;
+
 import mutatorenvironment.miniOCL.MiniOCLPackage;
+
 import mutatorenvironment.miniOCL.impl.MiniOCLPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -89,7 +94,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass multiChoiceTextConfigEClass = null;
+	private EClass textConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -132,6 +137,20 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	private EClass multiChoiceTextEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass alternativeTextEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dragAndDropTextEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -398,8 +417,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	@Override
-	public EClass getMultiChoiceTextConfig() {
-		return multiChoiceTextConfigEClass;
+	public EClass getTextConfiguration() {
+		return textConfigurationEClass;
 	}
 
 	/**
@@ -408,8 +427,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	@Override
-	public EAttribute getMultiChoiceTextConfig_Identifier() {
-		return (EAttribute)multiChoiceTextConfigEClass.getEStructuralFeatures().get(0);
+	public EAttribute getTextConfiguration_Identifier() {
+		return (EAttribute)textConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -530,6 +549,46 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	@Override
 	public EReference getMultiChoiceText_Config() {
 		return (EReference)multiChoiceTextEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getAlternativeText() {
+		return alternativeTextEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getAlternativeText_Config() {
+		return (EReference)alternativeTextEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getDragAndDropText() {
+		return dragAndDropTextEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getDragAndDropText_Config() {
+		return (EReference)dragAndDropTextEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -663,8 +722,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__ORDER);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__MODE);
 
-		multiChoiceTextConfigEClass = createEClass(MULTI_CHOICE_TEXT_CONFIG);
-		createEAttribute(multiChoiceTextConfigEClass, MULTI_CHOICE_TEXT_CONFIG__IDENTIFIER);
+		textConfigurationEClass = createEClass(TEXT_CONFIGURATION);
+		createEAttribute(textConfigurationEClass, TEXT_CONFIGURATION__IDENTIFIER);
 
 		alternativeResponseEClass = createEClass(ALTERNATIVE_RESPONSE);
 		createEReference(alternativeResponseEClass, ALTERNATIVE_RESPONSE__CONFIG);
@@ -683,6 +742,12 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		multiChoiceTextEClass = createEClass(MULTI_CHOICE_TEXT);
 		createEReference(multiChoiceTextEClass, MULTI_CHOICE_TEXT__CONFIG);
+
+		alternativeTextEClass = createEClass(ALTERNATIVE_TEXT);
+		createEReference(alternativeTextEClass, ALTERNATIVE_TEXT__CONFIG);
+
+		dragAndDropTextEClass = createEClass(DRAG_AND_DROP_TEXT);
+		createEReference(dragAndDropTextEClass, DRAG_AND_DROP_TEXT__CONFIG);
 
 		testEClass = createEClass(TEST);
 		createEAttribute(testEClass, TEST__SOURCE);
@@ -730,13 +795,15 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		programConfigurationEClass.getESuperTypes().add(this.getConfiguration());
 		testConfigurationEClass.getESuperTypes().add(this.getConfiguration());
 		multiChoiceEmConfigEClass.getESuperTypes().add(this.getTestConfiguration());
-		multiChoiceTextConfigEClass.getESuperTypes().add(this.getTestConfiguration());
+		textConfigurationEClass.getESuperTypes().add(this.getTestConfiguration());
 		alternativeResponseEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceDiagramEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceEmendationEClass.getESuperTypes().add(this.getMutatorTests());
 		matchPairsEClass.getESuperTypes().add(this.getMutatorTests());
 		missingWordsEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceTextEClass.getESuperTypes().add(this.getMutatorTests());
+		alternativeTextEClass.getESuperTypes().add(this.getMutatorTests());
+		dragAndDropTextEClass.getESuperTypes().add(this.getMutatorTests());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(programEClass, Program.class, "Program", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -761,8 +828,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEAttribute(getMultiChoiceEmConfig_Order(), this.getOrder(), "order", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMultiChoiceEmConfig_Mode(), this.getMode(), "mode", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(multiChoiceTextConfigEClass, MultiChoiceTextConfig.class, "MultiChoiceTextConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMultiChoiceTextConfig_Identifier(), ecorePackage.getEString(), "identifier", null, 1, 1, MultiChoiceTextConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(textConfigurationEClass, TextConfiguration.class, "TextConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTextConfiguration_Identifier(), ecorePackage.getEString(), "identifier", null, 1, 1, TextConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(alternativeResponseEClass, AlternativeResponse.class, "AlternativeResponse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAlternativeResponse_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, AlternativeResponse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -774,13 +841,19 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEReference(getMultiChoiceEmendation_Config(), this.getMultiChoiceEmConfig(), null, "config", null, 1, 1, MultiChoiceEmendation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(matchPairsEClass, MatchPairs.class, "MatchPairs", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMatchPairs_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, MatchPairs.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMatchPairs_Config(), this.getTextConfiguration(), null, "config", null, 1, 1, MatchPairs.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(missingWordsEClass, MissingWords.class, "MissingWords", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMissingWords_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, MissingWords.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiChoiceTextEClass, MultiChoiceText.class, "MultiChoiceText", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMultiChoiceText_Config(), this.getMultiChoiceTextConfig(), null, "config", null, 1, 1, MultiChoiceText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMultiChoiceText_Config(), this.getTextConfiguration(), null, "config", null, 1, 1, MultiChoiceText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(alternativeTextEClass, AlternativeText.class, "AlternativeText", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAlternativeText_Config(), this.getTextConfiguration(), null, "config", null, 1, 1, AlternativeText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(dragAndDropTextEClass, DragAndDropText.class, "DragAndDropText", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDragAndDropText_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, DragAndDropText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testEClass, Test.class, "Test", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTest_Source(), ecorePackage.getEString(), "source", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

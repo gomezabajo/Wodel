@@ -27,10 +27,6 @@ public interface Program extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Config</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Config</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Config</em>' containment reference.
 	 * @see #setConfig(ProgramConfiguration)
@@ -54,10 +50,6 @@ public interface Program extends EObject {
 	 * Returns the value of the '<em><b>Exercises</b></em>' containment reference list.
 	 * The list contents are of type {@link edutest.MutatorTests}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exercises</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exercises</em>' containment reference list.
 	 * @see edutest.EdutestPackage#getProgram_Exercises()

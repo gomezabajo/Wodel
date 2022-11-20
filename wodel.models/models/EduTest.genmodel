@@ -41,8 +41,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/order"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/mode"/>
     </genClasses>
-    <genClasses ecoreClass="EduTest.ecore#//MultiChoiceTextConfig">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceTextConfig/identifier"/>
+    <genClasses ecoreClass="EduTest.ecore#//TextConfiguration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TextConfiguration/identifier"/>
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//AlternativeResponse">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//AlternativeResponse/config"/>
@@ -61,6 +61,12 @@
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//MultiChoiceText">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//MultiChoiceText/config"/>
+    </genClasses>
+    <genClasses ecoreClass="EduTest.ecore#//AlternativeText">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//AlternativeText/config"/>
+    </genClasses>
+    <genClasses ecoreClass="EduTest.ecore#//DragAndDropText">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//DragAndDropText/config"/>
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//Test">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//Test/source"/>

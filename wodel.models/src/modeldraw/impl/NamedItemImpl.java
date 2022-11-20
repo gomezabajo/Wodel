@@ -61,6 +61,7 @@ public abstract class NamedItemImpl extends ItemImpl implements NamedItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttName() {
 		if (attName != null && attName.eIsProxy()) {
 			InternalEObject oldAttName = (InternalEObject)attName;
@@ -87,6 +88,7 @@ public abstract class NamedItemImpl extends ItemImpl implements NamedItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttName(EAttribute newAttName) {
 		EAttribute oldAttName = attName;
 		attName = newAttName;

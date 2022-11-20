@@ -35,6 +35,10 @@ import java.util.ArrayList
 import java.util.TreeMap
 import java.util.HashMap
 import edutest.MultiChoiceText
+import edutest.AlternativeText
+import edutest.DragAndDropText
+import org.eclipse.emf.ecore.EClass
+import mutatorenvironment.MutatorEnvironment
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -83,11 +87,14 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 
 	def compile(Program program, Resource resource) '''
 		«{buildOptions(program, resource, blocks, program.class); ""}»
+		<!--«var List<EPackage> packages = ModelManager.loadMetaModel((blocks.get(0).eContainer as MutatorEnvironment).definition.metamodel)»-->
+		<!--«var String domain = packages.get(0).getNsURI().replace("http://", "")»-->
+		<!--«domain = domain.substring(0, domain.lastIndexOf("/")).replace("/", "")»-->
 		<?xml version="1.0" encoding="UTF-8"?>
 		<quiz>
 		  <question type="category">
 		    <category>
-		      <text>$course$/top/dfa</text>
+		      <text>$course$/top/«domain»</text>
 		    </category>
 		    <info format="moodle_auto_format">
 		      <text>Default category in the context of deterministic finite automata.</text>
@@ -109,7 +116,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		    <questiontext format="html">
 		      <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
 		      <!-- «var UUID uuid = UUID.randomUUID()»-->
-		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="46%" height="46%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="60%" height="60%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
 		<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
 		    </questiontext>
 		    <generalfeedback format="html">
@@ -194,7 +201,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		   <!-- «var UUID uuid = UUID.randomUUID()»-->
            «IF diagram.equals(test.source.replace('.model', '.png'))»
            <answer fraction="100" format="html">
-           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
            <feedback format="html">
            <text></text>
@@ -204,7 +211,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «IF counter < min - 1»
            «{counter++; ""}»
            <answer fraction="0" format="html">
-           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
            <feedback format="html">
            <text></text>
@@ -264,7 +271,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           </name>
           <questiontext format="html">
             <!-- «var UUID uuid = UUID.randomUUID()»-->
-			<text><![CDATA[<p>«test.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="multiple choice" width="46%" height="46%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+			<text><![CDATA[<p>«test.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="multiple choice" width="60%" height="60%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
             <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
           </questiontext>
           <generalfeedback format="html">
@@ -408,21 +415,28 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           «{k++; ""}»
         «ENDIF»
         «ENDFOR»
+        <!--«var Map<Test, Map<TestOption, String>> mapPairOptions = new HashMap<Test, Map<TestOption, String>>()»-->
 		«FOR test : exercise.tests»
 		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
           «var int k = 0»
           «var int counter = 0»
-          «var List<String> textOptions = new ArrayList<String>()»
+          <!--«var Map<TestOption, String> mapOptions = new HashMap<TestOption, String>()»-->
           «FOR TestOption opt : options.get(exercise).get(test)»
+          «var List<String> textOptions = new ArrayList<String>()»
           «FOR String key : opt.text.keySet()»
-          «FOR String text : opt.text.get(key)»
+          <!--«var String text = opt.text.get(key).get(0)»-->
           «IF !textOptions.contains(text)»
           «{counter++; ""}»
           «{textOptions.add(text); ""}»
           «ENDIF»
           «ENDFOR»
+          «var String pairOptions = ""»
+          «FOR String textOption : textOptions»
+          <!--«pairOptions += textOption.trim() + ".<br>"»-->
           «ENDFOR»
+          «{mapOptions.put(opt, pairOptions)}»
           «ENDFOR»
+          «{mapPairOptions.put(test, mapOptions)}»
           «IF min > counter»
           «{min = counter; ""}»
           «ENDIF»
@@ -436,17 +450,18 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!--«opt = options.get(exercise).get(test).get(index)»-->
         «ENDIF»
         «IF opt !== null»
-        <!--«var String diagram = ''»-->
-        <!--«diagram = opt.path»-->
+        <!--«var String seed = ''»-->
+        <!--«seed = opt.path»-->
         <question type="matching">
           <name>
              <text>Question «i++»</text>
           </name>
           <questiontext format="html">
+          <!--«var String question = test.question.replace("\"", "'")»-->
           <!-- «var UUID uuid = UUID.randomUUID()»-->
-          <text><![CDATA[<p>Match the correct option on the right with each of the statements on the left<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-          <!--<text><![CDATA[<p>Empareja cada uno de los enunciados de la izquierda con la opci&#243;n correcta de la derecha<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>-->
-          <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
+          <text><![CDATA[<p>«question.trim()»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+          <!--<text><![CDATA[<p>Empareja cada uno de los enunciados de la izquierda con la opci&#243;n correcta de la derecha<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>-->
+          <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(seed)»</file>
           </questiontext>
           <generalfeedback format="html">
           <text></text>
@@ -469,32 +484,32 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           <text>Wrong answer.</text>
           </incorrectfeedback>
           <shownumcorrect/>
-          «var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»
+          <!--«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»-->
+          <!--«var int keyCounter = 0»-->
           «FOR TestOption op : options.get(exercise).get(test)»
             «IF test.expression == true»
-            «var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)»
-            «IF key.length() <= 36»
+            «var String key = getText((exercise as MatchPairs).config.identifier, op.entry.getKey().getURI().toFileString(), resource)»
+            «IF key.length() <= 127»
             «var boolean found = false»
-            «FOR int length : entries.keySet()»
-            «var SimpleEntry<String, String> entry = entries.get(length)»
-            «IF entry.getValue().equals(key)»
+            «FOR int entryKey : entries.keySet()»
+            «var SimpleEntry<String, String> entry = entries.get(entryKey)»
+            «IF entry.getKey().equals(key)»
             «{found = true; ""}»
             «ENDIF»
             «ENDFOR»
             «IF found == false»
-            «var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())»
-            «{entries.put(key.length,  entry); ""}»
+            «var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, mapPairOptions.get(test).get(op).trim())»
+            «{entries.put(keyCounter++, entry); ""}»
             «ENDIF»
             «ENDIF»
             «ENDIF»
-          «ENDFOR»          
-          «var String question = test.question.replace("\"", "'")»
+          «ENDFOR»
           «var int counter = 0»
-          «FOR int length : entries.keySet()»
+          «FOR int key : entries.keySet()»
           «IF counter < min»
-          «var SimpleEntry<String, String> entry = entries.get(length)»
+          «var SimpleEntry<String, String> entry = entries.get(key)»
           <subquestion format="html">
-			<text><![CDATA[<p>«question + entry.getKey()»<br></p>]]></text>
+			<text><![CDATA[<p>«entry.getKey()»<br></p>]]></text>
           <answer>
           <text><![CDATA[<p>«entry.getValue()»<br></p>]]></text>
           </answer>
@@ -534,17 +549,19 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!--«opWithGaps += text + "%" + k + " "»-->
         «ENDFOR»
         <!-- «k = tmp»-->
-        <!-- «var List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = op.options.get(key)»-->
-        «FOR SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries»
+        <!-- «var List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = op.options.get(key)»-->
+        «FOR ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries»
         <!--«solution++»-->
-        «IF entry.getValue().getValue() == true»
+        «IF entry.getValue().getValue().getValue().getValue() == true»
         <!-- «k++»-->
         <!-- «opWithGaps = opWithGaps.replace("%" + k, "[[" + solution + "]]")»-->
         «ENDIF»
         «ENDFOR»
+        <!-- «k++»-->
+        <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
 		<!-- «textWithGaps += opWithGaps.trim() + ".<br>"»-->
         «ENDFOR»
-          <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
+          <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
     </questiontext>
     <generalfeedback format="html">
@@ -569,11 +586,11 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
     </incorrectfeedback>
     <shownumcorrect/>
         «FOR String key : op.options.keySet()»
-        <!-- «var List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = op.options.get(key)»-->
-        «FOR SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries»
+        <!-- «var List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = op.options.get(key)»-->
+        «FOR ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries»
         <selectoption>
         <text>«entry.getKey().trim()»</text>
-        <group>«entry.getValue().getKey()»</group>
+        <group>«entry.getValue().getValue().getValue().getKey()»</group>
         </selectoption>
         «ENDFOR»
         «ENDFOR»
@@ -596,7 +613,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            </name>
            <questiontext format="html">
 		   <!-- «var UUID uuid = UUID.randomUUID()»-->
-           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + test.source.replace('.model', '.png'))»</file>
            </questiontext>
            <generalfeedback format="html">
@@ -629,7 +646,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getMetaModelPath() + "/" + test.source, resource)»
            <answer fraction="100" format="html">
            <text><![CDATA[<p>«text»<br></p>]]></text>
-           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
            <feedback format="html">
            <text></text>
@@ -641,7 +658,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getOutputPath() + "/" + test.source.replace('.model', '') + "/" + diagram.replace(".png", ".model"), resource)»
            <answer fraction="0" format="html">
            <text><![CDATA[<p>«text»<br></p>]]></text>
-           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
            <feedback format="html">
            <text></text>
@@ -653,6 +670,195 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
          </question>
     	«ENDFOR»
 		«ENDIF»
+    	«IF exercise instanceof AlternativeText»
+		«FOR test : exercise.tests»
+	    «IF rand.get(exercise).get(test).size() > 0»
+          <question type="truefalse">
+		    <name>
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
+		    </name>
+		    <questiontext format="html">
+		      <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
+		      <!-- «var UUID uuid = UUID.randomUUID()»-->
+		      <!-- «var String text = ""»-->
+		      «/*IF diagram.equals(test.source.replace('.model', '.png'))*/»
+		      <!--«text = getText((exercise as AlternativeText).config.identifier, ModelManager.getMetaModelPath() + "/" + test.source, resource)»-->
+		      «/*ELSE*/»
+		      <!--«/*text = getText((exercise as AlternativeText).config.identifier, ModelManager.getOutputPath() + "/" + test.source.replace('.model', '') + "/" + diagram.replace(".png", ".model"), resource)*/»-->
+		      «/*ENDIF*/»
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="60%" height="60%" class="img-responsive atto_image_button_text-bottom"><br></p><p>«text»<br></p>]]></text>
+			  <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
+		    </questiontext>
+		    <generalfeedback format="html">
+		      <text></text>
+		    </generalfeedback>
+		    <defaultgrade>1.0000000</defaultgrade>
+		    <penalty>1.0000000</penalty>
+		    <hidden>0</hidden>
+		    <idnumber></idnumber>
+		      «IF diagram.equals(test.source.replace('.model', '.png'))»
+		    <answer fraction="100" format="moodle_auto_format">
+		      <text>true</text>
+		      <feedback format="html">
+		        <text></text>
+		      </feedback>
+		    </answer>
+		    <answer fraction="0" format="moodle_auto_format">
+		      <text>false</text>
+		      <feedback format="html">
+		        <text></text>
+		      </feedback>
+		    </answer>
+		      «ELSE»
+		    <answer fraction="0" format="moodle_auto_format">
+		      <text>true</text>
+		      <feedback format="html">
+		        <text></text>
+		      </feedback>
+		    </answer>
+		    <answer fraction="100" format="moodle_auto_format">
+		      <text>false</text>
+		      <feedback format="html">
+		        <text></text>
+		      </feedback>
+		    </answer>
+		      «ENDIF»
+		  </question>
+		«ENDIF»
+    	«ENDFOR»
+		«ENDIF»
+        «IF exercise instanceof DragAndDropText»
+        <!-- «var Map<Test, Map<String, Map<String, Map<String, Integer>>>> groups = new HashMap<Test, Map<String, Map<String, Map<String, Integer>>>>()»-->
+        <!-- «var Map<String, Integer> indexes = new TreeMap<String, Integer>()»-->
+        «FOR Test test : exercise.tests»
+        <question type="ddwtos">
+          <name>
+             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
+          </name>
+          <questiontext format="html">
+        <!-- «var int k = 0»-->
+        <!-- «var String textWithGaps = ""»-->
+        <!-- «var Map<String, Map<String, Map<String, Integer>>> group = new TreeMap<String, Map<String, Map<String, Integer>>>()» -->
+        <!-- «var TestOption op = null»-->
+        «FOR TestOption opt : options.get(exercise).get(test)»
+        «IF opt.path.contains(exercise.blocks.get(0).name)»
+        <!--«op = opt»-->
+        «ENDIF»
+        «ENDFOR»
+        «IF op !== null»
+        <!-- «var String diagram = op.path»-->
+        <!-- «var UUID uuid = UUID.randomUUID()»-->
+        <!-- «var Map<String, Integer> solutions = new HashMap<String, Integer>()»-->
+		<!-- «var int tmp = k»-->
+        <!--«var String opWithGaps = ""»-->
+        «FOR String key : op.options.keySet()»
+        «FOR String text : op.text.get(key)»
+        <!--«k++»-->
+        <!--«opWithGaps += text + "%" + k + " "»-->
+        «ENDFOR»
+        <!--«opWithGaps = opWithGaps.trim() + ".<br>"»-->
+        «ENDFOR»
+        «FOR String key : op.sortedOptions.keySet()»
+        <!-- «var List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = op.sortedOptions.get(key)»-->
+        «FOR ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries»
+        <!-- «var Map<String, Map<String, Integer>> value = null» -->
+        «FOR String typeName : group.keySet()»
+        «IF typeName.equals(entry.getValue().getKey().getName())»
+        <!-- «value = group.get(typeName)» -->
+        «ENDIF»
+        «ENDFOR»
+        «IF value === null»
+        <!-- «value = new TreeMap<String, Map<String, Integer>>()» -->
+        <!-- «group.put(entry.getValue().getKey().getName(), value)» -->
+        «ENDIF»
+        «IF !indexes.containsKey(entry.getKey())»
+        <!-- «indexes.put(entry.getKey(), 0)»-->
+        «ENDIF»
+        <!-- «var Map<String, Integer> localIndexes = null»-->
+        «IF !value.containsKey(entry.getValue().getValue().getKey())»
+		<!-- «localIndexes = new TreeMap<String, Integer>()»-->
+		«ELSE»
+		<!-- «localIndexes = value.get(entry.getValue().getValue().getKey())»-->
+		«ENDIF»
+        <!-- «localIndexes.put(entry.getKey(), 0)»-->
+        <!--«value.put(entry.getValue().getValue().getKey(), localIndexes)»-->
+        «ENDFOR»
+        «ENDFOR»
+        <!-- «var int localIndex = 0» -->
+        <!-- «var int index = 0» -->
+        «FOR String typeName : group.keySet()»
+        «FOR String attName : group.get(typeName).keySet()»
+        <!-- «localIndex++»-->
+        «FOR String name : group.get(typeName).get(attName).keySet()»
+        <!-- «index++»-->
+        <!--«group.get(typeName).get(attName).put(name, localIndex)»-->
+        <!--«indexes.put(name, index)»-->
+        «ENDFOR»
+        «ENDFOR»
+        «ENDFOR»
+        «FOR String key : op.sortedOptions.keySet()»
+        <!-- «var List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> sortedEntries = op.sortedOptions.get(key)»-->
+        «FOR ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : sortedEntries»
+        «IF indexes.containsKey(entry.getKey()) && entry.getValue().getValue().getValue().getValue() == true»
+        <!-- «solutions.put(entry.getKey(), indexes.get(entry.getKey()))»-->
+        «ENDIF»
+        «ENDFOR»
+        «ENDFOR»
+        <!--«groups.put(test, group)»-->
+        <!-- «k = tmp»-->
+        «FOR String key : op.options.keySet()»
+        <!-- «var List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = op.options.get(key)»-->
+        «FOR ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> entry : entries»
+        «IF entry.getValue().getValue().getValue().getValue() == true»
+        <!-- «k++»-->
+        <!-- «opWithGaps = opWithGaps.replace("%" + k, "[[" + solutions.get(entry.getKey()) + "]]")»-->
+        «ENDIF»
+        «ENDFOR»
+        «ENDFOR»
+        <!-- «k++»-->
+        <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
+		<!-- «textWithGaps += opWithGaps.trim()»-->
+          <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="60%" height="60%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
+          <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <!--<text>Respuesta correcta</text>-->
+      <text>Right answer.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <!--<text>Respuesta parcialmente correcta.</text>-->
+      <text>Partially right answer.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <!--<text>Respuesta incorrecta.</text>-->
+      <text>Wrong answer.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+        «FOR String typeName : groups.get(test).keySet()»
+        <!-- «var Map<String, Map<String, Integer>> entries = groups.get(test).get(typeName)»-->
+        «FOR String attName : entries.keySet()»
+        <!-- «var Map<String, Integer> entry = groups.get(test).get(typeName).get(attName)»-->
+        «FOR String key : entry.keySet()»
+        <dragbox>
+        <text>«key.trim()»</text>
+        <group>«groups.get(test).get(typeName).get(attName).get(key)»</group>
+        <infinite/>
+        </dragbox>
+        «ENDFOR»
+        «ENDFOR»
+        «ENDFOR»
+        «ENDIF»
+        </question>
+	    «ENDFOR»
+        «ENDIF»
 		«ENDFOR»
 		</quiz>
 	'''

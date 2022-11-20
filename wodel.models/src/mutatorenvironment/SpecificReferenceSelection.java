@@ -23,10 +23,6 @@ public interface SpecificReferenceSelection extends SpecificSelection {
 	/**
 	 * Returns the value of the '<em><b>Obj Sel</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Obj Sel</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Obj Sel</em>' reference.
 	 * @see #setObjSel(ObjectEmitter)

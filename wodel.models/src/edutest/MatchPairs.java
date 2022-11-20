@@ -23,18 +23,14 @@ public interface MatchPairs extends MutatorTests {
 	/**
 	 * Returns the value of the '<em><b>Config</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Config</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Config</em>' containment reference.
-	 * @see #setConfig(TestConfiguration)
+	 * @see #setConfig(TextConfiguration)
 	 * @see edutest.EdutestPackage#getMatchPairs_Config()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	TestConfiguration getConfig();
+	TextConfiguration getConfig();
 
 	/**
 	 * Sets the value of the '{@link edutest.MatchPairs#getConfig <em>Config</em>}' containment reference.
@@ -44,6 +40,6 @@ public interface MatchPairs extends MutatorTests {
 	 * @see #getConfig()
 	 * @generated
 	 */
-	void setConfig(TestConfiguration value);
+	void setConfig(TextConfiguration value);
 
 } // MatchPairs

@@ -28,10 +28,6 @@ public interface SelectSampleMutator extends Mutator {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' containment reference.
 	 * @see #setObject(ObSelectionStrategy)
@@ -55,10 +51,6 @@ public interface SelectSampleMutator extends Mutator {
 	 * Returns the value of the '<em><b>Clause</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.SampleClause}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Clause</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Clause</em>' attribute.
 	 * @see mutatorenvironment.SampleClause
@@ -84,10 +76,6 @@ public interface SelectSampleMutator extends Mutator {
 	 * Returns the value of the '<em><b>Features</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EStructuralFeature}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Features</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Features</em>' reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getSelectSampleMutator_Features()

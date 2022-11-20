@@ -24,10 +24,6 @@ public interface ReplaceStringType extends StringType {
 	/**
 	 * Returns the value of the '<em><b>Oldstring</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Oldstring</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Oldstring</em>' attribute.
 	 * @see #setOldstring(String)
@@ -50,10 +46,6 @@ public interface ReplaceStringType extends StringType {
 	/**
 	 * Returns the value of the '<em><b>Newstring</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Newstring</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Newstring</em>' attribute.
 	 * @see #setNewstring(String)

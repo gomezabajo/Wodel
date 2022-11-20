@@ -51,10 +51,6 @@ public enum NodeStyle implements Enumerator {
 	/**
 	 * The '<em><b>None</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NONE
 	 * @model name="none"
@@ -66,10 +62,6 @@ public enum NodeStyle implements Enumerator {
 	/**
 	 * The '<em><b>Italic</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Italic</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ITALIC
 	 * @model name="italic"
@@ -81,10 +73,6 @@ public enum NodeStyle implements Enumerator {
 	/**
 	 * The '<em><b>Underline</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Underline</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNDERLINE
 	 * @model name="underline"
@@ -205,6 +193,7 @@ public enum NodeStyle implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -214,6 +203,7 @@ public enum NodeStyle implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -223,6 +213,7 @@ public enum NodeStyle implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

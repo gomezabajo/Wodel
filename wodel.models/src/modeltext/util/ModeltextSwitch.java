@@ -72,15 +72,15 @@ public class ModeltextSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModeltextPackage.ELEMENT: {
-				Element element = (Element)theEObject;
-				T result = caseElement(element);
+			case ModeltextPackage.VALUED_FEATURE: {
+				ValuedFeature valuedFeature = (ValuedFeature)theEObject;
+				T result = caseValuedFeature(valuedFeature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModeltextPackage.ATTRIBUTE: {
-				Attribute attribute = (Attribute)theEObject;
-				T result = caseAttribute(attribute);
+			case ModeltextPackage.ELEMENT: {
+				Element element = (Element)theEObject;
+				T result = caseElement(element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,6 +104,13 @@ public class ModeltextSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModeltextPackage.MACRO: {
+				Macro macro = (Macro)theEObject;
+				T result = caseMacro(macro);
+				if (result == null) result = caseWord(macro);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -124,6 +131,21 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Valued Feature</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Valued Feature</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseValuedFeature(ValuedFeature object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -135,21 +157,6 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseElement(Element object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseAttribute(Attribute object) {
 		return null;
 	}
 
@@ -195,6 +202,21 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseVariable(Variable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Macro</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Macro</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMacro(Macro object) {
 		return null;
 	}
 

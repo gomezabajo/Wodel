@@ -5,11 +5,12 @@ package wodeledu.dsls.serializer;
 
 import com.google.inject.Inject;
 import java.util.Set;
-import modeltext.Attribute;
 import modeltext.Constant;
 import modeltext.Element;
 import modeltext.IdentifyElements;
+import modeltext.Macro;
 import modeltext.ModeltextPackage;
+import modeltext.ValuedFeature;
 import modeltext.Variable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -36,9 +37,6 @@ public class ModelTextSemanticSequencer extends AbstractDelegatingSemanticSequen
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == ModeltextPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case ModeltextPackage.ATTRIBUTE:
-				sequence_Attribute(context, (Attribute) semanticObject); 
-				return; 
 			case ModeltextPackage.CONSTANT:
 				sequence_Constant(context, (Constant) semanticObject); 
 				return; 
@@ -48,6 +46,12 @@ public class ModelTextSemanticSequencer extends AbstractDelegatingSemanticSequen
 			case ModeltextPackage.IDENTIFY_ELEMENTS:
 				sequence_IdentifyElements(context, (IdentifyElements) semanticObject); 
 				return; 
+			case ModeltextPackage.MACRO:
+				sequence_Macro(context, (Macro) semanticObject); 
+				return; 
+			case ModeltextPackage.VALUED_FEATURE:
+				sequence_ValuedFeature(context, (ValuedFeature) semanticObject); 
+				return; 
 			case ModeltextPackage.VARIABLE:
 				sequence_Variable(context, (Variable) semanticObject); 
 				return; 
@@ -55,18 +59,6 @@ public class ModelTextSemanticSequencer extends AbstractDelegatingSemanticSequen
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
-	
-	/**
-	 * Contexts:
-	 *     Attribute returns Attribute
-	 *
-	 * Constraint:
-	 *     (negation?='not'? att=[EAttribute|ID])
-	 */
-	protected void sequence_Attribute(ISerializationContext context, Attribute semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
 	
 	/**
 	 * Contexts:
@@ -92,7 +84,7 @@ public class ModelTextSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *     Element returns Element
 	 *
 	 * Constraint:
-	 *     (type=[EClass|EString] ref=[EReference|ID]? (att+=Attribute att+=Attribute*)? (words+=Word words+=Word*)?)
+	 *     (type=[EClass|EString] ref=[EReference|ID]? (feature+=ValuedFeature feature+=ValuedFeature*)? (words+=Word words+=Word*)?)
 	 */
 	protected void sequence_Element(ISerializationContext context, Element semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -107,6 +99,37 @@ public class ModelTextSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *     (metamodel=EString (elements+=Element elements+=Element*)?)
 	 */
 	protected void sequence_IdentifyElements(ISerializationContext context, IdentifyElements semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Word returns Macro
+	 *     Macro returns Macro
+	 *
+	 * Constraint:
+	 *     item=MacroItem
+	 */
+	protected void sequence_Macro(ISerializationContext context, Macro semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModeltextPackage.Literals.MACRO__ITEM) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModeltextPackage.Literals.MACRO__ITEM));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMacroAccess().getItemMacroItemEnumRuleCall_2_0(), semanticObject.getItem());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ValuedFeature returns ValuedFeature
+	 *
+	 * Constraint:
+	 *     (negation?='not'? feat=[EStructuralFeature|ID] refFeature=[EStructuralFeature|ID]? value='null'?)
+	 */
+	protected void sequence_ValuedFeature(ISerializationContext context, ValuedFeature semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

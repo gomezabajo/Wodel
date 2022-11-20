@@ -30,10 +30,6 @@ public interface MutatorEnvironment extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Definition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Definition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Definition</em>' containment reference.
 	 * @see #setDefinition(Definition)
@@ -57,10 +53,6 @@ public interface MutatorEnvironment extends EObject {
 	 * Returns the value of the '<em><b>Commands</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Mutator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Commands</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Commands</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Commands()
@@ -73,10 +65,6 @@ public interface MutatorEnvironment extends EObject {
 	 * Returns the value of the '<em><b>Load</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Load}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Load</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Load</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Load()
@@ -89,10 +77,6 @@ public interface MutatorEnvironment extends EObject {
 	 * Returns the value of the '<em><b>Blocks</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Block}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Blocks</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Blocks</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Blocks()
@@ -105,10 +89,6 @@ public interface MutatorEnvironment extends EObject {
 	 * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Constraint}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constraints</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constraints</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Constraints()

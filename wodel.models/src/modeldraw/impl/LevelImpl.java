@@ -61,6 +61,7 @@ public class LevelImpl extends RelationImpl implements Level {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUpper() {
 		if (upper != null && upper.eIsProxy()) {
 			InternalEObject oldUpper = (InternalEObject)upper;
@@ -87,6 +88,7 @@ public class LevelImpl extends RelationImpl implements Level {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUpper(EReference newUpper) {
 		EReference oldUpper = upper;
 		upper = newUpper;

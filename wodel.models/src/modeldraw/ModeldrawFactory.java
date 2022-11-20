@@ -31,13 +31,13 @@ public interface ModeldrawFactory extends EFactory {
 	MutatorDraw createMutatorDraw();
 
 	/**
-	 * Returns a new object of class '<em>Boolean Attribute</em>'.
+	 * Returns a new object of class '<em>Valued Feature</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Boolean Attribute</em>'.
+	 * @return a new object of class '<em>Valued Feature</em>'.
 	 * @generated
 	 */
-	BooleanAttribute createBooleanAttribute();
+	ValuedFeature createValuedFeature();
 
 	/**
 	 * Returns a new object of class '<em>Node</em>'.

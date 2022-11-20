@@ -136,6 +136,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DrawType getType() {
 		return type;
 	}
@@ -145,6 +146,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(DrawType newType) {
 		DrawType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
@@ -157,6 +159,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Node> getNodes() {
 		if (nodes == null) {
 			nodes = new EObjectContainmentEList<Node>(Node.class, this, ModeldrawPackage.MUTATOR_DRAW__NODES);
@@ -169,6 +172,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Relation> getRelations() {
 		if (relations == null) {
 			relations = new EObjectContainmentEList<Relation>(Relation.class, this, ModeldrawPackage.MUTATOR_DRAW__RELATIONS);
@@ -181,6 +185,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Content> getContents() {
 		if (contents == null) {
 			contents = new EObjectContainmentEList<Content>(Content.class, this, ModeldrawPackage.MUTATOR_DRAW__CONTENTS);
@@ -193,6 +198,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMetamodel() {
 		return metamodel;
 	}
@@ -202,6 +208,7 @@ public class MutatorDrawImpl extends ItemImpl implements MutatorDraw {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMetamodel(String newMetamodel) {
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;

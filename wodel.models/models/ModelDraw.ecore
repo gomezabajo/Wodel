@@ -20,20 +20,26 @@
   <eClassifiers xsi:type="ecore:EClass" name="NamedItem" abstract="true" eSuperTypes="#//Item">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attName" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BooleanAttribute" eSuperTypes="#//Item">
+  <eClassifiers xsi:type="ecore:EClass" name="ValuedFeature" eSuperTypes="#//Item">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="att" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feat" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refFeature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//NamedItem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1"
-        eType="#//BooleanAttribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" upperBound="-1"
+        eType="#//ValuedFeature" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reference" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//NodeType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//NodeShape"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//NodeColor"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="#//NodeStyle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pathShape" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetFeature" upperBound="-1"
+        eType="#//ValuedFeature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Relation" abstract="true" eSuperTypes="#//NamedItem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="reference" upperBound="-1"
@@ -46,6 +52,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="src_label" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tar_decoration" eType="#//Decoration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tar_label" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" upperBound="-1"
+        eType="#//ValuedFeature" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetFeature" upperBound="-1"
+        eType="#//ValuedFeature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//Relation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
@@ -86,6 +97,8 @@
     <eLiterals name="circle"/>
     <eLiterals name="doublecircle" value="1"/>
     <eLiterals name="record" value="2"/>
+    <eLiterals name="load" value="3" literal="load"/>
+    <eLiterals name="logic" value="4" literal="logic"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="NodeColor">
     <eLiterals name="gray95"/>

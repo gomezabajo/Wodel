@@ -72,6 +72,7 @@ public class EdgeImpl extends RelationImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -98,6 +99,7 @@ public class EdgeImpl extends RelationImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(EReference newSource) {
 		EReference oldSource = source;
 		source = newSource;
@@ -110,6 +112,7 @@ public class EdgeImpl extends RelationImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -136,6 +139,7 @@ public class EdgeImpl extends RelationImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(EReference newTarget) {
 		EReference oldTarget = target;
 		target = newTarget;

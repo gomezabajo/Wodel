@@ -5,6 +5,8 @@ package wodeledu.dsls.serializer;
 
 import com.google.inject.Inject;
 import edutest.AlternativeResponse;
+import edutest.AlternativeText;
+import edutest.DragAndDropText;
 import edutest.EdutestPackage;
 import edutest.MatchPairs;
 import edutest.MissingWords;
@@ -12,11 +14,11 @@ import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
 import edutest.MultiChoiceEmendation;
 import edutest.MultiChoiceText;
-import edutest.MultiChoiceTextConfig;
 import edutest.Program;
 import edutest.ProgramConfiguration;
 import edutest.Test;
 import edutest.TestConfiguration;
+import edutest.TextConfiguration;
 import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -46,6 +48,12 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 			case EdutestPackage.ALTERNATIVE_RESPONSE:
 				sequence_AlternativeResponse(context, (AlternativeResponse) semanticObject); 
 				return; 
+			case EdutestPackage.ALTERNATIVE_TEXT:
+				sequence_AlternativeText(context, (AlternativeText) semanticObject); 
+				return; 
+			case EdutestPackage.DRAG_AND_DROP_TEXT:
+				sequence_DragAndDropText(context, (DragAndDropText) semanticObject); 
+				return; 
 			case EdutestPackage.MATCH_PAIRS:
 				sequence_MatchPairs(context, (MatchPairs) semanticObject); 
 				return; 
@@ -64,9 +72,6 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 			case EdutestPackage.MULTI_CHOICE_TEXT:
 				sequence_MultiChoiceText(context, (MultiChoiceText) semanticObject); 
 				return; 
-			case EdutestPackage.MULTI_CHOICE_TEXT_CONFIG:
-				sequence_MultiChoiceTextConfig(context, (MultiChoiceTextConfig) semanticObject); 
-				return; 
 			case EdutestPackage.PROGRAM:
 				sequence_Program(context, (Program) semanticObject); 
 				return; 
@@ -78,6 +83,9 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 				return; 
 			case EdutestPackage.TEST_CONFIGURATION:
 				sequence_TestConfiguration(context, (TestConfiguration) semanticObject); 
+				return; 
+			case EdutestPackage.TEXT_CONFIGURATION:
+				sequence_TextConfiguration(context, (TextConfiguration) semanticObject); 
 				return; 
 			}
 		if (errorAcceptor != null)
@@ -99,11 +107,37 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Contexts:
+	 *     MutatorTests returns AlternativeText
+	 *     AlternativeText returns AlternativeText
+	 *
+	 * Constraint:
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
+	 */
+	protected void sequence_AlternativeText(ISerializationContext context, AlternativeText semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MutatorTests returns DragAndDropText
+	 *     DragAndDropText returns DragAndDropText
+	 *
+	 * Constraint:
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 */
+	protected void sequence_DragAndDropText(ISerializationContext context, DragAndDropText semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     MutatorTests returns MatchPairs
 	 *     MatchPairs returns MatchPairs
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
 	 */
 	protected void sequence_MatchPairs(ISerializationContext context, MatchPairs semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -163,23 +197,11 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Contexts:
-	 *     MultiChoiceTextConfig returns MultiChoiceTextConfig
-	 *
-	 * Constraint:
-	 *     ((retry?='yes' | retry?='no') identifier=EString)
-	 */
-	protected void sequence_MultiChoiceTextConfig(ISerializationContext context, MultiChoiceTextConfig semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     MutatorTests returns MultiChoiceText
 	 *     MultiChoiceText returns MultiChoiceText
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=MultiChoiceTextConfig tests+=Test*)
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
 	 */
 	protected void sequence_MultiChoiceText(ISerializationContext context, MultiChoiceText semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -236,6 +258,18 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     (source=EString question=EString (expression?='%text' identifier=EString?)?)
 	 */
 	protected void sequence_Test(ISerializationContext context, Test semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     TextConfiguration returns TextConfiguration
+	 *
+	 * Constraint:
+	 *     ((retry?='yes' | retry?='no') identifier=EString)
+	 */
+	protected void sequence_TextConfiguration(ISerializationContext context, TextConfiguration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

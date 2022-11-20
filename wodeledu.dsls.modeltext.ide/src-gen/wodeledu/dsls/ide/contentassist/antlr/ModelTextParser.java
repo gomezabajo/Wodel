@@ -40,24 +40,30 @@ public class ModelTextParser extends AbstractContentAssistParser {
 					put(grammarAccess.getElementAccess().getGroup_4(), "rule__Element__Group_4__0");
 					put(grammarAccess.getElementAccess().getGroup_4_2(), "rule__Element__Group_4_2__0");
 					put(grammarAccess.getElementAccess().getGroup_6(), "rule__Element__Group_6__0");
-					put(grammarAccess.getAttributeAccess().getGroup(), "rule__Attribute__Group__0");
+					put(grammarAccess.getValuedFeatureAccess().getGroup(), "rule__ValuedFeature__Group__0");
+					put(grammarAccess.getValuedFeatureAccess().getGroup_3(), "rule__ValuedFeature__Group_3__0");
+					put(grammarAccess.getValuedFeatureAccess().getGroup_4(), "rule__ValuedFeature__Group_4__0");
 					put(grammarAccess.getConstantAccess().getGroup(), "rule__Constant__Group__0");
 					put(grammarAccess.getVariableAccess().getGroup(), "rule__Variable__Group__0");
 					put(grammarAccess.getVariableAccess().getGroup_2(), "rule__Variable__Group_2__0");
+					put(grammarAccess.getMacroAccess().getGroup(), "rule__Macro__Group__0");
 					put(grammarAccess.getIdentifyElementsAccess().getMetamodelAssignment_2(), "rule__IdentifyElements__MetamodelAssignment_2");
 					put(grammarAccess.getIdentifyElementsAccess().getElementsAssignment_3_0(), "rule__IdentifyElements__ElementsAssignment_3_0");
 					put(grammarAccess.getIdentifyElementsAccess().getElementsAssignment_3_1(), "rule__IdentifyElements__ElementsAssignment_3_1");
 					put(grammarAccess.getElementAccess().getTypeAssignment_2(), "rule__Element__TypeAssignment_2");
 					put(grammarAccess.getElementAccess().getRefAssignment_3_1(), "rule__Element__RefAssignment_3_1");
-					put(grammarAccess.getElementAccess().getAttAssignment_4_1(), "rule__Element__AttAssignment_4_1");
-					put(grammarAccess.getElementAccess().getAttAssignment_4_2_1(), "rule__Element__AttAssignment_4_2_1");
+					put(grammarAccess.getElementAccess().getFeatureAssignment_4_1(), "rule__Element__FeatureAssignment_4_1");
+					put(grammarAccess.getElementAccess().getFeatureAssignment_4_2_1(), "rule__Element__FeatureAssignment_4_2_1");
 					put(grammarAccess.getElementAccess().getWordsAssignment_6_0(), "rule__Element__WordsAssignment_6_0");
 					put(grammarAccess.getElementAccess().getWordsAssignment_6_1(), "rule__Element__WordsAssignment_6_1");
-					put(grammarAccess.getAttributeAccess().getNegationAssignment_1(), "rule__Attribute__NegationAssignment_1");
-					put(grammarAccess.getAttributeAccess().getAttAssignment_2(), "rule__Attribute__AttAssignment_2");
+					put(grammarAccess.getValuedFeatureAccess().getNegationAssignment_1(), "rule__ValuedFeature__NegationAssignment_1");
+					put(grammarAccess.getValuedFeatureAccess().getFeatAssignment_2(), "rule__ValuedFeature__FeatAssignment_2");
+					put(grammarAccess.getValuedFeatureAccess().getRefFeatureAssignment_3_1(), "rule__ValuedFeature__RefFeatureAssignment_3_1");
+					put(grammarAccess.getValuedFeatureAccess().getValueAssignment_4_1(), "rule__ValuedFeature__ValueAssignment_4_1");
 					put(grammarAccess.getConstantAccess().getValueAssignment_1(), "rule__Constant__ValueAssignment_1");
 					put(grammarAccess.getVariableAccess().getRefAssignment_2_0(), "rule__Variable__RefAssignment_2_0");
 					put(grammarAccess.getVariableAccess().getIdAssignment_3(), "rule__Variable__IdAssignment_3");
+					put(grammarAccess.getMacroAccess().getItemAssignment_2(), "rule__Macro__ItemAssignment_2");
 				}
 			};
 		}

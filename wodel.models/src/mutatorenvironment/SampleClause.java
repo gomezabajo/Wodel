@@ -41,10 +41,6 @@ public enum SampleClause implements Enumerator {
 	/**
 	 * The '<em><b>Equals</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Equals</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EQUALS
 	 * @model name="equals"
@@ -56,10 +52,6 @@ public enum SampleClause implements Enumerator {
 	/**
 	 * The '<em><b>Distinct</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Distinct</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DISTINCT
 	 * @model name="distinct"

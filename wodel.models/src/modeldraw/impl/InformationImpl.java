@@ -73,6 +73,7 @@ public class InformationImpl extends ItemImpl implements Information {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -99,6 +100,7 @@ public class InformationImpl extends ItemImpl implements Information {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EReference newType) {
 		EReference oldType = type;
 		type = newType;
@@ -111,6 +113,7 @@ public class InformationImpl extends ItemImpl implements Information {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAtt() {
 		if (att != null && att.eIsProxy()) {
 			InternalEObject oldAtt = (InternalEObject)att;
@@ -137,6 +140,7 @@ public class InformationImpl extends ItemImpl implements Information {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAtt(EAttribute newAtt) {
 		EAttribute oldAtt = att;
 		att = newAtt;

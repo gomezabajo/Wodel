@@ -194,6 +194,24 @@ ruleMutatorTests returns [EObject current=null]
 			$current = $this_MultiChoiceText_5.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getMutatorTestsAccess().getAlternativeTextParserRuleCall_6());
+		}
+		this_AlternativeText_6=ruleAlternativeText
+		{
+			$current = $this_AlternativeText_6.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getMutatorTestsAccess().getDragAndDropTextParserRuleCall_7());
+		}
+		this_DragAndDropText_7=ruleDragAndDropText
+		{
+			$current = $this_DragAndDropText_7.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -567,9 +585,9 @@ ruleMatchPairs returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getMatchPairsAccess().getConfigTestConfigurationParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getMatchPairsAccess().getConfigTextConfigurationParserRuleCall_3_0());
 				}
-				lv_config_5_0=ruleTestConfiguration
+				lv_config_5_0=ruleTextConfiguration
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getMatchPairsRule());
@@ -578,7 +596,7 @@ ruleMatchPairs returns [EObject current=null]
 						$current,
 						"config",
 						lv_config_5_0,
-						"wodeledu.dsls.EduTest.TestConfiguration");
+						"wodeledu.dsls.EduTest.TextConfiguration");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -773,9 +791,9 @@ ruleMultiChoiceText returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getConfigMultiChoiceTextConfigParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getConfigTextConfigurationParserRuleCall_3_0());
 				}
-				lv_config_5_0=ruleMultiChoiceTextConfig
+				lv_config_5_0=ruleTextConfiguration
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getMultiChoiceTextRule());
@@ -784,7 +802,7 @@ ruleMultiChoiceText returns [EObject current=null]
 						$current,
 						"config",
 						lv_config_5_0,
-						"wodeledu.dsls.EduTest.MultiChoiceTextConfig");
+						"wodeledu.dsls.EduTest.TextConfiguration");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -811,6 +829,212 @@ ruleMultiChoiceText returns [EObject current=null]
 		otherlv_7='}'
 		{
 			newLeafNode(otherlv_7, grammarAccess.getMultiChoiceTextAccess().getRightCurlyBracketKeyword_5());
+		}
+	)
+;
+
+// Entry rule entryRuleAlternativeText
+entryRuleAlternativeText returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getAlternativeTextRule()); }
+	iv_ruleAlternativeText=ruleAlternativeText
+	{ $current=$iv_ruleAlternativeText.current; }
+	EOF;
+
+// Rule AlternativeText
+ruleAlternativeText returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='AlternativeTextResponse'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getAlternativeTextAccess().getAlternativeTextResponseKeyword_0());
+		}
+		(
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getAlternativeTextRule());
+						}
+					}
+					otherlv_1=RULE_ID
+					{
+						newLeafNode(otherlv_1, grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_0_0());
+					}
+				)
+			)
+			(
+				otherlv_2=','
+				{
+					newLeafNode(otherlv_2, grammarAccess.getAlternativeTextAccess().getCommaKeyword_1_1_0());
+				}
+				(
+					(
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getAlternativeTextRule());
+							}
+						}
+						otherlv_3=RULE_ID
+						{
+							newLeafNode(otherlv_3, grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+						}
+					)
+				)
+			)*
+		)?
+		otherlv_4='{'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getAlternativeTextAccess().getLeftCurlyBracketKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getAlternativeTextAccess().getConfigTextConfigurationParserRuleCall_3_0());
+				}
+				lv_config_5_0=ruleTextConfiguration
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getAlternativeTextRule());
+					}
+					set(
+						$current,
+						"config",
+						lv_config_5_0,
+						"wodeledu.dsls.EduTest.TextConfiguration");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getAlternativeTextAccess().getTestsTestParserRuleCall_4_0());
+				}
+				lv_tests_6_0=ruleTest
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getAlternativeTextRule());
+					}
+					add(
+						$current,
+						"tests",
+						lv_tests_6_0,
+						"wodeledu.dsls.EduTest.Test");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_7='}'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getAlternativeTextAccess().getRightCurlyBracketKeyword_5());
+		}
+	)
+;
+
+// Entry rule entryRuleDragAndDropText
+entryRuleDragAndDropText returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getDragAndDropTextRule()); }
+	iv_ruleDragAndDropText=ruleDragAndDropText
+	{ $current=$iv_ruleDragAndDropText.current; }
+	EOF;
+
+// Rule DragAndDropText
+ruleDragAndDropText returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='DragAndDropText'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getDragAndDropTextAccess().getDragAndDropTextKeyword_0());
+		}
+		(
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getDragAndDropTextRule());
+						}
+					}
+					otherlv_1=RULE_ID
+					{
+						newLeafNode(otherlv_1, grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_0_0());
+					}
+				)
+			)
+			(
+				otherlv_2=','
+				{
+					newLeafNode(otherlv_2, grammarAccess.getDragAndDropTextAccess().getCommaKeyword_1_1_0());
+				}
+				(
+					(
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getDragAndDropTextRule());
+							}
+						}
+						otherlv_3=RULE_ID
+						{
+							newLeafNode(otherlv_3, grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+						}
+					)
+				)
+			)*
+		)?
+		otherlv_4='{'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getDragAndDropTextAccess().getLeftCurlyBracketKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getDragAndDropTextAccess().getConfigTestConfigurationParserRuleCall_3_0());
+				}
+				lv_config_5_0=ruleTestConfiguration
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getDragAndDropTextRule());
+					}
+					set(
+						$current,
+						"config",
+						lv_config_5_0,
+						"wodeledu.dsls.EduTest.TestConfiguration");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getDragAndDropTextAccess().getTestsTestParserRuleCall_4_0());
+				}
+				lv_tests_6_0=ruleTest
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getDragAndDropTextRule());
+					}
+					add(
+						$current,
+						"tests",
+						lv_tests_6_0,
+						"wodeledu.dsls.EduTest.Test");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_7='}'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getDragAndDropTextAccess().getRightCurlyBracketKeyword_5());
 		}
 	)
 ;
@@ -1115,15 +1339,15 @@ ruleMultiChoiceEmConfig returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleMultiChoiceTextConfig
-entryRuleMultiChoiceTextConfig returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getMultiChoiceTextConfigRule()); }
-	iv_ruleMultiChoiceTextConfig=ruleMultiChoiceTextConfig
-	{ $current=$iv_ruleMultiChoiceTextConfig.current; }
+// Entry rule entryRuleTextConfiguration
+entryRuleTextConfiguration returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTextConfigurationRule()); }
+	iv_ruleTextConfiguration=ruleTextConfiguration
+	{ $current=$iv_ruleTextConfiguration.current; }
 	EOF;
 
-// Rule MultiChoiceTextConfig
-ruleMultiChoiceTextConfig returns [EObject current=null]
+// Rule TextConfiguration
+ruleTextConfiguration returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -1134,39 +1358,39 @@ ruleMultiChoiceTextConfig returns [EObject current=null]
 		(
 			{
 				$current = forceCreateModelElement(
-					grammarAccess.getMultiChoiceTextConfigAccess().getMultiChoiceTextConfigAction_0(),
+					grammarAccess.getTextConfigurationAccess().getTextConfigurationAction_0(),
 					$current);
 			}
 		)
 		otherlv_1='retry'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getMultiChoiceTextConfigAccess().getRetryKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getTextConfigurationAccess().getRetryKeyword_1());
 		}
 		otherlv_2='='
 		{
-			newLeafNode(otherlv_2, grammarAccess.getMultiChoiceTextConfigAccess().getEqualsSignKeyword_2());
+			newLeafNode(otherlv_2, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_2());
 		}
 		(
 			(
 				(
 					lv_retry_3_1='yes'
 					{
-						newLeafNode(lv_retry_3_1, grammarAccess.getMultiChoiceTextConfigAccess().getRetryYesKeyword_3_0_0());
+						newLeafNode(lv_retry_3_1, grammarAccess.getTextConfigurationAccess().getRetryYesKeyword_3_0_0());
 					}
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMultiChoiceTextConfigRule());
+							$current = createModelElement(grammarAccess.getTextConfigurationRule());
 						}
 						setWithLastConsumed($current, "retry", true, null);
 					}
 					    |
 					lv_retry_3_2='no'
 					{
-						newLeafNode(lv_retry_3_2, grammarAccess.getMultiChoiceTextConfigAccess().getRetryNoKeyword_3_0_1());
+						newLeafNode(lv_retry_3_2, grammarAccess.getTextConfigurationAccess().getRetryNoKeyword_3_0_1());
 					}
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMultiChoiceTextConfigRule());
+							$current = createModelElement(grammarAccess.getTextConfigurationRule());
 						}
 						setWithLastConsumed($current, "retry", true, null);
 					}
@@ -1175,25 +1399,25 @@ ruleMultiChoiceTextConfig returns [EObject current=null]
 		)
 		otherlv_4=','
 		{
-			newLeafNode(otherlv_4, grammarAccess.getMultiChoiceTextConfigAccess().getCommaKeyword_4());
+			newLeafNode(otherlv_4, grammarAccess.getTextConfigurationAccess().getCommaKeyword_4());
 		}
 		otherlv_5='text'
 		{
-			newLeafNode(otherlv_5, grammarAccess.getMultiChoiceTextConfigAccess().getTextKeyword_5());
+			newLeafNode(otherlv_5, grammarAccess.getTextConfigurationAccess().getTextKeyword_5());
 		}
 		otherlv_6='='
 		{
-			newLeafNode(otherlv_6, grammarAccess.getMultiChoiceTextConfigAccess().getEqualsSignKeyword_6());
+			newLeafNode(otherlv_6, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_6());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getMultiChoiceTextConfigAccess().getIdentifierEStringParserRuleCall_7_0());
+					newCompositeNode(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_7_0());
 				}
 				lv_identifier_7_0=ruleEString
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getMultiChoiceTextConfigRule());
+						$current = createModelElementForParent(grammarAccess.getTextConfigurationRule());
 					}
 					set(
 						$current,

@@ -27,10 +27,6 @@ public interface Test extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' attribute.
 	 * @see #setSource(String)
@@ -53,10 +49,6 @@ public interface Test extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Question</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Question</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Question</em>' attribute.
 	 * @see #setQuestion(String)
@@ -79,10 +71,6 @@ public interface Test extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Expression</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Expression</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Expression</em>' attribute.
 	 * @see #setExpression(boolean)

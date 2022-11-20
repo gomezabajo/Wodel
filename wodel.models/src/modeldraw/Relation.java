@@ -3,7 +3,9 @@
 package modeldraw;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -22,6 +24,9 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link modeldraw.Relation#getSrc_label <em>Src label</em>}</li>
  *   <li>{@link modeldraw.Relation#getTar_decoration <em>Tar decoration</em>}</li>
  *   <li>{@link modeldraw.Relation#getTar_label <em>Tar label</em>}</li>
+ *   <li>{@link modeldraw.Relation#getFeature <em>Feature</em>}</li>
+ *   <li>{@link modeldraw.Relation#getTargetNode <em>Target Node</em>}</li>
+ *   <li>{@link modeldraw.Relation#getTargetFeature <em>Target Feature</em>}</li>
  * </ul>
  *
  * @see modeldraw.ModeldrawPackage#getRelation()
@@ -33,10 +38,6 @@ public interface Relation extends NamedItem {
 	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Reference</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getRelation_Reference()
@@ -49,10 +50,6 @@ public interface Relation extends NamedItem {
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Type</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getRelation_RefType()
@@ -65,10 +62,6 @@ public interface Relation extends NamedItem {
 	 * Returns the value of the '<em><b>Label</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Label</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getRelation_Label()
@@ -81,10 +74,6 @@ public interface Relation extends NamedItem {
 	 * Returns the value of the '<em><b>Src decoration</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.Decoration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Src decoration</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Src decoration</em>' attribute.
 	 * @see modeldraw.Decoration
@@ -109,10 +98,6 @@ public interface Relation extends NamedItem {
 	/**
 	 * Returns the value of the '<em><b>Src label</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Src label</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Src label</em>' reference.
 	 * @see #setSrc_label(EAttribute)
@@ -136,10 +121,6 @@ public interface Relation extends NamedItem {
 	 * Returns the value of the '<em><b>Tar decoration</b></em>' attribute.
 	 * The literals are from the enumeration {@link modeldraw.Decoration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Tar decoration</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Tar decoration</em>' attribute.
 	 * @see modeldraw.Decoration
@@ -164,10 +145,6 @@ public interface Relation extends NamedItem {
 	/**
 	 * Returns the value of the '<em><b>Tar label</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Tar label</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Tar label</em>' reference.
 	 * @see #setTar_label(EAttribute)
@@ -186,5 +163,51 @@ public interface Relation extends NamedItem {
 	 * @generated
 	 */
 	void setTar_label(EAttribute value);
+
+	/**
+	 * Returns the value of the '<em><b>Feature</b></em>' containment reference list.
+	 * The list contents are of type {@link modeldraw.ValuedFeature}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Feature</em>' containment reference list.
+	 * @see modeldraw.ModeldrawPackage#getRelation_Feature()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ValuedFeature> getFeature();
+
+	/**
+	 * Returns the value of the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Node</em>' reference.
+	 * @see #setTargetNode(EClass)
+	 * @see modeldraw.ModeldrawPackage#getRelation_TargetNode()
+	 * @model
+	 * @generated
+	 */
+	EClass getTargetNode();
+
+	/**
+	 * Sets the value of the '{@link modeldraw.Relation#getTargetNode <em>Target Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Node</em>' reference.
+	 * @see #getTargetNode()
+	 * @generated
+	 */
+	void setTargetNode(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Feature</b></em>' containment reference list.
+	 * The list contents are of type {@link modeldraw.ValuedFeature}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Feature</em>' containment reference list.
+	 * @see modeldraw.ModeldrawPackage#getRelation_TargetFeature()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ValuedFeature> getTargetFeature();
 
 } // Relation

@@ -29,10 +29,6 @@ public interface Program extends Definition {
 	/**
 	 * Returns the value of the '<em><b>Output</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Output</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Output</em>' attribute.
 	 * @see #setOutput(String)
@@ -55,10 +51,6 @@ public interface Program extends Definition {
 	/**
 	 * Returns the value of the '<em><b>Num</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Num</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Num</em>' attribute.
 	 * @see #setNum(int)
@@ -81,10 +73,6 @@ public interface Program extends Definition {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' containment reference.
 	 * @see #setSource(Source)
@@ -107,10 +95,6 @@ public interface Program extends Definition {
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -134,10 +118,6 @@ public interface Program extends Definition {
 	 * Returns the value of the '<em><b>Exhaustive</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exhaustive</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exhaustive</em>' attribute.
 	 * @see #setExhaustive(boolean)
@@ -161,10 +141,6 @@ public interface Program extends Definition {
 	 * Returns the value of the '<em><b>Resources</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Resource}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resources</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Resources</em>' containment reference list.
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getProgram_Resources()

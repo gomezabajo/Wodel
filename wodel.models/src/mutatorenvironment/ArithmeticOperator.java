@@ -71,10 +71,6 @@ public enum ArithmeticOperator implements Enumerator {
 	/**
 	 * The '<em><b>Add</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Add</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ADD
 	 * @model name="add"
@@ -86,10 +82,6 @@ public enum ArithmeticOperator implements Enumerator {
 	/**
 	 * The '<em><b>Subtract</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Subtract</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SUBTRACT
 	 * @model name="subtract"
@@ -101,10 +93,6 @@ public enum ArithmeticOperator implements Enumerator {
 	/**
 	 * The '<em><b>Multiply</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Multiply</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MULTIPLY
 	 * @model name="multiply"
@@ -116,10 +104,6 @@ public enum ArithmeticOperator implements Enumerator {
 	/**
 	 * The '<em><b>Divide</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Divide</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DIVIDE
 	 * @model name="divide"
@@ -131,10 +115,6 @@ public enum ArithmeticOperator implements Enumerator {
 	/**
 	 * The '<em><b>Module</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Module</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MODULE
 	 * @model name="module"

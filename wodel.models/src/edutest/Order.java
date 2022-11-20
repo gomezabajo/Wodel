@@ -61,10 +61,6 @@ public enum Order implements Enumerator {
 	/**
 	 * The '<em><b>Fixed</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Fixed</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FIXED
 	 * @model name="fixed"
@@ -76,10 +72,6 @@ public enum Order implements Enumerator {
 	/**
 	 * The '<em><b>Random</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Random</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RANDOM
 	 * @model name="random"
@@ -91,10 +83,6 @@ public enum Order implements Enumerator {
 	/**
 	 * The '<em><b>Ascending</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Ascending</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ASCENDING
 	 * @model name="ascending"
@@ -106,10 +94,6 @@ public enum Order implements Enumerator {
 	/**
 	 * The '<em><b>Descending</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Descending</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DESCENDING
 	 * @model name="descending"

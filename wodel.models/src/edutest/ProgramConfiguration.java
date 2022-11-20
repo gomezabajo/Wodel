@@ -24,10 +24,6 @@ public interface ProgramConfiguration extends Configuration {
 	 * Returns the value of the '<em><b>Navigation</b></em>' attribute.
 	 * The literals are from the enumeration {@link edutest.Navigation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Navigation</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Navigation</em>' attribute.
 	 * @see edutest.Navigation

@@ -326,14 +326,14 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG_OPERATION_COUNT = TEST_CONFIGURATION_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link edutest.impl.MultiChoiceTextConfigImpl <em>Multi Choice Text Config</em>}' class.
+	 * The meta object id for the '{@link edutest.impl.TextConfigurationImpl <em>Text Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see edutest.impl.MultiChoiceTextConfigImpl
-	 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceTextConfig()
+	 * @see edutest.impl.TextConfigurationImpl
+	 * @see edutest.impl.EdutestPackageImpl#getTextConfiguration()
 	 * @generated
 	 */
-	int MULTI_CHOICE_TEXT_CONFIG = 6;
+	int TEXT_CONFIGURATION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Retry</b></em>' attribute.
@@ -342,7 +342,7 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_TEXT_CONFIG__RETRY = TEST_CONFIGURATION__RETRY;
+	int TEXT_CONFIGURATION__RETRY = TEST_CONFIGURATION__RETRY;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
@@ -351,25 +351,25 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_TEXT_CONFIG__IDENTIFIER = TEST_CONFIGURATION_FEATURE_COUNT + 0;
+	int TEXT_CONFIGURATION__IDENTIFIER = TEST_CONFIGURATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Multi Choice Text Config</em>' class.
+	 * The number of structural features of the '<em>Text Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_TEXT_CONFIG_FEATURE_COUNT = TEST_CONFIGURATION_FEATURE_COUNT + 1;
+	int TEXT_CONFIGURATION_FEATURE_COUNT = TEST_CONFIGURATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Multi Choice Text Config</em>' class.
+	 * The number of operations of the '<em>Text Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_TEXT_CONFIG_OPERATION_COUNT = TEST_CONFIGURATION_OPERATION_COUNT + 0;
+	int TEXT_CONFIGURATION_OPERATION_COUNT = TEST_CONFIGURATION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link edutest.impl.AlternativeResponseImpl <em>Alternative Response</em>}' class.
@@ -702,6 +702,116 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_TEXT_OPERATION_COUNT = MUTATOR_TESTS_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link edutest.impl.AlternativeTextImpl <em>Alternative Text</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edutest.impl.AlternativeTextImpl
+	 * @see edutest.impl.EdutestPackageImpl#getAlternativeText()
+	 * @generated
+	 */
+	int ALTERNATIVE_TEXT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_TEXT__BLOCKS = MUTATOR_TESTS__BLOCKS;
+
+	/**
+	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_TEXT__TESTS = MUTATOR_TESTS__TESTS;
+
+	/**
+	 * The feature id for the '<em><b>Config</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_TEXT__CONFIG = MUTATOR_TESTS_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Alternative Text</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_TEXT_FEATURE_COUNT = MUTATOR_TESTS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Alternative Text</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_TEXT_OPERATION_COUNT = MUTATOR_TESTS_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link edutest.impl.DragAndDropTextImpl <em>Drag And Drop Text</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edutest.impl.DragAndDropTextImpl
+	 * @see edutest.impl.EdutestPackageImpl#getDragAndDropText()
+	 * @generated
+	 */
+	int DRAG_AND_DROP_TEXT = 14;
+
+	/**
+	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DRAG_AND_DROP_TEXT__BLOCKS = MUTATOR_TESTS__BLOCKS;
+
+	/**
+	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DRAG_AND_DROP_TEXT__TESTS = MUTATOR_TESTS__TESTS;
+
+	/**
+	 * The feature id for the '<em><b>Config</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DRAG_AND_DROP_TEXT__CONFIG = MUTATOR_TESTS_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Drag And Drop Text</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DRAG_AND_DROP_TEXT_FEATURE_COUNT = MUTATOR_TESTS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Drag And Drop Text</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DRAG_AND_DROP_TEXT_OPERATION_COUNT = MUTATOR_TESTS_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link edutest.impl.TestImpl <em>Test</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -709,7 +819,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getTest()
 	 * @generated
 	 */
-	int TEST = 13;
+	int TEST = 15;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -773,7 +883,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getOrder()
 	 * @generated
 	 */
-	int ORDER = 14;
+	int ORDER = 16;
 
 	/**
 	 * The meta object id for the '{@link edutest.Navigation <em>Navigation</em>}' enum.
@@ -783,7 +893,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getNavigation()
 	 * @generated
 	 */
-	int NAVIGATION = 15;
+	int NAVIGATION = 17;
 
 	/**
 	 * The meta object id for the '{@link edutest.Mode <em>Mode</em>}' enum.
@@ -793,7 +903,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMode()
 	 * @generated
 	 */
-	int MODE = 16;
+	int MODE = 18;
 
 
 	/**
@@ -967,25 +1077,25 @@ public interface EdutestPackage extends EPackage {
 	EAttribute getMultiChoiceEmConfig_Mode();
 
 	/**
-	 * Returns the meta object for class '{@link edutest.MultiChoiceTextConfig <em>Multi Choice Text Config</em>}'.
+	 * Returns the meta object for class '{@link edutest.TextConfiguration <em>Text Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Multi Choice Text Config</em>'.
-	 * @see edutest.MultiChoiceTextConfig
+	 * @return the meta object for class '<em>Text Configuration</em>'.
+	 * @see edutest.TextConfiguration
 	 * @generated
 	 */
-	EClass getMultiChoiceTextConfig();
+	EClass getTextConfiguration();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edutest.MultiChoiceTextConfig#getIdentifier <em>Identifier</em>}'.
+	 * Returns the meta object for the attribute '{@link edutest.TextConfiguration#getIdentifier <em>Identifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Identifier</em>'.
-	 * @see edutest.MultiChoiceTextConfig#getIdentifier()
-	 * @see #getMultiChoiceTextConfig()
+	 * @see edutest.TextConfiguration#getIdentifier()
+	 * @see #getTextConfiguration()
 	 * @generated
 	 */
-	EAttribute getMultiChoiceTextConfig_Identifier();
+	EAttribute getTextConfiguration_Identifier();
 
 	/**
 	 * Returns the meta object for class '{@link edutest.AlternativeResponse <em>Alternative Response</em>}'.
@@ -1112,6 +1222,48 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMultiChoiceText_Config();
+
+	/**
+	 * Returns the meta object for class '{@link edutest.AlternativeText <em>Alternative Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Alternative Text</em>'.
+	 * @see edutest.AlternativeText
+	 * @generated
+	 */
+	EClass getAlternativeText();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link edutest.AlternativeText#getConfig <em>Config</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Config</em>'.
+	 * @see edutest.AlternativeText#getConfig()
+	 * @see #getAlternativeText()
+	 * @generated
+	 */
+	EReference getAlternativeText_Config();
+
+	/**
+	 * Returns the meta object for class '{@link edutest.DragAndDropText <em>Drag And Drop Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Drag And Drop Text</em>'.
+	 * @see edutest.DragAndDropText
+	 * @generated
+	 */
+	EClass getDragAndDropText();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link edutest.DragAndDropText#getConfig <em>Config</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Config</em>'.
+	 * @see edutest.DragAndDropText#getConfig()
+	 * @see #getDragAndDropText()
+	 * @generated
+	 */
+	EReference getDragAndDropText_Config();
 
 	/**
 	 * Returns the meta object for class '{@link edutest.Test <em>Test</em>}'.
@@ -1361,14 +1513,14 @@ public interface EdutestPackage extends EPackage {
 		EAttribute MULTI_CHOICE_EM_CONFIG__MODE = eINSTANCE.getMultiChoiceEmConfig_Mode();
 
 		/**
-		 * The meta object literal for the '{@link edutest.impl.MultiChoiceTextConfigImpl <em>Multi Choice Text Config</em>}' class.
+		 * The meta object literal for the '{@link edutest.impl.TextConfigurationImpl <em>Text Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see edutest.impl.MultiChoiceTextConfigImpl
-		 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceTextConfig()
+		 * @see edutest.impl.TextConfigurationImpl
+		 * @see edutest.impl.EdutestPackageImpl#getTextConfiguration()
 		 * @generated
 		 */
-		EClass MULTI_CHOICE_TEXT_CONFIG = eINSTANCE.getMultiChoiceTextConfig();
+		EClass TEXT_CONFIGURATION = eINSTANCE.getTextConfiguration();
 
 		/**
 		 * The meta object literal for the '<em><b>Identifier</b></em>' attribute feature.
@@ -1376,7 +1528,7 @@ public interface EdutestPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MULTI_CHOICE_TEXT_CONFIG__IDENTIFIER = eINSTANCE.getMultiChoiceTextConfig_Identifier();
+		EAttribute TEXT_CONFIGURATION__IDENTIFIER = eINSTANCE.getTextConfiguration_Identifier();
 
 		/**
 		 * The meta object literal for the '{@link edutest.impl.AlternativeResponseImpl <em>Alternative Response</em>}' class.
@@ -1485,6 +1637,42 @@ public interface EdutestPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MULTI_CHOICE_TEXT__CONFIG = eINSTANCE.getMultiChoiceText_Config();
+
+		/**
+		 * The meta object literal for the '{@link edutest.impl.AlternativeTextImpl <em>Alternative Text</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edutest.impl.AlternativeTextImpl
+		 * @see edutest.impl.EdutestPackageImpl#getAlternativeText()
+		 * @generated
+		 */
+		EClass ALTERNATIVE_TEXT = eINSTANCE.getAlternativeText();
+
+		/**
+		 * The meta object literal for the '<em><b>Config</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ALTERNATIVE_TEXT__CONFIG = eINSTANCE.getAlternativeText_Config();
+
+		/**
+		 * The meta object literal for the '{@link edutest.impl.DragAndDropTextImpl <em>Drag And Drop Text</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edutest.impl.DragAndDropTextImpl
+		 * @see edutest.impl.EdutestPackageImpl#getDragAndDropText()
+		 * @generated
+		 */
+		EClass DRAG_AND_DROP_TEXT = eINSTANCE.getDragAndDropText();
+
+		/**
+		 * The meta object literal for the '<em><b>Config</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DRAG_AND_DROP_TEXT__CONFIG = eINSTANCE.getDragAndDropText_Config();
 
 		/**
 		 * The meta object literal for the '{@link edutest.impl.TestImpl <em>Test</em>}' class.

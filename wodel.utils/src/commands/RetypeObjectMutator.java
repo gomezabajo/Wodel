@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ import exceptions.AbstractCreationException;
 import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
+import manager.EMFCopier;
 import manager.ModelManager;
 
 /**
@@ -171,7 +173,8 @@ public class RetypeObjectMutator extends Mutator {
 		this.object = object;
 		this.referenceSelection = referenceSelection;
 		this.containerSelection = containerSelection;
-		this.objNames = objNames;
+		this.objNames = new ArrayList<String>();
+		this.objNames.addAll(objNames);
 		this.identification = "";
 		this.attributeConfig = attributeConfig;
 		this.referenceConfig = referenceConfig;
@@ -191,6 +194,10 @@ public class RetypeObjectMutator extends Mutator {
 			return null;
 		}
 		
+		removed = EMFCopier.copy(object);
+		identification = EcoreUtil.getIdentification(object);
+		uri = EcoreUtil.getURI(object);
+
 		EObject obj = object;
 		
 		if(obj==null){
@@ -324,10 +331,6 @@ public class RetypeObjectMutator extends Mutator {
 				ModelManager.setReference(e.getKey(), newObj, e.getValue());
 			}
 		}
-		
-		removed = EcoreUtil.copy(obj);
-		identification = EcoreUtil.getIdentification(obj);
-		uri = EcoreUtil.getURI(obj);
 		
 		//Multivalued
 		if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){

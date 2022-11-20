@@ -7,33 +7,33 @@ A domain-specific language for model mutation
 
 ### modelDraw DSL plugins
 
-[wodeledu.dsls.modeldraw.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ide)
-[wodeledu.dsls.modeldraw.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ui)
-[wodeledu.dsls.modeldraw](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw)
+[wodeledu.dsls.modeldraw.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ide)<br>
+[wodeledu.dsls.modeldraw.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ui)<br>
+[wodeledu.dsls.modeldraw](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw)<br>
 
 ### modelText DSL plugins
 
-[wodeledu.dsls.modeltext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ide)
-[wodeledu.dsls.modeltext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ui)
-[wodeledu.dsls.modeltext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext)
+[wodeledu.dsls.modeltext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ide)<br>
+[wodeledu.dsls.modeltext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ui)<br>
+[wodeledu.dsls.modeltext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext)<br>
 
 ### mutaText DSL plugins
 
-[wodeledu.dsls.mutatext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ide)
-[wodeledu.dsls.mutatext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ui)
-[wodeledu.dsls.mutatext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext)
+[wodeledu.dsls.mutatext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ide)<br>
+[wodeledu.dsls.mutatext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ui)<br>
+[wodeledu.dsls.mutatext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext)<br>
 
 ### eduTest DSL plugins
 
-[wodeledu.dsls.edutest.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ide)
-[wodeledu.dsls.edutest.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ui)
-[wodeledu.dsls.edutest](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest)
+[wodeledu.dsls.edutest.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ide)<br>
+[wodeledu.dsls.edutest.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ui)<br>
+[wodeledu.dsls.edutest](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest)<br>
 
 ## Wodel-Test plugins
 
-[wodel.wodeltest](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest)
-[wodel.wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.additions)
-[wodel.wodeltest.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.examples)
+[wodel.wodeltest](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest)<br>
+[wodel.wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.additions)<br>
+[wodel.wodeltest.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.examples)<br>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]

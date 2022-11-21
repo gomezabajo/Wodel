@@ -1212,6 +1212,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		String text = "";
 		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
 		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
+		if (object == null) {
+			return text;
+		}
 		Element element = MutatorUtils.getElement(object, idelemsresource);
 		String refName = targetReferenceChanged.getRefName();
 		EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object);
@@ -1460,9 +1463,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		if (object == null) {
+			return;
+		}
 		List<String> attributes = new ArrayList<String>();
 		List<String> text = new ArrayList<String>();
 		for (AttributeChanged att : attChanges) {
+			if (att == null) {
+				continue;
+			}
 			String txt = "";
 			if (att instanceof AttributeSwap) {
 				AttributeSwap attSwap = (AttributeSwap) att;
@@ -1543,7 +1552,6 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			else {
 				Option cfgopt = MutatorUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
 				String attName = att.getAttName();
-				String oldVal = att.getOldVal();
 				String newVal = att.getNewVal();
 				Element element = MutatorUtils.getElement(object, idelemsresource);
 				Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
@@ -1583,7 +1591,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							txt += attName + " ";
 						}
 						if (variable.getType() == VariableType.OLD_VALUE) {
-							txt += oldVal + " ";
+							for (modeltext.Word v : elementValues.getWords()) {
+								if (v instanceof modeltext.Constant) {
+									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+							}
 						}
 						if (variable.getType() == VariableType.NEW_VALUE) {
 							txt += newVal + " ";
@@ -1933,6 +1945,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		if (object == null) {
+			return;
+		}
 		List<String> references = new ArrayList<String>();
 		List<String> text = new ArrayList<String>();
 		for (ReferenceChanged ref : refChanges) {
@@ -1946,10 +1961,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			String refName = referenceChanged.getRefName();
 			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
 			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
-			EObject from = null;
-			if (referenceChanged.getFrom() != null) {
-				from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
+			if (referenceChanged.getFrom() == null) {
+				continue;
 			}
+			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
 			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
 			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
 			Element toElement = MutatorUtils.getElement(to, idelemsresource);
@@ -2670,6 +2685,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
 		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
+		if (object == null) {
+			return text;
+		}
 		Element element = MutatorUtils.getElement(object, idelemsresource);
 		String refName = targetReferenceChanged.getRefName();
 		EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object);
@@ -3147,16 +3165,21 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		if (object == null) {
+			return;
+		}
 		List<String> attributes = new ArrayList<String>();
 		List<String> text = new ArrayList<String>();
 		for (AttributeChanged att : attChanges) {
+			if (att == null) {
+				continue;
+			}
 			if (att instanceof AttributeSwap) {
 				AttributeSwap attSwap = (AttributeSwap) att;
 				String attName = attSwap.getAttName();
 				EStructuralFeature attributeName = object.eClass().getEStructuralFeature(attName);
 				EObject attObject = ModelManager.getEObject(attSwap.getAttObject(), opt.seed);
 				String firstName = attSwap.getFirstName();
-				String newVal = attSwap.getNewVal();
 				Option cfgopt = MutatorUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
 				Element firstElement = MutatorUtils.getElement(object, idelemsresource);
 				Element secondElement = MutatorUtils.getElement(attObject, idelemsresource);
@@ -4338,6 +4361,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		if (object == null) {
+			return;
+		}
 		List<String> references = new ArrayList<String>();
 		List<String> text = new ArrayList<String>();
 		for (ReferenceChanged ref : refChanges) {
@@ -4350,6 +4376,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			String refName = referenceChanged.getRefName();
 			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
 			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+			if (referenceChanged.getFrom() == null) {
+				continue;
+			}
 			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
 			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
 			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
@@ -5106,33 +5135,47 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							String[] mutationURI = new String[1];
 							if (mutation instanceof ObjectCreated) {
 								text = getObjectCreatedText(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof ObjectRemoved) {
 								text = getObjectRemovedText(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}							
 							if (mutation instanceof ObjectRetyped) {
 								text = getObjectRetypedText(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof SourceReferenceChanged) {
 								text = getSourceReferenceChangedText(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof TargetReferenceChanged) {
 								text = getTargetReferenceChangedText(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 //							if (mutation instanceof ReferenceSwap) {
 //							}
 							if (mutation instanceof ReferenceCreated) {
 								text = getReferenceCreatedText(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof ReferenceRemoved) {
 								text = getReferenceRemovedText(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof InformationChanged) {
 								storeAttributeChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);
@@ -5276,33 +5319,47 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							String[] mutationURI = new String[1];
 							if (mutation instanceof ObjectCreated) {
 								text = getObjectCreatedText(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof ObjectRemoved) {
 								text = getObjectRemovedText(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}							
 							if (mutation instanceof ObjectRetyped) {
 								text = getObjectRetypedText(cfgoptsresource, idelemsresource, (ObjectRetyped) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof SourceReferenceChanged) {
 								text = getSourceReferenceChangedText(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof TargetReferenceChanged) {
 								text = getTargetReferenceChangedText(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 //							if (mutation instanceof ReferenceSwap) {
 //							}
 							if (mutation instanceof ReferenceCreated) {
 								text = getReferenceCreatedText(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof ReferenceRemoved) {
 								text = getReferenceRemovedText(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt, mutationURI, index);
-								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								if (mutationURI[0] != null) {
+									storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+								}
 							}
 							if (mutation instanceof InformationChanged) {
 								storeAttributeChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);

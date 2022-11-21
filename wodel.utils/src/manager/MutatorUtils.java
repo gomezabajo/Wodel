@@ -10479,31 +10479,26 @@ public class MutatorUtils {
 							for (ValuedFeature feature : features.keySet()) {
 								Object value = object.eGet(features.get(feature));
 								if (value != null) {
-									if (feature.getRefFeature() == null && feature.getValue() == null) {
-										continue;
-									}
-									if (feature.getRefFeature() == null) {
-										if (value instanceof Boolean) {
-											Boolean booleanValue = (Boolean) value; 
-											if (order == true) {
-												if (feature.isNegation() && booleanValue == true) {
-													found = false;
-													break;
-												}
-												else if (!feature.isNegation() && booleanValue == false) {
-													found = false;
-													break;
-												}
+									if (value instanceof Boolean) {
+										Boolean booleanValue = (Boolean) value; 
+										if (order == true) {
+											if (feature.isNegation() && booleanValue == true) {
+												found = false;
+												break;
 											}
-											else {
-												if (!feature.isNegation() && booleanValue == true) {
-													found = false;
-													break;
-												}
-												else if (feature.isNegation() && booleanValue == false) {
-													found = false;
-													break;
-												}
+											else if (!feature.isNegation() && booleanValue == false) {
+												found = false;
+												break;
+											}
+										}
+										else {
+											if (!feature.isNegation() && booleanValue == true) {
+												found = false;
+												break;
+											}
+											else if (feature.isNegation() && booleanValue == false) {
+												found = false;
+												break;
 											}
 										}
 									}
@@ -10606,7 +10601,7 @@ public class MutatorUtils {
 										}
 									}
 								}
-								if (feature.getValue().equals("null") && feature.getRefFeature() == null && value != null) {
+								if (feature.getValue() != null && feature.getValue().equals("null") && feature.getRefFeature() == null && value != null) {
 									found = false;
 									break;
 								}

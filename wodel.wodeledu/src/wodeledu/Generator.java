@@ -84,7 +84,7 @@ public class Generator implements IGenerator {
 			
 			if (metamodel != null) {
 				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
-				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				List<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(1);
 				EList<EAttribute> eatts = eclass.getEAllAttributes();
 				EAttribute eatt = null;
@@ -178,7 +178,7 @@ public class Generator implements IGenerator {
 			
 			if (metamodel != null) {
 				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
-				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				List<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(0);
 				EList<EAttribute> eatts = eclass.getEAllAttributes();
 				EAttribute eatt1 = null;

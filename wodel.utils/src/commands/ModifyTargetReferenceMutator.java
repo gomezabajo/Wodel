@@ -98,7 +98,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 		EObject newTarget = this.newTarget.getObject();
 
 		// We get the specified references
-		ArrayList<EStructuralFeature> refs = ModelManager
+		List<EStructuralFeature> refs = ModelManager
 				.getAllReferencesByName(refType, this.getModel());
 
 		if (refs == null) {

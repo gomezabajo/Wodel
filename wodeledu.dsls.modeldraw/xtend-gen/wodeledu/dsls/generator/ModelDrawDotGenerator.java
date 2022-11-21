@@ -6402,7 +6402,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t\t\t\t\t");
-                    _builder.append("rels = new ArrayList<HashMap<String, String>>();");
+                    _builder.append("rels = new ArrayList<Map<String, String>>();");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");

@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class EMFComparison {
 	
@@ -112,43 +113,45 @@ public class EMFComparison {
 					}
 					else if (valuesrc instanceof EObject) { 
 						if (!elemequals.contains(valuesrc)) {
-							if (srcref.getEOpposite().isMany()) {
-								valuesrc = source.eGet(srcref.getEOpposite());
-								List<EObject> srcelems = new ArrayList<EObject>();
-								srcelems.addAll((EList<EObject>) valuesrc);
-								for (EObject srcelem : srcelems) {
+							if (srcref.getEOpposite() != null) {
+							    if (srcref.getEOpposite().isMany()) {
+									valuesrc = source.eGet(srcref.getEOpposite());
+									List<EObject> srcelems = new ArrayList<EObject>();
+									srcelems.addAll((EList<EObject>) valuesrc);
+									for (EObject srcelem : srcelems) {
+										if (!elemequals.contains(srcelem)) {
+											for (EReference tarref : target.eClass().getEAllReferences()) {
+												if ((valuetar = target.eGet(tarref)) != null) {
+													if (!tarref.isContainment() && tarref.getEOpposite() != null && valuetar instanceof EObject) {
+														valuetar = target.eGet(tarref.getEOpposite());
+														List<EObject> tarelems = new ArrayList<EObject>();
+														tarelems.addAll((EList<EObject>) valuetar);
+														for (EObject tarelem : tarelems) {
+															equals(srcelem, tarelem, elemequals);
+														}
+													}
+												}
+											}
+										}
+										if (!elemequals.contains(srcelem)) {
+											return false;
+										}
+									}
+								}
+								else {
+									valuesrc = source.eGet(srcref.getEOpposite());
+									EObject srcelem = (EObject) valuesrc;
 									if (!elemequals.contains(srcelem)) {
 										for (EReference tarref : target.eClass().getEAllReferences()) {
 											if ((valuetar = target.eGet(tarref)) != null) {
-												if (!tarref.isContainment() && tarref.getEOpposite() != null && valuetar instanceof EObject) {
-													valuetar = target.eGet(tarref.getEOpposite());
-													List<EObject> tarelems = new ArrayList<EObject>();
-													tarelems.addAll((EList<EObject>) valuetar);
-													for (EObject tarelem : tarelems) {
-														equals(srcelem, tarelem, elemequals);
-													}
-												}
+												EObject tarelem = (EObject) valuetar;
+												equals(srcelem, tarelem, elemequals);
 											}
 										}
 									}
 									if (!elemequals.contains(srcelem)) {
 										return false;
 									}
-								}
-							}
-							else {
-								valuesrc = source.eGet(srcref.getEOpposite());
-								EObject srcelem = (EObject) valuesrc;
-								if (!elemequals.contains(srcelem)) {
-									for (EReference tarref : target.eClass().getEAllReferences()) {
-										if ((valuetar = target.eGet(tarref)) != null) {
-											EObject tarelem = (EObject) valuetar;
-											equals(srcelem, tarelem, elemequals);
-										}
-									}
-								}
-								if (!elemequals.contains(srcelem)) {
-									return false;
 								}
 							}
 						}
@@ -165,6 +168,9 @@ public class EMFComparison {
 	public static boolean equals (EObject source, EObject target) {
 		if (source == null || target == null) {
 			return false;
+		}
+		if (EcoreUtil.equals(source, target)) {
+			return true;
 		}
 		
 		List<EObject> objectequals = new ArrayList<EObject>();

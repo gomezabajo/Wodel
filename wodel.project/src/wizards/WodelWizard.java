@@ -228,7 +228,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 			if (metamodel != null) {
 				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(projectName) + "/" + metamodel);
-				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				List<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(0);
 				def += "with commands {\n";
 				def += "\tcreate " + eclass.getName() + "\n";

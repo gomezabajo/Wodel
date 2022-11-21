@@ -39,7 +39,7 @@ class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
 		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
 		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
-		val ArrayList<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
+		val List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
 		var ArrayList<Block> blocks = null;
 		for (EObject eobject : eobjects) {
 			blocks.add(eobject as Block)

@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -416,8 +417,8 @@ public class ModelManager {
 		return "";
 	}
 
-	public static HashSet<String> getExtensions() {
-		HashSet<String> extensions = new HashSet<String>();
+	public static Set<String> getExtensions() {
+		Set<String> extensions = new HashSet<String>();
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
 					+ ProjectUtils.getProject().getName();
@@ -439,8 +440,8 @@ public class ModelManager {
 		return extensions;
 	}
 	
-	public static HashSet<String> getExtensions(Class<?> cls) {
-		HashSet<String> extensions = new HashSet<String>();
+	public static Set<String> getExtensions(Class<?> cls) {
+		Set<String> extensions = new HashSet<String>();
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
 			int index = path.lastIndexOf("/bin");
@@ -949,9 +950,9 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return ArrayList<EObject> All the objects except root
 	 */
-	public static ArrayList<EObject> getObjects(Resource model) {
+	public static List<EObject> getObjects(Resource model) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = new ArrayList<EObject>();
 
 		Iterator<EObject> objects = model.getAllContents();
 
@@ -974,10 +975,10 @@ public class ModelManager {
 	 * @return ArrayList<EObject> All the classes or objects of the specified
 	 *         type
 	 */
-	public static ArrayList<EObject> getObjectsOfType(String type,
+	public static List<EObject> getObjectsOfType(String type,
 			Resource model) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = new ArrayList<EObject>();
 		for (EObject obj : model.getContents()) {
 			List<EClass> types = new ArrayList<EClass>();
 			types.add(obj.eClass());
@@ -1307,9 +1308,9 @@ public class ModelManager {
 	 *            Target referenced objects
 	 * @return ArrayList<EObject> Refered objects
 	 */
-	public static ArrayList<EObject> getReferredObjects(List<String> refNames, List<EObject> sources, List<EObject> targets) {
+	public static List<EObject> getReferredObjects(List<String> refNames, List<EObject> sources, List<EObject> targets) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = new ArrayList<EObject>();
 		for (EObject src : sources) {
 			EObject refObject = src;
 			for (String refName : refNames) {
@@ -1426,10 +1427,10 @@ public class ModelManager {
 	 *            Loaded MetaModel
 	 * @return EObject Classes
 	 */
-	public static ArrayList<EObject> getObjectFromMetamodel(
+	public static List<EObject> getObjectFromMetamodel(
 			List<EPackage> metaModel) {
 
-		ArrayList<EObject> ret = new ArrayList<EObject>();
+		List<EObject> ret = new ArrayList<EObject>();
 
 		for (EPackage p : metaModel) {
 			// For each classifier
@@ -1449,9 +1450,9 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return ArrayList<EObject> All the classes or objects
 	 */
-	public static ArrayList<EObject> getAllObjects(Resource model) {
+	public static List<EObject> getAllObjects(Resource model) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = new ArrayList<EObject>();
 
 		for (EObject obj : model.getContents()) {
 			objs.add(obj);
@@ -1472,9 +1473,9 @@ public class ModelManager {
 	 *            Loaded Metamodel
 	 * @return ArrayList<EObject> All the classes or objects
 	 */
-	public static ArrayList<EObject> getAllObjects(List<EPackage> metamodel) {
+	public static List<EObject> getAllObjects(List<EPackage> metamodel) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = new ArrayList<EObject>();
 
 		for (EPackage p : metamodel) {
 			EList<EObject> objects = p.eContents();
@@ -1498,12 +1499,12 @@ public class ModelManager {
 	 *            Name of the containing Class
 	 * @return Parents
 	 */
-	public static ArrayList<EObject> getParentObjects(List<EPackage> packages, Resource model,
+	public static List<EObject> getParentObjects(List<EPackage> packages, Resource model,
 			String containing) {
 
-		ArrayList<EObject> mmobjs = new ArrayList<EObject>();
-		ArrayList<EObject> mmparents = new ArrayList<EObject>();
-		ArrayList<EObject> parents = new ArrayList<EObject>();
+		List<EObject> mmobjs = new ArrayList<EObject>();
+		List<EObject> mmparents = new ArrayList<EObject>();
+		List<EObject> parents = new ArrayList<EObject>();
 		EObject obj = getObjectOfType(containing, packages);
 
 		if ((containing.equals("EAttribute")
@@ -1558,9 +1559,8 @@ public class ModelManager {
 	 */
 	public static EObject getContainer(Resource model, EObject object) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
+		List<EObject> objs = getAllObjects(model);
 		EObject parent = null;
-		objs = getAllObjects(model);
 
 		for (EObject obj : objs) {
 			// We search inside the object
@@ -1623,13 +1623,12 @@ public class ModelManager {
 	 *            Name of the containment Class
 	 * @return Containers
 	 */
-	public static ArrayList<EObject> getContainerObjects(Resource model,
+	public static List<EObject> getContainerObjects(Resource model,
 			String containment) {
 
-		ArrayList<EObject> objs = new ArrayList<EObject>();
-		ArrayList<EObject> containers = new ArrayList<EObject>();
+		List<EObject> objs = getAllObjects(model);
+		List<EObject> containers = new ArrayList<EObject>();
 
-		objs = getAllObjects(model);
 
 		for (EObject o : objs) {
 			// We search the references inside the objects
@@ -1658,8 +1657,8 @@ public class ModelManager {
 	public static EObject getContainerObject(Resource model,
 			EObject object) {
 		
-		ArrayList<EObject> objs = getAllObjects(model);
-		ArrayList<EClass> types = new ArrayList<EClass>();
+		List<EObject> objs = getAllObjects(model);
+		List<EClass> types = new ArrayList<EClass>();
 		types.add(object.eClass());
 		types.addAll(object.eClass().getEAllSuperTypes());
 		for (EObject obj : objs) {
@@ -1746,11 +1745,15 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObject(Resource model, EObject eobj) {
-		List<EObject> objs = getAllObjects(model);
+		if (eobj != null) {
+			List<EObject> objs = getAllObjects(model);
 
-		for (EObject obj : objs) {
-			if (EcoreUtil.equals(obj.eClass(),eobj.eClass()) && EMFComparison.equals(obj, eobj)) {
-				return obj;
+			for (EObject obj : objs) {
+				if (EcoreUtil.equals(obj.eClass(), eobj.eClass())) {
+					if (EMFComparison.equals(obj, eobj)) {
+						return obj;
+					}
+				}
 			}
 		}
 		return null;
@@ -1842,7 +1845,7 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObjectByURI(Resource model, URI uri) {
-		ArrayList<EObject> objs = getAllObjects(model);
+		List<EObject> objs = getAllObjects(model);
 
 		for (EObject obj : objs) {
 			if (EcoreUtil.getURI(obj).equals(uri)) {
@@ -1957,7 +1960,7 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EReference getReference(Resource model, EReference eref) {
-		ArrayList<EReference> refs = getAllReferences(model);
+		List<EReference> refs = getAllReferences(model);
 
 		for (EReference ref : refs) {
 			if (EcoreUtil.equals(eref, ref)) {
@@ -2620,7 +2623,7 @@ public class ModelManager {
 	 * @return References that contains the containing object
 	 * @throws ReferenceNonExistingException
 	 */
- 	public static ArrayList<EReference> getContainingReferences(
+ 	public static List<EReference> getContainingReferences(
 			List<EPackage> metaModel, EObject container, String containing)
 			throws ReferenceNonExistingException {
 		ArrayList<EReference> contRefs = new ArrayList<EReference>();
@@ -2672,9 +2675,9 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return ArrayList<EStructuralFeature> Specified references of the model
 	 */
-	public static ArrayList<EStructuralFeature> getAllReferencesByName(
+	public static List<EStructuralFeature> getAllReferencesByName(
 			String name, Resource model) {
-		ArrayList<EStructuralFeature> ret = new ArrayList<EStructuralFeature>();
+		List<EStructuralFeature> ret = new ArrayList<EStructuralFeature>();
 		Iterator<EObject> objetos = model.getAllContents();
 		EStructuralFeature sf = null;
 		while (objetos.hasNext()) {
@@ -2690,8 +2693,8 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return ArrayList<EStructuralFeature> References of the model
 	 */
-	public static ArrayList<EReference> getAllReferences(Resource model) {
-		ArrayList<EReference> ret = new ArrayList<EReference>();
+	public static List<EReference> getAllReferences(Resource model) {
+		List<EReference> ret = new ArrayList<EReference>();
 		Iterator<EObject> objetos = model.getAllContents();
 		while (objetos.hasNext()) {
 			EObject objeto = objetos.next();
@@ -3137,15 +3140,15 @@ public class ModelManager {
 	/**
 	 * It returns the list of classes defined in a meta-model.
 	 */
-	public static ArrayList<EClass> getEClasses(List<EPackage> packages) {
+	public static List<EClass> getEClasses(List<EPackage> packages) {
 		return getEClasses(packages, new ArrayList<EPackage>());
 	}
 
 	/**
 	 * It returns the list of classes defined in a meta-model.
 	 */
-	private static ArrayList<EClass> getEClasses(List<EPackage> packages, List<EPackage> processed) {
-		ArrayList<EClass> classes = new ArrayList<EClass>();
+	private static List<EClass> getEClasses(List<EPackage> packages, List<EPackage> processed) {
+		List<EClass> classes = new ArrayList<EClass>();
 		for (EPackage pck : packages) {
 			if (!processed.contains(pck)) {
 				for (EClassifier cl : pck.getEClassifiers()) {
@@ -3172,8 +3175,8 @@ public class ModelManager {
 	/**
 	 * It returns the list of the given class subclasses defined in a meta-model.
 	 */
-	public static ArrayList<EClass> getESubClasses(List<EPackage> packages, EClass eClass) {
-		ArrayList<EClass> subclasses = new ArrayList<EClass>();
+	public static List<EClass> getESubClasses(List<EPackage> packages, EClass eClass) {
+		List<EClass> subclasses = new ArrayList<EClass>();
 		List<EClass> classes = ModelManager.getEClasses(packages);
 		for (EClass cl : classes) {
 			List<EClass> superTypes = cl.getEAllSuperTypes();
@@ -3280,7 +3283,7 @@ public class ModelManager {
 	 */
 	public static EClass getRootEClass(List<EPackage> packages) {
 		EClass root = null;
-		ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+		List<EClass> eclasses = ModelManager.getEClasses(packages);
 		for (EClass eclass : eclasses) {
 			List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
 			if (containerTypes.size() == 0) {

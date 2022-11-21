@@ -131,7 +131,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 				List<String> listMutVersions = hashmapMutVersions.get(mutantPath);
 				for (String mutVersionPath : listMutVersions) {
 					Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
-					ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
+					List<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
 					for (EObject object : mutVersionObjects) {
 						boolean exists = false;
 						String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
@@ -168,7 +168,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 				List<String> listMutVersions = hashmapMutVersions.get(mutantPath);
 				for (String mutVersionPath : listMutVersions) {
 					Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
-					ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
+					List<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
 					for (EObject object : mutVersionObjects) {
 						if (totalMutantObjects.contains(object) != true) {
 							totalMutantObjects.add(object);
@@ -193,7 +193,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 					String versionRegistryPath = versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry/" + versionPath.substring(versionPath.lastIndexOf("/") + 1, versionPath.length()).replace(".model", "Registry.model");
 					if (new File(versionRegistryPath).exists()) {
 						Resource versionRegistry = ModelManager.loadModel(registry, versionRegistryPath);
-						ArrayList<EObject> versionRegistryObjects = ModelManager.getAllObjects(versionRegistry);
+						List<EObject> versionRegistryObjects = ModelManager.getAllObjects(versionRegistry);
 						for (EObject object : versionRegistryObjects) {
 							boolean exists = false;
 							for (EObject registryObject : totalRegObjects) {

@@ -67,7 +67,7 @@ public class RandomReferenceConfigurationStrategy extends
 			//monovalued
 			if (this.object.eGet(reference) instanceof EObject) {
 				this.source = (EObject) this.object.eGet(reference);
-				ArrayList<EObject> ltar = ModelManager.getObjectsOfType(className, model);
+				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
 				if (ltar.size() > 0) {
 					ArrayList<EObject> targets = new ArrayList<EObject>();
 					for (EObject o : ltar) {
@@ -85,7 +85,7 @@ public class RandomReferenceConfigurationStrategy extends
 			//multivalued
 			if (this.object.eGet(reference) instanceof List<?>) {
 				this.source = (List<EObject>) this.object.eGet(reference);
-				ArrayList<EObject> ltar = ModelManager.getObjectsOfType(className, model);
+				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
 				if (ltar.size() > 0) {
 					ArrayList<EObject> targets = new ArrayList<EObject>();
 					for (EObject o : ltar) {
@@ -133,7 +133,7 @@ public class RandomReferenceConfigurationStrategy extends
 			//monovalued
 			if (this.object.eGet(reference) instanceof EObject) {
 				this.source = (EObject) this.object.eGet(reference);
-				ArrayList<EObject> ltar = ModelManager.getObjectsOfType(className, model);
+				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
 				if (ltar.size() > 0) {
 					ArrayList<EObject> targets = new ArrayList<EObject>();
 					for (EObject o : ltar) {
@@ -151,7 +151,7 @@ public class RandomReferenceConfigurationStrategy extends
 			//multivalued
 			if (this.object.eGet(reference) instanceof List<?>) {
 				this.source = (List<EObject>) this.object.eGet(reference);
-				ArrayList<EObject> ltar = ModelManager.getObjectsOfType(className, model);
+				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
 				if (ltar.size() > 0) {
 					ArrayList<EObject> targets = new ArrayList<EObject>();
 					for (EObject o : ltar) {

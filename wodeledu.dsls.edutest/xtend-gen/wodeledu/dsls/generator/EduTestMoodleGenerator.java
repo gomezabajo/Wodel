@@ -131,6 +131,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
       }
       _builder.append(_xblockexpression);
       _builder.newLineIfNotEmpty();
+      _builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+      _builder.newLine();
       _builder.append("<!--");
       EObject _eContainer = this.blocks.get(0).eContainer();
       List<EPackage> packages = ModelManager.loadMetaModel(((MutatorEnvironment) _eContainer).getDefinition().getMetamodel());
@@ -144,8 +146,6 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
       _builder.append(domain = domain.substring(0, domain.lastIndexOf("/")).replace("/", ""));
       _builder.append("-->");
       _builder.newLineIfNotEmpty();
-      _builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-      _builder.newLine();
       _builder.append("<quiz>");
       _builder.newLine();
       _builder.append("  ");
@@ -1483,64 +1483,58 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       {
                         List<EduTestSuperGenerator.TestOption> _get_18 = this.options.get(exercise).get(test_7);
                         for(final EduTestSuperGenerator.TestOption op : _get_18) {
+                          _builder.append("        ");
+                          _builder.append("  ");
+                          String key_6 = this.getText(((MatchPairs) exercise).getConfig().getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                          _builder.newLineIfNotEmpty();
                           {
-                            boolean _isExpression = test_7.isExpression();
-                            boolean _equals_5 = (_isExpression == true);
-                            if (_equals_5) {
+                            int _length = key_6.length();
+                            boolean _lessEqualsThan = (_length <= 127);
+                            if (_lessEqualsThan) {
                               _builder.append("        ");
                               _builder.append("  ");
-                              String key_6 = this.getText(((MatchPairs) exercise).getConfig().getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                              boolean found_3 = false;
                               _builder.newLineIfNotEmpty();
                               {
-                                int _length = key_6.length();
-                                boolean _lessEqualsThan = (_length <= 127);
-                                if (_lessEqualsThan) {
+                                Set<Integer> _keySet_6 = entries.keySet();
+                                for(final int entryKey : _keySet_6) {
                                   _builder.append("        ");
                                   _builder.append("  ");
-                                  boolean found_3 = false;
+                                  AbstractMap.SimpleEntry<String, String> entry_4 = entries.get(Integer.valueOf(entryKey));
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<Integer> _keySet_6 = entries.keySet();
-                                    for(final int entryKey : _keySet_6) {
+                                    boolean _equals_5 = entry_4.getKey().equals(key_6);
+                                    if (_equals_5) {
                                       _builder.append("        ");
                                       _builder.append("  ");
-                                      AbstractMap.SimpleEntry<String, String> entry_4 = entries.get(Integer.valueOf(entryKey));
-                                      _builder.newLineIfNotEmpty();
+                                      String _xblockexpression_25 = null;
                                       {
-                                        boolean _equals_6 = entry_4.getKey().equals(key_6);
-                                        if (_equals_6) {
-                                          _builder.append("        ");
-                                          _builder.append("  ");
-                                          String _xblockexpression_25 = null;
-                                          {
-                                            found_3 = true;
-                                            _xblockexpression_25 = "";
-                                          }
-                                          _builder.append(_xblockexpression_25, "          ");
-                                          _builder.newLineIfNotEmpty();
-                                        }
+                                        found_3 = true;
+                                        _xblockexpression_25 = "";
                                       }
+                                      _builder.append(_xblockexpression_25, "          ");
+                                      _builder.newLineIfNotEmpty();
                                     }
                                   }
+                                }
+                              }
+                              {
+                                if ((found_3 == false)) {
+                                  _builder.append("        ");
+                                  _builder.append("  ");
+                                  String _trim_5 = mapPairOptions.get(test_7).get(op).trim();
+                                  AbstractMap.SimpleEntry<String, String> entry_5 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim_5);
+                                  _builder.newLineIfNotEmpty();
+                                  _builder.append("        ");
+                                  _builder.append("  ");
+                                  String _xblockexpression_26 = null;
                                   {
-                                    if ((found_3 == false)) {
-                                      _builder.append("        ");
-                                      _builder.append("  ");
-                                      String _trim_5 = mapPairOptions.get(test_7).get(op).trim();
-                                      AbstractMap.SimpleEntry<String, String> entry_5 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim_5);
-                                      _builder.newLineIfNotEmpty();
-                                      _builder.append("        ");
-                                      _builder.append("  ");
-                                      String _xblockexpression_26 = null;
-                                      {
-                                        int _plusPlus_3 = keyCounter++;
-                                        entries.put(Integer.valueOf(_plusPlus_3), entry_5);
-                                        _xblockexpression_26 = "";
-                                      }
-                                      _builder.append(_xblockexpression_26, "          ");
-                                      _builder.newLineIfNotEmpty();
-                                    }
+                                    int _plusPlus_3 = keyCounter++;
+                                    entries.put(Integer.valueOf(_plusPlus_3), entry_5);
+                                    _xblockexpression_26 = "";
                                   }
+                                  _builder.append(_xblockexpression_26, "          ");
+                                  _builder.newLineIfNotEmpty();
                                 }
                               }
                             }
@@ -1735,8 +1729,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.newLineIfNotEmpty();
                               {
                                 Boolean _value_2 = entry_7.getValue().getValue().getValue().getValue();
-                                boolean _equals_7 = ((_value_2).booleanValue() == true);
-                                if (_equals_7) {
+                                boolean _equals_6 = ((_value_2).booleanValue() == true);
+                                if (_equals_6) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
                                   int _plusPlus_5 = k_3++;
@@ -2055,8 +2049,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        boolean _equals_8 = diagram_4.equals(test_10.getSource().replace(".model", ".png"));
-                        if (_equals_8) {
+                        boolean _equals_7 = diagram_4.equals(test_10.getSource().replace(".model", ".png"));
+                        if (_equals_7) {
                           _builder.append("           ");
                           String _identifier = ((MultiChoiceText) exercise).getConfig().getIdentifier();
                           String _metaModelPath = ModelManager.getMetaModelPath();
@@ -2289,8 +2283,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("<idnumber></idnumber>");
                       _builder.newLine();
                       {
-                        boolean _equals_9 = diagram_5.equals(test_11.getSource().replace(".model", ".png"));
-                        if (_equals_9) {
+                        boolean _equals_8 = diagram_5.equals(test_11.getSource().replace(".model", ".png"));
+                        if (_equals_8) {
                           _builder.append("<answer fraction=\"100\" format=\"moodle_auto_format\">");
                           _builder.newLine();
                           _builder.append("  ");
@@ -2515,8 +2509,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                 Set<String> _keySet_12 = group.keySet();
                                 for(final String typeName : _keySet_12) {
                                   {
-                                    boolean _equals_10 = typeName.equals(entry_9.getValue().getKey().getName());
-                                    if (_equals_10) {
+                                    boolean _equals_9 = typeName.equals(entry_9.getValue().getKey().getName());
+                                    if (_equals_9) {
                                       _builder.append("        ");
                                       _builder.append("<!-- ");
                                       _builder.append(value = group.get(typeName), "        ");
@@ -2689,8 +2683,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                             for(final EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>> entry_11 : entries_4) {
                               {
                                 Boolean _value_4 = entry_11.getValue().getValue().getValue().getValue();
-                                boolean _equals_11 = ((_value_4).booleanValue() == true);
-                                if (_equals_11) {
+                                boolean _equals_10 = ((_value_4).booleanValue() == true);
+                                if (_equals_10) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
                                   int _plusPlus_11 = k_4++;

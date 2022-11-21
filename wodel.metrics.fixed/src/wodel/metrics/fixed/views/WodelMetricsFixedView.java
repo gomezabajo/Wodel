@@ -1130,7 +1130,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(createdSession, dRepresentation, monitor);
 				
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-			ArrayList<EClass> listEClasses = ModelManager.getEClasses(packages);
+			List<EClass> listEClasses = ModelManager.getEClasses(packages);
 			DSemanticDiagramSpec semanticDiagram = (DSemanticDiagramSpec) dRepresentation;
 			Iterator<EClass> itEClass = listEClasses.iterator();
 				

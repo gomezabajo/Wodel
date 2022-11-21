@@ -53,7 +53,7 @@ public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
         final String ecore = FileLocator.resolve(fileURL).getFile();
         final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-        final ArrayList<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
+        final List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
         ArrayList<Block> blocks = null;
         for (final EObject eobject : eobjects) {
           blocks.add(((Block) eobject));

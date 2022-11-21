@@ -77,7 +77,7 @@ public class ModifySourceReferenceMutator extends Mutator {
 		EObject newSource = this.newSource.getObject();
 
 		// We get the specified references
-		ArrayList<EStructuralFeature> refs = ModelManager
+		List<EStructuralFeature> refs = ModelManager
 				.getAllReferencesByName(refType, this.getModel());
 
 		if (refs == null) {

@@ -87,10 +87,10 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 
 	def compile(Program program, Resource resource) '''
 		«{buildOptions(program, resource, blocks, program.class); ""}»
+		<?xml version="1.0" encoding="UTF-8"?>
 		<!--«var List<EPackage> packages = ModelManager.loadMetaModel((blocks.get(0).eContainer as MutatorEnvironment).definition.metamodel)»-->
 		<!--«var String domain = packages.get(0).getNsURI().replace("http://", "")»-->
 		<!--«domain = domain.substring(0, domain.lastIndexOf("/")).replace("/", "")»-->
-		<?xml version="1.0" encoding="UTF-8"?>
 		<quiz>
 		  <question type="category">
 		    <category>
@@ -487,7 +487,6 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           <!--«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»-->
           <!--«var int keyCounter = 0»-->
           «FOR TestOption op : options.get(exercise).get(test)»
-            «IF test.expression == true»
             «var String key = getText((exercise as MatchPairs).config.identifier, op.entry.getKey().getURI().toFileString(), resource)»
             «IF key.length() <= 127»
             «var boolean found = false»
@@ -500,7 +499,6 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
             «IF found == false»
             «var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, mapPairOptions.get(test).get(op).trim())»
             «{entries.put(keyCounter++, entry); ""}»
-            «ENDIF»
             «ENDIF»
             «ENDIF»
           «ENDFOR»

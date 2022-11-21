@@ -154,7 +154,7 @@ public class MutatorInfo {
 	   		String registryecore = FileLocator.resolve(fileURL).getFile();
 	   		List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 			Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-			ArrayList<EObject> objects = ModelManager.getAllObjects(program);
+			List<EObject> objects = ModelManager.getAllObjects(program);
 			List<EObject> muts = MutatorUtils.getMutatorList(objects);
 			String output = ModelManager.getOutputPath();
 			HashMap<String, Resource> registryModels = new HashMap<String, Resource>();

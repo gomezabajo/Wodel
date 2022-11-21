@@ -329,7 +329,7 @@ public class RunWodel extends AbstractHandler {
 					try {
 						final IGenerator src = (IGenerator) extensions[j]
 								.createExecutableExtension("class");
-						HashSet<String> wodelExtensions = ModelManager.getExtensions();
+						Set<String> wodelExtensions = ModelManager.getExtensions();
 						if (wodelExtensions.contains(src.getName())) {
 							src.doRun(file);
 						}

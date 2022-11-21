@@ -1411,7 +1411,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 								rels = dotrels.get(source + "->" + tar);
 							}
 							else {
-								rels = new ArrayList<HashMap<String, String>>();
+								rels = new ArrayList<Map<String, String>>();
 							}
 							if (source.length() > 0 && tar.length() > 0) {
 								if (rels.contains(parameters) == false) {

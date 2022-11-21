@@ -8,30 +8,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import manager.EMFCopier;
-import manager.EMFUtils;
 import manager.ModelManager;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import commands.selection.strategies.ObSelectionStrategy;
-import commands.selection.strategies.RandomTypeSelection;
 import commands.strategies.AttributeConfigurationStrategy;
 import commands.strategies.CopyReferenceConfigurationStrategy;
-import commands.strategies.RandomBooleanConfigurationStrategy;
-import commands.strategies.RandomDoubleConfigurationStrategy;
-import commands.strategies.RandomIntegerConfigurationStrategy;
 import commands.strategies.RandomReferenceConfigurationStrategy;
-import commands.strategies.RandomStringConfigurationStrategy;
 import commands.strategies.ReferenceConfigurationStrategy;
 import commands.strategies.SwapAttributeConfigurationStrategy;
 import commands.strategies.SwapReferenceConfigurationStrategy;
@@ -71,6 +59,8 @@ public class ModifyInformationMutator extends Mutator {
 	private EObject eobjother;
 	private EObject eobjatt;
 	
+	private List<EObject> objectcopies;
+	
 	private EObject eobjref;
 	
 	private List<EObject> objsAttRef;
@@ -107,6 +97,21 @@ public class ModifyInformationMutator extends Mutator {
 			Map<String, List<ReferenceConfigurationStrategy>> newReferenceConfig) {
 		super(model, metaModel, "InformationChanged");
 		this.object = object;
+		this.objectcopies = new ArrayList<EObject>();
+		try {
+			if (object.getObject() != null) {
+				this.objectcopies.add(EMFCopier.copy(object.getObject()));
+			}
+			if (object.getObjects() != null) {
+				List<EObject> objs = object.getObjects();
+				for (EObject obj : objs) {
+					this.objectcopies.add(EMFCopier.copy(obj));
+				}
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.newAttributeConfig = newAttributeConfig;
 		this.newReferenceConfig = newReferenceConfig;
 		this.oldAttValue = new HashMap<String, Object>();
@@ -134,6 +139,21 @@ public class ModifyInformationMutator extends Mutator {
 			Map<String, List<AttributeConfigurationStrategy>> attsRef) {
 		super(model, metaModel, "InformationChanged");
 		this.object = object;
+		this.objectcopies = new ArrayList<EObject>();
+		try {
+			if (object.getObject() != null) {
+				this.objectcopies.add(EMFCopier.copy(object.getObject()));
+			}
+			if (object.getObjects() != null) {
+				List<EObject> objs = object.getObjects();
+				for (EObject obj : objs) {
+					this.objectcopies.add(EMFCopier.copy(obj));
+				}
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.newAttributeConfig = newAttributeConfig;
 		this.newReferenceConfig = newReferenceConfig;
 		this.objsAttRef = objsAttRef;
@@ -148,69 +168,69 @@ public class ModifyInformationMutator extends Mutator {
 		this.newRefValue = new HashMap<String, Object>();
 	}
 
-	/**
-	 * Completes the model with mandatory features
-	 * @param packages
-	 * @param model
-	 * @return
-	 */
-	private void complete(List<EPackage> packages, Resource model) {
-		TreeIterator<EObject> tree = model.getAllContents();
-		while (tree.hasNext()) {
-			EObject eObject = (EObject) tree.next();
-			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
-			if (diagnostic.getSeverity() != Diagnostic.OK) {
-				int code = ((BasicDiagnostic) diagnostic.getChildren().get(0)).getCode();
-				if (code == 0 || code == 1) {
-					try {
-						// COMPLETES THE CARDINALITIES
-						TreeIterator<Object> nested = EcoreUtil.getAllContents(eObject, true);
-						List<EObject> processed = new ArrayList<EObject>();
-						while (nested.hasNext()) {
-							EObject obj = (EObject) nested.next();
-							if (processed.contains(obj)) {
-								break;
-							}
-							processed.add(obj);
-							for (EAttribute att : obj.eClass().getEAllAttributes()) {
-								if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
-									try { 
-										if (att.getEType().getInstanceClassName().equals(String.class.getCanonicalName())) {
-											ModelManager.setAttribute(att.getName(), obj, new RandomStringConfigurationStrategy(4, 5, false));
-										}
-										if (att.getEType().getInstanceClassName().equals(boolean.class.getCanonicalName())) {
-											ModelManager.setAttribute(att.getName(), obj, new RandomBooleanConfigurationStrategy());
-										}
-										if (att.getEType().getInstanceClassName().equals(double.class.getCanonicalName())) {
-											ModelManager.setAttribute(att.getName(), obj, new RandomDoubleConfigurationStrategy(1, 100, false));
-										}
-										if (att.getEType().getInstanceClassName().equals(int.class.getCanonicalName())) {
-											ModelManager.setAttribute(att.getName(), obj, new RandomIntegerConfigurationStrategy(1, 100, false));
-										}
-									} catch (WrongAttributeTypeException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-							for (EReference ref : obj.eClass().getEAllReferences()) {
-								if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
-									try {
-										if (ref.isChangeable()) {
-											ModelManager.setReference(ref.getName(), obj, new RandomTypeSelection(packages, model, ref.getEReferenceType().getName()));
-										}
-									} catch (WrongAttributeTypeException e) {
-									} catch (ReferenceNonExistingException e) {
-									} catch (ClassCastException e) {
-									}
-								}
-							}
-						}
-					} catch (Exception ex) {
-					}
-				}
-			}
-		}
-	}
+//	/**
+//	 * Completes the model with mandatory features
+//	 * @param packages
+//	 * @param model
+//	 * @return
+//	 */
+//	private void complete(List<EPackage> packages, Resource model) {
+//		TreeIterator<EObject> tree = model.getAllContents();
+//		while (tree.hasNext()) {
+//			EObject eObject = (EObject) tree.next();
+//			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+//			if (diagnostic.getSeverity() != Diagnostic.OK) {
+//				int code = ((BasicDiagnostic) diagnostic.getChildren().get(0)).getCode();
+//				if (code == 0 || code == 1) {
+//					try {
+//						// COMPLETES THE CARDINALITIES
+//						TreeIterator<Object> nested = EcoreUtil.getAllContents(eObject, true);
+//						List<EObject> processed = new ArrayList<EObject>();
+//						while (nested.hasNext()) {
+//							EObject obj = (EObject) nested.next();
+//							if (processed.contains(obj)) {
+//								break;
+//							}
+//							processed.add(obj);
+//							for (EAttribute att : obj.eClass().getEAllAttributes()) {
+//								if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
+//									try { 
+//										if (att.getEType().getInstanceClassName().equals(String.class.getCanonicalName())) {
+//											ModelManager.setAttribute(att.getName(), obj, new RandomStringConfigurationStrategy(4, 5, false));
+//										}
+//										if (att.getEType().getInstanceClassName().equals(boolean.class.getCanonicalName())) {
+//											ModelManager.setAttribute(att.getName(), obj, new RandomBooleanConfigurationStrategy());
+//										}
+//										if (att.getEType().getInstanceClassName().equals(double.class.getCanonicalName())) {
+//											ModelManager.setAttribute(att.getName(), obj, new RandomDoubleConfigurationStrategy(1, 100, false));
+//										}
+//										if (att.getEType().getInstanceClassName().equals(int.class.getCanonicalName())) {
+//											ModelManager.setAttribute(att.getName(), obj, new RandomIntegerConfigurationStrategy(1, 100, false));
+//										}
+//									} catch (WrongAttributeTypeException e) {
+//										e.printStackTrace();
+//									}
+//								}
+//							}
+//							for (EReference ref : obj.eClass().getEAllReferences()) {
+//								if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
+//									try {
+//										if (ref.isChangeable()) {
+//											ModelManager.setReference(ref.getName(), obj, new RandomTypeSelection(packages, model, ref.getEReferenceType().getName()));
+//										}
+//									} catch (WrongAttributeTypeException e) {
+//									} catch (ReferenceNonExistingException e) {
+//									} catch (ClassCastException e) {
+//									}
+//								}
+//							}
+//						}
+//					} catch (Exception ex) {
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	@Override
 	public Object mutate() throws ReferenceNonExistingException,
@@ -342,18 +362,6 @@ public class ModifyInformationMutator extends Mutator {
 									srcRefType = rrcf.getSrcRefType(); 
 								}
 								eobjref = EMFCopier.copy(object);
-								try {
-									previous.put(e.getKey(), refConfig.getValue());
-									if (refConfig != null) {
-										next.put(e.getKey(), refConfig.getValue(object));
-									}
-								}
-								catch (ClassCastException ex) {
-									previous.put(e.getKey(), refConfig.getValue());
-									if (refConfig != null) {
-										next.put(e.getKey(), refConfig.getValue(object));
-									}
-								}
 							}
 						}
 						if (refConfig == null) {
@@ -468,7 +476,7 @@ public class ModifyInformationMutator extends Mutator {
 	public Object getOldRefAttValue(String attName) {
 		//return oldAttValue;
 		if (objRefAttOld != null) {
-		EList<EAttribute> atts = ModelManager.getAttributes(objRefAttOld);
+		List<EAttribute> atts = ModelManager.getAttributes(objRefAttOld);
 		for (EAttribute att : atts) {
 			if (att.getName().equals(attName)) {
 				return objRefAttOld.eGet(att);
@@ -481,7 +489,7 @@ public class ModifyInformationMutator extends Mutator {
 	public Object getNewRefAttValue(String attName) {
 		//return newAttValue;
 		if (objRefAttNew != null) {
-		EList<EAttribute> atts = ModelManager.getAttributes(objRefAttNew);
+		List<EAttribute> atts = ModelManager.getAttributes(objRefAttNew);
 		for (EAttribute att : atts) {
 			if (att.getName().equals(attName)) {
 				return objRefAttNew.eGet(att);

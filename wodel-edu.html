@@ -49,14 +49,16 @@
 
 <h3 id="wodel-edu">Wodel-Edu: an MDE solution for the generation and evaluation of exercises</h3>
 
-<p><strong>Wodel-Edu</strong> is an extension to Wodel for the automated generation of exercises. It generates five kinds of exercises:</p>
+<p><strong>Wodel-Edu</strong> is an extension to Wodel for the automated generation of exercises. It generates seven kinds of exercises:</p>
 
 <ul>
 <li>Alternative response: the student has to tell if the diagram is correct or not.</li>
-<li>Multiple choice diagram: the student has to tell which of the shown diagrams is correct.</li>
-<li>Multiple choice emendation: the student has to tell which text options will fix the shown diagram.</li>
+<li>Multiple diagram choice: the student has to tell which of the shown diagrams is correct.</li>
+<li>Multiple text choice: the student has to tell which of the shown textual representations is correct.</li>
+<li>Multiple emendation choice: the student has to tell which text options will fix the shown diagram.</li>
 <li>Match pairs choice: the student has to match the statement on the left with the correct option of the drop-down list.</li>
-<li>Missing words choice: the student has to complete the gaps of the text shown with the correct options in order to match the statement.</li>
+<li>Missing words choice: the student has to complete the gaps of the text shown with the correct options in the drop-down lists to match the statement.</li>
+<li>Text drag and drop: the student has to complete the gaps of the text shown with the correct options of the set of texts presented as labels in categories to match the statement.</li>
 </ul>
 
 <p>With this purpose, Wodel-Edu provides 4 DSLs:</p>
@@ -89,7 +91,7 @@ MissingWords mtsrfs1 {
 }
 </code></pre>
 
-<p><strong>modelDraw</strong>: DSL for the models' graphical visualization. It uses <a href="http://www.graphviz.org/">GraphViz</a> for model renderization:</p>
+<p><strong>modelDraw</strong>: DSL for the models' graphical visualization. It uses alternatively <a href="http://www.graphviz.org/">Graphviz</a> and <a href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> for model renderization:</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 

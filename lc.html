@@ -44,58 +44,51 @@
 	  <a href="https://gomezabajo.github.io/Wodel/bpmn.html" class="btn">BPMN</a>
 	  <a href="https://gomezabajo.github.io/Wodel/lc.html" class="btn">Logic Circuits</a>
       <a href="https://gomezabajo.github.io/Wodel" class="btn">Wodel</a>
-    </section>
+   </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to finite security policies. [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy.ecore">Security Policy Ecore</a>]
-	  [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryOrBAC.model">OrBAC Model</a>]
-	  [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryRBAC.model">RBAC Model</a>]
-	  </strong></p>
+      <p><strong>Wodel applied to Logic Circuits. [<a href="http://gomezabajo.github.io/Wodel/ecore/LogicCircuit.ecore">Logic Circuit Ecore</a>]</strong></p>
 
-<p>Selects two rule types with the same parameter types. Then modifies the type of a
-rule whose type is the first selected rule type with the second rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rtt.zip">rtt</a>]:</p>
+<p><u>[<a href="http://gomezabajo.github.io/Wodel/zip/lc/lc.zip">High-level change operations for Logic Circuits</a>].</u></p>
 
-<pre><code>     t1 = select one RuleType
-     t2 = select one RuleType where {self <> t1 and parameters = t1->parameters}
-     modify one Rule where {type = t1} with {type = t2}
+<p>Retype a two-pinned gate as a two-pinned gate of a different type [<a href="http://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
+
+<pre><code>    retype one [AND, OR] as [AND, OR] 
 </code></pre>
 
-<p>Replaces a parameter of a rule with a different parameter of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppr.zip">ppr</a>]:</p>
+<p>Swap the input pins of two different gates [<a href="http://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
 
-<pre><code>     p1 = select one Parameter
-     p2 = select one Parameter where {type = p1->type and self <> p1}
-     r = select one Rule where {parameters = p1}
-     modify r with {parameters -= p1, parameters += p2}
+<pre><code>    g0 = select one Gate
+/modify one Gate where {self <> g0} with {swapref(input, g0->input)}
 </code></pre>
 
-<p>Creates a new rule using a selected rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/anr.zip">anr</a>]:</p>
+<p>Removes a NOT gate [<a href="http://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
 
-<pre><code>     t = select one RuleType
-     setp = select all Parameter where {type in t->parameters}
-     p = select sample from setp with distinct {type}
-     create Rule with {type = t, parameters = p}
+<pre><code>    n0 = select one NOT where {input->src <> null and output->tar <> null}
+i0 = select one InputPin in n0->output->tar
+o0 = select one OutputPin in n0->input->src
+modify i0 with {src = o0}
+remove n0
 </code></pre>
 
-<p>Removes a rule [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rer.zip">rer</a>]:</p>
+<p>Adds a NOT gate [<a href="http://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
 
-<pre><code>     remove one Rule
+<pre><code>    g0 = select one Gate where {input <> null and output <> null}
+n1 = create NOT with {name = random-string(2, 4)}
+o0 = select one OutputPin in g0->output
+i0 = select one InputPin in o0->tar
+create OutputPin in n1->output 
+    with {name = random-string(2, 4), tar = i0}
+create InputPin in n1->input 
+    with {name = random-string(2, 4), src = o0}
 </code></pre>
 
-<p>Replaces a parameter on a rule with one of its descending parameters (using the
-children reference) [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppd.zip">ppd</a>]:</p>
+<p>Here you can download all these examples of Wodel applied to Logic Circuits.<br />
 
-<pre><code>     r = select one Rule where {parameters->children <> null}
-     p = select one Parameter in r->parameters where {children <> null}
-     c = select one Parameter in closure(p->children)
-     modify r with {parameters -= p, parameters += c}
-</code></pre>
-
-<p>Here you can download all these examples of Wodel applied to Security Policies.<br />
-
-	  <a href="https://github.com/gomezabajo/Wodel/zipball/SecurityPoliciesWodelSamples">Security Policies samples .zip</a><br />
-	  <a href="https://github.com/gomezabajo/Wodel/tarball/SecurityPoliciesWodelSamples">Security Policies samples tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/LCWodelSamples">Logic Circuits samples .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/LCWodelSamples">Logic Circuits samples .tar.gz</a>
 </p>
-	
+
 <h3 id="acknowledgements">Acknowledgements</h3>
 
 <p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>

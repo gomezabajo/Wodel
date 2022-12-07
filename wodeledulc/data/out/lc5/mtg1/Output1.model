@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<logiccircuit:LogicCircuit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../model/LogicCircuit.ecore">
+  <gates xsi:type="logiccircuit:NOT" name="not1">
+    <output name="z" tar="//@gates.1/@input.1"/>
+    <input name="a"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" name="and1">
+    <output name="f"/>
+    <input name="b"/>
+    <input name="c" src="//@gates.0/@output"/>
+  </gates>
+</logiccircuit:LogicCircuit>

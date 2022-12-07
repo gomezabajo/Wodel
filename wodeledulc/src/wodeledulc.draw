@@ -1,0 +1,10 @@
+metamodel "/wodeledulc/data/model/LogicCircuit.ecore"
+
+LogicCircuit: diagram {
+	Gate: node shape=logic
+	InputPin(src == null): node shape=circle
+	OutputPin(tar == null): node shape=circle
+	InputPin(src == null) -> Gate: edge tar_decoration=none
+	Gate -> OutputPin(tar == null): edge tar_decoration=none
+    Gate(output->tar) -> Gate: edge tar_decoration=none
+}

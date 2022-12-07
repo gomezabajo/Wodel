@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ASCII"?>
+<logiccircuit:LogicCircuit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../../../model/LogicCircuit.ecore">
+  <gates xsi:type="logiccircuit:NOT" name="not1">
+    <output name="z" tar="//@gates.3/@input.0"/>
+    <input name="a"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" name="not2">
+    <output name="y" tar="//@gates.3/@input.1"/>
+    <input name="b"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" name="not3">
+    <output name="x" tar="//@gates.5/@input.0"/>
+    <input name="c"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" name="or1">
+    <output name="w" tar="//@gates.4/@input.0"/>
+    <input name="e" src="//@gates.0/@output"/>
+    <input name="g" src="//@gates.1/@output"/>
+  </gates>
+  <gates xsi:type="logiccircuit:AND" name="or2">
+    <output name="f"/>
+    <input name="i" src="//@gates.3/@output"/>
+    <input name="j" src="//@gates.5/@output"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" name="and1">
+    <output name="v" tar="//@gates.4/@input.1"/>
+    <input name="h" src="//@gates.2/@output"/>
+    <input name="d"/>
+  </gates>
+</logiccircuit:LogicCircuit>

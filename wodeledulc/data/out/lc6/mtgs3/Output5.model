@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<logiccircuit:LogicCircuit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../model/LogicCircuit.ecore">
+  <gates xsi:type="logiccircuit:NOT" name="not1">
+    <output name="z" tar="//@gates.3/@input.0"/>
+    <input name="a"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" name="not2">
+    <output name="x" tar="//@gates.2/@input.1"/>
+    <input name="c"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" name="or1">
+    <output name="f"/>
+    <input name="e" src="//@gates.3/@output"/>
+    <input name="g" src="//@gates.1/@output"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" name="and1">
+    <output name="y" tar="//@gates.2/@input.0"/>
+    <input name="d" src="//@gates.0/@output"/>
+    <input name="b"/>
+  </gates>
+</logiccircuit:LogicCircuit>

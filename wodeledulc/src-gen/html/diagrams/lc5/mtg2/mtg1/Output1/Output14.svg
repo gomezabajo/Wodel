@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: dpic version 2021.11.01 option -v for SVG 1.1 -->
+<!-- width="180" height="165" -->
+<svg
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ xml:space="preserve"
+ style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision;
+ image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+ width="178.64px" height="164px"
+ viewBox="0 0 178.64 164"
+ font-size="11pt" text-anchor="middle"
+ stroke="black" stroke-miterlimit="10" stroke-width="1.066667" fill="none">
+<g>
+<circle fill="white"
+ cx="20.266667" cy="62.933333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="67.773333">a</text>
+<circle fill="white"
+ cx="20.266667" cy="14.933333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="19.773333">b</text>
+<polyline points="63.466667,62.933333 46.666667,72.533333
+46.666667,53.333333
+63.466667,62.933333" />
+<circle cx="67.066667" cy="62.933333" r="3.6" />
+<polyline points="137.866667,29.333333 118.666667,29.333333
+118.666667,0.533333
+137.866667,0.533333" />
+<path d="M 137.866667,0.533333
+ A 14.4 14.4 0 0 1 137.866667,29.333333" />
+<line x1="20.266667" y1="62.933333" x2="46.666667" y2="62.933333" />
+<line x1="20.266667" y1="14.933333" x2="118.666667" y2="7.733333" />
+<line x1="70.666667" y1="62.933333" x2="118.666667" y2="22.133333" />
+<line x1="152.266667" y1="14.933333" x2="164.266667" y2="14.933333" />
+<circle fill="white"
+ cx="164.266667" cy="14.933333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="173.84" y="19.773333">f</text>
+</g></svg>

@@ -1,0 +1,531 @@
+package mutator.wodeledulc;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.InterruptedException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import exceptions.MetaModelNotFoundException;
+import exceptions.ModelNotFoundException;
+import manager.CircuitUtils;
+import manager.CircuitUtils.LogicalCircuit;
+import manager.CircuitUtils.LogicalNode;
+import manager.CircuitUtils.LogicalInputPin;
+import manager.CircuitUtils.LogicalOutputPin;
+import manager.CircuitUtils.LogicalNOT;
+import manager.CircuitUtils.LogicalAND;
+import manager.CircuitUtils.LogicalOR;
+import manager.ModelManager;
+
+public class wodeledulcDraw implements manager.IMutatorDraw {
+	private static String generateCircuitMacrosSpecificacion(List<EPackage> packages, Resource model, String fileName) {
+		String m4text = "";
+		m4text += ".PS\n";
+		m4text += "# " + fileName.replace(".model", "") + ".m4\n";
+		m4text += "log_init\n\n";
+		m4text += "define(`del',`L_unit*5/2')\n\n";
+		m4text += "dmov = 0.4\n";
+		m4text += "# Input labels\n";
+		m4text += "C: grid_(0,0)\n";
+		m4text += "DE: C+grid_(0,AND_ht*7/4)\n";
+		LogicalCircuit lc = CircuitUtils.convertToLC(packages, model);
+		List<LogicalInputPin> inputPins = lc.getInputPins();
+		Map<String, SimpleEntry<String, Integer>> relationsMap = new HashMap<String, SimpleEntry<String, Integer>>();
+		int position = 0;
+		if (inputPins.size() > 0) {
+			m4text += "A0: DE+grid_(0,BUF_ht*5/2); dot(at A0); \"" + inputPins.get(0).getName() + "\" rjust at A0\n";
+			relationsMap.put(inputPins.get(0).getName(), new SimpleEntry<String, Integer>("A0", position));
+		}
+		for (int i = 1; i < inputPins.size(); i++) {
+			m4text += "A" + i + ": A" + (i - 1) + "+grid_(0,BUF_ht*5/2); dot(at A" + i + "); \""
+					+ inputPins.get(i).getName() + "\" rjust at A" + i + "\n";
+			relationsMap.put(inputPins.get(i).getName(), new SimpleEntry<String, Integer>("A" + i, position));
+		}
+		m4text += "  move to (-0.2,0)   # Lettering within the global object\n\n";
+		List<LogicalNode> nextNodes = new ArrayList<LogicalNode>();
+		for (int i = 0; i < inputPins.size(); i++) {
+			LogicalNode nextNode = lc.getNodeWithInput(inputPins.get(i).getName());
+			if (nextNode != null && !nextNodes.contains(nextNode)) {
+				nextNodes.add(nextNode);
+			}
+		}
+		inputPins.clear();
+		for (int i = 0; i < nextNodes.size(); i++) {
+			LogicalOutputPin outputPin = nextNodes.get(i).getOutputPin();
+			if (outputPin != null) {
+				LogicalInputPin nextInputPin = outputPin.getTarget();
+				if (nextInputPin != null) {
+					if (!inputPins.contains(nextInputPin)) {
+						inputPins.add(nextInputPin);
+					}
+				}
+			}
+		}
+		char alphabet = 'G';
+		int index = 0;
+		for (int i = 0; i < nextNodes.size(); i++) {
+			SimpleEntry<String, Integer> previousNode = relationsMap
+					.get(nextNodes.get(i).getInputPins().get(0).getName());
+			if (previousNode == null) {
+				previousNode = relationsMap.get(nextNodes.get(i).getInputPins().get(1).getName());
+			}
+			String inputLabel = previousNode.getKey();
+			position = previousNode.getValue() + 8;
+			String gateName = "";
+			if (nextNodes.get(i) instanceof LogicalNOT) {
+				if (!lc.getInputPins().containsAll(nextNodes.get(i).getInputPins())) {
+					position += 16;
+				}
+				gateName = "NOT";
+			}
+			if (nextNodes.get(i) instanceof LogicalAND) {
+				if (!lc.getInputPins().containsAll(nextNodes.get(i).getInputPins())) {
+					position += 16;
+				}
+				gateName = "AND";
+			}
+			if (nextNodes.get(i) instanceof LogicalOR) {
+				if (!lc.getInputPins().containsAll(nextNodes.get(i).getInputPins())) {
+					position += 16;
+				}
+				gateName = "OR";
+			}
+			m4text += String.valueOf((char) (alphabet + index)) + (i + 1) + ": " + gateName + "_gate at (" + inputLabel
+					+ "+grid_(" + position + ",BUF_ht*" + position + ")," + inputLabel + ")\n";
+			relationsMap.put(nextNodes.get(i).getName(),
+					new SimpleEntry<String, Integer>(String.valueOf((char) (alphabet + index)) + (i + 1), position));
+			m4text += "\n";
+		}
+		int counter = 0;
+		for (int i = 0; i < nextNodes.size(); i++) {
+			SimpleEntry<String, Integer> previousNode = relationsMap.get(nextNodes.get(i).getName());
+			String inputLabel = previousNode.getKey();
+			if (nextNodes.get(i).getInputPins().size() == 1) {
+				if (nextNodes.get(i).getInputs().size() == 0) {
+					m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
+					counter++;
+				} else {
+					SimpleEntry<String, Integer> previousInputNode = relationsMap
+							.get(nextNodes.get(i).getInputs().get(0).getName());
+					String previousInputLabel = previousInputNode.getKey();
+					m4text += "line right 3*del from " + previousInputLabel + ".Out to " + inputLabel + ".In1\n";
+				}
+			}
+			if (nextNodes.get(i).getInputPins().size() > 1) {
+				if (nextNodes.get(i).getInputs().size() == 0) {
+					m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
+					counter++;
+					m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In2\n";
+					counter++;
+				}
+				if (nextNodes.get(i).getInputs().size() == 1) {
+					m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
+					counter++;
+					SimpleEntry<String, Integer> previousInputNode = relationsMap
+							.get(nextNodes.get(i).getInputs().get(0).getName());
+					String previousInputLabel = previousInputNode.getKey();
+					m4text += "line right 3*del from " + previousInputLabel + ".Out to " + inputLabel + ".In2\n";
+				}
+				if (nextNodes.get(i).getInputs().size() == 2) {
+					SimpleEntry<String, Integer> previousInputNode = relationsMap
+							.get(nextNodes.get(i).getInputs().get(0).getName());
+					String previousInputLabel = previousInputNode.getKey();
+					m4text += "line right 3*del from " + previousInputLabel + ".Out to " + inputLabel + ".In1\n";
+					previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(1).getName());
+					previousInputLabel = previousInputNode.getKey();
+					m4text += "line right 3*del from " + previousInputLabel + ".Out to " + inputLabel + ".In2\n";
+				}
+			}
+		}
+		m4text += "\n";
+		LogicalNode outputNode = lc.getOutputNode();
+		while (outputNode != null && !nextNodes.contains(outputNode) && index < lc.getDistance()) {
+			index++;
+			nextNodes.clear();
+			for (int i = 0; i < inputPins.size(); i++) {
+				LogicalNode nextNode = lc.getNodeWithInput(inputPins.get(i).getName());
+				if (nextNode != null && !nextNodes.contains(nextNode)) {
+					if (nextNode.getInputPins().size() == 1
+							&& !lc.getInputPins().contains(nextNode.getInputPins().get(0))) {
+						nextNodes.add(nextNode);
+					}
+					if (nextNode.getInputPins().size() > 1
+							&& !lc.getInputPins().contains(nextNode.getInputPins().get(0))
+							&& !lc.getInputPins().contains(nextNode.getInputPins().get(1))) {
+						nextNodes.add(nextNode);
+					}
+				}
+			}
+			inputPins.clear();
+			for (int i = 0; i < nextNodes.size(); i++) {
+				LogicalOutputPin outputPin = nextNodes.get(i).getOutputPin();
+				if (outputPin != null) {
+					LogicalInputPin nextInputPin = outputPin.getTarget();
+					if (nextInputPin != null) {
+						if (!inputPins.contains(nextInputPin)) {
+							inputPins.add(nextInputPin);
+						}
+					}
+				}
+			}
+			for (int i = 0; i < nextNodes.size(); i++) {
+				SimpleEntry<String, Integer> previousNode = relationsMap
+						.get(nextNodes.get(i).getInputs().get(0).getName());
+				if (previousNode == null) {
+					previousNode = relationsMap.get(nextNodes.get(i).getInputs().get(1).getName());
+				}
+				String inputLabel = previousNode.getKey();
+				position = previousNode.getValue() + 16;
+				String gateName = "";
+				if (nextNodes.get(i) instanceof LogicalNOT) {
+					gateName = "NOT";
+				}
+				if (nextNodes.get(i) instanceof LogicalAND) {
+					gateName = "AND";
+				}
+				if (nextNodes.get(i) instanceof LogicalOR) {
+					gateName = "OR";
+				}
+				m4text += String.valueOf((char) (alphabet + index)) + (i + 1) + ": " + gateName + "_gate at ("
+						+ inputLabel + "+grid_(" + position + ",BUF_ht*" + position + ")," + inputLabel
+						+ "+grid_(0,BUF_ht*15/13))\n";
+				relationsMap.put(nextNodes.get(i).getName(), new SimpleEntry<String, Integer>(
+						String.valueOf((char) (alphabet + index)) + (i + 1), position));
+				m4text += "\n";
+			}
+			for (int i = 0; i < nextNodes.size(); i++) {
+				if (nextNodes.get(i).getInputs().size() == 1) {
+					SimpleEntry<String, Integer> previousNode = relationsMap
+							.get(nextNodes.get(i).getInputs().get(0).getName());
+					String inputLabel = previousNode.getKey();
+					m4text += "line right 3*del from " + inputLabel + ".Out to "
+							+ String.valueOf((char) (alphabet + index)) + (i + 1) + ".In1\n";
+				}
+				if (nextNodes.get(i).getInputs().size() > 1) {
+					SimpleEntry<String, Integer> previousNode = relationsMap
+							.get(nextNodes.get(i).getInputs().get(0).getName());
+					if (previousNode != null) {
+						String inputLabel = previousNode.getKey();
+						m4text += "line right 3*del from " + inputLabel + ".Out to "
+								+ String.valueOf((char) (alphabet + index)) + (i + 1) + ".In2\n";
+					}
+					previousNode = relationsMap.get(nextNodes.get(i).getInputs().get(1).getName());
+					if (previousNode != null) {
+						String inputLabel = previousNode.getKey();
+						m4text += "line right 3*del from " + inputLabel + ".Out to "
+								+ String.valueOf((char) (alphabet + index)) + (i + 1) + ".In1\n";
+					}
+				}
+				m4text += "\n";
+			}
+		}
+		if (outputNode != null) {
+			SimpleEntry<String, Integer> previousNode = relationsMap.get(outputNode.getName());
+			if (previousNode != null) {
+				String inputLabel = previousNode.getKey();
+				m4text += "LOUT: line right del from " + inputLabel + ".Out; dot at (LOUT,Here); move right 0.2; \""
+						+ outputNode.getOutputPin().getName() + "\" rjust\n\n";
+			}
+		}
+		m4text += ".PE\n";
+		return m4text;
+	}
+
+	private static void generateGraphs(File file, String folder, List<EPackage> packages, File exercise)
+			throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+		if (file.isFile()) {
+			String pathfile = file.getPath();
+			if (pathfile.endsWith(".model") == true) {
+				Resource model = ModelManager.loadModel(packages, pathfile);
+				String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
+				String path = exercise.getName() + "/";
+				List<String> folders = Arrays.asList(folder.split("/"));
+				if (folders.size() > 0) {
+					for (String folderName : folders) {
+						path += folderName + "/";
+					}
+				}
+				String m4file = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/" + path
+						+ file.getName().replace(".model", ".m4");
+				String batfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/" + path
+						+ file.getName().replace(".model", ".bat");
+				String svgfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/" + path
+						+ file.getName().replace(".model", ".svg");
+				String pngfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/" + path
+						+ file.getName().replace(".model", ".png");
+				File diagramsfolder = new File(
+						"C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/");
+				if (diagramsfolder.exists() != true) {
+					diagramsfolder.mkdir();
+				}
+				File exercisefolder = new File("C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+						+ exercise.getName() + "/");
+				if (exercisefolder.exists() != true) {
+					exercisefolder.mkdir();
+				}
+				path = exercise.getName() + "/";
+				folders = Arrays.asList(folder.split("/"));
+				if (folders.size() > 0) {
+					for (String folderName : folders) {
+						path += folderName + "/";
+						exercisefolder = new File(
+								"C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/" + path);
+						if (exercisefolder.exists() != true) {
+							exercisefolder.mkdir();
+						}
+					}
+				}
+				PrintWriter m4writer = null;
+				try {
+					m4writer = new PrintWriter(m4file, "UTF-8");
+					String[] m4lines = m4text.split("\n");
+					for (int i = 0; i < m4lines.length - 1; i++) {
+						m4writer.println(m4lines[i]);
+					}
+					m4writer.print(m4lines[m4lines.length - 1]);
+					m4writer.close();
+				} catch (UnsupportedEncodingException e) {
+					try {
+						model.unload();
+						model.load(null);
+					} catch (Exception ex) {
+					}
+					return;
+				}
+				PrintWriter batwriter = null;
+				try {
+					batwriter = new PrintWriter(batfile, "UTF-8");
+					batwriter.println("C:");
+					batwriter.println("cd \\");
+					batwriter.println("cd CircuitMacros");
+					batwriter.println("cd dpic");
+					batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
+					batwriter.println("cd batik");
+					batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d "
+							+ pngfile + " " + svgfile + " 2>&1");
+					batwriter.println("exit");
+					batwriter.close();
+				} catch (UnsupportedEncodingException e) {
+					try {
+						model.unload();
+						model.load(null);
+					} catch (Exception ex) {
+					}
+					return;
+				}
+				String[] command = { "cmd", "/c", batfile };
+				try {
+					Process proc = Runtime.getRuntime().exec(command);
+					proc.waitFor();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				try {
+					model.unload();
+					model.load(null);
+				} catch (Exception e) {
+				}
+			}
+		} else {
+			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+				File[] filesBlock = file.listFiles();
+				for (File fileBlock : filesBlock) {
+					generateGraphs(fileBlock, folder + "/" + file.getName(), packages, exercise);
+				}
+			}
+		}
+	}
+
+	public void generate() throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
+		String metamodel = "C:/eclipse/runtime-EclipseApplication/wodeledulc/data/model/LogicCircuit.ecore";
+		List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+		File folder = new File("C:/eclipse/runtime-EclipseApplication/wodeledulc/data/model");
+		for (File file : folder.listFiles()) {
+			if (file.isFile()) {
+				String pathfile = file.getPath();
+				if (pathfile.endsWith(".model") == true) {
+					Resource model = ModelManager.loadModel(packages, pathfile);
+					String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
+					String m4file = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+							+ file.getName().replace(".model", "") + "/" + file.getName().replace(".model", ".m4");
+					String batfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+							+ file.getName().replace(".model", "") + "/" + file.getName().replace(".model", ".bat");
+					String svgfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+							+ file.getName().replace(".model", "") + "/" + file.getName().replace(".model", ".svg");
+					String pngfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+							+ file.getName().replace(".model", "") + "/" + file.getName().replace(".model", ".png");
+					File diagramsfolder = new File(
+							"C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/");
+					if (diagramsfolder.exists() != true) {
+						diagramsfolder.mkdir();
+					}
+					File m4folder = new File("C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+							+ file.getName().replace(".model", "") + "/");
+					if (m4folder.exists() != true) {
+						m4folder.mkdir();
+					}
+					PrintWriter m4writer = null;
+					try {
+						m4writer = new PrintWriter(m4file, "UTF-8");
+						String[] m4lines = m4text.split("\n");
+						for (int i = 0; i < m4lines.length - 1; i++) {
+							m4writer.println(m4lines[i]);
+						}
+						m4writer.print(m4lines[m4lines.length - 1]);
+						m4writer.close();
+					} catch (UnsupportedEncodingException e) {
+						try {
+							model.unload();
+							model.load(null);
+						} catch (Exception ex) {
+						}
+						continue;
+					}
+					PrintWriter batwriter = null;
+					try {
+						batwriter = new PrintWriter(batfile, "UTF-8");
+						batwriter.println("C:");
+						batwriter.println("cd \\");
+						batwriter.println("cd CircuitMacros");
+						batwriter.println("cd dpic");
+						batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
+						batwriter.println("cd batik");
+						batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d "
+								+ pngfile + " " + svgfile + " 2>&1");
+						batwriter.println("exit");
+						batwriter.close();
+					} catch (UnsupportedEncodingException e) {
+						try {
+							model.unload();
+							model.load(null);
+						} catch (Exception ex) {
+						}
+						continue;
+					}
+					String[] command = { "cmd", "/c", batfile };
+					try {
+						Process proc = Runtime.getRuntime().exec(command);
+						proc.waitFor();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					try {
+						model.unload();
+						model.load(null);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+		folder = new File("C:/eclipse/runtime-EclipseApplication/wodeledulc/data/out");
+		for (File exercise : folder.listFiles()) {
+			if (exercise.isDirectory()) {
+				for (File file : exercise.listFiles()) {
+					if (file.isFile()) {
+						String pathfile = file.getPath();
+						if (pathfile.endsWith(".model") == true) {
+							Resource model = ModelManager.loadModel(packages, pathfile);
+							String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
+							String m4file = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+									+ exercise.getName() + "/" + file.getName().replace(".model", ".m4");
+							String batfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+									+ exercise.getName() + "/" + file.getName().replace(".model", ".bat");
+							String svgfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+									+ exercise.getName() + "/" + file.getName().replace(".model", ".svg");
+							String pngfile = "C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+									+ exercise.getName() + "/" + file.getName().replace(".model", ".png");
+							File diagramsfolder = new File(
+									"C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/");
+							if (diagramsfolder.exists() != true) {
+								diagramsfolder.mkdir();
+							}
+							File m4folder = new File(
+									"C:/eclipse/runtime-EclipseApplication/wodeledulc/src-gen/html/diagrams/"
+											+ exercise.getName() + "/");
+							if (m4folder.exists() != true) {
+								m4folder.mkdir();
+							}
+							PrintWriter m4writer = null;
+							try {
+								m4writer = new PrintWriter(m4file, "UTF-8");
+								String[] m4lines = m4text.split("\n");
+								for (int i = 0; i < m4lines.length - 1; i++) {
+									m4writer.println(m4lines[i]);
+								}
+								m4writer.print(m4lines[m4lines.length - 1]);
+								m4writer.close();
+							} catch (UnsupportedEncodingException e) {
+								try {
+									model.unload();
+									model.load(null);
+								} catch (Exception ex) {
+								}
+								continue;
+							}
+							PrintWriter batwriter = null;
+							try {
+								batwriter = new PrintWriter(batfile, "UTF-8");
+								batwriter.println("C:");
+								batwriter.println("cd \\");
+								batwriter.println("cd CircuitMacros");
+								batwriter.println("cd dpic");
+								batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
+								batwriter.println("cd batik");
+								batwriter.println(
+										"java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d "
+												+ pngfile + " " + svgfile + " 2>&1");
+								batwriter.println("exit");
+								batwriter.close();
+							} catch (UnsupportedEncodingException e) {
+								try {
+									model.unload();
+									model.load(null);
+								} catch (Exception ex) {
+								}
+								continue;
+							}
+							String command = "cmd.exe /c start " + batfile;
+							try {
+								Process proc = Runtime.getRuntime().exec(command);
+								proc.waitFor();
+							} catch (IOException e) {
+								e.printStackTrace();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							try {
+								model.unload();
+								model.load(null);
+							} catch (Exception e) {
+							}
+						}
+					} else {
+						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+							File[] filesBlock = file.listFiles();
+							for (File fileBlock : filesBlock) {
+								try {
+									generateGraphs(fileBlock, file.getName(), packages, exercise);
+								} catch (UnsupportedEncodingException e) {
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

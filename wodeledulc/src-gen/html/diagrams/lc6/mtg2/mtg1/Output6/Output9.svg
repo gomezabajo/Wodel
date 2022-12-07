@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: dpic version 2021.11.01 option -v for SVG 1.1 -->
+<!-- width="372" height="208" -->
+<svg
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ xml:space="preserve"
+ style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision;
+ image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+ width="370.64px" height="207.2px"
+ viewBox="0 0 370.64 207.2"
+ font-size="11pt" text-anchor="middle"
+ stroke="black" stroke-miterlimit="10" stroke-width="1.066667" fill="none">
+<g>
+<circle fill="white"
+ cx="20.266667" cy="106.133333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="110.973333">a</text>
+<circle fill="white"
+ cx="20.266667" cy="58.133333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="62.973333">b</text>
+<circle fill="white"
+ cx="20.266667" cy="10.133333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="14.973333">c</text>
+<polyline points="63.466667,106.133333 46.666667,115.733333
+46.666667,96.533333
+63.466667,106.133333" />
+<circle cx="67.066667" cy="106.133333" r="3.6" />
+<line x1="129.866667" y1="43.733333" x2="118.666667" y2="43.733333" />
+<path d="M 118.666667,43.733333
+ A 33.6 33.6 0 0 1 118.666667,72.533333" />
+<line x1="118.666667" y1="72.533333" x2="129.866667" y2="72.533333" />
+<path d="M 129.866667,43.733333
+ A 24.622222 24.622222 0 0 1 152.266667,58.133333" />
+<path d="M 129.866667,72.533333
+ A 24.622222 24.622222 0 0 0 152.266667,58.133333" />
+<polyline points="63.466667,10.133333 46.666667,19.733333
+46.666667,0.533333
+63.466667,10.133333" />
+<circle cx="67.066667" cy="10.133333" r="3.6" />
+<line x1="20.266667" y1="106.133333" x2="46.666667" y2="106.133333" />
+<line x1="20.266667" y1="58.133333" x2="121.128308" y2="50.933333" />
+<line x1="70.666667" y1="106.133333" x2="121.128308" y2="65.333333" />
+<line x1="20.266667" y1="10.133333" x2="46.666667" y2="10.133333" />
+<polyline points="329.866667,50.379487 310.666667,50.379487
+310.666667,21.579487
+329.866667,21.579487" />
+<path d="M 329.866667,21.579487
+ A 14.4 14.4 0 0 1 329.866667,50.379487" />
+<line x1="152.266667" y1="58.133333" x2="310.666667" y2="43.179487" />
+<line x1="70.666667" y1="10.133333" x2="310.666667" y2="28.779487" />
+<line x1="344.266667" y1="35.979487" x2="356.266667" y2="35.979487" />
+<circle fill="white"
+ cx="356.266667" cy="35.979487" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="365.84" y="40.819487">f</text>
+</g></svg>

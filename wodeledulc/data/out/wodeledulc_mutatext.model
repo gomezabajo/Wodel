@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatext:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatext="http://mutatext/1.0" metamodel="/wodeledulc/data/model/LogicCircuit.ecore">
+  <options>
+    <type href="../../../../workspace/wodel.models/models/AppliedMutations.ecore#//ObjectRetyped"/>
+    <valid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable" type="toObject"/>
+    </valid>
+    <invalid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable" type="toObject"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable"/>
+    </invalid>
+  </options>
+</mutatext:Configuration>

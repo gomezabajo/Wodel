@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:ObjectRetyped">
+    <def href="../../../../../wodeledulc.model#//@blocks.1/@commands.0"/>
+    <object href="../Output11.model#//@gates.6"/>
+    <removedObject href="../../../../mtg1/Output10.model#//@gates.4"/>
+    <type href="../../../../../../model/LogicCircuit.ecore#//AND"/>
+    <newType href="../../../../../../model/LogicCircuit.ecore#//OR"/>
+  </muts>
+</appliedMutations:Mutations>

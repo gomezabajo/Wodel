@@ -1,0 +1,45 @@
+navigation=free
+AlternativeTextResponse mtg1 {
+	retry=yes, text='bool-exp'
+	description for 'lc1.model' = 'Does this logic circuit correspond to the below boolean expression?'
+	description for 'lc5.model' = 'Does this logic circuit correspond to the below boolean expression?'
+}
+MultiChoiceDiagram mtg1 {
+	retry=no
+	description for 'lc3.model' = 'Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d)'
+	description for 'lc4.model' = 'Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d))'
+}
+MultiChoiceText mtg1 {
+	retry=no, text='bool-exp'
+	description for 'lc4.model' = 'Select which of the following boolean expressions corresponds to this logic circuit'
+	description for 'lc3.model' = 'Select which of the following boolean expressions corresponds to this logic circuit'
+}
+MultiChoiceEmendation mtg1 {
+	retry=no, weighted=no, penalty=0.0,
+	order=options-descending, mode=checkbox
+	description for 'lc3.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d)'
+	description for 'lc4.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d))'
+}
+MissingWords mtg1 {
+	retry=no
+	description for 'lc3.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d)'
+	description for 'lc4.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d))'
+}
+DragAndDropText mtg1 {
+	retry=no
+	description for 'lc3.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d)'
+	description for 'lc4.model' = 
+		'Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d))'
+}
+MatchPairs mtgs1, mtgs2, mtgs3 {
+	retry=no, text='bool-exp'
+	description for 'lc3.model' = 
+		'Match the correct option on the right that modifies the below logic circuit to correspond with each of the boolean expressions on the left'
+	description for 'lc4.model' = 
+		'Match the correct option on the right that modifies the below logic circuit to correspond with each of the boolean expressions on the left'
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: dpic version 2021.11.01 option -v for SVG 1.1 -->
+<!-- width="218" height="160" -->
+<svg
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ xml:space="preserve"
+ style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision;
+ image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+ width="217.04px" height="159.2px"
+ viewBox="0 0 217.04 159.2"
+ font-size="11pt" text-anchor="middle"
+ stroke="black" stroke-miterlimit="10" stroke-width="1.066667" fill="none">
+<g>
+<circle fill="white"
+ cx="20.266667" cy="58.133333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="62.973333">a</text>
+<circle fill="white"
+ cx="20.266667" cy="10.133333" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="17.6" y="14.973333">b</text>
+<polyline points="63.466667,58.133333 46.666667,67.733333
+46.666667,48.533333
+63.466667,58.133333" />
+<circle cx="67.066667" cy="58.133333" r="3.6" />
+<polyline points="63.466667,10.133333 46.666667,19.733333
+46.666667,0.533333
+63.466667,10.133333" />
+<circle cx="67.066667" cy="10.133333" r="3.6" />
+<line x1="20.266667" y1="58.133333" x2="46.666667" y2="58.133333" />
+<line x1="20.266667" y1="10.133333" x2="46.666667" y2="10.133333" />
+<polyline points="176.266667,50.379487 157.066667,50.379487
+157.066667,21.579487
+176.266667,21.579487" />
+<path d="M 176.266667,21.579487
+ A 14.4 14.4 0 0 1 176.266667,50.379487" />
+<line x1="70.666667" y1="58.133333" x2="157.066667" y2="43.179487" />
+<line x1="70.666667" y1="10.133333" x2="157.066667" y2="28.779487" />
+<line x1="190.666667" y1="35.979487" x2="202.666667" y2="35.979487" />
+<circle fill="white"
+ cx="202.666667" cy="35.979487" r="1.92" />
+<text font-size="11pt" stroke-width="0.266667"
+ fill="black"
+ text-anchor="end"
+ x="212.24" y="40.819487">f</text>
+</g></svg>

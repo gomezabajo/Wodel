@@ -1,0 +1,9 @@
+metamodel "/wodeledulc/data/model/LogicCircuit.ecore"
+
+>Gate: %type gate
+>Gate(input->src == null): input
+>Gate(output->tar == null): output
+>InputPin: input pin %name
+>OutputPin: output pin %name
+>InputPin.src: source
+>OutputPin.tar: target

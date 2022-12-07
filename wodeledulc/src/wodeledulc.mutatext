@@ -1,0 +1,4 @@
+metamodel "/wodeledulc/data/model/LogicCircuit.ecore"
+
+>ObjectRetyped: Change %object to %toObject /
+	Change %toObject to %object

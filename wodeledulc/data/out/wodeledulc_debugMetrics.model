@@ -1,0 +1,3427 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="lc1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg1\Output0.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs1\Output0.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs2\Output0.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs3\Output0.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc1\mtgs4\Output0.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" ccreated="5">
+      <attributes name="name"/>
+      <references name="output" created="8"/>
+      <references name="input" created="8"/>
+    </classes>
+    <classes name="AND" removed="10" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" removed="8"/>
+      <references name="input" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="lc2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output7.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg1\Output7.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output7.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs1\Output7.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output7.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs2\Output7.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output7.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs3\Output7.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output7.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc2\mtgs4\Output7.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" ccreated="5">
+      <attributes name="name"/>
+      <references name="output" created="8"/>
+      <references name="input" created="8"/>
+    </classes>
+    <classes name="AND" removed="10" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" removed="8"/>
+      <references name="input" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="lc3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg1\Output2.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg1\Output3.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg1\Output4.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs1\Output2.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs1\Output3.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs1\Output4.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs2\Output2.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs2\Output3.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs2\Output4.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs3\Output2.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs3\Output3.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs3\Output4.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs4\Output2.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs4\Output3.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc3\mtgs4\Output4.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" removed="20" ccreated="5" cremoved="10">
+      <attributes name="name"/>
+      <references name="output" created="8" removed="16"/>
+      <references name="input" created="8" removed="16"/>
+    </classes>
+    <classes name="AND" created="20" removed="10" ccreated="10" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" created="16" removed="8"/>
+      <references name="input" created="16" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="lc4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output10.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg1\Output10.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output8.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg1\Output8.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output9.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg1\Output9.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output10.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs1\Output10.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output8.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs1\Output8.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output9.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs1\Output9.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output10.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs2\Output10.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output8.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs2\Output8.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output9.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs2\Output9.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output10.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs3\Output10.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output8.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs3\Output8.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output9.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs3\Output9.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output10.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs4\Output10.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output8.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs4\Output8.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output9.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc4\mtgs4\Output9.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="4" ccreated="1" cremoved="2">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="2"/>
+        <references name="input" created="1" removed="2"/>
+      </classes>
+      <classes name="AND" created="4" removed="2" ccreated="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="2" removed="1"/>
+        <references name="input" created="2" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" removed="20" ccreated="5" cremoved="10">
+      <attributes name="name"/>
+      <references name="output" created="8" removed="16"/>
+      <references name="input" created="8" removed="16"/>
+    </classes>
+    <classes name="AND" created="20" removed="10" ccreated="10" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" created="16" removed="8"/>
+      <references name="input" created="16" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="lc5" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg1\Output1.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs1\Output1.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs2\Output1.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs3\Output1.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc5\mtgs4\Output1.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" ccreated="1">
+        <attributes name="name"/>
+        <references name="output" created="1"/>
+        <references name="input" created="1"/>
+      </classes>
+      <classes name="AND" removed="2" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" removed="1"/>
+        <references name="input" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" ccreated="5">
+      <attributes name="name"/>
+      <references name="output" created="8"/>
+      <references name="input" created="8"/>
+    </classes>
+    <classes name="AND" removed="10" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" removed="8"/>
+      <references name="input" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="lc6" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6">
+    <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output5.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg1\Output5.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output6.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg1\Output6.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="AND" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtg2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg2">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg2\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg3">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg3\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtg4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg4">
+      <mutants name="mtg1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtg4\mtg1"/>
+      <classes name="LogicCircuit"/>
+      <classes name="InputPin"/>
+      <classes name="OutputPin"/>
+      <classes name="OR"/>
+      <classes name="AND"/>
+      <classes name="NOT"/>
+    </mutants>
+    <mutants name="mtgs1" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output5.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs1\Output5.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output6.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs1\Output6.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="AND" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs2" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs2">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output5.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs2\Output5.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output6.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs2\Output6.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="AND" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs3" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs3">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output5.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs3\Output5.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output6.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs3\Output6.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="AND" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <mutants name="mtgs4" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs4">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output5.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs4\Output5.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="AND" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output6.model" path="C:\eclipse\runtime-EclipseApplication\wodeledulc\data\out\lc6\mtgs4\Output6.model">
+        <classes name="LogicCircuit">
+          <references name="gates"/>
+        </classes>
+        <classes name="NamedItem">
+          <attributes name="name"/>
+        </classes>
+        <classes name="Gate">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+        <classes name="InputPin">
+          <attributes name="name"/>
+          <references name="src"/>
+        </classes>
+        <classes name="OutputPin">
+          <attributes name="name"/>
+          <references name="tar"/>
+        </classes>
+        <classes name="OR" removed="2" cremoved="1">
+          <attributes name="name"/>
+          <references name="output" removed="1"/>
+          <references name="input" removed="1"/>
+        </classes>
+        <classes name="AND" created="2" ccreated="1">
+          <attributes name="name"/>
+          <references name="output" created="1"/>
+          <references name="input" created="1"/>
+        </classes>
+        <classes name="NOT">
+          <attributes name="name"/>
+          <references name="output"/>
+          <references name="input"/>
+        </classes>
+      </mutants>
+      <classes name="LogicCircuit">
+        <references name="gates"/>
+      </classes>
+      <classes name="NamedItem">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Gate">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+      <classes name="InputPin">
+        <attributes name="name"/>
+        <references name="src"/>
+      </classes>
+      <classes name="OutputPin">
+        <attributes name="name"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="OR" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="AND" created="2" removed="2" ccreated="1" cremoved="1">
+        <attributes name="name"/>
+        <references name="output" created="1" removed="1"/>
+        <references name="input" created="1" removed="1"/>
+      </classes>
+      <classes name="NOT">
+        <attributes name="name"/>
+        <references name="output"/>
+        <references name="input"/>
+      </classes>
+    </mutants>
+    <classes name="LogicCircuit">
+      <references name="gates"/>
+    </classes>
+    <classes name="InputPin">
+      <attributes name="name"/>
+      <references name="src"/>
+    </classes>
+    <classes name="OutputPin">
+      <attributes name="name"/>
+      <references name="tar"/>
+    </classes>
+    <classes name="OR" created="10" removed="10" ccreated="5" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" created="8" removed="8"/>
+      <references name="input" created="8" removed="8"/>
+    </classes>
+    <classes name="AND" created="10" removed="10" ccreated="5" cremoved="5">
+      <attributes name="name"/>
+      <references name="output" created="8" removed="8"/>
+      <references name="input" created="8" removed="8"/>
+    </classes>
+    <classes name="NOT">
+      <attributes name="name"/>
+      <references name="output"/>
+      <references name="input"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="LogicCircuit">
+    <references name="gates"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="NamedItem">
+    <attributes name="name"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Gate">
+    <attributes name="name"/>
+    <references name="output"/>
+    <references name="input"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="InputPin">
+    <attributes name="name"/>
+    <references name="src"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="OutputPin">
+    <attributes name="name"/>
+    <references name="tar"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="OR" created="60" removed="50" ccreated="30" cremoved="25">
+    <attributes name="name"/>
+    <references name="output" created="30" removed="25"/>
+    <references name="input" created="30" removed="25"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="AND" created="50" removed="60" ccreated="25" cremoved="30">
+    <attributes name="name"/>
+    <references name="output" created="25" removed="30"/>
+    <references name="input" created="25" removed="30"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="NOT">
+    <attributes name="name"/>
+    <references name="output"/>
+    <references name="input"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

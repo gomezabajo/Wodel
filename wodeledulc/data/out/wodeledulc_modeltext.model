@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<modeltext:IdentifyElements xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:modeltext="http://modeltext/1.0" metamodel="/wodeledulc/data/model/LogicCircuit.ecore">
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//Gate"/>
+    <words xsi:type="modeltext:Macro"/>
+    <words xsi:type="modeltext:Constant" value="gate"/>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//Gate"/>
+    <words xsi:type="modeltext:Constant" value="input"/>
+    <feature value="null">
+      <feat xsi:type="ecore:EReference" href="../model/LogicCircuit.ecore#//Gate/input"/>
+      <refFeature xsi:type="ecore:EReference" href="../model/LogicCircuit.ecore#//InputPin/src"/>
+    </feature>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//Gate"/>
+    <words xsi:type="modeltext:Constant" value="output"/>
+    <feature value="null">
+      <feat xsi:type="ecore:EReference" href="../model/LogicCircuit.ecore#//Gate/output"/>
+      <refFeature xsi:type="ecore:EReference" href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+    </feature>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//InputPin"/>
+    <words xsi:type="modeltext:Constant" value="input"/>
+    <words xsi:type="modeltext:Constant" value="pin"/>
+    <words xsi:type="modeltext:Variable">
+      <id href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//OutputPin"/>
+    <words xsi:type="modeltext:Constant" value="output"/>
+    <words xsi:type="modeltext:Constant" value="pin"/>
+    <words xsi:type="modeltext:Variable">
+      <id href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//InputPin"/>
+    <ref href="../model/LogicCircuit.ecore#//InputPin/src"/>
+    <words xsi:type="modeltext:Constant" value="source"/>
+  </elements>
+  <elements>
+    <type href="../model/LogicCircuit.ecore#//OutputPin"/>
+    <ref href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+    <words xsi:type="modeltext:Constant" value="target"/>
+  </elements>
+</modeltext:IdentifyElements>

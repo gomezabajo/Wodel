@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/wodeledulc/data/model/LogicCircuit.ecore" output="data/out/" exhaustive="true">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="mtg1" fixed="1">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtg2" from="//@blocks.0" repeat="no" fixed="3">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtg3" from="//@blocks.0" repeat="no" fixed="3">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtg4" from="//@blocks.0" repeat="no" fixed="3">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtgs1" fixed="4">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtgs2">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtgs3">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mtgs4">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

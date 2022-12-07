@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<logiccircuit:LogicCircuit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../../model/LogicCircuit.ecore" xmi:id="_ETT4oF9QEe2HA_G6ROr5Lw">
+  <gates xsi:type="logiccircuit:NOT" xmi:id="_E9yZAF9QEe2HA_G6ROr5Lw" name="not1">
+    <output xmi:id="_KCtEYF9QEe2HA_G6ROr5Lw" name="z" tar="_ItoH0F9QEe2HA_G6ROr5Lw"/>
+    <input xmi:id="_JvBTYF9QEe2HA_G6ROr5Lw" name="a"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" xmi:id="_FUzx4F9QEe2HA_G6ROr5Lw" name="not2">
+    <output xmi:id="_K8mg0F9QEe2HA_G6ROr5Lw" name="y" tar="_JDYVYF9QEe2HA_G6ROr5Lw"/>
+    <input xmi:id="_Kh-aUF9QEe2HA_G6ROr5Lw" name="b"/>
+  </gates>
+  <gates xsi:type="logiccircuit:AND" xmi:id="_Ftc7YF9QEe2HA_G6ROr5Lw" name="and1">
+    <output xmi:id="_JYzLwF9QEe2HA_G6ROr5Lw" name="f" tar="//@gates.3/@input.0"/>
+    <input xmi:id="_ItoH0F9QEe2HA_G6ROr5Lw" name="c" src="_KCtEYF9QEe2HA_G6ROr5Lw"/>
+    <input xmi:id="_JDYVYF9QEe2HA_G6ROr5Lw" name="d" src="_K8mg0F9QEe2HA_G6ROr5Lw"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" name="xhv">
+    <input name="Hdj" src="_JYzLwF9QEe2HA_G6ROr5Lw"/>
+  </gates>
+</logiccircuit:LogicCircuit>

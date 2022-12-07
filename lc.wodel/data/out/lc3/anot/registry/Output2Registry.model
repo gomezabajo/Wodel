@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../../lc.model#//@blocks.3/@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../../lc.model#//@blocks.3/@commands.1"/>
+    <object href="../Output2.model#//@gates.6"/>
+  </muts>
+  <muts>
+    <def href="../../../lc.model#//@blocks.3/@commands.2"/>
+  </muts>
+  <muts>
+    <def href="../../../lc.model#//@blocks.3/@commands.3"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../../lc.model#//@blocks.3/@commands.4"/>
+    <object href="../Output2.model#//@gates.6/@output"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../../lc.model#//@blocks.3/@commands.5"/>
+    <object href="../Output2.model#//@gates.6/@input.0"/>
+  </muts>
+</appliedMutations:Mutations>

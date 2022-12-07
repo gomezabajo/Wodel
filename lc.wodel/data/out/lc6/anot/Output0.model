@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<logiccircuit:LogicCircuit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../model/LogicCircuit.ecore" xmi:id="_YVtHcGg5Ee2_7_qo3wFjBw">
+  <gates xsi:type="logiccircuit:NOT" xmi:id="_Z67_4Gg5Ee2_7_qo3wFjBw" name="not1">
+    <output xmi:id="_mepYEGg5Ee2_7_qo3wFjBw" name="z" tar="_kjNmIGg5Ee2_7_qo3wFjBw"/>
+    <input xmi:id="_gB5-IGg5Ee2_7_qo3wFjBw" name="a"/>
+  </gates>
+  <gates xsi:type="logiccircuit:AND" xmi:id="_b3fzMGg5Ee2_7_qo3wFjBw" name="and1">
+    <output xmi:id="_t0JmAGg5Ee2_7_qo3wFjBw" name="y" tar="_s7yaoGg5Ee2_7_qo3wFjBw"/>
+    <input xmi:id="_kjNmIGg5Ee2_7_qo3wFjBw" name="d" src="_mepYEGg5Ee2_7_qo3wFjBw"/>
+    <input xmi:id="_okFakGg5Ee2_7_qo3wFjBw" name="b"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" xmi:id="_bGXRMGg5Ee2_7_qo3wFjBw" name="not2">
+    <output xmi:id="_rKpNIGg5Ee2_7_qo3wFjBw" name="x" tar="_xjkeEGg5Ee2_7_qo3wFjBw"/>
+    <input xmi:id="_hsG2IGg5Ee2_7_qo3wFjBw" name="c"/>
+  </gates>
+  <gates xsi:type="logiccircuit:OR" xmi:id="_cR4pIGg5Ee2_7_qo3wFjBw" name="or1">
+    <output xmi:id="_3XRiEGg5Ee2_7_qo3wFjBw" name="f" tar="//@gates.4/@input.0"/>
+    <input xmi:id="_s7yaoGg5Ee2_7_qo3wFjBw" name="e" src="_t0JmAGg5Ee2_7_qo3wFjBw"/>
+    <input xmi:id="_xjkeEGg5Ee2_7_qo3wFjBw" name="g" src="_rKpNIGg5Ee2_7_qo3wFjBw"/>
+  </gates>
+  <gates xsi:type="logiccircuit:NOT" name="ERR">
+    <input name="Ih" src="_3XRiEGg5Ee2_7_qo3wFjBw"/>
+  </gates>
+</logiccircuit:LogicCircuit>

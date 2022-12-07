@@ -1,0 +1,31 @@
+generate 3 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/lc.wodel/data/model/LogicCircuit.ecore"
+
+with blocks {
+	mtg {
+		retype one [AND, OR] as [AND, OR] 
+	}
+	sip {
+		g0 = select one Gate
+		modify one Gate where {self <> g0} with {swapref(input, g0->input)}
+	}
+	rnot {
+		n0 = select one NOT where {input->src <> null and output->tar <> null}
+		i0 = select one InputPin in n0->output->tar
+		o0 = select one OutputPin in n0->input->src
+		modify i0 with {src = o0}
+		remove n0
+    }
+    anot {
+    	g0 = select one Gate where {input <> null and output <> null}
+		n1 = create NOT with {name = random-string(2, 4)}
+		o0 = select one OutputPin in g0->output
+		i0 = select one InputPin in o0->tar
+		create OutputPin in n1->output 
+			with {name = random-string(2, 4), tar = i0}
+		create InputPin in n1->input 
+			with {name = random-string(2, 4), src = o0}
+    }
+}

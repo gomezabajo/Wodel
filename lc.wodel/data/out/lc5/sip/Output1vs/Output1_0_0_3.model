@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<logiccircuit:LogicCircuit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:logiccircuit="http://lc/1.0" xsi:schemaLocation="http://lc/1.0 ../../../../model/LogicCircuit.ecore" xmi:id="_89-nAF-VEe2Dx8AwfW4czQ">
+  <gates xsi:type="logiccircuit:NOT" xmi:id="_9q5XYF-VEe2Dx8AwfW4czQ" name="not1">
+    <output xmi:id="__6h3sF-VEe2Dx8AwfW4czQ" name="z" tar="//@gates.0/@input.1"/>
+    <input name="b"/>
+    <input name="c" src="__6h3sF-VEe2Dx8AwfW4czQ"/>
+  </gates>
+  <gates xsi:type="logiccircuit:AND" xmi:id="_-CAP0F-VEe2Dx8AwfW4czQ" name="and1">
+    <output xmi:id="_ASBxsF-WEe2Dx8AwfW4czQ" name="f"/>
+    <input xmi:id="_-pg7wF-VEe2Dx8AwfW4czQ" name="a"/>
+  </gates>
+</logiccircuit:LogicCircuit>

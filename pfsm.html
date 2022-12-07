@@ -48,15 +48,15 @@
 
     <section class="main-content">
 
-      <p><strong>Wodel applied to probabilistic automata. [<a href="http://gomezabajo.github.io/Wodel/ecore/PFSM.ecore">Prob. Automata Ecore</a>]</strong></p>
+      <p><strong>Wodel applied to probabilistic automata. [<a href="https://gomezabajo.github.io/Wodel/ecore/PFSM.ecore">Prob. Automata Ecore</a>]</strong></p>
 
-<p>Changes the initial state [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cis.zip">cis</a>]:</p>
+<p>Changes the initial state [<a href="https://gomezabajo.github.io/Wodel/zip/pfsm/cis.zip">cis</a>]:</p>
 
 <pre><code>    s0 = modify one State where {isInitial = true} with {isInitial = false}
     s1 = modify one State where {self <> s0} with {isInitial = true}
 </code></pre>
 
-<p>Alters transition probabilities [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/alp.zip">alp</a>]:</p>
+<p>Alters transition probabilities [<a href="https://gomezabajo.github.io/Wodel/zip/pfsm/alp.zip">alp</a>]:</p>
 
 <pre><code>     t0 = select one Transition where {probability = min(probability)}
      t1 = select one Transition where {self <> t0 and src = t0->src}
@@ -65,12 +65,12 @@
      modify t2 with {probability -= t1.probability}
 </code></pre>
 
-<p>Changes the target state of a transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cts.zip">cts</a>]:</p>
+<p>Changes the target state of a transition [<a href="https://gomezabajo.github.io/Wodel/zip/pfsm/cts.zip">cts</a>]:</p>
 
 <pre><code>     modify target tar from one Transition to other State
 </code></pre>
 
-<p>Creates a new transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cnt.zip">cnt</a>]:</p>
+<p>Creates a new transition [<a href="https://gomezabajo.github.io/Wodel/zip/pfsm/cnt.zip">cnt</a>]:</p>
 
 <pre><code>     t0 = select one Transition where {probability = min(probability)}
      t1 = select one Transition where {self <> t0 and src = t0->src}

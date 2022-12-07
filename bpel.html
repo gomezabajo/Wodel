@@ -47,11 +47,11 @@
    </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to BPEL. [<a href="http://gomezabajo.github.io/Wodel/ecore/bpel.ecore">BPEL Ecore</a>]</strong></p>
+      <p><strong>Wodel applied to BPEL. [<a href="https://gomezabajo.github.io/Wodel/ecore/bpel.ecore">BPEL Ecore</a>]</strong></p>
 
 <p><u>Identifier mutation.</u></p>
 	  
-<p>Replaces a variable identifier by another of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
+<p>Replaces a variable identifier by another of the same type [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
 
 <pre><code>    v1 = select one Variable where {type <> null}
     v2 = select one Variable where {self <> v1 and type = v1->type and name <> v1.name}
@@ -60,82 +60,82 @@
 
 <p><u>Concurrent activity mutation.</u></p>
 	  
-<p>Changes the createInstance attribute from an inbound message activity to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
+<p>Changes the createInstance attribute from an inbound message activity to <i>no</i> [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
 
 <pre><code>    modify one Receive where {createInstance = true} with {createInstance = false}
 </code></pre>
 
-<p>Replaces a sequential forEach activity by a parallel one [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
+<p>Replaces a sequential forEach activity by a parallel one [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
 
 <pre><code>    modify one ForEach where {parallel = false} with {parallel = true}
 </code></pre>
 
-<p>Replaces a sequence activity by a flow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
+<p>Replaces a sequence activity by a flow activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
 
 <pre><code>    retype one Sequence as Flow
 </code></pre>
 
-<p>Changes the isolated attribute of a scope to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ais.zip">ais</a>]:</p>
+<p>Changes the isolated attribute of a scope to <i>no</i> [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/ais.zip">ais</a>]:</p>
 
 <pre><code>    modify one Scope where {isolated = true} with {isolated = false}
 </code></pre>
 
 <p><u>Non-concurrent activity mutation.</u></p>
 
-<p>Deletes an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ael.zip">ael</a>]:</p>
+<p>Deletes an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/ael.zip">ael</a>]:</p>
 
 <pre><code>   remove one Activity
 </code></pre>
 
-<p>Deletes an elseif element from an if activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aie1.zip">aie1</a>]:</p>
+<p>Deletes an elseif element from an if activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/aie1.zip">aie1</a>]:</p>
 
 <pre><code>   if1 = select one If where {elseIf <> null}
    remove one ElseIf from if1->elseIf
 </code></pre>
 
-<p>Deletes an else element from an if activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aie2.zip">aie2</a>]:</p>
+<p>Deletes an else element from an if activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/aie2.zip">aie2</a>]:</p>
 
 <pre><code>   if2 = select one If where {else <> null}
    remove one Else from if2->else
 </code></pre>
 
-<p>Replaces a while activity by a repeatUntil activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
+<p>Replaces a while activity by a repeatUntil activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
 
 <pre><code>    retype one While as RepeatUntil
 </code></pre>
 
-<p>Replaces a repeatUntil activity by a while activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
+<p>Replaces a repeatUntil activity by a while activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
 
 <pre><code>    retype one RepeatUntil as While
 </code></pre>
 
-<p>Removes the joinCondition attribute from an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ajc.zip">ajc</a>]:</p>
+<p>Removes the joinCondition attribute from an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/ajc.zip">ajc</a>]:</p>
 
 <pre><code>    modify one Activity with {unset(suppressJoinFailure)}
 </code></pre>
 
-<p>Exchanges the order of two child activities in a sequence activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asi.zip">asi</a>]:</p>
+<p>Exchanges the order of two child activities in a sequence activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/asi.zip">asi</a>]:</p>
 
 <pre><code>    s2 = select one Sequence where {activities <> null}
     a1 = select one Activity in s2->activities
     modify s2 with {activities -= a1, activities += a1}
 </code></pre>
 
-<p>Removes an onMessage element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apm.zip">apm</a>]:</p>
+<p>Removes an onMessage element from a pick activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/apm.zip">apm</a>]:</p>
 
 <pre><code>    p1 = select one Pick where {messages <> null}
     m1 = select one OnMessage in p1->messages
     remove m1
 </code></pre>
 
-<p>Removes the onAlarm element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apa1.zip">apa1</a>]:</p>
+<p>Removes the onAlarm element from a pick activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/apa1.zip">apa1</a>]:</p>
 
 <pre><code>    p2 = select one Pick where {alarm <> null}
     a2 = select one OnAlarm in p2->alarm
     remove a2
 </code></pre>
 
-<p>Removes the onAlarm element from an event handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apa2.zip">apa2</a>]:</p>
+<p>Removes the onAlarm element from an event handler [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/apa2.zip">apa2</a>]:</p>
 
 <pre><code>    ev1 = select one EventHandler where {alarm <> null}
     a3 = select one OnAlarm in ev1->alarm
@@ -144,31 +144,31 @@
 
 <p><u>Exception and event mutation.</u></p>
 
-<p>Removes a catch element from a fault handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmf1.zip">xmf1</a>]:</p>
+<p>Removes a catch element from a fault handler [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xmf1.zip">xmf1</a>]:</p>
 
 <pre><code>    fh1 = select one FaultHandler where {catchAll <> null}
     c1 = select one CatchAll in fh1->catchAll
     remove c1
 </code></pre>
 
-<p>Removes the catchAll element from a fault handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmf2.zip">xmf2</a>]:</p>
+<p>Removes the catchAll element from a fault handler [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xmf2.zip">xmf2</a>]:</p>
 
 <pre><code>    fh2 = select one FaultHandler where {catch <> null}
     c2 = select one Catch in fh2->catch
     remove c2
 </code></pre>
 
-<p>Removes a compensation handler definition [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmc.zip">xmc</a>]:</p>
+<p>Removes a compensation handler definition [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xmc.zip">xmc</a>]:</p>
 
 <pre><code>    remove one CompensationHandler
 </code></pre>
 
-<p>Removes a termination handler definition [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmt.zip">xmt</a>]:</p>
+<p>Removes a termination handler definition [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xmt.zip">xmt</a>]:</p>
 
 <pre><code>    remove one TerminationHandler
 </code></pre>
 
-<p>Replaces the fault thrown by a throw activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xtf.zip">xtf</a>]:</p>
+<p>Replaces the fault thrown by a throw activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xtf.zip">xtf</a>]:</p>
 
 <pre><code>    t1 = select one Throw where {faultVariable <> null}
     fv1 = select one Variable in t1->faultVariable
@@ -176,12 +176,12 @@
     modify t1 with {faultVariable -= fv1, faultVariable += fv2}
 </code></pre>
 
-<p>Removes a rethrow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xer.zip">xer</a>]:</p>
+<p>Removes a rethrow activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xer.zip">xer</a>]:</p>
 
 <pre><code>   remove one Rethrow
 </code></pre>
 
-<p>Removes an onEvent element from an event handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xee.zip">xee</a>]:</p>
+<p>Removes an onEvent element from an event handler [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/xee.zip">xee</a>]:</p>
 
 <pre><code>   ev2 = select one EventHandler where {events <> null}
    event = select one OnEvent in ev2->events

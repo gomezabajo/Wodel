@@ -47,20 +47,20 @@
     </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to finite security policies. [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy.ecore">Security Policy Ecore</a>]
-	  [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryOrBAC.model">OrBAC Model</a>]
-	  [<a href="http://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryRBAC.model">RBAC Model</a>]
+      <p><strong>Wodel applied to finite security policies. [<a href="https://gomezabajo.github.io/Wodel/ecore/SecurityPolicy.ecore">Security Policy Ecore</a>]
+	  [<a href="https://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryOrBAC.model">OrBAC Model</a>]
+	  [<a href="https://gomezabajo.github.io/Wodel/ecore/SecurityPolicy/LibraryRBAC.model">RBAC Model</a>]
 	  </strong></p>
 
 <p>Selects two rule types with the same parameter types. Then modifies the type of a
-rule whose type is the first selected rule type with the second rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rtt.zip">rtt</a>]:</p>
+rule whose type is the first selected rule type with the second rule type [<a href="https://gomezabajo.github.io/Wodel/zip/secpol/rtt.zip">rtt</a>]:</p>
 
 <pre><code>     t1 = select one RuleType
      t2 = select one RuleType where {self <> t1 and parameters = t1->parameters}
      modify one Rule where {type = t1} with {type = t2}
 </code></pre>
 
-<p>Replaces a parameter of a rule with a different parameter of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppr.zip">ppr</a>]:</p>
+<p>Replaces a parameter of a rule with a different parameter of the same type [<a href="https://gomezabajo.github.io/Wodel/zip/secpol/ppr.zip">ppr</a>]:</p>
 
 <pre><code>     p1 = select one Parameter
      p2 = select one Parameter where {type = p1->type and self <> p1}
@@ -68,7 +68,7 @@ rule whose type is the first selected rule type with the second rule type [<a hr
      modify r with {parameters -= p1, parameters += p2}
 </code></pre>
 
-<p>Creates a new rule using a selected rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/anr.zip">anr</a>]:</p>
+<p>Creates a new rule using a selected rule type [<a href="https://gomezabajo.github.io/Wodel/zip/secpol/anr.zip">anr</a>]:</p>
 
 <pre><code>     t = select one RuleType
      setp = select all Parameter where {type in t->parameters}
@@ -76,13 +76,13 @@ rule whose type is the first selected rule type with the second rule type [<a hr
      create Rule with {type = t, parameters = p}
 </code></pre>
 
-<p>Removes a rule [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rer.zip">rer</a>]:</p>
+<p>Removes a rule [<a href="https://gomezabajo.github.io/Wodel/zip/secpol/rer.zip">rer</a>]:</p>
 
 <pre><code>     remove one Rule
 </code></pre>
 
 <p>Replaces a parameter on a rule with one of its descending parameters (using the
-children reference) [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppd.zip">ppd</a>]:</p>
+children reference) [<a href="https://gomezabajo.github.io/Wodel/zip/secpol/ppd.zip">ppd</a>]:</p>
 
 <pre><code>     r = select one Rule where {parameters->children <> null}
      p = select one Parameter in r->parameters where {children <> null}

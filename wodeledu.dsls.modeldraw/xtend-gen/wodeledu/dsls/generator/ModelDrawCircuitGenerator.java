@@ -9,6 +9,7 @@ import manager.ModelManager;
 import manager.ProjectUtils;
 import modeldraw.MutatorDraw;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -31,8 +32,25 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
   
   private String className;
   
+  private String rendererPath;
+  
+  private String rendererUnit;
+  
+  private String[] rendererFolders;
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    this.rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
+    if ((this.rendererPath == null)) {
+      this.rendererPath = "d:/dpic";
+    }
+    boolean _startsWith = this.rendererPath.startsWith("/");
+    boolean _not = (!_startsWith);
+    if (_not) {
+      this.rendererUnit = this.rendererPath.substring(0, 1);
+      this.rendererPath = this.rendererPath.substring(3, this.rendererPath.length());
+    }
+    this.rendererFolders = this.rendererPath.replace("\\", "/").split("/");
     ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();
     int i = 0;
@@ -920,11 +938,22 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter = new PrintWriter(batfile, \"UTF-8\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("batwriter.println(\"d:\");");
-    _builder.newLine();
+    _builder.append("batwriter.println(\"");
+    _builder.append(this.rendererUnit, "\t\t\t\t\t");
+    _builder.append(":\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("batwriter.println(\"cd dpic\");");
+    _builder.append("batwriter.println(\"cd \\\\\");");
     _builder.newLine();
+    {
+      for(final String rendererFolder : this.rendererFolders) {
+        _builder.append("\t\t\t\t\t");
+        _builder.append("batwriter.println(\"cd ");
+        _builder.append(rendererFolder, "\t\t\t\t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("\t\t\t\t\t");
     _builder.append("batwriter.println(\"m4 liblog.m4 \" + m4file + \" | dpic -v > \" + svgfile);");
     _builder.newLine();
@@ -1214,11 +1243,22 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter = new PrintWriter(batfile, \"UTF-8\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"d:\");");
-    _builder.newLine();
+    _builder.append("batwriter.println(\"");
+    _builder.append(this.rendererUnit, "\t\t\t\t\t\t");
+    _builder.append(":\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"cd dpic\");");
+    _builder.append("batwriter.println(\"cd \\\\\");");
     _builder.newLine();
+    {
+      for(final String rendererFolder_1 : this.rendererFolders) {
+        _builder.append("\t\t\t\t\t\t");
+        _builder.append("batwriter.println(\"cd ");
+        _builder.append(rendererFolder_1, "\t\t\t\t\t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"m4 liblog.m4 \" + m4file + \" | dpic -v > \" + svgfile);");
     _builder.newLine();
@@ -1471,11 +1511,22 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter = new PrintWriter(batfile, \"UTF-8\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"d:\");");
-    _builder.newLine();
+    _builder.append("batwriter.println(\"");
+    _builder.append(this.rendererUnit, "\t\t\t\t\t\t\t\t");
+    _builder.append(":\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"cd dpic\");");
+    _builder.append("batwriter.println(\"cd \\\\\");");
     _builder.newLine();
+    {
+      for(final String rendererFolder_2 : this.rendererFolders) {
+        _builder.append("\t\t\t\t\t\t\t\t");
+        _builder.append("batwriter.println(\"cd ");
+        _builder.append(rendererFolder_2, "\t\t\t\t\t\t\t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("\t\t\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"m4 liblog.m4 \" + m4file + \" | dpic -v > \" + svgfile);");
     _builder.newLine();

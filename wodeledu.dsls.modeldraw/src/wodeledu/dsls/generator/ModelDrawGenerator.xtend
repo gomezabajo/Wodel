@@ -10,6 +10,11 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.core.runtime.Platform
+import modeldraw.MutatorDraw
+import manager.ModelManager
+import wodeledu.dsls.ModelDrawUtils
+import manager.ProjectUtils
+import org.eclipse.core.resources.IProject
 
 /**
  * @author Pablo Gomez-Abajo - Main Model-Draw code generator.
@@ -21,14 +26,29 @@ public class ModelDrawGenerator extends AbstractGenerator {
 
 	@Inject ModelDrawDotGenerator dotGenerator
 	@Inject ModelDrawCircuitGenerator circuitGenerator
+	
+	protected IProject project = null
+	private String fileName
+	private String path
+	private String xmiFileName
 
-	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
+	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "", null);
 		if (modelDrawMode.equals("Dot")) {
-			dotGenerator.doGenerate(input, fsa, context)
+			dotGenerator.doGenerate(resource, fsa, context)
 		}
 		if (modelDrawMode.equals("Circuit")) {
-			circuitGenerator.doGenerate(input, fsa, context)
+			circuitGenerator.doGenerate(resource, fsa, context)
+		}
+		ProjectUtils.resetProject()
+		project = ProjectUtils.getProject()
+		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
+		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
+			
+			fileName = resource.URI.lastSegment
+			var xTextFileName = "file:/" + path + "/src/" + fileName
+			xmiFileName = "file:/" + path + '/' + ModelManager.outputFolder + '/' + fileName.replaceAll(".draw", "_draw.model")
+			ModelDrawUtils.serialize(xTextFileName, xmiFileName)
 		}
 	}
 }

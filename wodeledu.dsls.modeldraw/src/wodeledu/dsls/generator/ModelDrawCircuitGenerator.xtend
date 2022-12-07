@@ -13,6 +13,8 @@ import manager.ModelManager
 import manager.JavaUtils
 import org.eclipse.core.resources.IProject
 import manager.ProjectUtils
+import wodeledu.dsls.ui.customize.WodelEduGeneralPreferencePage
+import org.eclipse.core.runtime.Platform
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw code generator.
@@ -28,7 +30,21 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 	private String fileName
 	private String className
 	
+	private String rendererPath
+	private String rendererUnit
+	private String[] rendererFolders
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
+		if (rendererPath === null) {
+			rendererPath = "d:/dpic"
+		}
+		if (!rendererPath.startsWith("/")) {
+			rendererUnit = rendererPath.substring(0, 1);
+			rendererPath = rendererPath.substring(3, rendererPath.length)
+		}
+		rendererFolders = rendererPath.replace("\\", "/").split("/")
+		
 		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
 		var i = 0;
@@ -341,8 +357,11 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 					PrintWriter batwriter = null;
 					try {
 						batwriter = new PrintWriter(batfile, "UTF-8");
-						batwriter.println("d:");
-						batwriter.println("cd dpic");
+						batwriter.println("«rendererUnit»:");
+						batwriter.println("cd \\");
+						«FOR String rendererFolder : rendererFolders»
+						batwriter.println("cd «rendererFolder»");
+						«ENDFOR»
 						batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 						batwriter.println("cd batik");
 						batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
@@ -434,8 +453,11 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						PrintWriter batwriter = null;
 						try {
 							batwriter = new PrintWriter(batfile, "UTF-8");
-							batwriter.println("d:");
-							batwriter.println("cd dpic");
+							batwriter.println("«rendererUnit»:");
+							batwriter.println("cd \\");
+							«FOR String rendererFolder : rendererFolders»
+							batwriter.println("cd «rendererFolder»");
+							«ENDFOR»
 							batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 							batwriter.println("cd batik");
 							batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
@@ -515,8 +537,11 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 								PrintWriter batwriter = null;
 								try {
 									batwriter = new PrintWriter(batfile, "UTF-8");
-									batwriter.println("d:");
-									batwriter.println("cd dpic");
+									batwriter.println("«rendererUnit»:");
+									batwriter.println("cd \\");
+									«FOR String rendererFolder : rendererFolders»
+									batwriter.println("cd «rendererFolder»");
+									«ENDFOR»
 									batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 									batwriter.println("cd batik");
 									batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");

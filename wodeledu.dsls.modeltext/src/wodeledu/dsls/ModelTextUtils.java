@@ -3,7 +3,6 @@ package wodeledu.dsls;
 import java.io.IOException;
 
 import mutatorenvironment.MutatorenvironmentPackage;
-import wodeledu.dsls.ModelTextStandaloneSetup;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;

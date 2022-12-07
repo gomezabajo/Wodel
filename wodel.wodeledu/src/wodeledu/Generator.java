@@ -55,7 +55,7 @@ public class Generator implements IGenerator {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "Wodel-Edu: Generation of a web environment with test exercises for education";
+		return "Wodel-Edu: Environment for the automated generation and evaluation of exercises";
 	}
 
 	@Override

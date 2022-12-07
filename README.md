@@ -1,11 +1,11 @@
 # Wodel
 A domain-specific language for model mutation
 
-[Wodel Tutorial](https://github.com/gomezabajo/Wodel/wiki/Get-Started)<br>
-[Wodel-Edu Tutorial](https://github.com/gomezabajo/Wodel/wiki/Get-Started-with-Wodel-Edu)
+[Wodel Tutorial](https://github.com/gomezabajo/Wodel/wiki/Get-Started)
 
 ## Wodel-Edu plugins
 
+[Wodel-Edu Tutorial](https://github.com/gomezabajo/Wodel/wiki/Get-Started-with-Wodel-Edu)<br><br>
 [wodel.wodeledu](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeledu)
 
 ### modelDraw DSL plugins

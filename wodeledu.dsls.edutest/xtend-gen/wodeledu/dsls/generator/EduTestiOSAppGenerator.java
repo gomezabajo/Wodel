@@ -162,6 +162,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       String _plus_9 = (_plus_8 + Integer.valueOf(i));
                       String diagramFileName = (_plus_9 + ".png");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_10 = (_workspaceAbsolutePath_2 + "/");
                       String _project_2 = WodelContext.getProject();
@@ -177,11 +178,13 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       String jsonDiagramFileName = (("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + ".imageset/Contents.json");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       int _lastIndexOf = diagramFileName.lastIndexOf("/");
                       int _plus_16 = (_lastIndexOf + 1);
                       fsa.generateFile(jsonDiagramFileName, this.compileJsonDiagramFile(diagramFileName.substring(_plus_16, diagramFileName.length())));
                       _builder.append("  ");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _put = this.drawable.put(Integer.valueOf(i), (("ejercicio" + Integer.valueOf(i)) + ".png"));
                       _builder.append(_put);
                       _builder.newLineIfNotEmpty();
@@ -256,6 +259,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                       String diagramFileName_1 = (_plus_26 + ".png");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t");
+                                      _builder.append("//");
                                       String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
                                       String _plus_27 = (_workspaceAbsolutePath_5 + "/");
                                       String _project_5 = WodelContext.getProject();
@@ -270,12 +274,14 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                       String jsonDiagramFileName_1 = (("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + ".imageset/Contents.json");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t");
+                                      _builder.append("//");
                                       int _lastIndexOf_1 = diagramFileName_1.lastIndexOf("/");
                                       int _plus_31 = (_lastIndexOf_1 + 1);
                                       fsa.generateFile(jsonDiagramFileName_1, this.compileJsonDiagramFile(diagramFileName_1.substring(_plus_31, diagramFileName_1.length())));
                                       _builder.append("  ");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t");
+                                      _builder.append("//");
                                       String _put_1 = this.drawable.put(Integer.valueOf(i), (("ejercicio" + Integer.valueOf(i)) + ".png"));
                                       _builder.append(_put_1, "\t");
                                       _builder.newLineIfNotEmpty();
@@ -353,6 +359,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       String diagramFileName_2 = (_plus_47 + ".png");
                       _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_48 = (_workspaceAbsolutePath_8 + "/");
                       String _project_8 = WodelContext.getProject();
@@ -368,11 +375,13 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       String jsonDiagramFileName_2 = (((("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".imageset/Contents.json");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       int _lastIndexOf_2 = diagramFileName_2.lastIndexOf("/");
                       int _plus_54 = (_lastIndexOf_2 + 1);
                       fsa.generateFile(jsonDiagramFileName_2, this.compileJsonDiagramFile(diagramFileName_2.substring(_plus_54, diagramFileName_2.length())));
                       _builder.append("  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _put_2 = diccAux.put(Integer.valueOf(j), (((("ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".png"));
                       _builder.append(_put_2);
                       _builder.newLineIfNotEmpty();
@@ -385,6 +394,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                     }
                   }
+                  _builder.append("//");
                   TreeMap<Integer, String> _put_3 = this.drawableAnswer.put(Integer.valueOf(i), diccAux);
                   _builder.append(_put_3);
                   _builder.newLineIfNotEmpty();
@@ -537,6 +547,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       String _plus_64 = (_plus_63 + Integer.valueOf(i));
                       String diagramFileName_3 = (_plus_64 + ".png");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _workspaceAbsolutePath_11 = ModelManager.getWorkspaceAbsolutePath();
                       String _plus_65 = (_workspaceAbsolutePath_11 + "/");
                       String _project_11 = WodelContext.getProject();
@@ -549,11 +560,13 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       String jsonDiagramFileName_3 = (("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + ".imageset/Contents.json");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       int _lastIndexOf_3 = diagramFileName_3.lastIndexOf("/");
                       int _plus_69 = (_lastIndexOf_3 + 1);
                       fsa.generateFile(jsonDiagramFileName_3, this.compileJsonDiagramFile(diagramFileName_3.substring(_plus_69, diagramFileName_3.length())));
                       _builder.append("  ");
                       _builder.newLineIfNotEmpty();
+                      _builder.append("//");
                       String _put_4 = this.drawable.put(Integer.valueOf(i), (("ejercicio" + Integer.valueOf(i)) + ".png"));
                       _builder.append(_put_4);
                       _builder.newLineIfNotEmpty();

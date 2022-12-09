@@ -84,10 +84,10 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 						«{diagramFolder.mkdirs(); ""}»
 						«ENDIF»
 						«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
+						//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
 						«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
-						«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
-						«drawable.put(i, "ejercicio" + i + ".png")»
+						//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
+						//«drawable.put(i, "ejercicio" + i + ".png")»
 						«{i++; ""}»
 					«ENDIF»
 				«ENDFOR»
@@ -106,10 +106,10 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 												«ENDIF»
 													«var diagram=opt.path»
 													«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/enunciado" + i + ".png"»
-													«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + diagram), new File(diagramFileName))»
+													//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + diagram), new File(diagramFileName))»
 													«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
-													«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
-													«drawable.put(i, "ejercicio" + i + ".png")»
+													//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
+													//«drawable.put(i, "ejercicio" + i + ".png")»
 													«{i++; ""}»
 												«ENDIF»
 											«ENDIF»
@@ -129,13 +129,13 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 										«{diagramFolder.mkdirs(); ""}»
 									«ENDIF»
 									«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/ejercicio" + i + "respuesta" + j + ".png"»																					
-									«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diag), new File(diagramFileName))»
+									//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diag), new File(diagramFileName))»
 									«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/Contents.json"»
-									«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  															
-									«diccAux.put(j, "ejercicio" + i + "respuesta" + j+".png")»
+									//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  															
+									//«diccAux.put(j, "ejercicio" + i + "respuesta" + j+".png")»
 									«{j++; ""}»
 								«ENDFOR»
-								«drawableAnswer.put(i,diccAux)»
+								//«drawableAnswer.put(i,diccAux)»
 								«{i++; ""}»
 							«ENDFOR»
 			«ENDIF»
@@ -179,10 +179,10 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 									«ENDIF»  
 								    «var diagram=opt.path»
 									«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
-									«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + diagram), new File(diagramFileName))»
+									//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + diagram), new File(diagramFileName))»
 									«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
-									«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
-									«drawable.put(i, "ejercicio" + i + ".png")»
+									//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
+									//«drawable.put(i, "ejercicio" + i + ".png")»
 									«{i++; ""}»
 								«ENDIF»
 							«ENDFOR»

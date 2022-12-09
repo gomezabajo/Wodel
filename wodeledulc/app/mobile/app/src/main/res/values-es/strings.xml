@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">esquemaTFG</string>
+	<string name="question">Pregunta</string>
+	<string name="check">Comprobar</string>
+	<string name="next">Continuar</string>
+	<string name="finish">Acabar</string>
+	<string name="previous">Anterior</string>
+	<string name="results">Resultados</string>
+	<string name="start_over">Reintentar</string>
+	<string name="choose_option">Elegir</string>
+	<array name="all_questions">
+		<item>0;Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d);4;2</item>
+		<!--<tipo;pregunta;n_respuesta;respues_correcta>-->
+		<item>0;Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d));4;0</item>
+		<!--<tipo;pregunta;n_respuesta;respues_correcta>-->
+	<!--<item>1;Aqui iria el enunciado de la pregunta 2?(seleccion multiple);*Esta seria la opcion 1 y correcta;*Esta seria la opcion 2 y correcta;Esta seria la opcion 3 e incorrecta;Esta seria la opcion 4 e incorrecta</item>-->
+	<item>1;
+	Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;c&#8743;d);
+	<!---->
+	<!--diagrams/lc3/mtg2/mtg1/Output2/Output17.png-->
+	<!--diagrams/lc3/mtg2/mtg1/Output2/Output15.png-->
+	<!--diagrams/lc3/mtg1/Output2.png-->
+	<!--diagrams/lc3/mtg2/mtg1/Output2/Output16.png-->
+Change input OR gate to input AND gate;
+Change OR gate to AND gate;
+*Change input OR gate to input AND gate;
+Change output OR gate to output AND gate;
+	</item>
+	<item>1;
+	Which changes shall be applied to this logic circuit to correspond to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(&#172;c&#8743;d));
+	<!---->
+	<!--diagrams/lc4/mtg2/mtg1/Output8/Output19.png-->
+	<!--diagrams/lc4/mtg2/mtg1/Output8/Output20.png-->
+	<!--diagrams/lc4/mtg1/Output8.png-->
+	<!--diagrams/lc4/mtg2/mtg1/Output8/Output18.png-->
+Change output OR gate to output AND gate;
+Change input OR gate to input AND gate;
+*Change input OR gate to input AND gate;
+Change OR gate to AND gate;
+	</item>
+							<item>3;Match the correct option on the right with each of the statements on the left;
+Change OR gate to AND gate ;
+Change input AND gate to input OR gate ;
+Change output OR gate to output AND gate ;
+</item>
+							<item>3;Match the correct option on the right with each of the statements on the left;
+Change OR gate to AND gate ;
+Change output OR gate to output AND gate ;
+Change input AND gate to input OR gate ;
+</item>
+	
+	
+	</array>
+</resources>

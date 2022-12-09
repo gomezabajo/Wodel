@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+<!---->
+<!---->
+<!---->
+
+    <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+        
+                    <TextView
+                        android:id="@+id/text_question"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:text="TextView"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="18sp" />
+        
+                    <View
+                        android:id="@+id/ruler"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/text_question"
+                        android:background="#070707"
+                        tools:ignore="MissingConstraints" />
+        
+                    <CheckBox
+                        android:id="@+id/check_box1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+        
+                    <CheckBox
+                        android:id="@+id/check_box2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+        
+                    <CheckBox
+                        android:id="@+id/check_box3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+        
+                    <CheckBox
+                        android:id="@+id/check_box4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+                    <CheckBox
+                        android:id="@+id/check_box5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+                    <CheckBox
+                        android:id="@+id/check_box6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CheckBox"
+                        tools:visibility="gone" />
+        
+                    <RadioGroup
+                        android:id="@+id/answer_true_false"
+                        android:layout_width="match_parent"
+                        android:layout_height="188dp"
+                        android:visibility="gone">
+        
+        
+                        <RadioButton
+                            android:id="@+id/true_solution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="True" />
+        
+                        <RadioButton
+                            android:id="@+id/false_solution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="False" />
+                    </RadioGroup>
+        
+                    <RadioGroup
+                        android:id="@+id/answer_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+        
+        
+                        <RadioButton
+                            android:id="@+id/answer1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=" " />
+        
+                        <RadioButton
+                            android:id="@+id/answer2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=" " />
+        
+                        <RadioButton
+                            android:id="@+id/answer3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=" " />
+        
+                        <RadioButton
+                            android:id="@+id/answer4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" " />
+                            
+    					<RadioButton
+    						android:id="@+id/answer5"
+    						android:layout_width="wrap_content"
+    						android:layout_height="wrap_content"
+    						android:text=" " />
+                            		                        
+    					<RadioButton
+    						android:id="@+id/answer6"
+    						android:layout_width="wrap_content"
+    						android:layout_height="wrap_content"
+    						android:text=" " />
+        
+                    </RadioGroup>
+                    <LinearLayout
+    					android:id="@+id/desplegables"
+    					android:layout_width="match_parent"
+    					android:layout_height="wrap_content"
+    					android:orientation="vertical"
+    					android:visibility="visible">
+    					<LinearLayout
+    						android:id="@+id/desplegable1"
+    						android:layout_width="match_parent"
+    						android:layout_height="wrap_content"
+    						android:orientation="horizontal"
+    						android:layout_weight="2"
+    						android:weightSum="2">
+    						<TextView
+    						    android:id="@+id/desplegable_text1"
+    						    android:layout_width="match_parent"
+    						    android:layout_height="wrap_content"
+    						    android:layout_weight="1"
+    						    android:text="TextView"
+    						    android:textColor="?android:attr/textColorPrimary"
+    						    android:textSize="16sp" />
+    						<Spinner
+    					        android:id="@+id/desplegable_spinner1"
+    					        android:layout_width="match_parent"
+    					        android:layout_height="wrap_content"
+    					        android:layout_weight="1">
+    					    </Spinner>
+    					</LinearLayout>
+    					<LinearLayout
+    					    android:id="@+id/desplegable2"
+    					    android:layout_width="match_parent"
+    					    android:layout_height="wrap_content"
+    					    android:orientation="horizontal"
+    					    android:layout_weight="2"
+    				        android:weightSum="2">
+    				        <TextView
+    				            android:id="@+id/desplegable_text2"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1"
+    				            android:text="TextView"
+    				            android:textColor="?android:attr/textColorPrimary"
+    				            android:textSize="16sp" />
+    				        <Spinner
+    				            android:id="@+id/desplegable_spinner2"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1">
+    				        </Spinner>
+    				    </LinearLayout>
+    				    <LinearLayout
+    				        android:id="@+id/desplegable3"
+    				        android:layout_width="match_parent"
+    				        android:layout_height="wrap_content"
+    				        android:orientation="horizontal"
+    				        android:layout_weight="2"
+    				        android:weightSum="2">
+    				        <TextView
+    				            android:id="@+id/desplegable_text3"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1"
+    				            android:text="TextView"
+    				            android:textColor="?android:attr/textColorPrimary"
+    				            android:textSize="16sp" />
+    				        <Spinner
+    				            android:id="@+id/desplegable_spinner3"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1">
+    				        </Spinner>
+    				    </LinearLayout>
+    				    <LinearLayout
+    				        android:id="@+id/desplegable4"
+    				        android:layout_width="match_parent"
+    				        android:layout_height="wrap_content"
+    				        android:orientation="horizontal"
+    				        android:layout_weight="2"
+    				        android:weightSum="2">
+    				        <TextView
+    				            android:id="@+id/desplegable_text4"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1"
+    				            android:text="TextView"
+    				            android:textColor="?android:attr/textColorPrimary"
+    				            android:textSize="16sp" />
+    				        <Spinner
+    				            android:id="@+id/desplegable_spinner4"
+    				            android:layout_width="match_parent"
+    				            android:layout_height="wrap_content"
+    				            android:layout_weight="1">
+    				        </Spinner>
+    				    </LinearLayout>
+    				
+    				</LinearLayout>
+        
+                    <Button
+                        android:id="@+id/btn_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next" />
+        
+                    <Button
+                        android:id="@+id/btn_previous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous" />
+        
+        
+                </LinearLayout>
+            </ScrollView>
+        
+        </androidx.constraintlayout.widget.ConstraintLayout>

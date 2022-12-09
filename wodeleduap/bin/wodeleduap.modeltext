@@ -1,4 +1,0 @@
-metamodel "/wodeleduap/data/model/StackAutomaton.ecore"
-
->Automaton: Automaton %name
-//>ClassName(attName): (LeftText %AttributeName|%ReferenceName.AttributeName RightText)+

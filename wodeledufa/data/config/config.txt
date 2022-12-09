@@ -1,3 +1,4 @@
 data/model
 data/out
-Wodel-Edu: Generation of a web environment with test exercises for education
+wodeledufa.mutator
+Wodel-Edu: Environment for the automated generation and evaluation of exercises

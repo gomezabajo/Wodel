@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ResultsViewController.viewDidLoad():ResultsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = ".pi * 2">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.checkAnswer():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "answerListBtnsArray">
+            </PersistentString>
+            <PersistentString
+               value = "userAnswerIsCorrect">
+            </PersistentString>
+            <PersistentString
+               value = "option">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.btnDropDownListAction(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sender.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.endButtonAction(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userAnswerIsCorrect">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.tableView(_:numberOfRowsInSection:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dataSourceArray1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExamViewController.showQuestion():ExamViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentQuestion">
+            </PersistentString>
+            <PersistentString
+               value = "userAllAnswers[currentQuestion]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.showQuestion():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "exerciseType">
+            </PersistentString>
+            <PersistentString
+               value = "userAllAnswers[currentQuestion]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.numberOfSections(in:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "t">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExamViewController.checkAnswer():ExamViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "correctAnswer">
+            </PersistentString>
+            <PersistentString
+               value = "userAnswerIsCorrect">
+            </PersistentString>
+            <PersistentString
+               value = "userAnswerIsCorrect[currentQuestion]">
+            </PersistentString>
+            <PersistentString
+               value = "userAllAnswers[currentQuestion]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

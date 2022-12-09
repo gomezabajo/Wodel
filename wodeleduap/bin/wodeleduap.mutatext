@@ -1,4 +1,0 @@
-metamodel "/wodeleduap/data/model/StackAutomaton.ecore"
-
-//>RegistryClassName(ClassName): (LeftOptionOkText %variable RightOptionOkText)+ /
-//		(LeftOptionWrongText %variable RightOptionWrongText)+

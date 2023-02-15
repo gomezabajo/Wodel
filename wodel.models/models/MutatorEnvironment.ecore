@@ -5,8 +5,8 @@
     <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="MutatorEnvironment">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
-        eType="#//Definition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//Definition"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commands" upperBound="-1"
         eType="#//Mutator" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="load" upperBound="-1" eType="#//Load"

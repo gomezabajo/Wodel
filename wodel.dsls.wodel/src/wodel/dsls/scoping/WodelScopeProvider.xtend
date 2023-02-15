@@ -125,7 +125,8 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	// add metamodel classes to scope
        	if (obj instanceof RetypeObjectMutator) {
        		val RetypeObjectMutator retypeObjectMutator = obj as RetypeObjectMutator
-       		classes = ModelManager.getSiblingEClasses(definition.metamodel, MutatorUtils.getStrategyTypes(retypeObjectMutator.object))
+       		var List<EClass> types = MutatorUtils.getStrategyTypes(retypeObjectMutator.object)
+       		classes = ModelManager.getSiblingEClasses(definition.metamodel, types)
        	}
        	else if (obj instanceof RandomTypeSelection && obj.eContainer instanceof SelectObjectMutator) {
   			classes = new ArrayList<EClass>()
@@ -2751,6 +2752,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         var List<EAttribute> attributes = getEAttributes(metamodel, className)
         if (com.attributes.size > 0) {
         	for (AttributeSet attSet : com.attributes) {
+				if (attSet instanceof AttributeScalar) {
+					attributes.addAll(getEAttributes(metamodel, className))
+				}
 				if (attSet instanceof AttributeCopy) {
 					if ((attSet as AttributeCopy).object instanceof SpecificObjectSelection) {
 						val SpecificObjectSelection sel = (attSet as AttributeCopy).object as SpecificObjectSelection
@@ -2818,6 +2822,13 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
+						if (attSet instanceof AttributeScalar) {
+							if (com.object instanceof RandomTypeSelection) {
+								var RandomTypeSelection strategy = com.object as RandomTypeSelection
+								var EClass type = strategy.type
+								scope.addAll(getEAttributes(metamodel, type.name))
+							}
+						}
 						if (attSet instanceof AttributeCopy) {
 							if ((attSet as AttributeCopy).object instanceof SpecificObjectSelection) {
 								val SpecificObjectSelection sel = (attSet as AttributeCopy).
@@ -3125,6 +3136,13 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
+						if (attSet instanceof AttributeScalar) {
+							if (com.object instanceof RandomTypeSelection) {
+								var RandomTypeSelection strategy = com.object as RandomTypeSelection
+								var EClass type = strategy.type
+								scope.addAll(getEAttributes(metamodel, type.name))
+							}
+						}
 						if (attSet instanceof AttributeCopy) {
 							if ((attSet as AttributeCopy).object instanceof SpecificObjectSelection) {
 								val SpecificObjectSelection sel = (attSet as AttributeCopy).
@@ -3427,6 +3445,13 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		var String className = ""
 		if (com.attributes.size > 0) {
 			for (AttributeSet attSet : com.attributes) {
+				if (attSet instanceof AttributeScalar) {
+					if (com.object instanceof RandomTypeSelection) {
+						var RandomTypeSelection strategy = com.object as RandomTypeSelection
+						var EClass type = strategy.type
+						scope.addAll(getEAttributes(metamodel, type.name))
+					}
+				}
 				if (attSet instanceof AttributeCopy) {
 					if ((attSet as AttributeCopy).object instanceof SpecificObjectSelection) {
 						val SpecificObjectSelection sel = (attSet as AttributeCopy).object as SpecificObjectSelection

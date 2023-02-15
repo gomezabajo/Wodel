@@ -297,10 +297,14 @@ public class RetypeObjectMutator extends Mutator {
 						if (sf1.getUpperBound() == 1) {
 							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
 								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
-								newoo.add((EObject) obj.eGet(sf1)); 
+								if (obj.eGet(sf1) != null) {
+									newoo.add((EObject) obj.eGet(sf1));
+								}
 							}
 							else {
-								newObj.eSet(sf2, obj.eGet(sf1));
+								if (obj.eGet(sf1) != null) {
+									newObj.eSet(sf2, obj.eGet(sf1));
+								}
 							}
 						}
 						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {

@@ -209,7 +209,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			for (String projectName : mutators.keySet()) {
 				List<WodelTestMutatorResult> lwtmr = new ArrayList<WodelTestMutatorResult>();
 				Class<?> mutator = mutators.get(projectName);
-				Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName() + ".model");
+				Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName().replace("Dynamic", "") + ".model");
 				List<EObject> blocks = MutatorUtils.getBlocks(model);
 				EObject program = ModelManager.getObjectsOfType("Program", model).get(0);
 				String description = ModelManager.getStringAttribute("description", program);

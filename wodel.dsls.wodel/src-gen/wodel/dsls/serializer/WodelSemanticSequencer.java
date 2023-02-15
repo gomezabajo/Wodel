@@ -524,7 +524,6 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         description=EString? 
 	 *         (from+=[Block|ID] from+=[Block|ID]*)? 
 	 *         repeat=Repeat? 
-	 *         commands+=Mutator 
 	 *         commands+=Mutator* 
 	 *         ((min=EInt max=MaxCardinality) | fixed=EInt)?
 	 *     )
@@ -997,8 +996,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         name=ID? 
 	 *         object=ObSelectionStrategy 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         references+=ReferenceSet? 
-	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
+	 *         attributes+=AttributeSet? 
+	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */
@@ -1038,12 +1037,7 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     MutatorEnvironment returns MutatorEnvironment
 	 *
 	 * Constraint:
-	 *     (
-	 *         load+=Load* 
-	 *         definition=Definition 
-	 *         ((blocks+=Block blocks+=Block*) | (commands+=Mutator commands+=Mutator*)) 
-	 *         (constraints+=Constraint constraints+=Constraint*)?
-	 *     )
+	 *     (load+=Load* definition=Definition (blocks+=Block+ | commands+=Mutator+)? constraints+=Constraint*)
 	 */
 	protected void sequence_MutatorEnvironment(ISerializationContext context, MutatorEnvironment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1621,8 +1615,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         container=ObSelectionStrategy? 
 	 *         (type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         attributes+=AttributeSet? 
-	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
+	 *         references+=ReferenceSet? 
+	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */

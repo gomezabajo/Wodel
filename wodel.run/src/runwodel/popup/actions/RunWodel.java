@@ -10,7 +10,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -75,7 +74,7 @@ public class RunWodel extends AbstractHandler {
 			}
 			Class<?> cls = null;
 			String mutatorName = file.getProject().getName();
-			String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "Launcher";
+			String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "DynamicLauncher";
 
 			try {
 				cls = Class.forName(classname);

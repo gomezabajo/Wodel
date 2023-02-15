@@ -9,8 +9,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import wodel.dsls.generator.WodelAPIGenerator;
-import wodel.dsls.generator.WodelMutatorGenerator;
+import wodel.dsls.generator.WodelDynamicAPIGenerator;
+import wodel.dsls.generator.WodelDynamicMutatorGenerator;
+import wodel.dsls.generator.WodelStandaloneAPIGenerator;
+import wodel.dsls.generator.WodelStandaloneMutatorGenerator;
 import wodel.dsls.generator.WodelUseGenerator;
 
 /**
@@ -22,21 +24,29 @@ import wodel.dsls.generator.WodelUseGenerator;
 @SuppressWarnings("all")
 public class WodelGenerator extends AbstractGenerator {
   @Inject
-  private WodelMutatorGenerator mutatorGenerator;
+  private WodelDynamicMutatorGenerator mutatorDynamicGenerator;
+  
+  @Inject
+  private WodelStandaloneMutatorGenerator mutatorStandaloneGenerator;
   
   @Inject
   private WodelUseGenerator useGenerator;
   
   @Inject
-  private WodelAPIGenerator apiGenerator;
+  private WodelDynamicAPIGenerator dynamicApiGenerator;
+  
+  @Inject
+  private WodelStandaloneAPIGenerator standaloneApiGenerator;
   
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.mutatorGenerator.doGenerate(input, fsa, context);
+    this.mutatorDynamicGenerator.doGenerate(input, fsa, context);
+    this.mutatorStandaloneGenerator.doGenerate(input, fsa, context);
     boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
     if ((seedModelSynthesis == true)) {
       this.useGenerator.doGenerate(input, fsa, context);
     }
-    this.apiGenerator.doGenerate(input, fsa, context);
+    this.dynamicApiGenerator.doGenerate(input, fsa, context);
+    this.standaloneApiGenerator.doGenerate(input, fsa, context);
   }
 }

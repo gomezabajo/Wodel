@@ -15,7 +15,12 @@ Require-Bundle: org.eclipse.ui,
  wodel.registry,
  com.google.guava,
  org.eclipse.emf.ecore,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ wodel.dsls.wodel,
+ org.eclipse.xtext,
+ org.eclipse.core.filesystem,
+ org.eclipse.ui.ide,
+ org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: mutatorenvironment,

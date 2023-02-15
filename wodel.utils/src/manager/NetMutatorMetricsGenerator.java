@@ -280,7 +280,7 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 		else {
 			this.modelsFolder = modelsFolder;
 		}
-		this.fileName = fileName;
+		this.fileName = fileName.replace("Dynamic.java", ".java");
 		this.hashmapMutVersions = hashmapMutVersions;
 		this.cls = cls;
 	}

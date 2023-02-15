@@ -10,9 +10,9 @@ MutatorEnvironment returns MutatorEnvironment:
 	(load+=Load)*
 	definition=Definition
 	'with'
-	('blocks' '{' blocks+=Block (blocks+=Block)* '}'
-		| 'commands' '{' commands+=Mutator (commands+=Mutator)* '}')
-	('constraints' '{' constraints+= Constraint (constraints+=Constraint)* '}')?;
+	('blocks' '{' blocks+=Block* '}'
+		| 'commands' '{' commands+=Mutator* '}')
+	('constraints' '{' constraints+= Constraint* '}')?;
 	
 Definition returns Definition: 
 	Library | Program;
@@ -43,7 +43,7 @@ Resource returns Resource:
 ;
 
 Block returns Block:
-	name=ID (description=EString)? ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? '{' commands+=Mutator (commands+=Mutator)* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
+	name=ID (description=EString)? ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? '{' commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
 ;
 
 Constraint returns Constraint:

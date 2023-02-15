@@ -8,7 +8,7 @@ import java.util.List;
 
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeType;
@@ -76,7 +76,7 @@ public class WodelMetricsFixedWizardClass extends Wizard implements INewWizard {
 	
 	private static final String WORKSPACE = ModelManager.getWorkspaceAbsolutePath();
 	
-	private static final String PROJECT = WodelContext.getProject();
+	private static final String PROJECT = ProjectUtils.getProject().getName();
 	
 	private static final String OUTPUT = ModelManager.getOutputPath();
 	

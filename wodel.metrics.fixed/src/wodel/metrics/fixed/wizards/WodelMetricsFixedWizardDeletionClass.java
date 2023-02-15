@@ -8,7 +8,7 @@ import java.util.List;
 
 import manager.ModelManager;
 import manager.MutatorUtils;
-import manager.WodelContext;
+import manager.ProjectUtils;
 import mutatorenvironment.Block;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
@@ -58,7 +58,7 @@ public class WodelMetricsFixedWizardDeletionClass extends Wizard implements INew
 	
 	private static final String WORKSPACE = ModelManager.getWorkspaceAbsolutePath();
 	
-	private static final String PROJECT = WodelContext.getProject();
+	private static final String PROJECT = ProjectUtils.getProject().getName();
 	
 	private static final String OUTPUT = ModelManager.getOutputPath();
 	

@@ -18,16 +18,20 @@ import org.eclipse.core.runtime.Platform
  */
 public class WodelGenerator extends AbstractGenerator {
 
-	@Inject WodelMutatorGenerator mutatorGenerator
+	@Inject WodelDynamicMutatorGenerator mutatorDynamicGenerator
+	@Inject WodelStandaloneMutatorGenerator mutatorStandaloneGenerator
 	@Inject WodelUseGenerator useGenerator
-	@Inject WodelAPIGenerator apiGenerator
+	@Inject WodelDynamicAPIGenerator dynamicApiGenerator
+	@Inject WodelStandaloneAPIGenerator standaloneApiGenerator
 
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		mutatorGenerator.doGenerate(input, fsa, context)
+		mutatorDynamicGenerator.doGenerate(input, fsa, context)
+		mutatorStandaloneGenerator.doGenerate(input, fsa, context)
 		var boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
 		if (seedModelSynthesis == true) {
 			useGenerator.doGenerate(input, fsa, context)
 		}
-		apiGenerator.doGenerate(input, fsa, context)
+		dynamicApiGenerator.doGenerate(input, fsa, context)
+		standaloneApiGenerator.doGenerate(input, fsa, context)
 	}
 }

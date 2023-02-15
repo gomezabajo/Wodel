@@ -569,6 +569,102 @@ public class ModelManager {
 		}
 		return "";
 	}
+	
+	private static List<Resource> recGetModels(List<EPackage> packages, File modelsFolder) {
+		List<Resource> resources = new ArrayList<Resource>();
+		File[] modelFiles = modelsFolder.listFiles();
+		try {
+			for (File modelFile : modelFiles) {
+				if (modelFile.exists()) {
+					if (modelFile.isDirectory()) {
+						resources.addAll(recGetModels(packages, modelFile));
+					}
+					if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+						Resource model = ModelManager.loadModel(packages, modelFile.getPath().replace("\\", "/"));
+						resources.add(model);
+					}
+				}
+			}
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resources;
+	}
+	
+	public static String getModelsPath(String metamodel, Resource model) {
+		List<EObject> programs = ModelManager.getObjectsOfType("Program", model);
+		for (EObject p : programs) {
+			try {
+				Object ob = ModelManager.getReferenced("source", p);
+				if (ob instanceof EObject) {
+					EObject source = (EObject) ob;
+					return ModelManager.getStringAttribute("path", source);
+				}
+			} catch (ReferenceNonExistingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+
+	public static List<Resource> getModels(String metamodel, Resource wodel) {
+		String models = ModelManager.getWorkspaceAbsolutePath() + "/" + wodelProject.getName() + "/" + ModelManager.getModelsPath(metamodel, wodel);
+		File[] modelFiles = new File(models).listFiles();
+		List<Resource> resources = null;
+		try {
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			resources = new ArrayList<Resource>();
+			if (modelFiles != null) {
+				for (File modelFile : modelFiles) {
+					if (modelFile.exists()) {
+						if (modelFile.isDirectory()) {
+							resources.addAll(recGetModels(packages, modelFile));
+						}
+						if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+							Resource model = ModelManager.loadModel(packages, modelFile.getPath().replace("\\", "/"));
+							resources.add(model);
+						}
+					}
+				}
+			}
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resources;
+	}
+
+	public static List<Resource> getModelsNoException(String metamodel, String path) {
+		String models = path;
+		File[] modelFiles = new File(models).listFiles();
+		List<Resource> resources = null;
+		try {
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			resources = new ArrayList<Resource>();
+			if (modelFiles != null) {
+				for (File modelFile : modelFiles) {
+					if (modelFile.exists()) {
+						if (modelFile.isDirectory()) {
+							resources.addAll(recGetModels(packages, modelFile));
+						}
+						if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+							Resource model = ModelManager.loadModelNoException(packages, modelFile.getPath().replace("\\", "/"));
+							resources.add(model);
+						}
+					}
+				}
+			}
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resources;
+	}
 
 	public static String getOutputPath() {
 		IProject project = ProjectUtils.getProject();
@@ -836,6 +932,48 @@ public class ModelManager {
 	 * @return Resource Loaded Model
 	 * @throws
 	 */
+	public static Resource loadModelNoException(List<EPackage> packages,
+			String modelURI) {
+		if (new File(modelURI).exists() == false) {
+			return null;
+		}
+		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+ 		URI uri = URI.createFileURI(modelURI);
+ 		
+		for (EPackage p : packages) {
+			// Add packages to package registry
+			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
+				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+			// nested packages
+		}
+		final Map<Object, Object> options = resourceSet.getLoadOptions();
+		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		Resource model = null;
+		try {
+			model = resourceSet.createResource(uri);
+			model.load(options);
+			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+			// load model using the URI
+		} catch (IOException r) {
+			r.printStackTrace();
+		}
+
+		return model;
+	}
+
+	
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
 	public static List<Resource> loadModels(List<EPackage> packages,
 			String path) throws ModelNotFoundException {
 		List<Resource> models = new ArrayList<Resource>();
@@ -883,6 +1021,38 @@ public class ModelManager {
 			// load model using the URI
 		} catch (IOException r) {
 			throw new ModelNotFoundException(modelURI);
+		}
+
+		return model;
+	}
+
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
+	public static Resource loadMetaModelAsResourceNoException(List<EPackage> packages,
+			String modelURI) {
+
+		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+		URI uri = URI.createURI(modelURI);
+		for (EPackage p : packages) {
+			// Add packages to package registry
+			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
+				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+			// nested packages
+		}
+		Resource model = null;
+		try {
+			model = resourceSet.createResource(uri);
+			model.load(null);
+			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+			// load model using the URI
+		} catch (IOException r) {
+			r.printStackTrace();
 		}
 
 		return model;

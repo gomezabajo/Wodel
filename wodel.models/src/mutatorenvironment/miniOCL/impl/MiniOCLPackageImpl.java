@@ -2,8 +2,6 @@
  */
 package mutatorenvironment.miniOCL.impl;
 
-import edutest.EdutestPackage;
-import edutest.impl.EdutestPackageImpl;
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import mutatorenvironment.impl.MutatorenvironmentPackageImpl;
@@ -361,19 +359,15 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(EdutestPackage.eNS_URI);
-		EdutestPackageImpl theEdutestPackage = (EdutestPackageImpl)(registeredPackage instanceof EdutestPackageImpl ? registeredPackage : EdutestPackage.eINSTANCE);
-		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
 		MutatorenvironmentPackageImpl theMutatorenvironmentPackage = (MutatorenvironmentPackageImpl)(registeredPackage instanceof MutatorenvironmentPackageImpl ? registeredPackage : MutatorenvironmentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMiniOCLPackage.createPackageContents();
-		theEdutestPackage.createPackageContents();
 		theMutatorenvironmentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMiniOCLPackage.initializePackageContents();
-		theEdutestPackage.initializePackageContents();
 		theMutatorenvironmentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed

@@ -1,125 +1,78 @@
 package wodel.dsls.generator
 
 import org.eclipse.xtext.generator.AbstractGenerator
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IFileSystemAccess2
-import org.eclipse.xtext.generator.IGeneratorContext
 import mutatorenvironment.MutatorEnvironment
 import java.io.File
 import manager.ModelManager
 import mutatorenvironment.Program
-import manager.ProjectUtils
 import org.eclipse.core.resources.IProject
-import wodel.dsls.WodelUtils
 import java.util.Map
 import java.util.HashMap
-import manager.JavaUtils
 import java.util.List
 import java.util.ArrayList
 import org.eclipse.core.runtime.Platform
 
-public class WodelAPIGenerator extends AbstractGenerator {
+public abstract class WodelAPIGenerator extends AbstractGenerator {
 	
-	private String fileName
-	private Program program
-	private IProject project = null
-	private String path
-	private String xmiFileName
-	private Map<String, List<String>> mutMap = new HashMap<String, List<String>>()
+	protected String fileName
+	protected Program program
+	protected IProject project = null
+	protected String path
+	protected String xmiFileName
+	protected String className = ""
+	protected Map<String, List<String>> mutMap = new HashMap<String, List<String>>()
+	
+	protected boolean standalone = false
 	
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
-		var int i = 0
-		while (files !== null && i < files.size) {
-			var File file = files.get(i)
-			if (file.isFile == true) {
-				if (file.getName().endsWith(".mutator")) {
-					var mutator = file.getName().replaceAll(".mutator", "")
-					if (!mutators.contains(mutator)) {
-						mutators.add(mutator)
+		if (files !== null) {
+			for (File file : files) {
+				if (file !== null) {
+					if (file.isFile == true) {
+						if (file.getName().endsWith(".mutator")) {
+							var mutator = file.getName().replaceAll(".mutator", "")
+							if (!mutators.contains(mutator)) {
+								mutators.add(mutator)
+							}
+						}
+					}
+					else if (file.isDirectory == true) {
+						var List<String> nextMutators = new ArrayList<String>()
+						nextMutators.addAll(getMutators(file.listFiles))
+						for (String nextMutator : nextMutators) {
+							if (!mutators.contains(nextMutator)) {
+								mutators.add(nextMutator)
+							}
+						}
 					}
 				}
 			}
-			else if (file.isDirectory == true) {
-				var List<String> nextMutators = new ArrayList<String>()
-				nextMutators.addAll(getMutators(file.listFiles))
-				for (String nextMutator : nextMutators) {
-					if (!mutators.contains(nextMutator)) {
-						mutators.add(nextMutator)
-					}
-				}
-			}
-			i++
 		}
 		return mutators
 	}
 	
 	def String getMutatorPath(File[] files) {
 		var String mutatorPath = null
-		var int i = 0
-		while (mutatorPath === null && files !== null && i < files.size) {
-			var File file = files.get(i)
-			if (file.isFile == true) {
-				if (file.getName().equals(fileName)) {
-					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
-					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
+		if (mutatorPath === null && files !== null) {
+			for (File file : files) {
+				if (mutatorPath !== null) {
+					return mutatorPath
+				}
+				if (file !== null) {
+				 	if (file.isFile == true) {
+						if (file.getName().equals(fileName)) {
+							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
+							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
+						}
+					}
+					else  {
+						mutatorPath = getMutatorPath(file.listFiles)
+					}
 				}
 			}
-			else {
-				mutatorPath = getMutatorPath(file.listFiles)
-			}
-			i++
 		}
 		return mutatorPath
-	}
-	
-	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
-		project = ProjectUtils.getProject()
-		
-		path = ModelManager.getWorkspaceAbsolutePath + "/" + project.name
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath+ "/" + project.name + "/"
-		var File projectFolder = new File(projectFolderName)
-		var File[] files = projectFolder.listFiles
-		var String className = ""
-		var String mutatorName = ""
-		//var List<String> mutators = getMutators(files)
-		var MutatorEnvironment mutatorEnvironment = null
-		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
-			
-			fileName = resource.URI.lastSegment
-			var String xTextFileName = getMutatorPath(files)
-			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + program.output + fileName.replaceAll(".mutator", ".model")
-			WodelUtils.serialize(xTextFileName, xmiFileName)
-
-			fileName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
-			/* Write the EObject into a file */
-			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
-			fileName = mutatorName.replaceAll("[.]", "_") + "API.java"
-			className = fileName.replaceAll(".java", "")
-			var int i = 1
-			var String key = className.replace("API", "")
-			for (b : e.blocks) {
-				var List<String> values = new ArrayList<String>()
-				if (mutMap.keySet.contains(key)) {
-					values = mutMap.get(key)
-				}
-				if (b.name !== null && !b.name.isEmpty() && !values.contains(b.name)) {
-					values.add(b.name)
-				}
-				mutMap.put(key, values)
-			}
-     		if (fsa.isFile("mutator/" + mutatorName + "/" + fileName)) {
-				fsa.deleteFile("mutator/" + mutatorName + "/" + fileName)
-     		}
-     		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(mutatorName, className), false))
-     		mutatorEnvironment = e
-		}
-		//if (fsa.isFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "APILauncher.java")) {
-		//	fsa.deleteFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "APILauncher.java")
-     	//}
-		//fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "API/" + project.name.replaceAll("[.]", "_") + "APILauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
 	
 	def compile(MutatorEnvironment e, String mutatorName, String className) '''
@@ -143,20 +96,38 @@ public class WodelAPIGenerator extends AbstractGenerator {
 	import exceptions.ReferenceNonExistingException;
 	import exceptions.WrongAttributeTypeException;
 	import manager.ModelManager;
+	«IF standalone == false»
+	import mutator.«mutatorName»Dynamic.«mutatorName»Dynamic;
 	import manager.MutatorAPI;
+	«ELSE»
+	import mutator.«mutatorName»Standalone.«mutatorName»Standalone;
+	import org.eclipse.core.runtime.NullProgressMonitor;
+	import manager.MutatorStandaloneAPI;
+	«ENDIF»
 	import manager.MutatorUtils;
 
+		«IF standalone == false»		
 	public class «className» extends MutatorAPI {
-		
+
 		public void createMutants(String[] mutationOperators, IProject project, IProgressMonitor monitor)
 		 	throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+		«ELSE»
+	public class «className» extends MutatorStandaloneAPI {
+
+		public static void createMutants(String[] mutationOperators)
+		 	throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+		«ENDIF»
 			
 			System.out.println("Wodel mutator file: «mutatorName»");
 			
-			String ecoreURI = ModelManager.getMetaModel();
+			String ecoreURI = "«ModelManager.getMetaModel()»";
 			List<EPackage> packages = null;
 			try {
+				«IF standalone == false»
 				packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
+				«ELSE»
+				packages = ModelManager.loadMetaModel(ecoreURI, «className».class);
+				«ENDIF»
 			}
 			catch (Exception e) {
 			}
@@ -175,11 +146,18 @@ public class WodelAPIGenerator extends AbstractGenerator {
 			int maxAttempts = «Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null))»;
 			int numMutants = «Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null))»;
 			boolean registry = «Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null)»;
+			
+			«IF standalone == false»
 			boolean metrics = «Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null)»;
 			boolean debugMetrics = «Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null)»;
-			
-			MutatorUtils mut«mutatorName» = new «mutatorName»();
+			MutatorUtils mut«mutatorName» = new «mutatorName»Dynamic();
 			mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, project, monitor, true, null, new TreeMap<String, List<String>>());
+			«ELSE»
+			boolean metrics = false;
+			boolean debugMetrics = false;
+			MutatorUtils mut«mutatorName» = new «mutatorName»Standalone();
+			mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, new NullProgressMonitor(), true, null, new TreeMap<String, List<String>>());
+			«ENDIF»
 				
 			if (isRegistered == true) {
 				ModelManager.registerMetaModel(localRegisteredPackages);
@@ -187,6 +165,10 @@ public class WodelAPIGenerator extends AbstractGenerator {
 					ModelManager.registerMetaModel(registeredPackages);
 				}
 			}
+			
+			«IF standalone == true»
+			System.out.println("«mutatorName» Mutant generation process finished.");
+			«ENDIF»
 		}
 	}
 	'''
@@ -197,17 +179,39 @@ package mutator.«project.name»;
 import java.util.ArrayList;
 import java.util.List;
 
+«IF standalone == false»
 import manager.MutatorAPILauncher;
+«ELSE»
+import exceptions.AbstractCreationException;
+import exceptions.MaxSmallerThanMinException;
+import exceptions.MetaModelNotFoundException;
+import exceptions.ModelNotFoundException;
+import exceptions.ObjectNoTargetableException;
+import exceptions.ObjectNotContainedException;
+import exceptions.ReferenceNonExistingException;
+import exceptions.WrongAttributeTypeException;
+import java.io.IOException;
+import java.io.File;
+import manager.IOUtils;
+import manager.MutatorUtils;
+«FOR String mutator : mutators»
+import mutator.«mutator».«mutator»StandaloneAPI;
+«ENDFOR»
+«ENDIF»
 
-public class «project.name.replaceAll("[.]", "_")»APILauncher {
+«IF standalone == false»
+public class «project.name.replaceAll("[.]", "_")»DynamicAPILauncher {
+	public static void main(String[] args) 
+	{
+«ELSE»
+public class «project.name.replaceAll("[.]", "_")»StandaloneAPILauncher {
+	public static void createMutants(String inputFolder, String outputFolder) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
+	{
+«ENDIF»
 
-	public static void main(String[] args) {
-		String ecoreURI = null;
-		«IF e.definition instanceof Program»
-		ecoreURI = "«e.definition.metamodel»";
-		«ENDIF»
+		String ecoreURI = "«ModelManager.getMetaModel()»";
 		List<String> mutatorNames = new ArrayList<String>();
-		«FOR mutatorName : mutators»
+		«FOR mutatorName : mutMap.keySet»
 		mutatorNames.add("«mutatorName»");
 		«ENDFOR»
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
@@ -228,8 +232,55 @@ public class «project.name.replaceAll("[.]", "_")»APILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
+		«IF standalone == false»
 		MutatorAPILauncher.createMutants("«project.name»", ecoreURI, «project.name.replaceAll("[.]", "_")»APILauncher.class, arrMutatorNames, arrOperatorNames, "D:\\seed", "D:\\mutants");
+		«ELSE»
+		String inputWodelFolder = "«ModelManager.getModelsFolder()»";
+		IOUtils.deleteFolder(inputWodelFolder, "model");
+			
+		File seedWodelFolder = new File(inputWodelFolder);
+		File inputCustomizedFolder = new File(inputFolder);
+			
+		try {
+			IOUtils.copyFolder(inputCustomizedFolder, seedWodelFolder, "model");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			
+		File projectFolder = new File("«ModelManager.getWorkspaceAbsolutePath()»/«project.name»");
+		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
+		String outputWodelFolder = "«ModelManager.getWorkspaceAbsolutePath()»/«project.name»/«ModelManager.getOutputFolder()»";
+		// clean-up output folder preserving xtext auto generated models
+		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
+		i = 0;
+		«FOR String mutatorName : mutMap.keySet»
+		«mutatorName»StandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		«ENDFOR»
+		File mutantWodelFolder = new File(outputWodelFolder);
+		File outputCustomizedFolder = new File(outputFolder);
+			
+		try {
+			IOUtils.copyFolder(mutantWodelFolder, outputCustomizedFolder, "model", mutatorList);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("Complete mutant generation process finished.");
+		«ENDIF»
 	}
+	
+	«IF standalone == true»
+	public static void main(String[] args) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
+	{
+		if (args.length != 2) {
+			System.out.println("Use: args[0] = inputFolder; args[1] = outputFolder");
+			return;
+		}
+		createMutants(args[0], args[1]);
+	}
+	«ENDIF»
 }
 	'''
 }

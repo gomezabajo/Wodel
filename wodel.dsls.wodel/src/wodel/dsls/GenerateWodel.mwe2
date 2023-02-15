@@ -27,8 +27,9 @@ Workflow {
 			name = "wodel.dsls.Wodel"
 			fileExtensions = "mutator"
 			referencedResource = "platform:/resource/wodel.models/models/MutatorEnvironment.genmodel"
-			
-			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
+		
+			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {
+			}
 
 			formatter = {
 				generateStub = true
@@ -39,6 +40,11 @@ Workflow {
 			}
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+			}
+			parserGenerator = {
+  				options = {
+    				backtrack = true
+  				}
 			}
 		}
 	}

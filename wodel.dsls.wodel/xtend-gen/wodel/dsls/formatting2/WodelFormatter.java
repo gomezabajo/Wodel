@@ -5,6 +5,7 @@ package wodel.dsls.formatting2;
 
 import com.google.inject.Inject;
 import java.util.Arrays;
+import java.util.List;
 import mutatorenvironment.Block;
 import mutatorenvironment.Constraint;
 import mutatorenvironment.Definition;
@@ -17,8 +18,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
+import org.eclipse.xtext.formatting2.IHiddenRegionFormatter;
+import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegion;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import wodel.dsls.services.WodelGrammarAccess;
 
 @SuppressWarnings("all")
@@ -28,6 +32,38 @@ public class WodelFormatter extends AbstractFormatter2 {
   private WodelGrammarAccess _wodelGrammarAccess;
   
   protected void _format(final MutatorEnvironment mutatorEnvironment, @Extension final IFormattableDocument document) {
+    final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+      it.setNewLines(2, 2, 2);
+    };
+    ISemanticRegion generation = document.prepend(this.textRegionExtensions.regionFor(mutatorEnvironment).keyword("generate"), _function);
+    final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+      it.setNewLines(2, 2, 2);
+    };
+    ISemanticRegion in = document.prepend(this.textRegionExtensions.regionFor(mutatorEnvironment).keyword("in"), _function_1);
+    final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+      it.setNewLines(2, 2, 2);
+    };
+    ISemanticRegion from = document.prepend(this.textRegionExtensions.regionFor(mutatorEnvironment).keyword("from"), _function_2);
+    final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+      it.setNewLines(2, 2, 2);
+    };
+    ISemanticRegion metamodel = document.prepend(this.textRegionExtensions.regionFor(mutatorEnvironment).keyword("metamodel"), _function_3);
+    List<ISemanticRegion> openCurlyBrackets = this.textRegionExtensions.allRegionsFor(mutatorEnvironment).keywords("{");
+    List<ISemanticRegion> closeCurlyBrackets = this.textRegionExtensions.allRegionsFor(mutatorEnvironment).keywords("}");
+    List<ISemanticRegion> openSquareBrackets = this.textRegionExtensions.allRegionsFor(mutatorEnvironment).keywords("[");
+    List<ISemanticRegion> closeSquareBrackets = this.textRegionExtensions.allRegionsFor(mutatorEnvironment).keywords("]");
+    final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
+      it.indent();
+    };
+    document.<ISemanticRegion, ISemanticRegion>interior(generation, in, _function_4);
+    final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
+      it.indent();
+    };
+    document.<ISemanticRegion, ISemanticRegion>interior(in, from, _function_5);
+    final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
+      it.indent();
+    };
+    document.<ISemanticRegion, ISemanticRegion>interior(from, metamodel, _function_6);
     EList<Load> _load = mutatorEnvironment.getLoad();
     for (final Load load : _load) {
       document.<Load>format(load);

@@ -41,36 +41,29 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cLeftCurlyBracketKeyword_3_0_1 = (Keyword)cGroup_3_0.eContents().get(1);
 		private final Assignment cBlocksAssignment_3_0_2 = (Assignment)cGroup_3_0.eContents().get(2);
 		private final RuleCall cBlocksBlockParserRuleCall_3_0_2_0 = (RuleCall)cBlocksAssignment_3_0_2.eContents().get(0);
-		private final Assignment cBlocksAssignment_3_0_3 = (Assignment)cGroup_3_0.eContents().get(3);
-		private final RuleCall cBlocksBlockParserRuleCall_3_0_3_0 = (RuleCall)cBlocksAssignment_3_0_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_3_0_4 = (Keyword)cGroup_3_0.eContents().get(4);
+		private final Keyword cRightCurlyBracketKeyword_3_0_3 = (Keyword)cGroup_3_0.eContents().get(3);
 		private final Group cGroup_3_1 = (Group)cAlternatives_3.eContents().get(1);
 		private final Keyword cCommandsKeyword_3_1_0 = (Keyword)cGroup_3_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_3_1_1 = (Keyword)cGroup_3_1.eContents().get(1);
 		private final Assignment cCommandsAssignment_3_1_2 = (Assignment)cGroup_3_1.eContents().get(2);
 		private final RuleCall cCommandsMutatorParserRuleCall_3_1_2_0 = (RuleCall)cCommandsAssignment_3_1_2.eContents().get(0);
-		private final Assignment cCommandsAssignment_3_1_3 = (Assignment)cGroup_3_1.eContents().get(3);
-		private final RuleCall cCommandsMutatorParserRuleCall_3_1_3_0 = (RuleCall)cCommandsAssignment_3_1_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_3_1_4 = (Keyword)cGroup_3_1.eContents().get(4);
+		private final Keyword cRightCurlyBracketKeyword_3_1_3 = (Keyword)cGroup_3_1.eContents().get(3);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
 		private final Keyword cConstraintsKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
 		private final Assignment cConstraintsAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
 		private final RuleCall cConstraintsConstraintParserRuleCall_4_2_0 = (RuleCall)cConstraintsAssignment_4_2.eContents().get(0);
-		private final Assignment cConstraintsAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
-		private final RuleCall cConstraintsConstraintParserRuleCall_4_3_0 = (RuleCall)cConstraintsAssignment_4_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_4_4 = (Keyword)cGroup_4.eContents().get(4);
+		private final Keyword cRightCurlyBracketKeyword_4_3 = (Keyword)cGroup_4.eContents().get(3);
 		
 		//MutatorEnvironment:
 		//	load+=Load*
 		//	definition=Definition
-		//	'with' ('blocks' '{' blocks+=Block blocks+=Block* '}'
-		//	| 'commands' '{' commands+=Mutator commands+=Mutator* '}') ('constraints' '{' constraints+=Constraint
-		//	constraints+=Constraint* '}')?;
+		//	'with' ('blocks' '{' blocks+=Block* '}'
+		//	| 'commands' '{' commands+=Mutator* '}') ('constraints' '{' constraints+=Constraint* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//load+=Load* definition=Definition 'with' ('blocks' '{' blocks+=Block blocks+=Block* '}' | 'commands' '{'
-		//commands+=Mutator commands+=Mutator* '}') ('constraints' '{' constraints+=Constraint constraints+=Constraint* '}')?
+		//load+=Load* definition=Definition 'with' ('blocks' '{' blocks+=Block* '}' | 'commands' '{' commands+=Mutator* '}')
+		//('constraints' '{' constraints+=Constraint* '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//load+=Load*
@@ -88,10 +81,10 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'with'
 		public Keyword getWithKeyword_2() { return cWithKeyword_2; }
 		
-		//'blocks' '{' blocks+=Block blocks+=Block* '}' | 'commands' '{' commands+=Mutator commands+=Mutator* '}'
+		//'blocks' '{' blocks+=Block* '}' | 'commands' '{' commands+=Mutator* '}'
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 		
-		//'blocks' '{' blocks+=Block blocks+=Block* '}'
+		//'blocks' '{' blocks+=Block* '}'
 		public Group getGroup_3_0() { return cGroup_3_0; }
 		
 		//'blocks'
@@ -100,22 +93,16 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3_0_1() { return cLeftCurlyBracketKeyword_3_0_1; }
 		
-		//blocks+=Block
+		//blocks+=Block*
 		public Assignment getBlocksAssignment_3_0_2() { return cBlocksAssignment_3_0_2; }
 		
 		//Block
 		public RuleCall getBlocksBlockParserRuleCall_3_0_2_0() { return cBlocksBlockParserRuleCall_3_0_2_0; }
 		
-		//blocks+=Block*
-		public Assignment getBlocksAssignment_3_0_3() { return cBlocksAssignment_3_0_3; }
-		
-		//Block
-		public RuleCall getBlocksBlockParserRuleCall_3_0_3_0() { return cBlocksBlockParserRuleCall_3_0_3_0; }
-		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_3_0_4() { return cRightCurlyBracketKeyword_3_0_4; }
+		public Keyword getRightCurlyBracketKeyword_3_0_3() { return cRightCurlyBracketKeyword_3_0_3; }
 		
-		//'commands' '{' commands+=Mutator commands+=Mutator* '}'
+		//'commands' '{' commands+=Mutator* '}'
 		public Group getGroup_3_1() { return cGroup_3_1; }
 		
 		//'commands'
@@ -124,22 +111,16 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3_1_1() { return cLeftCurlyBracketKeyword_3_1_1; }
 		
-		//commands+=Mutator
+		//commands+=Mutator*
 		public Assignment getCommandsAssignment_3_1_2() { return cCommandsAssignment_3_1_2; }
 		
 		//Mutator
 		public RuleCall getCommandsMutatorParserRuleCall_3_1_2_0() { return cCommandsMutatorParserRuleCall_3_1_2_0; }
 		
-		//commands+=Mutator*
-		public Assignment getCommandsAssignment_3_1_3() { return cCommandsAssignment_3_1_3; }
-		
-		//Mutator
-		public RuleCall getCommandsMutatorParserRuleCall_3_1_3_0() { return cCommandsMutatorParserRuleCall_3_1_3_0; }
-		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_3_1_4() { return cRightCurlyBracketKeyword_3_1_4; }
+		public Keyword getRightCurlyBracketKeyword_3_1_3() { return cRightCurlyBracketKeyword_3_1_3; }
 		
-		//('constraints' '{' constraints+=Constraint constraints+=Constraint* '}')?
+		//('constraints' '{' constraints+=Constraint* '}')?
 		public Group getGroup_4() { return cGroup_4; }
 		
 		//'constraints'
@@ -148,20 +129,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_4_1() { return cLeftCurlyBracketKeyword_4_1; }
 		
-		//constraints+=Constraint
+		//constraints+=Constraint*
 		public Assignment getConstraintsAssignment_4_2() { return cConstraintsAssignment_4_2; }
 		
 		//Constraint
 		public RuleCall getConstraintsConstraintParserRuleCall_4_2_0() { return cConstraintsConstraintParserRuleCall_4_2_0; }
 		
-		//constraints+=Constraint*
-		public Assignment getConstraintsAssignment_4_3() { return cConstraintsAssignment_4_3; }
-		
-		//Constraint
-		public RuleCall getConstraintsConstraintParserRuleCall_4_3_0() { return cConstraintsConstraintParserRuleCall_4_3_0; }
-		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_4_4() { return cRightCurlyBracketKeyword_4_4; }
+		public Keyword getRightCurlyBracketKeyword_4_3() { return cRightCurlyBracketKeyword_4_3; }
 	}
 	public class DefinitionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.Definition");
@@ -475,29 +450,27 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Assignment cCommandsAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cCommandsMutatorParserRuleCall_5_0 = (RuleCall)cCommandsAssignment_5.eContents().get(0);
-		private final Assignment cCommandsAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cCommandsMutatorParserRuleCall_6_0 = (RuleCall)cCommandsAssignment_6.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
-		private final Keyword cLeftSquareBracketKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
-		private final Alternatives cAlternatives_8_1 = (Alternatives)cGroup_8.eContents().get(1);
-		private final Group cGroup_8_1_0 = (Group)cAlternatives_8_1.eContents().get(0);
-		private final Assignment cMinAssignment_8_1_0_0 = (Assignment)cGroup_8_1_0.eContents().get(0);
-		private final RuleCall cMinEIntParserRuleCall_8_1_0_0_0 = (RuleCall)cMinAssignment_8_1_0_0.eContents().get(0);
-		private final Keyword cFullStopFullStopKeyword_8_1_0_1 = (Keyword)cGroup_8_1_0.eContents().get(1);
-		private final Assignment cMaxAssignment_8_1_0_2 = (Assignment)cGroup_8_1_0.eContents().get(2);
-		private final RuleCall cMaxMaxCardinalityParserRuleCall_8_1_0_2_0 = (RuleCall)cMaxAssignment_8_1_0_2.eContents().get(0);
-		private final Assignment cFixedAssignment_8_1_1 = (Assignment)cAlternatives_8_1.eContents().get(1);
-		private final RuleCall cFixedEIntParserRuleCall_8_1_1_0 = (RuleCall)cFixedAssignment_8_1_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_8_2 = (Keyword)cGroup_8.eContents().get(2);
+		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
+		private final Keyword cLeftSquareBracketKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
+		private final Alternatives cAlternatives_7_1 = (Alternatives)cGroup_7.eContents().get(1);
+		private final Group cGroup_7_1_0 = (Group)cAlternatives_7_1.eContents().get(0);
+		private final Assignment cMinAssignment_7_1_0_0 = (Assignment)cGroup_7_1_0.eContents().get(0);
+		private final RuleCall cMinEIntParserRuleCall_7_1_0_0_0 = (RuleCall)cMinAssignment_7_1_0_0.eContents().get(0);
+		private final Keyword cFullStopFullStopKeyword_7_1_0_1 = (Keyword)cGroup_7_1_0.eContents().get(1);
+		private final Assignment cMaxAssignment_7_1_0_2 = (Assignment)cGroup_7_1_0.eContents().get(2);
+		private final RuleCall cMaxMaxCardinalityParserRuleCall_7_1_0_2_0 = (RuleCall)cMaxAssignment_7_1_0_2.eContents().get(0);
+		private final Assignment cFixedAssignment_7_1_1 = (Assignment)cAlternatives_7_1.eContents().get(1);
+		private final RuleCall cFixedEIntParserRuleCall_7_1_1_0 = (RuleCall)cFixedAssignment_7_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_7_2 = (Keyword)cGroup_7.eContents().get(2);
 		
 		//Block:
 		//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-		//	commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
+		//	commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-		//commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
+		//commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -560,56 +533,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
 		
-		//commands+=Mutator
+		//commands+=Mutator*
 		public Assignment getCommandsAssignment_5() { return cCommandsAssignment_5; }
 		
 		//Mutator
 		public RuleCall getCommandsMutatorParserRuleCall_5_0() { return cCommandsMutatorParserRuleCall_5_0; }
 		
-		//commands+=Mutator*
-		public Assignment getCommandsAssignment_6() { return cCommandsAssignment_6; }
-		
-		//Mutator
-		public RuleCall getCommandsMutatorParserRuleCall_6_0() { return cCommandsMutatorParserRuleCall_6_0; }
-		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
+		public Keyword getRightCurlyBracketKeyword_6() { return cRightCurlyBracketKeyword_6; }
 		
 		//('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
-		public Group getGroup_8() { return cGroup_8; }
+		public Group getGroup_7() { return cGroup_7; }
 		
 		//'['
-		public Keyword getLeftSquareBracketKeyword_8_0() { return cLeftSquareBracketKeyword_8_0; }
+		public Keyword getLeftSquareBracketKeyword_7_0() { return cLeftSquareBracketKeyword_7_0; }
 		
 		//min=EInt '..' max=MaxCardinality | fixed=EInt
-		public Alternatives getAlternatives_8_1() { return cAlternatives_8_1; }
+		public Alternatives getAlternatives_7_1() { return cAlternatives_7_1; }
 		
 		//min=EInt '..' max=MaxCardinality
-		public Group getGroup_8_1_0() { return cGroup_8_1_0; }
+		public Group getGroup_7_1_0() { return cGroup_7_1_0; }
 		
 		//min=EInt
-		public Assignment getMinAssignment_8_1_0_0() { return cMinAssignment_8_1_0_0; }
+		public Assignment getMinAssignment_7_1_0_0() { return cMinAssignment_7_1_0_0; }
 		
 		//EInt
-		public RuleCall getMinEIntParserRuleCall_8_1_0_0_0() { return cMinEIntParserRuleCall_8_1_0_0_0; }
+		public RuleCall getMinEIntParserRuleCall_7_1_0_0_0() { return cMinEIntParserRuleCall_7_1_0_0_0; }
 		
 		//'..'
-		public Keyword getFullStopFullStopKeyword_8_1_0_1() { return cFullStopFullStopKeyword_8_1_0_1; }
+		public Keyword getFullStopFullStopKeyword_7_1_0_1() { return cFullStopFullStopKeyword_7_1_0_1; }
 		
 		//max=MaxCardinality
-		public Assignment getMaxAssignment_8_1_0_2() { return cMaxAssignment_8_1_0_2; }
+		public Assignment getMaxAssignment_7_1_0_2() { return cMaxAssignment_7_1_0_2; }
 		
 		//MaxCardinality
-		public RuleCall getMaxMaxCardinalityParserRuleCall_8_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_8_1_0_2_0; }
+		public RuleCall getMaxMaxCardinalityParserRuleCall_7_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_7_1_0_2_0; }
 		
 		//fixed=EInt
-		public Assignment getFixedAssignment_8_1_1() { return cFixedAssignment_8_1_1; }
+		public Assignment getFixedAssignment_7_1_1() { return cFixedAssignment_7_1_1; }
 		
 		//EInt
-		public RuleCall getFixedEIntParserRuleCall_8_1_1_0() { return cFixedEIntParserRuleCall_8_1_1_0; }
+		public RuleCall getFixedEIntParserRuleCall_7_1_1_0() { return cFixedEIntParserRuleCall_7_1_1_0; }
 		
 		//']'
-		public Keyword getRightSquareBracketKeyword_8_2() { return cRightSquareBracketKeyword_8_2; }
+		public Keyword getRightSquareBracketKeyword_7_2() { return cRightSquareBracketKeyword_7_2; }
 	}
 	public class ConstraintElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.Constraint");
@@ -7079,9 +7046,8 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	//MutatorEnvironment:
 	//	load+=Load*
 	//	definition=Definition
-	//	'with' ('blocks' '{' blocks+=Block blocks+=Block* '}'
-	//	| 'commands' '{' commands+=Mutator commands+=Mutator* '}') ('constraints' '{' constraints+=Constraint
-	//	constraints+=Constraint* '}')?;
+	//	'with' ('blocks' '{' blocks+=Block* '}'
+	//	| 'commands' '{' commands+=Mutator* '}') ('constraints' '{' constraints+=Constraint* '}')?;
 	public MutatorEnvironmentElements getMutatorEnvironmentAccess() {
 		return pMutatorEnvironment;
 	}
@@ -7148,7 +7114,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//Block:
 	//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-	//	commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
+	//	commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
 	public BlockElements getBlockAccess() {
 		return pBlock;
 	}

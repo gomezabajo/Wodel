@@ -127,7 +127,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
 				for (String projectName : mutators.keySet()) {
 					Class<?> mutator = mutators.get(projectName);
-					Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName() + ".model");
+					Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName().replace("Dynamic", "") + ".model");
 					List<EObject> blocks = MutatorUtils.getBlocks(model);
 					for (EObject block : blocks) {
 						String name = ModelManager.getStringAttribute("name", block);
@@ -336,7 +336,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
 			for (String mutatorName : mutators.keySet()) {
 				Class<?> cls = mutators.get(mutatorName);
-				Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(cls) + "/" + mutatorName + ".model");
+				Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(cls) + "/" + mutatorName.replace("Dynamic", "") + ".model");
 				List<EObject> blocks = MutatorUtils.getBlocks(model);
 				for (EObject block : blocks) {
 					String name = ModelManager.getStringAttribute("name", block);

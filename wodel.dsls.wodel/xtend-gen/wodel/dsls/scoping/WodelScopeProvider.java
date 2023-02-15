@@ -135,7 +135,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       List<EClass> classes = null;
       if ((obj instanceof RetypeObjectMutator)) {
         final RetypeObjectMutator retypeObjectMutator = ((RetypeObjectMutator) obj);
-        classes = ModelManager.getSiblingEClasses(definition.getMetamodel(), MutatorUtils.getStrategyTypes(retypeObjectMutator.getObject()));
+        List<EClass> types = MutatorUtils.getStrategyTypes(retypeObjectMutator.getObject());
+        classes = ModelManager.getSiblingEClasses(definition.getMetamodel(), types);
       } else {
         if (((obj instanceof RandomTypeSelection) && (obj.eContainer() instanceof SelectObjectMutator))) {
           ArrayList<EClass> _arrayList = new ArrayList<EClass>();
@@ -3610,6 +3611,9 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           EList<AttributeSet> _attributes = com.getAttributes();
           for (final AttributeSet attSet : _attributes) {
             {
+              if ((attSet instanceof AttributeScalar)) {
+                attributes.addAll(this.getEAttributes(metamodel, className));
+              }
               if ((attSet instanceof AttributeCopy)) {
                 ObSelectionStrategy _object = ((AttributeCopy) attSet).getObject();
                 if ((_object instanceof SpecificObjectSelection)) {
@@ -3712,20 +3716,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
               EList<AttributeSet> _attributes = com.getAttributes();
               for (final AttributeSet attSet : _attributes) {
                 {
+                  if ((attSet instanceof AttributeScalar)) {
+                    ObSelectionStrategy _object_2 = com.getObject();
+                    if ((_object_2 instanceof RandomTypeSelection)) {
+                      ObSelectionStrategy _object_3 = com.getObject();
+                      RandomTypeSelection strategy = ((RandomTypeSelection) _object_3);
+                      EClass type = strategy.getType();
+                      scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                    }
+                  }
                   if ((attSet instanceof AttributeCopy)) {
-                    ObSelectionStrategy _object_2 = ((AttributeCopy) attSet).getObject();
-                    if ((_object_2 instanceof SpecificObjectSelection)) {
-                      ObSelectionStrategy _object_3 = ((AttributeCopy) attSet).getObject();
-                      final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_3);
+                    ObSelectionStrategy _object_4 = ((AttributeCopy) attSet).getObject();
+                    if ((_object_4 instanceof SpecificObjectSelection)) {
+                      ObSelectionStrategy _object_5 = ((AttributeCopy) attSet).getObject();
+                      final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_5);
                       ObjectEmitter _objSel = sel.getObjSel();
                       if ((_objSel instanceof SelectObjectMutator)) {
                         ObjectEmitter _objSel_1 = sel.getObjSel();
-                        ObSelectionStrategy _object_4 = ((SelectObjectMutator) _objSel_1).getObject();
-                        if ((_object_4 instanceof RandomTypeSelection)) {
+                        ObSelectionStrategy _object_6 = ((SelectObjectMutator) _objSel_1).getObject();
+                        if ((_object_6 instanceof RandomTypeSelection)) {
                           ObjectEmitter _objSel_2 = sel.getObjSel();
-                          ObSelectionStrategy _object_5 = ((SelectObjectMutator) _objSel_2).getObject();
-                          final RandomTypeSelection strategy = ((RandomTypeSelection) _object_5);
-                          className = strategy.getType().getName();
+                          ObSelectionStrategy _object_7 = ((SelectObjectMutator) _objSel_2).getObject();
+                          final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_7);
+                          className = strategy_1.getType().getName();
                           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                           EClass eclass = ModelManager.getEClassByName(packages, className);
                           if ((eclass == null)) {
@@ -3737,19 +3750,19 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     }
                   }
                   if ((attSet instanceof AttributeSwap)) {
-                    ObSelectionStrategy _object_6 = ((AttributeSwap) attSet).getObject();
-                    if ((_object_6 instanceof SpecificObjectSelection)) {
-                      ObSelectionStrategy _object_7 = ((AttributeSwap) attSet).getObject();
-                      final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_7);
+                    ObSelectionStrategy _object_8 = ((AttributeSwap) attSet).getObject();
+                    if ((_object_8 instanceof SpecificObjectSelection)) {
+                      ObSelectionStrategy _object_9 = ((AttributeSwap) attSet).getObject();
+                      final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_9);
                       ObjectEmitter _objSel_3 = sel_1.getObjSel();
                       if ((_objSel_3 instanceof SelectObjectMutator)) {
                         ObjectEmitter _objSel_4 = sel_1.getObjSel();
-                        ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_4).getObject();
-                        if ((_object_8 instanceof RandomTypeSelection)) {
+                        ObSelectionStrategy _object_10 = ((SelectObjectMutator) _objSel_4).getObject();
+                        if ((_object_10 instanceof RandomTypeSelection)) {
                           ObjectEmitter _objSel_5 = sel_1.getObjSel();
-                          ObSelectionStrategy _object_9 = ((SelectObjectMutator) _objSel_5).getObject();
-                          final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_9);
-                          className = strategy_1.getType().getName();
+                          ObSelectionStrategy _object_11 = ((SelectObjectMutator) _objSel_5).getObject();
+                          final RandomTypeSelection strategy_2 = ((RandomTypeSelection) _object_11);
+                          className = strategy_2.getType().getName();
                           List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                           EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
                           if ((eclass_1 == null)) {
@@ -4131,20 +4144,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
               EList<AttributeSet> _attributes = com.getAttributes();
               for (final AttributeSet attSet : _attributes) {
                 {
+                  if ((attSet instanceof AttributeScalar)) {
+                    ObSelectionStrategy _object_2 = com.getObject();
+                    if ((_object_2 instanceof RandomTypeSelection)) {
+                      ObSelectionStrategy _object_3 = com.getObject();
+                      RandomTypeSelection strategy = ((RandomTypeSelection) _object_3);
+                      EClass type = strategy.getType();
+                      scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                    }
+                  }
                   if ((attSet instanceof AttributeCopy)) {
-                    ObSelectionStrategy _object_2 = ((AttributeCopy) attSet).getObject();
-                    if ((_object_2 instanceof SpecificObjectSelection)) {
-                      ObSelectionStrategy _object_3 = ((AttributeCopy) attSet).getObject();
-                      final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_3);
+                    ObSelectionStrategy _object_4 = ((AttributeCopy) attSet).getObject();
+                    if ((_object_4 instanceof SpecificObjectSelection)) {
+                      ObSelectionStrategy _object_5 = ((AttributeCopy) attSet).getObject();
+                      final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_5);
                       ObjectEmitter _objSel = sel.getObjSel();
                       if ((_objSel instanceof SelectObjectMutator)) {
                         ObjectEmitter _objSel_1 = sel.getObjSel();
-                        ObSelectionStrategy _object_4 = ((SelectObjectMutator) _objSel_1).getObject();
-                        if ((_object_4 instanceof RandomTypeSelection)) {
+                        ObSelectionStrategy _object_6 = ((SelectObjectMutator) _objSel_1).getObject();
+                        if ((_object_6 instanceof RandomTypeSelection)) {
                           ObjectEmitter _objSel_2 = sel.getObjSel();
-                          ObSelectionStrategy _object_5 = ((SelectObjectMutator) _objSel_2).getObject();
-                          final RandomTypeSelection strategy = ((RandomTypeSelection) _object_5);
-                          className = strategy.getType().getName();
+                          ObSelectionStrategy _object_7 = ((SelectObjectMutator) _objSel_2).getObject();
+                          final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_7);
+                          className = strategy_1.getType().getName();
                           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                           EClass eclass = ModelManager.getEClassByName(packages, className);
                           if ((eclass == null)) {
@@ -4156,19 +4178,19 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     }
                   }
                   if ((attSet instanceof AttributeSwap)) {
-                    ObSelectionStrategy _object_6 = ((AttributeSwap) attSet).getObject();
-                    if ((_object_6 instanceof SpecificObjectSelection)) {
-                      ObSelectionStrategy _object_7 = ((AttributeSwap) attSet).getObject();
-                      final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_7);
+                    ObSelectionStrategy _object_8 = ((AttributeSwap) attSet).getObject();
+                    if ((_object_8 instanceof SpecificObjectSelection)) {
+                      ObSelectionStrategy _object_9 = ((AttributeSwap) attSet).getObject();
+                      final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_9);
                       ObjectEmitter _objSel_3 = sel_1.getObjSel();
                       if ((_objSel_3 instanceof SelectObjectMutator)) {
                         ObjectEmitter _objSel_4 = sel_1.getObjSel();
-                        ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_4).getObject();
-                        if ((_object_8 instanceof RandomTypeSelection)) {
+                        ObSelectionStrategy _object_10 = ((SelectObjectMutator) _objSel_4).getObject();
+                        if ((_object_10 instanceof RandomTypeSelection)) {
                           ObjectEmitter _objSel_5 = sel_1.getObjSel();
-                          ObSelectionStrategy _object_9 = ((SelectObjectMutator) _objSel_5).getObject();
-                          final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_9);
-                          className = strategy_1.getType().getName();
+                          ObSelectionStrategy _object_11 = ((SelectObjectMutator) _objSel_5).getObject();
+                          final RandomTypeSelection strategy_2 = ((RandomTypeSelection) _object_11);
+                          className = strategy_2.getType().getName();
                           List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                           EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
                           if ((eclass_1 == null)) {
@@ -4543,20 +4565,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           EList<AttributeSet> _attributes = com.getAttributes();
           for (final AttributeSet attSet : _attributes) {
             {
+              if ((attSet instanceof AttributeScalar)) {
+                ObSelectionStrategy _object = com.getObject();
+                if ((_object instanceof RandomTypeSelection)) {
+                  ObSelectionStrategy _object_1 = com.getObject();
+                  RandomTypeSelection strategy = ((RandomTypeSelection) _object_1);
+                  EClass type = strategy.getType();
+                  scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                }
+              }
               if ((attSet instanceof AttributeCopy)) {
-                ObSelectionStrategy _object = ((AttributeCopy) attSet).getObject();
-                if ((_object instanceof SpecificObjectSelection)) {
-                  ObSelectionStrategy _object_1 = ((AttributeCopy) attSet).getObject();
-                  final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_1);
+                ObSelectionStrategy _object_2 = ((AttributeCopy) attSet).getObject();
+                if ((_object_2 instanceof SpecificObjectSelection)) {
+                  ObSelectionStrategy _object_3 = ((AttributeCopy) attSet).getObject();
+                  final SpecificObjectSelection sel = ((SpecificObjectSelection) _object_3);
                   ObjectEmitter _objSel = sel.getObjSel();
                   if ((_objSel instanceof SelectObjectMutator)) {
                     ObjectEmitter _objSel_1 = sel.getObjSel();
-                    ObSelectionStrategy _object_2 = ((SelectObjectMutator) _objSel_1).getObject();
-                    if ((_object_2 instanceof RandomTypeSelection)) {
+                    ObSelectionStrategy _object_4 = ((SelectObjectMutator) _objSel_1).getObject();
+                    if ((_object_4 instanceof RandomTypeSelection)) {
                       ObjectEmitter _objSel_2 = sel.getObjSel();
-                      ObSelectionStrategy _object_3 = ((SelectObjectMutator) _objSel_2).getObject();
-                      final RandomTypeSelection strategy = ((RandomTypeSelection) _object_3);
-                      className = strategy.getType().getName();
+                      ObSelectionStrategy _object_5 = ((SelectObjectMutator) _objSel_2).getObject();
+                      final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_5);
+                      className = strategy_1.getType().getName();
                       List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                       EClass eclass = ModelManager.getEClassByName(packages, className);
                       if ((eclass == null)) {
@@ -4568,19 +4599,19 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 }
               }
               if ((attSet instanceof AttributeSwap)) {
-                ObSelectionStrategy _object_4 = ((AttributeSwap) attSet).getObject();
-                if ((_object_4 instanceof SpecificObjectSelection)) {
-                  ObSelectionStrategy _object_5 = ((AttributeSwap) attSet).getObject();
-                  final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_5);
+                ObSelectionStrategy _object_6 = ((AttributeSwap) attSet).getObject();
+                if ((_object_6 instanceof SpecificObjectSelection)) {
+                  ObSelectionStrategy _object_7 = ((AttributeSwap) attSet).getObject();
+                  final SpecificObjectSelection sel_1 = ((SpecificObjectSelection) _object_7);
                   ObjectEmitter _objSel_3 = sel_1.getObjSel();
                   if ((_objSel_3 instanceof SelectObjectMutator)) {
                     ObjectEmitter _objSel_4 = sel_1.getObjSel();
-                    ObSelectionStrategy _object_6 = ((SelectObjectMutator) _objSel_4).getObject();
-                    if ((_object_6 instanceof RandomTypeSelection)) {
+                    ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_4).getObject();
+                    if ((_object_8 instanceof RandomTypeSelection)) {
                       ObjectEmitter _objSel_5 = sel_1.getObjSel();
-                      ObSelectionStrategy _object_7 = ((SelectObjectMutator) _objSel_5).getObject();
-                      final RandomTypeSelection strategy_1 = ((RandomTypeSelection) _object_7);
-                      className = strategy_1.getType().getName();
+                      ObSelectionStrategy _object_9 = ((SelectObjectMutator) _objSel_5).getObject();
+                      final RandomTypeSelection strategy_2 = ((RandomTypeSelection) _object_9);
+                      className = strategy_2.getType().getName();
                       List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                       EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
                       if ((eclass_1 == null)) {

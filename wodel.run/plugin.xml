@@ -21,6 +21,14 @@
   <extension
          point="org.eclipse.ui.commands">
       <command
+      		defaultHandler="runwodel.popup.actions.GenerateWodelMutationOperatorsWizard"
+            id="wodelCreateWodelMutationOperatorsWizard"
+            name="Mutation operator(s) creation wizard...">
+      </command>
+   </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
       		defaultHandler="runwodel.popup.actions.CleanUpWodelOutputFolder"
             id="wodelCleanUpOutputFolder"
             name="Wodel output folder clean-up">
@@ -89,6 +97,46 @@
                   commandId="wodelCreateWodelMutantsWizard"
                   icon="icons/wodel4.jpg"
                   label="Mutants creation wizard"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodel.project.sampleNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.mutator">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodel4.jpg"
+               id="Wodel.menu1"
+               label="Wodel...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodelCreateWodelMutationOperatorsWizard"
+                  icon="icons/wodel4.jpg"
+                  label="Mutation operators wizard"
                   style="push">
             <visibleWhen
                	  checkEnabled="false">

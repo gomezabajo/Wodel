@@ -19,25 +19,40 @@ public class WodelFormatter extends AbstractFormatter2 {
 	@Inject extension WodelGrammarAccess
 
 	def dispatch void format(MutatorEnvironment mutatorEnvironment, extension IFormattableDocument document) {
+		var generation = mutatorEnvironment.regionFor.keyword("generate").prepend[setNewLines(2, 2, 2)]
+		var in = mutatorEnvironment.regionFor.keyword("in").prepend[setNewLines(2, 2, 2)]
+		var from = mutatorEnvironment.regionFor.keyword("from").prepend[setNewLines(2, 2, 2)]
+		var metamodel = mutatorEnvironment.regionFor.keyword("metamodel").prepend[setNewLines(2, 2, 2)]
+		
+		var openCurlyBrackets = mutatorEnvironment.allRegionsFor.keywords("{")
+		var closeCurlyBrackets = mutatorEnvironment.allRegionsFor.keywords("}")
+		
+		var openSquareBrackets = mutatorEnvironment.allRegionsFor.keywords("[")
+		var closeSquareBrackets = mutatorEnvironment.allRegionsFor.keywords("]")
+
+		interior(generation, in)[indent]
+		interior(in, from)[indent]
+		interior(from, metamodel)[indent]
+
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (Load load : mutatorEnvironment.getLoad()) {
+		for (Load load : mutatorEnvironment.load) {
 			load.format;
 		}
 		mutatorEnvironment.getDefinition.format;
-		for (Block block : mutatorEnvironment.getBlocks()) {
+		for (Block block : mutatorEnvironment.blocks) {
 			block.format;
 		}
-		for (Mutator mutator : mutatorEnvironment.getCommands()) {
+		for (Mutator mutator : mutatorEnvironment.commands) {
 			mutator.format;
 		}
-		for (Constraint constraint : mutatorEnvironment.getConstraints()) {
+		for (Constraint constraint : mutatorEnvironment.constraints) {
 			constraint.format;
 		}
 	}
 
 	def dispatch void format(Program program, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		program.getSource.format;
+		program.source.format;
 		
 	}
 }

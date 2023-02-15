@@ -2,8 +2,6 @@
  */
 package mutatorenvironment.impl;
 
-import edutest.EdutestPackage;
-import edutest.impl.EdutestPackageImpl;
 import mutatorenvironment.ArithmeticOperator;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
@@ -802,19 +800,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(EdutestPackage.eNS_URI);
-		EdutestPackageImpl theEdutestPackage = (EdutestPackageImpl)(registeredPackage instanceof EdutestPackageImpl ? registeredPackage : EdutestPackage.eINSTANCE);
-		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
 		MiniOCLPackageImpl theMiniOCLPackage = (MiniOCLPackageImpl)(registeredPackage instanceof MiniOCLPackageImpl ? registeredPackage : MiniOCLPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMutatorenvironmentPackage.createPackageContents();
-		theEdutestPackage.createPackageContents();
 		theMiniOCLPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMutatorenvironmentPackage.initializePackageContents();
-		theEdutestPackage.initializePackageContents();
 		theMiniOCLPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -3594,7 +3588,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMutatorEnvironment_Definition(), this.getDefinition(), null, "definition", null, 1, 1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorEnvironment_Definition(), this.getDefinition(), null, "definition", null, 0, 1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorEnvironment_Commands(), this.getMutator(), null, "commands", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorEnvironment_Load(), this.getLoad(), null, "load", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorEnvironment_Blocks(), this.getBlock(), null, "blocks", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

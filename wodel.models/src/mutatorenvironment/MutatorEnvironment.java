@@ -34,7 +34,7 @@ public interface MutatorEnvironment extends EObject {
 	 * @return the value of the '<em>Definition</em>' containment reference.
 	 * @see #setDefinition(Definition)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Definition()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	Definition getDefinition();

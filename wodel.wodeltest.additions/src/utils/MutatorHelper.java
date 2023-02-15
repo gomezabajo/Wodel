@@ -31,7 +31,7 @@ public class MutatorHelper {
 				if (file.isFile()) {
 					if (file.getName().endsWith(".mutator")) {
 						String mutatorName = file.getName().replace(".mutator", "");
-						String className = "mutator." + mutatorName + "." + mutatorName;
+						String className = "mutator." + mutatorName + "Dynamic." + mutatorName + "Dynamic";
 						Class<?> mutator = WodelTestUtils.loadClass(className, test);
 						mutators.put(mutatorName, mutator);
 					}
@@ -50,7 +50,7 @@ public class MutatorHelper {
 
 	public SimpleEntry<String, Class<?>> getLauncher() {
 		String projectName = test.getProjectName();
-		String className = "mutator." + projectName + "." + projectName + "Launcher";
+		String className = "mutator." + projectName + "." + projectName + "DynamicLauncher";
 		Class<?> cls = WodelTestUtils.loadClass(className, test);
 		return new SimpleEntry<String, Class<?>>(className, cls);
 	}
@@ -62,7 +62,7 @@ public class MutatorHelper {
 				if (file.isFile()) {
 					if (file.getName().endsWith(".mutator")) {
 						String mutatorName = file.getName().replace(".mutator", "");
-						String className = "mutator." + mutatorName + "." + mutatorName;
+						String className = "mutator." + mutatorName + "Dynamic." + mutatorName + "Dynamic";
 						Class<?> mutator = WodelTestUtils.loadClass(className, test);
 						mutators.put(mutatorName, mutator);
 					}

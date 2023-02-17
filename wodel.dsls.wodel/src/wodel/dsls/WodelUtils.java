@@ -406,6 +406,7 @@ public class WodelUtils {
 			exhaustive = args.length >= 4 ? Boolean.valueOf(args[3]) : true;
 		}
 		if (exhaustive == true) {
+			MutatorenvironmentPackage.eINSTANCE.getClass();
 			metamodel = domainMetamodelPath;
 			packages = ModelManager.loadMetaModel(metamodel);
 			List<Resource> wodelModels = new ArrayList<Resource>();

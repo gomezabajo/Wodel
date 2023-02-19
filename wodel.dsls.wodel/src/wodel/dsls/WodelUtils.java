@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -393,24 +395,34 @@ public class WodelUtils {
 		List<EPackage> packages = null;
 		boolean exhaustive = false;
 		String domainMetamodelPath = "";
-		String seedModelsPath = "";
+		String inputPath = "";
+		String outputPath = "";
+		String wodelProjectPath = "";
+		String wodelProjectName = "";
+		String wodelWorkspacePath = "";
 		String wodelProgramPath = "";
-		if (args.length < 3) {
-			System.out.println("args[0] = domainMetamodelPath, args[1] = seedModelsPath, args[2] = wodelProgramPath (, args[3] = exhaustive == true, optimized == false)?");
+		String eclipseHomePath = "";
+		if (args.length < 5) {
+			System.out.println("args[0] = domainMetamodelPath, args[1] = inputPath, args[2] = outputPath, args[3] = wodelProjectPath,  args[4] = eclipseHomePath (, args[5] = exhaustive == true, optimized == false)?");
 			return;
 		}
-		if (args.length >= 3) {
+		if (args.length >= 5) {
 			domainMetamodelPath = args[0];
-			seedModelsPath = args[1];
-			wodelProgramPath = args[2];
-			exhaustive = args.length >= 4 ? Boolean.valueOf(args[3]) : true;
+			inputPath = args[1];
+			outputPath = args[2];
+			wodelProjectPath = args[3];
+			eclipseHomePath = args[4];
+			wodelWorkspacePath = wodelProjectPath.substring(0, wodelProjectPath.lastIndexOf("/"));
+			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
+			wodelProgramPath = wodelProjectPath + "/src" + wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/"), wodelProjectPath.length()) + ".mutator"; 
+			exhaustive = args.length >= 6 ? Boolean.valueOf(args[5]) : true;
 		}
 		if (exhaustive == true) {
 			MutatorenvironmentPackage.eINSTANCE.getClass();
 			metamodel = domainMetamodelPath;
 			packages = ModelManager.loadMetaModel(metamodel);
 			List<Resource> wodelModels = new ArrayList<Resource>();
-			wodelModels.addAll(ModelManager.getModelsNoException(metamodel, seedModelsPath));
+			wodelModels.addAll(ModelManager.getModelsNoException(metamodel, inputPath));
 			
 			MutatorEnvironment mutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
 			Program program = MutatorenvironmentFactory.eINSTANCE.createProgram();
@@ -506,6 +518,7 @@ public class WodelUtils {
 			}
 			
 			List<EClass> eClasses = ModelManager.getEClasses(packages);
+			EClass rootClass = ModelManager.getRootEClass(packages);
 			int i = 0;
 			int j = 0;
 			for (EClass eClass : eClasses) {
@@ -523,10 +536,8 @@ public class WodelUtils {
 					Block block = null;
 					String blockName = "";
 					blockName = "b" + i;
-					i++;
 					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
 					block.setName(blockName);
-					blocks.add(block);
 					if (wodelOperator.equals("select")) {
 						SelectObjectMutator selectObjectMutator = MutatorenvironmentFactory.eINSTANCE.createSelectObjectMutator();
 						ObSelectionStrategy obSelectionStrategy = null;
@@ -1251,12 +1262,25 @@ public class WodelUtils {
 							mutator.add(retypeObjectMutator);
 						}
 					}
-					if (mutator.size() > 0) {
-						commands.addAll(mutator);
-					}
-					if (commands.size() > 0) {
-						block.getCommands().addAll(commands);
-						blocks.add(block);
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
 					}
 				}
 				j++;
@@ -1265,21 +1289,82 @@ public class WodelUtils {
 			mutatorEnvironment.getBlocks().addAll(blocks);
 			mutatorEnvironment.getCommands().clear();
 			
-			String mutatorCode = WodelUtils.deserialize("file:/" + wodelProgramPath, mutatorEnvironment);
+			String mutatorCode = "generate exhaustive mutants \r\n" +
+									"in \"data/out/\" \r\n" +
+									"from \"data/model/\" \r\n" +
+									"metamodel \"" + domainMetamodelPath + "\" \r\n" +
+									"\r\n" +
+									"with commands {\r\n" +
+									"\t\t c = create " + rootClass.getName() + "\r\n" +
+									"}\r\n";
 
-			int index = 0;
-			String mutatorFileName = wodelProgramPath.replace(".mutator", "_auto" + index + ".mutator");
-			File mutatorFile = new File(mutatorFileName);
-			while (mutatorFile.exists() && mutatorFile.isFile()) {
-				index++;
-				mutatorFileName = wodelProgramPath.replace(".mutator", "_auto" + index + ".mutator");
-				mutatorFile = new File(mutatorFileName);
-			}
+			String mutatorFileName = wodelProgramPath;
 			FileWriter fileWriter = new FileWriter(mutatorFileName);
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			writer.write(mutatorCode);
 			writer.close();
 			fileWriter.close();
+			
+			mutatorCode = WodelUtils.deserialize("file:/" + wodelProgramPath, mutatorEnvironment);
+
+			mutatorFileName = wodelProgramPath;
+			fileWriter = new FileWriter(mutatorFileName);
+			writer = new BufferedWriter(fileWriter);
+			writer.write(mutatorCode);
+			writer.close();
+			fileWriter.close();
+			
+			try {
+				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
+				builder.inheritIO();
+				Process process = builder.start();
+				int exitCode = process.waitFor();
+				if (exitCode != 0) {
+					System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
+					return;
+				}
+				else {
+					System.out.println("Compilation completed succesfully!!");
+				}
+				System.out.println("Generation of the mutants from the command line...");
+				String batcompile = wodelProjectPath + "/src-gen/bat/compile.bat";
+				File batfolder = new File(wodelProjectPath + "/src-gen/bat");
+				if (!batfolder.exists()) {
+					batfolder.mkdirs();
+				}
+				PrintWriter batwriter = null;
+				try {
+					batwriter = new PrintWriter(batcompile, "UTF-8");
+					batwriter.println("cd \\");
+					String folders = wodelProjectPath + "/src-gen/mutator/";
+					for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
+						batwriter.println("cd " + folderName);
+					}
+					batwriter.println("javac --release 8 -classpath " + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+					batwriter.println("cd ..");
+					batwriter.println("java -classpath .;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
+					batwriter.println("exit");
+					batwriter.close();
+				} catch (UnsupportedEncodingException e) {
+					//Reload input
+					System.out.println("The compilation of the classes to execute from command line was not completed succesfully.");
+					return;
+				}
+				builder = new ProcessBuilder("cmd.exe", "/c", batcompile);
+				builder.inheritIO();
+				process = builder.start();
+				exitCode = process.waitFor();
+				if (exitCode != 0) {
+					System.out.println("The compilation of the classes to execute from command line was not completed succesfully.");
+					return;
+				}
+				else {
+					System.out.println("Mutants generated succesfully!!");
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

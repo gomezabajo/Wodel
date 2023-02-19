@@ -6256,7 +6256,7 @@ public class «className» extends MutatorUtils {
 }
 	«ENDIF»
 	«ENDIF»
-	«IF e.blocks.length > 0»
+	«IF e.blocks.size() > 0»
 	//RESET COUNTER: «nMethod = 0»
 	//RESET COUNTER: «nCompositeMethod = 0»
 	//RESET COUNTER: «nMutation = 0»
@@ -6266,7 +6266,9 @@ public class «className» extends MutatorUtils {
 	//RESET COUNTER: «nCompositeRegistryMethod = 0»
 	//RESET COUNTER: «nCompositeCommands = 0»
 	«FOR b : e.blocks»
-		«b.generateBlock((e.definition as Program).exhaustive)»
+		«IF b.commands.size() > 0»
+			«b.generateBlock((e.definition as Program).exhaustive)»
+		«ENDIF»
 	«ENDFOR»
 	@Override
 	«IF standalone == false»
@@ -6298,6 +6300,7 @@ public class «className» extends MutatorUtils {
 		List<String> fromNames = null;
 		//«var int i = 0»
 		«FOR b : e.blocks»
+		«IF b.commands.size() > 0»
 		fromNames = new ArrayList<String>();
 		«FOR from : b.from»
 		fromNames.add("«from.name»");
@@ -6322,6 +6325,7 @@ public class «className» extends MutatorUtils {
 			monitor.worked(1);
 		}
 		//«i++»
+		«ENDIF»
 		«ENDFOR»
 		
 		//Generate metrics model

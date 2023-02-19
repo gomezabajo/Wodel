@@ -23529,8 +23529,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
       {
-        int _length_1 = ((Object[])Conversions.unwrapArray(e.getBlocks(), Object.class)).length;
-        boolean _greaterThan_1 = (_length_1 > 0);
+        int _size_1 = e.getBlocks().size();
+        boolean _greaterThan_1 = (_size_1 > 0);
         if (_greaterThan_1) {
           _builder.append("\t");
           _builder.append("//RESET COUNTER: ");
@@ -23567,11 +23567,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           {
             EList<Block> _blocks = e.getBlocks();
             for(final Block b : _blocks) {
-              _builder.append("\t");
-              Definition _definition_18 = e.getDefinition();
-              CharSequence _generateBlock = this.generateBlock(b, ((Program) _definition_18).isExhaustive());
-              _builder.append(_generateBlock, "\t");
-              _builder.newLineIfNotEmpty();
+              {
+                int _size_2 = b.getCommands().size();
+                boolean _greaterThan_2 = (_size_2 > 0);
+                if (_greaterThan_2) {
+                  _builder.append("\t");
+                  Definition _definition_18 = e.getDefinition();
+                  CharSequence _generateBlock = this.generateBlock(b, ((Program) _definition_18).isExhaustive());
+                  _builder.append(_generateBlock, "\t");
+                  _builder.newLineIfNotEmpty();
+                }
+              }
             }
           }
           _builder.append("\t");
@@ -23620,8 +23626,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("int totalTasks = ");
-          int _size_1 = e.getBlocks().size();
-          _builder.append(_size_1, "\t\t");
+          int _size_3 = e.getBlocks().size();
+          _builder.append(_size_3, "\t\t");
           _builder.append(";");
           _builder.newLineIfNotEmpty();
           _builder.append("\t\t");
@@ -23662,112 +23668,118 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           {
             EList<Block> _blocks_1 = e.getBlocks();
             for(final Block b_1 : _blocks_1) {
-              _builder.append("\t\t");
-              _builder.append("fromNames = new ArrayList<String>();");
-              _builder.newLine();
               {
-                EList<Block> _from = b_1.getFrom();
-                for(final Block from : _from) {
+                int _size_4 = b_1.getCommands().size();
+                boolean _greaterThan_3 = (_size_4 > 0);
+                if (_greaterThan_3) {
                   _builder.append("\t\t");
-                  _builder.append("fromNames.add(\"");
-                  String _name_4 = from.getName();
-                  _builder.append(_name_4, "\t\t");
+                  _builder.append("fromNames = new ArrayList<String>();");
+                  _builder.newLine();
+                  {
+                    EList<Block> _from = b_1.getFrom();
+                    for(final Block from : _from) {
+                      _builder.append("\t\t");
+                      _builder.append("fromNames.add(\"");
+                      String _name_4 = from.getName();
+                      _builder.append(_name_4, "\t\t");
+                      _builder.append("\");");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                  _builder.append("\t\t");
+                  _builder.append("if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains(\"");
+                  String _name_5 = b_1.getName();
+                  _builder.append(_name_5, "\t\t");
+                  _builder.append("\") == true)) {");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("\t\t");
+                  _builder.append("\t");
+                  _builder.append("monitor.subTask(\"Generating mutants for block ");
+                  String _name_6 = b_1.getName();
+                  _builder.append(_name_6, "\t\t\t");
+                  _builder.append(" (");
+                  _builder.append((i + 1), "\t\t\t");
+                  _builder.append("/");
+                  int _size_5 = e.getBlocks().size();
+                  _builder.append(_size_5, "\t\t\t");
+                  _builder.append(")\");");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("\t\t");
+                  _builder.append("\t");
+                  _builder.append("int[] k = new int[1];");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t");
+                  _builder.append("k[0] = 0;");
+                  _builder.newLine();
+                  {
+                    if ((this.standalone == false)) {
+                      _builder.append("\t\t");
+                      _builder.append("\t");
+                      _builder.append("int numMutantsGenerated = block_");
+                      String _name_7 = b_1.getName();
+                      _builder.append(_name_7, "\t\t\t");
+                      _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, localRegisteredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      _builder.append("\t\t");
+                      _builder.append("\t");
+                      _builder.append("int numMutantsGenerated = block_");
+                      String _name_8 = b_1.getName();
+                      _builder.append(_name_8, "\t\t\t");
+                      _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, localRegisteredPackages, fromNames, hashmapMutants, hashmapMutVersions, monitor, k, serialize, test, classes);");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                  _builder.append("\t\t");
+                  _builder.append("\t");
+                  _builder.append("if (numMutantsGenerated > 0) {");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t\t");
+                  _builder.append("mutationResults.numMutatorsApplied++;");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t\t");
+                  _builder.append("if (mutationResults.mutatorsApplied == null) {");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t\t\t");
+                  _builder.append("mutationResults.mutatorsApplied = new ArrayList<String>();");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t\t");
+                  _builder.append("}");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("\t\t");
+                  _builder.append("mutationResults.mutatorsApplied.add(\"");
+                  String _name_9 = b_1.getName();
+                  _builder.append(_name_9, "\t\t\t\t");
                   _builder.append("\");");
                   _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("\t\t");
-              _builder.append("if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains(\"");
-              String _name_5 = b_1.getName();
-              _builder.append(_name_5, "\t\t");
-              _builder.append("\") == true)) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("monitor.subTask(\"Generating mutants for block ");
-              String _name_6 = b_1.getName();
-              _builder.append(_name_6, "\t\t\t");
-              _builder.append(" (");
-              _builder.append((i + 1), "\t\t\t");
-              _builder.append("/");
-              int _size_2 = e.getBlocks().size();
-              _builder.append(_size_2, "\t\t\t");
-              _builder.append(")\");");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("int[] k = new int[1];");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("k[0] = 0;");
-              _builder.newLine();
-              {
-                if ((this.standalone == false)) {
+                  _builder.append("\t\t");
+                  _builder.append("\t\t");
+                  _builder.append("mutationResults.numMutantsGenerated += numMutantsGenerated;");
+                  _builder.newLine();
                   _builder.append("\t\t");
                   _builder.append("\t");
-                  _builder.append("int numMutantsGenerated = block_");
-                  String _name_7 = b_1.getName();
-                  _builder.append(_name_7, "\t\t\t");
-                  _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, localRegisteredPackages, fromNames, hashmapMutants, hashmapMutVersions, project, monitor, k, serialize, test, classes);");
-                  _builder.newLineIfNotEmpty();
-                } else {
+                  _builder.append("}");
+                  _builder.newLine();
                   _builder.append("\t\t");
                   _builder.append("\t");
-                  _builder.append("int numMutantsGenerated = block_");
-                  String _name_8 = b_1.getName();
-                  _builder.append(_name_8, "\t\t\t");
-                  _builder.append("(maxAttempts, numMutants, registry, packages, registeredPackages, localRegisteredPackages, fromNames, hashmapMutants, hashmapMutVersions, monitor, k, serialize, test, classes);");
+                  _builder.append("monitor.worked(1);");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("}");
+                  _builder.newLine();
+                  _builder.append("\t\t");
+                  _builder.append("//");
+                  int _plusPlus = i++;
+                  _builder.append(_plusPlus, "\t\t");
                   _builder.newLineIfNotEmpty();
                 }
               }
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("if (numMutantsGenerated > 0) {");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t\t");
-              _builder.append("mutationResults.numMutatorsApplied++;");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t\t");
-              _builder.append("if (mutationResults.mutatorsApplied == null) {");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t\t\t");
-              _builder.append("mutationResults.mutatorsApplied = new ArrayList<String>();");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t\t");
-              _builder.append("mutationResults.mutatorsApplied.add(\"");
-              String _name_9 = b_1.getName();
-              _builder.append(_name_9, "\t\t\t\t");
-              _builder.append("\");");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-              _builder.append("\t\t");
-              _builder.append("mutationResults.numMutantsGenerated += numMutantsGenerated;");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("\t");
-              _builder.append("monitor.worked(1);");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("//");
-              int _plusPlus = i++;
-              _builder.append(_plusPlus, "\t\t");
-              _builder.newLineIfNotEmpty();
             }
           }
           _builder.append("\t\t");

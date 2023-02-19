@@ -555,6 +555,14 @@ public class ModelManager {
 				index = path.lastIndexOf("/");
 			}
 			path = path.substring(0, index);
+			index = path.lastIndexOf("/src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));

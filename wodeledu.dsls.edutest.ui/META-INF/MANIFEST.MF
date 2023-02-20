@@ -24,5 +24,6 @@ Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: wodeledu.dsls.edutest.ui.internal,
  wodeledu.dsls.ui.contentassist,
- wodeledu.dsls.ui.quickfix
+ wodeledu.dsls.ui.quickfix,
+ wodeledu.dsls.ui.customize
 Bundle-Activator: wodeledu.dsls.edutest.ui.internal.EdutestActivator

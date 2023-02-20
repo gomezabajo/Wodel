@@ -13,7 +13,6 @@ import manager.ModelManager
 import manager.JavaUtils
 import org.eclipse.core.resources.IProject
 import manager.ProjectUtils
-import wodeledu.dsls.ui.customize.WodelEduGeneralPreferencePage
 import org.eclipse.core.runtime.Platform
 
 /**

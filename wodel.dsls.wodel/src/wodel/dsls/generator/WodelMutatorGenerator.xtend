@@ -92,8 +92,7 @@ import java.util.Map
 import java.util.HashMap
 import org.eclipse.core.resources.IProject
 import org.osgi.framework.Bundle
-import org.eclipse.core.runtime.FileLocator
-import java.net.URL
+import manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -143,8 +142,19 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 	protected Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>()
 	
 	protected Bundle bundle
-	protected URL metricsURL
-	protected URL mutatorURL
+	protected String metricsURL
+	protected String mutatorURL
+
+	def String getProjectName() {
+		var String projectName = null
+		if (ProjectUtils.project !== null) {
+			projectName = ProjectUtils.project.name
+		}
+		else {
+			projectName = ProjectUtils.projectName
+		}
+		return projectName
+	}
 
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
@@ -174,7 +184,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 		return mutators
 	}
 	
-	def String getMutatorPath(File[] files) {
+	def String getMutatorPath(MutatorEnvironment e, File[] files) {
 		var String mutatorPath = null
 		if (mutatorPath === null && files !== null) {
 			for (File file : files) {
@@ -184,12 +194,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 				if (file !== null) {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
-							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
-							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
+							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
+							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e)+"/"+mutatorFolderAndFile
 						}
 					}
 					else  {
-						mutatorPath = getMutatorPath(file.listFiles)
+						mutatorPath = getMutatorPath(e, file.listFiles)
 					}
 				}
 			}
@@ -200,7 +210,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 	
 	def launcher(MutatorEnvironment e, List<String> mutators) '''
 
-package mutator.«project.name»;
+package mutator.«getProjectName»;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -233,9 +243,9 @@ import manager.MutatorUtils;
 import manager.MutatorUtils.MutationResults;
 
 «IF standalone == false»
-public class «project.name.replaceAll("[.]", "_")»DynamicLauncher implements IMutatorExecutor {
+public class «getProjectName.replaceAll("[.]", "_")»DynamicLauncher implements IMutatorExecutor {
 «ELSE»
-public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements IMutatorStandaloneExecutor {
+public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implements IMutatorStandaloneExecutor {
 «ENDIF»
 
 	«IF standalone == false»
@@ -1578,13 +1588,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 					if (isRepeated == false) {
@@ -1833,13 +1843,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 					if (isRepeated == false) {
@@ -2055,7 +2065,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
 			«IF (new File(resourcePath)).exists()»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
@@ -2695,13 +2705,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -2724,7 +2734,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -3052,13 +3062,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 				«ENDIF»
@@ -3191,13 +3201,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 				   			«IF standalone == false»
 					   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 					   		«ELSE»
-					   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+					   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 					   		«ENDIF»
 				   			«ELSE»
 				   			«IF standalone == false»
 								boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 							«ELSE»
-								boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+								boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 							«ENDIF»
 							«ENDIF»
 								if (isRepeated == false) {
@@ -3301,13 +3311,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 					«IF standalone == false»
 			  			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 			  		«ELSE»
-			  			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+			  			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 			  		«ENDIF»
 					«ELSE»
 					«IF standalone == false»
 						boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 					«ELSE»
-						boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+						boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 					«ENDIF»
 					«ENDIF»
 						if (isRepeated == false) {
@@ -3473,7 +3483,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + project.name + "/" + source.path»
+			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -4105,13 +4115,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 					if (isRepeated == false) {
@@ -4586,13 +4596,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 					if (isRepeated == false) {
@@ -5388,13 +5398,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements 
 		   		«IF standalone == false»
 		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, true);
+		   			boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, true);
 		   		«ENDIF»
 		   		«ELSE»
 		   		«IF standalone == false»
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				«ENDIF»
 					if (isRepeated == false) {
@@ -6221,16 +6231,16 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 
 		//Generate metrics model
-	   	String metricsecore = "«FileLocator.resolve(metricsURL).getFile()»";
+	   	String metricsecore = "«metricsURL/*FileLocator.resolve(metricsURL).getFile()*/»";
 
 		MutatorMetricsGenerator metricsGenerator = null;
 	   	if (metrics == true) {
 	   		List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic net metrics");
 	   		«IF standalone == false»
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		«ELSE»
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 	   		«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
@@ -6239,9 +6249,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic debug metrics");
 	   		«IF standalone == true»
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		«ELSE»
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 	   		«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);   			
@@ -6329,16 +6339,16 @@ public class «className» extends MutatorUtils {
 		«ENDFOR»
 		
 		//Generate metrics model
-	   	String metricsecore = "«FileLocator.resolve(metricsURL).getFile()»";
+	   	String metricsecore = "«metricsURL/*FileLocator.resolve(metricsURL).getFile()*/»";
 
 		MutatorMetricsGenerator metricsGenerator = null;
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
 			«IF standalone == false»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
@@ -6347,9 +6357,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
 			«IF standalone == false»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 			monitor.worked(1);   			
@@ -7294,7 +7304,7 @@ public class «className» extends MutatorUtils {
    
    def execute(MutatorEnvironment e)'''
    		//Generate metrics model
-		String mutatorecore = "«FileLocator.resolve(mutatorURL).getFile()»";
+		String mutatorecore = "«mutatorURL/*FileLocator.resolve(mutatorURL).getFile()*/»";
 		
 		//Load MetaModel
 		List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
@@ -7403,7 +7413,7 @@ public class «className» extends MutatorUtils {
 				«IF standalone == false»
 				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 				«ELSE»
-				isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true);
+				isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, mutantIndex, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true);
 				«ENDIF»
 				if (isRepeated == false) {
 					mutationResults.numMutantsGenerated++;
@@ -7429,7 +7439,7 @@ public class «className» extends MutatorUtils {
 		Block b
 	)'''
 		//Generate metrics model
-		String mutatorecore = "«FileLocator.resolve(mutatorURL).getFile()»";
+		String mutatorecore = "«mutatorURL/*FileLocator.resolve(mutatorURL).getFile()*/»";
 		
 		//Load MetaModel
 		List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
@@ -7546,7 +7556,7 @@ public class «className» extends MutatorUtils {
 				«IF standalone == false»
 				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, mutantIndex, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ELSE»
-				isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, mutantIndex, mutPaths, hashmapMutVersions, "«project.name»", serialize, test, classes, «className».class, true, false);
+				isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, mutantIndex, mutPaths, hashmapMutVersions, "«getProjectName»", serialize, test, classes, «className».class, true, false);
 				«ENDIF»
 				if (isRepeated == false) {
 					numMutantsGenerated++;

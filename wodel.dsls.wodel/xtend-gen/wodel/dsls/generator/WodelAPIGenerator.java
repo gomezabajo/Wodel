@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import manager.ModelManager;
+import manager.ProjectUtils;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.Program;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public abstract class WodelAPIGenerator extends AbstractGenerator {
@@ -31,6 +33,18 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
   protected Map<String, List<String>> mutMap = new HashMap<String, List<String>>();
   
   protected boolean standalone = false;
+  
+  public String getProjectName() {
+    String projectName = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      projectName = ProjectUtils.getProject().getName();
+    } else {
+      projectName = ProjectUtils.projectName;
+    }
+    return projectName;
+  }
   
   public List<String> getMutators(final File[] files) {
     List<String> mutators = new ArrayList<String>();
@@ -70,7 +84,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     return mutators;
   }
   
-  public String getMutatorPath(final File[] files) {
+  public String getMutatorPath(final MutatorEnvironment e, final File[] files) {
     String mutatorPath = null;
     if (((mutatorPath == null) && (files != null))) {
       for (final File file : files) {
@@ -84,15 +98,15 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
             if (_equals) {
               boolean _equals_1 = file.getName().equals(this.fileName);
               if (_equals_1) {
-                String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.project.getName())).replace("\\", "/");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+                String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.getProjectName())).replace("\\", "/");
+                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
                 String _plus = ("file:/" + _workspaceAbsolutePath);
                 String _plus_1 = (_plus + "/");
                 String _plus_2 = (_plus_1 + mutatorFolderAndFile);
                 mutatorPath = _plus_2;
               }
             } else {
-              mutatorPath = this.getMutatorPath(file.listFiles());
+              mutatorPath = this.getMutatorPath(e, file.listFiles());
             }
           }
         }
@@ -207,7 +221,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("String ecoreURI = \"");
-    String _metaModel = ModelManager.getMetaModel();
+    String _metaModel = ModelManager.getMetaModel(e);
     _builder.append(_metaModel, "\t\t");
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
@@ -272,23 +286,52 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("//");
+    int maxAttempts = 3;
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("//");
+    int numMutants = 10;
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("//");
+    boolean registry = true;
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("//");
+    Boolean _xtrycatchfinallyexpression = null;
+    try {
+      boolean _xblockexpression = false;
+      {
+        maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
+        numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
+        _xblockexpression = registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
+      }
+      _xtrycatchfinallyexpression = Boolean.valueOf(_xblockexpression);
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception ex = (Exception)_t;
+        _xtrycatchfinallyexpression = null;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    _builder.append(_xtrycatchfinallyexpression, "            ");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("int maxAttempts = ");
-    int _parseInt = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
-    _builder.append(_parseInt, "\t\t");
+    _builder.append(maxAttempts, "\t\t");
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("int numMutants = ");
-    int _parseInt_1 = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
-    _builder.append(_parseInt_1, "\t\t");
+    _builder.append(numMutants, "\t\t");
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("boolean registry = ");
-    boolean _boolean = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
-    _builder.append(_boolean, "\t\t");
+    _builder.append(registry, "\t\t");
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
@@ -296,15 +339,41 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     {
       if ((this.standalone == false)) {
         _builder.append("\t\t");
+        _builder.append("//");
+        boolean metrics = false;
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("//");
+        boolean debugMetrics = false;
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("//");
+        Boolean _xtrycatchfinallyexpression_1 = null;
+        try {
+          boolean _xblockexpression_1 = false;
+          {
+            metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
+            _xblockexpression_1 = debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
+          }
+          _xtrycatchfinallyexpression_1 = Boolean.valueOf(_xblockexpression_1);
+        } catch (final Throwable _t_1) {
+          if (_t_1 instanceof Exception) {
+            final Exception ex_1 = (Exception)_t_1;
+            _xtrycatchfinallyexpression_1 = null;
+          } else {
+            throw Exceptions.sneakyThrow(_t_1);
+          }
+        }
+        _builder.append(_xtrycatchfinallyexpression_1, "\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
         _builder.append("boolean metrics = ");
-        boolean _boolean_1 = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
-        _builder.append(_boolean_1, "\t\t");
+        _builder.append(metrics, "\t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("boolean debugMetrics = ");
-        boolean _boolean_2 = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
-        _builder.append(_boolean_2, "\t\t");
+        _builder.append(debugMetrics, "\t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
@@ -383,8 +452,8 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
     _builder.append("package mutator.");
-    String _name = this.project.getName();
-    _builder.append(_name);
+    String _projectName = this.getProjectName();
+    _builder.append(_projectName);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
@@ -438,7 +507,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     {
       if ((this.standalone == false)) {
         _builder.append("public class ");
-        String _replaceAll = this.project.getName().replaceAll("[.]", "_");
+        String _replaceAll = this.getProjectName().replaceAll("[.]", "_");
         _builder.append(_replaceAll);
         _builder.append("DynamicAPILauncher {");
         _builder.newLineIfNotEmpty();
@@ -450,7 +519,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.newLine();
       } else {
         _builder.append("public class ");
-        String _replaceAll_1 = this.project.getName().replaceAll("[.]", "_");
+        String _replaceAll_1 = this.getProjectName().replaceAll("[.]", "_");
         _builder.append(_replaceAll_1);
         _builder.append("StandaloneAPILauncher {");
         _builder.newLineIfNotEmpty();
@@ -465,7 +534,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("String ecoreURI = \"");
-    String _metaModel = ModelManager.getMetaModel();
+    String _metaModel = ModelManager.getMetaModel(e);
     _builder.append(_metaModel, "\t\t");
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
@@ -546,17 +615,17 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
       if ((this.standalone == false)) {
         _builder.append("\t\t");
         _builder.append("MutatorAPILauncher.createMutants(\"");
-        String _name_1 = this.project.getName();
-        _builder.append(_name_1, "\t\t");
+        String _projectName_1 = this.getProjectName();
+        _builder.append(_projectName_1, "\t\t");
         _builder.append("\", ecoreURI, ");
-        String _replaceAll_2 = this.project.getName().replaceAll("[.]", "_");
+        String _replaceAll_2 = this.getProjectName().replaceAll("[.]", "_");
         _builder.append(_replaceAll_2, "\t\t");
         _builder.append("APILauncher.class, arrMutatorNames, arrOperatorNames, \"D:\\\\seed\", \"D:\\\\mutants\");");
         _builder.newLineIfNotEmpty();
       } else {
         _builder.append("\t\t");
         _builder.append("String inputWodelFolder = \"");
-        String _modelsFolder = ModelManager.getModelsFolder();
+        String _modelsFolder = ModelManager.getModelsFolder(e);
         _builder.append(_modelsFolder, "\t\t");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
@@ -601,11 +670,11 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("File projectFolder = new File(\"");
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
         _builder.append(_workspaceAbsolutePath, "\t\t");
         _builder.append("/");
-        String _name_2 = this.project.getName();
-        _builder.append(_name_2, "\t\t");
+        String _projectName_2 = this.getProjectName();
+        _builder.append(_projectName_2, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
@@ -613,13 +682,13 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("String outputWodelFolder = \"");
-        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(e);
         _builder.append(_workspaceAbsolutePath_1, "\t\t");
         _builder.append("/");
-        String _name_3 = this.project.getName();
-        _builder.append(_name_3, "\t\t");
+        String _projectName_3 = this.getProjectName();
+        _builder.append(_projectName_3, "\t\t");
         _builder.append("/");
-        String _outputFolder = ModelManager.getOutputFolder();
+        String _outputFolder = ModelManager.getOutputFolder(e);
         _builder.append(_outputFolder, "\t\t");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();

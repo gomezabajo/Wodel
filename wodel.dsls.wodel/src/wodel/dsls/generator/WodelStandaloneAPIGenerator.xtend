@@ -20,8 +20,8 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 		project = ProjectUtils.getProject()
 		
 		standalone = true
-		path = ModelManager.getWorkspaceAbsolutePath + "/" + project.name
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath+ "/" + project.name + "/"
+		path = ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName
+		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
@@ -30,12 +30,14 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
 			fileName = resource.URI.lastSegment
-			var String xTextFileName = getMutatorPath(files)
+			var String xTextFileName = getMutatorPath(e, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name + "/" + program.output + fileName.replaceAll(".mutator", ".model")
-			WodelUtils.serialize(xTextFileName, xmiFileName)
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			try {
+				WodelUtils.serialize(xTextFileName, xmiFileName)
+			} catch (Exception ex) {}
 
-			fileName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
+			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
 			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
 			fileName = mutatorName.replaceAll("[.]", "_") + "StandaloneAPI.java"
@@ -58,10 +60,10 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
      		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(mutatorName, className), false))
      		mutatorEnvironment = e
 		}
-		if (fsa.isFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")) {
-			fsa.deleteFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")
+		if (fsa.isFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")) {
+			fsa.deleteFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")
      	}
-		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
+		fsa.generateFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
 	
 }

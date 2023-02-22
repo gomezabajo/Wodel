@@ -39,6 +39,8 @@ import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificStringType;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -51,6 +53,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+//import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.serializer.ISerializer;
@@ -61,7 +64,11 @@ import exceptions.MetaModelNotFoundException;
 import manager.EMFComparison;
 import manager.ModelManager;
 import manager.MutatorUtils;
+import manager.ProjectUtils;
 import mutatorenvironment.miniOCL.InvariantCS;
+import wodel.dsls.generator.Main;
+//import wodel.dsls.generator.WodelGenerator;
+//import wodel.dsls.generator.WodelMutatorGenerator;
 
 /**
  * @author Pablo Gomez-Abajo - Utils for serialize and deserialize Wodel programs
@@ -1314,11 +1321,33 @@ public class WodelUtils {
 			writer.close();
 			fileWriter.close();
 			
+			
 			try {
 				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
 				builder.inheritIO();
 				Process process = builder.start();
 				int exitCode = process.waitFor();
+				if (exitCode != 0) {
+					System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
+					return;
+				}
+				//Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
+				//InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				List<EPackage> mutatorPackages = new ArrayList<EPackage>();
+				mutatorPackages.add(MutatorenvironmentPackage.eINSTANCE);
+				Resource wodelProgram = ModelManager.loadModelNoException(mutatorPackages, wodelProjectPath + "/data/out/" + wodelProjectName + ".model");
+				String stringURI = "/resource/" + wodelProjectName;
+				stringURI = stringURI + "/src/" + wodelProjectName + ".mutator";
+				wodelProgram.setURI(URI.createURI(stringURI));
+				ModelManager.saveModel(wodelProgram, "file:/" + wodelProjectPath + "/data/out/" + wodelProjectName + ".model");
+				//WodelGenerator wodelGenerator = new WodelGenerator();
+				//wodelGenerator.doGenerate(wodelProgram, fsa, null);
+				ProjectUtils.projectName = wodelProjectName;
+				Main.main(new String[] {wodelProjectPath + "/src/" + wodelProjectName + ".mutator", wodelProjectPath});
+				builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
+				builder.inheritIO();
+				process = builder.start();
+				exitCode = process.waitFor();
 				if (exitCode != 0) {
 					System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
 					return;
@@ -1335,8 +1364,9 @@ public class WodelUtils {
 				PrintWriter batwriter = null;
 				try {
 					batwriter = new PrintWriter(batcompile, "UTF-8");
-					batwriter.println("cd \\");
 					String folders = wodelProjectPath + "/src-gen/mutator/";
+					batwriter.println(folders.substring(0, folders.indexOf("/")));
+					batwriter.println("cd \\");
 					for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
 						batwriter.println("cd " + folderName);
 					}
@@ -1359,7 +1389,7 @@ public class WodelUtils {
 					return;
 				}
 				else {
-					System.out.println("Mutants generated succesfully!!");
+					System.out.println("Mutants generated successfully!!");
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

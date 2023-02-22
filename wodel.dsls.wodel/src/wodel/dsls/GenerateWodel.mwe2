@@ -46,6 +46,9 @@ Workflow {
     				backtrack = true
   				}
 			}
+			generator = {
+                generateJavaMain = true
+            }
 		}
 	}
 }

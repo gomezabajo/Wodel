@@ -95,6 +95,18 @@ public class WodelUseGenerator extends AbstractGenerator {
   
   private int maxAssociationsCardinality;
   
+  public String getProjectName() {
+    String projectName = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      projectName = ProjectUtils.getProject().getName();
+    } else {
+      projectName = ProjectUtils.projectName;
+    }
+    return projectName;
+  }
+  
   public List<String> getMutators(final File[] files) {
     List<String> mutators = new ArrayList<String>();
     int i = 0;
@@ -140,8 +152,8 @@ public class WodelUseGenerator extends AbstractGenerator {
         if (_equals) {
           boolean _equals_1 = file.getName().equals(this.fileName);
           if (_equals_1) {
-            String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.project.getName())).replace("\\", "/");
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.getProjectName())).replace("\\", "/");
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(this.getClass());
             String _plus = ("file:/" + _workspaceAbsolutePath);
             String _plus_1 = (_plus + "/");
             String _plus_2 = (_plus_1 + mutatorFolderAndFile);
@@ -160,10 +172,10 @@ public class WodelUseGenerator extends AbstractGenerator {
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();
-    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(this.getClass());
     String _plus = (_workspaceAbsolutePath + "/");
-    String _name = this.project.getName();
-    String _plus_1 = (_plus + _name);
+    String _projectName = this.getProjectName();
+    String _plus_1 = (_plus + _projectName);
     this.path = _plus_1;
     MutatorEnvironment mutatorEnvironment = null;
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
@@ -188,25 +200,26 @@ public class WodelUseGenerator extends AbstractGenerator {
         for (final Block b : _blocks) {
           {
             this.fileName = resource.getURI().lastSegment();
-            String _name_1 = b.getName();
-            String _plus_2 = ("_" + _name_1);
+            String _replaceAll = this.fileName.replaceAll(".model", "");
+            String _name = b.getName();
+            String _plus_2 = ("_" + _name);
             String _plus_3 = (_plus_2 + ".java");
-            String _replaceAll = this.fileName.replaceAll(".mutator", _plus_3);
-            String _name_2 = b.getName();
-            String _plus_4 = ("_" + _name_2);
+            String _replaceAll_1 = _replaceAll.replaceAll(".mutator", _plus_3);
+            String _name_1 = b.getName();
+            String _plus_4 = ("_" + _name_1);
             String _plus_5 = (_plus_4 + ".java");
-            this.fileName = _replaceAll.replace(".model", _plus_5);
+            this.fileName = _replaceAll_1.replace(".model", _plus_5);
             this.modelName = this.fileName.replaceAll(".java", "");
             this.useName = this.fileName.replaceAll(".java", ".use");
             this.propertiesName = this.fileName.replaceAll(".java", ".properties");
             final MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
             blockMutatorEnvironment.setDefinition(EcoreUtil.<Definition>copy(e.getDefinition()));
             blockMutatorEnvironment.getBlocks().add(EcoreUtil.<Block>copy(b));
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(this.getClass());
             String _plus_6 = ("file://" + _workspaceAbsolutePath_1);
             String _plus_7 = (_plus_6 + "/");
-            String _name_3 = this.project.getName();
-            String _plus_8 = (_plus_7 + _name_3);
+            String _projectName_1 = this.getProjectName();
+            String _plus_8 = (_plus_7 + _projectName_1);
             String _plus_9 = (_plus_8 + "/");
             String _outputFolder = ModelManager.getOutputFolder();
             String _plus_10 = (_plus_9 + _outputFolder);

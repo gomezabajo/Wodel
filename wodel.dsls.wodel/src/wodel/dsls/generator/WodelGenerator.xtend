@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.Platform
  * and WodelUseGenerator to generate the USE code for the seeds synthesizer. 
  */
 public class WodelGenerator extends AbstractGenerator {
-
+	
 	@Inject WodelDynamicMutatorGenerator mutatorDynamicGenerator
 	@Inject WodelStandaloneMutatorGenerator mutatorStandaloneGenerator
 	@Inject WodelUseGenerator useGenerator
@@ -27,10 +27,12 @@ public class WodelGenerator extends AbstractGenerator {
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		mutatorDynamicGenerator.doGenerate(input, fsa, context)
 		mutatorStandaloneGenerator.doGenerate(input, fsa, context)
-		var boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
-		if (seedModelSynthesis == true) {
-			useGenerator.doGenerate(input, fsa, context)
-		}
+		try {
+			var boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
+			if (seedModelSynthesis == true) {
+				useGenerator.doGenerate(input, fsa, context)
+			}
+		} catch (Exception ex) {}
 		dynamicApiGenerator.doGenerate(input, fsa, context)
 		standaloneApiGenerator.doGenerate(input, fsa, context)
 	}

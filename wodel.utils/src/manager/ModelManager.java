@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -138,6 +139,7 @@ public class ModelManager {
 				
 				ResourceSetImpl resourceSet = new ResourceSetImpl();
 				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+				
 				for (EObject obj : resource.getContents()) {
 					if (obj instanceof EPackage) {
 						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
@@ -259,6 +261,123 @@ public class ModelManager {
 		return ret;
 	}
 
+	public static String getWorkspaceAbsolutePath(Class<?> cls) {
+		String ret = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+		ret = ret.replaceAll("\\\\", "/");
+		ret = ret.replaceFirst("file:/", "/");
+		int index = ret.indexOf("/bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/data/out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\data\\out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		if (ret.indexOf("/") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("/"));
+		}
+		if (ret.indexOf("\\") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("\\"));
+		}
+		return ret;
+	}
+
+	public static String getWorkspaceAbsolutePath(Resource resource) {
+		String ret = resource.getURI().toFileString();
+		if (ret == null) {
+			return getWorkspaceAbsolutePath();
+		}
+		ret = ret.replaceAll("\\\\", "/");
+		ret = ret.replaceFirst("file:/", "/");
+		int index = ret.indexOf("/bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/data/out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\data\\out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		if (ret.indexOf("/") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("/"));
+		}
+		if (ret.indexOf("\\") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("\\"));
+		}
+		return ret;
+	}
+
+	public static String getWorkspaceAbsolutePath(EObject object) {
+		String ret = EcoreUtil.getURI(object).toFileString();
+		if (ret == null) {
+			return getWorkspaceAbsolutePath();
+		}
+		ret = ret.replaceAll("\\\\", "/");
+		ret = ret.replaceFirst("file:/", "/");
+		int index = ret.indexOf("/bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/data/out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\data\\out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		if (ret.indexOf("/") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("/"));
+		}
+		if (ret.indexOf("\\") != -1) {
+			ret = ret.substring(0, ret.lastIndexOf("\\"));
+		}
+		return ret;
+	}
+
 	public static URI getModelWithFolder(String model) {
 		IPath path = Platform.getLocation().makeAbsolute();
 
@@ -304,11 +423,25 @@ public class ModelManager {
 	public static String getMetaModel(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.substring(0, path.lastIndexOf("/")).replaceAll("\\\\", "/");
+			path = path.replaceAll("\\\\", "/");
 			if (path.contains("/bin")) {
 				path = path.substring(0, path.lastIndexOf("/bin"));
 			}
-
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
@@ -331,14 +464,67 @@ public class ModelManager {
 		return "";
 	}
 
+	public static String getMetaModel(EObject object) {
+		try {
+			String path = EcoreUtil.getURI(object).toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+			String modelName = br.readLine();
+			File[] files = new File(path + '/' + modelName).listFiles();
+			for (File file : files) {
+				if (file.isFile() == true) {
+					String modelpath = file.getPath().replaceAll("\\\\", "/");
+					if (modelpath.endsWith(".ecore") == true) {
+						br.close();
+						return modelpath;
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
 	public static String getMetaModelPath() {
 		IProject project = ProjectUtils.getProject();
+		String projectName = "";
 		if (project != null) {
 			wodelProject = project;
 		}
+		if (wodelProject == null) {
+			projectName = ProjectUtils.projectName;
+		}
+		else {
+			projectName = wodelProject.getName();
+		}
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
-					+ wodelProject.getName();
+					+ projectName;
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -550,6 +736,7 @@ public class ModelManager {
 	public static String getModelsFolder(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.replaceAll("\\\\", "/");
 			int index = path.lastIndexOf("/bin");
 			if (index == -1) {
 				index = path.lastIndexOf("/");
@@ -560,6 +747,14 @@ public class ModelManager {
 				path = path.substring(0, index);
 			}
 			index = path.lastIndexOf("\\src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("/src");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src");
 			if (index != -1) {
 				path = path.substring(0, index);
 			}
@@ -576,6 +771,383 @@ public class ModelManager {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	public static String getModelsFolder(EObject object) {
+		try {
+			String path = EcoreUtil.getURI(object).toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = path
+				+ '/' + br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMutatorEnvironmentBundle() {
+		try {
+			IProject project = ProjectUtils.getProject();
+			String path = getWorkspaceAbsolutePath() + '/'
+					+ project.getName();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/mutatorEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getMutatorEnvironmentBundle(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.replaceAll("\\\\", "/");
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+			index = path.lastIndexOf("/src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("/src");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/mutatorEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMutatorEnvironmentBundle(EObject object) {
+		try {
+			String path = EcoreUtil.getURI(object).toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/mutatorEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMutatorEnvironmentBundle(Resource resource) {
+		try {
+			String path = resource.getURI().toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/mutatorEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMetricsEnvironmentBundle() {
+		try {
+			IProject project = ProjectUtils.getProject();
+			String path = getWorkspaceAbsolutePath() + '/'
+					+ project.getName();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/metricsEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getMetricsEnvironmentBundle(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.replaceAll("\\\\", "/");
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+			index = path.lastIndexOf("/src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src-gen");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("/src");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+			index = path.lastIndexOf("\\src");
+			if (index != -1) {
+				path = path.substring(0, index);
+			}
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/metricsEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMetricsEnvironmentBundle(EObject object) {
+		try {
+			String path = EcoreUtil.getURI(object).toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/metricsEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMetricsEnvironmentBundle(Resource resource) {
+		try {
+			String path = resource.getURI().toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/metricsEnvironment.bundle"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static void saveMetricsEnvironmentBundle(Resource resource, String bundle) {
+		try {
+			String path = resource.getURI().toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			PrintWriter pw = new PrintWriter(path + "/data/config/metricsEnvironment.bundle");
+			pw.write(bundle + "\n");
+			pw.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveMutatorEnvironmentBundle(Resource resource, String bundle) {
+		try {
+			String path = resource.getURI().toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			PrintWriter pw = new PrintWriter(path + "/data/config/mutatorEnvironment.bundle");
+			pw.write(bundle + "\n");
+			pw.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private static List<Resource> recGetModels(List<EPackage> packages, File modelsFolder) {
@@ -699,6 +1271,7 @@ public class ModelManager {
 	public static String getOutputPath(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.replaceAll("\\\\", "/");
 			int index = path.lastIndexOf("/bin");
 			if (index == -1) {
 				index = path.lastIndexOf("/");
@@ -724,6 +1297,7 @@ public class ModelManager {
 			String path = getWorkspaceAbsolutePath() + '/'
 					+ ProjectUtils.getProject().getName();
 
+			path = path.replaceAll("\\\\", "/");
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
@@ -738,6 +1312,68 @@ public class ModelManager {
 		return "";
 	}
 	
+	public static String getOutputFolder(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.replaceAll("\\\\", "/");
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getOutputFolder(EObject object) {
+		try {
+			String path = EcoreUtil.getURI(object).toFileString();
+			if (path == null) {
+				path = getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+			}
+			path = path.replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
+			if (path.contains("\\bin")) {
+				path = path.substring(0, path.lastIndexOf("\\bin"));
+			}
+			if (path.contains("/data/out")) {
+				path = path.substring(0, path.lastIndexOf("/data/out"));
+			}
+			if (path.contains("\\data\\out")) {
+				path = path.substring(0, path.lastIndexOf("\\data\\out"));
+			}
+			if (path.contains("/src")) {
+				path = path.substring(0, path.lastIndexOf("/src"));
+			}
+			if (path.contains("\\src")) {
+				path = path.substring(0, path.lastIndexOf("\\src"));
+			}
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
 	public static String getMutatorName(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();

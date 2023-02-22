@@ -26,6 +26,7 @@ import java.io.*;
 
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
+import org.osgi.framework.Bundle;
 
 import utils.EclipseHelper;
 import wodel.dsls.WodelUtils;
@@ -178,6 +179,31 @@ public class WodelWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
+		Bundle bundle = Platform.getBundle("wodel.models");
+		final IFile mutatorEnvironment = configFolder.getFile(new Path("mutatorEnvironment.bundle"));
+		try {
+			InputStream stream = openBundleStream(FileLocator.resolve(bundle.getEntry("/models/MutatorEnvironment.ecore")).getFile());
+			if (mutatorEnvironment.exists()) {
+				mutatorEnvironment.setContents(stream, true, true, monitor);
+			} else {
+				mutatorEnvironment.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (IOException e) {
+		}
+		
+		final IFile metricsEnvironment = configFolder.getFile(new Path("metricsEnvironment.bundle"));
+		try {
+			InputStream stream = openBundleStream(FileLocator.resolve(bundle.getEntry("/models/MetricsEnvironment.ecore")).getFile());
+			if (metricsEnvironment.exists()) {
+				metricsEnvironment.setContents(stream, true, true, monitor);
+			} else {
+				metricsEnvironment.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (IOException e) {
+		}
+
 		monitor.beginTask("Creating model folder", 8);
 		final IFolder modelFolder = project.getFolder(new Path(modelName));
 		modelFolder.create(true, true, monitor);
@@ -346,6 +372,11 @@ public class WodelWizard extends Wizard implements INewWizard {
 
 	private InputStream openConfigStream(String modelName, String mutantName, String fileName) {
 		String contents = modelName + "\n" + mutantName + "\n" + fileName;
+		return new ByteArrayInputStream(contents.getBytes());
+	}
+
+	private InputStream openBundleStream(String bundlePath) {
+		String contents = bundlePath + "\n";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

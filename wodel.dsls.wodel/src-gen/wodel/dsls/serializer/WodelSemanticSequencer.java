@@ -628,8 +628,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         object=ObSelectionStrategy 
 	 *         container=ObSelectionStrategy? 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         attributes+=AttributeSet? 
-	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
+	 *         references+=ReferenceSet? 
+	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */
@@ -706,8 +706,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         type=[EClass|ID] 
 	 *         container=ObSelectionStrategy? 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         references+=ReferenceSet? 
-	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
+	 *         attributes+=AttributeSet? 
+	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */

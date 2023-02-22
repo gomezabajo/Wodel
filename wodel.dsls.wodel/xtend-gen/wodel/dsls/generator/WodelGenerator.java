@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.dsls.generator.WodelDynamicAPIGenerator;
 import wodel.dsls.generator.WodelDynamicMutatorGenerator;
 import wodel.dsls.generator.WodelStandaloneAPIGenerator;
@@ -42,9 +43,17 @@ public class WodelGenerator extends AbstractGenerator {
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.mutatorDynamicGenerator.doGenerate(input, fsa, context);
     this.mutatorStandaloneGenerator.doGenerate(input, fsa, context);
-    boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
-    if ((seedModelSynthesis == true)) {
-      this.useGenerator.doGenerate(input, fsa, context);
+    try {
+      boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
+      if ((seedModelSynthesis == true)) {
+        this.useGenerator.doGenerate(input, fsa, context);
+      }
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception ex = (Exception)_t;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
     }
     this.dynamicApiGenerator.doGenerate(input, fsa, context);
     this.standaloneApiGenerator.doGenerate(input, fsa, context);

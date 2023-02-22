@@ -72,6 +72,17 @@ public class WodelUseGenerator extends AbstractGenerator {
 	private int maxObjectsCardinality
 	private int maxAssociationsCardinality
 	
+	def String getProjectName() {
+		var String projectName = null
+		if (ProjectUtils.project !== null) {
+			projectName = ProjectUtils.project.name
+		}
+		else {
+			projectName = ProjectUtils.projectName
+		}
+		return projectName
+	}
+
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
 		var int i = 0
@@ -105,8 +116,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 			var File file = files.get(i)
 			if (file.isFile == true) {
 				if (file.getName().equals(fileName)) {
-					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(project.name)).replace("\\", "/")
-					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + mutatorFolderAndFile
+					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
+					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(this.class) + "/" + mutatorFolderAndFile
 				}
 			}
 			else {
@@ -120,7 +131,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
-		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
+		path = ModelManager.getWorkspaceAbsolutePath(this.class) + '/' + getProjectName	
 
 		var MutatorEnvironment mutatorEnvironment = null
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
@@ -142,14 +153,14 @@ public class WodelUseGenerator extends AbstractGenerator {
 			mutatorEnvironment = e
 			for (b : mutatorEnvironment.blocks) {
 				fileName = resource.URI.lastSegment
-				fileName = fileName.replaceAll(".mutator", "_" + b.name + ".java").replace(".model", "_" + b.name + ".java")
+				fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "_" + b.name + ".java").replace(".model", "_" + b.name + ".java")
 				modelName = fileName.replaceAll(".java", "")
 				useName = fileName.replaceAll(".java", ".use")
 				propertiesName = fileName.replaceAll(".java", ".properties")
 				val MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment
 				blockMutatorEnvironment.definition = EcoreUtil.copy(e.definition)
 				blockMutatorEnvironment.blocks.add(EcoreUtil.copy(b))
-				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath + '/' + project.name + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
+				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath(this.class) + '/' + getProjectName + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
 				blockResource.contents.add(blockMutatorEnvironment)
 				fsa.generateFile(useName, blockMutatorEnvironment.use(resource, blockResource).removeComments("use"))
 				fsa.generateFile(propertiesName, blockMutatorEnvironment.properties(resource, blockResource).removeComments("properties"))

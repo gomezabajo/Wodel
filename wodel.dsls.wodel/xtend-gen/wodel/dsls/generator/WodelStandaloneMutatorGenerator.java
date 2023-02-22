@@ -66,7 +66,6 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
     String _projectName_1 = this.getProjectName();
     String _plus_3 = (_plus_2 + _projectName_1);
     String projectFolderName = (_plus_3 + "/");
-    System.out.println(("projectFolderName " + projectFolderName));
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     MutatorEnvironment mutatorEnvironment = null;

@@ -11,5 +11,5 @@ public abstract class Validation implements IExecutableExtension {
 	
 	public abstract String getName();
 	
-	public abstract boolean isValid(String metamodel, String uri);
+	public abstract boolean isValid(String metamodel, String uri, Class<?> cls);
 }

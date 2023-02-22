@@ -5377,7 +5377,7 @@ public class MutatorUtils {
 	 * @throws ModelNotFoundException
 	 */
 	protected boolean validate(String metamodel, String seed, String model, Class<?> cls, IProject project) throws ModelNotFoundException {
-		boolean isValid = false;
+		boolean isValid = true;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants valid programs extension", "", null);
 		if (extensionName.equals("")) {
 			return true;
@@ -5449,7 +5449,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean validation(String metamodel, String uri) throws ModelNotFoundException {
+	protected boolean validation(String metamodel, String uri, Class<?> cls) throws ModelNotFoundException {
 		boolean isValid = false;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "", null);
 		if (extensionName.equals("")) {
@@ -5464,8 +5464,8 @@ public class MutatorUtils {
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
 					Object validation =  extensionClass.newInstance();
-					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class});
-					isValid = (boolean) validate.invoke(validation, metamodel, uri);
+					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, Class.class});
+					isValid = (boolean) validate.invoke(validation, metamodel, uri, cls);
 					break;
 				}
 			} catch (InstantiationException e) {
@@ -8962,7 +8962,7 @@ public class MutatorUtils {
 		if (localRegisteredPackages != null) {
 			ModelManager.registerMetaModel(localRegisteredPackages);
 		}
-		boolean valid = validation(metamodel, seed.getURI().toFileString());
+		boolean valid = validation(metamodel, seed.getURI().toFileString(), cls);
 		if (localRegisteredPackages != null) {
 			List<EPackage> localRegistered = new ArrayList<EPackage>();
 			localRegistered.addAll(localRegisteredPackages.values());
@@ -9862,7 +9862,7 @@ public class MutatorUtils {
 		if (localRegisteredPackages != null) {
 			ModelManager.registerMetaModel(localRegisteredPackages);
 		}
-		boolean valid = validation(metamodel, seed.getURI().toFileString());
+		boolean valid = validation(metamodel, seed.getURI().toFileString(), cls);
 		if (localRegisteredPackages != null) {
 			List<EPackage> localRegistered = new ArrayList<EPackage>();
 			localRegistered.addAll(localRegisteredPackages.values());

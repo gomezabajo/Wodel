@@ -20,11 +20,11 @@ public class EMFValidation extends Validation {
 	}
 	
 	@Override
-	public boolean isValid(String metamodel, String uri) {
+	public boolean isValid(String metamodel, String uri, Class<?> cls) {
 		boolean isValid = false;
 		
 		try {
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			Resource model = ModelManager.loadModel(packages, uri);
 			isValid = ModelManager.validateModel(model);
 		} catch (MetaModelNotFoundException e) {

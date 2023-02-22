@@ -14,8 +14,6 @@ import manager.JavaUtils
 import org.eclipse.xtext.generator.IGeneratorContext
 import java.util.List
 import manager.ProjectUtils
-import org.eclipse.emf.common.util.URI
-import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
 import org.eclipse.core.runtime.FileLocator
 
@@ -51,7 +49,6 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 		}
 
 		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
-		System.out.println("projectFolderName " + projectFolderName)
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var MutatorEnvironment mutatorEnvironment = null

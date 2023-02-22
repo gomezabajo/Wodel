@@ -28,6 +28,8 @@ public class ProjectUtils {
 	private static ISelection selection = null;
 	private static IWorkbenchWindow window = null;
 	
+	public static String projectName = null;
+	
 	private static IResource extractSelection(ISelection sel) {
 		if (!(sel instanceof IStructuredSelection))
 			return null;

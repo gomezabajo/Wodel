@@ -14,10 +14,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import java.util.List
 import manager.ProjectUtils
 import mutatorenvironment.MutatorEnvironment
-import org.eclipse.emf.ecore.util.EcoreUtil
-import mutatormetrics.MutatormetricsFactory
-import mutatorenvironment.MutatorenvironmentFactory
-import org.eclipse.emf.common.util.URI
 import org.eclipse.core.runtime.Platform
 import org.eclipse.core.runtime.FileLocator
 

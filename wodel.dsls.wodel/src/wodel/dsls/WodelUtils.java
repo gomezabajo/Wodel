@@ -1305,8 +1305,7 @@ public class WodelUtils {
 									"\t\t c = create " + rootClass.getName() + "\r\n" +
 									"}\r\n";
 
-			String mutatorFileName = wodelProgramPath;
-			FileWriter fileWriter = new FileWriter(mutatorFileName);
+			FileWriter fileWriter = new FileWriter(wodelProgramPath);
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			writer.write(mutatorCode);
 			writer.close();
@@ -1314,23 +1313,23 @@ public class WodelUtils {
 			
 			mutatorCode = WodelUtils.deserialize("file:/" + wodelProgramPath, mutatorEnvironment);
 
-			mutatorFileName = wodelProgramPath;
-			fileWriter = new FileWriter(mutatorFileName);
+			fileWriter = new FileWriter(wodelProgramPath);
 			writer = new BufferedWriter(fileWriter);
 			writer.write(mutatorCode);
 			writer.close();
 			fileWriter.close();
 			
-			
+			WodelUtils.serialize("file:/" + wodelProgramPath, "file:/" + wodelProjectPath + "/data/out/" + wodelProjectName + ".model");
+
 			try {
-				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
-				builder.inheritIO();
-				Process process = builder.start();
-				int exitCode = process.waitFor();
-				if (exitCode != 0) {
-					System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
-					return;
-				}
+				//ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
+				//builder.inheritIO();
+				//Process process = builder.start();
+				//int exitCode = process.waitFor();
+				//if (exitCode != 0) {
+				//	System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
+				//	return;
+				//}
 				//Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
 				//InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
 				List<EPackage> mutatorPackages = new ArrayList<EPackage>();
@@ -1340,6 +1339,14 @@ public class WodelUtils {
 				stringURI = stringURI + "/src/" + wodelProjectName + ".mutator";
 				wodelProgram.setURI(URI.createURI(stringURI));
 				ModelManager.saveModel(wodelProgram, "file:/" + wodelProjectPath + "/data/out/" + wodelProjectName + ".model");
+				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/eclipsec " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
+				builder.inheritIO();
+				Process process = builder.start();
+				int exitCode = process.waitFor();
+				if (exitCode != 0) {
+					System.out.println("Some errors were found in the compilation of " + wodelProjectPath);
+					return;
+				}
 				//WodelGenerator wodelGenerator = new WodelGenerator();
 				//wodelGenerator.doGenerate(wodelProgram, fsa, null);
 				ProjectUtils.projectName = wodelProjectName;

@@ -596,8 +596,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -609,7 +611,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -683,7 +685,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -693,7 +697,7 @@ public class WodelUtils {
 										referenceInit.setObject(referenceStrategy);
 										referenceInit.getReference().add(reference);
 									}
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										createObjectMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -755,8 +759,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -768,7 +774,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -851,8 +857,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -864,7 +872,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -931,7 +939,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -942,7 +952,7 @@ public class WodelUtils {
 										referenceInit.getReference().add(reference);
 									}
 									obSelectionStrategy.setType(eClass);
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -982,7 +992,9 @@ public class WodelUtils {
 											doubleType.setMax(10);
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -993,7 +1005,7 @@ public class WodelUtils {
 										referenceInit.getReference().add(reference);
 									}
 									obSelectionStrategy.setType(eClass);
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -1057,8 +1069,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1070,7 +1084,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -1137,7 +1151,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1147,7 +1163,7 @@ public class WodelUtils {
 										referenceInit.setObject(referenceStrategy);
 										referenceInit.getReference().add(reference);
 									}
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										cloneObjectMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -1224,8 +1240,10 @@ public class WodelUtils {
 												doubleType.setValue(Double.valueOf((String) ob));
 												attributeType = doubleType;
 											}
-											attributeEvaluation.setName(attribute);
-											attributeEvaluation.setValue(attributeType);
+											if (attributeType != null) {
+												attributeEvaluation.setName(attribute);
+												attributeEvaluation.setValue(attributeType);
+											}
 										}
 										if (feature instanceof EReference) {
 											EReference reference = (EReference) feature;
@@ -1237,7 +1255,7 @@ public class WodelUtils {
 											referenceEvaluation.setOperator(operator);
 											referenceEvaluation.setValue(referenceStrategy);
 										}
-										if (attributeEvaluation != null) {
+										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 											if (m == 1) {
 												expression.setFirst(attributeEvaluation);
 											}
@@ -1304,7 +1322,9 @@ public class WodelUtils {
 												doubleType.setValue(Double.valueOf((String) ob));
 												attributeType = doubleType;
 											}
-											attributeScalar.setValue(attributeType);
+											if (attributeType != null) {
+												attributeScalar.setValue(attributeType);
+											}
 										}
 										if (feature instanceof EReference) {
 											EReference reference = (EReference) feature;
@@ -1314,7 +1334,7 @@ public class WodelUtils {
 											referenceInit.setObject(referenceStrategy);
 											referenceInit.getReference().add(reference);
 										}
-										if (attributeScalar != null) {
+										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);
 										}
 										if (referenceInit != null) {
@@ -1690,8 +1710,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1703,7 +1725,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -1777,7 +1799,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1849,8 +1873,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1862,7 +1888,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -1945,8 +1971,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -1958,7 +1986,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -2025,7 +2053,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -2036,7 +2066,7 @@ public class WodelUtils {
 										referenceInit.getReference().add(reference);
 									}
 									obSelectionStrategy.setType(eClass);
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -2076,7 +2106,9 @@ public class WodelUtils {
 											doubleType.setMax(10);
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -2087,7 +2119,7 @@ public class WodelUtils {
 										referenceInit.getReference().add(reference);
 									}
 									obSelectionStrategy.setType(eClass);
-									if (attributeScalar != null) {
+									if (attributeScalar != null  && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -2151,8 +2183,10 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeEvaluation.setName(attribute);
-										attributeEvaluation.setValue(attributeType);
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -2164,7 +2198,7 @@ public class WodelUtils {
 										referenceEvaluation.setOperator(operator);
 										referenceEvaluation.setValue(referenceStrategy);
 									}
-									if (attributeEvaluation != null) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 										if (m == 1) {
 											expression.setFirst(attributeEvaluation);
 										}
@@ -2231,7 +2265,9 @@ public class WodelUtils {
 											doubleType.setValue(Double.valueOf((String) ob));
 											attributeType = doubleType;
 										}
-										attributeScalar.setValue(attributeType);
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
 									}
 									if (feature instanceof EReference) {
 										EReference reference = (EReference) feature;
@@ -2241,7 +2277,7 @@ public class WodelUtils {
 										referenceInit.setObject(referenceStrategy);
 										referenceInit.getReference().add(reference);
 									}
-									if (attributeScalar != null) {
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										cloneObjectMutator.getAttributes().add(attributeScalar);
 									}
 									if (referenceInit != null) {
@@ -2318,8 +2354,10 @@ public class WodelUtils {
 												doubleType.setValue(Double.valueOf((String) ob));
 												attributeType = doubleType;
 											}
-											attributeEvaluation.setName(attribute);
-											attributeEvaluation.setValue(attributeType);
+											if (attributeType != null) {
+												attributeEvaluation.setName(attribute);
+												attributeEvaluation.setValue(attributeType);
+											}
 										}
 										if (feature instanceof EReference) {
 											EReference reference = (EReference) feature;
@@ -2331,7 +2369,7 @@ public class WodelUtils {
 											referenceEvaluation.setOperator(operator);
 											referenceEvaluation.setValue(referenceStrategy);
 										}
-										if (attributeEvaluation != null) {
+										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
 											if (m == 1) {
 												expression.setFirst(attributeEvaluation);
 											}
@@ -2398,7 +2436,9 @@ public class WodelUtils {
 												doubleType.setValue(Double.valueOf((String) ob));
 												attributeType = doubleType;
 											}
-											attributeScalar.setValue(attributeType);
+											if (attributeType != null) {
+												attributeScalar.setValue(attributeType);
+											}
 										}
 										if (feature instanceof EReference) {
 											EReference reference = (EReference) feature;
@@ -2408,7 +2448,7 @@ public class WodelUtils {
 											referenceInit.setObject(referenceStrategy);
 											referenceInit.getReference().add(reference);
 										}
-										if (attributeScalar != null) {
+										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);
 										}
 										if (referenceInit != null) {

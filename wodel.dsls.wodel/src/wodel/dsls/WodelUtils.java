@@ -1455,9 +1455,9 @@ public class WodelUtils {
 				for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
 					batwriter.println("cd " + folderName);
 				}
-				batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+				batwriter.println("javac -source 1.8 -target 1.8 -d . -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 				batwriter.println("cd ..");
-				batwriter.println("java -classpath .;" + currentPath + "/*" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
+				batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 				batwriter.println("exit");
 				batwriter.close();
 				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", batcompile);
@@ -2529,9 +2529,9 @@ public class WodelUtils {
 					for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
 						batwriter.println("cd " + folderName);
 					}
-					batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+					batwriter.println("javac -source 1.8 -target 1.8 -d . -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 					batwriter.println("cd ..");
-					batwriter.println("java -classpath .;" + currentPath + "/*" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
+					batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 					batwriter.println("exit");
 					batwriter.close();
 				} catch (UnsupportedEncodingException e) {

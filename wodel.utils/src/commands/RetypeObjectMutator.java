@@ -248,6 +248,10 @@ public class RetypeObjectMutator extends Mutator {
 				}
 			}
 		}
+		
+		if (reference == null) {
+			return null;
+		}
 
 		//We create the object
 		EObject newObj = EcoreUtil.create(newEType);

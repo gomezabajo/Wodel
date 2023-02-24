@@ -581,7 +581,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -593,7 +593,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -670,7 +670,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -682,7 +682,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -744,7 +744,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -756,7 +756,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -842,7 +842,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -854,7 +854,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -924,7 +924,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -936,7 +936,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -1054,7 +1054,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -1066,7 +1066,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -1136,7 +1136,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 											integerType.setOperator(operator);
-											integerType.setValue(Integer.valueOf((String) ob));
+											integerType.setValue((int) ob);
 											attributeType = integerType;
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
@@ -1148,7 +1148,7 @@ public class WodelUtils {
 										if (attribute.getEType().getName().equals("EDouble")) {
 											SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 											doubleType.setOperator(operator);
-											doubleType.setValue(Double.valueOf((String) ob));
+											doubleType.setValue((double) ob);
 											attributeType = doubleType;
 										}
 										if (attributeType != null) {
@@ -1225,7 +1225,7 @@ public class WodelUtils {
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 												integerType.setOperator(operator);
-												integerType.setValue(Integer.valueOf((String) ob));
+												integerType.setValue((int) ob);
 												attributeType = integerType;
 											}
 											if (attribute.getEType().getName().equals("EBoolean")) {
@@ -1237,7 +1237,7 @@ public class WodelUtils {
 											if (attribute.getEType().getName().equals("EDouble")) {
 												SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 												doubleType.setOperator(operator);
-												doubleType.setValue(Double.valueOf((String) ob));
+												doubleType.setValue((double) ob);
 												attributeType = doubleType;
 											}
 											if (attributeType != null) {
@@ -1307,7 +1307,7 @@ public class WodelUtils {
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
 												integerType.setOperator(operator);
-												integerType.setValue(Integer.valueOf((String) ob));
+												integerType.setValue((int) ob);
 												attributeType = integerType;
 											}
 											if (attribute.getEType().getName().equals("EBoolean")) {
@@ -1319,7 +1319,7 @@ public class WodelUtils {
 											if (attribute.getEType().getName().equals("EDouble")) {
 												SpecificDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
 												doubleType.setOperator(operator);
-												doubleType.setValue(Double.valueOf((String) ob));
+												doubleType.setValue((double) ob);
 												attributeType = doubleType;
 											}
 											if (attributeType != null) {

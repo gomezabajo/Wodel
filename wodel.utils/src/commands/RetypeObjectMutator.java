@@ -325,7 +325,11 @@ public class RetypeObjectMutator extends Mutator {
 		Iterator<Entry<String, AttributeConfigurationStrategy>> att = this.attributeConfig.entrySet().iterator();
 		while (att.hasNext()) {
 			Map.Entry<String, AttributeConfigurationStrategy> e = att.next();			
-			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
+			try {
+				ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
+			}
+			catch (WrongAttributeTypeException ex) {
+			}
 		}
 		
 		//Reference configuration

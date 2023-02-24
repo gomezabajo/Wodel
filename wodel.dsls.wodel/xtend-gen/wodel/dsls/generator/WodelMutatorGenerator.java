@@ -27823,7 +27823,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,");
             _builder.newLine();
             _builder.append("\t\t\t\t\t");
-            _builder.append("registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, 0, serialize, test, classes);");
+            _builder.append("registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, new int[] {0}, serialize, test, classes);");
             _builder.newLine();
           } else {
             _builder.append("mutationResults.numMutantsGenerated += ");
@@ -27834,7 +27834,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,");
             _builder.newLine();
             _builder.append("\t\t\t\t\t");
-            _builder.append("registry, hashsetMutants, null, hashmapMutVersions, muts, monitor, 0, serialize, test, classes);");
+            _builder.append("registry, hashsetMutants, null, hashmapMutVersions, muts, monitor, new int[] {0}, serialize, test, classes);");
             _builder.newLine();
           }
         }

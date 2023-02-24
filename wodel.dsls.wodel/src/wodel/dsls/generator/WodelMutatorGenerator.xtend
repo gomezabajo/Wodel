@@ -7345,11 +7345,11 @@ public class «className» extends MutatorUtils {
 		«IF standalone == false»
 		mutationResults.numMutantsGenerated += «methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,
-							registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, 0, serialize, test, classes);
+							registry, hashsetMutants, null, hashmapMutVersions, muts, project, monitor, new int[] {0}, serialize, test, classes);
 		«ELSE»
 		mutationResults.numMutantsGenerated += «methodName»(packages, model, hashmapEObject, hashmapList, hashmapModelFilenames,
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, null, ecoreURI,
-							registry, hashsetMutants, null, hashmapMutVersions, muts, monitor, 0, serialize, test, classes);
+							registry, hashsetMutants, null, hashmapMutVersions, muts, monitor, new int[] {0}, serialize, test, classes);
 		«ENDIF»
 		«ELSE»
 		int numMutantsToGenerate = numMutants;

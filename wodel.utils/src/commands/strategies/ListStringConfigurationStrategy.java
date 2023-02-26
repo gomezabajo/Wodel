@@ -51,8 +51,13 @@ public class ListStringConfigurationStrategy extends AttributeConfigurationStrat
             else {
             	vals.addAll(Arrays.asList(values));
             }
-            int index = ModelManager.rn.nextInt()%(vals.size() - 1);
-            if (index < 0) index = index*-1;
+            int index = 0;
+            if (vals.size() > 1) {
+            	index = ModelManager.rn.nextInt() % (vals.size() - 1);
+                if (index < 0) {
+                	index = index * (-1);
+                }
+            }
             if (index < vals.size()) {
             	return vals.get(index).trim();
             }

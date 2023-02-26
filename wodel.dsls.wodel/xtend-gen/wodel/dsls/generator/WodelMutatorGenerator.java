@@ -1699,7 +1699,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("}");
                     _builder.newLine();
-                    CharSequence _add_2 = this.add(attributeOperation);
+                    CharSequence _add_2 = this.add(attributeOperation, "objectSelection");
                     _builder.append(_add_2);
                     _builder.newLineIfNotEmpty();
                   }
@@ -1728,7 +1728,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("}");
                     _builder.newLine();
-                    CharSequence _subtract = this.subtract(attributeOperation);
+                    CharSequence _subtract = this.subtract(attributeOperation, "objectSelection");
                     _builder.append(_subtract);
                     _builder.newLineIfNotEmpty();
                   }
@@ -1759,7 +1759,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t\t");
-                    CharSequence _multiply = this.multiply(attributeOperation);
+                    CharSequence _multiply = this.multiply(attributeOperation, "objectSelection");
                     _builder.append(_multiply, "\t   \t\t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -1789,7 +1789,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t");
-                    CharSequence _divide = this.divide(attributeOperation);
+                    CharSequence _divide = this.divide(attributeOperation, "objectSelection");
                     _builder.append(_divide, "\t   \t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -1820,7 +1820,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t\t");
-                    CharSequence _module = this.module(attributeOperation);
+                    CharSequence _module = this.module(attributeOperation, "objectSelection");
                     _builder.append(_module, "\t   \t\t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -2806,7 +2806,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.newLine();
                         _builder.append("\t");
                         _builder.append("attsRef.add(");
-                        CharSequence _method_3 = this.method(referenceAtt.getValue(), true, false);
+                        CharSequence _method_3 = this.method(referenceAtt.getValue(), true, false, "objectSelection");
                         _builder.append(_method_3, "\t");
                         _builder.append(");");
                         _builder.newLineIfNotEmpty();
@@ -4132,7 +4132,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("}");
                     _builder.newLine();
-                    CharSequence _add_2 = this.add(attributeOperation);
+                    CharSequence _add_2 = this.add(attributeOperation, "obSelection");
                     _builder.append(_add_2);
                     _builder.newLineIfNotEmpty();
                   }
@@ -4161,7 +4161,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("}");
                     _builder.newLine();
-                    CharSequence _subtract = this.subtract(attributeOperation);
+                    CharSequence _subtract = this.subtract(attributeOperation, "obSelection");
                     _builder.append(_subtract);
                     _builder.newLineIfNotEmpty();
                   }
@@ -4192,7 +4192,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t\t");
-                    CharSequence _multiply = this.multiply(attributeOperation);
+                    CharSequence _multiply = this.multiply(attributeOperation, "obSelection");
                     _builder.append(_multiply, "\t   \t\t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -4222,7 +4222,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t");
-                    CharSequence _divide = this.divide(attributeOperation);
+                    CharSequence _divide = this.divide(attributeOperation, "obSelection");
                     _builder.append(_divide, "\t   \t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -4253,7 +4253,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t   \t\t\t\t");
-                    CharSequence _module = this.module(attributeOperation);
+                    CharSequence _module = this.module(attributeOperation, "obSelection");
                     _builder.append(_module, "\t   \t\t\t\t");
                     _builder.newLineIfNotEmpty();
                   }
@@ -5280,7 +5280,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.newLine();
                         _builder.append("\t");
                         _builder.append("attsRef.add(");
-                        CharSequence _method_3 = this.method(referenceAtt.getValue(), true, true);
+                        CharSequence _method_3 = this.method(referenceAtt.getValue(), true, true, "obSelection");
                         _builder.append(_method_3, "\t");
                         _builder.append(");");
                         _builder.newLineIfNotEmpty();
@@ -24443,7 +24443,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((e instanceof AttributeScalar)) {
             _builder.append("atts.add(");
-            CharSequence _method = this.method(((AttributeScalar)e).getValue(), flag, exhaustive);
+            CharSequence _method = this.method(((AttributeScalar)e).getValue(), flag, exhaustive, obSelectionVariableName);
             _builder.append(_method);
             _builder.append(");");
             _builder.newLineIfNotEmpty();
@@ -24552,7 +24552,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("atts.put(\"");
             _builder.append(this.attributeName);
             _builder.append("\", ");
-            CharSequence _method_1 = this.method(((AttributeScalar)e).getValue(), flag, exhaustive);
+            CharSequence _method_1 = this.method(((AttributeScalar)e).getValue(), flag, exhaustive, obSelectionVariableName);
             _builder.append(_method_1);
             _builder.append(");");
             _builder.newLineIfNotEmpty();
@@ -24687,7 +24687,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence method(final AttributeType e, final boolean flag, final boolean exhaustive) {
+  public CharSequence method(final AttributeType e, final boolean flag, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof StringType)) {
@@ -24711,17 +24711,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLineIfNotEmpty();
             } else {
               if ((e instanceof ListStringType)) {
-                CharSequence _method_4 = this.method(((ListStringType) e), flag, exhaustive);
+                CharSequence _method_4 = this.method(((ListStringType) e), flag, exhaustive, obSelectionVariableName);
                 _builder.append(_method_4);
                 _builder.newLineIfNotEmpty();
               } else {
                 if ((e instanceof ListType)) {
-                  CharSequence _method_5 = this.method(((ListType) e), flag, exhaustive);
+                  CharSequence _method_5 = this.method(((ListType) e), flag, exhaustive, obSelectionVariableName);
                   _builder.append(_method_5);
                   _builder.newLineIfNotEmpty();
                 } else {
                   if ((e instanceof RandomType)) {
-                    CharSequence _method_6 = this.method(((RandomType) e), flag, exhaustive);
+                    CharSequence _method_6 = this.method(((RandomType) e), flag, exhaustive, obSelectionVariableName);
                     _builder.append(_method_6);
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -24966,7 +24966,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence method(final ListStringType e, final boolean flag, final boolean exhaustive) {
+  public CharSequence method(final ListStringType e, final boolean flag, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof ListStringType)) {
@@ -24978,7 +24978,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               if ((flag == false)) {
                 _builder.append("new ListStringConfigurationStrategy((String) ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
-                _builder.append("\", (objectSelection != null) ? objectSelection.getObject() : null), \"");
+                _builder.append("\", (");
+                _builder.append(obSelectionVariableName);
+                _builder.append(" != null) ? ");
+                _builder.append(obSelectionVariableName);
+                _builder.append(".getObject() : null), \"");
                 EList<String> _value = ((ListStringType) e).getValue();
                 _builder.append(_value);
                 _builder.append("\", \"");
@@ -25007,7 +25011,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence method(final ListType e, final boolean flag, final boolean exhaustive) {
+  public CharSequence method(final ListType e, final boolean flag, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof ListType)) {
@@ -25019,7 +25023,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               if ((flag == false)) {
                 _builder.append("new ListConfigurationStrategy((EObject) ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
-                _builder.append("\", (objectSelection != null) ? objectSelection.getObject() : null), \"");
+                _builder.append("\", (");
+                _builder.append(obSelectionVariableName);
+                _builder.append(" != null) ? ");
+                _builder.append(obSelectionVariableName);
+                _builder.append(".getObject() : null), \"");
                 EList<EObject> _value = ((ListType) e).getValue();
                 _builder.append(_value);
                 _builder.append("\", \"");
@@ -25048,7 +25056,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence method(final RandomType e, final boolean flag, final boolean exhaustive) {
+  public CharSequence method(final RandomType e, final boolean flag, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof RandomType)) {
@@ -25060,7 +25068,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               if ((flag == false)) {
                 _builder.append("new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
-                _builder.append("\", objectSelection.getObject()), \"");
+                _builder.append("\", ");
+                _builder.append(obSelectionVariableName);
+                _builder.append(".getObject()), \"");
                 _builder.append(this.attributeName);
                 _builder.append("\")");
                 _builder.newLineIfNotEmpty();
@@ -25175,14 +25185,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence add(final AttributeOperation op) {
+  public CharSequence add(final AttributeOperation op, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("atts.add(new AddOperationConfigurationStrategy(objectSelection.getMetaModel(), objectSelection.getModel(), \"");
+    _builder.append("atts.add(new AddOperationConfigurationStrategy(");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getMetaModel(), ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getModel(), \"");
     String _typeName = MutatorUtils.getTypeName(op);
     _builder.append(_typeName);
     _builder.append("\", \"");
     _builder.append(this.attributeName);
-    _builder.append("\", objectSelection.getObject(), value));");
+    _builder.append("\", ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getObject(), value));");
     _builder.newLineIfNotEmpty();
     _builder.append("attsList.put(\"");
     _builder.append(this.attributeName);
@@ -25191,14 +25207,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence subtract(final AttributeOperation op) {
+  public CharSequence subtract(final AttributeOperation op, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("atts.add(new SubtractOperationConfigurationStrategy(objectSelection.getMetaModel(), objectSelection.getModel(), \"");
+    _builder.append("atts.add(new SubtractOperationConfigurationStrategy(");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getMetaModel(), ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getModel(), \"");
     String _typeName = MutatorUtils.getTypeName(op);
     _builder.append(_typeName);
     _builder.append("\", \"");
     _builder.append(this.attributeName);
-    _builder.append("\", objectSelection.getObject(), value));");
+    _builder.append("\", ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getObject(), value));");
     _builder.newLineIfNotEmpty();
     _builder.append("attsList.put(\"");
     _builder.append(this.attributeName);
@@ -25207,14 +25229,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence multiply(final AttributeOperation op) {
+  public CharSequence multiply(final AttributeOperation op, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("atts.add(new MultiplyOperationConfigurationStrategy(objectSelection.getMetaModel(), objectSelection.getModel(), \"");
+    _builder.append("atts.add(new MultiplyOperationConfigurationStrategy(");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getMetaModel(), ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getModel(), \"");
     String _typeName = MutatorUtils.getTypeName(op);
     _builder.append(_typeName);
     _builder.append("\", \"");
     _builder.append(this.attributeName);
-    _builder.append("\", objectSelection.getObject(), value));");
+    _builder.append("\", ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getObject(), value));");
     _builder.newLineIfNotEmpty();
     _builder.append("attsList.put(\"");
     _builder.append(this.attributeName);
@@ -25223,14 +25251,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence divide(final AttributeOperation op) {
+  public CharSequence divide(final AttributeOperation op, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("atts.add(new DivideOperationConfigurationStrategy(objectSelection.getMetaModel(), objectSelection.getModel(), \"");
+    _builder.append("atts.add(new DivideOperationConfigurationStrategy(");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getMetaModel(), ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getModel(), \"");
     String _typeName = MutatorUtils.getTypeName(op);
     _builder.append(_typeName);
     _builder.append("\", \"");
     _builder.append(this.attributeName);
-    _builder.append("\", objectSelection.getObject(), value));");
+    _builder.append("\", ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getObject(), value));");
     _builder.newLineIfNotEmpty();
     _builder.append("attsList.put(\"");
     _builder.append(this.attributeName);
@@ -25239,14 +25273,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence module(final AttributeOperation op) {
+  public CharSequence module(final AttributeOperation op, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("atts.add(new ModuleOperationConfigurationStrategy(objectSelection.getMetaModel(), objectSelection.getModel(), \"");
+    _builder.append("atts.add(new ModuleOperationConfigurationStrategy(");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getMetaModel(), ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getModel(), \"");
     String _typeName = MutatorUtils.getTypeName(op);
     _builder.append(_typeName);
     _builder.append("\", \"");
     _builder.append(this.attributeName);
-    _builder.append("\", objectSelection.getObject(), value));");
+    _builder.append("\", ");
+    _builder.append(obSelectionVariableName);
+    _builder.append(".getObject(), value));");
     _builder.newLineIfNotEmpty();
     _builder.append("attsList.put(\"");
     _builder.append(this.attributeName);

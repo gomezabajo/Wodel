@@ -5515,6 +5515,50 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				return (mutator as ModifyInformationMutator).object?.type?.name
 			}
 		}
+		if (mutator instanceof RetypeObjectMutator) {
+			if ((mutator as RetypeObjectMutator).object instanceof RandomTypeSelection) {
+				return (mutator as RetypeObjectMutator).object?.type?.name
+			}
+			if ((mutator as RetypeObjectMutator).object instanceof SpecificObjectSelection) {
+				val ObjectEmitter o = ((mutator as RetypeObjectMutator).object as SpecificObjectSelection).objSel
+				if (o instanceof SelectObjectMutator) {
+					return (o as SelectObjectMutator).object?.type?.name
+				}
+				if (o instanceof CreateObjectMutator) {
+					return (o as CreateObjectMutator).type?.name
+				}
+				if (o instanceof SelectSampleMutator) {
+					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+				}
+				if (o instanceof CloneObjectMutator) {
+					return (o as CloneObjectMutator).object?.type?.name
+				}
+   				if (o instanceof RetypeObjectMutator) {
+					return (o as RetypeObjectMutator).object?.type?.name
+				}
+			}
+			if ((mutator as RetypeObjectMutator).object instanceof SpecificClosureSelection) {
+				val ObjectEmitter o = ((mutator as RetypeObjectMutator).object as SpecificClosureSelection).objSel
+				if (o instanceof SelectObjectMutator) {
+					return (o as SelectObjectMutator).object?.type?.name
+				}
+				if (o instanceof CreateObjectMutator) {
+					return (o as CreateObjectMutator).type?.name
+				}
+				if (o instanceof SelectSampleMutator) {
+					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+				}
+				if (o instanceof CloneObjectMutator) {
+					return (o as CloneObjectMutator).object?.type?.name
+				}
+   				if (o instanceof RetypeObjectMutator) {
+					return (o as RetypeObjectMutator).object?.type?.name
+				}
+			}
+			if ((mutator as RetypeObjectMutator).object instanceof TypedSelection) {
+				return (mutator as RetypeObjectMutator).object?.type?.name
+			}
+		}
     	return mutator.type?.name
     }
     

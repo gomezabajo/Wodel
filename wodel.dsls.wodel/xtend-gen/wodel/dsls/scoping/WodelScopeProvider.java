@@ -8085,12 +8085,144 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         return _name_20;
       }
     }
-    EClass _type_21 = mutator.getType();
-    String _name_21 = null;
-    if (_type_21!=null) {
-      _name_21=_type_21.getName();
+    if ((mutator instanceof RetypeObjectMutator)) {
+      ObSelectionStrategy _object_33 = ((RetypeObjectMutator) mutator).getObject();
+      if ((_object_33 instanceof RandomTypeSelection)) {
+        ObSelectionStrategy _object_34 = ((RetypeObjectMutator) mutator).getObject();
+        EClass _type_21 = null;
+        if (_object_34!=null) {
+          _type_21=_object_34.getType();
+        }
+        String _name_21 = null;
+        if (_type_21!=null) {
+          _name_21=_type_21.getName();
+        }
+        return _name_21;
+      }
+      ObSelectionStrategy _object_35 = ((RetypeObjectMutator) mutator).getObject();
+      if ((_object_35 instanceof SpecificObjectSelection)) {
+        ObSelectionStrategy _object_36 = ((RetypeObjectMutator) mutator).getObject();
+        final ObjectEmitter o_4 = ((SpecificObjectSelection) _object_36).getObjSel();
+        if ((o_4 instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_37 = ((SelectObjectMutator) o_4).getObject();
+          EClass _type_22 = null;
+          if (_object_37!=null) {
+            _type_22=_object_37.getType();
+          }
+          String _name_22 = null;
+          if (_type_22!=null) {
+            _name_22=_type_22.getName();
+          }
+          return _name_22;
+        }
+        if ((o_4 instanceof CreateObjectMutator)) {
+          EClass _type_23 = ((CreateObjectMutator) o_4).getType();
+          String _name_23 = null;
+          if (_type_23!=null) {
+            _name_23=_type_23.getName();
+          }
+          return _name_23;
+        }
+        if ((o_4 instanceof SelectSampleMutator)) {
+          return MutatorUtils.selectSampleMutatorHelperName(((SelectSampleMutator) o_4));
+        }
+        if ((o_4 instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object_38 = ((CloneObjectMutator) o_4).getObject();
+          EClass _type_24 = null;
+          if (_object_38!=null) {
+            _type_24=_object_38.getType();
+          }
+          String _name_24 = null;
+          if (_type_24!=null) {
+            _name_24=_type_24.getName();
+          }
+          return _name_24;
+        }
+        if ((o_4 instanceof RetypeObjectMutator)) {
+          ObSelectionStrategy _object_39 = ((RetypeObjectMutator) o_4).getObject();
+          EClass _type_25 = null;
+          if (_object_39!=null) {
+            _type_25=_object_39.getType();
+          }
+          String _name_25 = null;
+          if (_type_25!=null) {
+            _name_25=_type_25.getName();
+          }
+          return _name_25;
+        }
+      }
+      ObSelectionStrategy _object_40 = ((RetypeObjectMutator) mutator).getObject();
+      if ((_object_40 instanceof SpecificClosureSelection)) {
+        ObSelectionStrategy _object_41 = ((RetypeObjectMutator) mutator).getObject();
+        final ObjectEmitter o_5 = ((SpecificClosureSelection) _object_41).getObjSel();
+        if ((o_5 instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_42 = ((SelectObjectMutator) o_5).getObject();
+          EClass _type_26 = null;
+          if (_object_42!=null) {
+            _type_26=_object_42.getType();
+          }
+          String _name_26 = null;
+          if (_type_26!=null) {
+            _name_26=_type_26.getName();
+          }
+          return _name_26;
+        }
+        if ((o_5 instanceof CreateObjectMutator)) {
+          EClass _type_27 = ((CreateObjectMutator) o_5).getType();
+          String _name_27 = null;
+          if (_type_27!=null) {
+            _name_27=_type_27.getName();
+          }
+          return _name_27;
+        }
+        if ((o_5 instanceof SelectSampleMutator)) {
+          return MutatorUtils.selectSampleMutatorHelperName(((SelectSampleMutator) o_5));
+        }
+        if ((o_5 instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object_43 = ((CloneObjectMutator) o_5).getObject();
+          EClass _type_28 = null;
+          if (_object_43!=null) {
+            _type_28=_object_43.getType();
+          }
+          String _name_28 = null;
+          if (_type_28!=null) {
+            _name_28=_type_28.getName();
+          }
+          return _name_28;
+        }
+        if ((o_5 instanceof RetypeObjectMutator)) {
+          ObSelectionStrategy _object_44 = ((RetypeObjectMutator) o_5).getObject();
+          EClass _type_29 = null;
+          if (_object_44!=null) {
+            _type_29=_object_44.getType();
+          }
+          String _name_29 = null;
+          if (_type_29!=null) {
+            _name_29=_type_29.getName();
+          }
+          return _name_29;
+        }
+      }
+      ObSelectionStrategy _object_45 = ((RetypeObjectMutator) mutator).getObject();
+      if ((_object_45 instanceof TypedSelection)) {
+        ObSelectionStrategy _object_46 = ((RetypeObjectMutator) mutator).getObject();
+        EClass _type_30 = null;
+        if (_object_46!=null) {
+          _type_30=_object_46.getType();
+        }
+        String _name_30 = null;
+        if (_type_30!=null) {
+          _name_30=_type_30.getName();
+        }
+        return _name_30;
+      }
     }
-    return _name_21;
+    EClass _type_31 = mutator.getType();
+    String _name_31 = null;
+    if (_type_31!=null) {
+      _name_31=_type_31.getName();
+    }
+    return _name_31;
   }
   
   /**

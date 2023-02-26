@@ -44,7 +44,6 @@ import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
-import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.StringType;
 
 import org.eclipse.emf.common.util.URI;
@@ -1133,9 +1132,40 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
 										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
@@ -1366,9 +1396,40 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
 										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										cloneObjectMutator.getAttributes().add(attributeScalar);
@@ -1612,9 +1673,40 @@ public class WodelUtils {
 												}
 												doubleType.setValue((double) ob);
 											}
-											if (attributeType != null) {
-												attributeScalar.setValue(attributeType);
+										}
+										if (attributeType == null) {
+											if (feature instanceof EAttribute) {
+												Operator operator = Operator.EQUALS;
+												if (attribute.getEType().getName().equals("EString")) {
+													RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+													stringType.setOperator(operator);
+													stringType.setMin(2);
+													stringType.setMax(4);
+													attributeType = stringType;
+												}
+												if (attribute.getEType().getName().equals("EInt")) {
+													RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+													integerType.setOperator(operator);
+													integerType.setMin(2);
+													integerType.setMax(10);
+													attributeType = integerType;
+												}
+												if (attribute.getEType().getName().equals("EBoolean")) {
+													RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+													booleanType.setOperator(operator);
+													attributeType = booleanType;
+												}
+												if (attribute.getEType().getName().equals("EDouble")) {
+													RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+													doubleType.setOperator(operator);
+													doubleType.setMin(2);
+													doubleType.setMax(10);
+													attributeType = doubleType;
+												}
 											}
+										}
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
 										}
 										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);
@@ -2169,9 +2261,40 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
 										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										createObjectMutator.getAttributes().add(attributeScalar);
@@ -2543,9 +2666,40 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
 										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										modifyInformationMutator.getAttributes().add(attributeScalar);
@@ -2776,9 +2930,40 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
 										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										cloneObjectMutator.getAttributes().add(attributeScalar);
@@ -3022,9 +3207,40 @@ public class WodelUtils {
 												}
 												doubleType.setValue((double) ob);
 											}
-											if (attributeType != null) {
-												attributeScalar.setValue(attributeType);
+										}
+										if (attributeType == null) {
+											if (feature instanceof EAttribute) {
+												Operator operator = Operator.EQUALS;
+												if (attribute.getEType().getName().equals("EString")) {
+													RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+													stringType.setOperator(operator);
+													stringType.setMin(2);
+													stringType.setMax(4);
+													attributeType = stringType;
+												}
+												if (attribute.getEType().getName().equals("EInt")) {
+													RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+													integerType.setOperator(operator);
+													integerType.setMin(2);
+													integerType.setMax(10);
+													attributeType = integerType;
+												}
+												if (attribute.getEType().getName().equals("EBoolean")) {
+													RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+													booleanType.setOperator(operator);
+													attributeType = booleanType;
+												}
+												if (attribute.getEType().getName().equals("EDouble")) {
+													RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+													doubleType.setOperator(operator);
+													doubleType.setMin(2);
+													doubleType.setMax(10);
+													attributeType = doubleType;
+												}
 											}
+										}
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
 										}
 										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);

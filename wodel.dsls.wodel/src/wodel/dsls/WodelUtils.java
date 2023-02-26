@@ -10,7 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeEvaluationType;
@@ -1591,12 +1593,32 @@ public class WodelUtils {
 							}
 						}
 						if (classesToAdd.size() > 0) {
+							Map<EClass, List<EStructuralFeature>> classesToAddFeatures = new HashMap<EClass, List<EStructuralFeature>>();
+							for (EClass classToAdd : classesToAdd) {
+								List<EStructuralFeature> classToAddFeatures = new ArrayList<EStructuralFeature>();
+								classToAddFeatures.addAll(classToAdd.getEAllStructuralFeatures());
+								classesToAddFeatures.put(classToAdd, classToAddFeatures);
+							}
+							List<EStructuralFeature> featuresToAdd = new ArrayList<EStructuralFeature>();
+							featuresToAdd.addAll(eClass.getEAllStructuralFeatures());
+							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+								boolean shared = true;
+								for (EClass classToAdd : classesToAddFeatures.keySet()) {
+									if (!classesToAddFeatures.get(classToAdd).contains(feature)) {
+										shared = false;
+										break;
+									}
+								}
+								if (shared == false) {
+									featuresToAdd.remove(feature);
+								}
+							}
 							retypeObjectMutator.getTypes().addAll(classesToAdd);
 							Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
 							int k = 0;
 							int mAtt = 0;
 							List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWhereElements.contains(feature.getName())) {
 									List<Object> lob = featureWhereValues.get(k);
 									k++;
@@ -1685,7 +1707,7 @@ public class WodelUtils {
 							k = 0;
 							int mRef = 0;
 							List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWhereElements.contains(feature.getName())) {
 									k++;
 									if (feature instanceof EReference) {
@@ -1725,7 +1747,7 @@ public class WodelUtils {
 								obSelectionStrategy.setExpression(expression);
 							}
 							k = 0;
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWithElements.contains(feature.getName())) {
 									List<Object> lob = featureWithValues.get(k);
 									k++;
@@ -1826,7 +1848,7 @@ public class WodelUtils {
 								}
 							}
 							k = 0;
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWithElements.contains(feature.getName())) {
 									k++;
 									if (feature instanceof EReference) {
@@ -3206,12 +3228,32 @@ public class WodelUtils {
 							}
 						}
 						if (classesToAdd.size() > 0) {
+							Map<EClass, List<EStructuralFeature>> classesToAddFeatures = new HashMap<EClass, List<EStructuralFeature>>();
+							for (EClass classToAdd : classesToAdd) {
+								List<EStructuralFeature> classToAddFeatures = new ArrayList<EStructuralFeature>();
+								classToAddFeatures.addAll(classToAdd.getEAllStructuralFeatures());
+								classesToAddFeatures.put(classToAdd, classToAddFeatures);
+							}
+							List<EStructuralFeature> featuresToAdd = new ArrayList<EStructuralFeature>();
+							featuresToAdd.addAll(eClass.getEAllStructuralFeatures());
+							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+								boolean shared = true;
+								for (EClass classToAdd : classesToAddFeatures.keySet()) {
+									if (!classesToAddFeatures.get(classToAdd).contains(feature)) {
+										shared = false;
+										break;
+									}
+								}
+								if (shared == false) {
+									featuresToAdd.remove(feature);
+								}
+							}
 							retypeObjectMutator.getTypes().addAll(classesToAdd);
 							Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
 							int k = 0;
 							int mAtt = 0;
 							List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWhereElements.contains(feature.getName())) {
 									List<Object> lob = featureWhereValues.get(k);
 									k++;
@@ -3300,7 +3342,7 @@ public class WodelUtils {
 							k = 0;
 							int mRef = 0;
 							List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWhereElements.contains(feature.getName())) {
 									k++;
 									if (feature instanceof EReference) {
@@ -3340,7 +3382,7 @@ public class WodelUtils {
 								obSelectionStrategy.setExpression(expression);
 							}
 							k = 0;
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWithElements.contains(feature.getName())) {
 									List<Object> lob = featureWithValues.get(k);
 									k++;
@@ -3441,7 +3483,7 @@ public class WodelUtils {
 								}
 							}
 							k = 0;
-							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							for (EStructuralFeature feature : featuresToAdd) {
 								if (classWithElements.contains(feature.getName())) {
 									k++;
 									if (feature instanceof EReference) {

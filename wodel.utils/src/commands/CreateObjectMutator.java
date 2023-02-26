@@ -247,7 +247,7 @@ public class CreateObjectMutator extends Mutator {
 			if (reference != null) {
 				if (!obj.eClass().isInstance(container.eGet(reference))
 						&& !(container.eGet(reference) instanceof List<?>)) {
-					if (e.getValue().getObject() != null) {
+					if (e.getValue() != null && e.getValue().getObject() != null) {
 						if (!this.getModel().getContents().contains(e.getValue().getObject())) {
 							EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
 							if (eObject == null) {
@@ -266,7 +266,7 @@ public class CreateObjectMutator extends Mutator {
 							ModelManager.setReference(e.getKey(), newObj, eObject);
 						}
 					}
-					if (e.getValue().getObjects() != null) {
+					if (e.getValue() != null && e.getValue().getObjects() != null) {
 						for (EObject o : e.getValue().getObjects()) {
 							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));
 						}
@@ -278,7 +278,7 @@ public class CreateObjectMutator extends Mutator {
 				}
 			}
 			else {
-				if (e.getValue().getObject() != null) {
+				if (e.getValue() != null && e.getValue().getObject() != null) {
 					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
 						//EObject eObject = EMFCopier.process(this.getModel(), EMFCopier.copy(e.getValue().getObject()));
 						EObject eObject = ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(e.getValue().getObject()));
@@ -299,7 +299,7 @@ public class CreateObjectMutator extends Mutator {
 						ModelManager.setReference(e.getKey(), newObj, eObject);
 					}
 				}
-				if (e.getValue().getObjects() != null) {
+				if (e.getValue() != null && e.getValue().getObjects() != null) {
 					for (EObject o : e.getValue().getObjects()) {
 						if (o != null) {
 							ModelManager.setReference(e.getKey(), newObj, EMFCopier.copy(o));

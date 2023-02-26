@@ -575,17 +575,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -710,17 +710,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -813,17 +813,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -956,17 +956,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -1084,17 +1084,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -1220,17 +1220,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -1348,17 +1348,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -1497,17 +1497,17 @@ public class WodelUtils {
 										AttributeEvaluationType attributeType = null;
 										for (Object ob : lob) {
 											if (attribute.getEType().getName().equals("EString")) {
-												StringType stringType = null;
+												ListStringType stringType = null;
 												if (attributeType == null) {
 													Operator operator = Operator.IN;
-													stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+													stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 													stringType.setOperator(operator);
 													attributeType = stringType;
 												}
 												else {
-													stringType = (StringType) attributeType;
+													stringType = (ListStringType) attributeType;
 												}
-												((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+												stringType.getValue().add(((String) ob).replace("\\n", ""));
 											}
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = null;
@@ -1625,17 +1625,17 @@ public class WodelUtils {
 										attributeScalar.getAttribute().add(attribute);
 										for (Object ob : lob) {
 											if (attribute.getEType().getName().equals("EString")) {
-												StringType stringType = null;
+												ListStringType stringType = null;
 												if (attributeType == null) {
-													Operator operator = Operator.EQUALS;
-													stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+													Operator operator = Operator.IN;
+													stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 													stringType.setOperator(operator);
 													attributeType = stringType;
 												}
 												else {
-													stringType = (StringType) attributeType;
+													stringType = (ListStringType) attributeType;
 												}
-												((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+												stringType.getValue().add(((String) ob).replace("\\n", ""));
 											}
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = null;
@@ -2078,17 +2078,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2213,17 +2213,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2347,17 +2347,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2490,17 +2490,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2618,17 +2618,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2754,17 +2754,17 @@ public class WodelUtils {
 									AttributeEvaluationType attributeType = null;
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
 												Operator operator = Operator.IN;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -2882,17 +2882,17 @@ public class WodelUtils {
 									attributeScalar.getAttribute().add(attribute);
 									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											StringType stringType = null;
+											ListStringType stringType = null;
 											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 												stringType.setOperator(operator);
 												attributeType = stringType;
 											}
 											else {
-												stringType = (StringType) attributeType;
+												stringType = (ListStringType) attributeType;
 											}
-											((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
 											SpecificIntegerType integerType = null;
@@ -3031,17 +3031,17 @@ public class WodelUtils {
 										AttributeEvaluationType attributeType = null;
 										for (Object ob : lob) {
 											if (attribute.getEType().getName().equals("EString")) {
-												StringType stringType = null;
+												ListStringType stringType = null;
 												if (attributeType == null) {
 													Operator operator = Operator.IN;
-													stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+													stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 													stringType.setOperator(operator);
 													attributeType = stringType;
 												}
 												else {
-													stringType = (StringType) attributeType;
+													stringType = (ListStringType) attributeType;
 												}
-												((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+												stringType.getValue().add(((String) ob).replace("\\n", ""));
 											}
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = null;
@@ -3159,17 +3159,17 @@ public class WodelUtils {
 										attributeScalar.getAttribute().add(attribute);
 										for (Object ob : lob) {
 											if (attribute.getEType().getName().equals("EString")) {
-												StringType stringType = null;
+												ListStringType stringType = null;
 												if (attributeType == null) {
-													Operator operator = Operator.EQUALS;
-													stringType = (StringType) MutatorenvironmentFactory.eINSTANCE.createListStringType();
+													Operator operator = Operator.IN;
+													stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
 													stringType.setOperator(operator);
 													attributeType = stringType;
 												}
 												else {
-													stringType = (StringType) attributeType;
+													stringType = (ListStringType) attributeType;
 												}
-												((ListStringType) stringType).getValue().add(((String) ob).replace("\\n", ""));
+												stringType.getValue().add(((String) ob).replace("\\n", ""));
 											}
 											if (attribute.getEType().getName().equals("EInt")) {
 												SpecificIntegerType integerType = null;

@@ -15085,6 +15085,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (((mut.getObject() instanceof SpecificObjectSelection) || (mut.getObject() instanceof SpecificClosureSelection))) {
             _builder.append("List<EObject> mObjects = ModelManager.getObjects(m, objects);");
             _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
+            _builder.newLine();
             _builder.append("objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();
           }
@@ -15100,6 +15107,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("List<EObject> mObjects = rts.getObjects();");
             _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
+            _builder.newLine();
             _builder.append("ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();
           }
@@ -15114,6 +15128,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
             _builder.append("List<EObject> mObjects = rts.getObjects();");
+            _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
             _builder.newLine();
             _builder.append("ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();
@@ -17099,6 +17120,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (((mut.getObject() instanceof SpecificObjectSelection) || (mut.getObject() instanceof SpecificClosureSelection))) {
             _builder.append("List<EObject> mObjects = ModelManager.getObjects(m, objects);");
             _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
+            _builder.newLine();
             _builder.append("ObSelectionStrategy obSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();
           }
@@ -17110,6 +17138,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("List<EObject> mObjects = rts.getObjects();");
             _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
+            _builder.newLine();
             _builder.append("ObSelectionStrategy obSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();
           }
@@ -17120,6 +17155,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("cts = new RandomTypeSelection(packages, m, mutTypes);");
             _builder.newLine();
             _builder.append("List<EObject> mObjects = rts.getObjects();");
+            _builder.newLine();
+            _builder.append("if (mObjects.size() == 0) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("continue;");
+            _builder.newLine();
+            _builder.append("}");
             _builder.newLine();
             _builder.append("ObSelectionStrategy obSeelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));");
             _builder.newLine();

@@ -3920,16 +3920,25 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 				Resource m = EMFCopier.copyResource(model);
 				«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
 				List<EObject> mObjects = ModelManager.getObjects(m, objects);
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				«IF mut.object instanceof RandomTypeSelection»
 				rts = new RandomTypeSelection(packages, m, "«(mut.object as RandomTypeSelection).type.name»");
 				List<EObject> mObjects = rts.getObjects();
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 				cts = new RandomTypeSelection(packages, m, "«(mut.object as CompleteTypeSelection).type.name»");
 				List<EObject> mObjects = rts.getObjects();
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				EObject container = ModelManager.getContainer(m, objectSelection.getObject());
@@ -4473,16 +4482,25 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 				Resource m = EMFCopier.copyResource(model);
 				«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
 				List<EObject> mObjects = ModelManager.getObjects(m, objects);
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				ObSelectionStrategy obSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				«IF mut.object instanceof RandomTypeSelection»
 				rts = new RandomTypeSelection(packages, m, mutTypes);
 				List<EObject> mObjects = rts.getObjects();
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				ObSelectionStrategy obSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 				cts = new RandomTypeSelection(packages, m, mutTypes);
 				List<EObject> mObjects = rts.getObjects();
+				if (mObjects.size() == 0) {
+					continue;
+				}
 				ObSelectionStrategy obSeelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»
 				EObject c = ModelManager.getContainer(m, obSelection.getObject());

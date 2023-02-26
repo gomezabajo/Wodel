@@ -44,7 +44,6 @@ import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
-import mutatorenvironment.StringType;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -632,21 +631,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -669,30 +669,31 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
-							selectObjectMutator.setName("p");
-							if (mAtt > 0 || mRef > 0) {
-								obSelectionStrategy.setExpression(expression);
-							}
-							selectObjectMutator.setObject(obSelectionStrategy);
-							mutator.add(selectObjectMutator);
 						}
+						selectObjectMutator.setName("p");
+						if (mAtt > 0 || mRef > 0) {
+							obSelectionStrategy.setExpression(expression);
+						}
+						selectObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(selectObjectMutator);
 					}
 					if (wodelOperator.equals("create")) {
 						System.out.println(eClass.getName() + " ----- Creation mutation operator");
@@ -771,6 +772,107 @@ public class WodelUtils {
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
+								List<Object> lob = featureWithValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										createObjectMutator.getAttributes().add(attributeScalar);
+									}
+								}
+							}
+						}
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
 								k++;
 								if (feature instanceof EReference) {
 									ReferenceInit referenceInit = null;
@@ -786,6 +888,7 @@ public class WodelUtils {
 								}
 							}
 						}
+						k = 0;
 						mutator.add(createObjectMutator);
 					}
 					if (wodelOperator.equals("remove")) {
@@ -870,21 +973,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -907,21 +1011,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -1013,21 +1118,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -1050,21 +1156,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -1277,21 +1384,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -1314,21 +1422,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -1554,21 +1663,22 @@ public class WodelUtils {
 											listAttributeEvaluation.add(attributeEvaluation);
 										}
 									}
-									if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-										for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-											if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-												if (mAtt == 0) {
-													expression.setFirst(attributeEvaluation);
-												}
-												if (mAtt > 0) {
-													expression.getSecond().add(attributeEvaluation);
-													BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-													operator.setType(LogicOperator.OR);
-													expression.getOperator().add(operator);
-												}
-												mAtt++;
-											}
+								}
+							}
+							mAtt = 0;
+							if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+								for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+										if (mAtt == 0) {
+											expression.setFirst(attributeEvaluation);
 										}
+										if (mAtt > 0) {
+											expression.getSecond().add(attributeEvaluation);
+											BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+											operator.setType(LogicOperator.OR);
+											expression.getOperator().add(operator);
+										}
+										mAtt++;
 									}
 								}
 							}
@@ -1591,21 +1701,22 @@ public class WodelUtils {
 											listReferenceEvaluation.add(referenceEvaluation);
 										}
 									}
-									if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-										for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-											if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-												if (mAtt == 0 && mRef == 0) {
-													expression.setFirst(referenceEvaluation);
-												}
-												if (mAtt > 0 || mRef > 0) {
-													expression.getSecond().add(referenceEvaluation);
-													BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-													operator.setType(LogicOperator.OR);
-													expression.getOperator().add(operator);
-												}
-												mRef++;
-											}
+								}
+							}
+							mRef = 0;
+							if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+								for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+									if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+										if (mAtt == 0 && mRef == 0) {
+											expression.setFirst(referenceEvaluation);
 										}
+										if (mAtt > 0 || mRef > 0) {
+											expression.getSecond().add(referenceEvaluation);
+											BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+											operator.setType(LogicOperator.OR);
+											expression.getOperator().add(operator);
+										}
+										mRef++;
 									}
 								}
 							}
@@ -2135,21 +2246,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -2172,36 +2284,107 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
-							selectObjectMutator.setName("p");
-							if (mAtt > 0 || mRef > 0) {
-								obSelectionStrategy.setExpression(expression);
-							}
-							selectObjectMutator.setObject(obSelectionStrategy);
-							mutator.add(selectObjectMutator);
 						}
+						selectObjectMutator.setName("p");
+						if (mAtt > 0 || mRef > 0) {
+							obSelectionStrategy.setExpression(expression);
+						}
+						selectObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(selectObjectMutator);
 					}
 					if (wodelOperator.equals("create")) {
 						System.out.println(eClass.getName() + " ----- Creation mutation operator");
 						CreateObjectMutator createObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCreateObjectMutator();
 						createObjectMutator.setType(eClass);
 						int k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								List<Object> lob = featureWithValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										createObjectMutator.getAttributes().add(attributeScalar);
+									}
+								}
+							}
+						}
+						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
 								List<Object> lob = featureWithValues.get(k);
@@ -2320,6 +2503,7 @@ public class WodelUtils {
 								}
 							}
 						}
+						k = 0;
 						mutator.add(createObjectMutator);
 					}
 					if (wodelOperator.equals("remove")) {
@@ -2404,21 +2588,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -2441,21 +2626,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -2547,21 +2733,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -2584,21 +2771,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -2811,21 +2999,22 @@ public class WodelUtils {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
-								if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-									for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-										if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-											if (mAtt == 0) {
-												expression.setFirst(attributeEvaluation);
-											}
-											if (mAtt > 0) {
-												expression.getSecond().add(attributeEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mAtt++;
-										}
+							}
+						}
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
@@ -2848,21 +3037,22 @@ public class WodelUtils {
 										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-											if (mAtt == 0 && mRef == 0) {
-												expression.setFirst(referenceEvaluation);
-											}
-											if (mAtt > 0 || mRef > 0) {
-												expression.getSecond().add(referenceEvaluation);
-												BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-												operator.setType(LogicOperator.OR);
-												expression.getOperator().add(operator);
-											}
-											mRef++;
-										}
+							}
+						}
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
@@ -3088,21 +3278,22 @@ public class WodelUtils {
 											listAttributeEvaluation.add(attributeEvaluation);
 										}
 									}
-									if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-										for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-											if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-												if (mAtt == 0) {
-													expression.setFirst(attributeEvaluation);
-												}
-												if (mAtt > 0) {
-													expression.getSecond().add(attributeEvaluation);
-													BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-													operator.setType(LogicOperator.OR);
-													expression.getOperator().add(operator);
-												}
-												mAtt++;
-											}
+								}
+							}
+							mAtt = 0;
+							if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+								for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+									if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+										if (mAtt == 0) {
+											expression.setFirst(attributeEvaluation);
 										}
+										if (mAtt > 0) {
+											expression.getSecond().add(attributeEvaluation);
+											BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+											operator.setType(LogicOperator.OR);
+											expression.getOperator().add(operator);
+										}
+										mAtt++;
 									}
 								}
 							}
@@ -3125,21 +3316,22 @@ public class WodelUtils {
 											listReferenceEvaluation.add(referenceEvaluation);
 										}
 									}
-									if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-										for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-											if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-												if (mAtt == 0 && mRef == 0) {
-													expression.setFirst(referenceEvaluation);
-												}
-												if (mAtt > 0 || mRef > 0) {
-													expression.getSecond().add(referenceEvaluation);
-													BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-													operator.setType(LogicOperator.OR);
-													expression.getOperator().add(operator);
-												}
-												mRef++;
-											}
+								}
+							}
+							mRef = 0;
+							if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+								for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+									if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+										if (mAtt == 0 && mRef == 0) {
+											expression.setFirst(referenceEvaluation);
 										}
+										if (mAtt > 0 || mRef > 0) {
+											expression.getSecond().add(referenceEvaluation);
+											BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+											operator.setType(LogicOperator.OR);
+											expression.getOperator().add(operator);
+										}
+										mRef++;
 									}
 								}
 							}

@@ -3929,7 +3929,6 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 			List<EObject> mObjects = cts.getObjects();
 			«ENDIF»
 		    for (int obn = 0; obn < mObjects.size(); obn++) {
-				Resource m = EMFCopier.copyResource(model);
 				«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
 				objectSelection = new SpecificObjectSelection(packages, m, mObjects.get(obn));
 				«ENDIF»

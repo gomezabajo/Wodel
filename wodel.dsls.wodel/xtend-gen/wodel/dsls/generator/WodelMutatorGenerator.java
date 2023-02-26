@@ -15113,9 +15113,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t    ");
         _builder.append("for (int obn = 0; obn < mObjects.size(); obn++) {");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("Resource m = EMFCopier.copyResource(model);");
-        _builder.newLine();
         {
           if (((mut.getObject() instanceof SpecificObjectSelection) || (mut.getObject() instanceof SpecificClosureSelection))) {
             _builder.append("\t");

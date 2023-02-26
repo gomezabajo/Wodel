@@ -1838,7 +1838,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("if (objectSelection != null) {");
                 _builder.newLine();
                 _builder.append("\t");
-                CharSequence _method_2 = this.method(c, false, true, counter, false);
+                CharSequence _method_2 = this.method(c, false, true, counter, false, "objectSelection");
                 _builder.append(_method_2, "\t");
                 _builder.newLineIfNotEmpty();
                 _builder.append("}");
@@ -3543,7 +3543,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.append("}");
                       _builder.newLine();
                       _builder.append("\t\t");
-                      _builder.append("atts.add(new SwapAttributeConfigurationStrategy(objectSelection.getObject(), recovered, \"");
+                      _builder.append("atts.add(new SwapAttributeConfigurationStrategy(obSelection.getObject(), recovered, \"");
                       String _name_39 = ((AttributeSwap)c).getAttribute().get(0).getName();
                       _builder.append(_name_39, "\t\t");
                       _builder.append("\", \"");
@@ -3599,7 +3599,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("}");
                 _builder.newLine();
                 _builder.append("\t\t\t   \t\t\t");
-                _builder.append("atts.add(new SwapAttributeConfigurationStrategy(objectSelection.getObject(), \"");
+                _builder.append("atts.add(new SwapAttributeConfigurationStrategy(obSelection.getObject(), \"");
                 String _name_41 = ((AttributeSwap)c).getAttribute().get(0).getName();
                 _builder.append(_name_41, "\t\t\t   \t\t\t");
                 _builder.append("\", \"");
@@ -4266,7 +4266,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("if (obSelection != null) {");
         _builder.newLine();
         _builder.append("\t\t");
-        CharSequence _method_2 = this.method(c, false, true, counter, true);
+        CharSequence _method_2 = this.method(c, false, true, counter, true, "obSelection");
         _builder.append(_method_2, "\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -5874,7 +5874,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method = this.method(c, false, false, counter, false);
+        CharSequence _method = this.method(c, false, false, counter, false, "objectSelection");
         _builder.append(_method);
         _builder.newLineIfNotEmpty();
       }
@@ -6157,7 +6157,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method = this.method(c, false, false, counter, true);
+        CharSequence _method = this.method(c, false, false, counter, true, "objectSelection");
         _builder.append(_method);
         _builder.newLineIfNotEmpty();
       }
@@ -14520,7 +14520,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method_1 = this.method(c, false, false, counter, false);
+        CharSequence _method_1 = this.method(c, false, false, counter, false, "objectSelection");
         _builder.append(_method_1);
         _builder.newLineIfNotEmpty();
       }
@@ -15340,7 +15340,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method_2 = this.method(c, false, false, counter, true);
+        CharSequence _method_2 = this.method(c, false, false, counter, true, "objectSelection");
         _builder.append(_method_2);
         _builder.newLineIfNotEmpty();
       }
@@ -16429,7 +16429,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method_1 = this.method(c, false, false, counter, false);
+        CharSequence _method_1 = this.method(c, false, false, counter, false, "objectSelection");
         _builder.append(_method_1);
         _builder.newLineIfNotEmpty();
       }
@@ -17145,7 +17145,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         int _plusPlus = counter++;
         _builder.append(_plusPlus);
         _builder.newLineIfNotEmpty();
-        CharSequence _method_1 = this.method(c, false, false, counter, true);
+        CharSequence _method_1 = this.method(c, false, false, counter, true, "obSelection");
         _builder.append(_method_1);
         _builder.newLineIfNotEmpty();
       }
@@ -24394,7 +24394,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence method(final AttributeSet e, final boolean flag, final boolean isList, final int counter, final boolean exhaustive) {
+  public CharSequence method(final AttributeSet e, final boolean flag, final boolean isList, final int counter, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((isList == true)) {
@@ -24468,7 +24468,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               ObSelectionStrategy _object = ((AttributeCopy)e).getObject();
               if ((_object instanceof RandomTypeSelection)) {
-                _builder.append("atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), \"");
+                _builder.append("atts.add(new CopyAttributeConfigurationStrategy((");
+                _builder.append(obSelectionVariableName);
+                _builder.append(" != null ? ");
+                _builder.append(obSelectionVariableName);
+                _builder.append(".getObject() : null), \"");
                 ObSelectionStrategy _object_1 = ((AttributeCopy)e).getObject();
                 String _name = ((RandomTypeSelection) _object_1).getType().getName();
                 _builder.append(_name);
@@ -24486,7 +24490,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               if ((_object_2 instanceof SpecificObjectSelection)) {
                 {
                   if ((exhaustive == false)) {
-                    _builder.append("atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get(\"");
+                    _builder.append("atts.add(new CopyAttributeConfigurationStrategy((");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(" != null ? ");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(".getObject() : null), hmObjects.get(\"");
                     ObSelectionStrategy _object_3 = ((AttributeCopy)e).getObject();
                     String _name_2 = ((SpecificObjectSelection) _object_3).getObjSel().getName();
                     _builder.append(_name_2);
@@ -24498,7 +24506,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("\"));");
                     _builder.newLineIfNotEmpty();
                   } else {
-                    _builder.append("atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get(\"");
+                    _builder.append("atts.add(new CopyAttributeConfigurationStrategy((");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(" != null ? ");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(".getObject() : null), hmObjects.get(\"");
                     ObSelectionStrategy _object_4 = ((AttributeCopy)e).getObject();
                     String _name_4 = ((SpecificObjectSelection) _object_4).getObjSel().getName();
                     _builder.append(_name_4);
@@ -24573,7 +24585,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               if ((_object_5 instanceof RandomTypeSelection)) {
                 _builder.append("atts.put(\"");
                 _builder.append(this.attributeName);
-                _builder.append("\", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), \"");
+                _builder.append("\", new CopyAttributeConfigurationStrategy((");
+                _builder.append(obSelectionVariableName);
+                _builder.append(" != null ? ");
+                _builder.append(obSelectionVariableName);
+                _builder.append(".getObject() : null), \"");
                 ObSelectionStrategy _object_6 = ((AttributeCopy)e).getObject();
                 String _name_6 = ((RandomTypeSelection) _object_6).getType().getName();
                 _builder.append(_name_6);
@@ -24593,7 +24609,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                   if ((exhaustive == false)) {
                     _builder.append("atts.put(\"");
                     _builder.append(this.attributeName);
-                    _builder.append("\", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get(\"");
+                    _builder.append("\", new CopyAttributeConfigurationStrategy((");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(" != null ? ");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(".getObject() : null), hmObjects.get(\"");
                     ObSelectionStrategy _object_8 = ((AttributeCopy)e).getObject();
                     String _name_8 = ((SpecificObjectSelection) _object_8).getObjSel().getName();
                     _builder.append(_name_8);
@@ -24607,7 +24627,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                   } else {
                     _builder.append("atts.put(\"");
                     _builder.append(this.attributeName);
-                    _builder.append("\", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get(\"");
+                    _builder.append("\", new CopyAttributeConfigurationStrategy((");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(" != null ? ");
+                    _builder.append(obSelectionVariableName);
+                    _builder.append(".getObject() : null), hmObjects.get(\"");
                     ObSelectionStrategy _object_9 = ((AttributeCopy)e).getObject();
                     String _name_10 = ((SpecificObjectSelection) _object_9).getObjSel().getName();
                     _builder.append(_name_10);

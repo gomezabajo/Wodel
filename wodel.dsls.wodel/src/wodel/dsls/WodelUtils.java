@@ -761,9 +761,9 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
-										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										createObjectMutator.getAttributes().add(attributeScalar);
@@ -2396,9 +2396,9 @@ public class WodelUtils {
 											}
 											doubleType.setValue((double) ob);
 										}
-										if (attributeType != null) {
-											attributeScalar.setValue(attributeType);
-										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
 									}
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										createObjectMutator.getAttributes().add(attributeScalar);

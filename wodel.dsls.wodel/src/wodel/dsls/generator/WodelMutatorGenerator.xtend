@@ -656,7 +656,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 			for (ObSelectionStrategy objectSelection : listSelection) {
 			«ENDIF»
 			if (objectSelection != null) {
-				«c.method(false, true, counter, false)»
+				«c.method(false, true, counter, false, "objectSelection")»
 			}
 			«IF mut.object instanceof CompleteTypeSelection»
 			}
@@ -1069,7 +1069,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 							if (recovered == null) {
 								recovered = entry_«(attributeSwap.object as SpecificObjectSelection).objSel.name».getKey();
 							}
-			   				atts.add(new SwapAttributeConfigurationStrategy(objectSelection.getObject(), recovered, "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+			   				atts.add(new SwapAttributeConfigurationStrategy(obSelection.getObject(), recovered, "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
 			   				attsList.put("«attributeName»", atts);
 			   			} else {
 			   				return numMutantsGenerated;
@@ -1085,7 +1085,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 			   			else {
 			   				atts = new ArrayList<AttributeConfigurationStrategy>();
 			   			}
-			   			atts.add(new SwapAttributeConfigurationStrategy(objectSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+			   			atts.add(new SwapAttributeConfigurationStrategy(obSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
 			   			attsList.put("«attributeName»", atts);
 			   		}
 				«ENDIF»
@@ -1271,7 +1271,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 	   			«ENDIF»
 	   			«ENDIF»
 				if (obSelection != null) {
-					«c.method(false, true, counter, true)»
+					«c.method(false, true, counter, true, "obSelection")»
 				}
 				«ENDFOR»
 		Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
@@ -1675,7 +1675,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
-			«c.method(false, false, counter, false)»
+			«c.method(false, false, counter, false, "objectSelection")»
 		«ENDFOR»
 		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
@@ -1764,7 +1764,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
-			«c.method(false, false, counter, true)»
+			«c.method(false, false, counter, true, "objectSelection")»
 		«ENDFOR»
 		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
@@ -3786,7 +3786,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 			//«var counter = 0»
 			«FOR c : mut.attributes»
 				//«counter ++»
-				«c.method(false, false, counter, false)»
+				«c.method(false, false, counter, false, "objectSelection")»
 			«ENDFOR»
 			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 			«FOR c : mut.references»
@@ -4000,7 +4000,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
-			«c.method(false, false, counter, true)»
+			«c.method(false, false, counter, true, "objectSelection")»
 		«ENDFOR»
 		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
@@ -4293,7 +4293,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 			//«var counter = 0»
 			«FOR c : mut.attributes»
 				//«counter ++»
-				«c.method(false, false, counter, false)»
+				«c.method(false, false, counter, false, "objectSelection")»
 			«ENDFOR»
 			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 			«FOR c : mut.references»
@@ -4493,7 +4493,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher implement
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
-			«c.method(false, false, counter, true)»
+			«c.method(false, false, counter, true, "obSelection")»
 		«ENDFOR»
 		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
@@ -6533,7 +6533,7 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
    '''
 
-    def method(AttributeSet e, boolean flag, boolean isList, int counter, boolean exhaustive) '''
+    def method(AttributeSet e, boolean flag, boolean isList, int counter, boolean exhaustive, String obSelectionVariableName) '''
    		«IF isList == true»
     	«IF e.attribute.get(0) !== null»
 		«val EAttribute attribute = e.attribute.get(0)»
@@ -6563,13 +6563,13 @@ public class «className» extends MutatorUtils {
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
 		«IF e.object instanceof RandomTypeSelection»
-		atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
    		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		«IF exhaustive == false»
-		atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
 		«ELSE»
-		atts.add(new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
    		«ENDIF»
    		«ENDIF»
    		«ENDIF»
@@ -6592,13 +6592,13 @@ public class «className» extends MutatorUtils {
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
 		«IF e.object instanceof RandomTypeSelection»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
    		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		«IF exhaustive == false»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
 		«ELSE»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((objectSelection != null ? objectSelection.getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
 		«ENDIF»
    		«ENDIF»
    		«ENDIF»

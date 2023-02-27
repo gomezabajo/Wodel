@@ -421,9 +421,13 @@ public class RetypeObjectMutator extends Mutator {
 			if (container.eGet(reference) instanceof List<?>) {
 				List<EObject> objects = (List<EObject>) container.eGet(reference);
 				for (EObject o : objects) {
-					if (ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(o)).equals(ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(obj)))) {
-						objects.remove(o);
-						break;
+					EObject source = ModelManager.getObject(this.getModel(), o);
+					EObject target = ModelManager.getObject(this.getModel(), obj);
+					if (source != null && target != null) {
+						if (source.equals(target)) {
+							objects.remove(o);
+							break;
+						}
 					}
 				}
 			}

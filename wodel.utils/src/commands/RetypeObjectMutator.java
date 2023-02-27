@@ -302,6 +302,10 @@ public class RetypeObjectMutator extends Mutator {
 							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
 								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
 								if (obj.eGet(sf1) != null) {
+									if (newoo == null) {
+										newoo = new ArrayList<EObject>();
+										newObj.eSet(sf2, newoo);
+									}
 									newoo.add((EObject) obj.eGet(sf1));
 								}
 							}
@@ -314,6 +318,10 @@ public class RetypeObjectMutator extends Mutator {
 						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
 							List<EObject> oo = (List<EObject>) obj.eGet(sf1);
 							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+							if (newoo == null) {
+								newoo = new ArrayList<EObject>();
+								newObj.eSet(sf2, newoo);
+							}
 							newoo.addAll(oo);
 						}
 					}

@@ -380,27 +380,31 @@ public class RetypeObjectMutator extends Mutator {
 		// updates all references to previous object to the new object
 		for (EObject o : ModelManager.getAllObjects(this.getModel())) {
 			for (EReference r : o.eClass().getEAllReferences()) {
-				if (!r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
-					if (o.eGet(r) instanceof List<?> && ((List<EObject>) o.eGet(r)).contains(obj)) {
-						List<EObject> objects = (List<EObject>) o.eGet(r);
-						objects.remove(obj);
-						objects.add(newObj);
+				try {
+					if (!r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
+						if (o.eGet(r) instanceof List<?> && ((List<EObject>) o.eGet(r)).contains(obj)) {
+							List<EObject> objects = (List<EObject>) o.eGet(r);
+							objects.remove(obj);
+							objects.add(newObj);
+						}
+						else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
+							o.eUnset(r);
+							o.eSet(r, newObj);
+						}
 					}
-					else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
-						o.eUnset(r);
-						o.eSet(r, newObj);
+					else if(r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
+						if (o.eGet(r) instanceof List<?> && ((List<EObject>) o.eGet(r)).contains(obj)) {
+							List<EObject> objects = (List<EObject>) o.eGet(r);
+							objects.remove(obj);
+							objects.add(newObj);
+						}
+						else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
+							o.eUnset(r);
+							o.eSet(r, newObj);
+						}
 					}
-				}
-				else if(r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
-					if (o.eGet(r) instanceof List<?> && ((List<EObject>) o.eGet(r)).contains(obj)) {
-						List<EObject> objects = (List<EObject>) o.eGet(r);
-						objects.remove(obj);
-						objects.add(newObj);
-					}
-					else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
-						o.eUnset(r);
-						o.eSet(r, newObj);
-					}
+				} catch (IllegalArgumentException ex) {
+					continue;
 				}
 			}
 		}

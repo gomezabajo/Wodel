@@ -175,18 +175,18 @@ public class CloneObjectMutator extends Mutator {
 		while (rf.hasNext()) {
 			Map.Entry<String, ObSelectionStrategy> e = rf.next();
 			if (reference != null) {
-				if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
+				if (e.getValue() != null && !obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 					//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
 					//ModelManager.setReference(e.getKey(), newObj, eObject);
 					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), EcoreUtil.copy(e.getValue().getObject()));
 				}
-				else {
+				else if (e.getValue() != null) {
 					//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
 					//ModelManager.setReference(e.getKey(), newObj, eObject);
 					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
 				}
 			}
-			else {
+			else if (e.getValue() != null) {
 				//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
 				//ModelManager.setReference(e.getKey(), newObj, eObject);
 				EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());

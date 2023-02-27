@@ -178,6 +178,7 @@ public class WodelUtils {
 	}
 	
 	private static String formatOperator(String operator) {
+		operator = operator.replace("\\r\\n", "").replace("\\r", "").replace("\\n", "");
 		String formatted = "";
 		String[] operations = {"create", "deep clone", "clone", "modify", "select", "remove", "retype"};
 		int index = -1;
@@ -186,6 +187,12 @@ public class WodelUtils {
 		for (int j = 0; j < operations.length; j++) {
 			int current = operator.indexOf(operations[j]);
 			if (current != -1 && begin > current) {
+				int prec = current - 1;
+				if (prec > 0) {
+					if (operator.charAt(prec) == '^') {
+						continue;
+					}
+				}
 				begin = current;
 				index = j;
 			}
@@ -214,6 +221,12 @@ public class WodelUtils {
 		for (int j = 0; j < operations.length; j++) {
 			int current = operator.substring(i, operator.length()).indexOf(operations[j]);
 			if (current != -1 && end > current) {
+				int prec = current - 1;
+				if (prec > 0) {
+					if (operator.charAt(prec) == '^') {
+						continue;
+					}
+				}
 				end = current + i;
 				index = j;
 			}
@@ -227,6 +240,13 @@ public class WodelUtils {
 				int k = end - 1;
 				boolean variable = false;
 				if (operator.indexOf(operations[index]) != 0) {
+					int current = operator.indexOf(operations[index]);
+					int prec = current - 1;
+					if (prec > 0) {
+						if (operator.charAt(prec) == '^') {
+							k--;
+						}
+					}
 					while (k > begin && !Character.isAlphabetic(operator.charAt(k)) && !Character.isDigit(operator.charAt(k)) && operator.charAt(k) != '=') {
 						k--;
 					}
@@ -256,6 +276,12 @@ public class WodelUtils {
 				for (int j = 0; j < operations.length; j++) {
 					int current = operator.indexOf(operations[j]);
 					if (current != -1 && begin > current) {
+						int prec = current - 1;
+						if (prec > 0) {
+							if (operator.charAt(prec) == '^') {
+								continue;
+							}
+						}
 						begin = current;
 						index = j;
 					}
@@ -280,6 +306,12 @@ public class WodelUtils {
 				for (int j = 0; j < operations.length; j++) {
 					int current = operator.substring(i, operator.length()).indexOf(operations[j]);
 					if (current != -1 && end > current) {
+						int prec = current - 1;
+						if (prec > 0) {
+							if (operator.charAt(prec) == '^') {
+								continue;
+							}
+						}
 						end = current + i;
 						index = j;
 					}

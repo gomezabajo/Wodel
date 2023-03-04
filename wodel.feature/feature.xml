@@ -16,6 +16,11 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import plugin="org.emfjson.core"/>
+      <import plugin="org.emfjson.jackson"/>
+   </requires>
+
    <plugin
          id="anatlyzer.atl.editor"
          download-size="0"

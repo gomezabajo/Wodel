@@ -194,7 +194,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		
 		final IFile metricsEnvironment = configFolder.getFile(new Path("metricsEnvironment.bundle"));
 		try {
-			InputStream stream = openBundleStream(FileLocator.resolve(bundle.getEntry("/models/MetricsEnvironment.ecore")).getFile());
+			InputStream stream = openBundleStream(FileLocator.resolve(bundle.getEntry("/models/MutatorMetrics.ecore")).getFile());
 			if (metricsEnvironment.exists()) {
 				metricsEnvironment.setContents(stream, true, true, monitor);
 			} else {

@@ -5,41 +5,33 @@
   <extension
          point="org.eclipse.ui.commands">
       <command
-      		defaultHandler="runwodel.popup.actions.RunWodel"
-            id="wodelRunWodel"
+      		defaultHandler="wodel.run.popup.actions.RunWodel"
+            id="wodel.run.popup.actions.RunWodel"
             name="Execute Mutations">
       </command>
    </extension>
   <extension
          point="org.eclipse.ui.commands">
       <command
-      		defaultHandler="runwodel.popup.actions.GenerateWodelMutantsWizard"
-            id="wodelCreateWodelMutantsWizard"
-            name="Mutant creation wizard...">
+      		defaultHandler="wodel.run.popup.actions.GenerateWodelMutantsWizard"
+            id="wodel.run.popup.actions.GenerateWodelMutantsWizard"
+            name="Mutants generation wizard...">
       </command>
    </extension>
   <extension
          point="org.eclipse.ui.commands">
       <command
-      		defaultHandler="runwodel.popup.actions.GenerateWodelMutationOperatorsWizard"
-            id="wodelCreateWodelMutationOperatorsWizard"
-            name="Mutation operator(s) creation wizard...">
+      		defaultHandler="wodel.run.popup.actions.GenerateWodelMutationOperatorsWizard"
+            id="wodel.run.popup.actions.GenerateWodelMutationOperatorsWizard"
+            name="Mutation operator(s) generation wizard...">
       </command>
    </extension>
   <extension
          point="org.eclipse.ui.commands">
       <command
-      		defaultHandler="runwodel.popup.actions.CleanUpWodelOutputFolder"
-            id="wodelCleanUpOutputFolder"
+      		defaultHandler="wodel.run.popup.actions.CleanUpWodelOutputFolder"
+            id="wodel.run.popup.actions.CleanUpWodelOutputFolder"
             name="Wodel output folder clean-up">
-      </command>
-   </extension>
-  <extension
-         point="org.eclipse.ui.commands">
-      <command
-      		defaultHandler="runwodel.popup.actions.TestAlternativeTextualRepresentationWizard"
-            id="wodelEduTestAlternativeTextualRepresentationWizard"
-            name="Wodel-Edu test alternative textual representation wizard">
       </command>
    </extension>
    <extension
@@ -54,7 +46,7 @@
                   name="group1">
             </separator>
             <command
-                  commandId="wodelRunWodel"
+                  commandId="wodel.run.popup.actions.RunWodel"
                   icon="icons/wodel4.jpg"
                   label="Execute Mutations"
                   style="push">
@@ -94,9 +86,9 @@
                   name="group1">
             </separator>
             <command
-                  commandId="wodelCreateWodelMutantsWizard"
+                  commandId="wodel.run.popup.actions.GenerateWodelMutantsWizard"
                   icon="icons/wodel4.jpg"
-                  label="Mutants creation wizard"
+                  label="Mutants generation wizard"
                   style="push">
             <visibleWhen
                	  checkEnabled="false">
@@ -134,9 +126,9 @@
                   name="group1">
             </separator>
             <command
-                  commandId="wodelCreateWodelMutationOperatorsWizard"
+                  commandId="wodel.run.popup.actions.GenerateWodelMutationOperatorsWizard"
                   icon="icons/wodel4.jpg"
-                  label="Mutation operators wizard"
+                  label="Mutation operator(s) generation wizard"
                   style="push">
             <visibleWhen
                	  checkEnabled="false">
@@ -174,7 +166,7 @@
                   name="group1">
             </separator>
             <command
-                  commandId="wodelCleanUpOutputFolder"
+                  commandId="wodel.run.popup.actions.CleanUpWodelOutputFolder"
                   icon="icons/wodel4.jpg"
                   label="Wodel clean-up output folder"
                   style="push">
@@ -191,46 +183,6 @@
     						<test
                                property="org.eclipse.core.resources.name"
                                value="*.mutator">
-    						</test>
- 						</adapt>
-                     </iterate>
-                     <count value="1">
-                     </count>
-                  </with>
-               </visibleWhen>
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="popup:org.eclipse.ui.popup.any">
-         <menu
-               icon="icons/wodel4.jpg"
-               id="WodelEdu.menu1"
-               label="Wodel-Edu...">
-            <separator
-                  name="group1">
-            </separator>
-            <command
-                  commandId="wodelEduTestAlternativeTextualRepresentationWizard"
-                  icon="icons/wodeledu_edutest.jpg"
-                  label="Wodel-Edu test alternative textual representation wizard"
-                  style="push">
-            <visibleWhen
-               	  checkEnabled="false">
-                  <with
-                  	 variable="activeMenuSelection">
-                     <iterate>
- 						<adapt type="org.eclipse.core.resources.IResource">
-                        	<test
-                               property="org.eclipse.core.resources.projectNature"
-                               value="wodel.project.sampleNature">
-    						</test>
-    						<test
-                               property="org.eclipse.core.resources.name"
-                               value="*.test">
     						</test>
  						</adapt>
                      </iterate>

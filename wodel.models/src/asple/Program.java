@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asple.Program#getDeclarations <em>Declarations</em>}</li>
  *   <li>{@link asple.Program#getStatements <em>Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @see asple.AsplePackage#getProgram()
  * @model
@@ -28,10 +28,6 @@ public interface Program extends EObject {
 	 * Returns the value of the '<em><b>Declarations</b></em>' containment reference list.
 	 * The list contents are of type {@link asple.Declaration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Declarations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Declarations</em>' containment reference list.
 	 * @see asple.AsplePackage#getProgram_Declarations()
@@ -44,10 +40,6 @@ public interface Program extends EObject {
 	 * Returns the value of the '<em><b>Statements</b></em>' containment reference list.
 	 * The list contents are of type {@link asple.Statement}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Statements</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Statements</em>' containment reference list.
 	 * @see asple.AsplePackage#getProgram_Statements()

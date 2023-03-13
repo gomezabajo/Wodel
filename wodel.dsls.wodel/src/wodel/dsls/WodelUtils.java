@@ -14,6 +14,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.serializer.ISerializer;
+
+import com.google.inject.Injector;
+
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeEvaluationType;
 import mutatorenvironment.AttributeScalar;
@@ -46,35 +64,13 @@ import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-//import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
-import org.eclipse.xtext.serializer.ISerializer;
-
-import com.google.inject.Injector;
-
-import exceptions.MetaModelNotFoundException;
-import manager.EMFComparison;
-import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.ProjectUtils;
 import mutatorenvironment.miniOCL.InvariantCS;
 import wodel.dsls.generator.Main;
-//import wodel.dsls.generator.WodelGenerator;
-//import wodel.dsls.generator.WodelMutatorGenerator;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.manager.EMFComparison;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.ProjectUtils;
 
 /**
  * @author Pablo Gomez-Abajo - Utils for serialize and deserialize Wodel programs
@@ -93,7 +89,7 @@ public class WodelUtils {
 		EPackage.Registry.INSTANCE.put(MutatorenvironmentPackage.eNS_URI,  MutatorenvironmentPackage.eINSTANCE);
 		
 		Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
-		ResourceSet xTextRS = injector.getInstance(XtextResourceSet.class);
+		XtextResourceSet xTextRS = injector.getInstance(XtextResourceSet.class);
 		if (xTextRS == null) {
 			return;
 		}
@@ -462,6 +458,24 @@ public class WodelUtils {
 			metamodel = domainMetamodelPath;
 			packages = ModelManager.loadMetaModel(metamodel);
 			List<Resource> wodelModels = new ArrayList<Resource>();
+			File inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
+			if (inputPathFile.isFile() == true && (inputPath.indexOf("/") != -1 || inputPath.indexOf("\\") != -1)) {
+				if (inputPath.indexOf("/") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("/"));
+				}
+				else if (inputPath.indexOf("\\") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("\\"));
+				}
+			}
+			inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false || inputPathFile.isFile() == true) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
 			wodelModels.addAll(ModelManager.getModelsNoException(metamodel, inputPath));
 			
 			MutatorEnvironment mutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
@@ -481,7 +495,7 @@ public class WodelUtils {
 			wodelOperators.add("clone");
 			wodelOperators.add("modify");
 			wodelOperators.add("remove");
-			wodelOperators.add("select");
+			//wodelOperators.add("select");
 			wodelOperators.add("retype");
 			
 			String strategyClass = "random";
@@ -792,107 +806,6 @@ public class WodelUtils {
 												attributeType = doubleType;
 											}
 											doubleType.setValue((double) ob);
-										}
-									}
-									if (attributeType != null) {
-										attributeScalar.setValue(attributeType);
-									}
-									if (attributeScalar != null && attributeScalar.getValue() != null) {
-										createObjectMutator.getAttributes().add(attributeScalar);
-									}
-								}
-							}
-						}
-						k = 0;
-						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-							if (classWithElements.contains(feature.getName())) {
-								List<Object> lob = featureWithValues.get(k);
-								k++;
-								if (feature instanceof EAttribute) {
-									EAttribute attribute = (EAttribute) feature;
-									AttributeType attributeType = null;
-									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
-									attributeScalar.getAttribute().add(attribute);
-									for (Object ob : lob) {
-										if (attribute.getEType().getName().equals("EString")) {
-											ListStringType stringType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.IN;
-												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-												stringType.setOperator(operator);
-												attributeType = stringType;
-											}
-											else {
-												stringType = (ListStringType) attributeType;
-											}
-											stringType.getValue().add(((String) ob).replace("\\n", ""));
-										}
-										if (attribute.getEType().getName().equals("EInt")) {
-											SpecificIntegerType integerType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-												integerType.setOperator(operator);
-												attributeType = integerType;
-											}
-											else {
-												integerType = (SpecificIntegerType) attributeType;
-											}
-											integerType.setValue((int) ob);
-										}
-										if (attribute.getEType().getName().equals("EBoolean")) {
-											SpecificBooleanType booleanType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-												booleanType.setOperator(operator);
-												attributeType = booleanType;
-											}
-											else {
-												booleanType = (SpecificBooleanType) attributeType;
-											}
-											booleanType.setValue((boolean) ob);
-										}
-										if (attribute.getEType().getName().equals("EDouble")) {
-											SpecificDoubleType doubleType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-												doubleType.setOperator(operator);
-												attributeType = doubleType;
-											}
-											doubleType.setValue((double) ob);
-										}
-									}
-									if (attributeType == null) {
-										if (feature instanceof EAttribute) {
-											Operator operator = Operator.EQUALS;
-											if (attribute.getEType().getName().equals("EString")) {
-												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
-												stringType.setOperator(operator);
-												stringType.setMin(2);
-												stringType.setMax(4);
-												attributeType = stringType;
-											}
-											if (attribute.getEType().getName().equals("EInt")) {
-												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
-												integerType.setOperator(operator);
-												integerType.setMin(2);
-												integerType.setMax(10);
-												attributeType = integerType;
-											}
-											if (attribute.getEType().getName().equals("EBoolean")) {
-												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
-												booleanType.setOperator(operator);
-												attributeType = booleanType;
-											}
-											if (attribute.getEType().getName().equals("EDouble")) {
-												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
-												doubleType.setOperator(operator);
-												doubleType.setMin(2);
-												doubleType.setMax(10);
-												attributeType = doubleType;
-											}
 										}
 									}
 									if (attributeType != null) {
@@ -2010,7 +1923,43 @@ public class WodelUtils {
 		}
 		if (args.length >= 4) {
 			inputPath = args[0];
+			File inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
+			if (inputPathFile.isFile() == true && (inputPath.indexOf("/") != -1 || inputPath.indexOf("\\") != -1)) {
+				if (inputPath.indexOf("/") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("/"));
+				}
+				else if (inputPath.indexOf("\\") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("\\"));
+				}
+			}
+			inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false || inputPathFile.isFile() == true) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
 			outputPath = args[1];
+			File outputPathFile = new File(outputPath);
+			if (outputPathFile.exists() == false) {
+				System.out.println("This output folder " + outputPath + " does not exist.");
+				return;
+			}
+			if (outputPathFile.isFile() == true && (outputPath.indexOf("/") != -1 || outputPath.indexOf("\\") != -1)) {
+				if (outputPath.indexOf("/") != -1) {
+					outputPath = outputPath.substring(0, outputPath.lastIndexOf("/"));
+				}
+				else if (outputPath.indexOf("\\") != -1) {
+					outputPath = outputPath.substring(0, outputPath.lastIndexOf("\\"));
+				}
+			}
+			outputPathFile = new File(outputPath);
+			if (outputPathFile.exists() == false || outputPathFile.isFile() == true) {
+				System.out.println("This output folder " + outputPath + " does not exist.");
+				return;
+			}
 			wodelProjectPath = args[2];
 			eclipseHomePath = args[3];
 			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
@@ -2030,7 +1979,8 @@ public class WodelUtils {
 				for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
 					batwriter.println("cd " + folderName);
 				}
-				batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+				//batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+				batwriter.println("javac -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 				batwriter.println("cd ..");
 				batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 				batwriter.println("exit");
@@ -2096,6 +2046,42 @@ public class WodelUtils {
 			MutatorenvironmentPackage.eINSTANCE.getClass();
 			metamodel = domainMetamodelPath;
 			packages = ModelManager.loadMetaModel(metamodel);
+			File inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
+			if (inputPathFile.isFile() == true && (inputPath.indexOf("/") != -1 || inputPath.indexOf("\\") != -1)) {
+				if (inputPath.indexOf("/") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("/"));
+				}
+				else if (inputPath.indexOf("\\") != -1) {
+					inputPath = inputPath.substring(0, inputPath.lastIndexOf("\\"));
+				}
+			}
+			inputPathFile = new File(inputPath);
+			if (inputPathFile.exists() == false || inputPathFile.isFile() == true) {
+				System.out.println("This input folder " + inputPath + " does not exist.");
+				return;
+			}
+			File outputPathFile = new File(outputPath);
+			if (outputPathFile.exists() == false) {
+				System.out.println("This output folder " + outputPath + " does not exist.");
+				return;
+			}
+			if (outputPathFile.isFile() == true && (outputPath.indexOf("/") != -1 || outputPath.indexOf("\\") != -1)) {
+				if (outputPath.indexOf("/") != -1) {
+					outputPath = outputPath.substring(0, outputPath.lastIndexOf("/"));
+				}
+				else if (outputPath.indexOf("\\") != -1) {
+					outputPath = outputPath.substring(0, outputPath.lastIndexOf("\\"));
+				}
+			}
+			outputPathFile = new File(outputPath);
+			if (outputPathFile.exists() == false || outputPathFile.isFile() == true) {
+				System.out.println("This output folder " + outputPath + " does not exist.");
+				return;
+			}
 			List<Resource> wodelModels = new ArrayList<Resource>();
 			wodelModels.addAll(ModelManager.getModelsNoException(metamodel, inputPath));
 			
@@ -2116,7 +2102,7 @@ public class WodelUtils {
 			wodelOperators.add("clone");
 			wodelOperators.add("modify");
 			wodelOperators.add("remove");
-			wodelOperators.add("select");
+			//wodelOperators.add("select");
 			wodelOperators.add("retype");
 			
 			String strategyClass = "random";
@@ -2427,107 +2413,6 @@ public class WodelUtils {
 												attributeType = doubleType;
 											}
 											doubleType.setValue((double) ob);
-										}
-									}
-									if (attributeType != null) {
-										attributeScalar.setValue(attributeType);
-									}
-									if (attributeScalar != null && attributeScalar.getValue() != null) {
-										createObjectMutator.getAttributes().add(attributeScalar);
-									}
-								}
-							}
-						}
-						k = 0;
-						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-							if (classWithElements.contains(feature.getName())) {
-								List<Object> lob = featureWithValues.get(k);
-								k++;
-								if (feature instanceof EAttribute) {
-									EAttribute attribute = (EAttribute) feature;
-									AttributeType attributeType = null;
-									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
-									attributeScalar.getAttribute().add(attribute);
-									for (Object ob : lob) {
-										if (attribute.getEType().getName().equals("EString")) {
-											ListStringType stringType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.IN;
-												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-												stringType.setOperator(operator);
-												attributeType = stringType;
-											}
-											else {
-												stringType = (ListStringType) attributeType;
-											}
-											stringType.getValue().add(((String) ob).replace("\\n", ""));
-										}
-										if (attribute.getEType().getName().equals("EInt")) {
-											SpecificIntegerType integerType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-												integerType.setOperator(operator);
-												attributeType = integerType;
-											}
-											else {
-												integerType = (SpecificIntegerType) attributeType;
-											}
-											integerType.setValue((int) ob);
-										}
-										if (attribute.getEType().getName().equals("EBoolean")) {
-											SpecificBooleanType booleanType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-												booleanType.setOperator(operator);
-												attributeType = booleanType;
-											}
-											else {
-												booleanType = (SpecificBooleanType) attributeType;
-											}
-											booleanType.setValue((boolean) ob);
-										}
-										if (attribute.getEType().getName().equals("EDouble")) {
-											SpecificDoubleType doubleType = null;
-											if (attributeType == null) {
-												Operator operator = Operator.EQUALS;
-												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-												doubleType.setOperator(operator);
-												attributeType = doubleType;
-											}
-											doubleType.setValue((double) ob);
-										}
-									}
-									if (attributeType == null) {
-										if (feature instanceof EAttribute) {
-											Operator operator = Operator.EQUALS;
-											if (attribute.getEType().getName().equals("EString")) {
-												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
-												stringType.setOperator(operator);
-												stringType.setMin(2);
-												stringType.setMax(4);
-												attributeType = stringType;
-											}
-											if (attribute.getEType().getName().equals("EInt")) {
-												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
-												integerType.setOperator(operator);
-												integerType.setMin(2);
-												integerType.setMax(10);
-												attributeType = integerType;
-											}
-											if (attribute.getEType().getName().equals("EBoolean")) {
-												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
-												booleanType.setOperator(operator);
-												attributeType = booleanType;
-											}
-											if (attribute.getEType().getName().equals("EDouble")) {
-												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
-												doubleType.setOperator(operator);
-												doubleType.setMin(2);
-												doubleType.setMax(10);
-												attributeType = doubleType;
-											}
 										}
 									}
 									if (attributeType != null) {
@@ -3645,7 +3530,8 @@ public class WodelUtils {
 					for (String folderName : folders.substring(folders.indexOf("/"), folders.length()).split("/")) {
 						batwriter.println("cd " + folderName);
 					}
-					batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+					//batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+					batwriter.println("javac -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 					batwriter.println("cd ..");
 					batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 					batwriter.println("exit");
@@ -3673,3 +3559,4 @@ public class WodelUtils {
 		}
 	}
 }
+

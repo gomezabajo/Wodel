@@ -68,7 +68,6 @@ public class MutationsImpl extends MinimalEObjectImpl.Container implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<AppMutation> getMuts() {
 		if (muts == null) {
 			muts = new EObjectContainmentEList<AppMutation>(AppMutation.class, this, AppliedMutationsPackage.MUTATIONS__MUTS);

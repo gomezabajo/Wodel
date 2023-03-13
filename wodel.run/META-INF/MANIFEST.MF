@@ -1,30 +1,23 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RunWodel
+Bundle-Name: Wodel execution
 Bundle-SymbolicName: wodel.run;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: runwodel.Activator
+Bundle-Activator: wodel.run.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.eclipse.jdt.launching;bundle-version="3.7.0",
- wodel.utils;bundle-version="1.0.0",
- org.eclipse.equinox.registry,
- org.eclipse.equinox.preferences,
- wodel.extension,
- wodel.registry,
- com.google.guava,
+ wodel.utils,
  org.eclipse.emf.ecore,
- org.eclipse.ui.workbench,
- wodel.dsls.wodel,
- org.eclipse.xtext,
  org.eclipse.core.filesystem,
  org.eclipse.ui.ide,
- org.eclipse.jface
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy
-Import-Package: mutatorenvironment,
+ wodel.dsls.wodel,
+ wodel.models,
  org.eclipse.jdt.core,
- postprocessor.run
-Export-Package: runwodel,
- runwodel.popup.actions
+ org.eclipse.jdt.launching,
+ wodel.extension,
+ wodel.registry,
+ org.eclipse.xtext
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.run
+Bundle-ActivationPolicy: lazy

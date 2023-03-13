@@ -4,7 +4,6 @@ package appliedMutations;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Composite Mutation</b></em>'.
@@ -26,10 +25,6 @@ public interface CompositeMutation extends AppMutation {
 	/**
 	 * Returns the value of the '<em><b>Size</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Size</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Size</em>' attribute.
 	 * @see #setSize(int)
@@ -53,10 +48,6 @@ public interface CompositeMutation extends AppMutation {
 	 * Returns the value of the '<em><b>Muts</b></em>' containment reference list.
 	 * The list contents are of type {@link appliedMutations.AppMutation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Muts</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Muts</em>' containment reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getCompositeMutation_Muts()

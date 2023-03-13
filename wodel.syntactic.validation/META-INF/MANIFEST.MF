@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Validation
+Bundle-SymbolicName: wodel.syntactic.validation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.syntactic.validation.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.jface,
+ org.eclipse.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.model.validation
+Bundle-ActivationPolicy: lazy
+Export-Package: wodel.syntactic.validation.run

@@ -62,7 +62,6 @@ public class ObjectClonedImpl extends AppMutationImpl implements ObjectCloned {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_CLONED__OBJECT);

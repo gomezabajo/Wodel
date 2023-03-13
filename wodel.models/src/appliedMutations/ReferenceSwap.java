@@ -4,9 +4,6 @@ package appliedMutations;
 
 import org.eclipse.emf.ecore.EObject;
 
-
-
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Reference Swap</b></em>'.
@@ -32,10 +29,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Ref Object</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Object</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Object</em>' reference.
 	 * @see #setRefObject(EObject)
@@ -58,10 +51,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>First Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>First Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First Name</em>' attribute.
 	 * @see #setFirstName(String)
@@ -84,10 +73,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Other From</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Other From</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Other From</em>' reference.
 	 * @see #setOtherFrom(EObject)
@@ -110,10 +95,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Other From Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Other From Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Other From Name</em>' attribute.
 	 * @see #setOtherFromName(String)
@@ -136,10 +117,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Other To</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Other To</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Other To</em>' reference.
 	 * @see #setOtherTo(EObject)
@@ -162,10 +139,6 @@ public interface ReferenceSwap extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Other To Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Other To Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Other To Name</em>' attribute.
 	 * @see #setOtherToName(String)

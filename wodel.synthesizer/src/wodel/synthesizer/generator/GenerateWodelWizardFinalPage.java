@@ -32,9 +32,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import manager.ModelManager;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.ModelManager;
 import wodel.synthesizer.utils.MultiLineStringFieldEditor;
 
 public class GenerateWodelWizardFinalPage extends WizardPage {

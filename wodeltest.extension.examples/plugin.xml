@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="wodeltest.extension.sampleBuilder"
+         name="Sample Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="wodeltest.extension.examples.builder.WodelTestBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="wodeltest.extension.sampleNature"
+         name="Sample Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="wodeltest.extension.examples.builder.WodelTestNature">
+         </run>
+      </runtime>
+      <builder
+            id="wodeltest.extension.sampleBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Sample Project Nature commands"
+            id="wodeltest.extension.examples.builder.addRemoveSampleNature">
+      </category>
+      <command
+            name="Add/RemoveSample Project Nature"
+            defaultHandler="wodeltest.extension.examples.builder.AddRemoveSampleNatureHandler"
+            categoryId="wodeltest.extension.examples.builder.addRemoveSampleNature"
+            id="wodeltest.extension.examples.builder.addRemoveSampleNature">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+         <command
+               commandId="wodeltest.extension.examples.builder.addRemoveSampleNature"
+               label="Disable Sample builder"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <test
+                              value="wodeltest.extension.sampleNature"
+                              property="org.eclipse.core.resources.projectNature">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="wodeltest.extension.examples.builder.addRemoveSampleNature"
+               label="Enable Sample builder"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <not>
+                           <test
+                                 value="wodeltest.extension.sampleNature"
+                                 property="org.eclipse.core.resources.projectNature">
+                           </test>
+                        </not>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodeltest.extension.WodelTestProject"
+            name="Wodel-Test">
+      </category>
+      <category
+            id="wodeltest.extension.WodelTestExamples"
+            name="Wodel-Test Examples"
+            parentCategory="wodeltest.extension.WodelTestProject">
+      </category>
+      <wizard
+            category="wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4JavaWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4Java"
+            name="Wodel-Test for Java"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodeltest.extension.WodelTestProject"
+            name="Wodel-Test">
+      </category>
+      <category
+            id="wodeltest.extension.WodelTestExamples"
+            name="Wodel-Test Examples"
+            parentCategory="wodeltest.extension.WodelTestProject">
+      </category>
+      <wizard
+            category="wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4ATLWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4ATL"
+            name="Wodel-Test for ATL"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodeltest.extension.WodelTestProject"
+            name="Wodel-Test">
+      </category>
+      <category
+            id="wodeltest.extension.WodelTestExamples"
+            name="Wodel-Test Examples"
+            parentCategory="wodeltest.extension.WodelTestProject">
+      </category>
+      <wizard
+            category="wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4FAWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4FA"
+            name="Wodel-Test for FA"
+            project="true">
+      </wizard>
+   </extension>
+</plugin>

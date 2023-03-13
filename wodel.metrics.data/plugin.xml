@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Wodel"
+            id="wodel.views">
+      </category>
+      <view
+            name="Applied Mutations"
+            icon="icons/wodel4.jpg"
+            category="wodel.views"
+            class="wodel.metrics.data.views.WodelMetricsDataView"
+            id="wodel.metrics.data.views.WodelMetricsDataView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               id="wodel.metrics.data.views.WodelMetricsDataView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus"> 
+   <viewerContribution 
+      id="org.eclipse.ui.articles.action.contribution.popup.editor"
+   	  targetID="#TextEditorContext"> 
+   	<action
+         id="wodel.metrics.data.views.WodelMetricsDataView" 
+         label="Applied Mutations"
+         icon="icons/wodel4.jpg"
+      	 menubarPath="additions" 
+      	 class="wodel.metrics.data.views.WodelMetricsDataView"> 
+      </action> 
+   </viewerContribution> 
+   </extension>
+   <extension point="org.eclipse.ui.decorators">
+      <decorator
+            icon="icons/ok.jpg"
+            id="wodel.metrics.info.views.decorator.ok"
+            label="Ok Decorator"
+            lightweight="true"
+            location="TOP_LEFT"
+            state="true">
+         <enablement>
+            <objectClass
+                  name="java.lang.String">
+            </objectClass>
+         </enablement>
+      </decorator>
+      <decorator
+            icon="icons/wrong.jpg"
+            id="wodel.metrics.info.views.decorator.wrong"
+            label="Wrong Decorator"
+            lightweight="true"
+            location="TOP_LEFT"
+            state="true">
+         <enablement>
+            <objectClass
+                  name="java.lang.String">
+            </objectClass>
+         </enablement>
+      </decorator>
+   </extension>
+
+</plugin>

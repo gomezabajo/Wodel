@@ -31,12 +31,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asple.impl.DeclarationImpl#isRef <em>Ref</em>}</li>
  *   <li>{@link asple.impl.DeclarationImpl#getMode <em>Mode</em>}</li>
  *   <li>{@link asple.impl.DeclarationImpl#getIdentifiers <em>Identifiers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -267,7 +267,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (ref: ");
 		result.append(ref);
 		result.append(", mode: ");

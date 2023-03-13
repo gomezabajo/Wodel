@@ -99,7 +99,6 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	private MutatormetricsPackageImpl() {
 		super(eNS_URI, MutatormetricsFactory.eINSTANCE);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -109,7 +108,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link MutatormetricsPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -123,7 +122,8 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 		if (isInited) return (MutatormetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MutatormetricsPackage.eNS_URI);
 
 		// Obtain or create and register package
-		MutatormetricsPackageImpl theMutatormetricsPackage = (MutatormetricsPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MutatormetricsPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MutatormetricsPackageImpl());
+		Object registeredMutatormetricsPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		MutatormetricsPackageImpl theMutatormetricsPackage = registeredMutatormetricsPackage instanceof MutatormetricsPackageImpl ? (MutatormetricsPackageImpl)registeredMutatormetricsPackage : new MutatormetricsPackageImpl();
 
 		isInited = true;
 
@@ -136,7 +136,6 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 		// Mark meta-data to indicate it can't be changed
 		theMutatormetricsPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MutatormetricsPackage.eNS_URI, theMutatormetricsPackage);
 		return theMutatormetricsPackage;
@@ -490,12 +489,12 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 

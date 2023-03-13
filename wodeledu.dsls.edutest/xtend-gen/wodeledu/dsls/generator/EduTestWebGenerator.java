@@ -15,7 +15,6 @@ import edutest.Order;
 import edutest.Program;
 import edutest.ProgramConfiguration;
 import edutest.Test;
-import exceptions.ModelNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +22,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import manager.ModelManager;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -38,7 +36,8 @@ import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
-import wodeledu.dsls.generator.EduTestSuperGenerator;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -49,13 +48,13 @@ import wodeledu.dsls.generator.EduTestSuperGenerator;
 @SuppressWarnings("all")
 public class EduTestWebGenerator extends EduTestSuperGenerator {
   private String fileName;
-  
+
   private String pageName;
-  
+
   private int num;
-  
+
   private List<EObject> blocks;
-  
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
@@ -107,7 +106,6 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         }
       } catch (final Throwable _t) {
         if (_t instanceof ModelNotFoundException) {
-          final ModelNotFoundException e = (ModelNotFoundException)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -116,7 +114,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   public CharSequence compile(final Program program, final Resource resource) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<!--");
@@ -281,7 +279,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.append(_plusPlus_1);
         _builder.newLineIfNotEmpty();
         _builder.append("//");
-        ArrayList<Test> ltests = new ArrayList<Test>();
+        List<Test> ltests = new ArrayList<Test>();
         _builder.newLineIfNotEmpty();
         {
           if ((exercise_1 instanceof MultiChoiceEmendation)) {
@@ -1861,7 +1859,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
     _builder.newLine();
     return _builder;
   }
-  
+
   public CharSequence showone(final AlternativeResponse ss, final int part) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t    ");
@@ -2231,7 +2229,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
     }
     return _builder;
   }
-  
+
   public CharSequence showall(final MultiChoiceDiagram ss, final int part) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t    ");
@@ -2518,7 +2516,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
     }
     return _builder;
   }
-  
+
   public CharSequence show(final MultiChoiceEmendation sc, final int part) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t    ");

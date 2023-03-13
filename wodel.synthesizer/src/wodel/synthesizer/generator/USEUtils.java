@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.osgi.framework.Bundle;
 
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import manager.ModelManager;
-import manager.UseGeneratorUtils;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.UseGeneratorUtils;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.Expression;
@@ -1158,7 +1158,7 @@ public class USEUtils {
 		try {
 			String xmiFileName = "file:/" + ModelManager.getOutputPath() +  "/" + filename.replace(".mutator", ".model");
 			Bundle bundle = Platform.getBundle("wodel.models");
-			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			String ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
 			Resource wodel = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());

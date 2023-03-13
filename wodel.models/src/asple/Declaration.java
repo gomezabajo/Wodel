@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asple.Declaration#isRef <em>Ref</em>}</li>
  *   <li>{@link asple.Declaration#getMode <em>Mode</em>}</li>
  *   <li>{@link asple.Declaration#getIdentifiers <em>Identifiers</em>}</li>
  * </ul>
- * </p>
  *
  * @see asple.AsplePackage#getDeclaration()
  * @model
@@ -29,10 +29,6 @@ public interface Declaration extends EObject {
 	 * Returns the value of the '<em><b>Ref</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref</em>' attribute.
 	 * @see #setRef(boolean)
@@ -56,10 +52,6 @@ public interface Declaration extends EObject {
 	 * Returns the value of the '<em><b>Mode</b></em>' attribute.
 	 * The literals are from the enumeration {@link asple.Mode}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mode</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mode</em>' attribute.
 	 * @see asple.Mode
@@ -85,10 +77,6 @@ public interface Declaration extends EObject {
 	 * Returns the value of the '<em><b>Identifiers</b></em>' containment reference list.
 	 * The list contents are of type {@link asple.Identifier}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Identifiers</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Identifiers</em>' containment reference list.
 	 * @see asple.AsplePackage#getDeclaration_Identifiers()

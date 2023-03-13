@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="wodel.semantic.comparison.MutSemanticComparison">
+      <comparison
+            class="wodel.semantic.comparison.lc.run.LCSemanticComparison">
+      </comparison>
+   </extension>
+
+</plugin>

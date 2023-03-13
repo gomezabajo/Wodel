@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
 			extensions="asple"
-			id="wodel.dsls.Asple"
-			name="Asple Editor">
+			id="wodel.dsls.ASPLE"
+			name="ASPLE Editor">
 		</editor>
 	</extension>
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
 			commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
 			<activeWhen>
 				<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
+					definitionId="wodel.dsls.ASPLE.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
-			commandId="wodel.dsls.Asple.validate">
-		<activeWhen>
-			<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
-			</reference>
-		</activeWhen>
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+			commandId="wodel.dsls.ASPLE.validate">
+			<activeWhen>
+				<reference
+					definitionId="wodel.dsls.ASPLE.Editor.opened">
+				</reference>
+			</activeWhen>
 		</handler>
 		<!-- copy qualified name -->
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
 			<activeWhen>
-				<reference definitionId="wodel.dsls.Asple.Editor.opened" />
+				<reference definitionId="wodel.dsls.ASPLE.Editor.opened" />
 			</activeWhen>
 		</handler>
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
 			<activeWhen>
 				<and>
-					<reference definitionId="wodel.dsls.Asple.XtextEditor.opened" />
+					<reference definitionId="wodel.dsls.ASPLE.XtextEditor.opened" />
 					<iterate>
 						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 					</iterate>
@@ -54,22 +54,22 @@
 		</handler>
 	</extension>
 	<extension point="org.eclipse.core.expressions.definitions">
-		<definition id="wodel.dsls.Asple.Editor.opened">
+		<definition id="wodel.dsls.ASPLE.Editor.opened">
 			<and>
 				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="wodel.dsls.Asple"
+						value="wodel.dsls.ASPLE"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
 		</definition>
-		<definition id="wodel.dsls.Asple.XtextEditor.opened">
+		<definition id="wodel.dsls.ASPLE.XtextEditor.opened">
 			<and>
 				<reference definitionId="isXtextEditorActive"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="wodel.dsls.Asple"
+						value="wodel.dsls.ASPLE"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
@@ -78,33 +78,33 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="wodel.dsls.Asple"
-			name="Asple">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="wodel.dsls.ASPLE"
+			name="ASPLE">
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 		</page>
 		<page
-			category="wodel.dsls.Asple"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
-			id="wodel.dsls.Asple.coloring"
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+			id="wodel.dsls.ASPLE.coloring"
 			name="Syntax Coloring">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 		</page>
 		<page
-			category="wodel.dsls.Asple"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
-			id="wodel.dsls.Asple.templates"
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+			id="wodel.dsls.ASPLE.templates"
 			name="Templates">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 		</page>
 	</extension>
 	<extension
 			point="org.eclipse.ui.propertyPages">
 		<page
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="wodel.dsls.Asple"
-			name="Asple">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="wodel.dsls.ASPLE"
+			name="ASPLE">
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -114,50 +114,50 @@
 	<extension
 		point="org.eclipse.ui.keywords">
 		<keyword
-			id="wodel.dsls.ui.keyword_Asple"
-			label="Asple"/>
+			id="wodel.dsls.ui.keyword_ASPLE"
+			label="ASPLE"/>
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
-	<command
+		<command
 			description="Trigger expensive validation"
-			id="wodel.dsls.Asple.validate"
+			id="wodel.dsls.ASPLE.validate"
 			name="Validate">
-	</command>
-	<!-- copy qualified name -->
-	<command
+		</command>
+		<!-- copy qualified name -->
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
-	<command
+		</command>
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
+		</command>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
-			 <command
-				 commandId="wodel.dsls.Asple.validate"
-				 style="push"
-				 tooltip="Trigger expensive validation">
-			<visibleWhen checkEnabled="false">
-				<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
-				</reference>
-			</visibleWhen>
-		</command>
+			<command
+				commandId="wodel.dsls.ASPLE.validate"
+				style="push"
+				tooltip="Trigger expensive validation">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="wodel.dsls.ASPLE.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 		<!-- copy qualified name -->
 		<menuContribution locationURI="popup:#TextEditorContext?after=copy">
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="wodel.dsls.Asple.Editor.opened" />
+					<reference definitionId="wodel.dsls.ASPLE.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -165,7 +165,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="wodel.dsls.Asple.Editor.opened" />
+					<reference definitionId="wodel.dsls.ASPLE.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -174,7 +174,7 @@
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<and>
-						<reference definitionId="wodel.dsls.Asple.XtextEditor.opened" />
+						<reference definitionId="wodel.dsls.ASPLE.XtextEditor.opened" />
 						<iterate>
 							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 						</iterate>
@@ -187,7 +187,7 @@
 		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
 			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="wodel.dsls.Asple.Editor.opened">
+					<reference definitionId="wodel.dsls.ASPLE.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -195,11 +195,11 @@
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
 			commandId="org.eclipse.xtext.ui.editor.FindReferences">
 			<activeWhen>
 				<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
+					definitionId="wodel.dsls.ASPLE.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -208,8 +208,8 @@
 		<content-type
 			base-type="org.eclipse.core.runtime.text"
 			file-extensions="asple"
-			id="wodel.dsls.Asple.contenttype"
-			name="Asple File"
+			id="wodel.dsls.ASPLE.contenttype"
+			name="ASPLE File"
 			priority="normal">
 		</content-type>
 	</extension>
@@ -217,59 +217,68 @@
 	<extension
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
 			type="asple">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
 		<resourceServiceProvider
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
 			uriExtension="asple">
 		</resourceServiceProvider>
 	</extension>
-	<!-- marker definitions for wodel.dsls.Asple -->
+	<!-- marker definitions for wodel.dsls.ASPLE -->
 	<extension
 			id="asple.check.fast"
-			name="Asple Problem"
+			name="ASPLE Problem"
 			point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.xtext.ui.check.fast"/>
 		<persistent value="true"/>
 	</extension>
 	<extension
 			id="asple.check.normal"
-			name="Asple Problem"
+			name="ASPLE Problem"
 			point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.xtext.ui.check.normal"/>
 		<persistent value="true"/>
 	</extension>
 	<extension
 			id="asple.check.expensive"
-			name="Asple Problem"
+			name="ASPLE Problem"
 			point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.xtext.ui.check.expensive"/>
 		<persistent value="true"/>
 	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
+			id="wodel.dsls.ASPLE.validator.preferencePage"
+			name="Errors/Warnings">
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
+		</page>
+	</extension>
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
 			fileExtensions="asple"/>
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="wodel.dsls.Asple"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="wodel.dsls.Asple.compiler.preferencePage"
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="wodel.dsls.ASPLE.compiler.preferencePage"
 			name="Compiler">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			category="wodel.dsls.Asple"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="wodel.dsls.Asple.compiler.propertyPage"
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="wodel.dsls.ASPLE.compiler.propertyPage"
 			name="Compiler">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -280,32 +289,32 @@
 		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
 			<command
 				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
-				id="wodel.dsls.Asple.OpenGeneratedCode"
+				id="wodel.dsls.ASPLE.OpenGeneratedCode"
 				style="push">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="wodel.dsls.Asple.Editor.opened" />
+					<reference definitionId="wodel.dsls.ASPLE.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
 			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
 			<activeWhen>
-				<reference definitionId="wodel.dsls.Asple.Editor.opened" />
+				<reference definitionId="wodel.dsls.ASPLE.Editor.opened" />
 			</activeWhen>
 		</handler>
 	</extension>
 	<!-- Quick Outline -->
 	<extension
 		point="org.eclipse.ui.handlers">
-		<handler 
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+		<handler
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
 				<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
+					definitionId="wodel.dsls.ASPLE.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -325,16 +334,16 @@
 				style="push"
 				tooltip="Open Quick Outline">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="wodel.dsls.Asple.Editor.opened"/>
+					<reference definitionId="wodel.dsls.ASPLE.Editor.opened"/>
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
-	<!-- quickfix marker resolution generator for wodel.dsls.Asple -->
+	<!-- quickfix marker resolution generator for wodel.dsls.ASPLE -->
 	<extension
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="wodel.dsls.asple.ui.asple.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
@@ -342,7 +351,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="wodel.dsls.asple.ui.asple.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
@@ -350,7 +359,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="wodel.dsls.asple.ui.asple.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
@@ -360,12 +369,12 @@
 	</extension>
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
-		<handler 
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
+		<handler
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
 				<reference
-					definitionId="wodel.dsls.Asple.Editor.opened">
+					definitionId="wodel.dsls.ASPLE.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -377,7 +386,7 @@
 				style="push">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="wodel.dsls.Asple.Editor.opened">
+						definitionId="wodel.dsls.ASPLE.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -385,28 +394,34 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="wodel.dsls.Asple"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
-			id="wodel.dsls.Asple.refactoring"
+			category="wodel.dsls.ASPLE"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+			id="wodel.dsls.ASPLE.refactoring"
 			name="Refactoring">
-			<keywordReference id="wodel.dsls.ui.keyword_Asple"/>
+			<keywordReference id="wodel.dsls.ui.keyword_ASPLE"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.compare.contentViewers">
-		<viewer id="wodel.dsls.Asple.compare.contentViewers"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+		<viewer id="wodel.dsls.ASPLE.compare.contentViewers"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="asple">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="wodel.dsls.ASPLE.contenttype"
+			contentViewerId="wodel.dsls.ASPLE.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
-		<viewer id="wodel.dsls.Asple.compare.contentMergeViewers"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-			extensions="asple" label="Asple Compare">
+		<viewer id="wodel.dsls.ASPLE.compare.contentMergeViewers"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+			extensions="asple" label="ASPLE Compare">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="wodel.dsls.ASPLE.contenttype"
+			contentMergeViewerId="wodel.dsls.ASPLE.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider id="wodel.dsls.Asple.editors.documentProviders"
-			class="wodel.dsls.ui.AspleExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+		<provider id="wodel.dsls.ASPLE.editors.documentProviders"
+			class="wodel.dsls.ui.ASPLEExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
 			extensions="asple">
 		</provider>
 	</extension>

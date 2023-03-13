@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
 	<extension
@@ -8,8 +8,8 @@
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
 			extensions="mutatext"
+			icon="icons/wodeledu_mutatext.jpg"
 			id="wodeledu.dsls.MutaText"
-            icon="icons/wodeledu_mutatext.jpg"			
 			name="MutaText Editor">
 		</editor>
 	</extension>
@@ -27,11 +27,11 @@
 		<handler
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
 			commandId="wodeledu.dsls.MutaText.validate">
-		<activeWhen>
-			<reference
+			<activeWhen>
+				<reference
 					definitionId="wodeledu.dsls.MutaText.Editor.opened">
-			</reference>
-		</activeWhen>
+				</reference>
+			</activeWhen>
 		</handler>
 		<!-- copy qualified name -->
 		<handler
@@ -120,38 +120,38 @@
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
-	<command
+		<command
 			description="Trigger expensive validation"
 			id="wodeledu.dsls.MutaText.validate"
 			name="Validate">
-	</command>
-	<!-- copy qualified name -->
-	<command
+		</command>
+		<!-- copy qualified name -->
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
-	<command
+		</command>
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
+		</command>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
-			 <command
-				 commandId="wodeledu.dsls.MutaText.validate"
-				 style="push"
-				 tooltip="Trigger expensive validation">
-			<visibleWhen checkEnabled="false">
-				<reference
-					definitionId="wodeledu.dsls.MutaText.Editor.opened">
-				</reference>
-			</visibleWhen>
-		</command>
+			<command
+				commandId="wodeledu.dsls.MutaText.validate"
+				style="push"
+				tooltip="Trigger expensive validation">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="wodeledu.dsls.MutaText.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 		<!-- copy qualified name -->
 		<menuContribution locationURI="popup:#TextEditorContext?after=copy">
@@ -250,6 +250,15 @@
 		<super type="org.eclipse.xtext.ui.check.expensive"/>
 		<persistent value="true"/>
 	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			category="wodeledu.dsls.MutaText"
+			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
+			id="wodeledu.dsls.MutaText.validator.preferencePage"
+			name="Errors/Warnings">
+			<keywordReference id="wodeledu.dsls.ui.keyword_MutaText"/>
+		</page>
+	</extension>
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
@@ -301,7 +310,7 @@
 	<!-- Quick Outline -->
 	<extension
 		point="org.eclipse.ui.handlers">
-		<handler 
+		<handler
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
@@ -361,7 +370,7 @@
 	</extension>
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
-		<handler 
+		<handler
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
@@ -398,12 +407,18 @@
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="mutatext">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="wodeledu.dsls.MutaText.contenttype"
+			contentViewerId="wodeledu.dsls.MutaText.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
 		<viewer id="wodeledu.dsls.MutaText.compare.contentMergeViewers"
 			class="wodeledu.dsls.ui.MutaTextExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="mutatext" label="MutaText Compare">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="wodeledu.dsls.MutaText.contenttype"
+			contentMergeViewerId="wodeledu.dsls.MutaText.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
 		<provider id="wodeledu.dsls.MutaText.editors.documentProviders"

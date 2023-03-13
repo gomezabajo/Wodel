@@ -1,16 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: MutReduceRegistryPostprocessor
+Bundle-Name: Reduce
 Bundle-SymbolicName: wodel.registry.reduce;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: reduce.Activator
+Bundle-Activator: wodel.registry.reduce.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.equinox.registry,
  org.eclipse.emf.ecore,
  wodel.utils,
- wodel.registry;bundle-version="1.0.0",
- wodel.models
-Import-Package: org.eclipse.emf.ecore.resource
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ wodel.models,
+ wodel.registry
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.registry.reduce
 Bundle-ActivationPolicy: lazy

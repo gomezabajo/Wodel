@@ -8,7 +8,6 @@ import edutest.MultiChoiceEmendation;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.Test;
-import exceptions.ModelNotFoundException;
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -20,8 +19,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
-import manager.IOUtils;
-import manager.ModelManager;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -37,26 +34,28 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
-import wodeledu.dsls.generator.EduTestSuperGenerator;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.IOUtils;
+import wodel.utils.manager.ModelManager;
 
 @SuppressWarnings("all")
 public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
   private List<EObject> blocks;
-  
+
   private String localProperties;
-  
+
   private String xmlFileName;
-  
+
   private String fileName;
-  
+
   private String stringXmlFileName;
-  
+
   private String stringXmlFileNameEs;
-  
+
   private String userProfile = "C\\:\\\\Users\\\\User";
-  
+
   private String currentDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US).format(new Date(System.currentTimeMillis()));
-  
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
@@ -137,7 +136,6 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
         }
       } catch (final Throwable _t) {
         if (_t instanceof ModelNotFoundException) {
-          final ModelNotFoundException e = (ModelNotFoundException)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -146,7 +144,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * MobileApp code will be generated here!!
    */
@@ -1748,7 +1746,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * local.properties code will be generated here!!
    */
@@ -1775,7 +1773,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
     _builder.newLineIfNotEmpty();
     return _builder;
   }
-  
+
   /**
    * XML MobileApp code will be generated here!!
    */
@@ -2587,7 +2585,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
     _builder.newLine();
     return _builder;
   }
-  
+
   /**
    * String values XML MobileApp code will be generated here!!
    */
@@ -3172,7 +3170,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * String values XML MobileApp code will be generated here!!
    */

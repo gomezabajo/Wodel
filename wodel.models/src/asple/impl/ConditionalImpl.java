@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asple.impl.ConditionalImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link asple.impl.ConditionalImpl#getIf <em>If</em>}</li>
  *   <li>{@link asple.impl.ConditionalImpl#getElse <em>Else</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

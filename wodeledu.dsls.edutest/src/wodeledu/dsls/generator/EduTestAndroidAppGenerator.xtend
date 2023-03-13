@@ -3,7 +3,7 @@ package wodeledu.dsls.generator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import manager.ModelManager
+import wodel.utils.manager.ModelManager
 import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
 import java.net.URL
@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.FileLocator
 import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EObject
-import exceptions.ModelNotFoundException
+import wodel.utils.exceptions.ModelNotFoundException
 import org.eclipse.emf.common.util.URI
 import edutest.Program
 import java.util.Date
@@ -21,7 +21,7 @@ import edutest.AlternativeResponse
 import edutest.MultiChoiceDiagram
 import edutest.MultiChoiceEmendation
 import java.util.ArrayList
-import manager.IOUtils
+import wodel.utils.manager.IOUtils
 import java.io.File
 import java.util.AbstractMap.SimpleEntry
 import java.util.HashMap
@@ -105,93 +105,93 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 
 	/*MobileApp code will be generated here!!*/
 	def compile(Program program, Resource resource) '''
-		«{buildOptions(program, resource, blocks, program.class); ""}»
-		«var HashMap<Integer,String> drawable = new HashMap()»
-		«var HashMap<Integer,HashMap<Integer,String>> drawableAnswer = new HashMap()»
-		«var int i = 0»
-		«FOR exercise : program.exercises»
-			«IF exercise instanceof AlternativeResponse»
-				«FOR test : exercise.tests»
-					«IF rand.get(exercise).get(test).size() > 0»
-						«var diagram = rand.get(exercise).get(test).get(0)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
-						«drawable.put(i,"q" + i + "_enunciado.png")»
-						«{i++; ""}»
-					«ENDIF»
-				«ENDFOR»
-			«ENDIF»
-			«IF exercise instanceof MultiChoiceEmendation»
-				«FOR test : exercise.tests»
-					«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-						«IF (options.get(exercise).get(test) !== null)»
-							«FOR opt : options.get(exercise).get(test)»
-								«IF opt.text.size > 0»
-									«IF opt.solution == true»
-										«var diagram=opt.path»
-										«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
-										«drawable.put(i,"q" + i + "_enunciado.png")»
-		 								«{i++; ""}»
-									«ENDIF»
-								«ENDIF»
-							«ENDFOR»
-						«ENDIF»
-					«ENDIF»
-				«ENDFOR»
-			«ENDIF»
-			«IF exercise instanceof MultiChoiceDiagram»
-				«FOR test : exercise.tests»
-					«var int j = 0»
-					«var HashMap<Integer,String> diccAux = new HashMap()»
-					«FOR diag : diagrams.get(exercise).get(test)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
-						«diccAux.put(j, "q" + i + "_respuesta" + j+".png")»
-						«{j++; ""}»
-					«ENDFOR»
-					«drawableAnswer.put(i,diccAux)»
-					«{i++; ""}»
-				«ENDFOR»
-			«ENDIF»
-			«IF exercise instanceof MatchPairs»
-			        «var int min = Integer.MAX_VALUE»
-			        «var int index = 0»
-			        «var int max = Integer.MIN_VALUE»
-				«FOR test : exercise.tests»
-					«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-						«var List<String> textOptions = new ArrayList<String>()»
-						«var int k = 0»
-						«var int counter = 0»
-						«FOR TestOption opt : options.get(exercise).get(test)»
-							«FOR String key : opt.text.keySet()»
-		         				«FOR String text : opt.text.get(key)»
-									«IF !textOptions.contains(text)»
-										«{counter++; ""}»
-										«{textOptions.add(text); ""}»
-									«ENDIF»
-								«ENDFOR»
-							«ENDFOR»
-						«ENDFOR»
-						«IF counter > max»
-							«{max = counter; ""}»
-							«{index = k; ""}»
-						«ENDIF»
-						«{k++; ""}»
-					«ENDIF»
-				«ENDFOR»
-				«var int k = 0»
-				«FOR test : exercise.tests»
-					«var TestOption opt = null»
-					«IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).size() > index)»
-						//«opt = options.get(exercise).get(test).get(index)»
-					«ENDIF»
-					«IF opt !== null»
-					    «var diagram=opt.path»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
-						«drawable.put(i,"q" + i + "_enunciado.png")»
-						«{i++; ""}»
-					«ENDIF»
-				«ENDFOR»
-			«ENDIF»
-		«ENDFOR»
+		Â«{buildOptions(program, resource, blocks, program.class); ""}Â»
+		Â«var HashMap<Integer,String> drawable = new HashMap()Â»
+		Â«var HashMap<Integer,HashMap<Integer,String>> drawableAnswer = new HashMap()Â»
+		Â«var int i = 0Â»
+		Â«FOR exercise : program.exercisesÂ»
+			Â«IF exercise instanceof AlternativeResponseÂ»
+				Â«FOR test : exercise.testsÂ»
+					Â«IF rand.get(exercise).get(test).size() > 0Â»
+						Â«var diagram = rand.get(exercise).get(test).get(0)Â»
+						Â«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))Â»
+						Â«drawable.put(i,"q" + i + "_enunciado.png")Â»
+						Â«{i++; ""}Â»
+					Â«ENDIFÂ»
+				Â«ENDFORÂ»
+			Â«ENDIFÂ»
+			Â«IF exercise instanceof MultiChoiceEmendationÂ»
+				Â«FOR test : exercise.testsÂ»
+					Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+						Â«IF (options.get(exercise).get(test) !== null)Â»
+							Â«FOR opt : options.get(exercise).get(test)Â»
+								Â«IF opt.text.size > 0Â»
+									Â«IF opt.solution == trueÂ»
+										Â«var diagram=opt.pathÂ»
+										Â«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))Â»
+										Â«drawable.put(i,"q" + i + "_enunciado.png")Â»
+		 								Â«{i++; ""}Â»
+									Â«ENDIFÂ»
+								Â«ENDIFÂ»
+							Â«ENDFORÂ»
+						Â«ENDIFÂ»
+					Â«ENDIFÂ»
+				Â«ENDFORÂ»
+			Â«ENDIFÂ»
+			Â«IF exercise instanceof MultiChoiceDiagramÂ»
+				Â«FOR test : exercise.testsÂ»
+					Â«var int j = 0Â»
+					Â«var HashMap<Integer,String> diccAux = new HashMap()Â»
+					Â«FOR diag : diagrams.get(exercise).get(test)Â»
+						Â«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))Â»
+						Â«diccAux.put(j, "q" + i + "_respuesta" + j+".png")Â»
+						Â«{j++; ""}Â»
+					Â«ENDFORÂ»
+					Â«drawableAnswer.put(i,diccAux)Â»
+					Â«{i++; ""}Â»
+				Â«ENDFORÂ»
+			Â«ENDIFÂ»
+			Â«IF exercise instanceof MatchPairsÂ»
+			        Â«var int min = Integer.MAX_VALUEÂ»
+			        Â«var int index = 0Â»
+			        Â«var int max = Integer.MIN_VALUEÂ»
+				Â«FOR test : exercise.testsÂ»
+					Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+						Â«var List<String> textOptions = new ArrayList<String>()Â»
+						Â«var int k = 0Â»
+						Â«var int counter = 0Â»
+						Â«FOR TestOption opt : options.get(exercise).get(test)Â»
+							Â«FOR String key : opt.text.keySet()Â»
+		         				Â«FOR String text : opt.text.get(key)Â»
+									Â«IF !textOptions.contains(text)Â»
+										Â«{counter++; ""}Â»
+										Â«{textOptions.add(text); ""}Â»
+									Â«ENDIFÂ»
+								Â«ENDFORÂ»
+							Â«ENDFORÂ»
+						Â«ENDFORÂ»
+						Â«IF counter > maxÂ»
+							Â«{max = counter; ""}Â»
+							Â«{index = k; ""}Â»
+						Â«ENDIFÂ»
+						Â«{k++; ""}Â»
+					Â«ENDIFÂ»
+				Â«ENDFORÂ»
+				Â«var int k = 0Â»
+				Â«FOR test : exercise.testsÂ»
+					Â«var TestOption opt = nullÂ»
+					Â«IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).size() > index)Â»
+						//Â«opt = options.get(exercise).get(test).get(index)Â»
+					Â«ENDIFÂ»
+					Â«IF opt !== nullÂ»
+					    Â«var diagram=opt.pathÂ»
+						Â«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))Â»
+						Â«drawable.put(i,"q" + i + "_enunciado.png")Â»
+						Â«{i++; ""}Â»
+					Â«ENDIFÂ»
+				Â«ENDFORÂ»
+			Â«ENDIFÂ»
+		Â«ENDFORÂ»
 		package org.example.esquematfg;
 			
 		import androidx.annotation.NonNull;
@@ -236,24 +236,24 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 			private int ids_answer_desplegable_spinner[]={
 					R.id.desplegable_spinner1, R.id.desplegable_spinner2, R.id.desplegable_spinner3, R.id.desplegable_spinner4
 			};
-			«IF drawable.size() > 0»
+			Â«IF drawable.size() > 0Â»
 			private HashMap<Integer, Integer> statements=new HashMap<Integer,Integer>(){{
-            	«FOR Integer k : drawable.keySet»
-            	put(«k»,R.drawable.«drawable.get(k).substring(0,drawable.get(k).length-4)»);
-            	«ENDFOR»
+            	Â«FOR Integer k : drawable.keySetÂ»
+            	put(Â«kÂ»,R.drawable.Â«drawable.get(k).substring(0,drawable.get(k).length-4)Â»);
+            	Â«ENDFORÂ»
 			}};
-           	«ENDIF»
-           	«IF drawableAnswer.size() > 0»
+           	Â«ENDIFÂ»
+           	Â«IF drawableAnswer.size() > 0Â»
 			private HashMap<Integer, HashMap<Integer,Integer>> statementsAnswers=new HashMap<Integer, HashMap<Integer,Integer>>(){{
-				«FOR Integer k1 : drawableAnswer.keySet»
-				put(«k1»,new HashMap<Integer,Integer>(){{
-					«FOR Integer k2 : drawableAnswer.get(k1).keySet»
-					put(«k2»,R.drawable.«drawableAnswer.get(k1).get(k2).substring(0,drawableAnswer.get(k1).get(k2).length-4)»);
-					«ENDFOR»
+				Â«FOR Integer k1 : drawableAnswer.keySetÂ»
+				put(Â«k1Â»,new HashMap<Integer,Integer>(){{
+					Â«FOR Integer k2 : drawableAnswer.get(k1).keySetÂ»
+					put(Â«k2Â»,R.drawable.Â«drawableAnswer.get(k1).get(k2).substring(0,drawableAnswer.get(k1).get(k2).length-4)Â»);
+					Â«ENDFORÂ»
 				}});
-				«ENDFOR»
+				Â«ENDFORÂ»
 			}};
-			«ENDIF»
+			Â«ENDIFÂ»
 
 		private String[] all_questions;
 			private TextView text_question;
@@ -617,8 +617,8 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 # Location of the SDK. This is only used by Gradle.
 # For customization when using a Version Control System, please read the
 # header note.
-#«currentDate»
-sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
+#Â«currentDateÂ»
+sdk.dir=Â«userProfileÂ»AppData\\Local\\Android\\Sdk
 	'''
 
 	/*XML MobileApp code will be generated here!!*/
@@ -630,32 +630,32 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    tools:context=".MainActivity">
-		<!--«var boolean true_false_questions = false»-->
-		<!--«var boolean single_option_questions = false»-->
-		<!--«var boolean multiple_option_questions = false»-->
-		«FOR exercise : program.exercises»
-			«IF exercise instanceof AlternativeResponse»
-			«FOR test : exercise.tests»
-			«IF rand.get(exercise).get(test).size() > 0»
-			«{true_false_questions = true; ""}»
-			«ENDIF»
-			«ENDFOR»
-			«ENDIF»
-	    	«IF exercise instanceof MultiChoiceDiagram»
-			«FOR test : exercise.tests»
-	        «IF diagrams.get(exercise).get(test).size() > 0»
-			«{single_option_questions = true; ""}»
-	        «ENDIF»
-	        «ENDFOR»
-	        «ENDIF»
-	    	«IF exercise instanceof MultiChoiceEmendation»
-			«FOR test : exercise.tests»
-			«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-			«{multiple_option_questions = true; ""}»
-	        «ENDIF»
-	        «ENDFOR»
-	        «ENDIF»
-		«ENDFOR»
+		<!--Â«var boolean true_false_questions = falseÂ»-->
+		<!--Â«var boolean single_option_questions = falseÂ»-->
+		<!--Â«var boolean multiple_option_questions = falseÂ»-->
+		Â«FOR exercise : program.exercisesÂ»
+			Â«IF exercise instanceof AlternativeResponseÂ»
+			Â«FOR test : exercise.testsÂ»
+			Â«IF rand.get(exercise).get(test).size() > 0Â»
+			Â«{true_false_questions = true; ""}Â»
+			Â«ENDIFÂ»
+			Â«ENDFORÂ»
+			Â«ENDIFÂ»
+	    	Â«IF exercise instanceof MultiChoiceDiagramÂ»
+			Â«FOR test : exercise.testsÂ»
+	        Â«IF diagrams.get(exercise).get(test).size() > 0Â»
+			Â«{single_option_questions = true; ""}Â»
+	        Â«ENDIFÂ»
+	        Â«ENDFORÂ»
+	        Â«ENDIFÂ»
+	    	Â«IF exercise instanceof MultiChoiceEmendationÂ»
+			Â«FOR test : exercise.testsÂ»
+			Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+			Â«{multiple_option_questions = true; ""}Â»
+	        Â«ENDIFÂ»
+	        Â«ENDFORÂ»
+	        Â«ENDIFÂ»
+		Â«ENDFORÂ»
 		
 		    <ScrollView
 		                android:layout_width="match_parent"
@@ -915,172 +915,172 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 			<string name="start_over">Reset</string>
 			<string name="choose_option">Choose</string>
 			<array name="all_questions">
-			«FOR exercise : program.exercises»
-				«IF exercise instanceof AlternativeResponse»
-					«FOR test : exercise.tests»
-						«IF rand.get(exercise).get(test).size() > 0»
-							<!--«var diagram = rand.get(exercise).get(test).get(0)»-->
-							«IF diagram.equals(test.source.replace('.model', '.png'))»
-								<item>2;«test.question.replace("\"", "'").replace("'", "")»;*True;False</item>
-							«ELSE»
-								<item>2;«test.question.replace("\"", "'").replace("'", "")»;True;*False</item>
-							«ENDIF»
-						«ENDIF»
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MultiChoiceDiagram»
-					«FOR test : exercise.tests»
-					«var int i=0»
-					«var int correct=i»
-					«FOR diagram : diagrams.get(exercise).get(test)»«IF diagram.equals(test.source.replace('.model', '.png'))»
-							«{correct=i; ""}»
-						«ENDIF»
-						«{i++; ""}»
-					«ENDFOR»
-						<item>0;«test.question.replace("\"", "'").replace("'", "")»;«i»;«correct»</item>
+			Â«FOR exercise : program.exercisesÂ»
+				Â«IF exercise instanceof AlternativeResponseÂ»
+					Â«FOR test : exercise.testsÂ»
+						Â«IF rand.get(exercise).get(test).size() > 0Â»
+							<!--Â«var diagram = rand.get(exercise).get(test).get(0)Â»-->
+							Â«IF diagram.equals(test.source.replace('.model', '.png'))Â»
+								<item>2;Â«test.question.replace("\"", "'").replace("'", "")Â»;*True;False</item>
+							Â«ELSEÂ»
+								<item>2;Â«test.question.replace("\"", "'").replace("'", "")Â»;True;*False</item>
+							Â«ENDIFÂ»
+						Â«ENDIFÂ»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MultiChoiceDiagramÂ»
+					Â«FOR test : exercise.testsÂ»
+					Â«var int i=0Â»
+					Â«var int correct=iÂ»
+					Â«FOR diagram : diagrams.get(exercise).get(test)Â»Â«IF diagram.equals(test.source.replace('.model', '.png'))Â»
+							Â«{correct=i; ""}Â»
+						Â«ENDIFÂ»
+						Â«{i++; ""}Â»
+					Â«ENDFORÂ»
+						<item>0;Â«test.question.replace("\"", "'").replace("'", "")Â»;Â«iÂ»;Â«correctÂ»</item>
 						<!--<tipo;pregunta;n_respuesta;respues_correcta>-->
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MultiChoiceEmendation»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MultiChoiceEmendationÂ»
 					<!--<item>1;Aqui iria el enunciado de la pregunta 2?(seleccion multiple);*Esta seria la opcion 1 y correcta;*Esta seria la opcion 2 y correcta;Esta seria la opcion 3 e incorrecta;Esta seria la opcion 4 e incorrecta</item>-->
-					«FOR test : exercise.tests»
+					Â«FOR test : exercise.testsÂ»
 						<item>1;
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							«test.question.replace("\"", "'").replace("'", "")»;
-						«ENDIF»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							«var counter = 0»
-							«var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
-							«FOR opt : options.get(exercise).get(test)»
-								«FOR String key : opt.text.keySet()»
-									«FOR String text : opt.text.get(key)»
-										«var boolean found = false»
-										«FOR SimpleEntry<String, Boolean> entry : textOptions»
-											«IF entry.getKey().equals(text)»
-												«{found = true; ""}»
-											«ENDIF»
-										«ENDFOR»
-										«IF found == false»
-											«{counter ++; ""}»
-											«{textOptions.add(new SimpleEntry<String, Boolean>(text, false)); ""}»
-										«ENDIF»
-									«ENDFOR»
-								«ENDFOR»
-							«ENDFOR»
-						«ENDIF»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							<!--«var String diagram = ''»-->
-							«IF (options.get(exercise).get(test) !== null)»
-								«FOR opt : options.get(exercise).get(test)»
-									«IF opt.text.size > 0»
-										<!--«diagram = opt.path»-->
-									«ENDIF»
-								«ENDFOR»
-							«ENDIF»
-							«IF !diagram.equals('')»
-								«IF (options.get(exercise).get(test) !== null)»
-									«FOR opt : options.get(exercise).get(test)»
-										«var List<String> textOptions = new ArrayList<String>()»
-						          		«IF opt.text.size > 0»
-					          				«FOR String key : opt.text.keySet()»
-					          					«FOR String text : opt.text.get(key)»
-					          						«IF !textOptions.contains(text)»
-					                					«{textOptions.add(text); ""}»
-					          						«ENDIF»
-					          					«ENDFOR»
-					          				«ENDFOR»
-						          		«ENDIF»
-									«ENDFOR»
-									«FOR opt : options.get(exercise).get(test)»
-										«IF opt.solution == true»
-							          		«IF opt.text.size > 0»
-							          			«FOR String key : opt.text.keySet()»
-		          			          				«FOR String text : opt.text.get(key)»
-							*«text.trim()»;
-		          			          				«ENDFOR»
-		          			          			«ENDFOR»
-							          		«ENDIF»
-							          	«ENDIF»
-							          	«IF opt.solution == false»
-							          		«IF opt.text.size > 0»
-							          			«FOR String key : opt.text.keySet()»
-		          			          				«FOR String text : opt.text.get(key)»
-							«text.trim()»;
-		          			          				«ENDFOR»
-		          			          			«ENDFOR»
-							          		«ENDIF»
-							          	«ENDIF»
-									«ENDFOR»
-								«ENDIF»
-							«ENDIF»
-						«ENDIF»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							Â«test.question.replace("\"", "'").replace("'", "")Â»;
+						Â«ENDIFÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							Â«var counter = 0Â»
+							Â«var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()Â»
+							Â«FOR opt : options.get(exercise).get(test)Â»
+								Â«FOR String key : opt.text.keySet()Â»
+									Â«FOR String text : opt.text.get(key)Â»
+										Â«var boolean found = falseÂ»
+										Â«FOR SimpleEntry<String, Boolean> entry : textOptionsÂ»
+											Â«IF entry.getKey().equals(text)Â»
+												Â«{found = true; ""}Â»
+											Â«ENDIFÂ»
+										Â«ENDFORÂ»
+										Â«IF found == falseÂ»
+											Â«{counter ++; ""}Â»
+											Â«{textOptions.add(new SimpleEntry<String, Boolean>(text, false)); ""}Â»
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDFORÂ»
+							Â«ENDFORÂ»
+						Â«ENDIFÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							<!--Â«var String diagram = ''Â»-->
+							Â«IF (options.get(exercise).get(test) !== null)Â»
+								Â«FOR opt : options.get(exercise).get(test)Â»
+									Â«IF opt.text.size > 0Â»
+										<!--Â«diagram = opt.pathÂ»-->
+									Â«ENDIFÂ»
+								Â«ENDFORÂ»
+							Â«ENDIFÂ»
+							Â«IF !diagram.equals('')Â»
+								Â«IF (options.get(exercise).get(test) !== null)Â»
+									Â«FOR opt : options.get(exercise).get(test)Â»
+										Â«var List<String> textOptions = new ArrayList<String>()Â»
+						          		Â«IF opt.text.size > 0Â»
+					          				Â«FOR String key : opt.text.keySet()Â»
+					          					Â«FOR String text : opt.text.get(key)Â»
+					          						Â«IF !textOptions.contains(text)Â»
+					                					Â«{textOptions.add(text); ""}Â»
+					          						Â«ENDIFÂ»
+					          					Â«ENDFORÂ»
+					          				Â«ENDFORÂ»
+						          		Â«ENDIFÂ»
+									Â«ENDFORÂ»
+									Â«FOR opt : options.get(exercise).get(test)Â»
+										Â«IF opt.solution == trueÂ»
+							          		Â«IF opt.text.size > 0Â»
+							          			Â«FOR String key : opt.text.keySet()Â»
+		          			          				Â«FOR String text : opt.text.get(key)Â»
+							*Â«text.trim()Â»;
+		          			          				Â«ENDFORÂ»
+		          			          			Â«ENDFORÂ»
+							          		Â«ENDIFÂ»
+							          	Â«ENDIFÂ»
+							          	Â«IF opt.solution == falseÂ»
+							          		Â«IF opt.text.size > 0Â»
+							          			Â«FOR String key : opt.text.keySet()Â»
+		          			          				Â«FOR String text : opt.text.get(key)Â»
+							Â«text.trim()Â»;
+		          			          				Â«ENDFORÂ»
+		          			          			Â«ENDFORÂ»
+							          		Â«ENDIFÂ»
+							          	Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDIFÂ»
+							Â«ENDIFÂ»
+						Â«ENDIFÂ»
 						</item>
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MatchPairs»
-					«var int min = Integer.MAX_VALUE»
-			        «var int index = 0»
-			        «var int max = Integer.MIN_VALUE»
-					«FOR test : exercise.tests»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MatchPairsÂ»
+					Â«var int min = Integer.MAX_VALUEÂ»
+			        Â«var int index = 0Â»
+			        Â«var int max = Integer.MIN_VALUEÂ»
+					Â«FOR test : exercise.testsÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
 							<item>3;Match the correct option on the right with each of the statements on the left;
-							«var List<String> textOptions = new ArrayList<String>()»
-							«var int k = 0»
-							«var int counter = 0»
-							«FOR TestOption opt : options.get(exercise).get(test)»
-								«FOR String key : opt.text.keySet()»
-			         				«FOR String text : opt.text.get(key)»
-										«IF !textOptions.contains(text)»
-											«{counter++; ""}»
-											«text»;
-											«{textOptions.add(text);""}»
-										«ENDIF»
-									«ENDFOR»
-								«ENDFOR»
-							«ENDFOR»
-							«IF counter > max»
-								«{max = counter; ""}»
-								«{index = k; ""}»
-							«ENDIF»
-							«{k++; ""}»
-							«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»
-							«FOR TestOption op : options.get(exercise).get(test)»
-								«IF test.expression == true»
-									«var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)»
-									«IF key.length() <= 36»
-										«var boolean found = false»
-										«FOR int length : entries.keySet()»
-											«var SimpleEntry<String, String> entry = entries.get(length)»
-											«IF entry.getValue().equals(key)»
-												«{found = true; ""}»
-											«ENDIF»
-										«ENDFOR»
-										«IF found == false»
-											«var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())»
-											«{entries.put(key.length,  entry); ""}»
-										«ENDIF»
-									«ENDIF»
-								«ENDIF»
-							«ENDFOR»
-							«var String question = test.question.replace("\"", "'")»
-							«var int counter2 = 0»
-							«FOR int length : entries.keySet()»
-								«IF counter2 < min»
-									«var SimpleEntry<String, String> entry = entries.get(length)»
-									«FOR int i : 0..textOptions.size-1»
-										«IF textOptions.get(i).substring(0,textOptions.get(i).length-1).equals(entry.getValue())»
-*«i»«question + entry.getKey()»;
-										«ENDIF»
-									«ENDFOR»
-								«ENDIF»
-							«ENDFOR»
+							Â«var List<String> textOptions = new ArrayList<String>()Â»
+							Â«var int k = 0Â»
+							Â«var int counter = 0Â»
+							Â«FOR TestOption opt : options.get(exercise).get(test)Â»
+								Â«FOR String key : opt.text.keySet()Â»
+			         				Â«FOR String text : opt.text.get(key)Â»
+										Â«IF !textOptions.contains(text)Â»
+											Â«{counter++; ""}Â»
+											Â«textÂ»;
+											Â«{textOptions.add(text);""}Â»
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDFORÂ»
+							Â«ENDFORÂ»
+							Â«IF counter > maxÂ»
+								Â«{max = counter; ""}Â»
+								Â«{index = k; ""}Â»
+							Â«ENDIFÂ»
+							Â«{k++; ""}Â»
+							Â«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()Â»
+							Â«FOR TestOption op : options.get(exercise).get(test)Â»
+								Â«IF test.expression == trueÂ»
+									Â«var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)Â»
+									Â«IF key.length() <= 36Â»
+										Â«var boolean found = falseÂ»
+										Â«FOR int length : entries.keySet()Â»
+											Â«var SimpleEntry<String, String> entry = entries.get(length)Â»
+											Â«IF entry.getValue().equals(key)Â»
+												Â«{found = true; ""}Â»
+											Â«ENDIFÂ»
+										Â«ENDFORÂ»
+										Â«IF found == falseÂ»
+											Â«var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())Â»
+											Â«{entries.put(key.length,  entry); ""}Â»
+										Â«ENDIFÂ»
+									Â«ENDIFÂ»
+								Â«ENDIFÂ»
+							Â«ENDFORÂ»
+							Â«var String question = test.question.replace("\"", "'")Â»
+							Â«var int counter2 = 0Â»
+							Â«FOR int length : entries.keySet()Â»
+								Â«IF counter2 < minÂ»
+									Â«var SimpleEntry<String, String> entry = entries.get(length)Â»
+									Â«FOR int i : 0..textOptions.size-1Â»
+										Â«IF textOptions.get(i).substring(0,textOptions.get(i).length-1).equals(entry.getValue())Â»
+*Â«iÂ»Â«question + entry.getKey()Â»;
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDIFÂ»
+							Â«ENDFORÂ»
 </item>
-						«ENDIF»
-		        	«ENDFOR»
+						Â«ENDIFÂ»
+		        	Â«ENDFORÂ»
 					
 					
-				«ENDIF»
-			«ENDFOR»
+				Â«ENDIFÂ»
+			Â«ENDFORÂ»
 			</array>
 		</resources>
     '''
@@ -1099,172 +1099,172 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 			<string name="start_over">Reintentar</string>
 			<string name="choose_option">Elegir</string>
 			<array name="all_questions">
-			«FOR exercise : program.exercises»
-				«IF exercise instanceof AlternativeResponse»
-					«FOR test : exercise.tests»
-						«IF rand.get(exercise).get(test).size() > 0»
-							<!--«var diagram = rand.get(exercise).get(test).get(0)»-->
-							«IF diagram.equals(test.source.replace('.model', '.png'))»
-								<item>2;«test.question.replace("\"", "'").replace("'", "")»;*True;False</item>
-							«ELSE»
-								<item>2;«test.question.replace("\"", "'").replace("'", "")»;True;*False</item>
-							«ENDIF»
-						«ENDIF»
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MultiChoiceDiagram»
-					«FOR test : exercise.tests»
-					«var int i=0»
-					«var int correct=i»
-					«FOR diagram : diagrams.get(exercise).get(test)»«IF diagram.equals(test.source.replace('.model', '.png'))»
-							«{correct=i; ""}»
-						«ENDIF»
-						«{i++; ""}»
-					«ENDFOR»
-						<item>0;«test.question.replace("\"", "'").replace("'", "")»;«i»;«correct»</item>
+			Â«FOR exercise : program.exercisesÂ»
+				Â«IF exercise instanceof AlternativeResponseÂ»
+					Â«FOR test : exercise.testsÂ»
+						Â«IF rand.get(exercise).get(test).size() > 0Â»
+							<!--Â«var diagram = rand.get(exercise).get(test).get(0)Â»-->
+							Â«IF diagram.equals(test.source.replace('.model', '.png'))Â»
+								<item>2;Â«test.question.replace("\"", "'").replace("'", "")Â»;*True;False</item>
+							Â«ELSEÂ»
+								<item>2;Â«test.question.replace("\"", "'").replace("'", "")Â»;True;*False</item>
+							Â«ENDIFÂ»
+						Â«ENDIFÂ»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MultiChoiceDiagramÂ»
+					Â«FOR test : exercise.testsÂ»
+					Â«var int i=0Â»
+					Â«var int correct=iÂ»
+					Â«FOR diagram : diagrams.get(exercise).get(test)Â»Â«IF diagram.equals(test.source.replace('.model', '.png'))Â»
+							Â«{correct=i; ""}Â»
+						Â«ENDIFÂ»
+						Â«{i++; ""}Â»
+					Â«ENDFORÂ»
+						<item>0;Â«test.question.replace("\"", "'").replace("'", "")Â»;Â«iÂ»;Â«correctÂ»</item>
 						<!--<tipo;pregunta;n_respuesta;respues_correcta>-->
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MultiChoiceEmendation»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MultiChoiceEmendationÂ»
 					<!--<item>1;Aqui iria el enunciado de la pregunta 2?(seleccion multiple);*Esta seria la opcion 1 y correcta;*Esta seria la opcion 2 y correcta;Esta seria la opcion 3 e incorrecta;Esta seria la opcion 4 e incorrecta</item>-->
-					«FOR test : exercise.tests»
+					Â«FOR test : exercise.testsÂ»
 						<item>1;
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							«test.question.replace("\"", "'").replace("'", "")»;
-						«ENDIF»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							«var counter = 0»
-							«var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
-							«FOR opt : options.get(exercise).get(test)»
-								«FOR String key : opt.text.keySet()»
-									«FOR String text : opt.text.get(key)»
-										«var boolean found = false»
-										«FOR SimpleEntry<String, Boolean> entry : textOptions»
-											«IF entry.getKey().equals(text)»
-												«{found = true; ""}»
-											«ENDIF»
-										«ENDFOR»
-										«IF found == false»
-											«{counter ++; ""}»
-											«{textOptions.add(new SimpleEntry<String, Boolean>(text, false)); ""}»
-										«ENDIF»
-									«ENDFOR»
-								«ENDFOR»
-							«ENDFOR»
-						«ENDIF»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
-							<!--«var String diagram = ''»-->
-							«IF (options.get(exercise).get(test) !== null)»
-								«FOR opt : options.get(exercise).get(test)»
-									«IF opt.text.size > 0»
-										<!--«diagram = opt.path»-->
-									«ENDIF»
-								«ENDFOR»
-							«ENDIF»
-							«IF !diagram.equals('')»
-								«IF (options.get(exercise).get(test) !== null)»
-									«FOR opt : options.get(exercise).get(test)»
-										«var List<String> textOptions = new ArrayList<String>()»
-						          		«IF opt.text.size > 0»
-					          				«FOR String key : opt.text.keySet()»
-					          					«FOR String text : opt.text.get(key)»
-					          						«IF !textOptions.contains(text)»
-					                					«{textOptions.add(text); ""}»
-					          						«ENDIF»
-					          					«ENDFOR»
-					          				«ENDFOR»
-						          		«ENDIF»
-									«ENDFOR»
-									«FOR opt : options.get(exercise).get(test)»
-										«IF opt.solution == true»
-							          		«IF opt.text.size > 0»
-							          			«FOR String key : opt.text.keySet()»
-		          			          				«FOR String text : opt.text.get(key)»
-							*«text.trim()»;
-		          			          				«ENDFOR»
-		          			          			«ENDFOR»
-							          		«ENDIF»
-							          	«ENDIF»
-							          	«IF opt.solution == false»
-							          		«IF opt.text.size > 0»
-							          			«FOR String key : opt.text.keySet()»
-		          			          				«FOR String text : opt.text.get(key)»
-							«text.trim()»;
-		          			          				«ENDFOR»
-		          			          			«ENDFOR»
-							          		«ENDIF»
-							          	«ENDIF»
-									«ENDFOR»
-								«ENDIF»
-							«ENDIF»
-						«ENDIF»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							Â«test.question.replace("\"", "'").replace("'", "")Â»;
+						Â«ENDIFÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							Â«var counter = 0Â»
+							Â«var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()Â»
+							Â«FOR opt : options.get(exercise).get(test)Â»
+								Â«FOR String key : opt.text.keySet()Â»
+									Â«FOR String text : opt.text.get(key)Â»
+										Â«var boolean found = falseÂ»
+										Â«FOR SimpleEntry<String, Boolean> entry : textOptionsÂ»
+											Â«IF entry.getKey().equals(text)Â»
+												Â«{found = true; ""}Â»
+											Â«ENDIFÂ»
+										Â«ENDFORÂ»
+										Â«IF found == falseÂ»
+											Â«{counter ++; ""}Â»
+											Â«{textOptions.add(new SimpleEntry<String, Boolean>(text, false)); ""}Â»
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDFORÂ»
+							Â«ENDFORÂ»
+						Â«ENDIFÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
+							<!--Â«var String diagram = ''Â»-->
+							Â«IF (options.get(exercise).get(test) !== null)Â»
+								Â«FOR opt : options.get(exercise).get(test)Â»
+									Â«IF opt.text.size > 0Â»
+										<!--Â«diagram = opt.pathÂ»-->
+									Â«ENDIFÂ»
+								Â«ENDFORÂ»
+							Â«ENDIFÂ»
+							Â«IF !diagram.equals('')Â»
+								Â«IF (options.get(exercise).get(test) !== null)Â»
+									Â«FOR opt : options.get(exercise).get(test)Â»
+										Â«var List<String> textOptions = new ArrayList<String>()Â»
+						          		Â«IF opt.text.size > 0Â»
+					          				Â«FOR String key : opt.text.keySet()Â»
+					          					Â«FOR String text : opt.text.get(key)Â»
+					          						Â«IF !textOptions.contains(text)Â»
+					                					Â«{textOptions.add(text); ""}Â»
+					          						Â«ENDIFÂ»
+					          					Â«ENDFORÂ»
+					          				Â«ENDFORÂ»
+						          		Â«ENDIFÂ»
+									Â«ENDFORÂ»
+									Â«FOR opt : options.get(exercise).get(test)Â»
+										Â«IF opt.solution == trueÂ»
+							          		Â«IF opt.text.size > 0Â»
+							          			Â«FOR String key : opt.text.keySet()Â»
+		          			          				Â«FOR String text : opt.text.get(key)Â»
+							*Â«text.trim()Â»;
+		          			          				Â«ENDFORÂ»
+		          			          			Â«ENDFORÂ»
+							          		Â«ENDIFÂ»
+							          	Â«ENDIFÂ»
+							          	Â«IF opt.solution == falseÂ»
+							          		Â«IF opt.text.size > 0Â»
+							          			Â«FOR String key : opt.text.keySet()Â»
+		          			          				Â«FOR String text : opt.text.get(key)Â»
+							Â«text.trim()Â»;
+		          			          				Â«ENDFORÂ»
+		          			          			Â«ENDFORÂ»
+							          		Â«ENDIFÂ»
+							          	Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDIFÂ»
+							Â«ENDIFÂ»
+						Â«ENDIFÂ»
 						</item>
-					«ENDFOR»
-				«ENDIF»
-				«IF exercise instanceof MatchPairs»
-					«var int min = Integer.MAX_VALUE»
-			        «var int index = 0»
-			        «var int max = Integer.MIN_VALUE»
-					«FOR test : exercise.tests»
-						«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
+					Â«ENDFORÂ»
+				Â«ENDIFÂ»
+				Â«IF exercise instanceof MatchPairsÂ»
+					Â«var int min = Integer.MAX_VALUEÂ»
+			        Â«var int index = 0Â»
+			        Â«var int max = Integer.MIN_VALUEÂ»
+					Â«FOR test : exercise.testsÂ»
+						Â«IF options.get(exercise) !== null && options.get(exercise).get(test) !== nullÂ»
 							<item>3;Match the correct option on the right with each of the statements on the left;
-							«var List<String> textOptions = new ArrayList<String>()»
-							«var int k = 0»
-							«var int counter = 0»
-							«FOR TestOption opt : options.get(exercise).get(test)»
-								«FOR String key : opt.text.keySet()»
-			         				«FOR String text : opt.text.get(key)»
-										«IF !textOptions.contains(text)»
-											«{counter++; ""}»
-											«text»;
-											«{textOptions.add(text);""}»
-										«ENDIF»
-									«ENDFOR»
-								«ENDFOR»
-							«ENDFOR»
-							«IF counter > max»
-								«{max = counter; ""}»
-								«{index = k; ""}»
-							«ENDIF»
-							«{k++; ""}»
-							«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»
-							«FOR TestOption op : options.get(exercise).get(test)»
-								«IF test.expression == true»
-									«var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)»
-									«IF key.length() <= 36»
-										«var boolean found = false»
-										«FOR int length : entries.keySet()»
-											«var SimpleEntry<String, String> entry = entries.get(length)»
-											«IF entry.getValue().equals(key)»
-												«{found = true; ""}»
-											«ENDIF»
-										«ENDFOR»
-										«IF found == false»
-											«var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())»
-											«{entries.put(key.length,  entry); ""}»
-										«ENDIF»
-									«ENDIF»
-								«ENDIF»
-							«ENDFOR»
-							«var String question = test.question.replace("\"", "'")»
-							«var int counter2 = 0»
-							«FOR int length : entries.keySet()»
-								«IF counter2 < min»
-									«var SimpleEntry<String, String> entry = entries.get(length)»
-									«FOR int i : 0..textOptions.size-1»
-										«IF textOptions.get(i).substring(0,textOptions.get(i).length-1).equals(entry.getValue())»
-*«i»«question + entry.getKey()»;
-										«ENDIF»
-									«ENDFOR»
-								«ENDIF»
-							«ENDFOR»
+							Â«var List<String> textOptions = new ArrayList<String>()Â»
+							Â«var int k = 0Â»
+							Â«var int counter = 0Â»
+							Â«FOR TestOption opt : options.get(exercise).get(test)Â»
+								Â«FOR String key : opt.text.keySet()Â»
+			         				Â«FOR String text : opt.text.get(key)Â»
+										Â«IF !textOptions.contains(text)Â»
+											Â«{counter++; ""}Â»
+											Â«textÂ»;
+											Â«{textOptions.add(text);""}Â»
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDFORÂ»
+							Â«ENDFORÂ»
+							Â«IF counter > maxÂ»
+								Â«{max = counter; ""}Â»
+								Â«{index = k; ""}Â»
+							Â«ENDIFÂ»
+							Â«{k++; ""}Â»
+							Â«var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()Â»
+							Â«FOR TestOption op : options.get(exercise).get(test)Â»
+								Â«IF test.expression == trueÂ»
+									Â«var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)Â»
+									Â«IF key.length() <= 36Â»
+										Â«var boolean found = falseÂ»
+										Â«FOR int length : entries.keySet()Â»
+											Â«var SimpleEntry<String, String> entry = entries.get(length)Â»
+											Â«IF entry.getValue().equals(key)Â»
+												Â«{found = true; ""}Â»
+											Â«ENDIFÂ»
+										Â«ENDFORÂ»
+										Â«IF found == falseÂ»
+											Â«var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())Â»
+											Â«{entries.put(key.length,  entry); ""}Â»
+										Â«ENDIFÂ»
+									Â«ENDIFÂ»
+								Â«ENDIFÂ»
+							Â«ENDFORÂ»
+							Â«var String question = test.question.replace("\"", "'")Â»
+							Â«var int counter2 = 0Â»
+							Â«FOR int length : entries.keySet()Â»
+								Â«IF counter2 < minÂ»
+									Â«var SimpleEntry<String, String> entry = entries.get(length)Â»
+									Â«FOR int i : 0..textOptions.size-1Â»
+										Â«IF textOptions.get(i).substring(0,textOptions.get(i).length-1).equals(entry.getValue())Â»
+*Â«iÂ»Â«question + entry.getKey()Â»;
+										Â«ENDIFÂ»
+									Â«ENDFORÂ»
+								Â«ENDIFÂ»
+							Â«ENDFORÂ»
 </item>
-						«ENDIF»
-		        	«ENDFOR»
+						Â«ENDIFÂ»
+		        	Â«ENDFORÂ»
 					
 					
-				«ENDIF»
-			«ENDFOR»
+				Â«ENDIFÂ»
+			Â«ENDFORÂ»
 			</array>
 		</resources>
     '''

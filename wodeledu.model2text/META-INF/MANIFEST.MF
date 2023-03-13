@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model2text
+Bundle-SymbolicName: wodeledu.model2text;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Export-Package: wodeledu.model2text.run
+Bundle-Activator: wodeledu.model2text.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodeledu.model2text
+Bundle-ActivationPolicy: lazy

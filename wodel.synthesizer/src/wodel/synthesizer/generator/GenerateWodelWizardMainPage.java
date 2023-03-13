@@ -10,8 +10,8 @@
  *******************************************************************************/
 package wodel.synthesizer.generator;
 
-import manager.ModelManager;
-import manager.MutatorUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -53,8 +53,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel seed models synthesizer Wizard page.
@@ -98,7 +98,7 @@ public class GenerateWodelWizardMainPage extends WizardPage {
 		this.metamodel = ModelManager.getMetaModel();
 		IFile mutatorFile = GenerateWodelWizard.file;
 		Bundle bundle = Platform.getBundle("wodel.models");
-		URL mutatorURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+		URL mutatorURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 		blockNames.add("*");
 		try {
 			String mutatorecore = FileLocator.resolve(mutatorURL).getFile();

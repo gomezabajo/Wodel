@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.ProjectUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.ProjectUtils;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeType;
@@ -54,9 +54,9 @@ import org.eclipse.ui.ide.ResourceUtil;
 import org.osgi.framework.Bundle;
 
 import wodel.dsls.WodelUtils;
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import exceptions.ReferenceNonExistingException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel meta-model static footprints class wizard
@@ -113,7 +113,7 @@ public class WodelMetricsFixedWizardClass extends Wizard implements INewWizard {
 //			ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT).refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			
 			Bundle bundle = Platform.getBundle("wodel.models");
-	   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+	   		URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 	   		String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			//mutatorPackages = ModelManager.loadMetaModel(WORKSPACE + "/" + PROJECT + "/resources/MutatorEnvironment.ecore");
 	   		mutatorPackages = ModelManager.loadMetaModel(mutatorecore);

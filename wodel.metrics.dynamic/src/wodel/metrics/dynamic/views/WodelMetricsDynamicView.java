@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import manager.ModelManager;
-import manager.ProjectUtils;
-import manager.DynamicMutatorMetrics.WodelMetric;
-import manager.DynamicMutatorMetrics.WodelMetricAttribute;
-import manager.DynamicMutatorMetrics.WodelMetricBlock;
-import manager.DynamicMutatorMetrics.WodelMetricClass;
-import manager.DynamicMutatorMetrics.WodelMetricClassifier;
-import manager.DynamicMutatorMetrics.WodelMetricFeature;
-import manager.DynamicMutatorMetrics.WodelMetricItem;
-import manager.DynamicMutatorMetrics.WodelMetricModel;
-import manager.DynamicMutatorMetrics.WodelMetricMutant;
-import manager.DynamicMutatorMetrics.WodelMetricMutantsBlock;
-import manager.DynamicMutatorMetrics.WodelMetricReference;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetric;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricAttribute;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricBlock;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricClass;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricClassifier;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricFeature;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricItem;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricModel;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricMutant;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricMutantsBlock;
+import wodel.utils.manager.DynamicMutatorMetrics.WodelMetricReference;
 import wodel.metrics.dynamic.NetMutatorMetrics;
 
 import org.eclipse.swt.widgets.Composite;
@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 
-import exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel net dynamic footprints view
@@ -100,7 +100,7 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 				return;
 			}
 			Bundle bundle = Platform.getBundle("wodel.models");
-	   		URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
+	   		URL fileURL = bundle.getEntry("/model/MutatorMetrics.ecore");
 	   		String metricsmetamodel = FileLocator.resolve(fileURL).getFile();
 			//String metricsmetamodel = ModelManager.getWorkspaceAbsolutePath() + "/" + project + "/resources/MutatorMetrics.ecore";
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);

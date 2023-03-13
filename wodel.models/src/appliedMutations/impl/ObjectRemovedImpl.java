@@ -8,13 +8,15 @@ import appliedMutations.ObjectRemoved;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -76,7 +78,6 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_REMOVED__OBJECT);
@@ -89,7 +90,6 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -116,7 +116,6 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;

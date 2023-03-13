@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -19,23 +20,26 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
 import org.eclipse.xtext.ui.editor.preferences.fields.LabelFieldEditor;
-
-import exceptions.MetaModelNotFoundException;
-import manager.ModelManager;
-import postprocessor.run.IPostprocessor;
-import registry.run.IRegistryPostprocessor;
-
-/**
- * @author Pablo Gomez-Abajo - Wodel General preferences page
- *
- */
+import wodel.postprocessor.run.IPostprocessor;
+import wodel.registry.run.IRegistryPostprocessor;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.manager.ModelManager;
 
 public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
-	
 	public List<String> selectedValidationNames = new ArrayList<String>();
 	
     @Override
     protected void createFieldEditors() {
+    	String metamodel = ModelManager.getMetaModel();
+    	List<EPackage> packages = null;
+    	try {
+			packages = ModelManager.loadMetaModel(metamodel);
+    	} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		String uri = packages.get(0).getNsURI();
     	Composite composite = getFieldEditorParent();
     	new LabelFieldEditor(" ", composite);
     	addField(new BooleanFieldEditor("Generate registry", "Generate registry", composite));
@@ -60,7 +64,7 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	new LabelFieldEditor(" ", composite);
     	addField(new BooleanFieldEditor("Serialize models", "Serialize models", composite));
     	
-    	HashMap<String, String> valueMap = new HashMap<String, String>();
+    	Map<String, String> valueMap = new HashMap<String, String>();
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
@@ -68,14 +72,14 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 							"wodel.postprocessor.MutPostprocessor");
 			for (int j = 0; j < extensions.length; j++) {
 				String value = "";
-				String uri = "";
+				String uriValue = "";
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 					Method method = extensionClass.getDeclaredMethod("getName");
 					value = (String) method.invoke(comparison);
 					method = extensionClass.getDeclaredMethod("getURI");
-					uri = (String) method.invoke(comparison);
+					uriValue = (String) method.invoke(comparison);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -102,30 +106,21 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 					e.printStackTrace();
 				}
 				if (value.length() > 0) {
-					valueMap.put(value, uri);
+					valueMap.put(value, uriValue);
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
 			valueList.add("");
-			String metamodel = ModelManager.getMetaModel();
-			try {
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String uri = packages.get(0).getNsURI();
-				for (String value : valueMap.keySet()) {
-					String uriValue = valueMap.get(value);
-					if (uriValue.equals("")) {
-						valueList.add(value);
-					}
-					if (uriValue.equals(uri)) {
-						valueList.add(value);
-					}
+			for (String value : valueMap.keySet()) {
+				String uriValue = valueMap.get(value);
+				if (uriValue.equals("")) {
+					valueList.add(value);
 				}
-				
-			} catch (MetaModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (uriValue.equals(uri)) {
+					valueList.add(value);
+				}
 			}
-			
+				
 			String[][] values = new String[valueList.size()][2];
 			int index = 0;
 			for (String value : valueList) {
@@ -151,22 +146,22 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	addField(field);
     	new LabelFieldEditor("\n\n", composite);
 
+    	valueMap = new HashMap<String, String>();
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
 					.getConfigurationElementsFor(
-							"wodel.validation.MutValidation");
-			List<String> valueList = new ArrayList<String>();
-			valueList.add("");
+							"wodel.syntactic.validation.MutSyntacticValidation");
 			for (int j = 0; j < extensions.length; j++) {
 				String value = "";
-				String uri = "";
+				String uriValue = "";
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object validation =  extensionClass.newInstance();
+					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
 					Method method = extensionClass.getDeclaredMethod("getName");
 					value = (String) method.invoke(validation);
-					valueList.add(value);
+					method = extensionClass.getDeclaredMethod("getURI");
+					uriValue = (String) method.invoke(validation);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -193,7 +188,18 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 					e.printStackTrace();
 				}
 				if (value.length() > 0) {
-					valueMap.put(value, uri);
+					valueMap.put(value, uriValue);
+				}
+			}
+			List<String> valueList = new ArrayList<String>();
+			valueList.add("");
+			for (String value : valueMap.keySet()) {
+				String uriValue = valueMap.get(value);
+				if (uriValue.equals("")) {
+					valueList.add(value);
+				}
+				if (uriValue.equals(uri)) {
+					valueList.add(value);
 				}
 			}
 			String[][] values = new String[valueList.size()][2];
@@ -248,17 +254,17 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
 					.getConfigurationElementsFor(
-							"wodel.comparison.MutComparison");
+							"wodel.syntactic.comparison.MutSyntacticComparison");
 			for (int j = 0; j < extensions.length; j++) {
 				String value = "";
-				String uri = "";
+				String uriValue = "";
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 					Method method = extensionClass.getDeclaredMethod("getName");
 					value = (String) method.invoke(comparison);
 					method = extensionClass.getDeclaredMethod("getURI");
-					uri = (String) method.invoke(comparison);
+					uriValue = (String) method.invoke(comparison);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -285,28 +291,19 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 					e.printStackTrace();
 				}
 				if (value.length() > 0) {
-					valueMap.put(value, uri);
+					valueMap.put(value, uriValue);
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
 			valueList.add("");
-			String metamodel = ModelManager.getMetaModel();
-			try {
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String uri = packages.get(0).getNsURI();
-				for (String value : valueMap.keySet()) {
-					String uriValue = valueMap.get(value);
-					if (uriValue.equals("")) {
-						valueList.add(value);
-					}
-					if (uriValue.equals(uri)) {
-						valueList.add(value);
-					}
+			for (String value : valueMap.keySet()) {
+				String uriValue = valueMap.get(value);
+				if (uriValue.equals("")) {
+					valueList.add(value);
 				}
-				
-			} catch (MetaModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (uriValue.equals(uri)) {
+					valueList.add(value);
+				}
 			}
 
 			String[][] values = new String[valueList.size()][2];
@@ -330,18 +327,17 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
     		IConfigurationElement[] extensions = Platform
     				.getExtensionRegistry()
-    				.getConfigurationElementsFor(
-    						"wodel.equivalence.MutEquivalence");
+    				.getConfigurationElementsFor("wodel.semantic.comparison.MutSemanticComparison");
     		for (int j = 0; j < extensions.length; j++) {
     			String value = "";
-    			String uri = "";
+    			String uriValue = "";
     			try {
     				Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-    				Object comparison =  extensionClass.newInstance();
+    				Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
     				Method method = extensionClass.getDeclaredMethod("getName");
     				value = (String) method.invoke(comparison);
     				method = extensionClass.getDeclaredMethod("getURI");
-    				uri = (String) method.invoke(comparison);
+    				uriValue = (String) method.invoke(comparison);
     			} catch (InstantiationException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
@@ -368,29 +364,20 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     				e.printStackTrace();
     			}
     			if (value.length() > 0) {
-    				valueMap.put(value, uri);
+    				valueMap.put(value, uriValue);
     			}
     		}
     		List<String> valueList = new ArrayList<String>();
 			valueList.add("");
-    		String metamodel = ModelManager.getMetaModel();
-    		try {
-    			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-    			String uri = packages.get(0).getNsURI();
-    			for (String value : valueMap.keySet()) {
-    				String uriValue = valueMap.get(value);
-    				if (uriValue.equals("")) {
-    					valueList.add(value);
-    				}
-    				if (uriValue.equals(uri)) {
-    					valueList.add(value);
-    				}
-    			}
-
-    		} catch (MetaModelNotFoundException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
+   			for (String value : valueMap.keySet()) {
+   				String uriValue = valueMap.get(value);
+   				if (uriValue.equals("")) {
+   					valueList.add(value);
+   				}
+   				if (uriValue.equals(uri)) {
+   					valueList.add(value);
+   				}
+   			}
 
     		String[][] values = new String[valueList.size()][2];
     		int index = 0;
@@ -419,17 +406,17 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
 					.getConfigurationElementsFor(
-							"wodel.validate.MutValidate");
+							"wodel.semantic.validation.MutSemanticValidation");
 			for (int j = 0; j < extensions.length; j++) {
 				String value = "";
-				String uri = "";
+				String uriValue = "";
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 					Method method = extensionClass.getDeclaredMethod("getName");
 					value = (String) method.invoke(comparison);
 					method = extensionClass.getDeclaredMethod("getURI");
-					uri = (String) method.invoke(comparison);
+					uriValue = (String) method.invoke(comparison);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -456,30 +443,20 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 					e.printStackTrace();
 				}
 				if (value.length() > 0) {
-					valueMap.put(value, uri);
+					valueMap.put(value, uriValue);
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
 			valueList.add("");
-			String metamodel = ModelManager.getMetaModel();
-			try {
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String uri = packages.get(0).getNsURI();
-				for (String value : valueMap.keySet()) {
-					String uriValue = valueMap.get(value);
-					if (uriValue.equals("")) {
-						valueList.add(value);
-					}
-					if (uriValue.equals(uri)) {
-						valueList.add(value);
-					}
+			for (String value : valueMap.keySet()) {
+				String uriValue = valueMap.get(value);
+				if (uriValue.equals("")) {
+					valueList.add(value);
 				}
-				
-			} catch (MetaModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (uriValue.equals(uri)) {
+					valueList.add(value);
+				}
 			}
-			
 			String[][] values = new String[valueList.size()][2];
 			int index = 0;
 			for (String value : valueList) {
@@ -500,17 +477,17 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
 					.getConfigurationElementsFor(
-							"wodel.optimize.MutOptimize");
+							"wodeltest.optimiser.MutTestingOptimiser");
 			for (int j = 0; j < extensions.length; j++) {
 				String value = "";
-				String uri = "";
+				String uriValue = "";
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 					Method method = extensionClass.getDeclaredMethod("getName");
 					value = (String) method.invoke(comparison);
 					method = extensionClass.getDeclaredMethod("getURI");
-					uri = (String) method.invoke(comparison);
+					uriValue = (String) method.invoke(comparison);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -537,30 +514,21 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 					e.printStackTrace();
 				}
 				if (value.length() > 0) {
-					valueMap.put(value, uri);
+					valueMap.put(value, uriValue);
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
 			valueList.add("");
-			String metamodel = ModelManager.getMetaModel();
-			try {
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String uri = packages.get(0).getNsURI();
-				for (String value : valueMap.keySet()) {
-					String uriValue = valueMap.get(value);
-					if (uriValue.equals("")) {
-						valueList.add(value);
-					}
-					if (uriValue.equals(uri)) {
-						valueList.add(value);
-					}
+			for (String value : valueMap.keySet()) {
+				String uriValue = valueMap.get(value);
+				if (uriValue.equals("")) {
+					valueList.add(value);
 				}
-				
-			} catch (MetaModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (uriValue.equals(uri)) {
+					valueList.add(value);
+				}
 			}
-			
+				
 			String[][] values = new String[valueList.size()][2];
 			int index = 0;
 			for (String value : valueList) {
@@ -570,10 +538,10 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 			}
 	    	
     		new LabelFieldEditor(" ", composite);
-        	addField(new BooleanFieldEditor("Optimize mutants", "Optimize mutants", composite));
+        	addField(new BooleanFieldEditor("Optimise mutants", "Optimise mutants", composite));
 
-        	new LabelFieldEditor("Mutants optimizer extension", composite);
-	    	ComboFieldEditor combo = new ComboFieldEditor("Mutants optimizer extension", "", values, composite);
+        	new LabelFieldEditor("Mutants optimiser extension", composite);
+	    	ComboFieldEditor combo = new ComboFieldEditor("Mutants optimiser extension", "", values, composite);
 	    	addField(combo);
     	}
     }
@@ -599,4 +567,5 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	getPreferenceStore().setDefault("Discard semantic equivalent mutants", false);
     	getPreferenceStore().setDefault("Serialize models", true);
     }
+
 }

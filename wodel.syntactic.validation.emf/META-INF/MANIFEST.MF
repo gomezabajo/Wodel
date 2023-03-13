@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Emf
+Bundle-SymbolicName: wodel.syntactic.validation.emf;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.syntactic.validation.emf.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.jface,
+ org.eclipse.ui,
+ wodel.syntactic.validation,
+ wodel.utils,
+ org.eclipse.emf.ecore
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.syntactic.validation.emf
+Bundle-ActivationPolicy: lazy

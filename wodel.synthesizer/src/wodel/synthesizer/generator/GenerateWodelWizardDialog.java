@@ -55,8 +55,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 
-import manager.ModelManager;
-import manager.WodelContext;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 
 public class GenerateWodelWizardDialog extends TitleAreaDialog implements IWizardContainer2, IPageChangeProvider {
 
@@ -440,7 +440,7 @@ public class GenerateWodelWizardDialog extends TitleAreaDialog implements IWizar
 	private void loadPressed(SelectionEvent e) {
 		GenerateWodelWizard.configurationFile = null;
 		FileDialog dlg = new FileDialog(e.widget.getDisplay().getActiveShell(), SWT.OPEN);
-		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + WodelContext.getProject() + "/data/configurations");
+		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
 		GenerateWodelWizard.configurationFile = dlg.open();
 		GenerateWodelWizard.mainPage.setControls();
 		GenerateWodelWizard.secondPage.setControls();
@@ -450,7 +450,7 @@ public class GenerateWodelWizardDialog extends TitleAreaDialog implements IWizar
 	private void savePressed(SelectionEvent e) {
 		GenerateWodelWizard.configurationFile = null;
 		FileDialog dlg = new FileDialog(e.widget.getDisplay().getActiveShell(), SWT.SAVE);
-		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + WodelContext.getProject() + "/data/configurations");
+		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
 		GenerateWodelWizard.configurationFile = dlg.open();
 		if (GenerateWodelWizard.configurationFile != null) {
 			try {

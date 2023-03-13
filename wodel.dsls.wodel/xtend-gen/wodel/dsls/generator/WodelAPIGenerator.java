@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import manager.ModelManager;
-import manager.ProjectUtils;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.Program;
 import org.eclipse.core.resources.IProject;
@@ -15,25 +13,32 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 
+/**
+ * @author Pablo Gomez-Abajo - Wodel Java code generator.
+ * 
+ * Generates the code to programmatically execute the Wodel program.
+ */
 @SuppressWarnings("all")
 public abstract class WodelAPIGenerator extends AbstractGenerator {
   protected String fileName;
-  
+
   protected Program program;
-  
+
   protected IProject project = null;
-  
+
   protected String path;
-  
+
   protected String xmiFileName;
-  
+
   protected String className = "";
-  
+
   protected Map<String, List<String>> mutMap = new HashMap<String, List<String>>();
-  
+
   protected boolean standalone = false;
-  
+
   public String getProjectName() {
     String projectName = null;
     IProject _project = ProjectUtils.getProject();
@@ -45,7 +50,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     }
     return projectName;
   }
-  
+
   public List<String> getMutators(final File[] files) {
     List<String> mutators = new ArrayList<String>();
     if ((files != null)) {
@@ -83,7 +88,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     }
     return mutators;
   }
-  
+
   public String getMutatorPath(final MutatorEnvironment e, final File[] files) {
     String mutatorPath = null;
     if (((mutatorPath == null) && (files != null))) {
@@ -114,7 +119,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     }
     return mutatorPath;
   }
-  
+
   public CharSequence compile(final MutatorEnvironment e, final String mutatorName, final String className) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("package mutator.");
@@ -139,23 +144,23 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.append("import org.eclipse.emf.ecore.EPackage;");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("import exceptions.AbstractCreationException;");
+    _builder.append("import wodel.utils.exceptions.AbstractCreationException;");
     _builder.newLine();
-    _builder.append("import exceptions.MaxSmallerThanMinException;");
+    _builder.append("import wodel.utils.exceptions.MaxSmallerThanMinException;");
     _builder.newLine();
-    _builder.append("import exceptions.MetaModelNotFoundException;");
+    _builder.append("import wodel.utils.exceptions.MetaModelNotFoundException;");
     _builder.newLine();
-    _builder.append("import exceptions.ModelNotFoundException;");
+    _builder.append("import wodel.utils.exceptions.ModelNotFoundException;");
     _builder.newLine();
-    _builder.append("import exceptions.ObjectNoTargetableException;");
+    _builder.append("import wodel.utils.exceptions.ObjectNoTargetableException;");
     _builder.newLine();
-    _builder.append("import exceptions.ObjectNotContainedException;");
+    _builder.append("import wodel.utils.exceptions.ObjectNotContainedException;");
     _builder.newLine();
-    _builder.append("import exceptions.ReferenceNonExistingException;");
+    _builder.append("import wodel.utils.exceptions.ReferenceNonExistingException;");
     _builder.newLine();
-    _builder.append("import exceptions.WrongAttributeTypeException;");
+    _builder.append("import wodel.utils.exceptions.WrongAttributeTypeException;");
     _builder.newLine();
-    _builder.append("import manager.ModelManager;");
+    _builder.append("import wodel.utils.manager.ModelManager;");
     _builder.newLine();
     {
       if ((this.standalone == false)) {
@@ -165,7 +170,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.append(mutatorName);
         _builder.append("Dynamic;");
         _builder.newLineIfNotEmpty();
-        _builder.append("import manager.MutatorAPI;");
+        _builder.append("import wodel.utils.manager.MutatorAPI;");
         _builder.newLine();
       } else {
         _builder.append("import mutator.");
@@ -176,11 +181,11 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("import org.eclipse.core.runtime.NullProgressMonitor;");
         _builder.newLine();
-        _builder.append("import manager.MutatorStandaloneAPI;");
+        _builder.append("import wodel.utils.manager.MutatorStandaloneAPI;");
         _builder.newLine();
       }
     }
-    _builder.append("import manager.MutatorUtils;");
+    _builder.append("import wodel.utils.manager.MutatorUtils;");
     _builder.newLine();
     _builder.newLine();
     {
@@ -311,7 +316,6 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
       _xtrycatchfinallyexpression = Boolean.valueOf(_xblockexpression);
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
-        final Exception ex = (Exception)_t;
         _xtrycatchfinallyexpression = null;
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -350,18 +354,17 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.append("//");
         Boolean _xtrycatchfinallyexpression_1 = null;
         try {
-          boolean _xblockexpression_1 = false;
+          boolean _xblockexpression = false;
           {
             metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
-            _xblockexpression_1 = debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
+            _xblockexpression = debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
           }
-          _xtrycatchfinallyexpression_1 = Boolean.valueOf(_xblockexpression_1);
-        } catch (final Throwable _t_1) {
-          if (_t_1 instanceof Exception) {
-            final Exception ex_1 = (Exception)_t_1;
+          _xtrycatchfinallyexpression_1 = Boolean.valueOf(_xblockexpression);
+        } catch (final Throwable _t) {
+          if (_t instanceof Exception) {
             _xtrycatchfinallyexpression_1 = null;
           } else {
-            throw Exceptions.sneakyThrow(_t_1);
+            throw Exceptions.sneakyThrow(_t);
           }
         }
         _builder.append(_xtrycatchfinallyexpression_1, "\t\t");
@@ -447,7 +450,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.newLine();
     return _builder;
   }
-  
+
   public CharSequence launcher(final MutatorEnvironment e, final List<String> mutators) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
@@ -464,39 +467,40 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.newLine();
     {
       if ((this.standalone == false)) {
-        _builder.append("import manager.MutatorAPILauncher;");
+        _builder.append("import wodel.utils.manager.MutatorAPILauncher;");
         _builder.newLine();
       } else {
-        _builder.append("import exceptions.AbstractCreationException;");
+        _builder.append("import wodel.utils.exceptions.AbstractCreationException;");
         _builder.newLine();
-        _builder.append("import exceptions.MaxSmallerThanMinException;");
+        _builder.append("import wodel.utils.exceptions.MaxSmallerThanMinException;");
         _builder.newLine();
-        _builder.append("import exceptions.MetaModelNotFoundException;");
+        _builder.append("import wodel.utils.exceptions.MetaModelNotFoundException;");
         _builder.newLine();
-        _builder.append("import exceptions.ModelNotFoundException;");
+        _builder.append("import wodel.utils.exceptions.ModelNotFoundException;");
         _builder.newLine();
-        _builder.append("import exceptions.ObjectNoTargetableException;");
+        _builder.append("import wodel.utils.exceptions.ObjectNoTargetableException;");
         _builder.newLine();
-        _builder.append("import exceptions.ObjectNotContainedException;");
+        _builder.append("import wodel.utils.exceptions.ObjectNotContainedException;");
         _builder.newLine();
-        _builder.append("import exceptions.ReferenceNonExistingException;");
+        _builder.append("import wodel.utils.exceptions.ReferenceNonExistingException;");
         _builder.newLine();
-        _builder.append("import exceptions.WrongAttributeTypeException;");
+        _builder.append("import wodel.utils.exceptions.WrongAttributeTypeException;");
         _builder.newLine();
         _builder.append("import java.io.IOException;");
         _builder.newLine();
         _builder.append("import java.io.File;");
         _builder.newLine();
-        _builder.append("import manager.IOUtils;");
+        _builder.append("import wodel.utils.manager.IOUtils;");
         _builder.newLine();
-        _builder.append("import manager.MutatorUtils;");
+        _builder.append("import wodel.utils.manager.MutatorUtils;");
         _builder.newLine();
         {
-          for(final String mutator : mutators) {
+          Set<String> _keySet = this.mutMap.keySet();
+          for(final String mutatorName : _keySet) {
             _builder.append("import mutator.");
-            _builder.append(mutator);
+            _builder.append(mutatorName);
             _builder.append(".");
-            _builder.append(mutator);
+            _builder.append(mutatorName);
             _builder.append("StandaloneAPI;");
             _builder.newLineIfNotEmpty();
           }
@@ -542,11 +546,11 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.append("List<String> mutatorNames = new ArrayList<String>();");
     _builder.newLine();
     {
-      Set<String> _keySet = this.mutMap.keySet();
-      for(final String mutatorName : _keySet) {
+      Set<String> _keySet_1 = this.mutMap.keySet();
+      for(final String mutatorName_1 : _keySet_1) {
         _builder.append("\t\t");
         _builder.append("mutatorNames.add(\"");
-        _builder.append(mutatorName, "\t\t");
+        _builder.append(mutatorName_1, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
       }
@@ -555,8 +559,8 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     _builder.append("List<List<String>> operatorNames = new ArrayList<List<String>>();");
     _builder.newLine();
     {
-      Set<String> _keySet_1 = this.mutMap.keySet();
-      for(final String mut : _keySet_1) {
+      Set<String> _keySet_2 = this.mutMap.keySet();
+      for(final String mut : _keySet_2) {
         _builder.append("\t\t");
         _builder.append("List<String> mutatorOperatorNames");
         _builder.append(mut, "\t\t");
@@ -630,7 +634,17 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
+        _builder.append("// clean-up input wodel folder only if it is different to the input folder");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("if (!inputFolder.equals(inputWodelFolder)) {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
         _builder.append("IOUtils.deleteFolder(inputWodelFolder, \"model\");");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t");
@@ -702,10 +716,10 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.append("i = 0;");
         _builder.newLine();
         {
-          Set<String> _keySet_2 = this.mutMap.keySet();
-          for(final String mutatorName_1 : _keySet_2) {
+          Set<String> _keySet_3 = this.mutMap.keySet();
+          for(final String mutatorName_2 : _keySet_3) {
             _builder.append("\t\t");
-            _builder.append(mutatorName_1, "\t\t");
+            _builder.append(mutatorName_2, "\t\t");
             _builder.append("StandaloneAPI.createMutants(arrOperatorNames[i]);");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");

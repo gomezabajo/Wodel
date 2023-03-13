@@ -44,12 +44,12 @@ import java.util.concurrent.TimeoutException;
 
 import kodkod.ast.Relation;
 import kodkod.instance.TupleSet;
-import manager.EMFUtils;
-import manager.IOUtils;
-import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.UseGeneratorUtils;
-import manager.WodelContext;
+import wodel.utils.manager.EMFUtils;
+import wodel.utils.manager.IOUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.ProjectUtils;
+import wodel.utils.manager.UseGeneratorUtils;
 import mutatorenvironment.Block;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
@@ -98,9 +98,9 @@ import org.tzi.use.uml.sys.MLink;
 import org.tzi.use.uml.sys.MObject;
 import org.tzi.use.uml.sys.MSystemState;
 import com.google.inject.Injector;
-import exceptions.ContainerNotFoundException;
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ContainerNotFoundException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel seed models synthesizer Wizard.
@@ -578,7 +578,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 		private void generateUSEConfigurationFiles(String project, String fileName, String blockName, String useFilePath, String propertiesFilePath) {
 			try {
 				Bundle bundle = Platform.getBundle("wodel.models");
-				URL mutatorURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+				URL mutatorURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 				String mutatorecore = FileLocator.resolve(mutatorURL).getFile();
 				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 				Resource mutatormodel = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + fileName.replace(".mutator", ".model"));
@@ -587,7 +587,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 					blockmodel = mutatormodel;
 				}
 				else {
-					blockmodel = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath() + '/' + manager.WodelContext.getProject() + '/' + ModelManager.getOutputFolder() + "/" + fileName.replace(".mutator", "") + "_" + blockName + ".model");
+					blockmodel = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + '/' + ModelManager.getOutputFolder() + "/" + fileName.replace(".mutator", "") + "_" + blockName + ".model");
 					MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
 					MutatorEnvironment mutMutatorEnvironment = (MutatorEnvironment) mutatormodel.getContents().get(0);
 					blockMutatorEnvironment.setDefinition(EcoreUtil.copy(mutMutatorEnvironment.getDefinition()));
@@ -729,7 +729,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				//PropertyConfigurator.configure(log4jConfigFileName);
 
 				// generates the .use and .properties configuration files
-				project = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject();
+				project = ModelManager.getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
 				String suffix = "";
 				for (String blockName : blockNames) {
 					if (!blockName.equals("*")) {

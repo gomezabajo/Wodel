@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          point="org.eclipse.ui.views">
       <category
@@ -34,7 +33,7 @@
             file="contexts.xml">
       </contexts>
    </extension>
-      <extension point="org.eclipse.ui.popupMenus"> 
+   <extension point="org.eclipse.ui.popupMenus"> 
 	<viewerContribution 
       id="org.eclipse.ui.articles.action.contribution.popup.editor"
    	  targetID="#TextEditorContext"> 
@@ -47,6 +46,4 @@
       </action> 
    </viewerContribution> 
    </extension>
-   
-
 </plugin>

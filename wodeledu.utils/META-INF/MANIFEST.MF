@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Utils
+Bundle-SymbolicName: wodeledu.utils
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodeledu.models,
+ wodel.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodeledu.utils
+Bundle-ActivationPolicy: lazy
+Export-Package: wodeledu.utils.manager

@@ -2907,7 +2907,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getTestConfigurationRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_1 != null, null);
                     					
 
                     }
@@ -2923,7 +2923,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getTestConfigurationRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_2 != null, null);
                     					
 
                     }
@@ -3088,7 +3088,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_1 != null, null);
                     					
 
                     }
@@ -3104,7 +3104,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_2 != null, null);
                     					
 
                     }
@@ -3164,7 +3164,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
                     						}
-                    						setWithLastConsumed(current, "weighted", true, null);
+                    						setWithLastConsumed(current, "weighted", lv_weighted_7_1 != null, null);
                     					
 
                     }
@@ -3180,7 +3180,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
                     						}
-                    						setWithLastConsumed(current, "weighted", true, null);
+                    						setWithLastConsumed(current, "weighted", lv_weighted_7_2 != null, null);
                     					
 
                     }
@@ -3459,7 +3459,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getTextConfigurationRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_1 != null, null);
                     					
 
                     }
@@ -3475,7 +3475,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getTextConfigurationRule());
                     						}
-                    						setWithLastConsumed(current, "retry", true, null);
+                    						setWithLastConsumed(current, "retry", lv_retry_3_2 != null, null);
                     					
 
                     }
@@ -3717,7 +3717,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     						if (current==null) {
                     							current = createModelElement(grammarAccess.getTestRule());
                     						}
-                    						setWithLastConsumed(current, "expression", true, "%text");
+                    						setWithLastConsumed(current, "expression", lv_expression_5_0 != null, "%text");
                     					
 
                     }

@@ -9,10 +9,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import exceptions.ModelNotFoundException;
-import exceptions.ReferenceNonExistingException;
-import manager.DynamicMutatorMetrics;
-import manager.ModelManager;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.manager.DynamicMutatorMetrics;
+import wodel.utils.manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo

@@ -10,7 +10,7 @@ import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
-import wodel.dsls.services.AspleGrammarAccess;
+import wodel.dsls.services.ASPLEGrammarAccess;
 
 
 
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @SuppressWarnings("all")
-public class InternalAspleParser extends AbstractInternalAntlrParser {
+public class InternalASPLEParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'begin'", "';'", "'end'", "'ref'", "','", "'-'", "'true'", "'false'", "'.'", "'E'", "'e'", "'='", "'if'", "'('", "')'", "'{'", "'}'", "'else'", "'while'", "'repeat'", "'until'", "'input'", "'output'", "'+'", "'*'", "'/'", "'%'", "'=='", "'!='", "'>'", "'<'", "'int'", "'bool'", "'double'"
     };
@@ -71,23 +71,23 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
     // delegators
 
 
-        public InternalAspleParser(TokenStream input) {
+        public InternalASPLEParser(TokenStream input) {
             this(input, new RecognizerSharedState());
         }
-        public InternalAspleParser(TokenStream input, RecognizerSharedState state) {
+        public InternalASPLEParser(TokenStream input, RecognizerSharedState state) {
             super(input, state);
              
         }
         
 
-    public String[] getTokenNames() { return InternalAspleParser.tokenNames; }
-    public String getGrammarFileName() { return "InternalAsple.g"; }
+    public String[] getTokenNames() { return InternalASPLEParser.tokenNames; }
+    public String getGrammarFileName() { return "InternalASPLE.g"; }
 
 
 
-     	private AspleGrammarAccess grammarAccess;
+     	private ASPLEGrammarAccess grammarAccess;
 
-        public InternalAspleParser(TokenStream input, AspleGrammarAccess grammarAccess) {
+        public InternalASPLEParser(TokenStream input, ASPLEGrammarAccess grammarAccess) {
             this(input);
             this.grammarAccess = grammarAccess;
             registerRules(grammarAccess.getGrammar());
@@ -99,7 +99,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
        	}
 
        	@Override
-       	protected AspleGrammarAccess getGrammarAccess() {
+       	protected ASPLEGrammarAccess getGrammarAccess() {
        		return grammarAccess;
        	}
 
@@ -107,7 +107,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleProgram"
-    // InternalAsple.g:65:1: entryRuleProgram returns [EObject current=null] : iv_ruleProgram= ruleProgram EOF ;
+    // InternalASPLE.g:65:1: entryRuleProgram returns [EObject current=null] : iv_ruleProgram= ruleProgram EOF ;
     public final EObject entryRuleProgram() throws RecognitionException {
         EObject current = null;
 
@@ -115,8 +115,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:65:48: (iv_ruleProgram= ruleProgram EOF )
-            // InternalAsple.g:66:2: iv_ruleProgram= ruleProgram EOF
+            // InternalASPLE.g:65:48: (iv_ruleProgram= ruleProgram EOF )
+            // InternalASPLE.g:66:2: iv_ruleProgram= ruleProgram EOF
             {
              newCompositeNode(grammarAccess.getProgramRule()); 
             pushFollow(FOLLOW_1);
@@ -143,7 +143,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleProgram"
-    // InternalAsple.g:72:1: ruleProgram returns [EObject current=null] : ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' ) ;
+    // InternalASPLE.g:72:1: ruleProgram returns [EObject current=null] : ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' ) ;
     public final EObject ruleProgram() throws RecognitionException {
         EObject current = null;
 
@@ -159,14 +159,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:78:2: ( ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' ) )
-            // InternalAsple.g:79:2: ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' )
+            // InternalASPLE.g:78:2: ( ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' ) )
+            // InternalASPLE.g:79:2: ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' )
             {
-            // InternalAsple.g:79:2: ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' )
-            // InternalAsple.g:80:3: () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end'
+            // InternalASPLE.g:79:2: ( () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end' )
+            // InternalASPLE.g:80:3: () otherlv_1= 'begin' ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )* ( (lv_statements_4_0= ruleStatement ) )* otherlv_5= 'end'
             {
-            // InternalAsple.g:80:3: ()
-            // InternalAsple.g:81:4: 
+            // InternalASPLE.g:80:3: ()
+            // InternalASPLE.g:81:4: 
             {
 
             				current = forceCreateModelElement(
@@ -180,7 +180,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getProgramAccess().getBeginKeyword_1());
             		
-            // InternalAsple.g:91:3: ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )*
+            // InternalASPLE.g:91:3: ( ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';' )*
             loop1:
             do {
                 int alt1=2;
@@ -202,13 +202,13 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalAsple.g:92:4: ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';'
+            	    // InternalASPLE.g:92:4: ( (lv_declarations_2_0= ruleDeclaration ) ) otherlv_3= ';'
             	    {
-            	    // InternalAsple.g:92:4: ( (lv_declarations_2_0= ruleDeclaration ) )
-            	    // InternalAsple.g:93:5: (lv_declarations_2_0= ruleDeclaration )
+            	    // InternalASPLE.g:92:4: ( (lv_declarations_2_0= ruleDeclaration ) )
+            	    // InternalASPLE.g:93:5: (lv_declarations_2_0= ruleDeclaration )
             	    {
-            	    // InternalAsple.g:93:5: (lv_declarations_2_0= ruleDeclaration )
-            	    // InternalAsple.g:94:6: lv_declarations_2_0= ruleDeclaration
+            	    // InternalASPLE.g:93:5: (lv_declarations_2_0= ruleDeclaration )
+            	    // InternalASPLE.g:94:6: lv_declarations_2_0= ruleDeclaration
             	    {
 
             	    						newCompositeNode(grammarAccess.getProgramAccess().getDeclarationsDeclarationParserRuleCall_2_0_0());
@@ -226,7 +226,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             	    							current,
             	    							"declarations",
             	    							lv_declarations_2_0,
-            	    							"wodel.dsls.Asple.Declaration");
+            	    							"wodel.dsls.ASPLE.Declaration");
             	    						afterParserOrEnumRuleCall();
             	    					
 
@@ -248,7 +248,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // InternalAsple.g:116:3: ( (lv_statements_4_0= ruleStatement ) )*
+            // InternalASPLE.g:116:3: ( (lv_statements_4_0= ruleStatement ) )*
             loop2:
             do {
                 int alt2=2;
@@ -261,10 +261,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                 switch (alt2) {
             	case 1 :
-            	    // InternalAsple.g:117:4: (lv_statements_4_0= ruleStatement )
+            	    // InternalASPLE.g:117:4: (lv_statements_4_0= ruleStatement )
             	    {
-            	    // InternalAsple.g:117:4: (lv_statements_4_0= ruleStatement )
-            	    // InternalAsple.g:118:5: lv_statements_4_0= ruleStatement
+            	    // InternalASPLE.g:117:4: (lv_statements_4_0= ruleStatement )
+            	    // InternalASPLE.g:118:5: lv_statements_4_0= ruleStatement
             	    {
 
             	    					newCompositeNode(grammarAccess.getProgramAccess().getStatementsStatementParserRuleCall_3_0());
@@ -282,7 +282,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             	    						current,
             	    						"statements",
             	    						lv_statements_4_0,
-            	    						"wodel.dsls.Asple.Statement");
+            	    						"wodel.dsls.ASPLE.Statement");
             	    					afterParserOrEnumRuleCall();
             	    				
 
@@ -324,7 +324,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleDeclaration"
-    // InternalAsple.g:143:1: entryRuleDeclaration returns [EObject current=null] : iv_ruleDeclaration= ruleDeclaration EOF ;
+    // InternalASPLE.g:143:1: entryRuleDeclaration returns [EObject current=null] : iv_ruleDeclaration= ruleDeclaration EOF ;
     public final EObject entryRuleDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -332,8 +332,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:143:52: (iv_ruleDeclaration= ruleDeclaration EOF )
-            // InternalAsple.g:144:2: iv_ruleDeclaration= ruleDeclaration EOF
+            // InternalASPLE.g:143:52: (iv_ruleDeclaration= ruleDeclaration EOF )
+            // InternalASPLE.g:144:2: iv_ruleDeclaration= ruleDeclaration EOF
             {
              newCompositeNode(grammarAccess.getDeclarationRule()); 
             pushFollow(FOLLOW_1);
@@ -360,7 +360,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDeclaration"
-    // InternalAsple.g:150:1: ruleDeclaration returns [EObject current=null] : ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* ) ;
+    // InternalASPLE.g:150:1: ruleDeclaration returns [EObject current=null] : ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* ) ;
     public final EObject ruleDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -377,14 +377,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:156:2: ( ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* ) )
-            // InternalAsple.g:157:2: ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* )
+            // InternalASPLE.g:156:2: ( ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* ) )
+            // InternalASPLE.g:157:2: ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* )
             {
-            // InternalAsple.g:157:2: ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* )
-            // InternalAsple.g:158:3: () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )*
+            // InternalASPLE.g:157:2: ( () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )* )
+            // InternalASPLE.g:158:3: () ( (lv_ref_1_0= 'ref' ) )? ( (lv_mode_2_0= ruleMode ) )? ( (lv_identifiers_3_0= ruleIdentifier ) ) (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )*
             {
-            // InternalAsple.g:158:3: ()
-            // InternalAsple.g:159:4: 
+            // InternalASPLE.g:158:3: ()
+            // InternalASPLE.g:159:4: 
             {
 
             				current = forceCreateModelElement(
@@ -394,7 +394,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:165:3: ( (lv_ref_1_0= 'ref' ) )?
+            // InternalASPLE.g:165:3: ( (lv_ref_1_0= 'ref' ) )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -403,10 +403,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt3) {
                 case 1 :
-                    // InternalAsple.g:166:4: (lv_ref_1_0= 'ref' )
+                    // InternalASPLE.g:166:4: (lv_ref_1_0= 'ref' )
                     {
-                    // InternalAsple.g:166:4: (lv_ref_1_0= 'ref' )
-                    // InternalAsple.g:167:5: lv_ref_1_0= 'ref'
+                    // InternalASPLE.g:166:4: (lv_ref_1_0= 'ref' )
+                    // InternalASPLE.g:167:5: lv_ref_1_0= 'ref'
                     {
                     lv_ref_1_0=(Token)match(input,14,FOLLOW_6); 
 
@@ -416,7 +416,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     					if (current==null) {
                     						current = createModelElement(grammarAccess.getDeclarationRule());
                     					}
-                    					setWithLastConsumed(current, "ref", true, "ref");
+                    					setWithLastConsumed(current, "ref", lv_ref_1_0 != null, "ref");
                     				
 
                     }
@@ -427,7 +427,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:179:3: ( (lv_mode_2_0= ruleMode ) )?
+            // InternalASPLE.g:179:3: ( (lv_mode_2_0= ruleMode ) )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -436,10 +436,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt4) {
                 case 1 :
-                    // InternalAsple.g:180:4: (lv_mode_2_0= ruleMode )
+                    // InternalASPLE.g:180:4: (lv_mode_2_0= ruleMode )
                     {
-                    // InternalAsple.g:180:4: (lv_mode_2_0= ruleMode )
-                    // InternalAsple.g:181:5: lv_mode_2_0= ruleMode
+                    // InternalASPLE.g:180:4: (lv_mode_2_0= ruleMode )
+                    // InternalASPLE.g:181:5: lv_mode_2_0= ruleMode
                     {
 
                     					newCompositeNode(grammarAccess.getDeclarationAccess().getModeModeEnumRuleCall_2_0());
@@ -457,7 +457,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     						current,
                     						"mode",
                     						lv_mode_2_0,
-                    						"wodel.dsls.Asple.Mode");
+                    						"wodel.dsls.ASPLE.Mode");
                     					afterParserOrEnumRuleCall();
                     				
 
@@ -469,11 +469,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:198:3: ( (lv_identifiers_3_0= ruleIdentifier ) )
-            // InternalAsple.g:199:4: (lv_identifiers_3_0= ruleIdentifier )
+            // InternalASPLE.g:198:3: ( (lv_identifiers_3_0= ruleIdentifier ) )
+            // InternalASPLE.g:199:4: (lv_identifiers_3_0= ruleIdentifier )
             {
-            // InternalAsple.g:199:4: (lv_identifiers_3_0= ruleIdentifier )
-            // InternalAsple.g:200:5: lv_identifiers_3_0= ruleIdentifier
+            // InternalASPLE.g:199:4: (lv_identifiers_3_0= ruleIdentifier )
+            // InternalASPLE.g:200:5: lv_identifiers_3_0= ruleIdentifier
             {
 
             					newCompositeNode(grammarAccess.getDeclarationAccess().getIdentifiersIdentifierParserRuleCall_3_0());
@@ -491,7 +491,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"identifiers",
             						lv_identifiers_3_0,
-            						"wodel.dsls.Asple.Identifier");
+            						"wodel.dsls.ASPLE.Identifier");
             					afterParserOrEnumRuleCall();
             				
 
@@ -500,7 +500,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:217:3: (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )*
+            // InternalASPLE.g:217:3: (otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) ) )*
             loop5:
             do {
                 int alt5=2;
@@ -513,17 +513,17 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                 switch (alt5) {
             	case 1 :
-            	    // InternalAsple.g:218:4: otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) )
+            	    // InternalASPLE.g:218:4: otherlv_4= ',' ( (lv_identifiers_5_0= ruleIdentifier ) )
             	    {
             	    otherlv_4=(Token)match(input,15,FOLLOW_6); 
 
             	    				newLeafNode(otherlv_4, grammarAccess.getDeclarationAccess().getCommaKeyword_4_0());
             	    			
-            	    // InternalAsple.g:222:4: ( (lv_identifiers_5_0= ruleIdentifier ) )
-            	    // InternalAsple.g:223:5: (lv_identifiers_5_0= ruleIdentifier )
+            	    // InternalASPLE.g:222:4: ( (lv_identifiers_5_0= ruleIdentifier ) )
+            	    // InternalASPLE.g:223:5: (lv_identifiers_5_0= ruleIdentifier )
             	    {
-            	    // InternalAsple.g:223:5: (lv_identifiers_5_0= ruleIdentifier )
-            	    // InternalAsple.g:224:6: lv_identifiers_5_0= ruleIdentifier
+            	    // InternalASPLE.g:223:5: (lv_identifiers_5_0= ruleIdentifier )
+            	    // InternalASPLE.g:224:6: lv_identifiers_5_0= ruleIdentifier
             	    {
 
             	    						newCompositeNode(grammarAccess.getDeclarationAccess().getIdentifiersIdentifierParserRuleCall_4_1_0());
@@ -541,7 +541,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             	    							current,
             	    							"identifiers",
             	    							lv_identifiers_5_0,
-            	    							"wodel.dsls.Asple.Identifier");
+            	    							"wodel.dsls.ASPLE.Identifier");
             	    						afterParserOrEnumRuleCall();
             	    					
 
@@ -582,7 +582,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // InternalAsple.g:246:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
+    // InternalASPLE.g:246:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
     public final String entryRuleEString() throws RecognitionException {
         String current = null;
 
@@ -590,8 +590,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:246:47: (iv_ruleEString= ruleEString EOF )
-            // InternalAsple.g:247:2: iv_ruleEString= ruleEString EOF
+            // InternalASPLE.g:246:47: (iv_ruleEString= ruleEString EOF )
+            // InternalASPLE.g:247:2: iv_ruleEString= ruleEString EOF
             {
              newCompositeNode(grammarAccess.getEStringRule()); 
             pushFollow(FOLLOW_1);
@@ -618,7 +618,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEString"
-    // InternalAsple.g:253:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
+    // InternalASPLE.g:253:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleEString() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -629,10 +629,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:259:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
-            // InternalAsple.g:260:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalASPLE.g:259:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
+            // InternalASPLE.g:260:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             {
-            // InternalAsple.g:260:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalASPLE.g:260:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -650,7 +650,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt6) {
                 case 1 :
-                    // InternalAsple.g:261:3: this_STRING_0= RULE_STRING
+                    // InternalASPLE.g:261:3: this_STRING_0= RULE_STRING
                     {
                     this_STRING_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
@@ -663,7 +663,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:269:3: this_ID_1= RULE_ID
+                    // InternalASPLE.g:269:3: this_ID_1= RULE_ID
                     {
                     this_ID_1=(Token)match(input,RULE_ID,FOLLOW_2); 
 
@@ -698,7 +698,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEInt"
-    // InternalAsple.g:280:1: entryRuleEInt returns [String current=null] : iv_ruleEInt= ruleEInt EOF ;
+    // InternalASPLE.g:280:1: entryRuleEInt returns [String current=null] : iv_ruleEInt= ruleEInt EOF ;
     public final String entryRuleEInt() throws RecognitionException {
         String current = null;
 
@@ -706,8 +706,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:280:44: (iv_ruleEInt= ruleEInt EOF )
-            // InternalAsple.g:281:2: iv_ruleEInt= ruleEInt EOF
+            // InternalASPLE.g:280:44: (iv_ruleEInt= ruleEInt EOF )
+            // InternalASPLE.g:281:2: iv_ruleEInt= ruleEInt EOF
             {
              newCompositeNode(grammarAccess.getEIntRule()); 
             pushFollow(FOLLOW_1);
@@ -734,7 +734,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEInt"
-    // InternalAsple.g:287:1: ruleEInt returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? this_INT_1= RULE_INT ) ;
+    // InternalASPLE.g:287:1: ruleEInt returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? this_INT_1= RULE_INT ) ;
     public final AntlrDatatypeRuleToken ruleEInt() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -745,13 +745,13 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:293:2: ( ( (kw= '-' )? this_INT_1= RULE_INT ) )
-            // InternalAsple.g:294:2: ( (kw= '-' )? this_INT_1= RULE_INT )
+            // InternalASPLE.g:293:2: ( ( (kw= '-' )? this_INT_1= RULE_INT ) )
+            // InternalASPLE.g:294:2: ( (kw= '-' )? this_INT_1= RULE_INT )
             {
-            // InternalAsple.g:294:2: ( (kw= '-' )? this_INT_1= RULE_INT )
-            // InternalAsple.g:295:3: (kw= '-' )? this_INT_1= RULE_INT
+            // InternalASPLE.g:294:2: ( (kw= '-' )? this_INT_1= RULE_INT )
+            // InternalASPLE.g:295:3: (kw= '-' )? this_INT_1= RULE_INT
             {
-            // InternalAsple.g:295:3: (kw= '-' )?
+            // InternalASPLE.g:295:3: (kw= '-' )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -760,7 +760,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt7) {
                 case 1 :
-                    // InternalAsple.g:296:4: kw= '-'
+                    // InternalASPLE.g:296:4: kw= '-'
                     {
                     kw=(Token)match(input,16,FOLLOW_8); 
 
@@ -803,7 +803,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEBoolean"
-    // InternalAsple.g:313:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
+    // InternalASPLE.g:313:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
     public final String entryRuleEBoolean() throws RecognitionException {
         String current = null;
 
@@ -811,8 +811,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:313:48: (iv_ruleEBoolean= ruleEBoolean EOF )
-            // InternalAsple.g:314:2: iv_ruleEBoolean= ruleEBoolean EOF
+            // InternalASPLE.g:313:48: (iv_ruleEBoolean= ruleEBoolean EOF )
+            // InternalASPLE.g:314:2: iv_ruleEBoolean= ruleEBoolean EOF
             {
              newCompositeNode(grammarAccess.getEBooleanRule()); 
             pushFollow(FOLLOW_1);
@@ -839,7 +839,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEBoolean"
-    // InternalAsple.g:320:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
+    // InternalASPLE.g:320:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
     public final AntlrDatatypeRuleToken ruleEBoolean() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -849,10 +849,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:326:2: ( (kw= 'true' | kw= 'false' ) )
-            // InternalAsple.g:327:2: (kw= 'true' | kw= 'false' )
+            // InternalASPLE.g:326:2: ( (kw= 'true' | kw= 'false' ) )
+            // InternalASPLE.g:327:2: (kw= 'true' | kw= 'false' )
             {
-            // InternalAsple.g:327:2: (kw= 'true' | kw= 'false' )
+            // InternalASPLE.g:327:2: (kw= 'true' | kw= 'false' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -870,7 +870,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt8) {
                 case 1 :
-                    // InternalAsple.g:328:3: kw= 'true'
+                    // InternalASPLE.g:328:3: kw= 'true'
                     {
                     kw=(Token)match(input,17,FOLLOW_2); 
 
@@ -881,7 +881,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:334:3: kw= 'false'
+                    // InternalASPLE.g:334:3: kw= 'false'
                     {
                     kw=(Token)match(input,18,FOLLOW_2); 
 
@@ -914,7 +914,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEDouble"
-    // InternalAsple.g:343:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
+    // InternalASPLE.g:343:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
     public final String entryRuleEDouble() throws RecognitionException {
         String current = null;
 
@@ -922,8 +922,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:343:47: (iv_ruleEDouble= ruleEDouble EOF )
-            // InternalAsple.g:344:2: iv_ruleEDouble= ruleEDouble EOF
+            // InternalASPLE.g:343:47: (iv_ruleEDouble= ruleEDouble EOF )
+            // InternalASPLE.g:344:2: iv_ruleEDouble= ruleEDouble EOF
             {
              newCompositeNode(grammarAccess.getEDoubleRule()); 
             pushFollow(FOLLOW_1);
@@ -950,7 +950,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEDouble"
-    // InternalAsple.g:350:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
+    // InternalASPLE.g:350:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
     public final AntlrDatatypeRuleToken ruleEDouble() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -963,13 +963,13 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:356:2: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
-            // InternalAsple.g:357:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // InternalASPLE.g:356:2: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
+            // InternalASPLE.g:357:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
             {
-            // InternalAsple.g:357:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
-            // InternalAsple.g:358:3: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            // InternalASPLE.g:357:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // InternalASPLE.g:358:3: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
             {
-            // InternalAsple.g:358:3: (kw= '-' )?
+            // InternalASPLE.g:358:3: (kw= '-' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -978,7 +978,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt9) {
                 case 1 :
-                    // InternalAsple.g:359:4: kw= '-'
+                    // InternalASPLE.g:359:4: kw= '-'
                     {
                     kw=(Token)match(input,16,FOLLOW_9); 
 
@@ -991,7 +991,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:365:3: (this_INT_1= RULE_INT )?
+            // InternalASPLE.g:365:3: (this_INT_1= RULE_INT )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1000,7 +1000,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt10) {
                 case 1 :
-                    // InternalAsple.g:366:4: this_INT_1= RULE_INT
+                    // InternalASPLE.g:366:4: this_INT_1= RULE_INT
                     {
                     this_INT_1=(Token)match(input,RULE_INT,FOLLOW_10); 
 
@@ -1027,7 +1027,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(this_INT_3, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_3());
             		
-            // InternalAsple.g:386:3: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            // InternalASPLE.g:386:3: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -1036,9 +1036,9 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt13) {
                 case 1 :
-                    // InternalAsple.g:387:4: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
+                    // InternalASPLE.g:387:4: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
                     {
-                    // InternalAsple.g:387:4: (kw= 'E' | kw= 'e' )
+                    // InternalASPLE.g:387:4: (kw= 'E' | kw= 'e' )
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1056,7 +1056,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt11) {
                         case 1 :
-                            // InternalAsple.g:388:5: kw= 'E'
+                            // InternalASPLE.g:388:5: kw= 'E'
                             {
                             kw=(Token)match(input,20,FOLLOW_12); 
 
@@ -1067,7 +1067,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalAsple.g:394:5: kw= 'e'
+                            // InternalASPLE.g:394:5: kw= 'e'
                             {
                             kw=(Token)match(input,21,FOLLOW_12); 
 
@@ -1080,7 +1080,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalAsple.g:400:4: (kw= '-' )?
+                    // InternalASPLE.g:400:4: (kw= '-' )?
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -1089,7 +1089,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt12) {
                         case 1 :
-                            // InternalAsple.g:401:5: kw= '-'
+                            // InternalASPLE.g:401:5: kw= '-'
                             {
                             kw=(Token)match(input,16,FOLLOW_8); 
 
@@ -1138,7 +1138,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIdentifier"
-    // InternalAsple.g:419:1: entryRuleIdentifier returns [EObject current=null] : iv_ruleIdentifier= ruleIdentifier EOF ;
+    // InternalASPLE.g:419:1: entryRuleIdentifier returns [EObject current=null] : iv_ruleIdentifier= ruleIdentifier EOF ;
     public final EObject entryRuleIdentifier() throws RecognitionException {
         EObject current = null;
 
@@ -1146,8 +1146,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:419:51: (iv_ruleIdentifier= ruleIdentifier EOF )
-            // InternalAsple.g:420:2: iv_ruleIdentifier= ruleIdentifier EOF
+            // InternalASPLE.g:419:51: (iv_ruleIdentifier= ruleIdentifier EOF )
+            // InternalASPLE.g:420:2: iv_ruleIdentifier= ruleIdentifier EOF
             {
              newCompositeNode(grammarAccess.getIdentifierRule()); 
             pushFollow(FOLLOW_1);
@@ -1174,7 +1174,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIdentifier"
-    // InternalAsple.g:426:1: ruleIdentifier returns [EObject current=null] : ( () ( (lv_name_1_0= ruleEString ) ) ) ;
+    // InternalASPLE.g:426:1: ruleIdentifier returns [EObject current=null] : ( () ( (lv_name_1_0= ruleEString ) ) ) ;
     public final EObject ruleIdentifier() throws RecognitionException {
         EObject current = null;
 
@@ -1185,14 +1185,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:432:2: ( ( () ( (lv_name_1_0= ruleEString ) ) ) )
-            // InternalAsple.g:433:2: ( () ( (lv_name_1_0= ruleEString ) ) )
+            // InternalASPLE.g:432:2: ( ( () ( (lv_name_1_0= ruleEString ) ) ) )
+            // InternalASPLE.g:433:2: ( () ( (lv_name_1_0= ruleEString ) ) )
             {
-            // InternalAsple.g:433:2: ( () ( (lv_name_1_0= ruleEString ) ) )
-            // InternalAsple.g:434:3: () ( (lv_name_1_0= ruleEString ) )
+            // InternalASPLE.g:433:2: ( () ( (lv_name_1_0= ruleEString ) ) )
+            // InternalASPLE.g:434:3: () ( (lv_name_1_0= ruleEString ) )
             {
-            // InternalAsple.g:434:3: ()
-            // InternalAsple.g:435:4: 
+            // InternalASPLE.g:434:3: ()
+            // InternalASPLE.g:435:4: 
             {
 
             				current = forceCreateModelElement(
@@ -1202,11 +1202,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:441:3: ( (lv_name_1_0= ruleEString ) )
-            // InternalAsple.g:442:4: (lv_name_1_0= ruleEString )
+            // InternalASPLE.g:441:3: ( (lv_name_1_0= ruleEString ) )
+            // InternalASPLE.g:442:4: (lv_name_1_0= ruleEString )
             {
-            // InternalAsple.g:442:4: (lv_name_1_0= ruleEString )
-            // InternalAsple.g:443:5: lv_name_1_0= ruleEString
+            // InternalASPLE.g:442:4: (lv_name_1_0= ruleEString )
+            // InternalASPLE.g:443:5: lv_name_1_0= ruleEString
             {
 
             					newCompositeNode(grammarAccess.getIdentifierAccess().getNameEStringParserRuleCall_1_0());
@@ -1224,7 +1224,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"name",
             						lv_name_1_0,
-            						"wodel.dsls.Asple.EString");
+            						"wodel.dsls.ASPLE.EString");
             					afterParserOrEnumRuleCall();
             				
 
@@ -1256,7 +1256,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLiteral"
-    // InternalAsple.g:464:1: entryRuleLiteral returns [EObject current=null] : iv_ruleLiteral= ruleLiteral EOF ;
+    // InternalASPLE.g:464:1: entryRuleLiteral returns [EObject current=null] : iv_ruleLiteral= ruleLiteral EOF ;
     public final EObject entryRuleLiteral() throws RecognitionException {
         EObject current = null;
 
@@ -1264,8 +1264,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:464:48: (iv_ruleLiteral= ruleLiteral EOF )
-            // InternalAsple.g:465:2: iv_ruleLiteral= ruleLiteral EOF
+            // InternalASPLE.g:464:48: (iv_ruleLiteral= ruleLiteral EOF )
+            // InternalASPLE.g:465:2: iv_ruleLiteral= ruleLiteral EOF
             {
              newCompositeNode(grammarAccess.getLiteralRule()); 
             pushFollow(FOLLOW_1);
@@ -1292,7 +1292,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLiteral"
-    // InternalAsple.g:471:1: ruleLiteral returns [EObject current=null] : (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble ) ;
+    // InternalASPLE.g:471:1: ruleLiteral returns [EObject current=null] : (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble ) ;
     public final EObject ruleLiteral() throws RecognitionException {
         EObject current = null;
 
@@ -1307,10 +1307,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:477:2: ( (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble ) )
-            // InternalAsple.g:478:2: (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble )
+            // InternalASPLE.g:477:2: ( (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble ) )
+            // InternalASPLE.g:478:2: (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble )
             {
-            // InternalAsple.g:478:2: (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble )
+            // InternalASPLE.g:478:2: (this_Integer_0= ruleInteger | this_Boolean_1= ruleBoolean | this_Double_2= ruleDouble )
             int alt14=3;
             switch ( input.LA(1) ) {
             case 16:
@@ -1382,7 +1382,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             switch (alt14) {
                 case 1 :
-                    // InternalAsple.g:479:3: this_Integer_0= ruleInteger
+                    // InternalASPLE.g:479:3: this_Integer_0= ruleInteger
                     {
 
                     			newCompositeNode(grammarAccess.getLiteralAccess().getIntegerParserRuleCall_0());
@@ -1400,7 +1400,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:488:3: this_Boolean_1= ruleBoolean
+                    // InternalASPLE.g:488:3: this_Boolean_1= ruleBoolean
                     {
 
                     			newCompositeNode(grammarAccess.getLiteralAccess().getBooleanParserRuleCall_1());
@@ -1418,7 +1418,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsple.g:497:3: this_Double_2= ruleDouble
+                    // InternalASPLE.g:497:3: this_Double_2= ruleDouble
                     {
 
                     			newCompositeNode(grammarAccess.getLiteralAccess().getDoubleParserRuleCall_2());
@@ -1458,7 +1458,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleInteger"
-    // InternalAsple.g:509:1: entryRuleInteger returns [EObject current=null] : iv_ruleInteger= ruleInteger EOF ;
+    // InternalASPLE.g:509:1: entryRuleInteger returns [EObject current=null] : iv_ruleInteger= ruleInteger EOF ;
     public final EObject entryRuleInteger() throws RecognitionException {
         EObject current = null;
 
@@ -1466,8 +1466,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:509:48: (iv_ruleInteger= ruleInteger EOF )
-            // InternalAsple.g:510:2: iv_ruleInteger= ruleInteger EOF
+            // InternalASPLE.g:509:48: (iv_ruleInteger= ruleInteger EOF )
+            // InternalASPLE.g:510:2: iv_ruleInteger= ruleInteger EOF
             {
              newCompositeNode(grammarAccess.getIntegerRule()); 
             pushFollow(FOLLOW_1);
@@ -1494,7 +1494,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleInteger"
-    // InternalAsple.g:516:1: ruleInteger returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEInt ) ) ) ;
+    // InternalASPLE.g:516:1: ruleInteger returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEInt ) ) ) ;
     public final EObject ruleInteger() throws RecognitionException {
         EObject current = null;
 
@@ -1505,14 +1505,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:522:2: ( ( () ( (lv_value_1_0= ruleEInt ) ) ) )
-            // InternalAsple.g:523:2: ( () ( (lv_value_1_0= ruleEInt ) ) )
+            // InternalASPLE.g:522:2: ( ( () ( (lv_value_1_0= ruleEInt ) ) ) )
+            // InternalASPLE.g:523:2: ( () ( (lv_value_1_0= ruleEInt ) ) )
             {
-            // InternalAsple.g:523:2: ( () ( (lv_value_1_0= ruleEInt ) ) )
-            // InternalAsple.g:524:3: () ( (lv_value_1_0= ruleEInt ) )
+            // InternalASPLE.g:523:2: ( () ( (lv_value_1_0= ruleEInt ) ) )
+            // InternalASPLE.g:524:3: () ( (lv_value_1_0= ruleEInt ) )
             {
-            // InternalAsple.g:524:3: ()
-            // InternalAsple.g:525:4: 
+            // InternalASPLE.g:524:3: ()
+            // InternalASPLE.g:525:4: 
             {
 
             				current = forceCreateModelElement(
@@ -1522,11 +1522,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:531:3: ( (lv_value_1_0= ruleEInt ) )
-            // InternalAsple.g:532:4: (lv_value_1_0= ruleEInt )
+            // InternalASPLE.g:531:3: ( (lv_value_1_0= ruleEInt ) )
+            // InternalASPLE.g:532:4: (lv_value_1_0= ruleEInt )
             {
-            // InternalAsple.g:532:4: (lv_value_1_0= ruleEInt )
-            // InternalAsple.g:533:5: lv_value_1_0= ruleEInt
+            // InternalASPLE.g:532:4: (lv_value_1_0= ruleEInt )
+            // InternalASPLE.g:533:5: lv_value_1_0= ruleEInt
             {
 
             					newCompositeNode(grammarAccess.getIntegerAccess().getValueEIntParserRuleCall_1_0());
@@ -1544,7 +1544,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"value",
             						lv_value_1_0,
-            						"wodel.dsls.Asple.EInt");
+            						"wodel.dsls.ASPLE.EInt");
             					afterParserOrEnumRuleCall();
             				
 
@@ -1576,7 +1576,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBoolean"
-    // InternalAsple.g:554:1: entryRuleBoolean returns [EObject current=null] : iv_ruleBoolean= ruleBoolean EOF ;
+    // InternalASPLE.g:554:1: entryRuleBoolean returns [EObject current=null] : iv_ruleBoolean= ruleBoolean EOF ;
     public final EObject entryRuleBoolean() throws RecognitionException {
         EObject current = null;
 
@@ -1584,8 +1584,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:554:48: (iv_ruleBoolean= ruleBoolean EOF )
-            // InternalAsple.g:555:2: iv_ruleBoolean= ruleBoolean EOF
+            // InternalASPLE.g:554:48: (iv_ruleBoolean= ruleBoolean EOF )
+            // InternalASPLE.g:555:2: iv_ruleBoolean= ruleBoolean EOF
             {
              newCompositeNode(grammarAccess.getBooleanRule()); 
             pushFollow(FOLLOW_1);
@@ -1612,7 +1612,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBoolean"
-    // InternalAsple.g:561:1: ruleBoolean returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEBoolean ) ) ) ;
+    // InternalASPLE.g:561:1: ruleBoolean returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEBoolean ) ) ) ;
     public final EObject ruleBoolean() throws RecognitionException {
         EObject current = null;
 
@@ -1623,14 +1623,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:567:2: ( ( () ( (lv_value_1_0= ruleEBoolean ) ) ) )
-            // InternalAsple.g:568:2: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
+            // InternalASPLE.g:567:2: ( ( () ( (lv_value_1_0= ruleEBoolean ) ) ) )
+            // InternalASPLE.g:568:2: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
             {
-            // InternalAsple.g:568:2: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
-            // InternalAsple.g:569:3: () ( (lv_value_1_0= ruleEBoolean ) )
+            // InternalASPLE.g:568:2: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
+            // InternalASPLE.g:569:3: () ( (lv_value_1_0= ruleEBoolean ) )
             {
-            // InternalAsple.g:569:3: ()
-            // InternalAsple.g:570:4: 
+            // InternalASPLE.g:569:3: ()
+            // InternalASPLE.g:570:4: 
             {
 
             				current = forceCreateModelElement(
@@ -1640,11 +1640,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:576:3: ( (lv_value_1_0= ruleEBoolean ) )
-            // InternalAsple.g:577:4: (lv_value_1_0= ruleEBoolean )
+            // InternalASPLE.g:576:3: ( (lv_value_1_0= ruleEBoolean ) )
+            // InternalASPLE.g:577:4: (lv_value_1_0= ruleEBoolean )
             {
-            // InternalAsple.g:577:4: (lv_value_1_0= ruleEBoolean )
-            // InternalAsple.g:578:5: lv_value_1_0= ruleEBoolean
+            // InternalASPLE.g:577:4: (lv_value_1_0= ruleEBoolean )
+            // InternalASPLE.g:578:5: lv_value_1_0= ruleEBoolean
             {
 
             					newCompositeNode(grammarAccess.getBooleanAccess().getValueEBooleanParserRuleCall_1_0());
@@ -1662,7 +1662,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"value",
             						lv_value_1_0,
-            						"wodel.dsls.Asple.EBoolean");
+            						"wodel.dsls.ASPLE.EBoolean");
             					afterParserOrEnumRuleCall();
             				
 
@@ -1694,7 +1694,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleDouble"
-    // InternalAsple.g:599:1: entryRuleDouble returns [EObject current=null] : iv_ruleDouble= ruleDouble EOF ;
+    // InternalASPLE.g:599:1: entryRuleDouble returns [EObject current=null] : iv_ruleDouble= ruleDouble EOF ;
     public final EObject entryRuleDouble() throws RecognitionException {
         EObject current = null;
 
@@ -1702,8 +1702,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:599:47: (iv_ruleDouble= ruleDouble EOF )
-            // InternalAsple.g:600:2: iv_ruleDouble= ruleDouble EOF
+            // InternalASPLE.g:599:47: (iv_ruleDouble= ruleDouble EOF )
+            // InternalASPLE.g:600:2: iv_ruleDouble= ruleDouble EOF
             {
              newCompositeNode(grammarAccess.getDoubleRule()); 
             pushFollow(FOLLOW_1);
@@ -1730,7 +1730,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDouble"
-    // InternalAsple.g:606:1: ruleDouble returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEDouble ) ) ) ;
+    // InternalASPLE.g:606:1: ruleDouble returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEDouble ) ) ) ;
     public final EObject ruleDouble() throws RecognitionException {
         EObject current = null;
 
@@ -1741,14 +1741,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:612:2: ( ( () ( (lv_value_1_0= ruleEDouble ) ) ) )
-            // InternalAsple.g:613:2: ( () ( (lv_value_1_0= ruleEDouble ) ) )
+            // InternalASPLE.g:612:2: ( ( () ( (lv_value_1_0= ruleEDouble ) ) ) )
+            // InternalASPLE.g:613:2: ( () ( (lv_value_1_0= ruleEDouble ) ) )
             {
-            // InternalAsple.g:613:2: ( () ( (lv_value_1_0= ruleEDouble ) ) )
-            // InternalAsple.g:614:3: () ( (lv_value_1_0= ruleEDouble ) )
+            // InternalASPLE.g:613:2: ( () ( (lv_value_1_0= ruleEDouble ) ) )
+            // InternalASPLE.g:614:3: () ( (lv_value_1_0= ruleEDouble ) )
             {
-            // InternalAsple.g:614:3: ()
-            // InternalAsple.g:615:4: 
+            // InternalASPLE.g:614:3: ()
+            // InternalASPLE.g:615:4: 
             {
 
             				current = forceCreateModelElement(
@@ -1758,11 +1758,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:621:3: ( (lv_value_1_0= ruleEDouble ) )
-            // InternalAsple.g:622:4: (lv_value_1_0= ruleEDouble )
+            // InternalASPLE.g:621:3: ( (lv_value_1_0= ruleEDouble ) )
+            // InternalASPLE.g:622:4: (lv_value_1_0= ruleEDouble )
             {
-            // InternalAsple.g:622:4: (lv_value_1_0= ruleEDouble )
-            // InternalAsple.g:623:5: lv_value_1_0= ruleEDouble
+            // InternalASPLE.g:622:4: (lv_value_1_0= ruleEDouble )
+            // InternalASPLE.g:623:5: lv_value_1_0= ruleEDouble
             {
 
             					newCompositeNode(grammarAccess.getDoubleAccess().getValueEDoubleParserRuleCall_1_0());
@@ -1780,7 +1780,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"value",
             						lv_value_1_0,
-            						"wodel.dsls.Asple.EDouble");
+            						"wodel.dsls.ASPLE.EDouble");
             					afterParserOrEnumRuleCall();
             				
 
@@ -1812,7 +1812,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStatement"
-    // InternalAsple.g:644:1: entryRuleStatement returns [EObject current=null] : iv_ruleStatement= ruleStatement EOF ;
+    // InternalASPLE.g:644:1: entryRuleStatement returns [EObject current=null] : iv_ruleStatement= ruleStatement EOF ;
     public final EObject entryRuleStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1820,8 +1820,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:644:50: (iv_ruleStatement= ruleStatement EOF )
-            // InternalAsple.g:645:2: iv_ruleStatement= ruleStatement EOF
+            // InternalASPLE.g:644:50: (iv_ruleStatement= ruleStatement EOF )
+            // InternalASPLE.g:645:2: iv_ruleStatement= ruleStatement EOF
             {
              newCompositeNode(grammarAccess.getStatementRule()); 
             pushFollow(FOLLOW_1);
@@ -1848,7 +1848,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStatement"
-    // InternalAsple.g:651:1: ruleStatement returns [EObject current=null] : (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput ) ;
+    // InternalASPLE.g:651:1: ruleStatement returns [EObject current=null] : (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput ) ;
     public final EObject ruleStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1865,10 +1865,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:657:2: ( (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput ) )
-            // InternalAsple.g:658:2: (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput )
+            // InternalASPLE.g:657:2: ( (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput ) )
+            // InternalASPLE.g:658:2: (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput )
             {
-            // InternalAsple.g:658:2: (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput )
+            // InternalASPLE.g:658:2: (this_Assignment_0= ruleAssignment | this_Conditional_1= ruleConditional | this_Loop_2= ruleLoop | this_Transput_3= ruleTransput )
             int alt15=4;
             switch ( input.LA(1) ) {
             case RULE_ID:
@@ -1901,7 +1901,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             switch (alt15) {
                 case 1 :
-                    // InternalAsple.g:659:3: this_Assignment_0= ruleAssignment
+                    // InternalASPLE.g:659:3: this_Assignment_0= ruleAssignment
                     {
 
                     			newCompositeNode(grammarAccess.getStatementAccess().getAssignmentParserRuleCall_0());
@@ -1919,7 +1919,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:668:3: this_Conditional_1= ruleConditional
+                    // InternalASPLE.g:668:3: this_Conditional_1= ruleConditional
                     {
 
                     			newCompositeNode(grammarAccess.getStatementAccess().getConditionalParserRuleCall_1());
@@ -1937,7 +1937,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsple.g:677:3: this_Loop_2= ruleLoop
+                    // InternalASPLE.g:677:3: this_Loop_2= ruleLoop
                     {
 
                     			newCompositeNode(grammarAccess.getStatementAccess().getLoopParserRuleCall_2());
@@ -1955,7 +1955,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalAsple.g:686:3: this_Transput_3= ruleTransput
+                    // InternalASPLE.g:686:3: this_Transput_3= ruleTransput
                     {
 
                     			newCompositeNode(grammarAccess.getStatementAccess().getTransputParserRuleCall_3());
@@ -1995,7 +1995,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAssignment"
-    // InternalAsple.g:698:1: entryRuleAssignment returns [EObject current=null] : iv_ruleAssignment= ruleAssignment EOF ;
+    // InternalASPLE.g:698:1: entryRuleAssignment returns [EObject current=null] : iv_ruleAssignment= ruleAssignment EOF ;
     public final EObject entryRuleAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -2003,8 +2003,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:698:51: (iv_ruleAssignment= ruleAssignment EOF )
-            // InternalAsple.g:699:2: iv_ruleAssignment= ruleAssignment EOF
+            // InternalASPLE.g:698:51: (iv_ruleAssignment= ruleAssignment EOF )
+            // InternalASPLE.g:699:2: iv_ruleAssignment= ruleAssignment EOF
             {
              newCompositeNode(grammarAccess.getAssignmentRule()); 
             pushFollow(FOLLOW_1);
@@ -2031,7 +2031,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAssignment"
-    // InternalAsple.g:705:1: ruleAssignment returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' ) ;
+    // InternalASPLE.g:705:1: ruleAssignment returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' ) ;
     public final EObject ruleAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -2045,17 +2045,17 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:711:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' ) )
-            // InternalAsple.g:712:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' )
+            // InternalASPLE.g:711:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' ) )
+            // InternalASPLE.g:712:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' )
             {
-            // InternalAsple.g:712:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' )
-            // InternalAsple.g:713:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';'
+            // InternalASPLE.g:712:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';' )
+            // InternalASPLE.g:713:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleExpression ) ) otherlv_3= ';'
             {
-            // InternalAsple.g:713:3: ( (otherlv_0= RULE_ID ) )
-            // InternalAsple.g:714:4: (otherlv_0= RULE_ID )
+            // InternalASPLE.g:713:3: ( (otherlv_0= RULE_ID ) )
+            // InternalASPLE.g:714:4: (otherlv_0= RULE_ID )
             {
-            // InternalAsple.g:714:4: (otherlv_0= RULE_ID )
-            // InternalAsple.g:715:5: otherlv_0= RULE_ID
+            // InternalASPLE.g:714:4: (otherlv_0= RULE_ID )
+            // InternalASPLE.g:715:5: otherlv_0= RULE_ID
             {
 
             					if (current==null) {
@@ -2076,11 +2076,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getAssignmentAccess().getEqualsSignKeyword_1());
             		
-            // InternalAsple.g:730:3: ( (lv_value_2_0= ruleExpression ) )
-            // InternalAsple.g:731:4: (lv_value_2_0= ruleExpression )
+            // InternalASPLE.g:730:3: ( (lv_value_2_0= ruleExpression ) )
+            // InternalASPLE.g:731:4: (lv_value_2_0= ruleExpression )
             {
-            // InternalAsple.g:731:4: (lv_value_2_0= ruleExpression )
-            // InternalAsple.g:732:5: lv_value_2_0= ruleExpression
+            // InternalASPLE.g:731:4: (lv_value_2_0= ruleExpression )
+            // InternalASPLE.g:732:5: lv_value_2_0= ruleExpression
             {
 
             					newCompositeNode(grammarAccess.getAssignmentAccess().getValueExpressionParserRuleCall_2_0());
@@ -2098,7 +2098,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"value",
             						lv_value_2_0,
-            						"wodel.dsls.Asple.Expression");
+            						"wodel.dsls.ASPLE.Expression");
             					afterParserOrEnumRuleCall();
             				
 
@@ -2134,7 +2134,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleConditional"
-    // InternalAsple.g:757:1: entryRuleConditional returns [EObject current=null] : iv_ruleConditional= ruleConditional EOF ;
+    // InternalASPLE.g:757:1: entryRuleConditional returns [EObject current=null] : iv_ruleConditional= ruleConditional EOF ;
     public final EObject entryRuleConditional() throws RecognitionException {
         EObject current = null;
 
@@ -2142,8 +2142,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:757:52: (iv_ruleConditional= ruleConditional EOF )
-            // InternalAsple.g:758:2: iv_ruleConditional= ruleConditional EOF
+            // InternalASPLE.g:757:52: (iv_ruleConditional= ruleConditional EOF )
+            // InternalASPLE.g:758:2: iv_ruleConditional= ruleConditional EOF
             {
              newCompositeNode(grammarAccess.getConditionalRule()); 
             pushFollow(FOLLOW_1);
@@ -2170,7 +2170,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleConditional"
-    // InternalAsple.g:764:1: ruleConditional returns [EObject current=null] : ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? ) ;
+    // InternalASPLE.g:764:1: ruleConditional returns [EObject current=null] : ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? ) ;
     public final EObject ruleConditional() throws RecognitionException {
         EObject current = null;
 
@@ -2193,14 +2193,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:770:2: ( ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? ) )
-            // InternalAsple.g:771:2: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? )
+            // InternalASPLE.g:770:2: ( ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? ) )
+            // InternalASPLE.g:771:2: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? )
             {
-            // InternalAsple.g:771:2: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? )
-            // InternalAsple.g:772:3: () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )?
+            // InternalASPLE.g:771:2: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )? )
+            // InternalASPLE.g:772:3: () otherlv_1= 'if' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_if_6_0= ruleStatement ) )* otherlv_7= '}' (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )?
             {
-            // InternalAsple.g:772:3: ()
-            // InternalAsple.g:773:4: 
+            // InternalASPLE.g:772:3: ()
+            // InternalASPLE.g:773:4: 
             {
 
             				current = forceCreateModelElement(
@@ -2218,11 +2218,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_2, grammarAccess.getConditionalAccess().getLeftParenthesisKeyword_2());
             		
-            // InternalAsple.g:787:3: ( (lv_expression_3_0= ruleExpression ) )
-            // InternalAsple.g:788:4: (lv_expression_3_0= ruleExpression )
+            // InternalASPLE.g:787:3: ( (lv_expression_3_0= ruleExpression ) )
+            // InternalASPLE.g:788:4: (lv_expression_3_0= ruleExpression )
             {
-            // InternalAsple.g:788:4: (lv_expression_3_0= ruleExpression )
-            // InternalAsple.g:789:5: lv_expression_3_0= ruleExpression
+            // InternalASPLE.g:788:4: (lv_expression_3_0= ruleExpression )
+            // InternalASPLE.g:789:5: lv_expression_3_0= ruleExpression
             {
 
             					newCompositeNode(grammarAccess.getConditionalAccess().getExpressionExpressionParserRuleCall_3_0());
@@ -2240,7 +2240,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"expression",
             						lv_expression_3_0,
-            						"wodel.dsls.Asple.Expression");
+            						"wodel.dsls.ASPLE.Expression");
             					afterParserOrEnumRuleCall();
             				
 
@@ -2257,7 +2257,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_5, grammarAccess.getConditionalAccess().getLeftCurlyBracketKeyword_5());
             		
-            // InternalAsple.g:814:3: ( (lv_if_6_0= ruleStatement ) )*
+            // InternalASPLE.g:814:3: ( (lv_if_6_0= ruleStatement ) )*
             loop16:
             do {
                 int alt16=2;
@@ -2270,10 +2270,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                 switch (alt16) {
             	case 1 :
-            	    // InternalAsple.g:815:4: (lv_if_6_0= ruleStatement )
+            	    // InternalASPLE.g:815:4: (lv_if_6_0= ruleStatement )
             	    {
-            	    // InternalAsple.g:815:4: (lv_if_6_0= ruleStatement )
-            	    // InternalAsple.g:816:5: lv_if_6_0= ruleStatement
+            	    // InternalASPLE.g:815:4: (lv_if_6_0= ruleStatement )
+            	    // InternalASPLE.g:816:5: lv_if_6_0= ruleStatement
             	    {
 
             	    					newCompositeNode(grammarAccess.getConditionalAccess().getIfStatementParserRuleCall_6_0());
@@ -2291,7 +2291,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             	    						current,
             	    						"if",
             	    						lv_if_6_0,
-            	    						"wodel.dsls.Asple.Statement");
+            	    						"wodel.dsls.ASPLE.Statement");
             	    					afterParserOrEnumRuleCall();
             	    				
 
@@ -2310,7 +2310,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_7, grammarAccess.getConditionalAccess().getRightCurlyBracketKeyword_7());
             		
-            // InternalAsple.g:837:3: (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )?
+            // InternalASPLE.g:837:3: (otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}' )?
             int alt18=2;
             int LA18_0 = input.LA(1);
 
@@ -2319,7 +2319,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt18) {
                 case 1 :
-                    // InternalAsple.g:838:4: otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}'
+                    // InternalASPLE.g:838:4: otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleStatement ) )* otherlv_11= '}'
                     {
                     otherlv_8=(Token)match(input,28,FOLLOW_17); 
 
@@ -2329,7 +2329,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_9, grammarAccess.getConditionalAccess().getLeftCurlyBracketKeyword_8_1());
                     			
-                    // InternalAsple.g:846:4: ( (lv_else_10_0= ruleStatement ) )*
+                    // InternalASPLE.g:846:4: ( (lv_else_10_0= ruleStatement ) )*
                     loop17:
                     do {
                         int alt17=2;
@@ -2342,10 +2342,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                         switch (alt17) {
                     	case 1 :
-                    	    // InternalAsple.g:847:5: (lv_else_10_0= ruleStatement )
+                    	    // InternalASPLE.g:847:5: (lv_else_10_0= ruleStatement )
                     	    {
-                    	    // InternalAsple.g:847:5: (lv_else_10_0= ruleStatement )
-                    	    // InternalAsple.g:848:6: lv_else_10_0= ruleStatement
+                    	    // InternalASPLE.g:847:5: (lv_else_10_0= ruleStatement )
+                    	    // InternalASPLE.g:848:6: lv_else_10_0= ruleStatement
                     	    {
 
                     	    						newCompositeNode(grammarAccess.getConditionalAccess().getElseStatementParserRuleCall_8_2_0());
@@ -2363,7 +2363,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     	    							current,
                     	    							"else",
                     	    							lv_else_10_0,
-                    	    							"wodel.dsls.Asple.Statement");
+                    	    							"wodel.dsls.ASPLE.Statement");
                     	    						afterParserOrEnumRuleCall();
                     	    					
 
@@ -2411,7 +2411,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLoop"
-    // InternalAsple.g:874:1: entryRuleLoop returns [EObject current=null] : iv_ruleLoop= ruleLoop EOF ;
+    // InternalASPLE.g:874:1: entryRuleLoop returns [EObject current=null] : iv_ruleLoop= ruleLoop EOF ;
     public final EObject entryRuleLoop() throws RecognitionException {
         EObject current = null;
 
@@ -2419,8 +2419,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:874:45: (iv_ruleLoop= ruleLoop EOF )
-            // InternalAsple.g:875:2: iv_ruleLoop= ruleLoop EOF
+            // InternalASPLE.g:874:45: (iv_ruleLoop= ruleLoop EOF )
+            // InternalASPLE.g:875:2: iv_ruleLoop= ruleLoop EOF
             {
              newCompositeNode(grammarAccess.getLoopRule()); 
             pushFollow(FOLLOW_1);
@@ -2447,7 +2447,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLoop"
-    // InternalAsple.g:881:1: ruleLoop returns [EObject current=null] : ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) ) ;
+    // InternalASPLE.g:881:1: ruleLoop returns [EObject current=null] : ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) ) ;
     public final EObject ruleLoop() throws RecognitionException {
         EObject current = null;
 
@@ -2475,10 +2475,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:887:2: ( ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) ) )
-            // InternalAsple.g:888:2: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) )
+            // InternalASPLE.g:887:2: ( ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) ) )
+            // InternalASPLE.g:888:2: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) )
             {
-            // InternalAsple.g:888:2: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) )
+            // InternalASPLE.g:888:2: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' ) | (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' ) )
             int alt21=2;
             int LA21_0 = input.LA(1);
 
@@ -2496,13 +2496,13 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt21) {
                 case 1 :
-                    // InternalAsple.g:889:3: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' )
+                    // InternalASPLE.g:889:3: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' )
                     {
-                    // InternalAsple.g:889:3: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' )
-                    // InternalAsple.g:890:4: () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}'
+                    // InternalASPLE.g:889:3: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}' )
+                    // InternalASPLE.g:890:4: () otherlv_1= 'while' otherlv_2= '(' ( (lv_expression_3_0= ruleExpression ) ) otherlv_4= ')' otherlv_5= '{' ( (lv_statements_6_0= ruleStatement ) )* otherlv_7= '}'
                     {
-                    // InternalAsple.g:890:4: ()
-                    // InternalAsple.g:891:5: 
+                    // InternalASPLE.g:890:4: ()
+                    // InternalASPLE.g:891:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -2520,11 +2520,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_2, grammarAccess.getLoopAccess().getLeftParenthesisKeyword_0_2());
                     			
-                    // InternalAsple.g:905:4: ( (lv_expression_3_0= ruleExpression ) )
-                    // InternalAsple.g:906:5: (lv_expression_3_0= ruleExpression )
+                    // InternalASPLE.g:905:4: ( (lv_expression_3_0= ruleExpression ) )
+                    // InternalASPLE.g:906:5: (lv_expression_3_0= ruleExpression )
                     {
-                    // InternalAsple.g:906:5: (lv_expression_3_0= ruleExpression )
-                    // InternalAsple.g:907:6: lv_expression_3_0= ruleExpression
+                    // InternalASPLE.g:906:5: (lv_expression_3_0= ruleExpression )
+                    // InternalASPLE.g:907:6: lv_expression_3_0= ruleExpression
                     {
 
                     						newCompositeNode(grammarAccess.getLoopAccess().getExpressionExpressionParserRuleCall_0_3_0());
@@ -2542,7 +2542,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     							current,
                     							"expression",
                     							lv_expression_3_0,
-                    							"wodel.dsls.Asple.Expression");
+                    							"wodel.dsls.ASPLE.Expression");
                     						afterParserOrEnumRuleCall();
                     					
 
@@ -2559,7 +2559,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_5, grammarAccess.getLoopAccess().getLeftCurlyBracketKeyword_0_5());
                     			
-                    // InternalAsple.g:932:4: ( (lv_statements_6_0= ruleStatement ) )*
+                    // InternalASPLE.g:932:4: ( (lv_statements_6_0= ruleStatement ) )*
                     loop19:
                     do {
                         int alt19=2;
@@ -2572,10 +2572,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                         switch (alt19) {
                     	case 1 :
-                    	    // InternalAsple.g:933:5: (lv_statements_6_0= ruleStatement )
+                    	    // InternalASPLE.g:933:5: (lv_statements_6_0= ruleStatement )
                     	    {
-                    	    // InternalAsple.g:933:5: (lv_statements_6_0= ruleStatement )
-                    	    // InternalAsple.g:934:6: lv_statements_6_0= ruleStatement
+                    	    // InternalASPLE.g:933:5: (lv_statements_6_0= ruleStatement )
+                    	    // InternalASPLE.g:934:6: lv_statements_6_0= ruleStatement
                     	    {
 
                     	    						newCompositeNode(grammarAccess.getLoopAccess().getStatementsStatementParserRuleCall_0_6_0());
@@ -2593,7 +2593,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     	    							current,
                     	    							"statements",
                     	    							lv_statements_6_0,
-                    	    							"wodel.dsls.Asple.Statement");
+                    	    							"wodel.dsls.ASPLE.Statement");
                     	    						afterParserOrEnumRuleCall();
                     	    					
 
@@ -2619,10 +2619,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:957:3: (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' )
+                    // InternalASPLE.g:957:3: (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' )
                     {
-                    // InternalAsple.g:957:3: (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' )
-                    // InternalAsple.g:958:4: otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')'
+                    // InternalASPLE.g:957:3: (otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')' )
+                    // InternalASPLE.g:958:4: otherlv_8= 'repeat' otherlv_9= '{' ( (lv_statements_10_0= ruleStatement ) )* otherlv_11= '}' otherlv_12= 'until' otherlv_13= '(' ( (lv_expression_14_0= ruleExpression ) ) otherlv_15= ')'
                     {
                     otherlv_8=(Token)match(input,30,FOLLOW_17); 
 
@@ -2632,7 +2632,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_9, grammarAccess.getLoopAccess().getLeftCurlyBracketKeyword_1_1());
                     			
-                    // InternalAsple.g:966:4: ( (lv_statements_10_0= ruleStatement ) )*
+                    // InternalASPLE.g:966:4: ( (lv_statements_10_0= ruleStatement ) )*
                     loop20:
                     do {
                         int alt20=2;
@@ -2645,10 +2645,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                         switch (alt20) {
                     	case 1 :
-                    	    // InternalAsple.g:967:5: (lv_statements_10_0= ruleStatement )
+                    	    // InternalASPLE.g:967:5: (lv_statements_10_0= ruleStatement )
                     	    {
-                    	    // InternalAsple.g:967:5: (lv_statements_10_0= ruleStatement )
-                    	    // InternalAsple.g:968:6: lv_statements_10_0= ruleStatement
+                    	    // InternalASPLE.g:967:5: (lv_statements_10_0= ruleStatement )
+                    	    // InternalASPLE.g:968:6: lv_statements_10_0= ruleStatement
                     	    {
 
                     	    						newCompositeNode(grammarAccess.getLoopAccess().getStatementsStatementParserRuleCall_1_2_0());
@@ -2666,7 +2666,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     	    							current,
                     	    							"statements",
                     	    							lv_statements_10_0,
-                    	    							"wodel.dsls.Asple.Statement");
+                    	    							"wodel.dsls.ASPLE.Statement");
                     	    						afterParserOrEnumRuleCall();
                     	    					
 
@@ -2693,11 +2693,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_13, grammarAccess.getLoopAccess().getLeftParenthesisKeyword_1_5());
                     			
-                    // InternalAsple.g:997:4: ( (lv_expression_14_0= ruleExpression ) )
-                    // InternalAsple.g:998:5: (lv_expression_14_0= ruleExpression )
+                    // InternalASPLE.g:997:4: ( (lv_expression_14_0= ruleExpression ) )
+                    // InternalASPLE.g:998:5: (lv_expression_14_0= ruleExpression )
                     {
-                    // InternalAsple.g:998:5: (lv_expression_14_0= ruleExpression )
-                    // InternalAsple.g:999:6: lv_expression_14_0= ruleExpression
+                    // InternalASPLE.g:998:5: (lv_expression_14_0= ruleExpression )
+                    // InternalASPLE.g:999:6: lv_expression_14_0= ruleExpression
                     {
 
                     						newCompositeNode(grammarAccess.getLoopAccess().getExpressionExpressionParserRuleCall_1_6_0());
@@ -2715,7 +2715,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     							current,
                     							"expression",
                     							lv_expression_14_0,
-                    							"wodel.dsls.Asple.Expression");
+                    							"wodel.dsls.ASPLE.Expression");
                     						afterParserOrEnumRuleCall();
                     					
 
@@ -2757,7 +2757,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTransput"
-    // InternalAsple.g:1025:1: entryRuleTransput returns [EObject current=null] : iv_ruleTransput= ruleTransput EOF ;
+    // InternalASPLE.g:1025:1: entryRuleTransput returns [EObject current=null] : iv_ruleTransput= ruleTransput EOF ;
     public final EObject entryRuleTransput() throws RecognitionException {
         EObject current = null;
 
@@ -2765,8 +2765,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:1025:49: (iv_ruleTransput= ruleTransput EOF )
-            // InternalAsple.g:1026:2: iv_ruleTransput= ruleTransput EOF
+            // InternalASPLE.g:1025:49: (iv_ruleTransput= ruleTransput EOF )
+            // InternalASPLE.g:1026:2: iv_ruleTransput= ruleTransput EOF
             {
              newCompositeNode(grammarAccess.getTransputRule()); 
             pushFollow(FOLLOW_1);
@@ -2793,7 +2793,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTransput"
-    // InternalAsple.g:1032:1: ruleTransput returns [EObject current=null] : ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) ) ;
+    // InternalASPLE.g:1032:1: ruleTransput returns [EObject current=null] : ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) ) ;
     public final EObject ruleTransput() throws RecognitionException {
         EObject current = null;
 
@@ -2807,14 +2807,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:1038:2: ( ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) ) )
-            // InternalAsple.g:1039:2: ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) )
+            // InternalASPLE.g:1038:2: ( ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) ) )
+            // InternalASPLE.g:1039:2: ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) )
             {
-            // InternalAsple.g:1039:2: ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) )
-            // InternalAsple.g:1040:3: () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) )
+            // InternalASPLE.g:1039:2: ( () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) ) )
+            // InternalASPLE.g:1040:3: () otherlv_1= 'input' ( (otherlv_2= RULE_ID ) ) otherlv_3= 'output' ( (lv_expression_4_0= ruleExpression ) )
             {
-            // InternalAsple.g:1040:3: ()
-            // InternalAsple.g:1041:4: 
+            // InternalASPLE.g:1040:3: ()
+            // InternalASPLE.g:1041:4: 
             {
 
             				current = forceCreateModelElement(
@@ -2828,11 +2828,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTransputAccess().getInputKeyword_1());
             		
-            // InternalAsple.g:1051:3: ( (otherlv_2= RULE_ID ) )
-            // InternalAsple.g:1052:4: (otherlv_2= RULE_ID )
+            // InternalASPLE.g:1051:3: ( (otherlv_2= RULE_ID ) )
+            // InternalASPLE.g:1052:4: (otherlv_2= RULE_ID )
             {
-            // InternalAsple.g:1052:4: (otherlv_2= RULE_ID )
-            // InternalAsple.g:1053:5: otherlv_2= RULE_ID
+            // InternalASPLE.g:1052:4: (otherlv_2= RULE_ID )
+            // InternalASPLE.g:1053:5: otherlv_2= RULE_ID
             {
 
             					if (current==null) {
@@ -2853,11 +2853,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getTransputAccess().getOutputKeyword_3());
             		
-            // InternalAsple.g:1068:3: ( (lv_expression_4_0= ruleExpression ) )
-            // InternalAsple.g:1069:4: (lv_expression_4_0= ruleExpression )
+            // InternalASPLE.g:1068:3: ( (lv_expression_4_0= ruleExpression ) )
+            // InternalASPLE.g:1069:4: (lv_expression_4_0= ruleExpression )
             {
-            // InternalAsple.g:1069:4: (lv_expression_4_0= ruleExpression )
-            // InternalAsple.g:1070:5: lv_expression_4_0= ruleExpression
+            // InternalASPLE.g:1069:4: (lv_expression_4_0= ruleExpression )
+            // InternalASPLE.g:1070:5: lv_expression_4_0= ruleExpression
             {
 
             					newCompositeNode(grammarAccess.getTransputAccess().getExpressionExpressionParserRuleCall_4_0());
@@ -2875,7 +2875,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"expression",
             						lv_expression_4_0,
-            						"wodel.dsls.Asple.Expression");
+            						"wodel.dsls.ASPLE.Expression");
             					afterParserOrEnumRuleCall();
             				
 
@@ -2907,7 +2907,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExpression"
-    // InternalAsple.g:1091:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
+    // InternalASPLE.g:1091:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
     public final EObject entryRuleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -2915,8 +2915,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:1091:51: (iv_ruleExpression= ruleExpression EOF )
-            // InternalAsple.g:1092:2: iv_ruleExpression= ruleExpression EOF
+            // InternalASPLE.g:1091:51: (iv_ruleExpression= ruleExpression EOF )
+            // InternalASPLE.g:1092:2: iv_ruleExpression= ruleExpression EOF
             {
              newCompositeNode(grammarAccess.getExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -2943,7 +2943,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpression"
-    // InternalAsple.g:1098:1: ruleExpression returns [EObject current=null] : (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator ) ;
+    // InternalASPLE.g:1098:1: ruleExpression returns [EObject current=null] : (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator ) ;
     public final EObject ruleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -2956,15 +2956,15 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:1104:2: ( (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator ) )
-            // InternalAsple.g:1105:2: (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator )
+            // InternalASPLE.g:1104:2: ( (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator ) )
+            // InternalASPLE.g:1105:2: (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator )
             {
-            // InternalAsple.g:1105:2: (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator )
+            // InternalASPLE.g:1105:2: (this_Primary_0= rulePrimary | this_BinaryOperator_1= ruleBinaryOperator )
             int alt22=2;
             alt22 = dfa22.predict(input);
             switch (alt22) {
                 case 1 :
-                    // InternalAsple.g:1106:3: this_Primary_0= rulePrimary
+                    // InternalASPLE.g:1106:3: this_Primary_0= rulePrimary
                     {
 
                     			newCompositeNode(grammarAccess.getExpressionAccess().getPrimaryParserRuleCall_0());
@@ -2982,7 +2982,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:1115:3: this_BinaryOperator_1= ruleBinaryOperator
+                    // InternalASPLE.g:1115:3: this_BinaryOperator_1= ruleBinaryOperator
                     {
 
                     			newCompositeNode(grammarAccess.getExpressionAccess().getBinaryOperatorParserRuleCall_1());
@@ -3022,7 +3022,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimary"
-    // InternalAsple.g:1127:1: entryRulePrimary returns [EObject current=null] : iv_rulePrimary= rulePrimary EOF ;
+    // InternalASPLE.g:1127:1: entryRulePrimary returns [EObject current=null] : iv_rulePrimary= rulePrimary EOF ;
     public final EObject entryRulePrimary() throws RecognitionException {
         EObject current = null;
 
@@ -3030,8 +3030,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:1127:48: (iv_rulePrimary= rulePrimary EOF )
-            // InternalAsple.g:1128:2: iv_rulePrimary= rulePrimary EOF
+            // InternalASPLE.g:1127:48: (iv_rulePrimary= rulePrimary EOF )
+            // InternalASPLE.g:1128:2: iv_rulePrimary= rulePrimary EOF
             {
              newCompositeNode(grammarAccess.getPrimaryRule()); 
             pushFollow(FOLLOW_1);
@@ -3058,7 +3058,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimary"
-    // InternalAsple.g:1134:1: rulePrimary returns [EObject current=null] : (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral ) ;
+    // InternalASPLE.g:1134:1: rulePrimary returns [EObject current=null] : (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral ) ;
     public final EObject rulePrimary() throws RecognitionException {
         EObject current = null;
 
@@ -3071,10 +3071,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:1140:2: ( (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral ) )
-            // InternalAsple.g:1141:2: (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral )
+            // InternalASPLE.g:1140:2: ( (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral ) )
+            // InternalASPLE.g:1141:2: (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral )
             {
-            // InternalAsple.g:1141:2: (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral )
+            // InternalASPLE.g:1141:2: (this_Identifier_0= ruleIdentifier | this_Literal_1= ruleLiteral )
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -3092,7 +3092,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             }
             switch (alt23) {
                 case 1 :
-                    // InternalAsple.g:1142:3: this_Identifier_0= ruleIdentifier
+                    // InternalASPLE.g:1142:3: this_Identifier_0= ruleIdentifier
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryAccess().getIdentifierParserRuleCall_0());
@@ -3110,7 +3110,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:1151:3: this_Literal_1= ruleLiteral
+                    // InternalASPLE.g:1151:3: this_Literal_1= ruleLiteral
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryAccess().getLiteralParserRuleCall_1());
@@ -3150,7 +3150,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBinaryOperator"
-    // InternalAsple.g:1163:1: entryRuleBinaryOperator returns [EObject current=null] : iv_ruleBinaryOperator= ruleBinaryOperator EOF ;
+    // InternalASPLE.g:1163:1: entryRuleBinaryOperator returns [EObject current=null] : iv_ruleBinaryOperator= ruleBinaryOperator EOF ;
     public final EObject entryRuleBinaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -3158,8 +3158,8 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsple.g:1163:55: (iv_ruleBinaryOperator= ruleBinaryOperator EOF )
-            // InternalAsple.g:1164:2: iv_ruleBinaryOperator= ruleBinaryOperator EOF
+            // InternalASPLE.g:1163:55: (iv_ruleBinaryOperator= ruleBinaryOperator EOF )
+            // InternalASPLE.g:1164:2: iv_ruleBinaryOperator= ruleBinaryOperator EOF
             {
              newCompositeNode(grammarAccess.getBinaryOperatorRule()); 
             pushFollow(FOLLOW_1);
@@ -3186,7 +3186,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBinaryOperator"
-    // InternalAsple.g:1170:1: ruleBinaryOperator returns [EObject current=null] : ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) ) ;
+    // InternalASPLE.g:1170:1: ruleBinaryOperator returns [EObject current=null] : ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) ) ;
     public final EObject ruleBinaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -3208,14 +3208,14 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:1176:2: ( ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) ) )
-            // InternalAsple.g:1177:2: ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) )
+            // InternalASPLE.g:1176:2: ( ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) ) )
+            // InternalASPLE.g:1177:2: ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) )
             {
-            // InternalAsple.g:1177:2: ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) )
-            // InternalAsple.g:1178:3: () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) )
+            // InternalASPLE.g:1177:2: ( () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) ) )
+            // InternalASPLE.g:1178:3: () ( (lv_left_1_0= rulePrimary ) ) ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) ) ( (lv_right_3_0= ruleExpression ) )
             {
-            // InternalAsple.g:1178:3: ()
-            // InternalAsple.g:1179:4: 
+            // InternalASPLE.g:1178:3: ()
+            // InternalASPLE.g:1179:4: 
             {
 
             				current = forceCreateModelElement(
@@ -3225,11 +3225,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:1185:3: ( (lv_left_1_0= rulePrimary ) )
-            // InternalAsple.g:1186:4: (lv_left_1_0= rulePrimary )
+            // InternalASPLE.g:1185:3: ( (lv_left_1_0= rulePrimary ) )
+            // InternalASPLE.g:1186:4: (lv_left_1_0= rulePrimary )
             {
-            // InternalAsple.g:1186:4: (lv_left_1_0= rulePrimary )
-            // InternalAsple.g:1187:5: lv_left_1_0= rulePrimary
+            // InternalASPLE.g:1186:4: (lv_left_1_0= rulePrimary )
+            // InternalASPLE.g:1187:5: lv_left_1_0= rulePrimary
             {
 
             					newCompositeNode(grammarAccess.getBinaryOperatorAccess().getLeftPrimaryParserRuleCall_1_0());
@@ -3247,7 +3247,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"left",
             						lv_left_1_0,
-            						"wodel.dsls.Asple.Primary");
+            						"wodel.dsls.ASPLE.Primary");
             					afterParserOrEnumRuleCall();
             				
 
@@ -3256,13 +3256,13 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:1204:3: ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) )
-            // InternalAsple.g:1205:4: ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) )
+            // InternalASPLE.g:1204:3: ( ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) ) )
+            // InternalASPLE.g:1205:4: ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) )
             {
-            // InternalAsple.g:1205:4: ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) )
-            // InternalAsple.g:1206:5: (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' )
+            // InternalASPLE.g:1205:4: ( (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' ) )
+            // InternalASPLE.g:1206:5: (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' )
             {
-            // InternalAsple.g:1206:5: (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' )
+            // InternalASPLE.g:1206:5: (lv_operator_2_1= '+' | lv_operator_2_2= '-' | lv_operator_2_3= '*' | lv_operator_2_4= '/' | lv_operator_2_5= '%' | lv_operator_2_6= '==' | lv_operator_2_7= '!=' | lv_operator_2_8= '>' | lv_operator_2_9= '<' )
             int alt24=9;
             switch ( input.LA(1) ) {
             case 34:
@@ -3319,7 +3319,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             switch (alt24) {
                 case 1 :
-                    // InternalAsple.g:1207:6: lv_operator_2_1= '+'
+                    // InternalASPLE.g:1207:6: lv_operator_2_1= '+'
                     {
                     lv_operator_2_1=(Token)match(input,34,FOLLOW_14); 
 
@@ -3335,7 +3335,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:1218:6: lv_operator_2_2= '-'
+                    // InternalASPLE.g:1218:6: lv_operator_2_2= '-'
                     {
                     lv_operator_2_2=(Token)match(input,16,FOLLOW_14); 
 
@@ -3351,7 +3351,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsple.g:1229:6: lv_operator_2_3= '*'
+                    // InternalASPLE.g:1229:6: lv_operator_2_3= '*'
                     {
                     lv_operator_2_3=(Token)match(input,35,FOLLOW_14); 
 
@@ -3367,7 +3367,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalAsple.g:1240:6: lv_operator_2_4= '/'
+                    // InternalASPLE.g:1240:6: lv_operator_2_4= '/'
                     {
                     lv_operator_2_4=(Token)match(input,36,FOLLOW_14); 
 
@@ -3383,7 +3383,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalAsple.g:1251:6: lv_operator_2_5= '%'
+                    // InternalASPLE.g:1251:6: lv_operator_2_5= '%'
                     {
                     lv_operator_2_5=(Token)match(input,37,FOLLOW_14); 
 
@@ -3399,7 +3399,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalAsple.g:1262:6: lv_operator_2_6= '=='
+                    // InternalASPLE.g:1262:6: lv_operator_2_6= '=='
                     {
                     lv_operator_2_6=(Token)match(input,38,FOLLOW_14); 
 
@@ -3415,7 +3415,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalAsple.g:1273:6: lv_operator_2_7= '!='
+                    // InternalASPLE.g:1273:6: lv_operator_2_7= '!='
                     {
                     lv_operator_2_7=(Token)match(input,39,FOLLOW_14); 
 
@@ -3431,7 +3431,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalAsple.g:1284:6: lv_operator_2_8= '>'
+                    // InternalASPLE.g:1284:6: lv_operator_2_8= '>'
                     {
                     lv_operator_2_8=(Token)match(input,40,FOLLOW_14); 
 
@@ -3447,7 +3447,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // InternalAsple.g:1295:6: lv_operator_2_9= '<'
+                    // InternalASPLE.g:1295:6: lv_operator_2_9= '<'
                     {
                     lv_operator_2_9=(Token)match(input,41,FOLLOW_14); 
 
@@ -3471,11 +3471,11 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAsple.g:1308:3: ( (lv_right_3_0= ruleExpression ) )
-            // InternalAsple.g:1309:4: (lv_right_3_0= ruleExpression )
+            // InternalASPLE.g:1308:3: ( (lv_right_3_0= ruleExpression ) )
+            // InternalASPLE.g:1309:4: (lv_right_3_0= ruleExpression )
             {
-            // InternalAsple.g:1309:4: (lv_right_3_0= ruleExpression )
-            // InternalAsple.g:1310:5: lv_right_3_0= ruleExpression
+            // InternalASPLE.g:1309:4: (lv_right_3_0= ruleExpression )
+            // InternalASPLE.g:1310:5: lv_right_3_0= ruleExpression
             {
 
             					newCompositeNode(grammarAccess.getBinaryOperatorAccess().getRightExpressionParserRuleCall_3_0());
@@ -3493,7 +3493,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
             						current,
             						"right",
             						lv_right_3_0,
-            						"wodel.dsls.Asple.Expression");
+            						"wodel.dsls.ASPLE.Expression");
             					afterParserOrEnumRuleCall();
             				
 
@@ -3525,7 +3525,7 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMode"
-    // InternalAsple.g:1331:1: ruleMode returns [Enumerator current=null] : ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) ) ;
+    // InternalASPLE.g:1331:1: ruleMode returns [Enumerator current=null] : ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) ) ;
     public final Enumerator ruleMode() throws RecognitionException {
         Enumerator current = null;
 
@@ -3537,10 +3537,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsple.g:1337:2: ( ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) ) )
-            // InternalAsple.g:1338:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) )
+            // InternalASPLE.g:1337:2: ( ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) ) )
+            // InternalASPLE.g:1338:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) )
             {
-            // InternalAsple.g:1338:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) )
+            // InternalASPLE.g:1338:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'bool' ) | (enumLiteral_2= 'double' ) )
             int alt25=3;
             switch ( input.LA(1) ) {
             case 42:
@@ -3567,10 +3567,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
 
             switch (alt25) {
                 case 1 :
-                    // InternalAsple.g:1339:3: (enumLiteral_0= 'int' )
+                    // InternalASPLE.g:1339:3: (enumLiteral_0= 'int' )
                     {
-                    // InternalAsple.g:1339:3: (enumLiteral_0= 'int' )
-                    // InternalAsple.g:1340:4: enumLiteral_0= 'int'
+                    // InternalASPLE.g:1339:3: (enumLiteral_0= 'int' )
+                    // InternalASPLE.g:1340:4: enumLiteral_0= 'int'
                     {
                     enumLiteral_0=(Token)match(input,42,FOLLOW_2); 
 
@@ -3584,10 +3584,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsple.g:1347:3: (enumLiteral_1= 'bool' )
+                    // InternalASPLE.g:1347:3: (enumLiteral_1= 'bool' )
                     {
-                    // InternalAsple.g:1347:3: (enumLiteral_1= 'bool' )
-                    // InternalAsple.g:1348:4: enumLiteral_1= 'bool'
+                    // InternalASPLE.g:1347:3: (enumLiteral_1= 'bool' )
+                    // InternalASPLE.g:1348:4: enumLiteral_1= 'bool'
                     {
                     enumLiteral_1=(Token)match(input,43,FOLLOW_2); 
 
@@ -3601,10 +3601,10 @@ public class InternalAspleParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsple.g:1355:3: (enumLiteral_2= 'double' )
+                    // InternalASPLE.g:1355:3: (enumLiteral_2= 'double' )
                     {
-                    // InternalAsple.g:1355:3: (enumLiteral_2= 'double' )
-                    // InternalAsple.g:1356:4: enumLiteral_2= 'double'
+                    // InternalASPLE.g:1355:3: (enumLiteral_2= 'double' )
+                    // InternalASPLE.g:1356:4: enumLiteral_2= 'double'
                     {
                     enumLiteral_2=(Token)match(input,44,FOLLOW_2); 
 

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ATL program semantic validation
+Bundle-SymbolicName: wodel.semantic.validation.atl;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.eclipse.emf.ecore.resource
+Bundle-Activator: wodel.semantic.validation.atl.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodel.semantic.validation,
+ org.eclipse.core.resources,
+ wodel.utils,
+ org.eclipse.m2m.atl.engine,
+ org.eclipse.m2m.atl.common,
+ anatlyzer.atl.standalone.api,
+ anatlyzer.atl.typing
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.semantic.validation.atl
+Bundle-ActivationPolicy: lazy

@@ -1,22 +1,21 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: wodeledu.dsls.mutatext
 Bundle-ManifestVersion: 2
 Bundle-Name: wodeledu.dsls.mutatext
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: wodeledu.dsls.mutatext; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: wodel.models,
+Require-Bundle: wodeledu.models,
  org.eclipse.xtext,
  org.eclipse.xtext.xbase,
- org.eclipse.equinox.common;bundle-version="3.5.0",
- org.eclipse.xtext.xbase.lib;bundle-version="2.12.0",
- org.antlr.runtime,
+ org.eclipse.equinox.common;bundle-version="3.16.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
  org.eclipse.xtext.util,
- org.eclipse.xtend.lib;bundle-version="2.12.0",
- wodel.utils;bundle-version="1.0.0",
- org.eclipse.core.runtime;bundle-version="3.13.0",
- org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ wodel.utils,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.scoping,
  wodeledu.dsls.services,

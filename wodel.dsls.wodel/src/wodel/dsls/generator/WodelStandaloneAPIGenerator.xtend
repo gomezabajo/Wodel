@@ -3,18 +3,23 @@ package wodel.dsls.generator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import mutatorenvironment.MutatorEnvironment
+import wodel.utils.manager.ProjectUtils
+import wodel.utils.manager.ModelManager
 import java.io.File
-import manager.ModelManager
-import mutatorenvironment.Program
-import manager.ProjectUtils
-import wodel.dsls.WodelUtils
-import manager.JavaUtils
-import java.util.List
 import java.util.ArrayList
+import java.util.List
+import mutatorenvironment.MutatorEnvironment
+import wodel.dsls.WodelUtils
+import wodel.utils.manager.JavaUtils
+import mutatorenvironment.Program
 
-public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
-	
+/**
+ * @author Pablo Gomez-Abajo - Wodel Java code generator.
+ * 
+ * Generates the code to programmatically execute the Wodel program (standalone mode).
+ * 
+ */
+class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
@@ -65,5 +70,4 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
      	}
 		fsa.generateFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
-	
 }

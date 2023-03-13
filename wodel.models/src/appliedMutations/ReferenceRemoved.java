@@ -3,9 +3,9 @@
 package appliedMutations;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -26,15 +26,10 @@ import org.eclipse.emf.ecore.EReference;
  * @generated
  */
 public interface ReferenceRemoved extends AppMutation {
-
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getReferenceRemoved_Object()
@@ -47,10 +42,6 @@ public interface ReferenceRemoved extends AppMutation {
 	 * Returns the value of the '<em><b>Ref</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref</em>' reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getReferenceRemoved_Ref()
@@ -62,10 +53,6 @@ public interface ReferenceRemoved extends AppMutation {
 	/**
 	 * Returns the value of the '<em><b>Ref Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Name</em>' attribute.
 	 * @see #setRefName(String)
@@ -84,4 +71,5 @@ public interface ReferenceRemoved extends AppMutation {
 	 * @generated
 	 */
 	void setRefName(String value);
+
 } // ReferenceRemoved

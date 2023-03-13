@@ -6,14 +6,20 @@ import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.AttributeChanged;
 import appliedMutations.InformationChanged;
 import appliedMutations.ReferenceChanged;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -87,7 +93,6 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getObject() {
 		if (object != null && object.eIsProxy()) {
 			InternalEObject oldObject = (InternalEObject)object;
@@ -114,7 +119,6 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setObject(EObject newObject) {
 		EObject oldObject = object;
 		object = newObject;
@@ -127,7 +131,6 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<AttributeChanged> getAttChanges() {
 		if (attChanges == null) {
 			attChanges = new EObjectContainmentEList<AttributeChanged>(AttributeChanged.class, this, AppliedMutationsPackage.INFORMATION_CHANGED__ATT_CHANGES);
@@ -140,7 +143,6 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<ReferenceChanged> getRefChanges() {
 		if (refChanges == null) {
 			refChanges = new EObjectContainmentEList<ReferenceChanged>(ReferenceChanged.class, this, AppliedMutationsPackage.INFORMATION_CHANGED__REF_CHANGES);

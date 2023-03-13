@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-import exceptions.MetaModelNotFoundException;
-import manager.ModelManager;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.manager.ModelManager;
 
 public class GenerateWodelWizardSecondPage extends WizardPage {
 

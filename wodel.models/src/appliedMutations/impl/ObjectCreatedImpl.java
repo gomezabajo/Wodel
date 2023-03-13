@@ -62,7 +62,6 @@ public class ObjectCreatedImpl extends AppMutationImpl implements ObjectCreated 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_CREATED__OBJECT);

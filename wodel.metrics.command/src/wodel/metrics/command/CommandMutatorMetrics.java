@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.osgi.framework.Bundle;
 
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import exceptions.ReferenceNonExistingException;
-import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.StaticMutatorMetrics;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.StaticMutatorMetrics;
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CreateObjectMutator;
@@ -2322,7 +2322,7 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		try {
 			List<WodelMetricCommand> metricCommands = new ArrayList<WodelMetricCommand>();
 			Bundle bundle = Platform.getBundle("wodel.models");
-			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 	   		File mutatorFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/src/");

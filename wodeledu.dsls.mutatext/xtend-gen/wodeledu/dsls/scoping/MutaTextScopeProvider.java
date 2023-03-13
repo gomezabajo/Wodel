@@ -6,7 +6,6 @@ package wodeledu.dsls.scoping;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import manager.ModelManager;
 import mutatext.Configuration;
 import mutatext.Option;
 import org.eclipse.core.runtime.FileLocator;
@@ -19,9 +18,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.osgi.framework.Bundle;
+import wodel.utils.manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -29,7 +28,7 @@ import org.osgi.framework.Bundle;
  * Scope provider for the mutaText language.
  */
 @SuppressWarnings("all")
-public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
+public class MutaTextScopeProvider extends AbstractMutaTextScopeProvider {
   /**
    * Option.type can refer to any EClass in the .ecore file.
    */
@@ -38,7 +37,7 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
       IScope _xblockexpression = null;
       {
         final Bundle bundle = Platform.getBundle("wodel.models");
-        final URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+        final URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
         final String ecore = FileLocator.resolve(fileURL).getFile();
         _xblockexpression = Scopes.scopeFor(this.getEClasses(ecore));
       }
@@ -47,7 +46,7 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * Option.object is an optional argument that can be any EClass in the metamodel.
    */
@@ -55,7 +54,7 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
     EObject _eContainer = option.eContainer();
     return Scopes.scopeFor(this.getEClasses(((Configuration) _eContainer).getMetamodel()));
   }
-  
+
   /**
    * It returns the list of classes defined in a meta-model.
    * @param String file containing the metamodel

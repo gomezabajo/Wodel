@@ -163,7 +163,6 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	private AsplePackageImpl() {
 		super(eNS_URI, AspleFactory.eINSTANCE);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -173,7 +172,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link AsplePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -187,7 +186,8 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 		if (isInited) return (AsplePackage)EPackage.Registry.INSTANCE.getEPackage(AsplePackage.eNS_URI);
 
 		// Obtain or create and register package
-		AsplePackageImpl theAsplePackage = (AsplePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof AsplePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new AsplePackageImpl());
+		Object registeredAsplePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		AsplePackageImpl theAsplePackage = registeredAsplePackage instanceof AsplePackageImpl ? (AsplePackageImpl)registeredAsplePackage : new AsplePackageImpl();
 
 		isInited = true;
 
@@ -200,7 +200,6 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 		// Mark meta-data to indicate it can't be changed
 		theAsplePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(AsplePackage.eNS_URI, theAsplePackage);
 		return theAsplePackage;

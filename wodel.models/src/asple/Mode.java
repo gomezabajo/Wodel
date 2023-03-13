@@ -61,10 +61,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>Int</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Int</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INT
 	 * @model name="int"
@@ -76,10 +72,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>Bool</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Bool</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BOOL
 	 * @model name="bool"
@@ -91,10 +83,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>String</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #STRING
 	 * @model name="string"
@@ -106,10 +94,6 @@ public enum Mode implements Enumerator {
 	/**
 	 * The '<em><b>Double</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Double</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DOUBLE
 	 * @model name="double"
@@ -144,6 +128,8 @@ public enum Mode implements Enumerator {
 	 * Returns the '<em><b>Mode</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Mode get(String literal) {
@@ -160,6 +146,8 @@ public enum Mode implements Enumerator {
 	 * Returns the '<em><b>Mode</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Mode getByName(String name) {
@@ -176,6 +164,8 @@ public enum Mode implements Enumerator {
 	 * Returns the '<em><b>Mode</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Mode get(int value) {

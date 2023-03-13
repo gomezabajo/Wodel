@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: wodeledu.dsls.mutatext.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: wodeledu.dsls.mutatext.ui
 Bundle-Vendor: My Company
@@ -7,19 +8,17 @@ Bundle-SymbolicName: wodeledu.dsls.mutatext.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: wodeledu.dsls.mutatext,
  wodeledu.dsls.mutatext.ide,
- wodel.models,
+ wodeledu.models,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
  org.eclipse.xtext.ui.codetemplates.ui,
- org.eclipse.ui.editors;bundle-version="3.5.0",
- org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui.editors;bundle-version="3.14.300",
+ org.eclipse.ui.ide;bundle-version="3.18.500",
  org.eclipse.ui,
  org.eclipse.compare,
- org.eclipse.xtext.builder,
- org.eclipse.xtend.lib;resolution:=optional,
- org.eclipse.xtext.xbase.lib;bundle-version="2.12.0"
+ org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: wodeledu.dsls.ui.contentassist,
  wodeledu.dsls.mutatext.ui.internal,
  wodeledu.dsls.ui.quickfix

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xmi:id="_IXC4gHqlEeumM_nlrwHWFw" name="7">
+  <states xmi:id="_IXDfkHqlEeumM_nlrwHWFw" name="q1" isFinal="true"/>
+  <states xmi:id="_IXDfkXqlEeumM_nlrwHWFw" name="q0" isInitial="true"/>
+  <transitions xmi:id="_IXDfknqlEeumM_nlrwHWFw" src="_IXDfkHqlEeumM_nlrwHWFw" tar="_IXDfkXqlEeumM_nlrwHWFw" symbol="_IXDfl3qlEeumM_nlrwHWFw"/>
+  <transitions xmi:id="_IXDfk3qlEeumM_nlrwHWFw" src="_IXDfkHqlEeumM_nlrwHWFw" tar="_IXDfkHqlEeumM_nlrwHWFw" symbol="_IXDflnqlEeumM_nlrwHWFw"/>
+  <transitions xmi:id="_IXDflHqlEeumM_nlrwHWFw" src="_IXDfkXqlEeumM_nlrwHWFw" tar="_IXDfkHqlEeumM_nlrwHWFw" symbol="_IXDfl3qlEeumM_nlrwHWFw"/>
+  <transitions xmi:id="_IXDflXqlEeumM_nlrwHWFw" src="_IXDfkXqlEeumM_nlrwHWFw" tar="_IXDfkXqlEeumM_nlrwHWFw" symbol="_IXDflnqlEeumM_nlrwHWFw"/>
+  <alphabet xmi:id="_IXDflnqlEeumM_nlrwHWFw" symbol="a"/>
+  <alphabet xmi:id="_IXDfl3qlEeumM_nlrwHWFw" symbol="b"/>
+</DFAAutomaton:Automaton>

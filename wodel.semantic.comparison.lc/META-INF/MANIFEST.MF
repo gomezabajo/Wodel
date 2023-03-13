@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Logic circuits semantic comparison
+Bundle-SymbolicName: wodel.semantic.comparison.lc;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.semantic.comparison.lc.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodel.semantic.comparison,
+ org.eclipse.core.resources,
+ org.eclipse.emf.ecore,
+ wodel.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.semantic.comparison.lc
+Bundle-ActivationPolicy: lazy

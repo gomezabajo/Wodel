@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xmi:id="_P7VCABg8EeuUd5wpkgojdw" name="Exercise 2">
+  <states xmi:id="_RkYDcBg8EeuUd5wpkgojdw" name="q0" isInitial="true" isFinal="true"/>
+  <states xmi:id="_SuOncBg8EeuUd5wpkgojdw" name="q1" isFinal="true"/>
+  <states xmi:id="_Tb6z4Bg8EeuUd5wpkgojdw" name="q2"/>
+  <transitions xmi:id="_UlPzcBg8EeuUd5wpkgojdw" src="_RkYDcBg8EeuUd5wpkgojdw" tar="_RkYDcBg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_VNhUYBg8EeuUd5wpkgojdw" src="_RkYDcBg8EeuUd5wpkgojdw" tar="_SuOncBg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_VltK4Bg8EeuUd5wpkgojdw" src="_SuOncBg8EeuUd5wpkgojdw" tar="_SuOncBg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_V4s_YBg8EeuUd5wpkgojdw" src="_SuOncBg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_WP-P4Bg8EeuUd5wpkgojdw" src="_Tb6z4Bg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_WmVhcBg8EeuUd5wpkgojdw" src="_Tb6z4Bg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <alphabet xmi:id="_W-I9cBg8EeuUd5wpkgojdw" symbol="a"/>
+  <alphabet xmi:id="_Xqr6YBg8EeuUd5wpkgojdw" symbol="b"/>
+</DFAAutomaton:Automaton>

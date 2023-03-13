@@ -4,9 +4,6 @@ import com.google.common.collect.Iterables;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import manager.JavaUtils;
-import manager.ModelManager;
-import manager.ProjectUtils;
 import mutatorenvironment.Block;
 import mutatorenvironment.Definition;
 import mutatorenvironment.MutatorEnvironment;
@@ -19,8 +16,15 @@ import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.dsls.WodelUtils;
-import wodel.dsls.generator.WodelAPIGenerator;
+import wodel.utils.manager.JavaUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 
+/**
+ * @author Pablo Gomez-Abajo - Wodel Java code generator.
+ * 
+ * Generates the code to programmatically execute the Wodel program (standalone mode).
+ */
 @SuppressWarnings("all")
 public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
   @Override
@@ -65,7 +69,6 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
           WodelUtils.serialize(xTextFileName, this.xmiFileName);
         } catch (final Throwable _t) {
           if (_t instanceof Exception) {
-            final Exception ex = (Exception)_t;
           } else {
             throw Exceptions.sneakyThrow(_t);
           }

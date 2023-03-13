@@ -29,10 +29,6 @@ public interface Class extends mutatormetrics.Object {
 	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatormetrics.Attribute}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see mutatormetrics.MutatormetricsPackage#getClass_Attributes()
@@ -45,10 +41,6 @@ public interface Class extends mutatormetrics.Object {
 	 * Returns the value of the '<em><b>References</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatormetrics.Reference}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>References</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>References</em>' containment reference list.
 	 * @see mutatormetrics.MutatormetricsPackage#getClass_References()
@@ -61,10 +53,6 @@ public interface Class extends mutatormetrics.Object {
 	 * Returns the value of the '<em><b>Ccreated</b></em>' attribute.
 	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ccreated</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ccreated</em>' attribute.
 	 * @see #setCcreated(int)
@@ -88,10 +76,6 @@ public interface Class extends mutatormetrics.Object {
 	 * Returns the value of the '<em><b>Cmodified</b></em>' attribute.
 	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Cmodified</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cmodified</em>' attribute.
 	 * @see #setCmodified(int)
@@ -115,10 +99,6 @@ public interface Class extends mutatormetrics.Object {
 	 * Returns the value of the '<em><b>Cremoved</b></em>' attribute.
 	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Cremoved</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cremoved</em>' attribute.
 	 * @see #setCremoved(int)

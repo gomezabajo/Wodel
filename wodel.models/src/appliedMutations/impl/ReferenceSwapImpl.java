@@ -4,10 +4,13 @@ package appliedMutations.impl;
 
 import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.ReferenceSwap;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -143,7 +146,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getRefObject() {
 		if (refObject != null && refObject.eIsProxy()) {
 			InternalEObject oldRefObject = (InternalEObject)refObject;
@@ -170,7 +172,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setRefObject(EObject newRefObject) {
 		EObject oldRefObject = refObject;
 		refObject = newRefObject;
@@ -183,7 +184,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -193,7 +193,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setFirstName(String newFirstName) {
 		String oldFirstName = firstName;
 		firstName = newFirstName;
@@ -206,7 +205,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getOtherFrom() {
 		if (otherFrom != null && otherFrom.eIsProxy()) {
 			InternalEObject oldOtherFrom = (InternalEObject)otherFrom;
@@ -233,7 +231,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOtherFrom(EObject newOtherFrom) {
 		EObject oldOtherFrom = otherFrom;
 		otherFrom = newOtherFrom;
@@ -246,7 +243,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getOtherFromName() {
 		return otherFromName;
 	}
@@ -256,7 +252,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOtherFromName(String newOtherFromName) {
 		String oldOtherFromName = otherFromName;
 		otherFromName = newOtherFromName;
@@ -269,7 +264,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getOtherTo() {
 		if (otherTo != null && otherTo.eIsProxy()) {
 			InternalEObject oldOtherTo = (InternalEObject)otherTo;
@@ -296,7 +290,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOtherTo(EObject newOtherTo) {
 		EObject oldOtherTo = otherTo;
 		otherTo = newOtherTo;
@@ -309,7 +302,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getOtherToName() {
 		return otherToName;
 	}
@@ -319,7 +311,6 @@ public class ReferenceSwapImpl extends ReferenceChangedImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOtherToName(String newOtherToName) {
 		String oldOtherToName = otherToName;
 		otherToName = newOtherToName;

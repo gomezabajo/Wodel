@@ -1484,7 +1484,7 @@ public class InternalModelDrawParser extends AbstractInternalAntlrParser {
                     					if (current==null) {
                     						current = createModelElement(grammarAccess.getValuedFeatureRule());
                     					}
-                    					setWithLastConsumed(current, "negation", true, "not");
+                    					setWithLastConsumed(current, "negation", lv_negation_1_0 != null, "not");
                     				
 
                     }

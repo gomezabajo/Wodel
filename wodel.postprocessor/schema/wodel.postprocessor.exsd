@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="MutPostProcessor" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="wodel.postprocessor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="MutPostProcessor" id="postprocessor" name="Post Processor"/>
+         <meta.schema plugin="wodel.postprocessor" id="MutPostprocessor" name="Wodel mutants postprocessor"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":mutpostprocessor.run.IPostprocessor"/>
+                  <meta.attribute kind="java" basedOn=":wodel.postprocessor.run.IPostprocessor"/>
                </appinfo>
             </annotation>
          </attribute>

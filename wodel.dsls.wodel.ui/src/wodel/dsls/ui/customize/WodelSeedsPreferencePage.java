@@ -7,13 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
 import org.eclipse.xtext.ui.editor.preferences.fields.LabelFieldEditor;
 
-/**
- * @author Pablo Gomez-Abajo - Wodel Seeds generation preferences page
- *
- */
-
 public class WodelSeedsPreferencePage extends LanguageRootPreferencePage {
-	
     @Override
     protected void createFieldEditors() {
     	Composite composite = getFieldEditorParent();
@@ -66,4 +60,5 @@ public class WodelSeedsPreferencePage extends LanguageRootPreferencePage {
     	preferenceStore.setDefault("Seed models generation timeout", "600");
     	addField(field);
     }
+
 }

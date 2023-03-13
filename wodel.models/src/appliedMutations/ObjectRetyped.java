@@ -3,6 +3,7 @@
 package appliedMutations;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -30,10 +31,6 @@ public interface ObjectRetyped extends AppMutation {
 	 * Returns the value of the '<em><b>Object</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getObjectRetyped_Object()
@@ -46,10 +43,6 @@ public interface ObjectRetyped extends AppMutation {
 	 * Returns the value of the '<em><b>Removed Object</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Removed Object</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Removed Object</em>' reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getObjectRetyped_RemovedObject()
@@ -61,10 +54,6 @@ public interface ObjectRetyped extends AppMutation {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
@@ -87,10 +76,6 @@ public interface ObjectRetyped extends AppMutation {
 	/**
 	 * Returns the value of the '<em><b>New Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>New Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Type</em>' reference.
 	 * @see #setNewType(EClass)

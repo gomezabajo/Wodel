@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asple.impl.BinaryOperatorImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link asple.impl.BinaryOperatorImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link asple.impl.BinaryOperatorImpl#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -300,7 +300,7 @@ public class BinaryOperatorImpl extends ExpressionImpl implements BinaryOperator
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (operator: ");
 		result.append(operator);
 		result.append(')');

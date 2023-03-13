@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Wodel-Test mutation optimiser by subsumption
+Bundle-SymbolicName: wodeltest.optimiser.subsumption;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodeltest.optimiser.subsumption.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodeltest.optimiser,
+ org.eclipse.core.resources,
+ wodel.utils,
+ wodeltest.run
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodeltest.optimiser.subsumption
+Bundle-ActivationPolicy: lazy

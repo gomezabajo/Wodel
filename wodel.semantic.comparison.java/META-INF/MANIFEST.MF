@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java program semantic comparison
+Bundle-SymbolicName: wodel.semantic.comparison.java;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.semantic.comparison.java.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodel.semantic.comparison,
+ org.eclipse.core.resources,
+ org.eclipse.emf.ecore,
+ org.eclipse.jdt.core,
+ org.eclipse.modisco.java,
+ wodel.utils,
+ wodeltest.extension,
+ wodel.project
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.semantic.comparison.java
+Bundle-ActivationPolicy: lazy

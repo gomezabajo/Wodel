@@ -28,10 +28,6 @@ public interface MutatorMetrics extends EObject {
 	 * Returns the value of the '<em><b>Trees</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatormetrics.Folder}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Trees</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Trees</em>' containment reference list.
 	 * @see mutatormetrics.MutatormetricsPackage#getMutatorMetrics_Trees()
@@ -44,10 +40,6 @@ public interface MutatorMetrics extends EObject {
 	 * Returns the value of the '<em><b>Classes</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatormetrics.Class}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Classes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Classes</em>' containment reference list.
 	 * @see mutatormetrics.MutatormetricsPackage#getMutatorMetrics_Classes()

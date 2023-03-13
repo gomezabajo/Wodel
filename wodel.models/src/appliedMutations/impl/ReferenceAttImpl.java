@@ -111,7 +111,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getAttName() {
 		return attName;
 	}
@@ -121,7 +120,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setAttName(String newAttName) {
 		String oldAttName = attName;
 		attName = newAttName;
@@ -134,7 +132,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getOldVal() {
 		return oldVal;
 	}
@@ -144,7 +141,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOldVal(String newOldVal) {
 		String oldOldVal = oldVal;
 		oldVal = newOldVal;
@@ -157,7 +153,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getNewVal() {
 		return newVal;
 	}
@@ -167,7 +162,6 @@ public class ReferenceAttImpl extends ReferenceChangedImpl implements ReferenceA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setNewVal(String newNewVal) {
 		String oldNewVal = newVal;
 		newVal = newNewVal;

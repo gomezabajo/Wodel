@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
-         id="sampleBuilder"
+         id="wodel.project.sampleBuilder"
          name="Sample Project Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="true">
          <run
-               class="builder.SampleBuilder">
+               class="wodel.project.examples.builder.SampleBuilder">
          </run>
       </builder>
    </extension>
    <extension
-         id="sampleNature"
+         id="wodel.project.sampleNature"
          name="Sample Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="builder.SampleNature">
+               class="wodel.project.examples.builder.SampleNature">
          </run>
       </runtime>
       <builder
-            id="wodel.project.examples.sampleBuilder">
+            id="wodel.project.sampleBuilder">
       </builder>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
             name="Sample Project Nature commands"
-            id="wodel.project.examples.sampleNature.category">
+            id="wodel.project.examples.builder.addRemoveSampleNature">
       </category>
       <command
             name="Add/RemoveSample Project Nature"
-            defaultHandler="builder.AddRemoveSampleNatureHandler"
-            categoryId="wodel.project.examples.sampleNature.category"
-            id="wodel.project.examples.addRemoveSampleNature">
+            defaultHandler="wodel.project.examples.builder.AddRemoveSampleNatureHandler"
+            categoryId="wodel.project.examples.builder.addRemoveSampleNature"
+            id="wodel.project.examples.builder.addRemoveSampleNature">
       </command>
    </extension>
    <extension
@@ -44,7 +43,7 @@
       <menuContribution
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
-               commandId="wodel.project.examples.addRemoveSampleNature"
+               commandId="wodel.project.examples.builder.addRemoveSampleNature"
                label="Disable Sample builder"
                style="push">
             <visibleWhen
@@ -58,7 +57,7 @@
                      <adapt
                            type="org.eclipse.core.resources.IProject">
                         <test
-                              value="wodel.project.examples.sampleNature"
+                              value="wodel.project.sampleNature"
                               property="org.eclipse.core.resources.projectNature">
                         </test>
                      </adapt>
@@ -67,7 +66,7 @@
             </visibleWhen>
          </command>
          <command
-               commandId="wodel.project.examples.addRemoveSampleNature"
+               commandId="wodel.project.examples.builder.addRemoveSampleNature"
                label="Enable Sample builder"
                style="push">
             <visibleWhen
@@ -82,7 +81,7 @@
                            type="org.eclipse.core.resources.IProject">
                         <not>
                            <test
-                                 value="wodel.project.examples.sampleNature"
+                                 value="wodel.project.sampleNature"
                                  property="org.eclipse.core.resources.projectNature">
                            </test>
                         </not>
@@ -108,14 +107,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.AutomataWizard"
+            class="wodel.project.examples.wizards.AutomataWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelAutomata"
+            id="wodel.project.examples.wizards.AutomataWizard"
             name="Finite Automata"
             project="true">
       </wizard>
@@ -124,14 +123,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.AutomataWizard2"
+            class="wodel.project.examples.wizards.AutomataWizard2"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelAutomata2"
+            id="wodel.project.examples.wizards.AutomataWizard2"
             name="Finite Automata (2)"
             project="true">
       </wizard>
@@ -140,14 +139,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.SecurityPoliciesWizard"
+            class="wodel.project.examples.wizards.SecurityPoliciesWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelSecurityPolicies"
+            id="wodel.project.examples.wizards.SecurityPoliciesWizard"
             name="Security Policies"
             project="true">
       </wizard>
@@ -156,14 +155,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.PFSMWizard"
+            class="wodel.project.examples.wizards.PFSMWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelPFSM"
+            id="wodel.project.examples.wizards.PFSMWizard"
             name="Probabilistic Automata"
             project="true">
       </wizard>
@@ -172,14 +171,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.UMLClassDiagramsWizard"
+            class="wodel.project.examples.wizards.UMLClassDiagramsWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.UMLClassDiagramsWizard"
+            id="wodel.project.examples.wizards.UMLClassDiagramsMWizard"
             name="UML Class Diagrams"
             project="true">
       </wizard>
@@ -188,14 +187,14 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.AspleWizard"
+            class="wodel.project.examples.wizards.AspleWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelASPLE"
+            id="wodel.project.examples.wizards.AspleWizard"
             name="ASPLE Language"
             project="true">
       </wizard>
@@ -204,31 +203,15 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="wodel.project.WodelExamples"
-            name="Examples"
+            name="Wodel Examples"
             parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.BPELWizard"
+            class="wodel.project.examples.wizards.BPELWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelBPEL"
-            name="BPEL"
-            project="true">
-      </wizard>
-   </extension>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="wodel.project.WodelExamples"
-            name="Examples"
-            parentCategory="wodel.project.WodelProject">
-      </category>
-      <wizard
-            category="wodel.project.WodelProject/wodel.project.WodelExamples"
-            class="wizards.WodelEduAutomataWizard"
-            icon="icons/wodel4.jpg"
-            id="mutatorproject.examples.WodelEduAutomataWizard"
-            name="Wodel-Edu Finite Automata"
+            id="wodel.project.examples.wizards.BPELWizard"
+            name="BPEL Example"
             project="true">
       </wizard>
    </extension>

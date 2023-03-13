@@ -2,39 +2,39 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="sampleBuilder"
+         id="wodel.project.sampleBuilder"
          name="Sample Project Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="true">
          <run
-               class="builder.SampleBuilder">
+               class="wodel.project.builder.SampleBuilder">
          </run>
       </builder>
    </extension>
    <extension
-         id="sampleNature"
+         id="wodel.project.sampleNature"
          name="Sample Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="builder.SampleNature">
+               class="wodel.project.builder.SampleNature">
          </run>
       </runtime>
       <builder
-            id="MutatorProject.sampleBuilder">
+            id="wodel.project.sampleBuilder">
       </builder>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="MutatorProject.sampleNature.category"
+            id="wodel.project.builder.sampleNature.category"
             name="Sample Project Nature commands">
       </category>
       <command
-            categoryId="MutatorProject.sampleNature.category"
-            defaultHandler="builder.AddRemoveSampleNatureHandler"
-            id="MutatorProject.addRemoveSampleNature"
+            categoryId="wodel.project.builder.sampleNature.category"
+            defaultHandler="wodel.project.builder.AddRemoveSampleNatureHandler"
+            id="wodel.project.builder.addRemoveSampleNature"
             name="Add/RemoveSample Project Nature">
       </command>
    </extension>
@@ -43,7 +43,7 @@
       <menuContribution
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
-               commandId="MutatorProject.addRemoveSampleNature"
+               commandId="wodel.project.builder.addRemoveSampleNature"
                label="Disable Sample builder"
                style="push">
             <visibleWhen
@@ -60,7 +60,7 @@
                         </instanceof>
                         <test
                               property="org.eclipse.core.resources.projectNature"
-                              value="MutatorProject.sampleNature">
+                              value="wodel.project.sampleNature">
                         </test>
                      </and>
                   </iterate>
@@ -68,7 +68,7 @@
             </visibleWhen>
          </command>
          <command
-               commandId="MutatorProject.addRemoveSampleNature"
+               commandId="wodel.project.builder.addRemoveSampleNature"
                label="Enable Sample builder"
                style="push">
             <visibleWhen
@@ -86,7 +86,7 @@
                         <not>
                            <test
                                  property="org.eclipse.core.resources.projectNature"
-                                 value="MutatorProject.sampleNature">
+                                 value="wodel.project.sampleNature">
                            </test>
                         </not>
                      </and>
@@ -115,9 +115,9 @@
       </category>
       <wizard
             category="wodel.project.WodelProject"
-            class="wizards.WodelWizard"
+            class="wodel.project.wizards.WodelWizard"
             icon="icons/wodel4.jpg"
-            id="mutatorproject.wizards.WodelWizard"
+            id="wodel.project.wizards.WodelWizard"
             name="New Wodel Project"
             project="true">
       </wizard>

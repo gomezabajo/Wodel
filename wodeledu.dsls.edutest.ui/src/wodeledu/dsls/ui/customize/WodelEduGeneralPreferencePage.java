@@ -1,7 +1,7 @@
 package wodeledu.dsls.ui.customize;
 
-import manager.ModelManager;
-import manager.ProjectUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,8 +31,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
 import wodeledu.dsls.ModelDrawStandaloneSetup;
 import wodeledu.dsls.generator.ModelDrawGenerator;
 
@@ -136,8 +136,8 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 	    	preferenceStore.setDefault("Model-Draw renderer path", folder != null ? folder : null);
 
 	    	String outputPath = ModelManager.getOutputPath();
-			Bundle bundle = Platform.getBundle("wodel.models");
-			URL wodelURL = bundle.getEntry("/models/ModelDraw.ecore");
+			Bundle bundle = Platform.getBundle("wodeledu.models");
+			URL wodelURL = bundle.getEntry("/model/ModelDraw.ecore");
 			Resource program = null;
 			String wodelecore;
 			List<EPackage> wodelpackages;

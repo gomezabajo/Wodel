@@ -8,9 +8,9 @@ import appliedMutations.AttributeSwap;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -82,7 +82,6 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getAttObject() {
 		if (attObject != null && attObject.eIsProxy()) {
 			InternalEObject oldAttObject = (InternalEObject)attObject;
@@ -109,7 +108,6 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setAttObject(EObject newAttObject) {
 		EObject oldAttObject = attObject;
 		attObject = newAttObject;
@@ -122,7 +120,6 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -132,7 +129,6 @@ public class AttributeSwapImpl extends AttributeChangedImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setFirstName(String newFirstName) {
 		String oldFirstName = firstName;
 		firstName = newFirstName;

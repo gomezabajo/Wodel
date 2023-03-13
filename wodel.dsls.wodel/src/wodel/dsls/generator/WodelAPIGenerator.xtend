@@ -1,19 +1,25 @@
 package wodel.dsls.generator
 
 import org.eclipse.xtext.generator.AbstractGenerator
-import mutatorenvironment.MutatorEnvironment
-import java.io.File
-import manager.ModelManager
 import mutatorenvironment.Program
 import org.eclipse.core.resources.IProject
 import java.util.Map
-import java.util.HashMap
 import java.util.List
+import java.util.HashMap
+import wodel.utils.manager.ProjectUtils
+import java.io.File
 import java.util.ArrayList
+import mutatorenvironment.MutatorEnvironment
+import wodel.utils.manager.ModelManager
 import org.eclipse.core.runtime.Platform
-import manager.ProjectUtils
 
-public abstract class WodelAPIGenerator extends AbstractGenerator {
+/**
+ * @author Pablo Gomez-Abajo - Wodel Java code generator.
+ * 
+ * Generates the code to programmatically execute the Wodel program.
+ * 
+ */
+abstract class WodelAPIGenerator extends AbstractGenerator {
 	
 	protected String fileName
 	protected Program program
@@ -88,7 +94,7 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
 	}
 	
 	def compile(MutatorEnvironment e, String mutatorName, String className) '''
-	package mutator.«mutatorName»;
+	package mutator.Â«mutatorNameÂ»;
 	
 	import java.io.IOException;
 	import java.util.ArrayList;
@@ -99,47 +105,47 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
 	import org.eclipse.core.runtime.IProgressMonitor;
 	import org.eclipse.emf.ecore.EPackage;
 	
-	import exceptions.AbstractCreationException;
-	import exceptions.MaxSmallerThanMinException;
-	import exceptions.MetaModelNotFoundException;
-	import exceptions.ModelNotFoundException;
-	import exceptions.ObjectNoTargetableException;
-	import exceptions.ObjectNotContainedException;
-	import exceptions.ReferenceNonExistingException;
-	import exceptions.WrongAttributeTypeException;
-	import manager.ModelManager;
-	«IF standalone == false»
-	import mutator.«mutatorName»Dynamic.«mutatorName»Dynamic;
-	import manager.MutatorAPI;
-	«ELSE»
-	import mutator.«mutatorName»Standalone.«mutatorName»Standalone;
+	import wodel.utils.exceptions.AbstractCreationException;
+	import wodel.utils.exceptions.MaxSmallerThanMinException;
+	import wodel.utils.exceptions.MetaModelNotFoundException;
+	import wodel.utils.exceptions.ModelNotFoundException;
+	import wodel.utils.exceptions.ObjectNoTargetableException;
+	import wodel.utils.exceptions.ObjectNotContainedException;
+	import wodel.utils.exceptions.ReferenceNonExistingException;
+	import wodel.utils.exceptions.WrongAttributeTypeException;
+	import wodel.utils.manager.ModelManager;
+	Â«IF standalone == falseÂ»
+	import mutator.Â«mutatorNameÂ»Dynamic.Â«mutatorNameÂ»Dynamic;
+	import wodel.utils.manager.MutatorAPI;
+	Â«ELSEÂ»
+	import mutator.Â«mutatorNameÂ»Standalone.Â«mutatorNameÂ»Standalone;
 	import org.eclipse.core.runtime.NullProgressMonitor;
-	import manager.MutatorStandaloneAPI;
-	«ENDIF»
-	import manager.MutatorUtils;
+	import wodel.utils.manager.MutatorStandaloneAPI;
+	Â«ENDIFÂ»
+	import wodel.utils.manager.MutatorUtils;
 
-		«IF standalone == false»		
-	public class «className» extends MutatorAPI {
+		Â«IF standalone == falseÂ»		
+	public class Â«classNameÂ» extends MutatorAPI {
 
 		public void createMutants(String[] mutationOperators, IProject project, IProgressMonitor monitor)
 		 	throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
-		«ELSE»
-	public class «className» extends MutatorStandaloneAPI {
+		Â«ELSEÂ»
+	public class Â«classNameÂ» extends MutatorStandaloneAPI {
 
 		public static void createMutants(String[] mutationOperators)
 		 	throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
-		«ENDIF»
+		Â«ENDIFÂ»
 			
-			System.out.println("Wodel mutator file: «mutatorName»");
+			System.out.println("Wodel mutator file: Â«mutatorNameÂ»");
 			
-			String ecoreURI = "«ModelManager.getMetaModel(e)»";
+			String ecoreURI = "Â«ModelManager.getMetaModel(e)Â»";
 			List<EPackage> packages = null;
 			try {
-				«IF standalone == false»
+				Â«IF standalone == falseÂ»
 				packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
-				«ELSE»
-				packages = ModelManager.loadMetaModel(ecoreURI, «className».class);
-				«ENDIF»
+				Â«ELSEÂ»
+				packages = ModelManager.loadMetaModel(ecoreURI, Â«classNameÂ».class);
+				Â«ENDIFÂ»
 			}
 			catch (Exception e) {
 			}
@@ -154,35 +160,35 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
 				}
 				localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 			}
-			//«var int maxAttempts = 3»
-            //«var int numMutants = 10»
-            //«var boolean registry = true»
-            //«try {
+			//Â«var int maxAttempts = 3Â»
+            //Â«var int numMutants = 10Â»
+            //Â«var boolean registry = trueÂ»
+            //Â«try {
             	maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null))
             	numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null))
             	registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null)
-            } catch (Exception ex) {}»
-			int maxAttempts = «maxAttempts»;
-			int numMutants = «numMutants»;
-			boolean registry = «registry»;
+            } catch (Exception ex) {}Â»
+			int maxAttempts = Â«maxAttemptsÂ»;
+			int numMutants = Â«numMutantsÂ»;
+			boolean registry = Â«registryÂ»;
 			
-			«IF standalone == false»
-			//«var boolean metrics = false»
-			//«var boolean debugMetrics = false»
-			//«try {
+			Â«IF standalone == falseÂ»
+			//Â«var boolean metrics = falseÂ»
+			//Â«var boolean debugMetrics = falseÂ»
+			//Â«try {
 			  	metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null)
 			   	debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null)
-			} catch (Exception ex) {}»
-			boolean metrics = «metrics»;
-			boolean debugMetrics = «debugMetrics»;
-			MutatorUtils mut«mutatorName» = new «mutatorName»Dynamic();
-			mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, project, monitor, true, null, new TreeMap<String, List<String>>());
-			«ELSE»
+			} catch (Exception ex) {}Â»
+			boolean metrics = Â«metricsÂ»;
+			boolean debugMetrics = Â«debugMetricsÂ»;
+			MutatorUtils mutÂ«mutatorNameÂ» = new Â«mutatorNameÂ»Dynamic();
+			mutÂ«mutatorNameÂ».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, project, monitor, true, null, new TreeMap<String, List<String>>());
+			Â«ELSEÂ»
 			boolean metrics = false;
 			boolean debugMetrics = false;
-			MutatorUtils mut«mutatorName» = new «mutatorName»Standalone();
-			mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, new NullProgressMonitor(), true, null, new TreeMap<String, List<String>>());
-			«ENDIF»
+			MutatorUtils mutÂ«mutatorNameÂ» = new Â«mutatorNameÂ»Standalone();
+			mutÂ«mutatorNameÂ».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, mutationOperators, new NullProgressMonitor(), true, null, new TreeMap<String, List<String>>());
+			Â«ENDIFÂ»
 				
 			if (isRegistered == true) {
 				ModelManager.registerMetaModel(localRegisteredPackages);
@@ -191,62 +197,62 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
 				}
 			}
 			
-			«IF standalone == true»
-			System.out.println("«mutatorName» Mutant generation process finished.");
-			«ENDIF»
+			Â«IF standalone == trueÂ»
+			System.out.println("Â«mutatorNameÂ» Mutant generation process finished.");
+			Â«ENDIFÂ»
 		}
 	}
 	'''
 	def launcher(MutatorEnvironment e, List<String> mutators) '''
 
-package mutator.«getProjectName»;
+package mutator.Â«getProjectNameÂ»;
 
 import java.util.ArrayList;
 import java.util.List;
 
-«IF standalone == false»
-import manager.MutatorAPILauncher;
-«ELSE»
-import exceptions.AbstractCreationException;
-import exceptions.MaxSmallerThanMinException;
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import exceptions.ObjectNoTargetableException;
-import exceptions.ObjectNotContainedException;
-import exceptions.ReferenceNonExistingException;
-import exceptions.WrongAttributeTypeException;
+Â«IF standalone == falseÂ»
+import wodel.utils.manager.MutatorAPILauncher;
+Â«ELSEÂ»
+import wodel.utils.exceptions.AbstractCreationException;
+import wodel.utils.exceptions.MaxSmallerThanMinException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ObjectNoTargetableException;
+import wodel.utils.exceptions.ObjectNotContainedException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.exceptions.WrongAttributeTypeException;
 import java.io.IOException;
 import java.io.File;
-import manager.IOUtils;
-import manager.MutatorUtils;
-«FOR String mutator : mutators»
-import mutator.«mutator».«mutator»StandaloneAPI;
-«ENDFOR»
-«ENDIF»
+import wodel.utils.manager.IOUtils;
+import wodel.utils.manager.MutatorUtils;
+Â«FOR String mutatorName : mutMap.keySetÂ»
+import mutator.Â«mutatorNameÂ».Â«mutatorNameÂ»StandaloneAPI;
+Â«ENDFORÂ»
+Â«ENDIFÂ»
 
-«IF standalone == false»
-public class «getProjectName.replaceAll("[.]", "_")»DynamicAPILauncher {
+Â«IF standalone == falseÂ»
+public class Â«getProjectName.replaceAll("[.]", "_")Â»DynamicAPILauncher {
 	public static void main(String[] args) 
 	{
-«ELSE»
-public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
+Â«ELSEÂ»
+public class Â«getProjectName.replaceAll("[.]", "_")Â»StandaloneAPILauncher {
 	public static void createMutants(String inputFolder, String outputFolder) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
 	{
-«ENDIF»
+Â«ENDIFÂ»
 
-		String ecoreURI = "«ModelManager.getMetaModel(e)»";
+		String ecoreURI = "Â«ModelManager.getMetaModel(e)Â»";
 		List<String> mutatorNames = new ArrayList<String>();
-		«FOR mutatorName : mutMap.keySet»
-		mutatorNames.add("«mutatorName»");
-		«ENDFOR»
+		Â«FOR mutatorName : mutMap.keySetÂ»
+		mutatorNames.add("Â«mutatorNameÂ»");
+		Â«ENDFORÂ»
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
-		«FOR mut : mutMap.keySet»
-		List<String> mutatorOperatorNames«mut» = new ArrayList<String>();
-		«FOR operator : mutMap.get(mut)»
-		mutatorOperatorNames«mut».add("«operator»");
-		«ENDFOR»
-		operatorNames.add(mutatorOperatorNames«mut»);
-		«ENDFOR»
+		Â«FOR mut : mutMap.keySetÂ»
+		List<String> mutatorOperatorNamesÂ«mutÂ» = new ArrayList<String>();
+		Â«FOR operator : mutMap.get(mut)Â»
+		mutatorOperatorNamesÂ«mutÂ».add("Â«operatorÂ»");
+		Â«ENDFORÂ»
+		operatorNames.add(mutatorOperatorNamesÂ«mutÂ»);
+		Â«ENDFORÂ»
 		String[] arrMutatorNames = new String[mutatorNames.size()];
 		mutatorNames.toArray(arrMutatorNames);
 		String[][] arrOperatorNames = new String[mutatorNames.size()][];
@@ -257,11 +263,14 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		«IF standalone == false»
-		MutatorAPILauncher.createMutants("«getProjectName»", ecoreURI, «getProjectName.replaceAll("[.]", "_")»APILauncher.class, arrMutatorNames, arrOperatorNames, "D:\\seed", "D:\\mutants");
-		«ELSE»
-		String inputWodelFolder = "«ModelManager.getModelsFolder(e)»";
-		IOUtils.deleteFolder(inputWodelFolder, "model");
+		Â«IF standalone == falseÂ»
+		MutatorAPILauncher.createMutants("Â«getProjectNameÂ»", ecoreURI, Â«getProjectName.replaceAll("[.]", "_")Â»APILauncher.class, arrMutatorNames, arrOperatorNames, "D:\\seed", "D:\\mutants");
+		Â«ELSEÂ»
+		String inputWodelFolder = "Â«ModelManager.getModelsFolder(e)Â»";
+		// clean-up input wodel folder only if it is different to the input folder
+		if (!inputFolder.equals(inputWodelFolder)) {
+			IOUtils.deleteFolder(inputWodelFolder, "model");
+		}
 			
 		File seedWodelFolder = new File(inputWodelFolder);
 		File inputCustomizedFolder = new File(inputFolder);
@@ -273,16 +282,16 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 			
-		File projectFolder = new File("«ModelManager.getWorkspaceAbsolutePath(e)»/«getProjectName»");
+		File projectFolder = new File("Â«ModelManager.getWorkspaceAbsolutePath(e)Â»/Â«getProjectNameÂ»");
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = "«ModelManager.getWorkspaceAbsolutePath(e)»/«getProjectName»/«ModelManager.getOutputFolder(e)»";
+		String outputWodelFolder = "Â«ModelManager.getWorkspaceAbsolutePath(e)Â»/Â«getProjectNameÂ»/Â«ModelManager.getOutputFolder(e)Â»";
 		// clean-up output folder preserving xtext auto generated models
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
-		«FOR String mutatorName : mutMap.keySet»
-		«mutatorName»StandaloneAPI.createMutants(arrOperatorNames[i]);
+		Â«FOR String mutatorName : mutMap.keySetÂ»
+		Â«mutatorNameÂ»StandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
-		«ENDFOR»
+		Â«ENDFORÂ»
 		File mutantWodelFolder = new File(outputWodelFolder);
 		File outputCustomizedFolder = new File(outputFolder);
 			
@@ -293,10 +302,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		System.out.println("Complete mutant generation process finished.");
-		«ENDIF»
+		Â«ENDIFÂ»
 	}
 	
-	«IF standalone == true»
+	Â«IF standalone == trueÂ»
 	public static void main(String[] args) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
 	{
 		if (args.length != 2) {
@@ -305,7 +314,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 		}
 		createMutants(args[0], args[1]);
 	}
-	«ENDIF»
+	Â«ENDIFÂ»
 }
 	'''
 }

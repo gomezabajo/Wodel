@@ -6,21 +6,20 @@ import java.util.Arrays;
 import java.util.List;
 
 import wodel.metrics.command.CommandMutatorMetrics;
-import manager.StaticMutatorMetrics.WodelMetric;
-import manager.StaticMutatorMetrics.WodelMetricAttribute;
-import manager.StaticMutatorMetrics.WodelMetricClass;
-import manager.StaticMutatorMetrics.WodelMetricFeature;
-import manager.StaticMutatorMetrics.WodelMetricReference;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetric;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricAttribute;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricClass;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricFeature;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricReference;
 import wodel.metrics.command.CommandMutatorMetrics.WodelMetricCommand;
-import manager.ModelManager;
-import manager.ProjectUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.*;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Color;

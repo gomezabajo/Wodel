@@ -4,7 +4,6 @@ package appliedMutations;
 
 import org.eclipse.emf.ecore.EObject;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Source Reference Changed</b></em>'.
@@ -22,14 +21,9 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface SourceReferenceChanged extends ReferenceChanged {
-
 	/**
 	 * Returns the value of the '<em><b>Old From</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Old From</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Old From</em>' reference.
 	 * @see #setOldFrom(EObject)
@@ -48,4 +42,5 @@ public interface SourceReferenceChanged extends ReferenceChanged {
 	 * @generated
 	 */
 	void setOldFrom(EObject value);
+
 } // SourceReferenceChanged

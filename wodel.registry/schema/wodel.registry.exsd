@@ -3,7 +3,7 @@
 <schema targetNamespace="MutRegistryPostprocessor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="MutRegistryPostprocessor" id="registrypostprocessor" name="Registry Post Processor"/>
+         <meta.schema plugin="MutRegistryPostprocessor" id="registrypostprocessor" name="Wodel Registry Postprocessor"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":mutpostprocessor.run.IPostprocessor"/>
+                  <meta.attribute kind="java" basedOn=":wodel.registry.run.IRegistryPostprocessor"/>
                </appinfo>
             </annotation>
          </attribute>

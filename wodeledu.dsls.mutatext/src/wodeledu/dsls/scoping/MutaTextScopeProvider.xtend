@@ -10,7 +10,7 @@ import org.eclipse.xtext.scoping.Scopes
 import java.util.List
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
-import manager.ModelManager
+import wodel.utils.manager.ModelManager
 import java.util.ArrayList
 import org.eclipse.emf.ecore.EClassifier
 import org.osgi.framework.Bundle
@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.Platform
 import java.net.URL
 import org.eclipse.core.runtime.FileLocator
 import mutatext.Configuration
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 
 /**
  * @author Pablo Gomez-Abajo
@@ -26,14 +25,14 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
  * Scope provider for the mutaText language.
  *
  */ 
-class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
+class MutaTextScopeProvider extends AbstractMutaTextScopeProvider {
 
 	/**
 	 * Option.type can refer to any EClass in the .ecore file.
 	 */
 	def IScope scope_Option_type(Option opt, EReference ref) {
 		val Bundle bundle = Platform.getBundle("wodel.models")
-	   	val URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore")
+	   	val URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore")
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
        	Scopes.scopeFor(getEClasses(ecore))   
 	}

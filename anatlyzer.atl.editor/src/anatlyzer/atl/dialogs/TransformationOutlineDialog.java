@@ -60,7 +60,8 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 //	}
 
 	public TransformationOutlineDialog(Shell parent, int shellStyle, IOutlineContentCreator creator) {
-		super(parent, shellStyle, true, true, true, true, null, null);
+		//super(parent, shellStyle, true, true, true, true, null, null);
+		super(parent, shellStyle, true, true, true, true, true, null, null);
 		this.fOutlineContentCreator = creator;
 		
 		// Initialize the other fields
@@ -323,7 +324,8 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 		 * the call to constrainShellSize in PopupDialog.open will still ensure that the shell is
 		 * entirely visible.
 		 */
-		if ((getPersistBounds() == false) || (getDialogSettings() == null)) {
+//		if ((getPersistBounds() == false) || (getDialogSettings() == null)) {
+		if ((getPersistLocation() == false) || (getDialogSettings() == null)) {
 			getShell().setLocation(location);
 		}
 	}

@@ -836,7 +836,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	 */
 	int ATTRIBUTE_CHANGED_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link appliedMutations.impl.ReferenceSwapImpl <em>Reference Swap</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -999,7 +998,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_SWAP_OPERATION_COUNT = REFERENCE_CHANGED_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link appliedMutations.impl.ReferenceAttImpl <em>Reference Att</em>}' class.
@@ -1219,7 +1217,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	 */
 	int ATTRIBUTE_SWAP_OPERATION_COUNT = ATTRIBUTE_CHANGED_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link appliedMutations.impl.CompositeMutationImpl <em>Composite Mutation</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -1275,7 +1272,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	 */
 	int COMPOSITE_MUTATION_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link appliedMutations.impl.ObjectClonedImpl <em>Object Cloned</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -1321,7 +1317,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int OBJECT_CLONED_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link appliedMutations.impl.ObjectRetypedImpl <em>Object Retyped</em>}' class.
@@ -1536,17 +1531,6 @@ public interface AppliedMutationsPackage extends EPackage {
 	EAttribute getReferenceChanged_SrcRefName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceChanged#getRefName <em>Ref Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ref Name</em>'.
-	 * @see appliedMutations.ReferenceChanged#getRefName()
-	 * @see #getReferenceChanged()
-	 * @generated
-	 */
-	EAttribute getReferenceChanged_RefName();
-
-	/**
 	 * Returns the meta object for the reference '{@link appliedMutations.ReferenceChanged#getFrom <em>From</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1567,6 +1551,17 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReferenceChanged_MutantFrom();
+
+	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceChanged#getRefName <em>Ref Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ref Name</em>'.
+	 * @see appliedMutations.ReferenceChanged#getRefName()
+	 * @see #getReferenceChanged()
+	 * @generated
+	 */
+	EAttribute getReferenceChanged_RefName();
 
 	/**
 	 * Returns the meta object for the reference '{@link appliedMutations.ReferenceChanged#getTo <em>To</em>}'.
@@ -2200,14 +2195,6 @@ public interface AppliedMutationsPackage extends EPackage {
 		EAttribute REFERENCE_CHANGED__SRC_REF_NAME = eINSTANCE.getReferenceChanged_SrcRefName();
 
 		/**
-		 * The meta object literal for the '<em><b>Ref Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REFERENCE_CHANGED__REF_NAME = eINSTANCE.getReferenceChanged_RefName();
-
-		/**
 		 * The meta object literal for the '<em><b>From</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2222,6 +2209,14 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFERENCE_CHANGED__MUTANT_FROM = eINSTANCE.getReferenceChanged_MutantFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_CHANGED__REF_NAME = eINSTANCE.getReferenceChanged_RefName();
 
 		/**
 		 * The meta object literal for the '<em><b>To</b></em>' reference feature.

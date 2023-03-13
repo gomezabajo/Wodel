@@ -4,7 +4,6 @@ package appliedMutations;
 
 import org.eclipse.emf.ecore.EObject;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Attribute Swap</b></em>'.
@@ -26,10 +25,6 @@ public interface AttributeSwap extends AttributeChanged {
 	/**
 	 * Returns the value of the '<em><b>Att Object</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Object</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Object</em>' reference.
 	 * @see #setAttObject(EObject)
@@ -52,10 +47,6 @@ public interface AttributeSwap extends AttributeChanged {
 	/**
 	 * Returns the value of the '<em><b>First Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>First Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First Name</em>' attribute.
 	 * @see #setFirstName(String)

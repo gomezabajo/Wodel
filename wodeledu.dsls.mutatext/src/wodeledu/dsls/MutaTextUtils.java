@@ -1,7 +1,6 @@
 package wodeledu.dsls;
 
 import java.io.IOException;
-import wodeledu.dsls.MutaTextStandaloneSetup;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;

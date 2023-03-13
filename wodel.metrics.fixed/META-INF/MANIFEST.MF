@@ -6,21 +6,18 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodel.metrics.fixed.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
  wodel.utils,
+ wodel.models,
  org.eclipse.sirius,
  org.eclipse.sirius.ecore.extender,
  org.eclipse.sirius.common,
  org.eclipse.sirius.diagram.ui,
  org.eclipse.gmf.runtime.diagram.ui,
- org.eclipse.emf.transaction,
- org.eclipse.ui,
- wodel.models,
- org.eclipse.core.resources,
  org.eclipse.ui.ide,
- org.eclipse.emf.ecore,
- org.eclipse.ui.workbench,
+ org.eclipse.sirius.diagram.model,
  wodel.dsls.wodel
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: wodel.metrics.fixed
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.sirius.business.api.session,
- org.eclipse.ui.ide
+Import-Package: org.eclipse.sirius.business.api.session

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
-  <extension
+<extension
          point="org.eclipse.ui.commands">
       <command
       		defaultHandler="wodel.synthesizer.popup.actions.GenerateWodel"
             id="wodelGenerateWodel"
-            name="Generate Seed Models">
+            name="Generate seed models">
       </command>
    </extension>
    <extension

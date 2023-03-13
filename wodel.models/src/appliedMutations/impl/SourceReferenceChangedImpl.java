@@ -6,9 +6,11 @@ import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.SourceReferenceChanged;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -59,7 +61,6 @@ public class SourceReferenceChangedImpl extends ReferenceChangedImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject getOldFrom() {
 		if (oldFrom != null && oldFrom.eIsProxy()) {
 			InternalEObject oldOldFrom = (InternalEObject)oldFrom;
@@ -86,7 +87,6 @@ public class SourceReferenceChangedImpl extends ReferenceChangedImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setOldFrom(EObject newOldFrom) {
 		EObject oldOldFrom = oldFrom;
 		oldFrom = newOldFrom;

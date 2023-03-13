@@ -7,14 +7,17 @@ import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.CompositeMutation;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -87,7 +90,6 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public int getSize() {
 		return size;
 	}
@@ -97,7 +99,6 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setSize(int newSize) {
 		int oldSize = size;
 		size = newSize;
@@ -110,7 +111,6 @@ public class CompositeMutationImpl extends AppMutationImpl implements CompositeM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<AppMutation> getMuts() {
 		if (muts == null) {
 			muts = new EObjectContainmentEList<AppMutation>(AppMutation.class, this, AppliedMutationsPackage.COMPOSITE_MUTATION__MUTS);

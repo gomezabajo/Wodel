@@ -7,130 +7,43 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated AppliedMutations -->
-      <package
-            uri="http://appliedMutations/1.0"
-            class="appliedMutations.AppliedMutationsPackage"
-            genModel="models/AppliedMutations.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorEnvironment -->
+      <!-- @generated mutatorenvironment -->
       <package
             uri="http://mutatorenvironment/1.0"
             class="mutatorenvironment.MutatorenvironmentPackage"
-            genModel="models/MutatorEnvironment.genmodel"/>
+            genModel="model/mutatorenvironment.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorEnvironment -->
+      <!-- @generated mutatorenvironment -->
       <package
             uri="http://www.ac.uk/york/cs/miniocl/MiniOCLCS"
             class="mutatorenvironment.miniOCL.MiniOCLPackage"
-            genModel="models/MutatorEnvironment.genmodel"/>
+            genModel="model/mutatorenvironment.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorTests -->
-      <package
-            uri="http://edutest/1.0"
-            class="edutest.EdutestPackage"
-            genModel="models/EduTest.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorGraph -->
-      <package
-            uri="http://modelgraph/1.0"
-            class="modelgraph.ModelgraphPackage"
-            genModel="models/ModelGraph.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated IdentifyElements -->
-      <package
-            uri="http://modeltext/1.0"
-            class="modeltext.IdentifyelementsPackage"
-            genModel="models/ModelText.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutaText -->
-      <package
-            uri="http://mutatext/1.0"
-            class="mutatext.MutatextPackage"
-            genModel="models/MutaText.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Asple -->
-      <package
-            uri="http://asple/1.0"
-            class="asple.AsplePackage"
-            genModel="models/Asple.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorMetrics -->
+      <!-- @generated mutatormetrics -->
       <package
             uri="http://mutatormetrics/1.0"
             class="mutatormetrics.MutatormetricsPackage"
-            genModel="models/MutatorMetrics.genmodel"/>
+            genModel="model/mutatormetrics.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated EssentialOCLCS -->
+      <!-- @generated appliedmutations -->
       <package
-            uri="http://www.eclipse.org/ocl/3.1.0/EssentialOCLCST"
-            class="essentialoclcs.EssentialoclcsPackage"
-            genModel="models/EssentialOCLCS.genmodel"/>
+            uri="http://appliedMutations/1.0"
+            class="appliedMutations.AppliedMutationsPackage"
+            genModel="model/appliedmutations.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated EssentialOCLCS -->
+      <!-- @generated asple -->
       <package
-            uri="http://www.eclipse.org/ocl/3.1.0/BaseCST"
-            class="basecs.BasecsPackage"
-            genModel="models/EssentialOCLCS.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated EssentialOCLCS -->
-      <package
-            uri="http://www.eclipse.org/ocl/3.1.0/Pivot"
-            class="pivot.PivotPackage"
-            genModel="models/EssentialOCLCS.genmodel"/>
-   </extension>
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MutatorInfo -->
-      <package
-            uri="http://mutatorinfo/1.0"
-            class="mutatorinfo.MutatorinfoPackage"
-            genModel="models/MutatorInfo.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ModelText -->
-      <package
-            uri="http://modeltext/1.0"
-            class="modeltext.ModeltextPackage"
-            genModel="models/ModelText.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ModelDraw -->
-      <package
-            uri="http://modeldraw/1.0"
-            class="modeldraw.ModeldrawPackage"
-            genModel="models/ModelDraw.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ModelTag -->
-      <package
-            uri="http://modeltag/1.0"
-            class="modeltag.ModeltagPackage"
-            genModel="models/ModelTag.genmodel"/>
+            uri="http://asple/1.0"
+            class="asple.AsplePackage"
+            genModel="model/asple.genmodel"/>
    </extension>
 
 </plugin>

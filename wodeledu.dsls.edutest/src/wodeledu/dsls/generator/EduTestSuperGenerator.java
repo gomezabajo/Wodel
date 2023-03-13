@@ -62,11 +62,11 @@ import edutest.MultiChoiceText;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.Test;
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
-import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.ProjectUtils;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.ProjectUtils;
 import modeltext.Element;
 import mutatext.Constant;
 import mutatext.Option;
@@ -76,6 +76,7 @@ import mutatext.VariableType;
 import mutatext.Word;
 import mutatorenvironment.Block;
 import mutatorenvironment.ModifyInformationMutator;
+import wodeledu.utils.manager.WodelEduUtils;
 
 public class EduTestSuperGenerator extends AbstractGenerator {
 
@@ -290,7 +291,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 													String name = "";
 													for (EReference ref : b.eClass().getEAllReferences()) {
 														if (ref.getName().equals("from")) {
-															from = (List<EObject>) b.eGet(ref);
+															Object bValue = b.eGet(ref);
+															if (bValue instanceof List<?>) {
+																from = (List<EObject>) bValue;
+															}
+															else if (bValue instanceof EObject) {
+																from = new ArrayList<EObject>();
+																from.add((EObject) bValue);
+															}
 															break;
 														}
 													}
@@ -543,7 +551,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		String text = "";
 		try {
 			Bundle bundle = Platform.getBundle("wodel.models");
-			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
@@ -555,7 +563,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(
-								"wodel.model2text.ModelToText");
+								"wodeledu.model2text.Model2Text");
 
 				IConfigurationElement appropriateExtension = null;
 				for (IConfigurationElement extension : extensions) {
@@ -888,9 +896,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getObjectCreatedOption(Resource cfgoptsresource, Resource idelemsresource, ObjectCreated objectCreated, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectCreated.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -939,9 +947,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getObjectRemovedOption(Resource cfgoptsresource, Resource idelemsresource, ObjectRemoved objectRemoved, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectRemoved.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -990,19 +998,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getObjectRetypedOption(Resource cfgoptsresource, Resource idelemsresource, ObjectRetyped objectRetyped, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
 		if (objectRetyped.getObject().size() == 0) {
 			return text;
 		}
 		EObject object = ModelManager.getEObject(objectRetyped.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
-		Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
+		Element elementValues = WodelEduUtils.getElementValues(object, idelemsresource, opt.solution);
 		if (objectRetyped.getRemovedObject().size() == 0) {
 			return text;
 		}
 		EObject to = ModelManager.getEObject(objectRetyped.getRemovedObject().get(0), opt.seed);
-		Element toElement = MutatorUtils.getElement(object, idelemsresource);
-		Element toElementValues = MutatorUtils.getElementValues(to, idelemsresource, opt.solution);
+		Element toElement = WodelEduUtils.getElement(object, idelemsresource);
+		Element toElementValues = WodelEduUtils.getElementValues(to, idelemsresource, opt.solution);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1128,14 +1136,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getSourceReferenceChangedOption(Resource cfgoptsresource, Resource idelemsresource, SourceReferenceChanged sourceReferenceChanged, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
 		EObject from = ModelManager.getEObject(sourceReferenceChanged.getFrom(), opt.seed);
 		String refName = sourceReferenceChanged.getRefName();
 		EStructuralFeature srcRef = from.eClass().getEStructuralFeature(refName);
-		Element srcElement = MutatorUtils.getElement((EObject) from.eGet(srcRef), idelemsresource);
+		Element srcElement = WodelEduUtils.getElement((EObject) from.eGet(srcRef), idelemsresource);
 		EObject to = ModelManager.getEObject(sourceReferenceChanged.getTo(), opt.seed);
 		EStructuralFeature tarRef = to.eClass().getEStructuralFeature(refName);
-		Element tarElement = MutatorUtils.getElement((EObject) to.eGet(tarRef), idelemsresource);
+		Element tarElement = WodelEduUtils.getElement((EObject) to.eGet(tarRef), idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1210,23 +1218,23 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getTargetReferenceChangedOption(Resource cfgoptsresource, Resource idelemsresource, TargetReferenceChanged targetReferenceChanged, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
 		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
 		if (object == null) {
 			return text;
 		}
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		String refName = targetReferenceChanged.getRefName();
 		EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object);
-		Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+		Element refSrcElement = WodelEduUtils.getRefElement(object, refSrc, idelemsresource);
 		EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
-		Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+		Element refTarElement = WodelEduUtils.getRefElement(object, refTar, idelemsresource);
 		EObject from = ModelManager.getEObject(targetReferenceChanged.getFrom(), opt.seed);
-		Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+		Element fromElement = WodelEduUtils.getElement(from, idelemsresource);
 		EObject to = ModelManager.getEObject(targetReferenceChanged.getTo(), opt.seed);
-		Element toElement = MutatorUtils.getElement(to, idelemsresource);
+		Element toElement = WodelEduUtils.getElement(to, idelemsresource);
 		EObject oldTo = ModelManager.getEObject(targetReferenceChanged.getOldTo(), opt.seed);
-		Element oldToElement = MutatorUtils.getElement(oldTo, idelemsresource);
+		Element oldToElement = WodelEduUtils.getElement(oldTo, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1346,10 +1354,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getReferenceCreatedOption(Resource cfgoptsresource, Resource idelemsresource, ReferenceCreated referenceCreated, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceCreated.getObject().get(0), opt.seed);
 		String refName = referenceCreated.getRefName();
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1401,11 +1409,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getReferenceRemovedOption(Resource cfgoptsresource, Resource idelemsresource, ReferenceRemoved referenceRemoved, TestOption opt) {
 		String text = "";
-		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceRemoved.getObject().get(0), opt.seed);
 		EObject ref = ModelManager.getEObject(referenceRemoved.getRef().get(0), opt.seed);
 		String refName = (String) ModelManager.getAttribute("name", ref);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1480,9 +1488,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				EObject attObject = ModelManager.getEObject(attSwap.getAttObject(), opt.seed);
 				String firstName = attSwap.getFirstName();
 				String newVal = attSwap.getNewVal();
-				Option cfgopt = MutatorUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
-				Element firstElement = MutatorUtils.getElement(object, idelemsresource);
-				Element secondElement = MutatorUtils.getElement(attObject, idelemsresource);
+				Option cfgopt = WodelEduUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
+				Element firstElement = WodelEduUtils.getElement(object, idelemsresource);
+				Element secondElement = WodelEduUtils.getElement(attObject, idelemsresource);
 				Text t = null;
 				if (opt.solution == true) {
 					t = cfgopt.getValid();
@@ -1550,11 +1558,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 			}
 			else {
-				Option cfgopt = MutatorUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
+				Option cfgopt = WodelEduUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
 				String attName = att.getAttName();
 				String newVal = att.getNewVal();
-				Element element = MutatorUtils.getElement(object, idelemsresource);
-				Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+				Element element = WodelEduUtils.getElement(object, idelemsresource);
+				Element elementValues = WodelEduUtils.getElementValues(object, idelemsresource, opt.solution);
 				Text t = null;
 				if (opt.solution == true) {
 					t = cfgopt.getValid();
@@ -1953,21 +1961,21 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		for (ReferenceChanged ref : refChanges) {
 			String txt = "";
 			ReferenceChanged referenceChanged = (ReferenceChanged) ref;
-			Option cfgopt = MutatorUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
-			Element element = MutatorUtils.getElement(object, idelemsresource);
+			Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
+			Element element = WodelEduUtils.getElement(object, idelemsresource);
 			String srcRefName = referenceChanged.getSrcRefName();
 			EStructuralFeature refSrc = object.eClass().getEStructuralFeature(srcRefName);
-			Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+			Element refSrcElement = WodelEduUtils.getRefElement(object, refSrc, idelemsresource);
 			String refName = referenceChanged.getRefName();
 			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
-			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+			Element refTarElement = WodelEduUtils.getRefElement(object, refTar, idelemsresource);
 			if (referenceChanged.getFrom() == null) {
 				continue;
 			}
 			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
-			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+			Element fromElement = WodelEduUtils.getElement(from, idelemsresource);
 			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
-			Element toElement = MutatorUtils.getElement(to, idelemsresource);
+			Element toElement = WodelEduUtils.getElement(to, idelemsresource);
 			Text t = null;
 			if (opt.solution == true) {
 				t = cfgopt.getValid();
@@ -2012,9 +2020,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (objectCreated.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectCreated.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -2105,19 +2113,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (objectRetyped.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectRetyped", cfgoptsresource);
 		if (objectRetyped.getObject().size() == 0) {
 			return text;
 		}
 		EObject object = ModelManager.getEObject(objectRetyped.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
-		List<Element> allElementValues = MutatorUtils.getAllElementValues(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
+		List<Element> allElementValues = WodelEduUtils.getAllElementValues(object, idelemsresource);
 		if (objectRetyped.getRemovedObject().size() == 0) {
 			return text;
 		}
 		EObject to = ModelManager.getEObject(objectRetyped.getRemovedObject().get(0), opt.seed);
-		Element toElement = MutatorUtils.getElement(object, idelemsresource);
-		List<Element> allToElementValues = MutatorUtils.getAllElementValues(object, idelemsresource);
+		Element toElement = WodelEduUtils.getElement(object, idelemsresource);
+		List<Element> allToElementValues = WodelEduUtils.getAllElementValues(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -2141,7 +2149,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				if (variable.getType() == VariableType.OBJECT) {
 					if (allElementValues != null) {
 						createText = true;
-						Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+						Element elementValues = WodelEduUtils.getElementValues(object, idelemsresource, opt.solution);
 						index[0]++;
 						for (Element elValues : allElementValues) {
 							List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
@@ -2277,7 +2285,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				if (variable.getType() == VariableType.TO_OBJECT) {
 					if (allToElementValues != null) {
 						createText = true;
-						Element toElementValues = MutatorUtils.getElementValues(to, idelemsresource, opt.solution);
+						Element toElementValues = WodelEduUtils.getElementValues(to, idelemsresource, opt.solution);
 						index[0]++;
 						for (Element elValues : allToElementValues) {
 							List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>> entries = null;
@@ -2432,9 +2440,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (objectRemoved.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(objectRemoved.getObject().get(0), opt.seed);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -2525,14 +2533,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (sourceReferenceChanged.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
 		EObject from = ModelManager.getEObject(sourceReferenceChanged.getFrom(), opt.seed);
 		String refName = sourceReferenceChanged.getRefName();
 		EStructuralFeature srcRef = from.eClass().getEStructuralFeature(refName);
-		Element srcElement = MutatorUtils.getElement((EObject) from.eGet(srcRef), idelemsresource);
+		Element srcElement = WodelEduUtils.getElement((EObject) from.eGet(srcRef), idelemsresource);
 		EObject to = ModelManager.getEObject(sourceReferenceChanged.getTo(), opt.seed);
 		EStructuralFeature tarRef = to.eClass().getEStructuralFeature(refName);
-		Element tarElement = MutatorUtils.getElement((EObject) to.eGet(tarRef), idelemsresource);
+		Element tarElement = WodelEduUtils.getElement((EObject) to.eGet(tarRef), idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -2683,23 +2691,23 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (targetReferenceChanged.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
 		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
 		if (object == null) {
 			return text;
 		}
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		String refName = targetReferenceChanged.getRefName();
 		EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object);
-		Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+		Element refSrcElement = WodelEduUtils.getRefElement(object, refSrc, idelemsresource);
 		EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
-		Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+		Element refTarElement = WodelEduUtils.getRefElement(object, refTar, idelemsresource);
 		EObject from = ModelManager.getEObject(targetReferenceChanged.getFrom(), opt.seed);
-		Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+		Element fromElement = WodelEduUtils.getElement(from, idelemsresource);
 		EObject to = ModelManager.getEObject(targetReferenceChanged.getTo(), opt.seed);
-		Element toElement = MutatorUtils.getElement(to, idelemsresource);
+		Element toElement = WodelEduUtils.getElement(to, idelemsresource);
 		EObject oldTo = ModelManager.getEObject(targetReferenceChanged.getOldTo(), opt.seed);
-		Element oldToElement = MutatorUtils.getElement(oldTo, idelemsresource);
+		Element oldToElement = WodelEduUtils.getElement(oldTo, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -2958,10 +2966,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (referenceCreated.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceCreated.getObject().get(0), opt.seed);
 		String refName = referenceCreated.getRefName();
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -3059,11 +3067,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (referenceRemoved.getDef() == null) {
 			return text;
 		}
-		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
+		Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
 		EObject object = ModelManager.getEObject(referenceRemoved.getObject().get(0), opt.seed);
 		EObject ref = ModelManager.getEObject(referenceRemoved.getRef().get(0), opt.seed);
 		String refName = (String) ModelManager.getAttribute("name", ref);
-		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -3180,9 +3188,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				EStructuralFeature attributeName = object.eClass().getEStructuralFeature(attName);
 				EObject attObject = ModelManager.getEObject(attSwap.getAttObject(), opt.seed);
 				String firstName = attSwap.getFirstName();
-				Option cfgopt = MutatorUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
-				Element firstElement = MutatorUtils.getElement(object, idelemsresource);
-				Element secondElement = MutatorUtils.getElement(attObject, idelemsresource);
+				Option cfgopt = WodelEduUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
+				Element firstElement = WodelEduUtils.getElement(object, idelemsresource);
+				Element secondElement = WodelEduUtils.getElement(attObject, idelemsresource);
 				Text t = null;
 				if (opt.solution == true) {
 					t = cfgopt.getValid();
@@ -3457,12 +3465,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 			}
 			else {
-				Option cfgopt = MutatorUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
+				Option cfgopt = WodelEduUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
 				String attName = att.getAttName();
 				String oldVal = att.getOldVal();
 				String newVal = att.getNewVal();
-				Element element = MutatorUtils.getElement(object, idelemsresource);
-				Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+				Element element = WodelEduUtils.getElement(object, idelemsresource);
+				Element elementValues = WodelEduUtils.getElementValues(object, idelemsresource, opt.solution);
 				Text t = null;
 				if (opt.solution == true) {
 					t = cfgopt.getValid();
@@ -3672,7 +3680,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									for (modeltext.Word v : elementValues.getWords()) {
 										solutionText += ((modeltext.Constant) v).getValue() + " ";
 									}
-									List<Element> elements = MutatorUtils.getAllElementValues(object, idelemsresource);
+									List<Element> elements = WodelEduUtils.getAllElementValues(object, idelemsresource);
 									for (Element elem : elements) {
 										String optionText = "";
 										for (modeltext.Word v : elem.getWords()) {
@@ -4368,21 +4376,21 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		List<String> text = new ArrayList<String>();
 		for (ReferenceChanged ref : refChanges) {
 			ReferenceChanged referenceChanged = (ReferenceChanged) ref;
-			Option cfgopt = MutatorUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
-			Element element = MutatorUtils.getElement(object, idelemsresource);
+			Option cfgopt = WodelEduUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
+			Element element = WodelEduUtils.getElement(object, idelemsresource);
 			String srcRefName = referenceChanged.getSrcRefName();
 			EStructuralFeature refSrc = object.eClass().getEStructuralFeature(srcRefName);
-			Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+			Element refSrcElement = WodelEduUtils.getRefElement(object, refSrc, idelemsresource);
 			String refName = referenceChanged.getRefName();
 			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
-			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+			Element refTarElement = WodelEduUtils.getRefElement(object, refTar, idelemsresource);
 			if (referenceChanged.getFrom() == null) {
 				continue;
 			}
 			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
-			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+			Element fromElement = WodelEduUtils.getElement(from, idelemsresource);
 			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
-			Element toElement = MutatorUtils.getElement(to, idelemsresource);
+			Element toElement = WodelEduUtils.getElement(to, idelemsresource);
 			Text t = null;
 			if (opt.solution == true) {
 				t = cfgopt.getValid();
@@ -4498,18 +4506,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
-			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
-			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			bundle = Platform.getBundle("wodeledu.models");
+			fileURL = bundle.getEntry("/model/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
 			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
-			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			fileURL = bundle.getEntry("/model/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
@@ -4663,18 +4672,18 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //			Bundle bundle = Platform.getBundle("wodel.models");
 //			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 //			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
-//			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+//			URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 //			String registryecore = FileLocator.resolve(fileURL).getFile();
 //			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 //			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
 //					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
-//			fileURL = bundle.getEntry("/models/ModelText.ecore");
+//			fileURL = bundle.getEntry("/model/ModelText.ecore");
 //			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 //			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 //			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
 //			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
 //					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
-//			fileURL = bundle.getEntry("/models/MutaText.ecore");
+//			fileURL = bundle.getEntry("/model/MutaText.ecore");
 //			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 //			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 //			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
@@ -5013,18 +5022,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
-			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
-			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			bundle = Platform.getBundle("wodeledu.models");
+			fileURL = bundle.getEntry("/model/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
 			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
-			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			fileURL = bundle.getEntry("/model/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
@@ -5204,18 +5214,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
-			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
-			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			bundle = Platform.getBundle("wodeledu.models");
+			fileURL = bundle.getEntry("/model/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
 			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
-			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			fileURL = bundle.getEntry("/model/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
@@ -5397,18 +5408,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
-			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
 			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
-			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			bundle = Platform.getBundle("wodeledu.models");
+			fileURL = bundle.getEntry("/model/ModelText.ecore");
 			String idelemsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
 			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
 			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() +
 					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
-			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			fileURL = bundle.getEntry("/model/MutaText.ecore");
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());

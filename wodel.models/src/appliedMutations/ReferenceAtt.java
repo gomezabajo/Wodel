@@ -25,10 +25,6 @@ public interface ReferenceAtt extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Att Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Name</em>' attribute.
 	 * @see #setAttName(String)
@@ -51,10 +47,6 @@ public interface ReferenceAtt extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>Old Val</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Old Val</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Old Val</em>' attribute.
 	 * @see #setOldVal(String)
@@ -77,10 +69,6 @@ public interface ReferenceAtt extends ReferenceChanged {
 	/**
 	 * Returns the value of the '<em><b>New Val</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>New Val</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Val</em>' attribute.
 	 * @see #setNewVal(String)

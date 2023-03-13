@@ -3,8 +3,8 @@ package wodel.metrics.fixed.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import manager.ModelManager;
-import manager.MutatorUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;

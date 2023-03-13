@@ -15,7 +15,6 @@ import edutest.MultiChoiceText;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.Test;
-import exceptions.ModelNotFoundException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
-import manager.ModelManager;
 import mutatorenvironment.MutatorEnvironment;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -44,7 +42,8 @@ import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
-import wodeledu.dsls.generator.EduTestSuperGenerator;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.ModelManager;
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -55,11 +54,11 @@ import wodeledu.dsls.generator.EduTestSuperGenerator;
 @SuppressWarnings("all")
 public class EduTestMoodleGenerator extends EduTestSuperGenerator {
   private String fileName;
-  
+
   private String pageName;
-  
+
   private List<EObject> blocks;
-  
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
@@ -111,7 +110,6 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
         }
       } catch (final Throwable _t) {
         if (_t instanceof ModelNotFoundException) {
-          final ModelNotFoundException e = (ModelNotFoundException)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -120,7 +118,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   public CharSequence compile(final Program program, final Resource resource) {
     try {
       StringConcatenation _builder = new StringConcatenation();

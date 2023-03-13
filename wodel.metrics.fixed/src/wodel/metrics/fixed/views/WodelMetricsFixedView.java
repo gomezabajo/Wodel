@@ -15,16 +15,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import manager.ModelManager;
-import manager.ProjectUtils;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
 import wodel.metrics.fixed.MetaModelMutatorMetrics;
-import manager.StaticMutatorMetrics.WodelMetric;
-import manager.StaticMutatorMetrics.WodelMetricAttribute;
-import manager.StaticMutatorMetrics.WodelMetricClass;
-import manager.StaticMutatorMetrics.WodelMetricFeature;
-import manager.StaticMutatorMetrics.WodelMetricReference;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetric;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricAttribute;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricClass;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricFeature;
+import wodel.utils.manager.StaticMutatorMetrics.WodelMetricReference;
 
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;
@@ -41,10 +42,10 @@ import org.eclipse.sirius.diagram.DNodeList;
 import org.eclipse.sirius.diagram.DNodeListElement;
 import org.eclipse.sirius.diagram.DragAndDropTarget;
 import org.eclipse.sirius.diagram.EdgeStyle;
-import org.eclipse.sirius.diagram.business.internal.metamodel.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.diagram.description.AbstractNodeMapping;
 import org.eclipse.sirius.diagram.description.ContainerMapping;
 import org.eclipse.sirius.diagram.description.DiagramDescription;
+import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.diagram.tools.api.command.view.CreateDDiagramElementCommand;
 import org.eclipse.sirius.tools.api.command.semantic.AddSemanticResourceCommand;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
@@ -108,7 +109,7 @@ import wodel.metrics.fixed.wizards.WodelMetricsFixedWizardModificationAttribute;
 import wodel.metrics.fixed.wizards.WodelMetricsFixedWizardModificationClass;
 import wodel.metrics.fixed.wizards.WodelMetricsFixedWizardModificationReference;
 import wodel.metrics.fixed.wizards.WodelMetricsFixedWizardReference;
-import exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
 
 
 /**
@@ -1084,7 +1085,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			final ViewpointSelection.Callback callback = new ViewpointSelectionCallbackWithConfimation();
 				
 			String name = null;					
-			for(Viewpoint p : newSelectedViewpoints){
+			for (Viewpoint p : newSelectedViewpoints){
 				viewpoints.add(SiriusResourceHelper.getCorrespondingViewpoint(createdSession, p));
 				name = p.getName();
 			}
@@ -1106,7 +1107,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			
 			//DialectManager viewpointDialectManager = DialectManager.INSTANCE;
 			Command createViewCommand = new CreateRepresentationCommand(createdSession,
-					  description, rootObject, "Default "+ name + " Diagram", monitor);
+					  description, rootObject, "Default " + name + " Diagram", monitor);
 			createdSession.getTransactionalEditingDomain().getCommandStack().execute(createViewCommand);
 			
 		//Initialize Representation
@@ -1115,7 +1116,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			List<DView> dViews = root.getOwnedViews();
 			DView dView = null;
 			for (DView dv : dViews) {
-				if(dv.getViewpoint().getName().equals("Design") == true) {
+				if (dv.getViewpoint().getName().equals("Design") == true && dv.getOwnedRepresentationDescriptors().size() > 0 && dv.getOwnedRepresentationDescriptors().get(0).getName().startsWith("Default")) {
 					dView = dv;
 					break;
 				}
@@ -1142,7 +1143,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			if(semanticDiagram.getOwnedDiagramElements().get(0) instanceof DDiagramElement)
 				dragAndDropTarget = ((DDiagramElement)semanticDiagram.getOwnedDiagramElements().get(0)).getParentDiagram();
 			
-			HashMap<EClass, DNodeList> eClassNodes = new HashMap<EClass, DNodeList>();
+			Map<EClass, DNodeList> eClassNodes = new HashMap<EClass, DNodeList>();
 			while (itEClass.hasNext()){
 				EClass eClass = itEClass.next();
 				
@@ -1241,21 +1242,27 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 								DNodeList nodeList = eClassNodes.get(eClass);
 								if (metricClass.ccreation > 0 && metricClass.mmodification == 0 && metricClass.ddeletion == 0) {
 									nodeList.getOwnedStyle().setIconPath(creationIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								if (metricClass.ccreation == 0 && metricClass.mmodification > 0 && metricClass.ddeletion == 0) {
 									nodeList.getOwnedStyle().setIconPath(modificationIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								if (metricClass.ccreation == 0 && metricClass.mmodification == 0 && metricClass.ddeletion > 0) {
 									nodeList.getOwnedStyle().setIconPath(deletionIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification > 0 && metricClass.ddeletion == 0) {
 									nodeList.getOwnedStyle().setIconPath(creationModificationIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification == 0 && metricClass.ddeletion > 0) {
 									nodeList.getOwnedStyle().setIconPath(creationDeletionIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification > 0 && metricClass.ddeletion > 0) {
 									nodeList.getOwnedStyle().setIconPath(creationModificationDeletionIconPath);
+									nodeList.getOwnedStyle().setShowIcon(true);
 								}
 								List<DNodeListElement> nodeListElements = nodeList.getOwnedElements();
 								for (DNodeListElement nodeListElement : nodeListElements) {
@@ -1266,21 +1273,27 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 											if (targetAttribute.getName().equals(metricAttribute.getName())) {
 												if (metricAttribute.creation > 0 && metricAttribute.modification == 0 && metricAttribute.deletion == 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attCreationIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												if (metricAttribute.creation == 0 && metricAttribute.modification > 0 && metricAttribute.deletion == 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attModificationIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												if (metricAttribute.creation == 0 && metricAttribute.modification == 0 && metricAttribute.deletion > 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attDeletionIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification > 0 && metricAttribute.deletion == 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attCreationModificationIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification == 0 && metricAttribute.deletion > 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attCreationDeletionIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification > 0 && metricAttribute.deletion > 0) {
 													nodeListElement.getOwnedStyle().setIconPath(attCreationModificationDeletionIconPath);
+													nodeList.getOwnedStyle().setShowIcon(true);
 												}
 												break;
 											}

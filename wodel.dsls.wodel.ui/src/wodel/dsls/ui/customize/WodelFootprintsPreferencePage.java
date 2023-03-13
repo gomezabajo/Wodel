@@ -5,14 +5,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
 import org.eclipse.xtext.ui.editor.preferences.fields.LabelFieldEditor;
 
-/**
- * @author Pablo Gomez-Abajo - Wodel Footprints preferences page
- *
- */
-
 public class WodelFootprintsPreferencePage extends LanguageRootPreferencePage {
-	
-    @Override
+	@Override
     protected void createFieldEditors() {
     	Composite composite = getFieldEditorParent();
     	new LabelFieldEditor(" ", composite);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeledu.run.popup.actions.TestAlternativeTextualRepresentationWizard"
+            id="wodeledu.run.popup.actions.TestAlternativeTextualRepresentationWizard"
+            name="Wodel-Edu test alternative textual representation wizard">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodeledu_edutest.jpg"
+               id="WodelEdu.menu1"
+               label="Wodel-Edu...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodeledu.run.popup.actions.TestAlternativeTextualRepresentationWizard"
+                  icon="icons/wodeledu_edutest.jpg"
+                  label="Check alternative textual representation wizard"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodel.project.sampleNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.test">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>

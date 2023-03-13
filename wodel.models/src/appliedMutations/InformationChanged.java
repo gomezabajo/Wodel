@@ -28,10 +28,6 @@ public interface InformationChanged extends AppMutation {
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object</em>' reference.
 	 * @see #setObject(EObject)
@@ -55,10 +51,6 @@ public interface InformationChanged extends AppMutation {
 	 * Returns the value of the '<em><b>Att Changes</b></em>' containment reference list.
 	 * The list contents are of type {@link appliedMutations.AttributeChanged}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Att Changes</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att Changes</em>' containment reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getInformationChanged_AttChanges()
@@ -71,10 +63,6 @@ public interface InformationChanged extends AppMutation {
 	 * Returns the value of the '<em><b>Ref Changes</b></em>' containment reference list.
 	 * The list contents are of type {@link appliedMutations.ReferenceChanged}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Changes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref Changes</em>' containment reference list.
 	 * @see appliedMutations.AppliedMutationsPackage#getInformationChanged_RefChanges()

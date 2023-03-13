@@ -10,10 +10,10 @@ package asple;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asple.Identifier#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see asple.AsplePackage#getIdentifier()
  * @model
@@ -23,10 +23,6 @@ public interface Identifier extends Primary {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

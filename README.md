@@ -6,7 +6,16 @@ A domain-specific language for model mutation
 ## Wodel-Edu plugins
 
 [Wodel-Edu Tutorial](https://github.com/gomezabajo/Wodel/wiki/2.-Get-Started-with-Wodel-Edu)<br><br>
-[wodel.wodeledu](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeledu)
+[wodel.wodeledu](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeledu)<br>
+[wodeledu.models](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.models)<br>
+[wodeledu.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension)<br>
+[wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)<br>
+[wodeledu.run](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.run)<br>
+[wodeledu.utils](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.utils)<br>
+[wodeledu.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.additions)<br>
+[wodeledu.model2text](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text)<br>
+[wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)<br>
+[wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)<br>
 
 ### modelDraw DSL plugins
 
@@ -35,8 +44,12 @@ A domain-specific language for model mutation
 ## Wodel-Test plugins
 
 [wodel.wodeltest](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest)<br>
-[wodel.wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.additions)<br>
-[wodel.wodeltest.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest.examples)<br>
+[wodeltest.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension)<br>
+[wodeltest.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension.examples)<br>
+[wodeltest.run](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.run)<br>
+[wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.additions)<br>
+[wodeltest.optimiser](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser)<br>
+[wodeltest.optimiser.subsumption](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser.subsumption)<br>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]

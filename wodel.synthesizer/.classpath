@@ -7,8 +7,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="lib/antlr-3.4-complete.jar"/>
 	<classpathentry kind="lib" path="lib/ModelValidatorPlugin-5.1.0-r1.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-3.4-complete.jar"/>
 	<classpathentry kind="lib" path="lib/use.jar"/>
 	<classpathentry kind="lib" path="lib/use-runtime.jar"/>
 	<classpathentry kind="output" path="bin"/>

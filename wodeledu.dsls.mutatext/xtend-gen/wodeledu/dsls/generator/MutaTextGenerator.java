@@ -3,10 +3,18 @@
  */
 package wodeledu.dsls.generator;
 
+import com.google.common.collect.Iterables;
+import mutatext.Configuration;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
+import wodeledu.dsls.MutaTextUtils;
 
 /**
  * Generates code from your model files on save.
@@ -15,7 +23,36 @@ import org.eclipse.xtext.generator.IGeneratorContext;
  */
 @SuppressWarnings("all")
 public class MutaTextGenerator extends AbstractGenerator {
+  protected IProject project = null;
+
+  private String fileName;
+
+  private String path;
+
+  private String xmiFileName;
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    ProjectUtils.resetProject();
+    this.project = ProjectUtils.getProject();
+    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+    String _plus = (_workspaceAbsolutePath + "/");
+    String _name = this.project.getName();
+    String _plus_1 = (_plus + _name);
+    this.path = _plus_1;
+    Iterable<Configuration> _filter = Iterables.<Configuration>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Configuration.class);
+    for (final Configuration e : _filter) {
+      {
+        this.fileName = resource.getURI().lastSegment();
+        String xTextFileName = ((("file:/" + this.path) + "/src/") + this.fileName);
+        String _outputFolder = ModelManager.getOutputFolder();
+        String _plus_2 = ((("file:/" + this.path) + "/") + _outputFolder);
+        String _plus_3 = (_plus_2 + "/");
+        String _replaceAll = this.fileName.replaceAll(".mutatext", "_mutatext.model");
+        String _plus_4 = (_plus_3 + _replaceAll);
+        this.xmiFileName = _plus_4;
+        MutaTextUtils.serialize(xTextFileName, this.xmiFileName);
+      }
+    }
   }
 }

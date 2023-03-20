@@ -31,4 +31,6 @@ Export-Package: wodel.utils.commands,
  wodel.utils.commands.strategies,
  wodel.utils.exceptions,
  wodel.utils.manager
+Bundle-ClassPath: .,
+ lib/jython-standalone-2.7.2.jar
  

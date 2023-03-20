@@ -73,7 +73,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         String _replaceAll = resource.getURI().lastSegment().replaceAll(".test", ".model");
         String xmiFileName = (_plus_5 + _replaceAll);
         final Bundle bundle = Platform.getBundle("wodel.models");
-        final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+        final URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
         final String mutatorecore = FileLocator.resolve(fileURL).getFile();
         final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());

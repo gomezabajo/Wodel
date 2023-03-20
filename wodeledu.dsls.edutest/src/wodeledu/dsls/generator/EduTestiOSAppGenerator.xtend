@@ -42,7 +42,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.getName() +
 			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
-	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+	   		val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
 			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + project.getName() + "/resources/MutatorEnvironment.ecore";
 			val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)

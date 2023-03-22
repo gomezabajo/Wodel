@@ -77,6 +77,10 @@ import wodel.utils.manager.ProjectUtils;
  * 
  */
 
+/**
+ * @author gomez
+ *
+ */
 public class WodelUtils {
 
 	/**
@@ -432,27 +436,35 @@ public class WodelUtils {
 	//}
 	
 
-	public static void generateMutationOperators(String[] args)  throws MetaModelNotFoundException, IOException {
+	/**
+	 * @param domainMetamodelPath
+	 * @param inputPath
+	 * @param wodelProjectPath
+	 * @param flags
+	 * @throws MetaModelNotFoundException
+	 * @throws IOException
+	 */
+	public static void generateMutationOperators(String domainMetamodelPath, String inputPath, String wodelProjectPath, boolean... flags)  throws MetaModelNotFoundException, IOException {
 		String metamodel = null;
 		List<EPackage> packages = null;
 		boolean exhaustive = false;
-		String domainMetamodelPath = "";
-		String inputPath = "";
-		String wodelProjectPath = "";
+//		String domainMetamodelPath = "";
+//		String inputPath = "";
+//		String wodelProjectPath = "";
 		String wodelProjectName = "";
 		String wodelProgramPath = "";
-		if (args.length < 3) {
-			System.out.println("args[0] = domainMetamodelPath, args[1] = inputPath, args[2] = wodelProjectPath (, args[3] = exhaustive == true, optimized == false)?");
-			return;
-		}
-		if (args.length >= 3) {
-			domainMetamodelPath = args[0];
-			inputPath = args[1];
-			wodelProjectPath = args[2];
+//		if (args.length < 3) {
+//			System.out.println("args[0] = domainMetamodelPath, args[1] = inputPath, args[2] = wodelProjectPath (, args[3] = exhaustive == true, optimized == false)?");
+//			return;
+//		}
+//		if (args.length >= 3) {
+//			domainMetamodelPath = args[0];
+//			inputPath = args[1];
+//			wodelProjectPath = args[2];
 			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
 			wodelProgramPath = wodelProjectPath + "/src" + wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/"), wodelProjectPath.length()) + ".mutator"; 
-			exhaustive = args.length >= 4 ? Boolean.valueOf(args[3]) : true;
-		}
+			exhaustive = flags.length >= 1 ? flags[0] : true;
+//		}
 		if (exhaustive == true) {
 			MutatorenvironmentPackage.eINSTANCE.getClass();
 			metamodel = domainMetamodelPath;
@@ -1870,21 +1882,26 @@ public class WodelUtils {
 		}
 	}
 	
-	public static void compileWodelProject(String[] args) {
-		String wodelProjectPath = "";
+	/**
+	 * @param wodelProjectPath
+	 * @param eclipseHomePath
+	 * @param compilerName
+	 */
+	public static void compileWodelProject(String wodelProjectPath, String eclipseHomePath, String compilerName) {
+//		String wodelProjectPath = "";
 		String wodelProjectName = "";
-		String eclipseHomePath = "";
-		String compilerName = "";
+//		String eclipseHomePath = "";
+//		String compilerName = "";
 		String wodelWorkspacePath;
 		ProjectUtils.projectName = wodelProjectName;
-		if (args.length < 3) {
-			System.out.println("args[0] = wodelProjectPath, args[1] = eclipseHomePath, args[2] = compilerName");
-			return;
-		}
-		if (args.length >= 3) {
-			wodelProjectPath = args[0];
-			eclipseHomePath = args[1];
-			compilerName = args[2];
+//		if (args.length < 3) {
+//			System.out.println("args[0] = wodelProjectPath, args[1] = eclipseHomePath, args[2] = compilerName");
+//			return;
+//		}
+//		if (args.length >= 3) {
+//			wodelProjectPath = args[0];
+//			eclipseHomePath = args[1];
+//			compilerName = args[2];
 			wodelWorkspacePath = wodelProjectPath.substring(0, wodelProjectPath.lastIndexOf("/"));
 			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
 			MutatorenvironmentPackage.eINSTANCE.getClass();
@@ -1908,21 +1925,28 @@ public class WodelUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
 	}
 
-	public static void generateMutants(String[] args) {
-		String inputPath = "";
-		String outputPath = "";
-		String wodelProjectPath = "";
+	/**
+	 * @param inputPath
+	 * @param outputPath
+	 * @param currentPluginPath
+	 * @param wodelProjectPath
+	 * @param eclipseHomePath
+	 */
+	public static void generateMutants(String inputPath, String outputPath, String currentPluginPath, String wodelProjectPath, String eclipseHomePath) {
+//		String inputPath = "";
+//		String outputPath = "";
+//		String wodelProjectPath = "";
 		String wodelProjectName = "";
-		String eclipseHomePath = "";
-		if (args.length < 4) {
-			System.out.println("args[0] = inputPath, args[1] = outputPath, args[2] = wodelProjectPath, args[3] = eclipseHomePath");
-			return;
-		}
-		if (args.length >= 4) {
-			inputPath = args[0];
+//		String eclipseHomePath = "";
+//		if (args.length < 4) {
+//			System.out.println("args[0] = inputPath, args[1] = outputPath, args[2] = wodelProjectPath, args[3] = eclipseHomePath");
+//			return;
+//		}
+//		if (args.length >= 4) {
+//			inputPath = args[0];
 			File inputPathFile = new File(inputPath);
 			if (inputPathFile.exists() == false) {
 				System.out.println("This input folder " + inputPath + " does not exist.");
@@ -1941,7 +1965,7 @@ public class WodelUtils {
 				System.out.println("This input folder " + inputPath + " does not exist.");
 				return;
 			}
-			outputPath = args[1];
+//			outputPath = args[1];
 			File outputPathFile = new File(outputPath);
 			if (outputPathFile.exists() == false) {
 				System.out.println("This output folder " + outputPath + " does not exist.");
@@ -1960,8 +1984,8 @@ public class WodelUtils {
 				System.out.println("This output folder " + outputPath + " does not exist.");
 				return;
 			}
-			wodelProjectPath = args[2];
-			eclipseHomePath = args[3];
+//			wodelProjectPath = args[2];
+//			eclipseHomePath = args[3];
 			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
 			System.out.println("Generation of the mutants...");
 			String batcompile = wodelProjectPath + "/src-gen/bat/compile.bat";
@@ -1971,7 +1995,7 @@ public class WodelUtils {
 			}
 			PrintWriter batwriter = null;
 			try {
-				String currentPath = new java.io.File(".").getCanonicalPath();
+				//String currentPath = new java.io.File(".").getCanonicalPath();
 				batwriter = new PrintWriter(batcompile, "UTF-8");
 				String folders = wodelProjectPath + "/src-gen/mutator/";
 				batwriter.println(folders.substring(0, folders.indexOf("/")));
@@ -1980,9 +2004,9 @@ public class WodelUtils {
 					batwriter.println("cd " + folderName);
 				}
 				//batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
-				batwriter.println("javac -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+				batwriter.println("javac -classpath " + currentPluginPath + "/*;" + currentPluginPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 				batwriter.println("cd ..");
-				batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
+				batwriter.println("java -classpath .;" + currentPluginPath + "/*;" + currentPluginPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 				batwriter.println("exit");
 				batwriter.close();
 				ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", batcompile);
@@ -2010,9 +2034,14 @@ public class WodelUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
 	}
 	
+	/**
+	 * @param args
+	 * @throws MetaModelNotFoundException
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws MetaModelNotFoundException, IOException {
 		String metamodel = null;
 		List<EPackage> packages = null;
@@ -2022,25 +2051,27 @@ public class WodelUtils {
 		String outputPath = "";
 		String wodelProjectPath = "";
 		String wodelProjectName = "";
+		String currentPluginPath = "";
 		String wodelWorkspacePath = "";
 		String wodelProgramPath = "";
 		String eclipseHomePath = "";
 		String compilerName = "";
-		if (args.length < 6) {
-			System.out.println("args[0] = domainMetamodelPath, args[1] = inputPath, args[2] = outputPath, args[3] = wodelProjectPath, args[4] = eclipseHomePath, args[5] = compilerName (, args[6] = exhaustive == true, optimized == false)?");
+		if (args.length < 7) {
+			System.out.println("args[0] = domainMetamodelPath, args[1] = inputPath, args[2] = outputPath, args[3] = currentPluginPath, args[4] = wodelProjectPath, args[5] = eclipseHomePath, args[6] = compilerName (, args[7] = exhaustive == true, args[8] = optimized == false)?");
 			return;
 		}
-		if (args.length >= 6) {
+		if (args.length >= 7) {
 			domainMetamodelPath = args[0];
 			inputPath = args[1];
 			outputPath = args[2];
-			wodelProjectPath = args[3];
-			eclipseHomePath = args[4];
-			compilerName = args[5];
+			currentPluginPath = args[3];
+			wodelProjectPath = args[4];
+			eclipseHomePath = args[5];
+			compilerName = args[6];
 			wodelWorkspacePath = wodelProjectPath.substring(0, wodelProjectPath.lastIndexOf("/"));
 			wodelProjectName = wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/") + 1, wodelProjectPath.length());
 			wodelProgramPath = wodelProjectPath + "/src" + wodelProjectPath.substring(wodelProjectPath.lastIndexOf("/"), wodelProjectPath.length()) + ".mutator"; 
-			exhaustive = args.length >= 7 ? Boolean.valueOf(args[6]) : true;
+			exhaustive = args.length >= 8 ? Boolean.valueOf(args[7]) : true;
 		}
 		if (exhaustive == true) {
 			MutatorenvironmentPackage.eINSTANCE.getClass();
@@ -3515,7 +3546,7 @@ public class WodelUtils {
 					System.out.println("Compilation completed successfully!!");
 				}
 				System.out.println("Generation of the mutants from the command line...");
-				String currentPath = new java.io.File(".").getCanonicalPath();
+				//String currentPath = new java.io.File(".").getCanonicalPath();
 				String batcompile = wodelProjectPath + "/src-gen/bat/compile.bat";
 				File batfolder = new File(wodelProjectPath + "/src-gen/bat");
 				if (!batfolder.exists()) {
@@ -3531,9 +3562,9 @@ public class WodelUtils {
 						batwriter.println("cd " + folderName);
 					}
 					//batwriter.println("javac -source 1.8 -target 1.8 -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
-					batwriter.println("javac -classpath " + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
+					batwriter.println("javac -classpath " + currentPluginPath + "/*;" + currentPluginPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* " + wodelProjectName + "Standalone/" + wodelProjectName + "Standalone.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPI.java " + wodelProjectName + "/" + wodelProjectName + "StandaloneAPILauncher.java");
 					batwriter.println("cd ..");
-					batwriter.println("java -classpath .;" + currentPath + "/*;" + currentPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
+					batwriter.println("java -classpath .;" + currentPluginPath + "/*;" + currentPluginPath + "/lib/*;" + eclipseHomePath + "/plugins/*;" + eclipseHomePath + "/workspace/wodel.updatesite/plugins/* mutator/" + wodelProjectName +"/" + wodelProjectName + "StandaloneAPILauncher " + inputPath + " " + outputPath);
 					batwriter.println("exit");
 					batwriter.close();
 				} catch (UnsupportedEncodingException e) {

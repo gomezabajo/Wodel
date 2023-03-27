@@ -31,7 +31,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
-		if (rendererPath === null) {
+		if (rendererPath === null || rendererPath.isEmpty()) {
 			rendererPath = "d:/dpic"
 		}
 		if (!rendererPath.startsWith("/")) {
@@ -180,33 +180,33 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
 						String previousInputLabel = previousInputNode.getKey();
 						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In1\n";
+								+ inputLabel + ".In2\n";
 					}
 				}
 				if (nextNodes.get(i).getInputPins().size() > 1) {
 					if (nextNodes.get(i).getInputs().size() == 0) {
-						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
-						counter++;
 						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In2\n";
+						counter++;
+						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
 						counter++;
 					}
 					if (nextNodes.get(i).getInputs().size() == 1) {
-						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In1\n";
+						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In2\n";
 						counter++;
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
 						String previousInputLabel = previousInputNode.getKey();
 						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In2\n";
+								+ inputLabel + ".In1\n";
 					}
 					if (nextNodes.get(i).getInputs().size() == 2) {
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
 						String previousInputLabel = previousInputNode.getKey();
 						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In1\n";
+								+ inputLabel + ".In2\n";
 						previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(1).getName());
 						previousInputLabel = previousInputNode.getKey();
 						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In2\n";
+								+ inputLabel + ".In1\n";
 					}
 				}
 			}

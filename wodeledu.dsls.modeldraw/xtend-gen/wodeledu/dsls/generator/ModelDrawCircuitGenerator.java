@@ -38,7 +38,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
-    if ((this.rendererPath == null)) {
+    if (((this.rendererPath == null) || this.rendererPath.isEmpty())) {
       this.rendererPath = "d:/dpic";
     }
     boolean _startsWith = this.rendererPath.startsWith("/");
@@ -408,7 +408,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("m4text += \"line right 3*del from \" + previousInputLabel + \".Out to \"");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("+ inputLabel + \".In1\\n\";");
+    _builder.append("+ inputLabel + \".In2\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("}");
@@ -423,13 +423,13 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("if (nextNodes.get(i).getInputs().size() == 0) {");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In1\\n\";");
+    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In2\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("counter++;");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In2\\n\";");
+    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In1\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("counter++;");
@@ -441,7 +441,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("if (nextNodes.get(i).getInputs().size() == 1) {");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In1\\n\";");
+    _builder.append("m4text += \"line right 3*del from A\" + counter + \" to \" + inputLabel + \".In2\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("counter++;");
@@ -456,7 +456,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("m4text += \"line right 3*del from \" + previousInputLabel + \".Out to \"");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("+ inputLabel + \".In2\\n\";");
+    _builder.append("+ inputLabel + \".In1\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("}");
@@ -474,7 +474,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("m4text += \"line right 3*del from \" + previousInputLabel + \".Out to \"");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("+ inputLabel + \".In1\\n\";");
+    _builder.append("+ inputLabel + \".In2\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(1).getName());");
@@ -486,7 +486,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("m4text += \"line right 3*del from \" + previousInputLabel + \".Out to \"");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("+ inputLabel + \".In2\\n\";");
+    _builder.append("+ inputLabel + \".In1\\n\";");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("}");

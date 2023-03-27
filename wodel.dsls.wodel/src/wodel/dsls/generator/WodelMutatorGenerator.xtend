@@ -3918,8 +3918,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«ENDIF»
 			«ENDIF»
-		    for (int obn = 0; obn < objects.size(); obn++) {
 		«IF mut.container === null»
+		    for (int obn = 0; obn < objects.size(); obn++) {
 			Resource m = EMFCopier.copyResource(model);
 			«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
 			List<EObject> mObjects = ModelManager.getObjects(m, objects);

@@ -15083,13 +15083,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.append("    ");
-    _builder.append("for (int obn = 0; obn < objects.size(); obn++) {");
-    _builder.newLine();
     {
       ObSelectionStrategy _container = mut.getContainer();
       boolean _tripleEquals_2 = (_container == null);
       if (_tripleEquals_2) {
+        _builder.append("\t\t    ");
+        _builder.append("for (int obn = 0; obn < objects.size(); obn++) {");
+        _builder.newLine();
         _builder.append("Resource m = EMFCopier.copyResource(model);");
         _builder.newLine();
         {

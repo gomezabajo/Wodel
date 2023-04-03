@@ -495,6 +495,11 @@ public class DFASemanticComparison extends SemanticComparison {
 			List<List<Object>> dfa2 = convertToDFA(packages, ndfa2);
 
 			isRepeated = compareDFAs(dfa1, dfa2);
+			try {
+				ndfa2.unload();
+				ndfa1.unload();
+			} catch (Exception e) {
+			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

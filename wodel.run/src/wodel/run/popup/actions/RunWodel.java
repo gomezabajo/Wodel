@@ -170,6 +170,11 @@ public class RunWodel extends AbstractHandler {
 											hashmap_regpostseed.put(pathfile, modelfile);
 											Resource mutant = ModelManager.loadModel(packages, ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regfiles[j].getName().replace("Registry", "")); 
 											hashmap_regpostmutant.put(pathfile, mutant);
+											try {
+												mutant.unload();
+											}
+											catch (Exception e) {
+											}
 										}
 									}
 								}
@@ -186,8 +191,18 @@ public class RunWodel extends AbstractHandler {
 														if (check.exists()) {
 															Resource blockmodelfile = ModelManager.loadModel(packages, ecoreURI);
 															hashmap_regpostseed.put(pathfile, blockmodelfile);
+															try {
+																blockmodelfile.unload();
+															}
+															catch (Exception e) {
+															}
 															Resource mutant = ModelManager.loadModel(packages, files[i].getPath() + "/" + regfiles[k].getName().replace("Registry", "")); 
 															hashmap_regpostmutant.put(pathfile, mutant);
+															try {
+																mutant.unload();
+															}
+															catch (Exception e) {
+															}
 														}
 													}
 												}
@@ -201,6 +216,11 @@ public class RunWodel extends AbstractHandler {
 								}
 							}
 						}
+					}
+					try {
+						modelfile.unload();
+					}
+					catch (Exception e) {
 					}
 				}
 				if (Platform.getExtensionRegistry() != null) {
@@ -240,6 +260,11 @@ public class RunWodel extends AbstractHandler {
 							Resource modelfile = ModelManager.loadModel(packages, pathfile);
 							String targetfile = new File(metamodelpath + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
 							hashmap_postproc.put(modelfile, targetfile);
+							try {
+								modelfile.unload();
+							}
+							catch (Exception e) {
+							}
 						}
 					}
 				}
@@ -253,6 +278,11 @@ public class RunWodel extends AbstractHandler {
 									Resource modelfile = ModelManager.loadModel(packages,
 											pathfile);
 									hashmap_postproc.put(modelfile, pathfile);
+									try {
+										modelfile.unload();
+									}
+									catch (Exception e) {
+									}
 								}
 							}
 							else {
@@ -264,6 +294,11 @@ public class RunWodel extends AbstractHandler {
 											if (pathfileblock.endsWith(".model") == true) {
 												Resource modelfileblock = ModelManager.loadModel(packages,  pathfileblock);
 												hashmap_postproc.put(modelfileblock, pathfileblock);
+												try {
+													modelfileblock.unload();
+												}
+												catch (Exception e) {
+												}
 											}
 										}
 										else {

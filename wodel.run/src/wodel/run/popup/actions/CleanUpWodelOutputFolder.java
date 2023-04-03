@@ -44,6 +44,7 @@ public class CleanUpWodelOutputFolder extends AbstractHandler {
 			String outputWodelFolder = ModelManager.getWorkspaceAbsolutePath() + "/" + this.project.getName() + "/" + ModelManager.getOutputFolder();
 			// clean-up output folder preserving xtext auto generated models
 			IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
+			IOUtils.deleteFolder(outputWodelFolder, "json", mutatorList);
 			
 			try {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());

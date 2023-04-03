@@ -7632,6 +7632,14 @@ public class «className» extends MutatorUtils {
    		«IF b.repeat == Repeat.YES»
    		hashmapMutants.put(modelFilename, hashsetMutantsBlock);
    		«ENDIF»
+   		«IF (e.definition as Program).exhaustive == true»
+		//Frees memory
+		try {
+			model.unload();
+			seed.unload();
+		} catch (Exception e) {}
+		«ENDIF»
+   		
    		mutatedObjects = null;
 	'''
 	

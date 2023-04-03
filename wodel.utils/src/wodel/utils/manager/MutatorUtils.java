@@ -9020,9 +9020,16 @@ public class MutatorUtils {
 					ModelManager.saveOutModel(model, mutFilename);
 					if (new File(mutFilename).exists() == true) {
 						isSaved = true;
+						//Frees memory
+						try {
+							model.unload();
+						} catch (Exception e) {}
 					}
 					else {
 						isRepeated = true;
+						try {
+							model.unload();
+						} catch (Exception e) {}
 						return isRepeated;
 					}
 				}
@@ -9136,6 +9143,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -9350,6 +9360,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -9366,6 +9379,9 @@ public class MutatorUtils {
 								lastVersion = activeVersion;
 							}
 						}
+						try {
+							lastVersion.unload();
+						} catch (Exception e) {}
 						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
 						if (registryFolder.exists() != true) {
 							registryFolder.mkdir();
@@ -9373,6 +9389,9 @@ public class MutatorUtils {
 						int mutIndex = Integer.parseInt(mutFilename.substring(mutFilename.lastIndexOf("Output") + "Output".length(), mutFilename.indexOf(".model")));
 						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + mutIndex + "Registry.model";
 						ModelManager.createModel(muts, registryFilename);
+						try {
+							mutant.unload();
+						} catch (Exception e) {}
 					}
 				}
 				else {
@@ -9484,9 +9503,15 @@ public class MutatorUtils {
 					ModelManager.saveOutModel(model, mutFilename);
 					if (new File(mutFilename).exists() == true) {
 						isSaved = true;
+						try {
+							model.unload();
+						} catch (Exception e) {}
 					}
 					else {
 						isRepeated = true;
+						try {
+							model.unload();
+						} catch (Exception e) {}
 						return isRepeated;
 					}
 				}
@@ -9561,6 +9586,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -9602,6 +9630,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -9643,6 +9674,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 											}
 											if (object != null) {
@@ -9775,6 +9809,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -9791,6 +9828,9 @@ public class MutatorUtils {
 								lastVersion = activeVersion;
 							}
 						}
+						try {
+							lastVersion.unload();
+						} catch (Exception e) {}
 						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
 						if (registryFolder.exists() != true) {
 							registryFolder.mkdir();
@@ -9941,10 +9981,16 @@ public class MutatorUtils {
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
 					if (new File(mutFilename).exists() == true) {
+						try {
+							model.unload();
+						} catch (Exception e) {}
 						isSaved = true;
 					}
 					else {
 						isRepeated = true;
+						try {
+							model.unload();
+						} catch (Exception e) {}
 						if (localRegisteredPackages != null) {
 							List<EPackage> localRegistered = new ArrayList<EPackage>();
 							localRegistered.addAll(localRegisteredPackages.values());
@@ -10069,6 +10115,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10110,6 +10159,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10151,6 +10203,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 											}
 											if (object != null) {
@@ -10283,6 +10338,9 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10299,6 +10357,9 @@ public class MutatorUtils {
 								lastVersion = activeVersion;
 							}
 						}
+						try {
+							lastVersion.unload();
+						} catch (Exception e) {}
 						File registryFolder = null;
 						if (fromBlocks.size() == 0) {
 							registryFolder = new File(
@@ -10421,9 +10482,9 @@ public class MutatorUtils {
 												if (previousModelFilename.contains("/" + fName + "/")) {
 													previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
 													previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-													previousRegistry = ModelManager.loadModel(registryPackages, previousRegistryFilename);
-													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
-													mutant = ModelManager.loadModel(packages, mutFilename);
+													Resource previousRegistryF = ModelManager.loadModel(registryPackages, previousRegistryFilename);
+													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistryF));
+													Resource mutantF = ModelManager.loadModel(packages, mutFilename);
 													for (EObject mutation : mutations) {
 														String text = "";
 														List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
@@ -10437,7 +10498,7 @@ public class MutatorUtils {
 														if (flag == true) {
 															if (mutation instanceof InformationChanged) {
 																InformationChanged modify = (InformationChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modify.getObject())); 
 																List<AttributeChanged> attChanges = modify.getAttChanges();
 																for (AttributeChanged attChange : attChanges) {
 																	EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
@@ -10445,13 +10506,17 @@ public class MutatorUtils {
 															}
 															if (mutation instanceof TargetReferenceChanged) {
 																TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modifyRef.getObject().get(0)));
 																//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
-																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutantF, modifyRef.getOldTo()));
 															}
 														}
 														String reverseFilename = mutFilename.replace(".model", "/" + fName + "/Reverse.model");
-														ModelManager.saveOutModel(mutant, reverseFilename);
+														ModelManager.saveOutModel(mutantF, reverseFilename);
+														try {
+															mutantF.unload();
+														} catch (Exception e) {}
+														previousRegistryF.unload();
 													}
 													for (EObject b : blocks) {
 														if (ModelManager.getStringAttribute("name", b).equals(fName)) {
@@ -10465,7 +10530,15 @@ public class MutatorUtils {
 											}
 										}
 									}
+									try {
+										program.unload();
+										mutant.unload();
+										previousRegistry.unload();
+									} catch (Exception e) {}
 								}
+								try {
+									currentRegistry.unload();
+								} catch (Exception e) {}
 							}
 						}
 					}
@@ -10607,10 +10680,18 @@ public class MutatorUtils {
 				if (save == true) {
 					ModelManager.saveOutModel(model, mutFilename);
 					if (new File(mutFilename).exists() == true) {
+						try {
+							model.unload();
+						} catch (Exception e) {
+						}
 						isSaved = true;
 					}
 					else {
 						isRepeated = true;
+						try {
+							model.unload();
+						} catch (Exception e) {
+						}
 						if (localRegisteredPackages != null) {
 							List<EPackage> localRegistered = new ArrayList<EPackage>();
 							localRegistered.addAll(localRegisteredPackages.values());
@@ -10696,6 +10777,10 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {
+													}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10737,6 +10822,10 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {
+													}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10777,6 +10866,10 @@ public class MutatorUtils {
 													if (object != null) {
 														mutVersion = mutatorPath;
 														break;
+													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {
 													}
 												}
 											}
@@ -10910,6 +11003,10 @@ public class MutatorUtils {
 														mutVersion = mutatorPath;
 														break;
 													}
+													try {
+														mutantvs.unload();
+													} catch (Exception e) {
+													}
 												}
 												if (object != null) {
 													emuts.add(object);
@@ -10925,6 +11022,14 @@ public class MutatorUtils {
 								pastVersions.add(activeVersion);
 								lastVersion = activeVersion;
 							}
+							try {
+								lastVersion.unload();
+							} catch (Exception e) {
+							}
+						}
+						try {
+							mutant.unload();
+						} catch (Exception e) {
 						}
 						File registryFolder = null;
 						if (fromBlocks.size() == 0) {
@@ -11048,9 +11153,9 @@ public class MutatorUtils {
 												if (previousModelFilename.contains("/" + fName + "/")) {
 													previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
 													previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-													previousRegistry = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
-													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
-													mutant = ModelManager.loadModelNoException(packages, mutFilename);
+													Resource previousRegistryF = ModelManager.loadModelNoException(registryPackages, previousRegistryFilename);
+													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistryF));
+													Resource mutantF = ModelManager.loadModelNoException(packages, mutFilename);
 													for (EObject mutation : mutations) {
 														String text = "";
 														List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
@@ -11064,7 +11169,7 @@ public class MutatorUtils {
 														if (flag == true) {
 															if (mutation instanceof InformationChanged) {
 																InformationChanged modify = (InformationChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modify.getObject())); 
 																List<AttributeChanged> attChanges = modify.getAttChanges();
 																for (AttributeChanged attChange : attChanges) {
 																	EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
@@ -11072,13 +11177,13 @@ public class MutatorUtils {
 															}
 															if (mutation instanceof TargetReferenceChanged) {
 																TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
-																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutantF, EcoreUtil.getURI(modifyRef.getObject().get(0)));
 																//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
-																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutantF, modifyRef.getOldTo()));
 															}
 														}
 														String reverseFilename = mutFilename.replace(".model", "/" + fName + "/Reverse.model");
-														ModelManager.saveOutModel(mutant, reverseFilename);
+														ModelManager.saveOutModel(mutantF, reverseFilename);
 													}
 													for (EObject b : blocks) {
 														if (ModelManager.getStringAttribute("name", b).equals(fName)) {
@@ -11088,10 +11193,25 @@ public class MutatorUtils {
 													}
 													iterateModelFilename = previousModelFilename;
 													iterateFromBlock = fName;
+													try {
+														previousRegistryF.unload();
+														mutantF.unload();
+													} catch (Exception e) {
+													}
 												}
 											}
 										}
 									}
+									try {
+										program.unload();
+										previousRegistry.unload();
+										mutant.unload();
+									} catch (Exception e) {
+									}
+								}
+								try {
+									currentRegistry.unload();
+								} catch (Exception e) {
 								}
 							}
 						}

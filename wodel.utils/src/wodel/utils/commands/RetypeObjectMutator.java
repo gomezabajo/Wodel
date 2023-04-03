@@ -366,7 +366,7 @@ public class RetypeObjectMutator extends Mutator {
 			try{
 				o = (List<EObject>) container.eGet(reference, true);
 			} catch(Exception e){
-				result = null;
+				this.result = null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
 			o.add(newObj);
@@ -378,10 +378,15 @@ public class RetypeObjectMutator extends Mutator {
 			try{
 				o = (EObject) container.eGet(reference, true);
 			} catch(Exception e){
-				result=null;
+				this.result = null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			container.eSet(reference, newObj);
+			try {
+				container.eSet(reference, newObj);
+			} catch (Exception e) {
+				this.result = null;
+				return null;
+			}
 			this.result = newObj;
 		}
 

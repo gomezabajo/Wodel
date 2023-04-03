@@ -217,6 +217,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 		Resource resource2 = null;
 		model1 = model1.replace("\\\\", "/");
 		model2 = model2.replace("\\\\", "/");
+		boolean ret = false;
 		try {
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			resource1 = ModelManager.loadModel(packages, model1);
@@ -226,7 +227,15 @@ public class JavaSemanticComparison extends SemanticComparison {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");
-				return ModelManager.compareModels(resource1, resource2);
+				ret = ModelManager.compareModels(resource1, resource2);
+			}
+			else {
+				ret = applyTCE(resource1, model1, resource2, model2, project);
+			}
+			try {
+				resource2.unload();
+				resource1.unload();
+			} catch (Exception e) {
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -238,8 +247,6 @@ public class JavaSemanticComparison extends SemanticComparison {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return applyTCE(resource1, model1, resource2, model2, project);
+		return ret;
 	}
-	
-
 }

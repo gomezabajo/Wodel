@@ -258,7 +258,13 @@ public class ATLSemanticComparison extends SemanticComparison {
 				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				Resource resource1 = ModelManager.loadModel(packages, model1);
 				Resource resource2 = ModelManager.loadModel(packages, model2);
-				return ModelManager.compareModels(resource1, resource2);
+				boolean ret = ModelManager.compareModels(resource1, resource2);
+				try {
+					resource2.unload();
+					resource1.unload();
+				} catch (Exception e) {
+				}
+				return ret;
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

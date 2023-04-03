@@ -32,18 +32,28 @@ public class LCSemanticComparison extends SemanticComparison {
 		model2 = model2.replace("\\\\", "/");
 		LogicalCircuit c1 = null;
 		LogicalCircuit c2 = null;
+		boolean ret = false;
 		try {
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			resource1 = ModelManager.loadModel(packages, model1);
 			resource2 = ModelManager.loadModel(packages, model2);
 			c1 = CircuitUtils.convertToLC(packages, resource1);
 			c2 = CircuitUtils.convertToLC(packages, resource2);
+			
 			//If they are not valid logical circuits
 			if (c1 == null || c2 == null) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");
-				return ModelManager.compareModels(resource1, resource2);
+				ret = ModelManager.compareModels(resource1, resource2);
+			}
+			String boolExpC1 = CircuitUtils.toBoolExp(c1);
+			String boolExpC2 = CircuitUtils.toBoolExp(c2);
+			ret = boolExpC1.equals(boolExpC2);
+			try {
+				resource2.unload();
+				resource1.unload();
+			} catch (Exception e) {
 			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -52,8 +62,6 @@ public class LCSemanticComparison extends SemanticComparison {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String boolExpC1 = CircuitUtils.toBoolExp(c1);
-		String boolExpC2 = CircuitUtils.toBoolExp(c2);
-		return boolExpC1.equals(boolExpC2);
+		return ret;
 	}
 }

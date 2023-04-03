@@ -30,6 +30,10 @@ public class EMFValidation extends SyntacticValidation {
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			Resource model = ModelManager.loadModel(packages, uri);
 			isValid = ModelManager.validateModel(model);
+			try {
+				model.unload();
+			} catch (Exception e) {
+			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			return false;

@@ -28690,6 +28690,27 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
+    {
+      Definition _definition_1 = e.getDefinition();
+      boolean _isExhaustive_1 = ((Program) _definition_1).isExhaustive();
+      boolean _equals_3 = (_isExhaustive_1 == true);
+      if (_equals_3) {
+        _builder.append("//Frees memory");
+        _builder.newLine();
+        _builder.append("try {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("model.unload();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("seed.unload();");
+        _builder.newLine();
+        _builder.append("} catch (Exception e) {}");
+        _builder.newLine();
+      }
+    }
+    _builder.append("   \t\t");
+    _builder.newLine();
     _builder.append("   \t\t");
     _builder.append("mutatedObjects = null;");
     _builder.newLine();

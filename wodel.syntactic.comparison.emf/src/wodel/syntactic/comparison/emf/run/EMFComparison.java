@@ -31,6 +31,11 @@ public class EMFComparison extends SyntacticComparison {
 			Resource resource1 = ModelManager.loadModel(packages, model1);
 			Resource resource2 = ModelManager.loadModel(packages, model2);
 			isRepeated = ModelManager.compareModels(resource1, resource2);
+			try {
+				resource2.unload();
+				resource1.unload();
+			} catch (Exception e) {
+			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -582,10 +582,10 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			if (eClass.isAbstract() == true) {
-				j++;
-				continue;
-			}
+//			if (eClass.isAbstract() == true) {
+//				j++;
+//				continue;
+//			}
 			if (!classNames.contains(eClass.getName())) {
 				j++;
 				continue;
@@ -1021,10 +1021,10 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			if (eClass.isAbstract() == true) {
-				j++;
-				continue;
-			}
+//			if (eClass.isAbstract() == true) {
+//				j++;
+//				continue;
+//			}
 			if (!classNames.contains(eClass.getName())) {
 				j++;
 				continue;
@@ -1460,10 +1460,10 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			if (eClass.isAbstract() == true) {
-				j++;
-				continue;
-			}
+//			if (eClass.isAbstract() == true) {
+//				j++;
+//				continue;
+//			}
 			if (!classNames.contains(eClass.getName())) {
 				j++;
 				continue;
@@ -2201,10 +2201,10 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			if (eClass.isAbstract() == true) {
-				j++;
-				continue;
-			}
+//			if (eClass.isAbstract() == true) {
+//				j++;
+//				continue;
+//			}
 			if (!classNames.contains(eClass.getName())) {
 				j++;
 				continue;

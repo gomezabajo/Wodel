@@ -25157,7 +25157,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (_not) {
             {
               if ((flag == false)) {
-                _builder.append("new ListStringConfigurationStrategy((String) ModelManager.getAttribute(\"");
+                _builder.append("new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", (");
                 _builder.append(obSelectionVariableName);
@@ -25171,7 +25171,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\")");
                 _builder.newLineIfNotEmpty();
               } else {
-                _builder.append("new ListStringConfigurationStrategy((String) ModelManager.getAttribute(\"");
+                _builder.append("new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", refObjectSelected), \"");
                 EList<String> _value_1 = ((ListStringType) e).getValue();

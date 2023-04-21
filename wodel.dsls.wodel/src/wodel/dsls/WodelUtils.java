@@ -19,6 +19,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -233,7 +235,67 @@ public class WodelUtils {
 			}
 		}
 		if (index == -1) {
-			formatted += " " + operator.substring(i, operator.length()).trim() + "\n";
+			int j = i;
+			formatted += " ";
+			while (j < operator.length()) {
+				while (j < operator.length() && operator.charAt(j) != '{') {
+					j++;
+				}
+				if (j == operator.length()) {
+					formatted += operator.substring(i, j).trim();
+				}
+				else {
+					j++;
+					formatted += operator.substring(i, j).trim();
+					do {
+						i = j;
+						while ( j < operator.length() && operator.charAt(j) != '[') {
+							j++;
+						}
+						int k = j;
+						if (j == operator.length()) {
+							formatted += operator.substring(i, j).trim();
+							break;
+						}
+						formatted += " " + operator.substring(i, j).trim();
+						if (operator.charAt(j) == '[') {
+							while (k < operator.length() && operator.charAt(k) != ']') {
+								k++;
+							}
+							if (operator.charAt(k) == ']') {
+								j++;
+								k--;
+								String[] values = operator.substring(j, k).trim().split(",");
+								String formattedValues = "";
+								for (String value : values) {
+									if (value.trim().charAt(0) == '^') {
+										value = value.trim().substring(1, value.trim().length());
+									}
+									formattedValues += " '" + value.trim() + "',";
+								}
+								formattedValues = "[ " + formattedValues.substring(1, formattedValues.lastIndexOf(",")) + " ]";
+								formatted += " " + formattedValues;
+							}
+						}
+						k+=2;
+						j = k;
+						while (j < operator.length() && operator.charAt(j) != '}') {
+							j++;
+						}
+						if (j == operator.length()) {
+							break;
+						}
+						if (operator.charAt(j) == '}') {
+							j++;
+							formatted += operator.substring(k, j);
+						}
+					} while (j < operator.length() && operator.charAt(j) != '}');
+					if (j == operator.length()) {
+						break;
+					}
+				}
+			}
+			formatted += operator.substring(j, operator.length()) + "\n";
 		}
 		else {
 			formatted += " ";
@@ -688,6 +750,37 @@ public class WodelUtils {
 							}
 						}
 					}
+					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+						if (feature instanceof EAttribute) {
+							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+							EAttribute attribute = (EAttribute) feature;
+							AttributeEvaluationType attributeType = null;
+							if (attribute.getEType() instanceof EEnum) {
+								ListStringType eEnumType = null;
+								if (attributeType == null) {
+									Operator operator = Operator.IN;
+									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+									eEnumType.setOperator(operator);
+									attributeType = eEnumType;
+								}
+								List<String> values = eEnumType.getValue();
+								EEnum eEnum = (EEnum) attribute.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!values.contains(literal.getLiteral())) {
+										values.add(literal.getLiteral());
+									}
+								}
+								if (attributeType != null) {
+									attributeEvaluation.setName(attribute);
+									attributeEvaluation.setValue(attributeType);
+								}
+							}
+							if (attributeType != null) {
+								listAttributeEvaluation.add(attributeEvaluation);
+							}
+						}
+					}
 					mAtt = 0;
 					if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
 						for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
@@ -1126,6 +1219,37 @@ public class WodelUtils {
 							}
 						}
 					}
+					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+						if (feature instanceof EAttribute) {
+							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+							EAttribute attribute = (EAttribute) feature;
+							AttributeEvaluationType attributeType = null;
+							if (attribute.getEType() instanceof EEnum) {
+								ListStringType eEnumType = null;
+								if (attributeType == null) {
+									Operator operator = Operator.IN;
+									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+									eEnumType.setOperator(operator);
+									attributeType = eEnumType;
+								}
+								List<String> values = eEnumType.getValue();
+								EEnum eEnum = (EEnum) attribute.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!values.contains(literal.getLiteral())) {
+										values.add(literal.getLiteral());
+									}
+								}
+								if (attributeType != null) {
+									attributeEvaluation.setName(attribute);
+									attributeEvaluation.setValue(attributeType);
+								}
+							}
+							if (attributeType != null) {
+								listAttributeEvaluation.add(attributeEvaluation);
+							}
+						}
+					}
 					mAtt = 0;
 					if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
 						for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
@@ -1283,6 +1407,37 @@ public class WodelUtils {
 								if (attributeScalar != null && attributeScalar.getValue() != null) {
 									modifyInformationMutator.getAttributes().add(attributeScalar);
 								}
+							}
+						}
+					}
+					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+						if (feature instanceof EAttribute) {
+							EAttribute attribute = (EAttribute) feature;
+							AttributeType attributeType = null;
+							AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+							attributeScalar.getAttribute().add(attribute);
+							if (attribute.getEType() instanceof EEnum) {
+								ListStringType eEnumType = null;
+								if (attributeType == null) {
+									Operator operator = Operator.IN;
+									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+									eEnumType.setOperator(operator);
+									attributeType = eEnumType;
+								}
+								List<String> values = eEnumType.getValue();
+								EEnum eEnum = (EEnum) attribute.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!values.contains(literal.getLiteral())) {
+										values.add(literal.getLiteral());
+									}
+								}
+							}
+							if (attributeType != null) {
+								attributeScalar.setValue(attributeType);
+							}
+							if (attributeScalar != null && attributeScalar.getValue() != null) {
+								modifyInformationMutator.getAttributes().add(attributeScalar);
 							}
 						}
 					}
@@ -1599,6 +1754,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
+								}
+							}
+						}
 						mAtt = 0;
 						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
 							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
@@ -1756,6 +1942,37 @@ public class WodelUtils {
 									if (attributeScalar != null && attributeScalar.getValue() != null) {
 										retypeObjectMutator.getAttributes().add(attributeScalar);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : featuresToAdd) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									retypeObjectMutator.getAttributes().add(attributeScalar);
 								}
 							}
 						}
@@ -2025,6 +2242,37 @@ public class WodelUtils {
 								if (attributeScalar != null && attributeScalar.getValue() != null) {
 									createObjectMutator.getAttributes().add(attributeScalar);
 								}
+							}
+						}
+					}
+					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+						if (feature instanceof EAttribute) {
+							EAttribute attribute = (EAttribute) feature;
+							AttributeType attributeType = null;
+							AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+							attributeScalar.getAttribute().add(attribute);
+							if (attribute.getEType() instanceof EEnum) {
+								ListStringType eEnumType = null;
+								if (attributeType == null) {
+									Operator operator = Operator.IN;
+									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+									eEnumType.setOperator(operator);
+									attributeType = eEnumType;
+								}
+								List<String> values = eEnumType.getValue();
+								EEnum eEnum = (EEnum) attribute.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!values.contains(literal.getLiteral())) {
+										values.add(literal.getLiteral());
+									}
+								}
+							}
+							if (attributeType != null) {
+								attributeScalar.setValue(attributeType);
+							}
+							if (attributeScalar != null && attributeScalar.getValue() != null) {
+								createObjectMutator.getAttributes().add(attributeScalar);
 							}
 						}
 					}
@@ -2303,6 +2551,37 @@ public class WodelUtils {
 								if (attributeType != null) {
 									listAttributeEvaluation.add(attributeEvaluation);
 								}
+							}
+						}
+					}
+					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+						if (feature instanceof EAttribute) {
+							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+							EAttribute attribute = (EAttribute) feature;
+							AttributeEvaluationType attributeType = null;
+							if (attribute.getEType() instanceof EEnum) {
+								ListStringType eEnumType = null;
+								if (attributeType == null) {
+									Operator operator = Operator.IN;
+									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+									eEnumType.setOperator(operator);
+									attributeType = eEnumType;
+								}
+								List<String> values = eEnumType.getValue();
+								EEnum eEnum = (EEnum) attribute.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!values.contains(literal.getLiteral())) {
+										values.add(literal.getLiteral());
+									}
+								}
+								if (attributeType != null) {
+									attributeEvaluation.setName(attribute);
+									attributeEvaluation.setValue(attributeType);
+								}
+							}
+							if (attributeType != null) {
+								listAttributeEvaluation.add(attributeEvaluation);
 							}
 						}
 					}
@@ -2699,6 +2978,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
+								}
+							}
+						}
 						mAtt = 0;
 						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
 							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
@@ -2835,6 +3145,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									createObjectMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -2937,6 +3278,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -3082,6 +3454,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -3245,6 +3648,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									modifyInformationMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -3348,6 +3782,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -3511,6 +3976,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									cloneObjectMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -3647,6 +4143,37 @@ public class WodelUtils {
 										if (attributeType != null) {
 											listAttributeEvaluation.add(attributeEvaluation);
 										}
+									}
+								}
+							}
+							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+								if (feature instanceof EAttribute) {
+									AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+									EAttribute attribute = (EAttribute) feature;
+									AttributeEvaluationType attributeType = null;
+									if (attribute.getEType() instanceof EEnum) {
+										ListStringType eEnumType = null;
+										if (attributeType == null) {
+											Operator operator = Operator.IN;
+											eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+											eEnumType.setOperator(operator);
+											attributeType = eEnumType;
+										}
+										List<String> values = eEnumType.getValue();
+										EEnum eEnum = (EEnum) attribute.getEType();
+										List<EEnumLiteral> literals = eEnum.getELiterals();
+										for (EEnumLiteral literal : literals) {
+											if (!values.contains(literal.getLiteral())) {
+												values.add(literal.getLiteral());
+											}
+										}
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
+									}
+									if (attributeType != null) {
+										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
 							}
@@ -3807,6 +4334,37 @@ public class WodelUtils {
 										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);
 										}
+									}
+								}
+							}
+							for (EStructuralFeature feature : featuresToAdd) {
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									if (attribute.getEType() instanceof EEnum) {
+										ListStringType eEnumType = null;
+										if (attributeType == null) {
+											Operator operator = Operator.IN;
+											eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+											eEnumType.setOperator(operator);
+											attributeType = eEnumType;
+										}
+										List<String> values = eEnumType.getValue();
+										EEnum eEnum = (EEnum) attribute.getEType();
+										List<EEnumLiteral> literals = eEnum.getELiterals();
+										for (EEnumLiteral literal : literals) {
+											if (!values.contains(literal.getLiteral())) {
+												values.add(literal.getLiteral());
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										retypeObjectMutator.getAttributes().add(attributeScalar);
 									}
 								}
 							}
@@ -4325,6 +4883,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
+								}
+							}
+						}
 						mAtt = 0;
 						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
 							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
@@ -4461,6 +5050,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									createObjectMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -4563,6 +5183,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -4708,6 +5359,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -4871,6 +5553,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									modifyInformationMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -4974,6 +5687,37 @@ public class WodelUtils {
 									if (attributeType != null) {
 										listAttributeEvaluation.add(attributeEvaluation);
 									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+								EAttribute attribute = (EAttribute) feature;
+								AttributeEvaluationType attributeType = null;
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+									if (attributeType != null) {
+										attributeEvaluation.setName(attribute);
+										attributeEvaluation.setValue(attributeType);
+									}
+								}
+								if (attributeType != null) {
+									listAttributeEvaluation.add(attributeEvaluation);
 								}
 							}
 						}
@@ -5137,6 +5881,37 @@ public class WodelUtils {
 								}
 							}
 						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (feature instanceof EAttribute) {
+								EAttribute attribute = (EAttribute) feature;
+								AttributeType attributeType = null;
+								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+								attributeScalar.getAttribute().add(attribute);
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
+									}
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
+										}
+									}
+								}
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									cloneObjectMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
 						k = 0;
 						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (classWithElements.contains(feature.getName())) {
@@ -5273,6 +6048,37 @@ public class WodelUtils {
 										if (attributeType != null) {
 											listAttributeEvaluation.add(attributeEvaluation);
 										}
+									}
+								}
+							}
+							for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+								if (feature instanceof EAttribute) {
+									AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+									EAttribute attribute = (EAttribute) feature;
+									AttributeEvaluationType attributeType = null;
+									if (attribute.getEType() instanceof EEnum) {
+										ListStringType eEnumType = null;
+										if (attributeType == null) {
+											Operator operator = Operator.IN;
+											eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+											eEnumType.setOperator(operator);
+											attributeType = eEnumType;
+										}
+										List<String> values = eEnumType.getValue();
+										EEnum eEnum = (EEnum) attribute.getEType();
+										List<EEnumLiteral> literals = eEnum.getELiterals();
+										for (EEnumLiteral literal : literals) {
+											if (!values.contains(literal.getLiteral())) {
+												values.add(literal.getLiteral());
+											}
+										}
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
+									}
+									if (attributeType != null) {
+										listAttributeEvaluation.add(attributeEvaluation);
 									}
 								}
 							}
@@ -5433,6 +6239,37 @@ public class WodelUtils {
 										if (attributeScalar != null && attributeScalar.getValue() != null) {
 											retypeObjectMutator.getAttributes().add(attributeScalar);
 										}
+									}
+								}
+							}
+							for (EStructuralFeature feature : featuresToAdd) {
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									if (attribute.getEType() instanceof EEnum) {
+										ListStringType eEnumType = null;
+										if (attributeType == null) {
+											Operator operator = Operator.IN;
+											eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+											eEnumType.setOperator(operator);
+											attributeType = eEnumType;
+										}
+										List<String> values = eEnumType.getValue();
+										EEnum eEnum = (EEnum) attribute.getEType();
+										List<EEnumLiteral> literals = eEnum.getELiterals();
+										for (EEnumLiteral literal : literals) {
+											if (!values.contains(literal.getLiteral())) {
+												values.add(literal.getLiteral());
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										retypeObjectMutator.getAttributes().add(attributeScalar);
 									}
 								}
 							}

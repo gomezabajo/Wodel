@@ -6770,9 +6770,9 @@ public class «className» extends MutatorUtils {
 		«IF e instanceof ListStringType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
-					new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListStringType).value»", "«attributeName»")
+					new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListStringType).value»", "«attributeName»")
 				«ELSE»
-					new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", refObjectSelected), "«(e as ListStringType).value»", "«attributeName»")
+					new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", refObjectSelected), "«(e as ListStringType).value»", "«attributeName»")
 				«ENDIF»
 			«ELSE»
 				null

@@ -2867,6 +2867,12 @@ public class ModelManager {
 
 		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
 			if (sf.getName().equals(att)) {
+				if (sf.getEType() instanceof EEnum) {
+					Object value = object.eGet(sf, true);
+					if (value instanceof EEnumLiteral) {
+						return ((EEnumLiteral) value).getLiteral();
+					}
+				}
 				return (String) object.eGet(sf, true);
 			}
 		}

@@ -1835,6 +1835,64 @@ public class ModelManager {
 	/**
 	 * @param type
 	 *            Name of the wanted object
+	 * @param model
+	 *            Loaded Model
+	 * @return ArrayList<EObject> All the classes or objects of the specified
+	 *         type
+	 */
+	public static List<EObject> getObjectsOfType(String type,
+			Resource model, List<EObject> excludes) {
+
+		List<EObject> objs = new ArrayList<EObject>();
+		for (EObject obj : model.getContents()) {
+			List<EClass> types = new ArrayList<EClass>();
+			types.add(obj.eClass());
+			types.addAll(obj.eClass().getEAllSuperTypes());
+			for (EClass t : types) { 
+				if (type.equals(t.getName())) {
+					boolean corresponds = true;
+					for (EObject exc : excludes) {
+						if (EcoreUtil.equals(obj, exc)) {
+							corresponds = false;
+							break;
+						}
+					}
+					if (corresponds == true) {
+						objs.add(obj);
+					}
+				}
+			}
+			
+			Iterator<EObject> it = obj.eAllContents();
+
+			while (it.hasNext()) {
+				EObject object = it.next();
+				// Check the type
+				types = new ArrayList<EClass>();
+				types.add(object.eClass());
+				types.addAll(object.eClass().getEAllSuperTypes());
+				for (EClass t : types) { 
+					if (type.equals(t.getName())) {
+						boolean corresponds = true;
+						for (EObject exc : excludes) {
+							if (EcoreUtil.equals(object, exc)) {
+								corresponds = false;
+								break;
+							}
+						}
+						if (corresponds == true) {
+							objs.add(object);
+						}
+					}
+				}
+			}
+		}
+		return objs;
+	}
+
+	/**
+	 * @param type
+	 *            Name of the wanted object
 	 * @param source
 	 *            Source object
 	 * @param processed

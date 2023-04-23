@@ -750,6 +750,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					}
 	   				}
 	   			«ENDIF»
+	   			«IF referenceInit.object instanceof RandomTypeSelection»
+	   				if (obSelection != null && obSelection.getObject() != null) {
+   						List<ReferenceConfigurationStrategy> refs = null;
+   						if (refsList.get("«referenceName»") != null) {
+   							refs = refsList.get("«referenceName»");
+   						}
+   						else {
+   							refs = new ArrayList<ReferenceConfigurationStrategy>();
+   						}
+		   				refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), "«referenceInit.getReference().get(0).name»", "«(referenceInit.object as RandomTypeSelection).type.name»"));
+   						refsList.put("«referenceName»", refs);
+	   				}
+	   			«ENDIF»
 	   			«IF referenceInit.object instanceof OtherTypeSelection»
 	   			if (objectSelection != null && objectSelection.getObject() != null) {
 	   				List<ReferenceConfigurationStrategy> refs = null;
@@ -1377,6 +1390,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					} else {
 	   						return numMutantsGenerated;
 	   					}
+	   				}
+	   			«ENDIF»
+	   			«IF referenceInit.object instanceof RandomTypeSelection»
+	   				if (obSelection != null && obSelection.getObject() != null) {
+   						List<ReferenceConfigurationStrategy> refs = null;
+   						if (refsList.get("«referenceName»") != null) {
+   							refs = refsList.get("«referenceName»");
+   						}
+   						else {
+   							refs = new ArrayList<ReferenceConfigurationStrategy>();
+   						}
+		   				refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), "«referenceInit.getReference().get(0).name»", "«(referenceInit.object as RandomTypeSelection).type.name»"));
+   						refsList.put("«referenceName»", refs);
 	   				}
 	   			«ENDIF»
 	   			«IF referenceInit.object instanceof OtherTypeSelection»

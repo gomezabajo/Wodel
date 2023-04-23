@@ -67,6 +67,8 @@ import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
+import mutatorenvironment.SpecificObjectSelection;
+import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.miniOCL.InvariantCS;
 import wodel.dsls.generator.Main;
 import wodel.utils.exceptions.MetaModelNotFoundException;
@@ -181,7 +183,7 @@ public class WodelUtils {
 	}
 	
 	private static String formatOperator(String operator) {
-		operator = operator.replace("\\r\\n", "").replace("\\r", "").replace("\\n", "");
+		operator = operator.replace("\\r\\n", "").replace("\\r", "").replace("\\n", "").replace("\"", "'");
 		String formatted = "";
 		String[] operations = {"create", "deep clone", "clone", "modify", "select", "remove", "retype"};
 		int index = -1;
@@ -236,25 +238,46 @@ public class WodelUtils {
 		}
 		if (index == -1) {
 			int j = i;
-			formatted += " ";
+			int k = i;
+			boolean within = false;
 			while (j < operator.length()) {
-				while (j < operator.length() && operator.charAt(j) != '{') {
-					j++;
-				}
-				if (j == operator.length()) {
-					formatted += operator.substring(i, j).trim();
-				}
-				else {
-					j++;
-					formatted += operator.substring(i, j).trim();
-					do {
+				do {
+					while (j < operator.length() && operator.charAt(j) != '{') {
+						j++;
+					}
+					if (j == operator.length()) {
+						k = i;
+						break;
+					}
+					if (operator.charAt(j) == '{') {
+						within = true;
+					}
+					char lastcar = operator.charAt(k);
+					while (within == true) {
+						formatted += " " + operator.substring(k, j).trim();
 						i = j;
 						while ( j < operator.length() && operator.charAt(j) != '[') {
+							if (operator.charAt(j) == '}' && within == true) {
+								within = false;
+							}
+							if (operator.charAt(j) == '{' && within == false) {
+								within = true;
+							}
 							j++;
 						}
-						int k = j;
+						if (within == false) {
+							if (lastcar == ']') {
+								k = i;
+							}
+							else {
+								k = i - 1;
+							}
+							break;
+						}
+						k = j;
 						if (j == operator.length()) {
-							formatted += operator.substring(i, j).trim();
+							formatted += " " + operator.substring(i, j).trim();
+							k = j;
 							break;
 						}
 						formatted += " " + operator.substring(i, j).trim();
@@ -271,31 +294,37 @@ public class WodelUtils {
 									if (value.trim().charAt(0) == '^') {
 										value = value.trim().substring(1, value.trim().length());
 									}
-									formattedValues += " '" + value.trim() + "',";
+									String formattedValue = value.trim();
+									if ((formattedValue.startsWith("'") || formattedValue.startsWith("\"")) 
+											&& (formattedValue.endsWith("'") || formattedValue.endsWith("\""))) {
+										formattedValue = formattedValue.substring(1, formattedValue.length() - 1);
+									}
+									formattedValues += " '" + formattedValue + "',";
 								}
 								formattedValues = "[ " + formattedValues.substring(1, formattedValues.lastIndexOf(",")) + " ]";
 								formatted += " " + formattedValues;
 							}
 						}
-						k+=2;
+						lastcar = operator.charAt(k + 1);
+						k += 2;
 						j = k;
-						while (j < operator.length() && operator.charAt(j) != '}') {
-							j++;
-						}
-						if (j == operator.length()) {
-							break;
-						}
-						if (operator.charAt(j) == '}') {
-							j++;
-							formatted += operator.substring(k, j);
-						}
-					} while (j < operator.length() && operator.charAt(j) != '}');
+					}
+					while (j < operator.length() && operator.charAt(j) != '}') {
+						j++;
+					}
 					if (j == operator.length()) {
 						break;
 					}
-				}
+					if (operator.charAt(j) == '}') {
+						j++;
+						formatted += operator.substring(k, j);
+						k = j;
+						i = j;
+						within = false;
+					}
+				} while (j < operator.length() && operator.charAt(j) != '}');
 			}
-			formatted += operator.substring(j, operator.length()) + "\n";
+			formatted += operator.substring(k, operator.length()) + "\n";
 		}
 		else {
 			formatted += " ";
@@ -523,7 +552,7 @@ public class WodelUtils {
 	 * @param arrClassNames
 	 * @throws MetaModelNotFoundException
 	 */
-	public static void generateCloningMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, String... arrClassNames) throws MetaModelNotFoundException {
+	public static void generateCloningMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, boolean deep, boolean mode, String... arrClassNames) throws MetaModelNotFoundException {
 		if (mutatorEnvironment == null || arrClassNames == null || inputPath == null) {
 			return;
 		}
@@ -652,92 +681,125 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			System.out.println("Generation of clonation mutation operators for the class: " + eClass.getName());
-			List<String> classWhereElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
-			List<String> classWithElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
-			for (String wodelOperator : wodelOperators) {
-				List<Mutator> mutator = new ArrayList<Mutator>();
-				List<Mutator> commands = new ArrayList<Mutator>();
-				Block block = null;
-				String blockName = "";
-				blockName = "b" + i;
-				block = MutatorenvironmentFactory.eINSTANCE.createBlock();
-				block.setName(blockName);
-				if (wodelOperator.equals("clone")) {
-					System.out.println(eClass.getName() + " ----- Clonation mutation operator");
-					CloneObjectMutator cloneObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCloneObjectMutator();
-					cloneObjectMutator.setContents(true);
-					ObSelectionStrategy obSelectionStrategy = null;
-					if (strategyClass.equals("random")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-					}
-					if (strategyClass.equals("complete")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
-					}
-					obSelectionStrategy.setType(eClass);
-					Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
-					int k = 0;
-					int mAtt = 0;
-					List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							List<Object> lob = featureWhereValues.get(k);
-							k++;
+			if (mode == false) {
+				System.out.println("Generation of clonation mutation operators for the class: " + eClass.getName());
+				List<String> classWhereElements = wodelClassElementsNames.get(j);
+				List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
+				List<String> classWithElements = wodelClassElementsNames.get(j);
+				List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("clone")) {
+						System.out.println(eClass.getName() + " ----- Clonation mutation operator");
+						CloneObjectMutator cloneObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCloneObjectMutator();
+						cloneObjectMutator.setContents(deep);
+						ObSelectionStrategy obSelectionStrategy = null;
+						if (strategyClass.equals("random")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+						}
+						if (strategyClass.equals("complete")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+						}
+						obSelectionStrategy.setType(eClass);
+						Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+						int k = 0;
+						int mAtt = 0;
+						List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								List<Object> lob = featureWhereValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+									EAttribute attribute = (EAttribute) feature;
+									AttributeEvaluationType attributeType = null;
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
+									}
+									if (attributeType != null) {
+										listAttributeEvaluation.add(attributeEvaluation);
+									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (feature instanceof EAttribute) {
 								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
 								EAttribute attribute = (EAttribute) feature;
 								AttributeEvaluationType attributeType = null;
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
 										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
-									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
 									}
 									if (attributeType != null) {
 										attributeEvaluation.setName(attribute);
@@ -749,241 +811,261 @@ public class WodelUtils {
 								}
 							}
 						}
-					}
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (feature instanceof EAttribute) {
-							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
-							EAttribute attribute = (EAttribute) feature;
-							AttributeEvaluationType attributeType = null;
-							if (attribute.getEType() instanceof EEnum) {
-								ListStringType eEnumType = null;
-								if (attributeType == null) {
-									Operator operator = Operator.IN;
-									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-									eEnumType.setOperator(operator);
-									attributeType = eEnumType;
-								}
-								List<String> values = eEnumType.getValue();
-								EEnum eEnum = (EEnum) attribute.getEType();
-								List<EEnumLiteral> literals = eEnum.getELiterals();
-								for (EEnumLiteral literal : literals) {
-									if (!values.contains(literal.getLiteral())) {
-										values.add(literal.getLiteral());
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
 									}
-								}
-								if (attributeType != null) {
-									attributeEvaluation.setName(attribute);
-									attributeEvaluation.setValue(attributeType);
-								}
-							}
-							if (attributeType != null) {
-								listAttributeEvaluation.add(attributeEvaluation);
-							}
-						}
-					}
-					mAtt = 0;
-					if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-						for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-							if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-								if (mAtt == 0) {
-									expression.setFirst(attributeEvaluation);
-								}
-								if (mAtt > 0) {
-									expression.getSecond().add(attributeEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
-								}
-								mAtt++;
-							}
-						}
-					}
-					k = 0;
-					int mRef = 0;
-					List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
-								EReference reference = (EReference) feature;
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								Operator operator = Operator.EQUALS;
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceEvaluation.setName(reference);
-								referenceEvaluation.setOperator(operator);
-								referenceEvaluation.setValue(referenceStrategy);
-								if (referenceEvaluation != null) {
-									listReferenceEvaluation.add(referenceEvaluation);
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
 							}
 						}
-					}
-					mRef = 0;
-					if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-						for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-							if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-								if (mAtt == 0 && mRef == 0) {
-									expression.setFirst(referenceEvaluation);
+						k = 0;
+						int mRef = 0;
+						List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
+									EReference reference = (EReference) feature;
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									Operator operator = Operator.EQUALS;
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceEvaluation.setName(reference);
+									referenceEvaluation.setOperator(operator);
+									referenceEvaluation.setValue(referenceStrategy);
+									if (referenceEvaluation != null) {
+										listReferenceEvaluation.add(referenceEvaluation);
+									}
 								}
-								if (mAtt > 0 || mRef > 0) {
-									expression.getSecond().add(referenceEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
-								}
-								mRef++;
 							}
 						}
-					}
-					cloneObjectMutator.setName("p");
-					if (mAtt > 0 || mRef > 0) {
-						obSelectionStrategy.setExpression(expression);
-					}
-					k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							List<Object> lob = featureWithValues.get(k);
-							k++;
-							if (feature instanceof EAttribute) {
-								EAttribute attribute = (EAttribute) feature;
-								AttributeType attributeType = null;
-								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
-								attributeScalar.getAttribute().add(attribute);
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
-										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
 									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
-									}
+									mRef++;
 								}
-								if (attributeType == null) {
-									if (feature instanceof EAttribute) {
-										Operator operator = Operator.EQUALS;
+							}
+						}
+						cloneObjectMutator.setName("p");
+						if (mAtt > 0 || mRef > 0) {
+							obSelectionStrategy.setExpression(expression);
+						}
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								List<Object> lob = featureWithValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									for (Object ob : lob) {
 										if (attribute.getEType().getName().equals("EString")) {
-											RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
-											stringType.setOperator(operator);
-											stringType.setMin(2);
-											stringType.setMax(4);
-											attributeType = stringType;
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
 										}
 										if (attribute.getEType().getName().equals("EInt")) {
-											RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
-											integerType.setOperator(operator);
-											integerType.setMin(2);
-											integerType.setMax(10);
-											attributeType = integerType;
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
 										}
 										if (attribute.getEType().getName().equals("EBoolean")) {
-											RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
 										}
 										if (attribute.getEType().getName().equals("EDouble")) {
-											RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
-											doubleType.setOperator(operator);
-											doubleType.setMin(2);
-											doubleType.setMax(10);
-											attributeType = doubleType;
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
 										}
 									}
-								}
-								if (attributeType != null) {
-									attributeScalar.setValue(attributeType);
-								}
-								if (attributeScalar != null && attributeScalar.getValue() != null) {
-									cloneObjectMutator.getAttributes().add(attributeScalar);
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										cloneObjectMutator.getAttributes().add(attributeScalar);
+									}
 								}
 							}
 						}
-					}
-					k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceInit referenceInit = null;
-								EReference reference = (EReference) feature;
-								referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceInit.setObject(referenceStrategy);
-								referenceInit.getReference().add(reference);
-								if (referenceInit != null) {
-									cloneObjectMutator.getReferences().add(referenceInit);
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceInit referenceInit = null;
+									EReference reference = (EReference) feature;
+									referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceInit.setObject(referenceStrategy);
+									referenceInit.getReference().add(reference);
+									if (referenceInit != null) {
+										cloneObjectMutator.getReferences().add(referenceInit);
+									}
 								}
 							}
 						}
+						cloneObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(cloneObjectMutator);
 					}
-					cloneObjectMutator.setObject(obSelectionStrategy);
-					mutator.add(cloneObjectMutator);
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
+					}
 				}
-				if (block != null) {
-					if (mutator.size() > 0) {
-						for (Mutator mut : mutator) {
-							if (mut != null) {
-								commands.add(mut);
-							}
-						}
-					}
-					if (commands.size() > 0) {
-						for (Mutator com : commands) {
-							if (com != null) {
-								block.getCommands().add(com);
-							}
-						}
-						if (block.getCommands().size() > 0) {
-							blocks.add(block);
-							i++;
-						}
-					}
-				}
+				j++;
 			}
-			j++;
+			if (mode == true) {
+				System.out.println("Generation of clonation mutation operators for the class: " + eClass.getName());
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("clone")) {
+						System.out.println(eClass.getName() + " ----- Clonation mutation operator");
+						CloneObjectMutator cloneObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCloneObjectMutator();
+						cloneObjectMutator.setContents(deep);
+						ObSelectionStrategy obSelectionStrategy = null;
+						if (strategyClass.equals("random")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+						}
+						if (strategyClass.equals("complete")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+						}
+						obSelectionStrategy.setType(eClass);
+						Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+						cloneObjectMutator.setName("p");
+						cloneObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(cloneObjectMutator);
+					}
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
+					}
+				}
+				j++;
+				
+			}
 		}
 	}
 
@@ -993,7 +1075,7 @@ public class WodelUtils {
 	 * @param arrClassNames
 	 * @throws MetaModelNotFoundException
 	 */
-	public static void generateModificationMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, String... arrClassNames) throws MetaModelNotFoundException {
+	public static void generateModificationMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, boolean mode, String[] arrExcludeClassNames, String... arrClassNames) throws MetaModelNotFoundException {
 		if (mutatorEnvironment == null || arrClassNames == null || inputPath == null) {
 			return;
 		}
@@ -1127,86 +1209,119 @@ public class WodelUtils {
 			List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
 			List<String> classWithElements = wodelClassElementsNames.get(j);
 			List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
-			for (String wodelOperator : wodelOperators) {
-				List<Mutator> mutator = new ArrayList<Mutator>();
-				List<Mutator> commands = new ArrayList<Mutator>();
-				Block block = null;
-				String blockName = "";
-				blockName = "b" + i;
-				block = MutatorenvironmentFactory.eINSTANCE.createBlock();
-				block.setName(blockName);
-				if (wodelOperator.equals("modify")) {
-					System.out.println(eClass.getName() + " ----- Modification mutation operator");
-					ModifyInformationMutator modifyInformationMutator = MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
-					ObSelectionStrategy obSelectionStrategy = null;
-					if (strategyClass.equals("random")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-					}
-					if (strategyClass.equals("complete")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
-					}
-					obSelectionStrategy.setType(eClass);
-					Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
-					int k = 0;
-					int mAtt = 0;
-					List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							List<Object> lob = featureWhereValues.get(k);
-							k++;
+			if (mode == false) {
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("modify")) {
+						System.out.println(eClass.getName() + " ----- Modification mutation operator");
+						ModifyInformationMutator modifyInformationMutator = MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+						ObSelectionStrategy obSelectionStrategy = null;
+						if (strategyClass.equals("random")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+						}
+						if (strategyClass.equals("complete")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+						}
+						obSelectionStrategy.setType(eClass);
+						Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+						int k = 0;
+						int mAtt = 0;
+						List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								List<Object> lob = featureWhereValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+									EAttribute attribute = (EAttribute) feature;
+									AttributeEvaluationType attributeType = null;
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
+									}
+									if (attributeType != null) {
+										listAttributeEvaluation.add(attributeEvaluation);
+									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (feature instanceof EAttribute) {
 								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
 								EAttribute attribute = (EAttribute) feature;
 								AttributeEvaluationType attributeType = null;
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
 										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
-									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
 									}
 									if (attributeType != null) {
 										attributeEvaluation.setName(attribute);
@@ -1218,160 +1333,327 @@ public class WodelUtils {
 								}
 							}
 						}
-					}
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (feature instanceof EAttribute) {
-							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
-							EAttribute attribute = (EAttribute) feature;
-							AttributeEvaluationType attributeType = null;
-							if (attribute.getEType() instanceof EEnum) {
-								ListStringType eEnumType = null;
-								if (attributeType == null) {
-									Operator operator = Operator.IN;
-									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-									eEnumType.setOperator(operator);
-									attributeType = eEnumType;
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
+									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
-								List<String> values = eEnumType.getValue();
-								EEnum eEnum = (EEnum) attribute.getEType();
-								List<EEnumLiteral> literals = eEnum.getELiterals();
-								for (EEnumLiteral literal : literals) {
-									if (!values.contains(literal.getLiteral())) {
-										values.add(literal.getLiteral());
+							}
+						}
+						k = 0;
+						int mRef = 0;
+						List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
+									EReference reference = (EReference) feature;
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									Operator operator = Operator.EQUALS;
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceEvaluation.setName(reference);
+									referenceEvaluation.setOperator(operator);
+									referenceEvaluation.setValue(referenceStrategy);
+									if (referenceEvaluation != null) {
+										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (attributeType != null) {
-									attributeEvaluation.setName(attribute);
-									attributeEvaluation.setValue(attributeType);
-								}
-							}
-							if (attributeType != null) {
-								listAttributeEvaluation.add(attributeEvaluation);
 							}
 						}
-					}
-					mAtt = 0;
-					if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-						for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-							if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-								if (mAtt == 0) {
-									expression.setFirst(attributeEvaluation);
-								}
-								if (mAtt > 0) {
-									expression.getSecond().add(attributeEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
-								}
-								mAtt++;
-							}
-						}
-					}
-					k = 0;
-					int mRef = 0;
-					List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
-								EReference reference = (EReference) feature;
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								Operator operator = Operator.EQUALS;
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceEvaluation.setName(reference);
-								referenceEvaluation.setOperator(operator);
-								referenceEvaluation.setValue(referenceStrategy);
-								if (referenceEvaluation != null) {
-									listReferenceEvaluation.add(referenceEvaluation);
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
+									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
-					}
-					mRef = 0;
-					if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-						for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-							if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-								if (mAtt == 0 && mRef == 0) {
-									expression.setFirst(referenceEvaluation);
+						modifyInformationMutator.setName("p");
+						if (mAtt > 0 || mRef > 0) {
+							obSelectionStrategy.setExpression(expression);
+						}
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								List<Object> lob = featureWithValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+									}
+									if (attributeType == null) {
+										if (feature instanceof EAttribute) {
+											Operator operator = Operator.EQUALS;
+											if (attribute.getEType().getName().equals("EString")) {
+												RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+												stringType.setOperator(operator);
+												stringType.setMin(2);
+												stringType.setMax(4);
+												attributeType = stringType;
+											}
+											if (attribute.getEType().getName().equals("EInt")) {
+												RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+												integerType.setOperator(operator);
+												integerType.setMin(2);
+												integerType.setMax(10);
+												attributeType = integerType;
+											}
+											if (attribute.getEType().getName().equals("EBoolean")) {
+												RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											if (attribute.getEType().getName().equals("EDouble")) {
+												RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+												doubleType.setOperator(operator);
+												doubleType.setMin(2);
+												doubleType.setMax(10);
+												attributeType = doubleType;
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										modifyInformationMutator.getAttributes().add(attributeScalar);
+									}
 								}
-								if (mAtt > 0 || mRef > 0) {
-									expression.getSecond().add(referenceEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
-								}
-								mRef++;
 							}
 						}
-					}
-					modifyInformationMutator.setName("p");
-					if (mAtt > 0 || mRef > 0) {
-						obSelectionStrategy.setExpression(expression);
-					}
-					k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							List<Object> lob = featureWithValues.get(k);
-							k++;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (feature instanceof EAttribute) {
 								EAttribute attribute = (EAttribute) feature;
 								AttributeType attributeType = null;
 								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
 								attributeScalar.getAttribute().add(attribute);
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
 										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
-									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
 									}
 								}
-								if (attributeType == null) {
-									if (feature instanceof EAttribute) {
+								if (attributeType != null) {
+									attributeScalar.setValue(attributeType);
+								}
+								if (attributeScalar != null && attributeScalar.getValue() != null) {
+									modifyInformationMutator.getAttributes().add(attributeScalar);
+								}
+							}
+						}
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceInit referenceInit = null;
+									EReference reference = (EReference) feature;
+									referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceInit.setObject(referenceStrategy);
+									referenceInit.getReference().add(reference);
+									if (referenceInit != null) {
+										modifyInformationMutator.getReferences().add(referenceInit);
+									}
+								}
+							}
+						}
+						modifyInformationMutator.setObject(obSelectionStrategy);
+						mutator.add(modifyInformationMutator);
+					}
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
+					}
+				}
+			}
+			if (mode == true) {
+				List<String> excludeClassNames = Arrays.asList(arrExcludeClassNames);
+				for (String wodelOperator : wodelOperators) {
+					if (wodelOperator.equals("modify")) {
+						int featureIndex = 0;
+						for (EStructuralFeature targetFeature : eClass.getEAllStructuralFeatures()) {
+							if (excludeClassNames.contains(targetFeature.getEType().getName())) {
+								continue;
+							}
+							List<Object> featureValues = new ArrayList<Object>();
+							featureValues.addAll(featureWithValues.get(featureIndex));
+							if (targetFeature.getEType() instanceof EEnum) {
+								EEnum eEnum = (EEnum) targetFeature.getEType();
+								List<EEnumLiteral> literals = eEnum.getELiterals();
+								for (EEnumLiteral literal : literals) {
+									if (!featureValues.contains(literal.getLiteral())) {
+										featureValues.add(literal.getLiteral());
+									}
+								}
+							}
+							if (featureValues.size() == 0) {
+								List<Mutator> mutator = new ArrayList<Mutator>();
+								List<Mutator> commands = new ArrayList<Mutator>();
+								Block block = null;
+								String blockName = "";
+								blockName = "b" + i;
+								block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+								block.setName(blockName);
+								SelectObjectMutator selectObjectMutator = null;
+								if (targetFeature instanceof EReference) {
+									System.out.println(eClass.getName() + " ----- Selection mutation operator");
+									selectObjectMutator = MutatorenvironmentFactory.eINSTANCE.createSelectObjectMutator();
+									ObSelectionStrategy obSelectionStrategy = null;
+									if (strategyClass.equals("random")) {
+										obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									}
+									if (strategyClass.equals("complete")) {
+										obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+									}
+									obSelectionStrategy.setType((EClass) targetFeature.getEType());
+									selectObjectMutator.setObject(obSelectionStrategy);
+									String selectObjectMutatorName = "s";
+									selectObjectMutator.setName(selectObjectMutatorName);
+									mutator.add(selectObjectMutator);
+								}
+								System.out.println(eClass.getName() + " ----- Modification mutation operator");
+								ModifyInformationMutator modifyInformationMutator = MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+								ObSelectionStrategy obSelectionStrategy = null;
+								if (strategyClass.equals("random")) {
+									obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+								}
+								if (strategyClass.equals("complete")) {
+									obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+								}
+								obSelectionStrategy.setType(eClass);
+								Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+								List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
+								if (targetFeature instanceof EReference) {
+									ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
+									EReference reference = (EReference) targetFeature;
+									SpecificObjectSelection referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createSpecificObjectSelection();
+									Operator operator = Operator.DIFFERENT;
+									referenceEvaluation.setName(reference);
+									referenceEvaluation.setOperator(operator);
+									referenceEvaluation.setValue(referenceStrategy);
+									referenceStrategy.setObjSel(selectObjectMutator);
+									if (referenceEvaluation != null) {
+										listReferenceEvaluation.add(referenceEvaluation);
+									}
+								}
+								if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+									for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+										if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+											expression.setFirst(referenceEvaluation);
+										}
+									}
+								}
+								modifyInformationMutator.setName("p");
+								if (expression.getFirst() != null) {
+									obSelectionStrategy.setExpression(expression);
+								}
+								if (targetFeature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) targetFeature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									if (targetFeature instanceof EAttribute) {
 										Operator operator = Operator.EQUALS;
 										if (attribute.getEType().getName().equals("EString")) {
 											RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
@@ -1400,86 +1682,411 @@ public class WodelUtils {
 											attributeType = doubleType;
 										}
 									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										modifyInformationMutator.getAttributes().add(attributeScalar);
+									}
 								}
-								if (attributeType != null) {
-									attributeScalar.setValue(attributeType);
+								if (targetFeature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) targetFeature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									if (attribute.getEType() instanceof EEnum) {
+										ListStringType eEnumType = null;
+										if (attributeType == null) {
+											Operator operator = Operator.IN;
+											eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+											eEnumType.setOperator(operator);
+											attributeType = eEnumType;
+										}
+										List<String> values = eEnumType.getValue();
+										EEnum eEnum = (EEnum) attribute.getEType();
+										List<EEnumLiteral> literals = eEnum.getELiterals();
+										for (EEnumLiteral literal : literals) {
+											if (!values.contains(literal.getLiteral())) {
+												values.add(literal.getLiteral());
+											}
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										modifyInformationMutator.getAttributes().add(attributeScalar);
+									}
 								}
-								if (attributeScalar != null && attributeScalar.getValue() != null) {
-									modifyInformationMutator.getAttributes().add(attributeScalar);
+								if (targetFeature instanceof EReference) {
+									ReferenceInit referenceInit = null;
+									EReference reference = (EReference) targetFeature;
+									referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									SpecificObjectSelection referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createSpecificObjectSelection();
+									referenceStrategy.setObjSel(selectObjectMutator);
+									referenceInit.setObject(referenceStrategy);
+									referenceInit.getReference().add(reference);
+									if (referenceInit != null) {
+										modifyInformationMutator.getReferences().add(referenceInit);
+									}
 								}
-							}
-						}
-					}
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (feature instanceof EAttribute) {
-							EAttribute attribute = (EAttribute) feature;
-							AttributeType attributeType = null;
-							AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
-							attributeScalar.getAttribute().add(attribute);
-							if (attribute.getEType() instanceof EEnum) {
-								ListStringType eEnumType = null;
-								if (attributeType == null) {
-									Operator operator = Operator.IN;
-									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-									eEnumType.setOperator(operator);
-									attributeType = eEnumType;
-								}
-								List<String> values = eEnumType.getValue();
-								EEnum eEnum = (EEnum) attribute.getEType();
-								List<EEnumLiteral> literals = eEnum.getELiterals();
-								for (EEnumLiteral literal : literals) {
-									if (!values.contains(literal.getLiteral())) {
-										values.add(literal.getLiteral());
+								modifyInformationMutator.setObject(obSelectionStrategy);
+								mutator.add(modifyInformationMutator);
+								if (block != null) {
+									if (mutator.size() > 0) {
+										for (Mutator mut : mutator) {
+											if (mut != null) {
+												commands.add(mut);
+											}
+										}
+									}
+									if (commands.size() > 0) {
+										for (Mutator com : commands) {
+											if (com != null) {
+												block.getCommands().add(com);
+											}
+										}
+										if (block.getCommands().size() > 0) {
+											blocks.add(block);
+											i++;
+										}
 									}
 								}
 							}
-							if (attributeType != null) {
-								attributeScalar.setValue(attributeType);
-							}
-							if (attributeScalar != null && attributeScalar.getValue() != null) {
-								modifyInformationMutator.getAttributes().add(attributeScalar);
-							}
-						}
-					}
-					k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceInit referenceInit = null;
-								EReference reference = (EReference) feature;
-								referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceInit.setObject(referenceStrategy);
-								referenceInit.getReference().add(reference);
-								if (referenceInit != null) {
-									modifyInformationMutator.getReferences().add(referenceInit);
+							else {
+								for (Object featureValue : featureValues) {
+									List<Mutator> mutator = new ArrayList<Mutator>();
+									List<Mutator> commands = new ArrayList<Mutator>();
+									Block block = null;
+									String blockName = "";
+									blockName = "b" + i;
+									block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+									block.setName(blockName);
+									SelectObjectMutator selectObjectMutator = null;
+									if (targetFeature instanceof EReference) {
+										System.out.println(eClass.getName() + " ----- Selection mutation operator");
+										selectObjectMutator = MutatorenvironmentFactory.eINSTANCE.createSelectObjectMutator();
+										ObSelectionStrategy obSelectionStrategy = null;
+										if (strategyClass.equals("random")) {
+											obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+										}
+										if (strategyClass.equals("complete")) {
+											obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+										}
+										obSelectionStrategy.setType((EClass) targetFeature.getEType());
+										selectObjectMutator.setObject(obSelectionStrategy);
+										String selectObjectMutatorName = "s";
+										selectObjectMutator.setName(selectObjectMutatorName);
+										mutator.add(selectObjectMutator);
+									}
+									System.out.println(eClass.getName() + " ----- Modification mutation operator");
+									ModifyInformationMutator modifyInformationMutator = MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+									ObSelectionStrategy obSelectionStrategy = null;
+									if (strategyClass.equals("random")) {
+										obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									}
+									if (strategyClass.equals("complete")) {
+										obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+									}
+									obSelectionStrategy.setType(eClass);
+									Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+									List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
+									if (targetFeature instanceof EReference) {
+										ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
+										EReference reference = (EReference) targetFeature;
+										SpecificObjectSelection referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createSpecificObjectSelection();
+										Operator operator = Operator.DIFFERENT;
+										referenceEvaluation.setName(reference);
+										referenceEvaluation.setOperator(operator);
+										referenceEvaluation.setValue(referenceStrategy);
+										referenceStrategy.setObjSel(selectObjectMutator);
+										if (referenceEvaluation != null) {
+											listReferenceEvaluation.add(referenceEvaluation);
+										}
+									}
+									if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+										for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+											if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+												expression.setFirst(referenceEvaluation);
+											}
+										}
+									}
+									int k = 0;
+									int mAtt = 0;
+									List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
+									for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+										if (classWhereElements.contains(feature.getName())) {
+											List<Object> lob = new ArrayList<Object>();
+											for (Object ob : featureWhereValues.get(k)) {
+												if (!ob.equals(featureValue)) {
+													lob.add(ob);
+												}
+											}
+											k++;
+											if (feature instanceof EAttribute) {
+												AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+												EAttribute attribute = (EAttribute) feature;
+												AttributeEvaluationType attributeType = null;
+												for (Object ob : lob) {
+													if (attribute.getEType().getName().equals("EString")) {
+														ListStringType stringType = null;
+														if (attributeType == null) {
+															Operator operator = Operator.IN;
+															stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+															stringType.setOperator(operator);
+															attributeType = stringType;
+														}
+														else {
+															stringType = (ListStringType) attributeType;
+														}
+														stringType.getValue().add(((String) ob).replace("\\n", ""));
+													}
+													if (attribute.getEType().getName().equals("EInt")) {
+														SpecificIntegerType integerType = null;
+														if (attributeType == null) {
+															Operator operator = Operator.EQUALS;
+															integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+															integerType.setOperator(operator);
+															attributeType = integerType;
+														}
+														else {
+															integerType = (SpecificIntegerType) attributeType;
+														}
+														integerType.setValue((int) ob);
+													}
+													if (attribute.getEType().getName().equals("EBoolean")) {
+														SpecificBooleanType booleanType = null;
+														if (attributeType == null) {
+															Operator operator = Operator.EQUALS;
+															booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+															booleanType.setOperator(operator);
+															attributeType = booleanType;
+														}
+														else {
+															booleanType = (SpecificBooleanType) attributeType;
+														}
+														booleanType.setValue((boolean) ob);
+													}
+													if (attribute.getEType().getName().equals("EDouble")) {
+														SpecificDoubleType doubleType = null;
+														if (attributeType == null) {
+															Operator operator = Operator.EQUALS;
+															doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+															doubleType.setOperator(operator);
+															attributeType = doubleType;
+														}
+														doubleType.setValue((double) ob);
+													}
+													if (attributeType != null) {
+														attributeEvaluation.setName(attribute);
+														attributeEvaluation.setValue(attributeType);
+													}
+												}
+												if (attributeType != null) {
+													listAttributeEvaluation.add(attributeEvaluation);
+												}
+											}
+										}
+									}
+									for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+										if (feature instanceof EAttribute) {
+											AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+											EAttribute attribute = (EAttribute) feature;
+											AttributeEvaluationType attributeType = null;
+											if (attribute.getEType() instanceof EEnum) {
+												ListStringType eEnumType = null;
+												if (attributeType == null) {
+													Operator operator = Operator.IN;
+													eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+													eEnumType.setOperator(operator);
+													attributeType = eEnumType;
+												}
+												List<String> values = eEnumType.getValue();
+												EEnum eEnum = (EEnum) attribute.getEType();
+												List<EEnumLiteral> literals = eEnum.getELiterals();
+												for (EEnumLiteral literal : literals) {
+													if (!values.contains(literal.getLiteral()) && !featureValue.equals(literal.getLiteral())) {
+														values.add(literal.getLiteral());
+													}
+												}
+												if (attributeType != null) {
+													attributeEvaluation.setName(attribute);
+													attributeEvaluation.setValue(attributeType);
+												}
+											}
+											if (attributeType != null) {
+												listAttributeEvaluation.add(attributeEvaluation);
+											}
+										}
+									}
+									mAtt = 0;
+									if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+										for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+											if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+												if (mAtt == 0) {
+													expression.setFirst(attributeEvaluation);
+												}
+												if (mAtt > 0) {
+													expression.getSecond().add(attributeEvaluation);
+													BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+													operator.setType(LogicOperator.OR);
+													expression.getOperator().add(operator);
+												}
+												mAtt++;
+											}
+										}
+									}
+									modifyInformationMutator.setName("p");
+									if (mAtt > 0) {
+										obSelectionStrategy.setExpression(expression);
+									}
+									if (targetFeature instanceof EAttribute) {
+										EAttribute attribute = (EAttribute) targetFeature;
+										AttributeType attributeType = null;
+										AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+										attributeScalar.getAttribute().add(attribute);
+										if (attribute.getEType().getName().equals("EString")) {
+											SpecificStringType stringType = null;
+											Operator operator = Operator.IN;
+											stringType = MutatorenvironmentFactory.eINSTANCE.createSpecificStringType();
+											stringType.setOperator(operator);
+											attributeType = stringType;
+											stringType.setValue(((String) featureValue).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) featureValue);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) featureValue);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) featureValue);
+										}
+										if (attributeType == null) {
+											if (targetFeature instanceof EAttribute) {
+												Operator operator = Operator.EQUALS;
+												if (attribute.getEType().getName().equals("EString")) {
+													RandomStringType stringType = MutatorenvironmentFactory.eINSTANCE.createRandomStringType();
+													stringType.setOperator(operator);
+													stringType.setMin(2);
+													stringType.setMax(4);
+													attributeType = stringType;
+												}
+												if (attribute.getEType().getName().equals("EInt")) {
+													RandomIntegerType integerType = MutatorenvironmentFactory.eINSTANCE.createRandomIntegerType();
+													integerType.setOperator(operator);
+													integerType.setMin(2);
+													integerType.setMax(10);
+													attributeType = integerType;
+												}
+												if (attribute.getEType().getName().equals("EBoolean")) {
+													RandomBooleanType booleanType = MutatorenvironmentFactory.eINSTANCE.createRandomBooleanType();
+													booleanType.setOperator(operator);
+													attributeType = booleanType;
+												}
+												if (attribute.getEType().getName().equals("EDouble")) {
+													RandomDoubleType doubleType = MutatorenvironmentFactory.eINSTANCE.createRandomDoubleType();
+													doubleType.setOperator(operator);
+													doubleType.setMin(2);
+													doubleType.setMax(10);
+													attributeType = doubleType;
+												}
+											}
+											if (attributeType != null) {
+												attributeScalar.setValue(attributeType);
+											}
+											if (attributeScalar != null && attributeScalar.getValue() != null) {
+												modifyInformationMutator.getAttributes().add(attributeScalar);
+											}
+										}
+									}
+									if (targetFeature instanceof EAttribute) {
+										EAttribute attribute = (EAttribute) targetFeature;
+										AttributeType attributeType = null;
+										AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+										attributeScalar.getAttribute().add(attribute);
+										if (attribute.getEType() instanceof EEnum) {
+											SpecificStringType eEnumType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												eEnumType = MutatorenvironmentFactory.eINSTANCE.createSpecificStringType();
+												eEnumType.setOperator(operator);
+												eEnumType.setValue((String) featureValue);
+												attributeType = eEnumType;
+											}
+										}
+										if (attributeType != null) {
+											attributeScalar.setValue(attributeType);
+										}
+										if (attributeScalar != null && attributeScalar.getValue() != null) {
+											modifyInformationMutator.getAttributes().add(attributeScalar);
+										}
+									}
+									if (targetFeature instanceof EReference) {
+										ReferenceInit referenceInit = null;
+										EReference reference = (EReference) targetFeature;
+										referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+										SpecificObjectSelection referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createSpecificObjectSelection();
+										referenceStrategy.setObjSel(selectObjectMutator);
+										referenceInit.setObject(referenceStrategy);
+										referenceInit.getReference().add(reference);
+										if (referenceInit != null) {
+											modifyInformationMutator.getReferences().add(referenceInit);
+										}
+									}
+									modifyInformationMutator.setObject(obSelectionStrategy);
+									mutator.add(modifyInformationMutator);
+									if (block != null) {
+										if (mutator.size() > 0) {
+											for (Mutator mut : mutator) {
+												if (mut != null) {
+													commands.add(mut);
+												}
+											}
+										}
+										if (commands.size() > 0) {
+											for (Mutator com : commands) {
+												if (com != null) {
+													block.getCommands().add(com);
+												}
+											}
+											if (block.getCommands().size() > 0) {
+												blocks.add(block);
+												i++;
+											}
+										}
+									}
 								}
 							}
 						}
-					}
-					modifyInformationMutator.setObject(obSelectionStrategy);
-					mutator.add(modifyInformationMutator);
-				}
-				if (block != null) {
-					if (mutator.size() > 0) {
-						for (Mutator mut : mutator) {
-							if (mut != null) {
-								commands.add(mut);
-							}
-						}
-					}
-					if (commands.size() > 0) {
-						for (Mutator com : commands) {
-							if (com != null) {
-								block.getCommands().add(com);
-							}
-						}
-						if (block.getCommands().size() > 0) {
-							blocks.add(block);
-							i++;
-						}
+						featureIndex++;
 					}
 				}
 			}
@@ -2029,7 +2636,7 @@ public class WodelUtils {
 	 * @param arrClassNames
 	 * @throws MetaModelNotFoundException
 	 */
-	public static void generateCreationMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, String... arrClassNames) throws MetaModelNotFoundException {
+	public static void generateCreationMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, boolean mode, String... arrClassNames) throws MetaModelNotFoundException {
 		if (mutatorEnvironment == null || arrClassNames == null || inputPath == null) {
 			return;
 		}
@@ -2158,82 +2765,113 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			System.out.println("Generation of creation mutation operators for the class: " + eClass.getName());
-			List<String> classWhereElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
-			List<String> classWithElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
-			for (String wodelOperator : wodelOperators) {
-				List<Mutator> mutator = new ArrayList<Mutator>();
-				List<Mutator> commands = new ArrayList<Mutator>();
-				Block block = null;
-				String blockName = "";
-				blockName = "b" + i;
-				block = MutatorenvironmentFactory.eINSTANCE.createBlock();
-				block.setName(blockName);
-				if (wodelOperator.equals("create")) {
-					System.out.println(eClass.getName() + " ----- Creation mutation operator");
-					CreateObjectMutator createObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCreateObjectMutator();
-					createObjectMutator.setType(eClass);
-					int k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							List<Object> lob = featureWithValues.get(k);
-							k++;
+			if (mode == false) {
+				System.out.println("Generation of creation mutation operators for the class: " + eClass.getName());
+				List<String> classWithElements = wodelClassElementsNames.get(j);
+				List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("create")) {
+						System.out.println(eClass.getName() + " ----- Creation mutation operator");
+						CreateObjectMutator createObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCreateObjectMutator();
+						createObjectMutator.setType(eClass);
+						int k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								List<Object> lob = featureWithValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									EAttribute attribute = (EAttribute) feature;
+									AttributeType attributeType = null;
+									AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
+									attributeScalar.getAttribute().add(attribute);
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+									}
+									if (attributeType != null) {
+										attributeScalar.setValue(attributeType);
+									}
+									if (attributeScalar != null && attributeScalar.getValue() != null) {
+										createObjectMutator.getAttributes().add(attributeScalar);
+									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (feature instanceof EAttribute) {
 								EAttribute attribute = (EAttribute) feature;
 								AttributeType attributeType = null;
 								AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
 								attributeScalar.getAttribute().add(attribute);
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
 										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
-									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
 									}
 								}
 								if (attributeType != null) {
@@ -2244,81 +2882,89 @@ public class WodelUtils {
 								}
 							}
 						}
-					}
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (feature instanceof EAttribute) {
-							EAttribute attribute = (EAttribute) feature;
-							AttributeType attributeType = null;
-							AttributeScalar attributeScalar = MutatorenvironmentFactory.eINSTANCE.createAttributeScalar();
-							attributeScalar.getAttribute().add(attribute);
-							if (attribute.getEType() instanceof EEnum) {
-								ListStringType eEnumType = null;
-								if (attributeType == null) {
-									Operator operator = Operator.IN;
-									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-									eEnumType.setOperator(operator);
-									attributeType = eEnumType;
-								}
-								List<String> values = eEnumType.getValue();
-								EEnum eEnum = (EEnum) attribute.getEType();
-								List<EEnumLiteral> literals = eEnum.getELiterals();
-								for (EEnumLiteral literal : literals) {
-									if (!values.contains(literal.getLiteral())) {
-										values.add(literal.getLiteral());
+						k = 0;
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWithElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceInit referenceInit = null;
+									EReference reference = (EReference) feature;
+									referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceInit.setObject(referenceStrategy);
+									referenceInit.getReference().add(reference);
+									if (referenceInit != null) {
+										createObjectMutator.getReferences().add(referenceInit);
 									}
 								}
 							}
-							if (attributeType != null) {
-								attributeScalar.setValue(attributeType);
-							}
-							if (attributeScalar != null && attributeScalar.getValue() != null) {
-								createObjectMutator.getAttributes().add(attributeScalar);
-							}
 						}
+						k = 0;
+						mutator.add(createObjectMutator);
 					}
-					k = 0;
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWithElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceInit referenceInit = null;
-								EReference reference = (EReference) feature;
-								referenceInit = MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceInit.setObject(referenceStrategy);
-								referenceInit.getReference().add(reference);
-								if (referenceInit != null) {
-									createObjectMutator.getReferences().add(referenceInit);
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
 								}
 							}
 						}
-					}
-					k = 0;
-					mutator.add(createObjectMutator);
-				}
-				if (block != null) {
-					if (mutator.size() > 0) {
-						for (Mutator mut : mutator) {
-							if (mut != null) {
-								commands.add(mut);
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
 							}
 						}
 					}
-					if (commands.size() > 0) {
-						for (Mutator com : commands) {
-							if (com != null) {
-								block.getCommands().add(com);
-							}
-						}
-						if (block.getCommands().size() > 0) {
-							blocks.add(block);
-							i++;
-						}
-					}
 				}
+				j++;
 			}
-			j++;
+			if (mode == true) {
+				System.out.println("Generation of creation mutation operators for the class: " + eClass.getName());
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("create")) {
+						System.out.println(eClass.getName() + " ----- Creation mutation operator");
+						CreateObjectMutator createObjectMutator = MutatorenvironmentFactory.eINSTANCE.createCreateObjectMutator();
+						createObjectMutator.setType(eClass);
+						mutator.add(createObjectMutator);
+					}
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
+					}
+				}
+				j++;
+			}
 		}
 	}
 
@@ -2328,7 +2974,7 @@ public class WodelUtils {
 	 * @param arrClassNames
 	 * @throws MetaModelNotFoundException
 	 */
-	public static void generateRemovalMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, String... arrClassNames) throws MetaModelNotFoundException {
+	public static void generateRemovalMutationOperators(MutatorEnvironment mutatorEnvironment, String inputPath, boolean mode, String... arrClassNames) throws MetaModelNotFoundException {
 		if (mutatorEnvironment == null || arrClassNames == null || inputPath == null) {
 			return;
 		}
@@ -2457,91 +3103,122 @@ public class WodelUtils {
 				j++;
 				continue;
 			}
-			System.out.println("Generation of remove mutation operators for the class: " + eClass.getName());
-			List<String> classWhereElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
-			List<String> classWithElements = wodelClassElementsNames.get(j);
-			List<List<Object>> featureWithValues = wodelClassObjectsValues.get(j);
-			for (String wodelOperator : wodelOperators) {
-				List<Mutator> mutator = new ArrayList<Mutator>();
-				List<Mutator> commands = new ArrayList<Mutator>();
-				Block block = null;
-				String blockName = "";
-				blockName = "b" + i;
-				block = MutatorenvironmentFactory.eINSTANCE.createBlock();
-				block.setName(blockName);
-				if (wodelOperator.equals("remove")) {
-					System.out.println(eClass.getName() + " ----- Deletion mutation operator");
-					RemoveObjectMutator removeObjectMutator = MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
-					ObSelectionStrategy obSelectionStrategy = null;
-					if (strategyClass.equals("random")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-					}
-					if (strategyClass.equals("complete")) {
-						obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
-					}
-					obSelectionStrategy.setType(eClass);
-					Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
-					int k = 0;
-					int mAtt = 0;
-					List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							List<Object> lob = featureWhereValues.get(k);
-							k++;
+			if (mode == false) {
+				System.out.println("Generation of remove mutation operators for the class: " + eClass.getName());
+				List<String> classWhereElements = wodelClassElementsNames.get(j);
+				List<List<Object>> featureWhereValues = wodelClassObjectsValues.get(j);
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("remove")) {
+						System.out.println(eClass.getName() + " ----- Deletion mutation operator");
+						RemoveObjectMutator removeObjectMutator = MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
+						ObSelectionStrategy obSelectionStrategy = null;
+						if (strategyClass.equals("random")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+						}
+						if (strategyClass.equals("complete")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+						}
+						obSelectionStrategy.setType(eClass);
+						Expression expression = MutatorenvironmentFactory.eINSTANCE.createExpression();
+						int k = 0;
+						int mAtt = 0;
+						List<AttributeEvaluation> listAttributeEvaluation = new ArrayList<AttributeEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								List<Object> lob = featureWhereValues.get(k);
+								k++;
+								if (feature instanceof EAttribute) {
+									AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
+									EAttribute attribute = (EAttribute) feature;
+									AttributeEvaluationType attributeType = null;
+									for (Object ob : lob) {
+										if (attribute.getEType().getName().equals("EString")) {
+											ListStringType stringType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.IN;
+												stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+												stringType.setOperator(operator);
+												attributeType = stringType;
+											}
+											else {
+												stringType = (ListStringType) attributeType;
+											}
+											stringType.getValue().add(((String) ob).replace("\\n", ""));
+										}
+										if (attribute.getEType().getName().equals("EInt")) {
+											SpecificIntegerType integerType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
+												integerType.setOperator(operator);
+												attributeType = integerType;
+											}
+											else {
+												integerType = (SpecificIntegerType) attributeType;
+											}
+											integerType.setValue((int) ob);
+										}
+										if (attribute.getEType().getName().equals("EBoolean")) {
+											SpecificBooleanType booleanType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
+												booleanType.setOperator(operator);
+												attributeType = booleanType;
+											}
+											else {
+												booleanType = (SpecificBooleanType) attributeType;
+											}
+											booleanType.setValue((boolean) ob);
+										}
+										if (attribute.getEType().getName().equals("EDouble")) {
+											SpecificDoubleType doubleType = null;
+											if (attributeType == null) {
+												Operator operator = Operator.EQUALS;
+												doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
+												doubleType.setOperator(operator);
+												attributeType = doubleType;
+											}
+											doubleType.setValue((double) ob);
+										}
+										if (attributeType != null) {
+											attributeEvaluation.setName(attribute);
+											attributeEvaluation.setValue(attributeType);
+										}
+									}
+									if (attributeType != null) {
+										listAttributeEvaluation.add(attributeEvaluation);
+									}
+								}
+							}
+						}
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 							if (feature instanceof EAttribute) {
 								AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
 								EAttribute attribute = (EAttribute) feature;
 								AttributeEvaluationType attributeType = null;
-								for (Object ob : lob) {
-									if (attribute.getEType().getName().equals("EString")) {
-										ListStringType stringType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.IN;
-											stringType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-											stringType.setOperator(operator);
-											attributeType = stringType;
-										}
-										else {
-											stringType = (ListStringType) attributeType;
-										}
-										stringType.getValue().add(((String) ob).replace("\\n", ""));
+								if (attribute.getEType() instanceof EEnum) {
+									ListStringType eEnumType = null;
+									if (attributeType == null) {
+										Operator operator = Operator.IN;
+										eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
+										eEnumType.setOperator(operator);
+										attributeType = eEnumType;
 									}
-									if (attribute.getEType().getName().equals("EInt")) {
-										SpecificIntegerType integerType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											integerType = MutatorenvironmentFactory.eINSTANCE.createSpecificIntegerType();
-											integerType.setOperator(operator);
-											attributeType = integerType;
+									List<String> values = eEnumType.getValue();
+									EEnum eEnum = (EEnum) attribute.getEType();
+									List<EEnumLiteral> literals = eEnum.getELiterals();
+									for (EEnumLiteral literal : literals) {
+										if (!values.contains(literal.getLiteral())) {
+											values.add(literal.getLiteral());
 										}
-										else {
-											integerType = (SpecificIntegerType) attributeType;
-										}
-										integerType.setValue((int) ob);
-									}
-									if (attribute.getEType().getName().equals("EBoolean")) {
-										SpecificBooleanType booleanType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											booleanType = MutatorenvironmentFactory.eINSTANCE.createSpecificBooleanType();
-											booleanType.setOperator(operator);
-											attributeType = booleanType;
-										}
-										else {
-											booleanType = (SpecificBooleanType) attributeType;
-										}
-										booleanType.setValue((boolean) ob);
-									}
-									if (attribute.getEType().getName().equals("EDouble")) {
-										SpecificDoubleType doubleType = null;
-										if (attributeType == null) {
-											Operator operator = Operator.EQUALS;
-											doubleType = MutatorenvironmentFactory.eINSTANCE.createSpecificDoubleType();
-											doubleType.setOperator(operator);
-											attributeType = doubleType;
-										}
-										doubleType.setValue((double) ob);
 									}
 									if (attributeType != null) {
 										attributeEvaluation.setName(attribute);
@@ -2553,121 +3230,137 @@ public class WodelUtils {
 								}
 							}
 						}
-					}
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (feature instanceof EAttribute) {
-							AttributeEvaluation attributeEvaluation = MutatorenvironmentFactory.eINSTANCE.createAttributeEvaluation();
-							EAttribute attribute = (EAttribute) feature;
-							AttributeEvaluationType attributeType = null;
-							if (attribute.getEType() instanceof EEnum) {
-								ListStringType eEnumType = null;
-								if (attributeType == null) {
-									Operator operator = Operator.IN;
-									eEnumType = MutatorenvironmentFactory.eINSTANCE.createListStringType();
-									eEnumType.setOperator(operator);
-									attributeType = eEnumType;
+						mAtt = 0;
+						if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
+							for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
+								if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
+									if (mAtt == 0) {
+										expression.setFirst(attributeEvaluation);
+									}
+									if (mAtt > 0) {
+										expression.getSecond().add(attributeEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mAtt++;
 								}
-								List<String> values = eEnumType.getValue();
-								EEnum eEnum = (EEnum) attribute.getEType();
-								List<EEnumLiteral> literals = eEnum.getELiterals();
-								for (EEnumLiteral literal : literals) {
-									if (!values.contains(literal.getLiteral())) {
-										values.add(literal.getLiteral());
+							}
+						}
+						k = 0;
+						int mRef = 0;
+						List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
+						for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
+							if (classWhereElements.contains(feature.getName())) {
+								k++;
+								if (feature instanceof EReference) {
+									ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
+									EReference reference = (EReference) feature;
+									ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									Operator operator = Operator.EQUALS;
+									referenceStrategy.setType((EClass) reference.getEType());
+									referenceEvaluation.setName(reference);
+									referenceEvaluation.setOperator(operator);
+									referenceEvaluation.setValue(referenceStrategy);
+									if (referenceEvaluation != null) {
+										listReferenceEvaluation.add(referenceEvaluation);
 									}
 								}
-								if (attributeType != null) {
-									attributeEvaluation.setName(attribute);
-									attributeEvaluation.setValue(attributeType);
-								}
-							}
-							if (attributeType != null) {
-								listAttributeEvaluation.add(attributeEvaluation);
 							}
 						}
-					}
-					mAtt = 0;
-					if (listAttributeEvaluation != null && listAttributeEvaluation.size() > 0) {
-						for (AttributeEvaluation attributeEvaluation : listAttributeEvaluation) {
-							if (attributeEvaluation != null && attributeEvaluation.getValue() != null) {
-								if (mAtt == 0) {
-									expression.setFirst(attributeEvaluation);
-								}
-								if (mAtt > 0) {
-									expression.getSecond().add(attributeEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
-								}
-								mAtt++;
-							}
-						}
-					}
-					k = 0;
-					int mRef = 0;
-					List<ReferenceEvaluation> listReferenceEvaluation = new ArrayList<ReferenceEvaluation>();
-					for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
-						if (classWhereElements.contains(feature.getName())) {
-							k++;
-							if (feature instanceof EReference) {
-								ReferenceEvaluation referenceEvaluation = MutatorenvironmentFactory.eINSTANCE.createReferenceEvaluation();
-								EReference reference = (EReference) feature;
-								ObSelectionStrategy referenceStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-								Operator operator = Operator.EQUALS;
-								referenceStrategy.setType((EClass) reference.getEType());
-								referenceEvaluation.setName(reference);
-								referenceEvaluation.setOperator(operator);
-								referenceEvaluation.setValue(referenceStrategy);
-								if (referenceEvaluation != null) {
-									listReferenceEvaluation.add(referenceEvaluation);
+						mRef = 0;
+						if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
+							for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
+								if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
+									if (mAtt == 0 && mRef == 0) {
+										expression.setFirst(referenceEvaluation);
+									}
+									if (mAtt > 0 || mRef > 0) {
+										expression.getSecond().add(referenceEvaluation);
+										BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
+										operator.setType(LogicOperator.OR);
+										expression.getOperator().add(operator);
+									}
+									mRef++;
 								}
 							}
 						}
+						if (mAtt > 0 || mRef > 0) {
+							obSelectionStrategy.setExpression(expression);
+						}
+						removeObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(removeObjectMutator);
 					}
-					mRef = 0;
-					if (listReferenceEvaluation != null && listReferenceEvaluation.size() > 0) {
-						for (ReferenceEvaluation referenceEvaluation : listReferenceEvaluation) {
-							if (referenceEvaluation != null && referenceEvaluation.getValue() != null) {
-								if (mAtt == 0 && mRef == 0) {
-									expression.setFirst(referenceEvaluation);
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
 								}
-								if (mAtt > 0 || mRef > 0) {
-									expression.getSecond().add(referenceEvaluation);
-									BinaryOperator operator = MutatorenvironmentFactory.eINSTANCE.createBinaryOperator();
-									operator.setType(LogicOperator.OR);
-									expression.getOperator().add(operator);
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
 								}
-								mRef++;
 							}
-						}
-					}
-					if (mAtt > 0 || mRef > 0) {
-						obSelectionStrategy.setExpression(expression);
-					}
-					removeObjectMutator.setObject(obSelectionStrategy);
-					mutator.add(removeObjectMutator);
-				}
-				if (block != null) {
-					if (mutator.size() > 0) {
-						for (Mutator mut : mutator) {
-							if (mut != null) {
-								commands.add(mut);
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
 							}
-						}
-					}
-					if (commands.size() > 0) {
-						for (Mutator com : commands) {
-							if (com != null) {
-								block.getCommands().add(com);
-							}
-						}
-						if (block.getCommands().size() > 0) {
-							blocks.add(block);
-							i++;
 						}
 					}
 				}
+				j++;
 			}
-			j++;
+			if (mode == true) {
+				System.out.println("Generation of remove mutation operators for the class: " + eClass.getName());
+				for (String wodelOperator : wodelOperators) {
+					List<Mutator> mutator = new ArrayList<Mutator>();
+					List<Mutator> commands = new ArrayList<Mutator>();
+					Block block = null;
+					String blockName = "";
+					blockName = "b" + i;
+					block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+					block.setName(blockName);
+					if (wodelOperator.equals("remove")) {
+						System.out.println(eClass.getName() + " ----- Deletion mutation operator");
+						RemoveObjectMutator removeObjectMutator = MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
+						ObSelectionStrategy obSelectionStrategy = null;
+						if (strategyClass.equals("random")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+						}
+						if (strategyClass.equals("complete")) {
+							obSelectionStrategy = MutatorenvironmentFactory.eINSTANCE.createCompleteTypeSelection();
+						}
+						obSelectionStrategy.setType(eClass);
+						removeObjectMutator.setObject(obSelectionStrategy);
+						mutator.add(removeObjectMutator);
+					}
+					if (block != null) {
+						if (mutator.size() > 0) {
+							for (Mutator mut : mutator) {
+								if (mut != null) {
+									commands.add(mut);
+								}
+							}
+						}
+						if (commands.size() > 0) {
+							for (Mutator com : commands) {
+								if (com != null) {
+									block.getCommands().add(com);
+								}
+							}
+							if (block.getCommands().size() > 0) {
+								blocks.add(block);
+								i++;
+							}
+						}
+					}
+				}
+				j++;
+			}
 		}
 	}
 	

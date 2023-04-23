@@ -67,42 +67,25 @@ public class RandomReferenceConfigurationStrategy extends
 			//monovalued
 			if (this.object.eGet(reference) instanceof EObject) {
 				this.source = (EObject) this.object.eGet(reference);
-				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
-				if (ltar.size() > 0) {
-					ArrayList<EObject> targets = new ArrayList<EObject>();
-					for (EObject o : ltar) {
-						if (EcoreUtil.equals(o, (EObject) this.source) == false) {
-							targets.add(o);
-						}
-					}
-					if (targets.size() > 0) {
-						this.target = targets.get(ModelManager.getRandomIndex(targets));
-					}
+				List<EObject> excludes = new ArrayList<EObject>();
+				excludes.add((EObject) this.source);
+				List<EObject> targets = ModelManager.getObjectsOfType(className, model, excludes);
+				if (targets.size() > 0) {
+					this.target = targets.get(ModelManager.getRandomIndex(targets));
 				}
 				this.obj = EMFCopier.copy(this.object);
-				this.object.eSet(reference, this.target);
+				if (this.target != null) {
+					this.object.eSet(reference, this.target);
+				}
 			}
 			//multivalued
 			if (this.object.eGet(reference) instanceof List<?>) {
 				this.source = (List<EObject>) this.object.eGet(reference);
-				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
-				if (ltar.size() > 0) {
-					ArrayList<EObject> targets = new ArrayList<EObject>();
-					for (EObject o : ltar) {
-						boolean flag = false;
-						for (EObject osrc : (List<EObject>) this.source) {
-							if (EcoreUtil.equals(o, osrc)) {
-								flag = true;
-								break;
-							}
-						}
-						if (flag == false) {
-							targets.add(o);
-						}
-					}
-					if (targets.size() > 0) {
-						this.target = targets.get(ModelManager.getRandomIndex(targets));
-					}
+				List<EObject> excludes = new ArrayList<EObject>();
+				excludes.addAll((List<EObject>) this.source);
+				List<EObject> targets = ModelManager.getObjectsOfType(className, model, excludes);
+				if (targets.size() > 0) {
+					this.target = targets.get(ModelManager.getRandomIndex(targets));
 				}
 				this.obj = EMFCopier.copy(this.object);
 				this.o = (List<EObject>) this.object.eGet(reference, true);
@@ -133,42 +116,25 @@ public class RandomReferenceConfigurationStrategy extends
 			//monovalued
 			if (this.object.eGet(reference) instanceof EObject) {
 				this.source = (EObject) this.object.eGet(reference);
-				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
-				if (ltar.size() > 0) {
-					ArrayList<EObject> targets = new ArrayList<EObject>();
-					for (EObject o : ltar) {
-						if (EcoreUtil.equals(o, (EObject) this.source) == false) {
-							targets.add(o);
-						}
-					}
-					if (targets.size() > 0) {
-						this.target = targets.get(ModelManager.getRandomIndex(targets));
-					}
+				List<EObject> excludes = new ArrayList<EObject>();
+				excludes.add((EObject) this.source);
+				List<EObject> targets = ModelManager.getObjectsOfType(className, model, excludes);
+				if (targets.size() > 0) {
+					this.target = targets.get(ModelManager.getRandomIndex(targets));
 				}
 				this.obj = EMFCopier.copy(this.object);
-				this.object.eSet(reference, this.target);
+				if (this.target != null) {
+					this.object.eSet(reference, this.target);
+				}
 			}
 			//multivalued
 			if (this.object.eGet(reference) instanceof List<?>) {
 				this.source = (List<EObject>) this.object.eGet(reference);
-				List<EObject> ltar = ModelManager.getObjectsOfType(className, model);
-				if (ltar.size() > 0) {
-					ArrayList<EObject> targets = new ArrayList<EObject>();
-					for (EObject o : ltar) {
-						boolean flag = false;
-						for (EObject osrc : (List<EObject>) this.source) {
-							if (EcoreUtil.equals(o, osrc)) {
-								flag = true;
-								break;
-							}
-						}
-						if (flag == false) {
-							targets.add(o);
-						}
-					}
-					if (targets.size() > 0) {
-						this.target = targets.get(ModelManager.getRandomIndex(targets));
-					}
+				List<EObject> excludes = new ArrayList<EObject>();
+				excludes.addAll((List<EObject>) this.source);
+				List<EObject> targets = ModelManager.getObjectsOfType(className, model, excludes);
+				if (targets.size() > 0) {
+					this.target = targets.get(ModelManager.getRandomIndex(targets));
 				}
 				this.obj = EMFCopier.copy(this.object);
 				this.o = (List<EObject>) this.object.eGet(reference, true);

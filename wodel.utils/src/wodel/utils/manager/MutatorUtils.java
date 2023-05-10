@@ -5383,7 +5383,7 @@ public class MutatorUtils {
 				IConfigurationElement appropriateExtension = null;
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-					Object validation =  extensionClass.newInstance();
+					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
 					Method getURI = extensionClass.getDeclaredMethod("getURI");
 					List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 					String uri = (String) getURI.invoke(validation);
@@ -5396,7 +5396,7 @@ public class MutatorUtils {
 				}
 				if (appropriateExtension != null) {
 					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-					Object validation =  extensionClass.newInstance();
+					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
 					Method getName = extensionClass.getDeclaredMethod("getName");
 					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, String.class, Class.class, IProject.class});
 					isValid = (boolean) validate.invoke(validation, metamodel, seed, model, cls, project);
@@ -5455,7 +5455,7 @@ public class MutatorUtils {
 			try {
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-					Object validation =  extensionClass.newInstance();
+					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
 					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, Class.class});
 					isValid = (boolean) validate.invoke(validation, metamodel, uri, cls);
 					break;
@@ -5513,7 +5513,7 @@ public class MutatorUtils {
 					IConfigurationElement appropriateExtension = null;
 					for (IConfigurationElement extension : extensions) {
 						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-						Object comparison =  extensionClass.newInstance();
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getURI = extensionClass.getDeclaredMethod("getURI");
 						List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 						String uri = (String) getURI.invoke(comparison);
@@ -5533,7 +5533,7 @@ public class MutatorUtils {
 					}
 					if (appropriateExtension != null) {
 						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						Object comparison =  extensionClass.newInstance();
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(comparison).equals(extensionName)) {
 							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class, Class.class});
@@ -5602,7 +5602,7 @@ public class MutatorUtils {
 					IConfigurationElement appropriateExtension = null;
 					for (IConfigurationElement extension : extensions) {
 						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-						Object equivalence =  extensionClass.newInstance();
+						Object equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getURI = extensionClass.getDeclaredMethod("getURI");
 						List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 						String uri = (String) getURI.invoke(equivalence);
@@ -5622,7 +5622,7 @@ public class MutatorUtils {
 					}
 					if (appropriateExtension != null) {
 						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						Object equivalence =  extensionClass.newInstance();
+						Object equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(equivalence).equals(extensionName)) {
 							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
@@ -11237,10 +11237,10 @@ public class MutatorUtils {
 	 * @return
 	 */
 	public static EObject findEObjectForRegistry(Resource seed, EObject object, EObject objectByID, EObject objectByURI, List<String> mutPaths, List<EPackage> packages) {
-		if (ModelManager.getObject(seed, object) != null) {
+		if (object != null && ModelManager.getObject(seed, object) != null) {
 			return ModelManager.getObject(seed, object);
 		}
-		if (ModelManager.getObject(seed, objectByID) != null) {
+		if (objectByID != null && ModelManager.getObject(seed, objectByID) != null) {
 			EObject o = ModelManager.getObject(seed, objectByID);
 			if (o.eIsProxy()) {
 				return EcoreUtil.resolve(o, seed);
@@ -11249,7 +11249,7 @@ public class MutatorUtils {
 				return o;
 			}
 		}
-		if (ModelManager.getObject(seed, objectByURI) != null) {
+		if (objectByURI != null && ModelManager.getObject(seed, objectByURI) != null) {
 			EObject o = ModelManager.getObject(seed, objectByURI);
 			if (o.eIsProxy()) {
 				return EcoreUtil.resolve(o, seed);
@@ -11264,11 +11264,13 @@ public class MutatorUtils {
 				EObject obj = null;
 				for (String mutatorPath : mutPaths) {
 					mutant = ModelManager.loadModel(packages, mutatorPath);
-					obj = ModelManager.getObject(mutant, object);
-					if (obj != null) {
-						break;
+					if (object != null) {
+						obj = ModelManager.getObject(mutant, object);
+						if (obj != null) {
+							break;
+						}
 					}
-					else {
+					if (obj == null && objectByID != null)  {
 						EObject o = ModelManager.getObject(mutant, objectByID);
 						if (o != null) {
 							if (o.eIsProxy()) {
@@ -11288,7 +11290,7 @@ public class MutatorUtils {
 				if (obj != null) {
 					return obj;
 				}
-				else {
+				else if (object != null) {
 					for (String mutatorPath : mutPaths) {
 						mutant = ModelManager.loadModel(packages, mutatorPath);
 						IComparisonScope scope = new DefaultComparisonScope(seed, mutant, null);
@@ -11297,8 +11299,10 @@ public class MutatorUtils {
 						for (Diff diff : differences) {
 							if (diff instanceof ReferenceChange) {
 								obj = ((ReferenceChange) diff).getValue();
-								if (obj.eClass().getName().equals(object.eClass().getName())) {
-									return obj;
+								if (obj != null) {
+									if (obj.eClass().getName().equals(object.eClass().getName())) {
+										return obj;
+									}
 								}
 							}
 						}

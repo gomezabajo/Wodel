@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
@@ -4275,6 +4274,57 @@ public class ModelManager {
 				for (EClass superType : superTypes) {
 					for (EClass cl : classes) {
 						List<EClass> clSuperTypes = cl.getESuperTypes();
+						for (EClass clSuperType : clSuperTypes) {
+							if (EcoreUtil.equals(superType, clSuperType)) {
+								if (!sibling.contains(cl) && !EcoreUtil.equals(cl, type)) {
+									sibling.add(cl);
+									List<EClass> clSubClasses = ModelManager.getESubClasses(packages, cl);
+									for (EClass clSubClass : clSubClasses) {
+										if (!sibling.contains(clSubClass) && !EcoreUtil.equals(clSubClass, type)) {
+											sibling.add(clSubClass);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sibling;
+	}
+
+	/**
+	 * Gets the compatible list of EClass for the given type
+	 */
+	public static List<EClass> getSiblingEClasses(String metamodel, List<EClass> types, List<EClass> excludedSuperTypes) {
+		List<EClass> sibling = new ArrayList<EClass>();
+		try {
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+
+			for (EClass type : types) {
+				List<EClass> completeSuperTypes = type.getESuperTypes();
+				List<EClass> superTypes = new ArrayList<EClass>();
+				for (EClass clSuperType : completeSuperTypes) {
+					if (!excludedSuperTypes.contains(clSuperType)) {
+						superTypes.add(clSuperType);
+					}
+				}
+				sibling.addAll(ModelManager.getESubClasses(packages, type));
+				List<EClass> classes = ModelManager.getEClasses(packages);
+				for (EClass superType : superTypes) {
+					for (EClass cl : classes) {
+						List<EClass> clCompleteSuperTypes = cl.getESuperTypes();
+						List<EClass> clSuperTypes = new ArrayList<EClass>();
+						for (EClass clSuperType : clCompleteSuperTypes) {
+							if (!excludedSuperTypes.contains(clSuperType)) {
+								clSuperTypes.add(clSuperType);
+							}
+						}
 						for (EClass clSuperType : clSuperTypes) {
 							if (EcoreUtil.equals(superType, clSuperType)) {
 								if (!sibling.contains(cl) && !EcoreUtil.equals(cl, type)) {

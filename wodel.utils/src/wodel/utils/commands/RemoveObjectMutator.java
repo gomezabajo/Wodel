@@ -45,17 +45,17 @@ public class RemoveObjectMutator extends Mutator {
 	/**
 	 * Object to delete
 	 */
-	private EObject obj;
+	private List<EObject> obj;
 
 	/**
 	 * Deleted object
 	 */
-	private EObject result;
+	private List<EObject> result;
 
 	/**
 	 * Saved object
 	 */
-	private EObject saved;
+	private List<EObject> saved;
 	
 	/**
 	 * Identification
@@ -96,7 +96,8 @@ public class RemoveObjectMutator extends Mutator {
 	public RemoveObjectMutator(Resource model, List<EPackage> metaModel,
 			EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(model, metaModel, "ObjectRemoved");
-		this.obj = obj;
+		this.obj = new ArrayList<EObject>();
+		this.obj.add(obj);
 		this.referenceSelection = referenceSelection;
 		this.containerSelection = containerSelection;
 		this.identification = "";
@@ -111,7 +112,8 @@ public class RemoveObjectMutator extends Mutator {
 	public RemoveObjectMutator(Resource model, List<EPackage> metaModel,
 			EObject obj) {
 		super(model, metaModel, "ObjectRemoved");
-		this.obj = obj;
+		this.obj = new ArrayList<EObject>();
+		this.obj.add(obj);
 		this.identification = "";
 	}
 	
@@ -120,15 +122,15 @@ public class RemoveObjectMutator extends Mutator {
 		// All the references of each object
 		List<EReference> refList = new ArrayList<EReference>();
 
-		EObject deletedObj = null;
+		List<EObject> deletedObj = new ArrayList<EObject>();
 
-		if (this.obj == null) {
-			if (this.objSelection == null) {
+		if (this.obj == null || (this.obj != null && this.obj.size() == 0)) {
+			if (this.objSelection == null || this.objSelection.getObject() == null) {
 				return null;
 			}
-			deletedObj = this.objSelection.getObject();
+			deletedObj.add(this.objSelection.getObject());
 		} else {
-			deletedObj = this.obj;
+			deletedObj.addAll(this.obj);
 		}
 		
 		//We select the container of the new Object
@@ -142,18 +144,19 @@ public class RemoveObjectMutator extends Mutator {
 			reference = (EReference) referenceSelection.getObject();
 		}
 
-		if (deletedObj == null) {
+		if (deletedObj == null || (deletedObj != null && deletedObj.size() == 0)) {
 			result = null;
 			return null;
 		}
 		
-		saved = EcoreUtil.copy(deletedObj);
-		identification = EcoreUtil.getIdentification(deletedObj);
-		uri = EcoreUtil.getURI(deletedObj);
-		eType = deletedObj.eClass();
+		saved = new ArrayList<EObject>();
+		saved.add(EcoreUtil.copy(deletedObj.get(0)));
+		identification = EcoreUtil.getIdentification(deletedObj.get(0));
+		uri = EcoreUtil.getURI(deletedObj.get(0));
+		eType = deletedObj.get(0).eClass();
 		
 		if ((container == null) && (reference == null)) {
-			EcoreUtil.remove(deletedObj);
+			EcoreUtil.remove(deletedObj.get(0));
 			
 			// For each object of the model
 			for (EObject o : ModelManager.getAllObjects(this.getModel())) {
@@ -197,7 +200,7 @@ public class RemoveObjectMutator extends Mutator {
 			if (container.eGet(reference) instanceof List<?>) {
 				List<EObject> objects = (List<EObject>) container.eGet(reference);
 				for (EObject obj : objects) {
-					if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(deletedObj))) {
+					if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(deletedObj.get(0)))) {
 						objects.remove(obj);
 						break;
 					}
@@ -205,19 +208,26 @@ public class RemoveObjectMutator extends Mutator {
 			}
 			else {
 				EObject obj = (EObject) container.eGet(reference);
-				if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(deletedObj))) {
+				if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(deletedObj.get(0)))) {
 					ModelManager.unsetReference(reference.getName(), container);
 				}
 			}
 		}
-		result = saved;
+		result = new ArrayList<EObject>();
+		result.addAll(saved);
 
-		return this.result;
+		if (this.result != null && this.result.size() > 0) {
+			return this.result.get(0);
+		}
+		return null;
 	}
 
 	// GETTERS AND SETTERS
 	public EObject getObject() {
-		return result;
+		if (result != null && result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
 	}
 	// END GETTERS AND SETTERS
 	

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -178,18 +179,33 @@ public class CloneObjectMutator extends Mutator {
 				if (e.getValue() != null && !obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 					//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
 					//ModelManager.setReference(e.getKey(), newObj, eObject);
-					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), EcoreUtil.copy(e.getValue().getObject()));
+					EStructuralFeature feature = object.eClass().getEStructuralFeature(e.getKey());
+					if (feature instanceof EReference) {
+						if (((EReference) feature).getEOpposite() == null) {
+							EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), EcoreUtil.copy(e.getValue().getObject()));
+						}
+					}
 				}
 				else if (e.getValue() != null) {
 					//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
 					//ModelManager.setReference(e.getKey(), newObj, eObject);
-					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
+					EStructuralFeature feature = object.eClass().getEStructuralFeature(e.getKey());
+					if (feature instanceof EReference) {
+						if (((EReference) feature).getEOpposite() == null) {
+							EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
+						}
+					}
 				}
 			}
 			else if (e.getValue() != null) {
 				//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
 				//ModelManager.setReference(e.getKey(), newObj, eObject);
-				EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
+				EStructuralFeature feature = object.eClass().getEStructuralFeature(e.getKey());
+				if (feature instanceof EReference) {
+					if (((EReference) feature).getEOpposite() == null) {
+						EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
+					}
+				}
 			}
 		}
 
@@ -236,29 +252,31 @@ public class CloneObjectMutator extends Mutator {
 			}
 		}
 		
-		//Multivalued
-		if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){
-			List<EObject> o = null;
-			try{
-				o = (List<EObject>) container.eGet(reference, true);
-			} catch(Exception e){
-				result = null;
-				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
+		if (reference.getEOpposite() == null) {
+			//Multivalued
+			if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){
+				List<EObject> o = null;
+				try{
+					o = (List<EObject>) container.eGet(reference, true);
+				} catch(Exception e){
+					result = null;
+					throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
+				}
+				o.add(newObj);
+				this.result = newObj;
 			}
-			o.add(newObj);
-			this.result = newObj;
-		}
-		//Monovalued
-		else{
-			EObject o = null;
-			try{
-				o = (EObject) container.eGet(reference, true);
-			} catch(Exception e){
-				result=null;
-				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
+			//Monovalued
+			else{
+				EObject o = null;
+				try{
+					o = (EObject) container.eGet(reference, true);
+				} catch(Exception e){
+					result=null;
+					throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
+				}
+				container.eSet(reference, newObj);
+				this.result = newObj;
 			}
-			container.eSet(reference, newObj);
-			this.result = newObj;
 		}
 		
 		//complete(this.getMetaModel(), this.getModel());

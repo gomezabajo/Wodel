@@ -122,5 +122,13 @@
             name="Wodel-Edu Finite Automata"
             project="true">
       </wizard>
+      <wizard
+            category="wodeledu.extension.WodelEduProject/wodeledu.extension.WodelEduExamples"
+            class="wodeledu.extension.examples.wizards.WodelEduLogicCircuitsWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeledu.extension.examples.wizards.WodelEduLogicCircuitsWizard"
+            name="Wodel-Edu Logic Circuits"
+            project="true">
+      </wizard>
    </extension>
 </plugin>

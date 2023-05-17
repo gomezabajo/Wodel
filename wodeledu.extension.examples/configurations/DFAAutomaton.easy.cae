@@ -1,0 +1,10 @@
+1
+true
+mts2nf
+Automaton # 1
+Symbol # 2
+State # 2
+Transition # 4
+Symbol(symbol): a, b
+State(name): q0, q1
+ocl: State.allInstances()->forAll(s | s.isInitial implies s.isFinal)

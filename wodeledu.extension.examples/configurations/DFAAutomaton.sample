@@ -1,0 +1,12 @@
+2
+true
+mts2
+Automaton # 1
+Symbol # 2
+State # 3
+Transition # 6
+Automaton(name): dfa1
+Symbol(symbol): a, b
+State(name): q0, q1, q2
+initial: C:\eclipse\runtime-EclipseApplication6\fawodeledusyn\data\initial\model1.model
+ocl: State.allInstances()->forAll(s | s.isInitial implies s.isFinal)

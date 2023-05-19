@@ -493,7 +493,7 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			InputStream stream = configFile.getContents();
 			if (configFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-				content += "\nWodel-Edu: Generation of a web environment with test exercises for education";
+				content += "\nWodel-Edu: Environment for the automated generation and evaluation of exercises";
 				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
 				configFile.setContents(stream, true, true, monitor);
 			}

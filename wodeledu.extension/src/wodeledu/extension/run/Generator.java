@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -295,11 +296,18 @@ public class Generator implements IGenerator {
 		    	if (! entry.isDirectory()) {
 		    		if (entry.getName().startsWith("content")) {
 		    			final File f = htmlFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("content/", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
+		    			String entryPath = entry.getName().replace("content/", "");
+		    			String pathName = "";
+		    			String[] entryFolders = entryPath.split("/");
+		    			for (String entryFolder : Arrays.asList(entryFolders).subList(0, entryFolders.length - 1)) {
+		    				pathName += entryFolder + "/";
 		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("content/", ""));
+		    			String fName = entryFolders[entryFolders.length - 1];
+		    			File path = new File(f.getPath() + "/" + pathName);
+		    			if (!path.exists()) {
+		    				path.mkdirs();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + pathName + "/" + fName);
 		    			InputStream input = jar.getInputStream(entry);
 		    			FileOutputStream output = new FileOutputStream(dest);
 		    			while (input.available() > 0) {
@@ -353,11 +361,18 @@ public class Generator implements IGenerator {
 		    	if (! entry.isDirectory()) {
 		    		if (entry.getName().startsWith("mobile")) {
 		    			final File f = mobileFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("mobile/", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
+		    			String entryPath = entry.getName().replace("mobile/", "");
+		    			String pathName = "";
+		    			String[] entryFolders = entryPath.split("/");
+		    			for (String entryFolder : Arrays.asList(entryFolders).subList(0, entryFolders.length - 1)) {
+		    				pathName += entryFolder + "/";
 		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("mobile/", ""));
+		    			String fName = entryFolders[entryFolders.length - 1];
+		    			File path = new File(f.getPath() + "/" + pathName);
+		    			if (!path.exists()) {
+		    				path.mkdirs();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + pathName + "/" + fName);
 		    			InputStream input = jar.getInputStream(entry);
 		    			FileOutputStream output = new FileOutputStream(dest);
 		    			while (input.available() > 0) {
@@ -394,11 +409,18 @@ public class Generator implements IGenerator {
 		    	if (! entry.isDirectory()) {
 		    		if (entry.getName().startsWith("ios")) {
 		    			final File f = iOSFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("ios/", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
+		    			String entryPath = entry.getName().replace("ios/", "");
+		    			String pathName = "";
+		    			String[] entryFolders = entryPath.split("/");
+		    			for (String entryFolder : Arrays.asList(entryFolders).subList(0, entryFolders.length - 1)) {
+		    				pathName += entryFolder + "/";
 		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("ios/", ""));
+		    			String fName = entryFolders[entryFolders.length - 1];
+		    			File path = new File(f.getPath() + "/" + pathName);
+		    			if (!path.exists()) {
+		    				path.mkdirs();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + pathName + "/" + fName);
 		    			InputStream input = jar.getInputStream(entry);
 		    			FileOutputStream output = new FileOutputStream(dest);
 		    			while (input.available() > 0) {

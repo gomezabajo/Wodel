@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -555,102 +556,6 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 
-//		final IFolder configurationsFolder = project.getFolder(new Path("data/configurations"));
-//		try {
-//			configurationsFolder.create(true, true, monitor);
-//		} catch (CoreException e) {
-//		}
-//		try {
-//		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
-//		//URL fileURL = bundle.getEntry("content");
-//		final File jarFile = new File(WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//		String srcName = "";
-//		if (jarFile.isFile()) {
-//			final JarFile jar = new JarFile(jarFile);
-//			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//		    while(entries.hasMoreElements()) {
-//		    	JarEntry entry = entries.nextElement();
-//		    	if (! entry.isDirectory()) {
-//		    		if (entry.getName().startsWith("configurations")) {
-//		    			final String name = entry.getName();
-//		    			final File f = configurationsFolder.getRawLocation().makeAbsolute().toFile();
-//		    			File path = new File(f.getPath() + '/' + entry.getName().replace("configurations/", "").split("/")[0]);
-//		    			if (!path.exists()) {
-//		    				path.mkdir();
-//		    			}
-//		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("configurations/", ""));
-//		    			InputStream input = jar.getInputStream(entry);
-//		    			FileOutputStream output = new FileOutputStream(dest);
-//		    			while (input.available() > 0) {
-//		    				output.write(input.read());
-//		    			}
-//		    			output.close();
-//		    			input.close();
-//		    		}
-//	    		}
-//		    }
-//		    jar.close();
-//		}
-//		else {
-//			srcName = WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "configurations";
-//			
-//			final File src = new Path(srcName).toFile();
-//			final File dest = configurationsFolder.getRawLocation().makeAbsolute().toFile();
-//			if ((src != null) && (dest != null)) {
-//				IOUtils.copyFolder(src, dest);
-//			}
-//		}
-//		} catch (IOException e) {
-//		}
-//		
-//		final IFolder initialFolder = project.getFolder(new Path("data/initial"));
-//		try {
-//			initialFolder.create(true, true, monitor);
-//		} catch (CoreException e) {
-//		}
-//		try {
-//		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
-//		//URL fileURL = bundle.getEntry("content");
-//		final File jarFile = new File(WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//		String srcName = "";
-//		if (jarFile.isFile()) {
-//			final JarFile jar = new JarFile(jarFile);
-//			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//		    while(entries.hasMoreElements()) {
-//		    	JarEntry entry = entries.nextElement();
-//		    	if (! entry.isDirectory()) {
-//		    		if (entry.getName().startsWith("initial")) {
-//		    			final String name = entry.getName();
-//		    			final File f = initialFolder.getRawLocation().makeAbsolute().toFile();
-//		    			File path = new File(f.getPath() + '/' + entry.getName().replace("initial/", "").split("/")[0]);
-//		    			if (!path.exists()) {
-//		    				path.mkdir();
-//		    			}
-//		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("initial/", ""));
-//		    			InputStream input = jar.getInputStream(entry);
-//		    			FileOutputStream output = new FileOutputStream(dest);
-//		    			while (input.available() > 0) {
-//		    				output.write(input.read());
-//		    			}
-//		    			output.close();
-//		    			input.close();
-//		    		}
-//	    		}
-//		    }
-//		    jar.close();
-//		}
-//		else {
-//			srcName = WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "initial";
-//			final File src = new Path(srcName).toFile();
-//			final File dest = initialFolder.getRawLocation().makeAbsolute().toFile();
-//			if ((src != null) && (dest != null)) {
-//				IOUtils.copyFolder(src, dest);
-//			}
-//		}
-//		} catch (IOException e) {
-//			
-//		}
-
 		final IFolder appFolder = project.getFolder(new Path("app"));
 		try {
 			appFolder.create(true, true, monitor);
@@ -659,6 +564,11 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		final IFolder mobileFolder = appFolder.getFolder(new Path("mobile"));
 		try {
 			mobileFolder.create(true, true, monitor);
+		} catch (CoreException e) {
+		}
+		final IFolder iOSFolder = appFolder.getFolder(new Path("ios"));
+		try {
+			iOSFolder.create(true, true, monitor);
 		} catch (CoreException e) {
 		}
 		
@@ -675,11 +585,18 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		    	if (! entry.isDirectory()) {
 		    		if (entry.getName().startsWith("mobile")) {
 		    			final File f = mobileFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("mobile/", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
+		    			String entryPath = entry.getName().replace("mobile/", "");
+		    			String pathName = "";
+		    			String[] entryFolders = entryPath.split("/");
+		    			for (String entryFolder : Arrays.asList(entryFolders).subList(0, entryFolders.length - 1)) {
+		    				pathName += entryFolder + "/";
 		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("mobile/", ""));
+		    			String fName = entryFolders[entryFolders.length - 1];
+		    			File path = new File(f.getPath() + "/" + pathName);
+		    			if (!path.exists()) {
+		    				path.mkdirs();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + pathName + "/" + fName);
 		    			InputStream input = jar.getInputStream(entry);
 		    			FileOutputStream output = new FileOutputStream(dest);
 		    			while (input.available() > 0) {
@@ -696,6 +613,54 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 			srcName = WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "mobile";
 			final File src = new Path(srcName).toFile();
 			final File dest = mobileFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolder(src, dest);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("ios")) {
+		    			final File f = iOSFolder.getRawLocation().makeAbsolute().toFile();
+		    			String entryPath = entry.getName().replace("ios/", "");
+		    			String pathName = "";
+		    			String[] entryFolders = entryPath.split("/");
+		    			for (String entryFolder : Arrays.asList(entryFolders).subList(0, entryFolders.length - 1)) {
+		    				pathName += entryFolder + "/";
+		    			}
+		    			String fName = entryFolders[entryFolders.length - 1];
+		    			File path = new File(f.getPath() + "/" + pathName);
+		    			if (!path.exists()) {
+		    				path.mkdirs();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + pathName + "/" + fName);
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "ios";
+			final File src = new Path(srcName).toFile();
+			final File dest = iOSFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
 				IOUtils.copyFolder(src, dest);
 			}

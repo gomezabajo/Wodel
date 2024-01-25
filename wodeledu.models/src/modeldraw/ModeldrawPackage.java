@@ -115,49 +115,22 @@ public interface ModeldrawPackage extends EPackage {
 	int MUTATOR_DRAW__NAME = ITEM__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MUTATOR_DRAW__TYPE = ITEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MUTATOR_DRAW__NODES = ITEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Relations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MUTATOR_DRAW__RELATIONS = ITEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MUTATOR_DRAW__CONTENTS = ITEM_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Metamodel</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MUTATOR_DRAW__METAMODEL = ITEM_FEATURE_COUNT + 4;
+	int MUTATOR_DRAW__METAMODEL = ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_DRAW__INSTANCES = ITEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Mutator Draw</em>' class.
@@ -166,7 +139,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MUTATOR_DRAW_FEATURE_COUNT = ITEM_FEATURE_COUNT + 5;
+	int MUTATOR_DRAW_FEATURE_COUNT = ITEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Mutator Draw</em>' class.
@@ -178,6 +151,79 @@ public interface ModeldrawPackage extends EPackage {
 	int MUTATOR_DRAW_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link modeldraw.impl.MutatorInstanceImpl <em>Mutator Instance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeldraw.impl.MutatorInstanceImpl
+	 * @see modeldraw.impl.ModeldrawPackageImpl#getMutatorInstance()
+	 * @generated
+	 */
+	int MUTATOR_INSTANCE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__NAME = ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__TYPE = ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__NODES = ITEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Relations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__RELATIONS = ITEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__CONTENTS = ITEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Mutator Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE_FEATURE_COUNT = ITEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Mutator Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link modeldraw.impl.NamedItemImpl <em>Named Item</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -185,7 +231,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNamedItem()
 	 * @generated
 	 */
-	int NAMED_ITEM = 2;
+	int NAMED_ITEM = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -231,7 +277,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getValuedFeature()
 	 * @generated
 	 */
-	int VALUED_FEATURE = 3;
+	int VALUED_FEATURE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -304,7 +350,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 4;
+	int NODE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -431,7 +477,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getRelation()
 	 * @generated
 	 */
-	int RELATION = 5;
+	int RELATION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -567,7 +613,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 6;
+	int EDGE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -721,7 +767,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getLevel()
 	 * @generated
 	 */
-	int LEVEL = 7;
+	int LEVEL = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -866,7 +912,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNodeEnumerator()
 	 * @generated
 	 */
-	int NODE_ENUMERATOR = 8;
+	int NODE_ENUMERATOR = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -921,7 +967,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getEnumerator()
 	 * @generated
 	 */
-	int ENUMERATOR = 9;
+	int ENUMERATOR = 10;
 
 	/**
 	 * The feature id for the '<em><b>Literal</b></em>' reference.
@@ -967,7 +1013,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getInformation()
 	 * @generated
 	 */
-	int INFORMATION = 10;
+	int INFORMATION = 11;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -1022,7 +1068,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getContent()
 	 * @generated
 	 */
-	int CONTENT = 11;
+	int CONTENT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -1095,7 +1141,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getDrawType()
 	 * @generated
 	 */
-	int DRAW_TYPE = 12;
+	int DRAW_TYPE = 13;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.NodeType <em>Node Type</em>}' enum.
@@ -1105,7 +1151,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 13;
+	int NODE_TYPE = 14;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.NodeShape <em>Node Shape</em>}' enum.
@@ -1115,7 +1161,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNodeShape()
 	 * @generated
 	 */
-	int NODE_SHAPE = 14;
+	int NODE_SHAPE = 15;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.NodeColor <em>Node Color</em>}' enum.
@@ -1125,7 +1171,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNodeColor()
 	 * @generated
 	 */
-	int NODE_COLOR = 15;
+	int NODE_COLOR = 16;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.Decoration <em>Decoration</em>}' enum.
@@ -1135,7 +1181,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getDecoration()
 	 * @generated
 	 */
-	int DECORATION = 16;
+	int DECORATION = 17;
 
 	/**
 	 * The meta object id for the '{@link modeldraw.NodeStyle <em>Node Style</em>}' enum.
@@ -1145,7 +1191,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @see modeldraw.impl.ModeldrawPackageImpl#getNodeStyle()
 	 * @generated
 	 */
-	int NODE_STYLE = 17;
+	int NODE_STYLE = 18;
 
 
 	/**
@@ -1180,50 +1226,6 @@ public interface ModeldrawPackage extends EPackage {
 	EClass getMutatorDraw();
 
 	/**
-	 * Returns the meta object for the attribute '{@link modeldraw.MutatorDraw#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see modeldraw.MutatorDraw#getType()
-	 * @see #getMutatorDraw()
-	 * @generated
-	 */
-	EAttribute getMutatorDraw_Type();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorDraw#getNodes <em>Nodes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Nodes</em>'.
-	 * @see modeldraw.MutatorDraw#getNodes()
-	 * @see #getMutatorDraw()
-	 * @generated
-	 */
-	EReference getMutatorDraw_Nodes();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorDraw#getRelations <em>Relations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Relations</em>'.
-	 * @see modeldraw.MutatorDraw#getRelations()
-	 * @see #getMutatorDraw()
-	 * @generated
-	 */
-	EReference getMutatorDraw_Relations();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorDraw#getContents <em>Contents</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Contents</em>'.
-	 * @see modeldraw.MutatorDraw#getContents()
-	 * @see #getMutatorDraw()
-	 * @generated
-	 */
-	EReference getMutatorDraw_Contents();
-
-	/**
 	 * Returns the meta object for the attribute '{@link modeldraw.MutatorDraw#getMetamodel <em>Metamodel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1233,6 +1235,71 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMutatorDraw_Metamodel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorDraw#getInstances <em>Instances</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Instances</em>'.
+	 * @see modeldraw.MutatorDraw#getInstances()
+	 * @see #getMutatorDraw()
+	 * @generated
+	 */
+	EReference getMutatorDraw_Instances();
+
+	/**
+	 * Returns the meta object for class '{@link modeldraw.MutatorInstance <em>Mutator Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mutator Instance</em>'.
+	 * @see modeldraw.MutatorInstance
+	 * @generated
+	 */
+	EClass getMutatorInstance();
+
+	/**
+	 * Returns the meta object for the attribute '{@link modeldraw.MutatorInstance#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see modeldraw.MutatorInstance#getType()
+	 * @see #getMutatorInstance()
+	 * @generated
+	 */
+	EAttribute getMutatorInstance_Type();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorInstance#getNodes <em>Nodes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Nodes</em>'.
+	 * @see modeldraw.MutatorInstance#getNodes()
+	 * @see #getMutatorInstance()
+	 * @generated
+	 */
+	EReference getMutatorInstance_Nodes();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorInstance#getRelations <em>Relations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Relations</em>'.
+	 * @see modeldraw.MutatorInstance#getRelations()
+	 * @see #getMutatorInstance()
+	 * @generated
+	 */
+	EReference getMutatorInstance_Relations();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeldraw.MutatorInstance#getContents <em>Contents</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Contents</em>'.
+	 * @see modeldraw.MutatorInstance#getContents()
+	 * @see #getMutatorInstance()
+	 * @generated
+	 */
+	EReference getMutatorInstance_Contents();
 
 	/**
 	 * Returns the meta object for class '{@link modeldraw.NamedItem <em>Named Item</em>}'.
@@ -1842,12 +1909,38 @@ public interface ModeldrawPackage extends EPackage {
 		EClass MUTATOR_DRAW = eINSTANCE.getMutatorDraw();
 
 		/**
+		 * The meta object literal for the '<em><b>Metamodel</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUTATOR_DRAW__METAMODEL = eINSTANCE.getMutatorDraw_Metamodel();
+
+		/**
+		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MUTATOR_DRAW__INSTANCES = eINSTANCE.getMutatorDraw_Instances();
+
+		/**
+		 * The meta object literal for the '{@link modeldraw.impl.MutatorInstanceImpl <em>Mutator Instance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeldraw.impl.MutatorInstanceImpl
+		 * @see modeldraw.impl.ModeldrawPackageImpl#getMutatorInstance()
+		 * @generated
+		 */
+		EClass MUTATOR_INSTANCE = eINSTANCE.getMutatorInstance();
+
+		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MUTATOR_DRAW__TYPE = eINSTANCE.getMutatorDraw_Type();
+		EAttribute MUTATOR_INSTANCE__TYPE = eINSTANCE.getMutatorInstance_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Nodes</b></em>' containment reference list feature.
@@ -1855,7 +1948,7 @@ public interface ModeldrawPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MUTATOR_DRAW__NODES = eINSTANCE.getMutatorDraw_Nodes();
+		EReference MUTATOR_INSTANCE__NODES = eINSTANCE.getMutatorInstance_Nodes();
 
 		/**
 		 * The meta object literal for the '<em><b>Relations</b></em>' containment reference list feature.
@@ -1863,7 +1956,7 @@ public interface ModeldrawPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MUTATOR_DRAW__RELATIONS = eINSTANCE.getMutatorDraw_Relations();
+		EReference MUTATOR_INSTANCE__RELATIONS = eINSTANCE.getMutatorInstance_Relations();
 
 		/**
 		 * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
@@ -1871,15 +1964,7 @@ public interface ModeldrawPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MUTATOR_DRAW__CONTENTS = eINSTANCE.getMutatorDraw_Contents();
-
-		/**
-		 * The meta object literal for the '<em><b>Metamodel</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MUTATOR_DRAW__METAMODEL = eINSTANCE.getMutatorDraw_Metamodel();
+		EReference MUTATOR_INSTANCE__CONTENTS = eINSTANCE.getMutatorInstance_Contents();
 
 		/**
 		 * The meta object literal for the '{@link modeldraw.impl.NamedItemImpl <em>Named Item</em>}' class.

@@ -11,6 +11,7 @@ import mutatorenvironment.Program;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -41,14 +42,22 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
     this.standalone = true;
     try {
       this.bundle = Platform.getBundle("wodel.models");
-      this.metricsURL = FileLocator.resolve(this.bundle.getEntry("/model/MutatorMetrics.ecore")).getFile();
-      this.mutatorURL = FileLocator.resolve(this.bundle.getEntry("/model/MutatorEnvironment.ecore")).getFile();
+      String _file = FileLocator.resolve(this.bundle.getEntry("/model/MutatorMetrics.ecore")).getFile();
+      String _plus_2 = ("file:" + _file);
+      this.metricsURL = URI.createURI(_plus_2).toFileString().replace("\\", "/");
+      String _file_1 = FileLocator.resolve(this.bundle.getEntry("/model/MutatorEnvironment.ecore")).getFile();
+      String _plus_3 = ("file:" + _file_1);
+      this.mutatorURL = URI.createURI(_plus_3).toFileString().replace("\\", "/");
       ModelManager.saveMetricsEnvironmentBundle(resource, this.metricsURL);
       ModelManager.saveMutatorEnvironmentBundle(resource, this.mutatorURL);
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
-        this.metricsURL = ModelManager.getMetricsEnvironmentBundle(resource);
-        this.mutatorURL = ModelManager.getMutatorEnvironmentBundle(resource);
+        String _metricsEnvironmentBundle = ModelManager.getMetricsEnvironmentBundle(resource);
+        String _plus_4 = ("file:" + _metricsEnvironmentBundle);
+        this.metricsURL = URI.createURI(_plus_4).toFileString().replace("\\", "/");
+        String _mutatorEnvironmentBundle = ModelManager.getMutatorEnvironmentBundle(resource);
+        String _plus_5 = ("file:" + _mutatorEnvironmentBundle);
+        this.mutatorURL = URI.createURI(_plus_5).toFileString().replace("\\", "/");
       } else {
         throw Exceptions.sneakyThrow(_t);
       }

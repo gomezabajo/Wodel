@@ -42,4 +42,11 @@ public class OtherTypeSelection extends OtherSelection {
 		if(l==null || l.size()==0) return null;
 		return l.get(ModelManager.getRandomIndex(l));
 	}
+	@Override
+	public List<EObject> getObjects() {
+		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
+		l.remove(obj);
+		if(l==null || l.size()==0) return null;
+		return l;
+	}
 }

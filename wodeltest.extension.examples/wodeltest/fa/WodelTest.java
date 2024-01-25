@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -163,5 +165,105 @@ public class WodelTest implements IWodelTest {
 	@Override
 	public boolean annotateMutation(Resource model, EObject container, String annotation) {
 		return false;
+	}
+
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath,
+			List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath) {
+		Map<IProject, WodelTestGlobalResult> globalResultMap = new HashMap<IProject, WodelTestGlobalResult>();
+		for (IProject testSuiteProject : testSuitesProjects) {
+			WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
+			List<WodelTestResultClass> results = globalResult.getResults();
+			String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
+			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			try {
+				String metamodel = projectPath + "/model/DFAAutomaton.ecore";
+				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				Resource model = ModelManager.loadModel(packages, artifactPath);
+				String seedName = artifactPath.substring(artifactPath.indexOf("\\model\\") + "\\model\\".length(), artifactPath.length());
+				seedName = seedName.substring(0, seedName.indexOf("\\"));
+				FAUtils.loadFA(model);
+				FAUtils.print();
+				File testsFolder = new File(testSuitePath + "/" + seedName);
+				for (File testFile : testsFolder.listFiles()) {
+					FileReader reader = new FileReader(testFile);
+					BufferedReader br = new BufferedReader(reader);
+					String test = "";
+					List<Object> tests = new ArrayList<Object>();
+					List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
+					boolean testValue = true;
+					while ((test = br.readLine()) != null) {
+						String[] data = test.split(";");
+						if (data.length < 2) {
+							break;
+						}
+						String input = data[0];
+						String result = data[1];
+						boolean accepted = FAUtils.process(input);
+						boolean value = false;
+						if (!((accepted == true && result.equals("yes")) || (accepted == false && result.equals("no")))) {
+							value = true;
+							testValue = false;
+						}
+						String message = value ? DIFFERENT : EQUALS;
+						WodelTestInfo info = new WodelTestInfo(testFile.getName() + "/" + input, value, model.getURI().lastSegment(), message);
+						testsInfo.add(info);
+						tests.add(testFile.getName() + "/" + input);
+					}
+					WodelTestResult wtr = new WodelTestResult(model.getURI().lastSegment(), artifactPath.replaceAll("\\\\", "/"), tests, testsInfo);
+					globalResult.incNumTestsExecuted(1);
+					globalResult.incNumTestsFailed(testValue ? 0 : 1);
+					WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, artifactPath.replaceAll("\\\\", "/"));
+					if (resultClass == null) {
+						resultClass = new WodelTestResultClass(artifactPath.replaceAll("\\\\", "/"));
+						results.add(resultClass);
+					}
+					resultClass.addResult(wtr);
+					br.close();
+					reader.close();
+				}
+				globalResultMap.put(testSuiteProject, globalResult);
+			} catch (MetaModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return globalResultMap;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

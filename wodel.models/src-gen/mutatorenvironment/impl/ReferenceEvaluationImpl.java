@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getAttName <em>Att Name</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getAttValue <em>Att Value</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#isContainer <em>Container</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#isSelf <em>Self</em>}</li>
  * </ul>
  *
  * @generated
@@ -149,6 +150,26 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @ordered
 	 */
 	protected boolean container = CONTAINER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isSelf() <em>Self</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSelf()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SELF_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSelf() <em>Self</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSelf()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean self = SELF_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -518,6 +539,28 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSelf() {
+		return self;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSelf(boolean newSelf) {
+		boolean oldSelf = self;
+		self = newSelf;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_EVALUATION__SELF,
+					oldSelf, self));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -565,6 +608,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 			return getAttValue();
 		case MutatorenvironmentPackage.REFERENCE_EVALUATION__CONTAINER:
 			return isContainer();
+		case MutatorenvironmentPackage.REFERENCE_EVALUATION__SELF:
+			return isSelf();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -603,6 +648,9 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 			return;
 		case MutatorenvironmentPackage.REFERENCE_EVALUATION__CONTAINER:
 			setContainer((Boolean) newValue);
+			return;
+		case MutatorenvironmentPackage.REFERENCE_EVALUATION__SELF:
+			setSelf((Boolean) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -643,6 +691,9 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 		case MutatorenvironmentPackage.REFERENCE_EVALUATION__CONTAINER:
 			setContainer(CONTAINER_EDEFAULT);
 			return;
+		case MutatorenvironmentPackage.REFERENCE_EVALUATION__SELF:
+			setSelf(SELF_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -673,6 +724,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 			return attValue != null;
 		case MutatorenvironmentPackage.REFERENCE_EVALUATION__CONTAINER:
 			return container != CONTAINER_EDEFAULT;
+		case MutatorenvironmentPackage.REFERENCE_EVALUATION__SELF:
+			return self != SELF_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -692,6 +745,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 		result.append(operator);
 		result.append(", container: ");
 		result.append(container);
+		result.append(", self: ");
+		result.append(self);
 		result.append(')');
 		return result.toString();
 	}

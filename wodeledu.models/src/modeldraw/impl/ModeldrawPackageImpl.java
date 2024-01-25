@@ -13,6 +13,7 @@ import modeldraw.Level;
 import modeldraw.ModeldrawFactory;
 import modeldraw.ModeldrawPackage;
 import modeldraw.MutatorDraw;
+import modeldraw.MutatorInstance;
 import modeldraw.NamedItem;
 import modeldraw.Node;
 import modeldraw.NodeColor;
@@ -51,6 +52,13 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * @generated
 	 */
 	private EClass mutatorDrawEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mutatorInstanceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -256,7 +264,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMutatorDraw_Type() {
+	public EAttribute getMutatorDraw_Metamodel() {
 		return (EAttribute)mutatorDrawEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -265,7 +273,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorDraw_Nodes() {
+	public EReference getMutatorDraw_Instances() {
 		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -274,8 +282,8 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorDraw_Relations() {
-		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(2);
+	public EClass getMutatorInstance() {
+		return mutatorInstanceEClass;
 	}
 
 	/**
@@ -283,8 +291,8 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorDraw_Contents() {
-		return (EReference)mutatorDrawEClass.getEStructuralFeatures().get(3);
+	public EAttribute getMutatorInstance_Type() {
+		return (EAttribute)mutatorInstanceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -292,8 +300,26 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMutatorDraw_Metamodel() {
-		return (EAttribute)mutatorDrawEClass.getEStructuralFeatures().get(4);
+	public EReference getMutatorInstance_Nodes() {
+		return (EReference)mutatorInstanceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMutatorInstance_Relations() {
+		return (EReference)mutatorInstanceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMutatorInstance_Contents() {
+		return (EReference)mutatorInstanceEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -796,11 +822,14 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		createEReference(itemEClass, ITEM__NAME);
 
 		mutatorDrawEClass = createEClass(MUTATOR_DRAW);
-		createEAttribute(mutatorDrawEClass, MUTATOR_DRAW__TYPE);
-		createEReference(mutatorDrawEClass, MUTATOR_DRAW__NODES);
-		createEReference(mutatorDrawEClass, MUTATOR_DRAW__RELATIONS);
-		createEReference(mutatorDrawEClass, MUTATOR_DRAW__CONTENTS);
 		createEAttribute(mutatorDrawEClass, MUTATOR_DRAW__METAMODEL);
+		createEReference(mutatorDrawEClass, MUTATOR_DRAW__INSTANCES);
+
+		mutatorInstanceEClass = createEClass(MUTATOR_INSTANCE);
+		createEAttribute(mutatorInstanceEClass, MUTATOR_INSTANCE__TYPE);
+		createEReference(mutatorInstanceEClass, MUTATOR_INSTANCE__NODES);
+		createEReference(mutatorInstanceEClass, MUTATOR_INSTANCE__RELATIONS);
+		createEReference(mutatorInstanceEClass, MUTATOR_INSTANCE__CONTENTS);
 
 		namedItemEClass = createEClass(NAMED_ITEM);
 		createEReference(namedItemEClass, NAMED_ITEM__ATT_NAME);
@@ -896,6 +925,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 
 		// Add supertypes to classes
 		mutatorDrawEClass.getESuperTypes().add(this.getItem());
+		mutatorInstanceEClass.getESuperTypes().add(this.getItem());
 		namedItemEClass.getESuperTypes().add(this.getItem());
 		valuedFeatureEClass.getESuperTypes().add(this.getItem());
 		nodeEClass.getESuperTypes().add(this.getNamedItem());
@@ -911,11 +941,14 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		initEReference(getItem_Name(), ecorePackage.getEClass(), null, "name", null, 0, 1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mutatorDrawEClass, MutatorDraw.class, "MutatorDraw", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMutatorDraw_Type(), this.getDrawType(), "type", null, 1, 1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMutatorDraw_Nodes(), this.getNode(), null, "nodes", null, 0, -1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMutatorDraw_Relations(), this.getRelation(), null, "relations", null, 0, -1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMutatorDraw_Contents(), this.getContent(), null, "contents", null, 0, -1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMutatorDraw_Metamodel(), ecorePackage.getEString(), "metamodel", null, 0, 1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorDraw_Instances(), this.getMutatorInstance(), null, "instances", null, 1, -1, MutatorDraw.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mutatorInstanceEClass, MutatorInstance.class, "MutatorInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMutatorInstance_Type(), this.getDrawType(), "type", null, 1, 1, MutatorInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorInstance_Nodes(), this.getNode(), null, "nodes", null, 0, -1, MutatorInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorInstance_Relations(), this.getRelation(), null, "relations", null, 0, -1, MutatorInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorInstance_Contents(), this.getContent(), null, "contents", null, 0, -1, MutatorInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedItemEClass, NamedItem.class, "NamedItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNamedItem_AttName(), ecorePackage.getEAttribute(), null, "attName", null, 0, 1, NamedItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

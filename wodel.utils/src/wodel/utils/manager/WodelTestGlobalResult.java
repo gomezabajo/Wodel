@@ -110,12 +110,15 @@ public class WodelTestGlobalResult {
 		globalResult.incNumTestsError(currentResult.getNumTestsError());
 		File file = new File(path);
 		try {
-			file.createNewFile();
+			LockRegistry.INSTANCE.acquire(path, LockRegistry.LockType.WRITE);
+			if (file.exists() != true) {
+				file.createNewFile();
+			}
 			FileWriter writer = new FileWriter(file);
 			writer.write(globalResult.getNumTestsExecuted() + "|" + globalResult.getNumTestsFailed()+ "|" + globalResult.getNumTestsError() + "\n");
 			writer.flush();
 			writer.close();
-
+			LockRegistry.INSTANCE.release(path, LockRegistry.LockType.WRITE);
 		} catch (IOException e) {
 		}
 	}
@@ -123,15 +126,19 @@ public class WodelTestGlobalResult {
 	public static WodelTestGlobalResult loadValues(String path) {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
+			LockRegistry.INSTANCE.acquire(path, LockRegistry.LockType.READ);
 			FileReader fr = new FileReader(path);
 			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
-			String[] data = line.split("[|]");
-			globalResult.setNumTestsExecuted(Integer.parseInt(data[0]));
-			globalResult.setNumTestsFailed(Integer.parseInt(data[1]));
-			globalResult.setNumTestsError(Integer.parseInt(data[2]));
+			if (line != null) {
+				String[] data = line.split("[|]");
+				globalResult.setNumTestsExecuted(Integer.parseInt(data[0]));
+				globalResult.setNumTestsFailed(Integer.parseInt(data[1]));
+				globalResult.setNumTestsError(Integer.parseInt(data[2]));
+			}
 			br.close();
 			fr.close();
+			LockRegistry.INSTANCE.release(path, LockRegistry.LockType.READ);
 		} catch (IOException ex){
 		}
 		

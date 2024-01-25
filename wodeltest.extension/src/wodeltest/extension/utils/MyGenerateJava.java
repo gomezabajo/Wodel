@@ -8,8 +8,10 @@ import java.util.Map;
 
 import org.eclipse.acceleo.common.IAcceleoConstants;
 import org.eclipse.acceleo.common.internal.utils.AcceleoPackageRegistry;
+import org.eclipse.acceleo.common.internal.utils.workspace.AcceleoWorkspaceUtil;
 import org.eclipse.acceleo.model.mtl.Module;
 import org.eclipse.acceleo.model.mtl.resource.AcceleoResourceSetImpl;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -19,6 +21,13 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.modisco.java.generation.files.GenerateJava;
 
 public class MyGenerateJava extends GenerateJava {
+	
+	/**
+	 * The name of the module.
+	 *
+	 * @generated
+	 */
+	public static final String MODULE_FILE_NAME = "/GenerateJava"; //$NON-NLS-1$
 	
 	/**
 	 * Allows the public constructor to be used. Note that a generator created
@@ -103,6 +112,28 @@ public class MyGenerateJava extends GenerateJava {
     }
 	
 	/**
+	 * Clients can override this if the default behavior doesn't properly find the emtl module URL.
+	 * 
+	 * @param moduleName
+	 *            Name of the module we're searching for.
+	 * @return The template's URL. This will use Eclipse-specific behavior if possible, and use the class
+	 *         loader otherwise.
+	 */
+	protected URL findModuleURL(String moduleName) {
+		URL moduleURL = null;
+		if (EMFPlugin.IS_ECLIPSE_RUNNING) {
+			try {
+				moduleURL = AcceleoWorkspaceUtil.getResourceURL(getClass(), moduleName);
+			} catch (IOException e) {
+				// Swallow this, we'll try and locate the module through the class loader
+			}
+		}
+		if (moduleURL == null) {
+			moduleURL = getClass().getResource(moduleName);
+		}
+		return moduleURL;
+	}
+	/**
 	 * This will initialize all required information for this generator.
 	 * 
 	 * @param resource
@@ -149,7 +180,7 @@ public class MyGenerateJava extends GenerateJava {
 		addListeners();
 		addProperties();
 
-		String moduleName = getModuleName();
+		String moduleName = "/emtl" + MODULE_FILE_NAME + "." + IAcceleoConstants.EMTL_FILE_EXTENSION;
 		if (moduleName.endsWith('.' + IAcceleoConstants.MTL_FILE_EXTENSION)) {
 			moduleName = moduleName.substring(0, moduleName.lastIndexOf('.'));
 		}
@@ -160,7 +191,7 @@ public class MyGenerateJava extends GenerateJava {
 		URL moduleURL = findModuleURL(moduleName);
 
 		if (moduleURL == null) {
-			throw new IOException("'" + getModuleName() + ".emtl' not found"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IOException("'" + getModuleName() + "' not found"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		URI moduleURI = createTemplateURI(moduleURL.toString());
 		moduleURI = URI.createURI(moduleURI.toString(), true);

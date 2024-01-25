@@ -1,5 +1,7 @@
 package wodel.semantic.comparison.run;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -22,5 +24,5 @@ public abstract class SemanticComparison implements IExecutableExtension {
 	
 	public abstract String getURI();
 
-	public abstract boolean doCompare(String metamodel, String model1, String model2, IProject project);
+	public abstract boolean doCompare(List<String> metamodel, String model1, String model2, IProject project, Class<?> cls);
 }

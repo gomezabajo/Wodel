@@ -11386,12 +11386,12 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceEvaluation"
-    // InternalWodel.g:3904:1: ruleReferenceEvaluation returns [EObject current=null] : ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) ) ) ;
+    // InternalWodel.g:3904:1: ruleReferenceEvaluation returns [EObject current=null] : ( () ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ) ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) ;
     public final EObject ruleReferenceEvaluation() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_1=null;
-        Token otherlv_2=null;
+        Token lv_self_2_0=null;
         Token lv_container_3_0=null;
         Token otherlv_4=null;
         Token otherlv_5=null;
@@ -11411,11 +11411,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:3910:2: ( ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) ) ) )
-            // InternalWodel.g:3911:2: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) ) )
+            // InternalWodel.g:3910:2: ( ( () ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ) ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) )
+            // InternalWodel.g:3911:2: ( () ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ) ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) )
             {
-            // InternalWodel.g:3911:2: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) ) )
-            // InternalWodel.g:3912:3: () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) )
+            // InternalWodel.g:3911:2: ( () ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ) ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) )
+            // InternalWodel.g:3912:3: () ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) ) ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ) ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' )
             {
             // InternalWodel.g:3912:3: ()
             // InternalWodel.g:3913:4: 
@@ -11435,7 +11435,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:3922:3: ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' | ( (lv_container_3_0= 'container' ) ) )
+            // InternalWodel.g:3922:3: ( ( (otherlv_1= RULE_ID ) ) | ( (lv_self_2_0= 'self' ) ) | ( (lv_container_3_0= 'container' ) ) )
             int alt70=3;
             switch ( input.LA(1) ) {
             case RULE_ID:
@@ -11499,25 +11499,45 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:3940:4: otherlv_2= 'self'
+                    // InternalWodel.g:3940:4: ( (lv_self_2_0= 'self' ) )
                     {
-                    otherlv_2=(Token)match(input,56,FOLLOW_59); if (state.failed) return current;
+                    // InternalWodel.g:3940:4: ( (lv_self_2_0= 'self' ) )
+                    // InternalWodel.g:3941:5: (lv_self_2_0= 'self' )
+                    {
+                    // InternalWodel.g:3941:5: (lv_self_2_0= 'self' )
+                    // InternalWodel.g:3942:6: lv_self_2_0= 'self'
+                    {
+                    lv_self_2_0=(Token)match(input,56,FOLLOW_59); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(otherlv_2, grammarAccess.getReferenceEvaluationAccess().getSelfKeyword_1_1());
-                      			
+                      						newLeafNode(lv_self_2_0, grammarAccess.getReferenceEvaluationAccess().getSelfSelfKeyword_1_1_0());
+                      					
                     }
+                    if ( state.backtracking==0 ) {
+
+                      						if (current==null) {
+                      							current = createModelElement(grammarAccess.getReferenceEvaluationRule());
+                      						}
+                      						setWithLastConsumed(current, "self", lv_self_2_0 != null, "self");
+                      					
+                    }
+
+                    }
+
+
+                    }
+
 
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:3945:4: ( (lv_container_3_0= 'container' ) )
+                    // InternalWodel.g:3955:4: ( (lv_container_3_0= 'container' ) )
                     {
-                    // InternalWodel.g:3945:4: ( (lv_container_3_0= 'container' ) )
-                    // InternalWodel.g:3946:5: (lv_container_3_0= 'container' )
+                    // InternalWodel.g:3955:4: ( (lv_container_3_0= 'container' ) )
+                    // InternalWodel.g:3956:5: (lv_container_3_0= 'container' )
                     {
-                    // InternalWodel.g:3946:5: (lv_container_3_0= 'container' )
-                    // InternalWodel.g:3947:6: lv_container_3_0= 'container'
+                    // InternalWodel.g:3956:5: (lv_container_3_0= 'container' )
+                    // InternalWodel.g:3957:6: lv_container_3_0= 'container'
                     {
                     lv_container_3_0=(Token)match(input,57,FOLLOW_59); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -11545,29 +11565,29 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:3960:3: ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) ) )
-            int alt74=2;
-            int LA74_0 = input.LA(1);
+            // InternalWodel.g:3970:3: ( (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) ) | (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? )
+            int alt73=2;
+            int LA73_0 = input.LA(1);
 
-            if ( (LA74_0==38) ) {
-                alt74=1;
+            if ( (LA73_0==38) ) {
+                alt73=1;
             }
-            else if ( (LA74_0==23||LA74_0==28||LA74_0==37||LA74_0==39||(LA74_0>=98 && LA74_0<=103)) ) {
-                alt74=2;
+            else if ( (LA73_0==23||LA73_0==28||LA73_0==37||LA73_0==39||(LA73_0>=98 && LA73_0<=103)) ) {
+                alt73=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 74, 0, input);
+                    new NoViableAltException("", 73, 0, input);
 
                 throw nvae;
             }
-            switch (alt74) {
+            switch (alt73) {
                 case 1 :
-                    // InternalWodel.g:3961:4: (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) )
+                    // InternalWodel.g:3971:4: (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) )
                     {
-                    // InternalWodel.g:3961:4: (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) )
-                    // InternalWodel.g:3962:5: otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) )
+                    // InternalWodel.g:3971:4: (otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) ) )
+                    // InternalWodel.g:3972:5: otherlv_4= '.' ( (otherlv_5= RULE_ID ) ) ( (lv_attValue_6_0= ruleAttributeEvaluationType ) )
                     {
                     otherlv_4=(Token)match(input,38,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -11575,11 +11595,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_4, grammarAccess.getReferenceEvaluationAccess().getFullStopKeyword_2_0_0());
                       				
                     }
-                    // InternalWodel.g:3966:5: ( (otherlv_5= RULE_ID ) )
-                    // InternalWodel.g:3967:6: (otherlv_5= RULE_ID )
+                    // InternalWodel.g:3976:5: ( (otherlv_5= RULE_ID ) )
+                    // InternalWodel.g:3977:6: (otherlv_5= RULE_ID )
                     {
-                    // InternalWodel.g:3967:6: (otherlv_5= RULE_ID )
-                    // InternalWodel.g:3968:7: otherlv_5= RULE_ID
+                    // InternalWodel.g:3977:6: (otherlv_5= RULE_ID )
+                    // InternalWodel.g:3978:7: otherlv_5= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -11605,18 +11625,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:3982:5: ( (lv_attValue_6_0= ruleAttributeEvaluationType ) )
-                    // InternalWodel.g:3983:6: (lv_attValue_6_0= ruleAttributeEvaluationType )
+                    // InternalWodel.g:3992:5: ( (lv_attValue_6_0= ruleAttributeEvaluationType ) )
+                    // InternalWodel.g:3993:6: (lv_attValue_6_0= ruleAttributeEvaluationType )
                     {
-                    // InternalWodel.g:3983:6: (lv_attValue_6_0= ruleAttributeEvaluationType )
-                    // InternalWodel.g:3984:7: lv_attValue_6_0= ruleAttributeEvaluationType
+                    // InternalWodel.g:3993:6: (lv_attValue_6_0= ruleAttributeEvaluationType )
+                    // InternalWodel.g:3994:7: lv_attValue_6_0= ruleAttributeEvaluationType
                     {
                     if ( state.backtracking==0 ) {
 
                       							newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getAttValueAttributeEvaluationTypeParserRuleCall_2_0_2_0());
                       						
                     }
-                    pushFollow(FOLLOW_2);
+                    pushFollow(FOLLOW_58);
                     lv_attValue_6_0=ruleAttributeEvaluationType();
 
                     state._fsp--;
@@ -11647,12 +11667,9 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:4003:4: ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) )
+                    // InternalWodel.g:4013:4: (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )?
                     {
-                    // InternalWodel.g:4003:4: ( (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' ) )
-                    // InternalWodel.g:4004:5: (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )? ( (lv_operator_11_0= ruleOperator ) ) ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' )
-                    {
-                    // InternalWodel.g:4004:5: (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )?
+                    // InternalWodel.g:4013:4: (otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )? )?
                     int alt72=2;
                     int LA72_0 = input.LA(1);
 
@@ -11661,37 +11678,37 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt72) {
                         case 1 :
-                            // InternalWodel.g:4005:6: otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )?
+                            // InternalWodel.g:4014:5: otherlv_7= '->' ( (otherlv_8= RULE_ID ) ) (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )?
                             {
                             otherlv_7=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
 
-                              						newLeafNode(otherlv_7, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0_0());
-                              					
+                              					newLeafNode(otherlv_7, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0());
+                              				
                             }
-                            // InternalWodel.g:4009:6: ( (otherlv_8= RULE_ID ) )
-                            // InternalWodel.g:4010:7: (otherlv_8= RULE_ID )
+                            // InternalWodel.g:4018:5: ( (otherlv_8= RULE_ID ) )
+                            // InternalWodel.g:4019:6: (otherlv_8= RULE_ID )
                             {
-                            // InternalWodel.g:4010:7: (otherlv_8= RULE_ID )
-                            // InternalWodel.g:4011:8: otherlv_8= RULE_ID
+                            // InternalWodel.g:4019:6: (otherlv_8= RULE_ID )
+                            // InternalWodel.g:4020:7: otherlv_8= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
-                              								/* */
-                              							
+                              							/* */
+                              						
                             }
                             if ( state.backtracking==0 ) {
 
-                              								if (current==null) {
-                              									current = createModelElement(grammarAccess.getReferenceEvaluationRule());
-                              								}
-                              							
+                              							if (current==null) {
+                              								current = createModelElement(grammarAccess.getReferenceEvaluationRule());
+                              							}
+                              						
                             }
                             otherlv_8=(Token)match(input,RULE_ID,FOLLOW_60); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
 
-                              								newLeafNode(otherlv_8, grammarAccess.getReferenceEvaluationAccess().getRefNameEReferenceCrossReference_2_1_0_1_0());
-                              							
+                              							newLeafNode(otherlv_8, grammarAccess.getReferenceEvaluationAccess().getRefNameEReferenceCrossReference_2_1_1_0());
+                              						
                             }
 
                             }
@@ -11699,7 +11716,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:4025:6: (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )?
+                            // InternalWodel.g:4034:5: (otherlv_9= '->' ( (otherlv_10= RULE_ID ) ) )?
                             int alt71=2;
                             int LA71_0 = input.LA(1);
 
@@ -11708,37 +11725,37 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt71) {
                                 case 1 :
-                                    // InternalWodel.g:4026:7: otherlv_9= '->' ( (otherlv_10= RULE_ID ) )
+                                    // InternalWodel.g:4035:6: otherlv_9= '->' ( (otherlv_10= RULE_ID ) )
                                     {
                                     otherlv_9=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
 
-                                      							newLeafNode(otherlv_9, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0_2_0());
-                                      						
+                                      						newLeafNode(otherlv_9, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_2_0());
+                                      					
                                     }
-                                    // InternalWodel.g:4030:7: ( (otherlv_10= RULE_ID ) )
-                                    // InternalWodel.g:4031:8: (otherlv_10= RULE_ID )
+                                    // InternalWodel.g:4039:6: ( (otherlv_10= RULE_ID ) )
+                                    // InternalWodel.g:4040:7: (otherlv_10= RULE_ID )
                                     {
-                                    // InternalWodel.g:4031:8: (otherlv_10= RULE_ID )
-                                    // InternalWodel.g:4032:9: otherlv_10= RULE_ID
+                                    // InternalWodel.g:4040:7: (otherlv_10= RULE_ID )
+                                    // InternalWodel.g:4041:8: otherlv_10= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
-                                      									/* */
-                                      								
+                                      								/* */
+                                      							
                                     }
                                     if ( state.backtracking==0 ) {
 
-                                      									if (current==null) {
-                                      										current = createModelElement(grammarAccess.getReferenceEvaluationRule());
-                                      									}
-                                      								
+                                      								if (current==null) {
+                                      									current = createModelElement(grammarAccess.getReferenceEvaluationRule());
+                                      								}
+                                      							
                                     }
                                     otherlv_10=(Token)match(input,RULE_ID,FOLLOW_58); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
 
-                                      									newLeafNode(otherlv_10, grammarAccess.getReferenceEvaluationAccess().getRefRefNameEReferenceCrossReference_2_1_0_2_1_0());
-                                      								
+                                      								newLeafNode(otherlv_10, grammarAccess.getReferenceEvaluationAccess().getRefRefNameEReferenceCrossReference_2_1_2_1_0());
+                                      							
                                     }
 
                                     }
@@ -11758,34 +11775,96 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4048:5: ( (lv_operator_11_0= ruleOperator ) )
-                    // InternalWodel.g:4049:6: (lv_operator_11_0= ruleOperator )
+
+                    }
+                    break;
+
+            }
+
+            // InternalWodel.g:4058:3: ( (lv_operator_11_0= ruleOperator ) )
+            // InternalWodel.g:4059:4: (lv_operator_11_0= ruleOperator )
+            {
+            // InternalWodel.g:4059:4: (lv_operator_11_0= ruleOperator )
+            // InternalWodel.g:4060:5: lv_operator_11_0= ruleOperator
+            {
+            if ( state.backtracking==0 ) {
+
+              					newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getOperatorOperatorEnumRuleCall_3_0());
+              				
+            }
+            pushFollow(FOLLOW_61);
+            lv_operator_11_0=ruleOperator();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              					if (current==null) {
+              						current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
+              					}
+              					set(
+              						current,
+              						"operator",
+              						lv_operator_11_0,
+              						"wodel.dsls.Wodel.Operator");
+              					afterParserOrEnumRuleCall();
+              				
+            }
+
+            }
+
+
+            }
+
+            // InternalWodel.g:4077:3: ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' )
+            int alt74=2;
+            int LA74_0 = input.LA(1);
+
+            if ( (LA74_0==RULE_ID||LA74_0==60||LA74_0==62||(LA74_0>=81 && LA74_0<=83)) ) {
+                alt74=1;
+            }
+            else if ( (LA74_0==58) ) {
+                alt74=2;
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return current;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 74, 0, input);
+
+                throw nvae;
+            }
+            switch (alt74) {
+                case 1 :
+                    // InternalWodel.g:4078:4: ( (lv_value_12_0= ruleObSelectionStrategy ) )
                     {
-                    // InternalWodel.g:4049:6: (lv_operator_11_0= ruleOperator )
-                    // InternalWodel.g:4050:7: lv_operator_11_0= ruleOperator
+                    // InternalWodel.g:4078:4: ( (lv_value_12_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:4079:5: (lv_value_12_0= ruleObSelectionStrategy )
+                    {
+                    // InternalWodel.g:4079:5: (lv_value_12_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:4080:6: lv_value_12_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
-                      							newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getOperatorOperatorEnumRuleCall_2_1_1_0());
-                      						
+                      						newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getValueObSelectionStrategyParserRuleCall_4_0_0());
+                      					
                     }
-                    pushFollow(FOLLOW_61);
-                    lv_operator_11_0=ruleOperator();
+                    pushFollow(FOLLOW_2);
+                    lv_value_12_0=ruleObSelectionStrategy();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      							if (current==null) {
-                      								current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
-                      							}
-                      							set(
-                      								current,
-                      								"operator",
-                      								lv_operator_11_0,
-                      								"wodel.dsls.Wodel.Operator");
-                      							afterParserOrEnumRuleCall();
-                      						
+                      						if (current==null) {
+                      							current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
+                      						}
+                      						set(
+                      							current,
+                      							"value",
+                      							lv_value_12_0,
+                      							"wodel.dsls.Wodel.ObSelectionStrategy");
+                      						afterParserOrEnumRuleCall();
+                      					
                     }
 
                     }
@@ -11793,83 +11872,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4067:5: ( ( (lv_value_12_0= ruleObSelectionStrategy ) ) | otherlv_13= 'null' )
-                    int alt73=2;
-                    int LA73_0 = input.LA(1);
-
-                    if ( (LA73_0==RULE_ID||LA73_0==60||LA73_0==62||(LA73_0>=81 && LA73_0<=83)) ) {
-                        alt73=1;
-                    }
-                    else if ( (LA73_0==58) ) {
-                        alt73=2;
-                    }
-                    else {
-                        if (state.backtracking>0) {state.failed=true; return current;}
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 73, 0, input);
-
-                        throw nvae;
-                    }
-                    switch (alt73) {
-                        case 1 :
-                            // InternalWodel.g:4068:6: ( (lv_value_12_0= ruleObSelectionStrategy ) )
-                            {
-                            // InternalWodel.g:4068:6: ( (lv_value_12_0= ruleObSelectionStrategy ) )
-                            // InternalWodel.g:4069:7: (lv_value_12_0= ruleObSelectionStrategy )
-                            {
-                            // InternalWodel.g:4069:7: (lv_value_12_0= ruleObSelectionStrategy )
-                            // InternalWodel.g:4070:8: lv_value_12_0= ruleObSelectionStrategy
-                            {
-                            if ( state.backtracking==0 ) {
-
-                              								newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getValueObSelectionStrategyParserRuleCall_2_1_2_0_0());
-                              							
-                            }
-                            pushFollow(FOLLOW_2);
-                            lv_value_12_0=ruleObSelectionStrategy();
-
-                            state._fsp--;
-                            if (state.failed) return current;
-                            if ( state.backtracking==0 ) {
-
-                              								if (current==null) {
-                              									current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
-                              								}
-                              								set(
-                              									current,
-                              									"value",
-                              									lv_value_12_0,
-                              									"wodel.dsls.Wodel.ObSelectionStrategy");
-                              								afterParserOrEnumRuleCall();
-                              							
-                            }
-
-                            }
-
-
-                            }
-
-
-                            }
-                            break;
-                        case 2 :
-                            // InternalWodel.g:4088:6: otherlv_13= 'null'
-                            {
-                            otherlv_13=(Token)match(input,58,FOLLOW_2); if (state.failed) return current;
-                            if ( state.backtracking==0 ) {
-
-                              						newLeafNode(otherlv_13, grammarAccess.getReferenceEvaluationAccess().getNullKeyword_2_1_2_1());
-                              					
-                            }
-
-                            }
-                            break;
 
                     }
+                    break;
+                case 2 :
+                    // InternalWodel.g:4098:4: otherlv_13= 'null'
+                    {
+                    otherlv_13=(Token)match(input,58,FOLLOW_2); if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
 
-
+                      				newLeafNode(otherlv_13, grammarAccess.getReferenceEvaluationAccess().getNullKeyword_4_1());
+                      			
                     }
-
 
                     }
                     break;
@@ -11901,7 +11915,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEvaluation"
-    // InternalWodel.g:4099:1: entryRuleEvaluation returns [EObject current=null] : iv_ruleEvaluation= ruleEvaluation EOF ;
+    // InternalWodel.g:4107:1: entryRuleEvaluation returns [EObject current=null] : iv_ruleEvaluation= ruleEvaluation EOF ;
     public final EObject entryRuleEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -11909,8 +11923,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4099:51: (iv_ruleEvaluation= ruleEvaluation EOF )
-            // InternalWodel.g:4100:2: iv_ruleEvaluation= ruleEvaluation EOF
+            // InternalWodel.g:4107:51: (iv_ruleEvaluation= ruleEvaluation EOF )
+            // InternalWodel.g:4108:2: iv_ruleEvaluation= ruleEvaluation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getEvaluationRule()); 
@@ -11941,7 +11955,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEvaluation"
-    // InternalWodel.g:4106:1: ruleEvaluation returns [EObject current=null] : (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) ;
+    // InternalWodel.g:4114:1: ruleEvaluation returns [EObject current=null] : (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) ;
     public final EObject ruleEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -11954,15 +11968,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4112:2: ( (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) )
-            // InternalWodel.g:4113:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
+            // InternalWodel.g:4120:2: ( (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) )
+            // InternalWodel.g:4121:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
             {
-            // InternalWodel.g:4113:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
+            // InternalWodel.g:4121:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
             int alt75=2;
             alt75 = dfa75.predict(input);
             switch (alt75) {
                 case 1 :
-                    // InternalWodel.g:4114:3: this_AttributeEvaluation_0= ruleAttributeEvaluation
+                    // InternalWodel.g:4122:3: this_AttributeEvaluation_0= ruleAttributeEvaluation
                     {
                     if ( state.backtracking==0 ) {
 
@@ -11989,7 +12003,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:4126:3: this_ReferenceEvaluation_1= ruleReferenceEvaluation
+                    // InternalWodel.g:4134:3: this_ReferenceEvaluation_1= ruleReferenceEvaluation
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12040,7 +12054,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExpression"
-    // InternalWodel.g:4141:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
+    // InternalWodel.g:4149:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
     public final EObject entryRuleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -12048,8 +12062,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4141:51: (iv_ruleExpression= ruleExpression EOF )
-            // InternalWodel.g:4142:2: iv_ruleExpression= ruleExpression EOF
+            // InternalWodel.g:4149:51: (iv_ruleExpression= ruleExpression EOF )
+            // InternalWodel.g:4150:2: iv_ruleExpression= ruleExpression EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getExpressionRule()); 
@@ -12080,7 +12094,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpression"
-    // InternalWodel.g:4148:1: ruleExpression returns [EObject current=null] : ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) ;
+    // InternalWodel.g:4156:1: ruleExpression returns [EObject current=null] : ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) ;
     public final EObject ruleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -12095,14 +12109,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4154:2: ( ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) )
-            // InternalWodel.g:4155:2: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
+            // InternalWodel.g:4162:2: ( ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) )
+            // InternalWodel.g:4163:2: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
             {
-            // InternalWodel.g:4155:2: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
-            // InternalWodel.g:4156:3: () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
+            // InternalWodel.g:4163:2: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
+            // InternalWodel.g:4164:3: () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
             {
-            // InternalWodel.g:4156:3: ()
-            // InternalWodel.g:4157:4: 
+            // InternalWodel.g:4164:3: ()
+            // InternalWodel.g:4165:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -12119,11 +12133,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4166:3: ( (lv_first_1_0= ruleEvaluation ) )
-            // InternalWodel.g:4167:4: (lv_first_1_0= ruleEvaluation )
+            // InternalWodel.g:4174:3: ( (lv_first_1_0= ruleEvaluation ) )
+            // InternalWodel.g:4175:4: (lv_first_1_0= ruleEvaluation )
             {
-            // InternalWodel.g:4167:4: (lv_first_1_0= ruleEvaluation )
-            // InternalWodel.g:4168:5: lv_first_1_0= ruleEvaluation
+            // InternalWodel.g:4175:4: (lv_first_1_0= ruleEvaluation )
+            // InternalWodel.g:4176:5: lv_first_1_0= ruleEvaluation
             {
             if ( state.backtracking==0 ) {
 
@@ -12154,7 +12168,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4185:3: ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
+            // InternalWodel.g:4193:3: ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
             loop76:
             do {
                 int alt76=2;
@@ -12167,13 +12181,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt76) {
             	case 1 :
-            	    // InternalWodel.g:4186:4: ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) )
+            	    // InternalWodel.g:4194:4: ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) )
             	    {
-            	    // InternalWodel.g:4186:4: ( (lv_operator_2_0= ruleBinaryOperator ) )
-            	    // InternalWodel.g:4187:5: (lv_operator_2_0= ruleBinaryOperator )
+            	    // InternalWodel.g:4194:4: ( (lv_operator_2_0= ruleBinaryOperator ) )
+            	    // InternalWodel.g:4195:5: (lv_operator_2_0= ruleBinaryOperator )
             	    {
-            	    // InternalWodel.g:4187:5: (lv_operator_2_0= ruleBinaryOperator )
-            	    // InternalWodel.g:4188:6: lv_operator_2_0= ruleBinaryOperator
+            	    // InternalWodel.g:4195:5: (lv_operator_2_0= ruleBinaryOperator )
+            	    // InternalWodel.g:4196:6: lv_operator_2_0= ruleBinaryOperator
             	    {
             	    if ( state.backtracking==0 ) {
 
@@ -12204,11 +12218,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalWodel.g:4205:4: ( (lv_second_3_0= ruleEvaluation ) )
-            	    // InternalWodel.g:4206:5: (lv_second_3_0= ruleEvaluation )
+            	    // InternalWodel.g:4213:4: ( (lv_second_3_0= ruleEvaluation ) )
+            	    // InternalWodel.g:4214:5: (lv_second_3_0= ruleEvaluation )
             	    {
-            	    // InternalWodel.g:4206:5: (lv_second_3_0= ruleEvaluation )
-            	    // InternalWodel.g:4207:6: lv_second_3_0= ruleEvaluation
+            	    // InternalWodel.g:4214:5: (lv_second_3_0= ruleEvaluation )
+            	    // InternalWodel.g:4215:6: lv_second_3_0= ruleEvaluation
             	    {
             	    if ( state.backtracking==0 ) {
 
@@ -12273,7 +12287,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveObjectMutator"
-    // InternalWodel.g:4229:1: entryRuleRemoveObjectMutator returns [EObject current=null] : iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF ;
+    // InternalWodel.g:4237:1: entryRuleRemoveObjectMutator returns [EObject current=null] : iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF ;
     public final EObject entryRuleRemoveObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12281,8 +12295,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4229:60: (iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF )
-            // InternalWodel.g:4230:2: iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF
+            // InternalWodel.g:4237:60: (iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF )
+            // InternalWodel.g:4238:2: iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRemoveObjectMutatorRule()); 
@@ -12313,7 +12327,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveObjectMutator"
-    // InternalWodel.g:4236:1: ruleRemoveObjectMutator returns [EObject current=null] : ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? ) ;
+    // InternalWodel.g:4244:1: ruleRemoveObjectMutator returns [EObject current=null] : ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? ) ;
     public final EObject ruleRemoveObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12335,14 +12349,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4242:2: ( ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? ) )
-            // InternalWodel.g:4243:2: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? )
+            // InternalWodel.g:4250:2: ( ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? ) )
+            // InternalWodel.g:4251:2: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? )
             {
-            // InternalWodel.g:4243:2: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? )
-            // InternalWodel.g:4244:3: () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )?
+            // InternalWodel.g:4251:2: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )? )
+            // InternalWodel.g:4252:3: () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )?
             {
-            // InternalWodel.g:4244:3: ()
-            // InternalWodel.g:4245:4: 
+            // InternalWodel.g:4252:3: ()
+            // InternalWodel.g:4253:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -12365,11 +12379,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getRemoveObjectMutatorAccess().getRemoveKeyword_1());
               		
             }
-            // InternalWodel.g:4258:3: ( (lv_object_2_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:4259:4: (lv_object_2_0= ruleObSelectionStrategy )
+            // InternalWodel.g:4266:3: ( (lv_object_2_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:4267:4: (lv_object_2_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:4259:4: (lv_object_2_0= ruleObSelectionStrategy )
-            // InternalWodel.g:4260:5: lv_object_2_0= ruleObSelectionStrategy
+            // InternalWodel.g:4267:4: (lv_object_2_0= ruleObSelectionStrategy )
+            // InternalWodel.g:4268:5: lv_object_2_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -12400,7 +12414,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4277:3: (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:4285:3: (otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) ) )?
             int alt77=2;
             int LA77_0 = input.LA(1);
 
@@ -12409,7 +12423,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt77) {
                 case 1 :
-                    // InternalWodel.g:4278:4: otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:4286:4: otherlv_3= 'from' ( (lv_container_4_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_3=(Token)match(input,24,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -12417,11 +12431,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getRemoveObjectMutatorAccess().getFromKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:4282:4: ( (lv_container_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:4283:5: (lv_container_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:4290:4: ( (lv_container_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:4291:5: (lv_container_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:4283:5: (lv_container_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:4284:6: lv_container_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:4291:5: (lv_container_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:4292:6: lv_container_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12458,7 +12472,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4302:3: (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )?
+            // InternalWodel.g:4310:3: (otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']' )?
             int alt79=2;
             int LA79_0 = input.LA(1);
 
@@ -12471,7 +12485,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt79) {
                 case 1 :
-                    // InternalWodel.g:4303:4: otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']'
+                    // InternalWodel.g:4311:4: otherlv_5= '[' ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )? ( (lv_max_8_0= ruleMaxCardinality ) ) otherlv_9= ']'
                     {
                     otherlv_5=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -12479,7 +12493,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getRemoveObjectMutatorAccess().getLeftSquareBracketKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:4307:4: ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )?
+                    // InternalWodel.g:4315:4: ( ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..' )?
                     int alt78=2;
                     int LA78_0 = input.LA(1);
 
@@ -12503,13 +12517,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt78) {
                         case 1 :
-                            // InternalWodel.g:4308:5: ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..'
+                            // InternalWodel.g:4316:5: ( (lv_min_6_0= ruleEInt ) ) otherlv_7= '..'
                             {
-                            // InternalWodel.g:4308:5: ( (lv_min_6_0= ruleEInt ) )
-                            // InternalWodel.g:4309:6: (lv_min_6_0= ruleEInt )
+                            // InternalWodel.g:4316:5: ( (lv_min_6_0= ruleEInt ) )
+                            // InternalWodel.g:4317:6: (lv_min_6_0= ruleEInt )
                             {
-                            // InternalWodel.g:4309:6: (lv_min_6_0= ruleEInt )
-                            // InternalWodel.g:4310:7: lv_min_6_0= ruleEInt
+                            // InternalWodel.g:4317:6: (lv_min_6_0= ruleEInt )
+                            // InternalWodel.g:4318:7: lv_min_6_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -12552,11 +12566,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4332:4: ( (lv_max_8_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:4333:5: (lv_max_8_0= ruleMaxCardinality )
+                    // InternalWodel.g:4340:4: ( (lv_max_8_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:4341:5: (lv_max_8_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:4333:5: (lv_max_8_0= ruleMaxCardinality )
-                    // InternalWodel.g:4334:6: lv_max_8_0= ruleMaxCardinality
+                    // InternalWodel.g:4341:5: (lv_max_8_0= ruleMaxCardinality )
+                    // InternalWodel.g:4342:6: lv_max_8_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12624,7 +12638,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveReferenceMutator"
-    // InternalWodel.g:4360:1: entryRuleRemoveReferenceMutator returns [EObject current=null] : iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF ;
+    // InternalWodel.g:4368:1: entryRuleRemoveReferenceMutator returns [EObject current=null] : iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF ;
     public final EObject entryRuleRemoveReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12632,8 +12646,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4360:63: (iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF )
-            // InternalWodel.g:4361:2: iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF
+            // InternalWodel.g:4368:63: (iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF )
+            // InternalWodel.g:4369:2: iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRemoveReferenceMutatorRule()); 
@@ -12664,7 +12678,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveReferenceMutator"
-    // InternalWodel.g:4367:1: ruleRemoveReferenceMutator returns [EObject current=null] : (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) ;
+    // InternalWodel.g:4375:1: ruleRemoveReferenceMutator returns [EObject current=null] : (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) ;
     public final EObject ruleRemoveReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12679,20 +12693,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4373:2: ( (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) )
-            // InternalWodel.g:4374:2: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
+            // InternalWodel.g:4381:2: ( (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) )
+            // InternalWodel.g:4382:2: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
             {
-            // InternalWodel.g:4374:2: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
+            // InternalWodel.g:4382:2: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
             int alt80=3;
             int LA80_0 = input.LA(1);
 
             if ( (LA80_0==59) ) {
                 switch ( input.LA(2) ) {
-                case 60:
-                    {
-                    alt80=1;
-                    }
-                    break;
                 case 61:
                     {
                     alt80=2;
@@ -12701,6 +12710,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                 case 62:
                     {
                     alt80=3;
+                    }
+                    break;
+                case 60:
+                    {
+                    alt80=1;
                     }
                     break;
                 default:
@@ -12721,7 +12735,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt80) {
                 case 1 :
-                    // InternalWodel.g:4375:3: this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator
+                    // InternalWodel.g:4383:3: this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12748,7 +12762,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:4387:3: this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator
+                    // InternalWodel.g:4395:3: this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12775,7 +12789,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:4399:3: this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator
+                    // InternalWodel.g:4407:3: this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator
                     {
                     if ( state.backtracking==0 ) {
 
@@ -12826,7 +12840,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveRandomReferenceMutator"
-    // InternalWodel.g:4414:1: entryRuleRemoveRandomReferenceMutator returns [EObject current=null] : iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF ;
+    // InternalWodel.g:4422:1: entryRuleRemoveRandomReferenceMutator returns [EObject current=null] : iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF ;
     public final EObject entryRuleRemoveRandomReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12834,8 +12848,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4414:69: (iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF )
-            // InternalWodel.g:4415:2: iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF
+            // InternalWodel.g:4422:69: (iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF )
+            // InternalWodel.g:4423:2: iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRemoveRandomReferenceMutatorRule()); 
@@ -12866,7 +12880,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveRandomReferenceMutator"
-    // InternalWodel.g:4421:1: ruleRemoveRandomReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // InternalWodel.g:4429:1: ruleRemoveRandomReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleRemoveRandomReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -12888,14 +12902,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4427:2: ( ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // InternalWodel.g:4428:2: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:4435:2: ( ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // InternalWodel.g:4436:2: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // InternalWodel.g:4428:2: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // InternalWodel.g:4429:3: () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:4436:2: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:4437:3: () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
-            // InternalWodel.g:4429:3: ()
-            // InternalWodel.g:4430:4: 
+            // InternalWodel.g:4437:3: ()
+            // InternalWodel.g:4438:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -12930,11 +12944,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getRemoveRandomReferenceMutatorAccess().getReferenceKeyword_3());
               		
             }
-            // InternalWodel.g:4451:3: ( (otherlv_4= RULE_ID ) )
-            // InternalWodel.g:4452:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:4459:3: ( (otherlv_4= RULE_ID ) )
+            // InternalWodel.g:4460:4: (otherlv_4= RULE_ID )
             {
-            // InternalWodel.g:4452:4: (otherlv_4= RULE_ID )
-            // InternalWodel.g:4453:5: otherlv_4= RULE_ID
+            // InternalWodel.g:4460:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:4461:5: otherlv_4= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -12966,11 +12980,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_5, grammarAccess.getRemoveRandomReferenceMutatorAccess().getInKeyword_5());
               		
             }
-            // InternalWodel.g:4471:3: ( (otherlv_6= RULE_ID ) )
-            // InternalWodel.g:4472:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:4479:3: ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:4480:4: (otherlv_6= RULE_ID )
             {
-            // InternalWodel.g:4472:4: (otherlv_6= RULE_ID )
-            // InternalWodel.g:4473:5: otherlv_6= RULE_ID
+            // InternalWodel.g:4480:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:4481:5: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -12996,7 +13010,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4487:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:4495:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             int alt82=2;
             int LA82_0 = input.LA(1);
 
@@ -13009,7 +13023,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt82) {
                 case 1 :
-                    // InternalWodel.g:4488:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // InternalWodel.g:4496:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
                     otherlv_7=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -13017,7 +13031,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_7, grammarAccess.getRemoveRandomReferenceMutatorAccess().getLeftSquareBracketKeyword_7_0());
                       			
                     }
-                    // InternalWodel.g:4492:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    // InternalWodel.g:4500:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
                     int alt81=2;
                     int LA81_0 = input.LA(1);
 
@@ -13041,13 +13055,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt81) {
                         case 1 :
-                            // InternalWodel.g:4493:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // InternalWodel.g:4501:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // InternalWodel.g:4493:5: ( (lv_min_8_0= ruleEInt ) )
-                            // InternalWodel.g:4494:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:4501:5: ( (lv_min_8_0= ruleEInt ) )
+                            // InternalWodel.g:4502:6: (lv_min_8_0= ruleEInt )
                             {
-                            // InternalWodel.g:4494:6: (lv_min_8_0= ruleEInt )
-                            // InternalWodel.g:4495:7: lv_min_8_0= ruleEInt
+                            // InternalWodel.g:4502:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:4503:7: lv_min_8_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -13090,11 +13104,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4517:4: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:4518:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:4525:4: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:4526:5: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:4518:5: (lv_max_10_0= ruleMaxCardinality )
-                    // InternalWodel.g:4519:6: lv_max_10_0= ruleMaxCardinality
+                    // InternalWodel.g:4526:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:4527:6: lv_max_10_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -13162,7 +13176,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveSpecificReferenceMutator"
-    // InternalWodel.g:4545:1: entryRuleRemoveSpecificReferenceMutator returns [EObject current=null] : iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF ;
+    // InternalWodel.g:4553:1: entryRuleRemoveSpecificReferenceMutator returns [EObject current=null] : iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF ;
     public final EObject entryRuleRemoveSpecificReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13170,8 +13184,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4545:71: (iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF )
-            // InternalWodel.g:4546:2: iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF
+            // InternalWodel.g:4553:71: (iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF )
+            // InternalWodel.g:4554:2: iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRemoveSpecificReferenceMutatorRule()); 
@@ -13202,7 +13216,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveSpecificReferenceMutator"
-    // InternalWodel.g:4552:1: ruleRemoveSpecificReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) ;
+    // InternalWodel.g:4560:1: ruleRemoveSpecificReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) ;
     public final EObject ruleRemoveSpecificReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13224,14 +13238,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4558:2: ( ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) )
-            // InternalWodel.g:4559:2: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
+            // InternalWodel.g:4566:2: ( ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) )
+            // InternalWodel.g:4567:2: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
             {
-            // InternalWodel.g:4559:2: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
-            // InternalWodel.g:4560:3: () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
+            // InternalWodel.g:4567:2: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
+            // InternalWodel.g:4568:3: () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
             {
-            // InternalWodel.g:4560:3: ()
-            // InternalWodel.g:4561:4: 
+            // InternalWodel.g:4568:3: ()
+            // InternalWodel.g:4569:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -13260,11 +13274,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getReferenceKeyword_2());
               		
             }
-            // InternalWodel.g:4578:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:4579:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:4586:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:4587:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:4579:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:4580:5: otherlv_3= RULE_ID
+            // InternalWodel.g:4587:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:4588:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -13296,11 +13310,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_4, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getInKeyword_4());
               		
             }
-            // InternalWodel.g:4598:3: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:4599:4: (lv_container_5_0= ruleObSelectionStrategy )
+            // InternalWodel.g:4606:3: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:4607:4: (lv_container_5_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:4599:4: (lv_container_5_0= ruleObSelectionStrategy )
-            // InternalWodel.g:4600:5: lv_container_5_0= ruleObSelectionStrategy
+            // InternalWodel.g:4607:4: (lv_container_5_0= ruleObSelectionStrategy )
+            // InternalWodel.g:4608:5: lv_container_5_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -13331,7 +13345,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4617:3: (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
+            // InternalWodel.g:4625:3: (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
             int alt84=2;
             int LA84_0 = input.LA(1);
 
@@ -13344,7 +13358,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt84) {
                 case 1 :
-                    // InternalWodel.g:4618:4: otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']'
+                    // InternalWodel.g:4626:4: otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']'
                     {
                     otherlv_6=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -13352,7 +13366,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_6, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getLeftSquareBracketKeyword_6_0());
                       			
                     }
-                    // InternalWodel.g:4622:4: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )?
+                    // InternalWodel.g:4630:4: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )?
                     int alt83=2;
                     int LA83_0 = input.LA(1);
 
@@ -13376,13 +13390,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt83) {
                         case 1 :
-                            // InternalWodel.g:4623:5: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..'
+                            // InternalWodel.g:4631:5: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..'
                             {
-                            // InternalWodel.g:4623:5: ( (lv_min_7_0= ruleEInt ) )
-                            // InternalWodel.g:4624:6: (lv_min_7_0= ruleEInt )
+                            // InternalWodel.g:4631:5: ( (lv_min_7_0= ruleEInt ) )
+                            // InternalWodel.g:4632:6: (lv_min_7_0= ruleEInt )
                             {
-                            // InternalWodel.g:4624:6: (lv_min_7_0= ruleEInt )
-                            // InternalWodel.g:4625:7: lv_min_7_0= ruleEInt
+                            // InternalWodel.g:4632:6: (lv_min_7_0= ruleEInt )
+                            // InternalWodel.g:4633:7: lv_min_7_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -13425,11 +13439,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4647:4: ( (lv_max_9_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:4648:5: (lv_max_9_0= ruleMaxCardinality )
+                    // InternalWodel.g:4655:4: ( (lv_max_9_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:4656:5: (lv_max_9_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:4648:5: (lv_max_9_0= ruleMaxCardinality )
-                    // InternalWodel.g:4649:6: lv_max_9_0= ruleMaxCardinality
+                    // InternalWodel.g:4656:5: (lv_max_9_0= ruleMaxCardinality )
+                    // InternalWodel.g:4657:6: lv_max_9_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -13497,7 +13511,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveCompleteReferenceMutator"
-    // InternalWodel.g:4675:1: entryRuleRemoveCompleteReferenceMutator returns [EObject current=null] : iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF ;
+    // InternalWodel.g:4683:1: entryRuleRemoveCompleteReferenceMutator returns [EObject current=null] : iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF ;
     public final EObject entryRuleRemoveCompleteReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13505,8 +13519,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4675:71: (iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF )
-            // InternalWodel.g:4676:2: iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF
+            // InternalWodel.g:4683:71: (iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF )
+            // InternalWodel.g:4684:2: iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRemoveCompleteReferenceMutatorRule()); 
@@ -13537,7 +13551,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveCompleteReferenceMutator"
-    // InternalWodel.g:4682:1: ruleRemoveCompleteReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) ;
+    // InternalWodel.g:4690:1: ruleRemoveCompleteReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) ;
     public final EObject ruleRemoveCompleteReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13552,14 +13566,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4688:2: ( ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) )
-            // InternalWodel.g:4689:2: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
+            // InternalWodel.g:4696:2: ( ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) )
+            // InternalWodel.g:4697:2: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
             {
-            // InternalWodel.g:4689:2: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
-            // InternalWodel.g:4690:3: () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:4697:2: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
+            // InternalWodel.g:4698:3: () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) )
             {
-            // InternalWodel.g:4690:3: ()
-            // InternalWodel.g:4691:4: 
+            // InternalWodel.g:4698:3: ()
+            // InternalWodel.g:4699:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -13594,11 +13608,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getReferenceKeyword_3());
               		
             }
-            // InternalWodel.g:4712:3: ( (otherlv_4= RULE_ID ) )
-            // InternalWodel.g:4713:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:4720:3: ( (otherlv_4= RULE_ID ) )
+            // InternalWodel.g:4721:4: (otherlv_4= RULE_ID )
             {
-            // InternalWodel.g:4713:4: (otherlv_4= RULE_ID )
-            // InternalWodel.g:4714:5: otherlv_4= RULE_ID
+            // InternalWodel.g:4721:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:4722:5: otherlv_4= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -13630,11 +13644,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_5, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getInKeyword_5());
               		
             }
-            // InternalWodel.g:4732:3: ( (otherlv_6= RULE_ID ) )
-            // InternalWodel.g:4733:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:4740:3: ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:4741:4: (otherlv_6= RULE_ID )
             {
-            // InternalWodel.g:4733:4: (otherlv_6= RULE_ID )
-            // InternalWodel.g:4734:5: otherlv_6= RULE_ID
+            // InternalWodel.g:4741:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:4742:5: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -13685,7 +13699,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCreateObjectMutator"
-    // InternalWodel.g:4752:1: entryRuleCreateObjectMutator returns [EObject current=null] : iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF ;
+    // InternalWodel.g:4760:1: entryRuleCreateObjectMutator returns [EObject current=null] : iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF ;
     public final EObject entryRuleCreateObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13693,8 +13707,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4752:60: (iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF )
-            // InternalWodel.g:4753:2: iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF
+            // InternalWodel.g:4760:60: (iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF )
+            // InternalWodel.g:4761:2: iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCreateObjectMutatorRule()); 
@@ -13725,7 +13739,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCreateObjectMutator"
-    // InternalWodel.g:4759:1: ruleCreateObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? ) ;
+    // InternalWodel.g:4767:1: ruleCreateObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? ) ;
     public final EObject ruleCreateObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -13760,13 +13774,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:4765:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? ) )
-            // InternalWodel.g:4766:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? )
+            // InternalWodel.g:4773:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? ) )
+            // InternalWodel.g:4774:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? )
             {
-            // InternalWodel.g:4766:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? )
-            // InternalWodel.g:4767:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )?
+            // InternalWodel.g:4774:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )? )
+            // InternalWodel.g:4775:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )? (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )?
             {
-            // InternalWodel.g:4767:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:4775:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt85=2;
             int LA85_0 = input.LA(1);
 
@@ -13775,13 +13789,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt85) {
                 case 1 :
-                    // InternalWodel.g:4768:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:4776:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:4768:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:4769:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:4776:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:4777:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:4769:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:4770:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:4777:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:4778:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -13825,11 +13839,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getCreateObjectMutatorAccess().getCreateKeyword_1());
               		
             }
-            // InternalWodel.g:4795:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:4796:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:4803:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:4804:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:4796:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:4797:5: otherlv_3= RULE_ID
+            // InternalWodel.g:4804:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:4805:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -13855,7 +13869,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4811:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:4819:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
             int alt86=2;
             int LA86_0 = input.LA(1);
 
@@ -13864,7 +13878,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt86) {
                 case 1 :
-                    // InternalWodel.g:4812:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:4820:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_4=(Token)match(input,23,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -13872,11 +13886,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_4, grammarAccess.getCreateObjectMutatorAccess().getInKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:4816:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:4817:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:4824:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:4825:5: (lv_container_5_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:4817:5: (lv_container_5_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:4818:6: lv_container_5_0= ruleObSelectionStrategy
+                    // InternalWodel.g:4825:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:4826:6: lv_container_5_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -13913,7 +13927,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4836:3: (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )?
+            // InternalWodel.g:4844:3: (otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}' )?
             int alt90=2;
             int LA90_0 = input.LA(1);
 
@@ -13922,7 +13936,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt90) {
                 case 1 :
-                    // InternalWodel.g:4837:4: otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}'
+                    // InternalWodel.g:4845:4: otherlv_6= 'with' otherlv_7= '{' ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )? (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )* otherlv_13= '}'
                     {
                     otherlv_6=(Token)match(input,11,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -13936,18 +13950,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_7, grammarAccess.getCreateObjectMutatorAccess().getLeftCurlyBracketKeyword_4_1());
                       			
                     }
-                    // InternalWodel.g:4845:4: ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )?
+                    // InternalWodel.g:4853:4: ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )?
                     int alt87=3;
                     alt87 = dfa87.predict(input);
                     switch (alt87) {
                         case 1 :
-                            // InternalWodel.g:4846:5: ( (lv_attributes_8_0= ruleAttributeSet ) )
+                            // InternalWodel.g:4854:5: ( (lv_attributes_8_0= ruleAttributeSet ) )
                             {
-                            // InternalWodel.g:4846:5: ( (lv_attributes_8_0= ruleAttributeSet ) )
-                            // InternalWodel.g:4847:6: (lv_attributes_8_0= ruleAttributeSet )
+                            // InternalWodel.g:4854:5: ( (lv_attributes_8_0= ruleAttributeSet ) )
+                            // InternalWodel.g:4855:6: (lv_attributes_8_0= ruleAttributeSet )
                             {
-                            // InternalWodel.g:4847:6: (lv_attributes_8_0= ruleAttributeSet )
-                            // InternalWodel.g:4848:7: lv_attributes_8_0= ruleAttributeSet
+                            // InternalWodel.g:4855:6: (lv_attributes_8_0= ruleAttributeSet )
+                            // InternalWodel.g:4856:7: lv_attributes_8_0= ruleAttributeSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -13982,13 +13996,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalWodel.g:4866:5: ( (lv_references_9_0= ruleReferenceSet ) )
+                            // InternalWodel.g:4874:5: ( (lv_references_9_0= ruleReferenceSet ) )
                             {
-                            // InternalWodel.g:4866:5: ( (lv_references_9_0= ruleReferenceSet ) )
-                            // InternalWodel.g:4867:6: (lv_references_9_0= ruleReferenceSet )
+                            // InternalWodel.g:4874:5: ( (lv_references_9_0= ruleReferenceSet ) )
+                            // InternalWodel.g:4875:6: (lv_references_9_0= ruleReferenceSet )
                             {
-                            // InternalWodel.g:4867:6: (lv_references_9_0= ruleReferenceSet )
-                            // InternalWodel.g:4868:7: lv_references_9_0= ruleReferenceSet
+                            // InternalWodel.g:4875:6: (lv_references_9_0= ruleReferenceSet )
+                            // InternalWodel.g:4876:7: lv_references_9_0= ruleReferenceSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -14025,7 +14039,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4886:4: (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )*
+                    // InternalWodel.g:4894:4: (otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) ) )*
                     loop89:
                     do {
                         int alt89=2;
@@ -14038,7 +14052,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt89) {
                     	case 1 :
-                    	    // InternalWodel.g:4887:5: otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:4895:5: otherlv_10= ',' ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )
                     	    {
                     	    otherlv_10=(Token)match(input,26,FOLLOW_74); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -14046,18 +14060,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      					newLeafNode(otherlv_10, grammarAccess.getCreateObjectMutatorAccess().getCommaKeyword_4_3_0());
                     	      				
                     	    }
-                    	    // InternalWodel.g:4891:5: ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:4899:5: ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )
                     	    int alt88=2;
                     	    alt88 = dfa88.predict(input);
                     	    switch (alt88) {
                     	        case 1 :
-                    	            // InternalWodel.g:4892:6: ( (lv_attributes_11_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:4900:6: ( (lv_attributes_11_0= ruleAttributeSet ) )
                     	            {
-                    	            // InternalWodel.g:4892:6: ( (lv_attributes_11_0= ruleAttributeSet ) )
-                    	            // InternalWodel.g:4893:7: (lv_attributes_11_0= ruleAttributeSet )
+                    	            // InternalWodel.g:4900:6: ( (lv_attributes_11_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:4901:7: (lv_attributes_11_0= ruleAttributeSet )
                     	            {
-                    	            // InternalWodel.g:4893:7: (lv_attributes_11_0= ruleAttributeSet )
-                    	            // InternalWodel.g:4894:8: lv_attributes_11_0= ruleAttributeSet
+                    	            // InternalWodel.g:4901:7: (lv_attributes_11_0= ruleAttributeSet )
+                    	            // InternalWodel.g:4902:8: lv_attributes_11_0= ruleAttributeSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -14092,13 +14106,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // InternalWodel.g:4912:6: ( (lv_references_12_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:4920:6: ( (lv_references_12_0= ruleReferenceSet ) )
                     	            {
-                    	            // InternalWodel.g:4912:6: ( (lv_references_12_0= ruleReferenceSet ) )
-                    	            // InternalWodel.g:4913:7: (lv_references_12_0= ruleReferenceSet )
+                    	            // InternalWodel.g:4920:6: ( (lv_references_12_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:4921:7: (lv_references_12_0= ruleReferenceSet )
                     	            {
-                    	            // InternalWodel.g:4913:7: (lv_references_12_0= ruleReferenceSet )
-                    	            // InternalWodel.g:4914:8: lv_references_12_0= ruleReferenceSet
+                    	            // InternalWodel.g:4921:7: (lv_references_12_0= ruleReferenceSet )
+                    	            // InternalWodel.g:4922:8: lv_references_12_0= ruleReferenceSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -14156,7 +14170,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:4938:3: (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )?
+            // InternalWodel.g:4946:3: (otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']' )?
             int alt92=2;
             int LA92_0 = input.LA(1);
 
@@ -14169,7 +14183,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt92) {
                 case 1 :
-                    // InternalWodel.g:4939:4: otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']'
+                    // InternalWodel.g:4947:4: otherlv_14= '[' ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )? ( (lv_max_17_0= ruleMaxCardinality ) ) otherlv_18= ']'
                     {
                     otherlv_14=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -14177,7 +14191,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_14, grammarAccess.getCreateObjectMutatorAccess().getLeftSquareBracketKeyword_5_0());
                       			
                     }
-                    // InternalWodel.g:4943:4: ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )?
+                    // InternalWodel.g:4951:4: ( ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..' )?
                     int alt91=2;
                     int LA91_0 = input.LA(1);
 
@@ -14201,13 +14215,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt91) {
                         case 1 :
-                            // InternalWodel.g:4944:5: ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..'
+                            // InternalWodel.g:4952:5: ( (lv_min_15_0= ruleEInt ) ) otherlv_16= '..'
                             {
-                            // InternalWodel.g:4944:5: ( (lv_min_15_0= ruleEInt ) )
-                            // InternalWodel.g:4945:6: (lv_min_15_0= ruleEInt )
+                            // InternalWodel.g:4952:5: ( (lv_min_15_0= ruleEInt ) )
+                            // InternalWodel.g:4953:6: (lv_min_15_0= ruleEInt )
                             {
-                            // InternalWodel.g:4945:6: (lv_min_15_0= ruleEInt )
-                            // InternalWodel.g:4946:7: lv_min_15_0= ruleEInt
+                            // InternalWodel.g:4953:6: (lv_min_15_0= ruleEInt )
+                            // InternalWodel.g:4954:7: lv_min_15_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -14250,11 +14264,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:4968:4: ( (lv_max_17_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:4969:5: (lv_max_17_0= ruleMaxCardinality )
+                    // InternalWodel.g:4976:4: ( (lv_max_17_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:4977:5: (lv_max_17_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:4969:5: (lv_max_17_0= ruleMaxCardinality )
-                    // InternalWodel.g:4970:6: lv_max_17_0= ruleMaxCardinality
+                    // InternalWodel.g:4977:5: (lv_max_17_0= ruleMaxCardinality )
+                    // InternalWodel.g:4978:6: lv_max_17_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -14322,7 +14336,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSelectObjectMutator"
-    // InternalWodel.g:4996:1: entryRuleSelectObjectMutator returns [EObject current=null] : iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF ;
+    // InternalWodel.g:5004:1: entryRuleSelectObjectMutator returns [EObject current=null] : iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF ;
     public final EObject entryRuleSelectObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14330,8 +14344,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:4996:60: (iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF )
-            // InternalWodel.g:4997:2: iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF
+            // InternalWodel.g:5004:60: (iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF )
+            // InternalWodel.g:5005:2: iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSelectObjectMutatorRule()); 
@@ -14362,7 +14376,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSelectObjectMutator"
-    // InternalWodel.g:5003:1: ruleSelectObjectMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? ) ;
+    // InternalWodel.g:5011:1: ruleSelectObjectMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? ) ;
     public final EObject ruleSelectObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14379,17 +14393,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5009:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? ) )
-            // InternalWodel.g:5010:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? )
+            // InternalWodel.g:5017:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? ) )
+            // InternalWodel.g:5018:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? )
             {
-            // InternalWodel.g:5010:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? )
-            // InternalWodel.g:5011:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5018:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? )
+            // InternalWodel.g:5019:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
             {
-            // InternalWodel.g:5011:3: ( (lv_name_0_0= RULE_ID ) )
-            // InternalWodel.g:5012:4: (lv_name_0_0= RULE_ID )
+            // InternalWodel.g:5019:3: ( (lv_name_0_0= RULE_ID ) )
+            // InternalWodel.g:5020:4: (lv_name_0_0= RULE_ID )
             {
-            // InternalWodel.g:5012:4: (lv_name_0_0= RULE_ID )
-            // InternalWodel.g:5013:5: lv_name_0_0= RULE_ID
+            // InternalWodel.g:5020:4: (lv_name_0_0= RULE_ID )
+            // InternalWodel.g:5021:5: lv_name_0_0= RULE_ID
             {
             lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -14427,11 +14441,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getSelectObjectMutatorAccess().getSelectKeyword_2());
               		
             }
-            // InternalWodel.g:5037:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:5038:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5045:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:5046:4: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:5038:4: (lv_object_3_0= ruleObSelectionStrategy )
-            // InternalWodel.g:5039:5: lv_object_3_0= ruleObSelectionStrategy
+            // InternalWodel.g:5046:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5047:5: lv_object_3_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -14462,7 +14476,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5056:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5064:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
             int alt93=2;
             int LA93_0 = input.LA(1);
 
@@ -14471,7 +14485,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt93) {
                 case 1 :
-                    // InternalWodel.g:5057:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5065:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_4=(Token)match(input,23,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -14479,11 +14493,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_4, grammarAccess.getSelectObjectMutatorAccess().getInKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:5061:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5062:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5069:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5070:5: (lv_container_5_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5062:5: (lv_container_5_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5063:6: lv_container_5_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5070:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5071:6: lv_container_5_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -14545,7 +14559,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSelectSampleMutator"
-    // InternalWodel.g:5085:1: entryRuleSelectSampleMutator returns [EObject current=null] : iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF ;
+    // InternalWodel.g:5093:1: entryRuleSelectSampleMutator returns [EObject current=null] : iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF ;
     public final EObject entryRuleSelectSampleMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14553,8 +14567,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5085:60: (iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF )
-            // InternalWodel.g:5086:2: iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF
+            // InternalWodel.g:5093:60: (iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF )
+            // InternalWodel.g:5094:2: iv_ruleSelectSampleMutator= ruleSelectSampleMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSelectSampleMutatorRule()); 
@@ -14585,7 +14599,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSelectSampleMutator"
-    // InternalWodel.g:5092:1: ruleSelectSampleMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? ) ;
+    // InternalWodel.g:5100:1: ruleSelectSampleMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? ) ;
     public final EObject ruleSelectSampleMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14609,17 +14623,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5098:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? ) )
-            // InternalWodel.g:5099:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? )
+            // InternalWodel.g:5106:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? ) )
+            // InternalWodel.g:5107:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? )
             {
-            // InternalWodel.g:5099:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? )
-            // InternalWodel.g:5100:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )?
+            // InternalWodel.g:5107:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )? )
+            // InternalWodel.g:5108:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' otherlv_3= 'sample' otherlv_4= 'from' ( (lv_object_5_0= ruleObSelectionStrategy ) ) (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )?
             {
-            // InternalWodel.g:5100:3: ( (lv_name_0_0= RULE_ID ) )
-            // InternalWodel.g:5101:4: (lv_name_0_0= RULE_ID )
+            // InternalWodel.g:5108:3: ( (lv_name_0_0= RULE_ID ) )
+            // InternalWodel.g:5109:4: (lv_name_0_0= RULE_ID )
             {
-            // InternalWodel.g:5101:4: (lv_name_0_0= RULE_ID )
-            // InternalWodel.g:5102:5: lv_name_0_0= RULE_ID
+            // InternalWodel.g:5109:4: (lv_name_0_0= RULE_ID )
+            // InternalWodel.g:5110:5: lv_name_0_0= RULE_ID
             {
             lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -14669,11 +14683,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_4, grammarAccess.getSelectSampleMutatorAccess().getFromKeyword_4());
               		
             }
-            // InternalWodel.g:5134:3: ( (lv_object_5_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:5135:4: (lv_object_5_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5142:3: ( (lv_object_5_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:5143:4: (lv_object_5_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:5135:4: (lv_object_5_0= ruleObSelectionStrategy )
-            // InternalWodel.g:5136:5: lv_object_5_0= ruleObSelectionStrategy
+            // InternalWodel.g:5143:4: (lv_object_5_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5144:5: lv_object_5_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -14704,7 +14718,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5153:3: (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )?
+            // InternalWodel.g:5161:3: (otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}' )?
             int alt96=2;
             int LA96_0 = input.LA(1);
 
@@ -14713,7 +14727,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt96) {
                 case 1 :
-                    // InternalWodel.g:5154:4: otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}'
+                    // InternalWodel.g:5162:4: otherlv_6= 'with' ( (lv_clause_7_0= ruleSampleClause ) ) otherlv_8= '{' ( (otherlv_9= RULE_ID ) )? (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= '}'
                     {
                     otherlv_6=(Token)match(input,11,FOLLOW_79); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -14721,11 +14735,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_6, grammarAccess.getSelectSampleMutatorAccess().getWithKeyword_6_0());
                       			
                     }
-                    // InternalWodel.g:5158:4: ( (lv_clause_7_0= ruleSampleClause ) )
-                    // InternalWodel.g:5159:5: (lv_clause_7_0= ruleSampleClause )
+                    // InternalWodel.g:5166:4: ( (lv_clause_7_0= ruleSampleClause ) )
+                    // InternalWodel.g:5167:5: (lv_clause_7_0= ruleSampleClause )
                     {
-                    // InternalWodel.g:5159:5: (lv_clause_7_0= ruleSampleClause )
-                    // InternalWodel.g:5160:6: lv_clause_7_0= ruleSampleClause
+                    // InternalWodel.g:5167:5: (lv_clause_7_0= ruleSampleClause )
+                    // InternalWodel.g:5168:6: lv_clause_7_0= ruleSampleClause
                     {
                     if ( state.backtracking==0 ) {
 
@@ -14762,7 +14776,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_8, grammarAccess.getSelectSampleMutatorAccess().getLeftCurlyBracketKeyword_6_2());
                       			
                     }
-                    // InternalWodel.g:5181:4: ( (otherlv_9= RULE_ID ) )?
+                    // InternalWodel.g:5189:4: ( (otherlv_9= RULE_ID ) )?
                     int alt94=2;
                     int LA94_0 = input.LA(1);
 
@@ -14771,10 +14785,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt94) {
                         case 1 :
-                            // InternalWodel.g:5182:5: (otherlv_9= RULE_ID )
+                            // InternalWodel.g:5190:5: (otherlv_9= RULE_ID )
                             {
-                            // InternalWodel.g:5182:5: (otherlv_9= RULE_ID )
-                            // InternalWodel.g:5183:6: otherlv_9= RULE_ID
+                            // InternalWodel.g:5190:5: (otherlv_9= RULE_ID )
+                            // InternalWodel.g:5191:6: otherlv_9= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -14803,7 +14817,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5197:4: (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )*
+                    // InternalWodel.g:5205:4: (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )*
                     loop95:
                     do {
                         int alt95=2;
@@ -14816,7 +14830,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt95) {
                     	case 1 :
-                    	    // InternalWodel.g:5198:5: otherlv_10= ',' ( (otherlv_11= RULE_ID ) )
+                    	    // InternalWodel.g:5206:5: otherlv_10= ',' ( (otherlv_11= RULE_ID ) )
                     	    {
                     	    otherlv_10=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -14824,11 +14838,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      					newLeafNode(otherlv_10, grammarAccess.getSelectSampleMutatorAccess().getCommaKeyword_6_4_0());
                     	      				
                     	    }
-                    	    // InternalWodel.g:5202:5: ( (otherlv_11= RULE_ID ) )
-                    	    // InternalWodel.g:5203:6: (otherlv_11= RULE_ID )
+                    	    // InternalWodel.g:5210:5: ( (otherlv_11= RULE_ID ) )
+                    	    // InternalWodel.g:5211:6: (otherlv_11= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:5203:6: (otherlv_11= RULE_ID )
-                    	    // InternalWodel.g:5204:7: otherlv_11= RULE_ID
+                    	    // InternalWodel.g:5211:6: (otherlv_11= RULE_ID )
+                    	    // InternalWodel.g:5212:7: otherlv_11= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -14900,7 +14914,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifyInformationMutator"
-    // InternalWodel.g:5228:1: entryRuleModifyInformationMutator returns [EObject current=null] : iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF ;
+    // InternalWodel.g:5236:1: entryRuleModifyInformationMutator returns [EObject current=null] : iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF ;
     public final EObject entryRuleModifyInformationMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14908,8 +14922,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5228:65: (iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF )
-            // InternalWodel.g:5229:2: iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF
+            // InternalWodel.g:5236:65: (iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF )
+            // InternalWodel.g:5237:2: iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getModifyInformationMutatorRule()); 
@@ -14940,7 +14954,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifyInformationMutator"
-    // InternalWodel.g:5235:1: ruleModifyInformationMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) ;
+    // InternalWodel.g:5243:1: ruleModifyInformationMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) ;
     public final EObject ruleModifyInformationMutator() throws RecognitionException {
         EObject current = null;
 
@@ -14973,13 +14987,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5241:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) )
-            // InternalWodel.g:5242:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
+            // InternalWodel.g:5249:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) )
+            // InternalWodel.g:5250:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
             {
-            // InternalWodel.g:5242:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
-            // InternalWodel.g:5243:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
+            // InternalWodel.g:5250:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
+            // InternalWodel.g:5251:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
             {
-            // InternalWodel.g:5243:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:5251:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt97=2;
             int LA97_0 = input.LA(1);
 
@@ -14988,13 +15002,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt97) {
                 case 1 :
-                    // InternalWodel.g:5244:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:5252:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:5244:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:5245:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5252:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:5253:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:5245:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:5246:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:5253:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5254:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15038,11 +15052,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getModifyInformationMutatorAccess().getModifyKeyword_1());
               		
             }
-            // InternalWodel.g:5271:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:5272:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5279:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:5280:4: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:5272:4: (lv_object_3_0= ruleObSelectionStrategy )
-            // InternalWodel.g:5273:5: lv_object_3_0= ruleObSelectionStrategy
+            // InternalWodel.g:5280:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:5281:5: lv_object_3_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -15073,7 +15087,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5290:3: (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )?
+            // InternalWodel.g:5298:3: (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )?
             int alt101=2;
             int LA101_0 = input.LA(1);
 
@@ -15082,7 +15096,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt101) {
                 case 1 :
-                    // InternalWodel.g:5291:4: otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}'
+                    // InternalWodel.g:5299:4: otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}'
                     {
                     otherlv_4=(Token)match(input,11,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15096,18 +15110,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getModifyInformationMutatorAccess().getLeftCurlyBracketKeyword_3_1());
                       			
                     }
-                    // InternalWodel.g:5299:4: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?
+                    // InternalWodel.g:5307:4: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?
                     int alt98=3;
                     alt98 = dfa98.predict(input);
                     switch (alt98) {
                         case 1 :
-                            // InternalWodel.g:5300:5: ( (lv_attributes_6_0= ruleAttributeSet ) )
+                            // InternalWodel.g:5308:5: ( (lv_attributes_6_0= ruleAttributeSet ) )
                             {
-                            // InternalWodel.g:5300:5: ( (lv_attributes_6_0= ruleAttributeSet ) )
-                            // InternalWodel.g:5301:6: (lv_attributes_6_0= ruleAttributeSet )
+                            // InternalWodel.g:5308:5: ( (lv_attributes_6_0= ruleAttributeSet ) )
+                            // InternalWodel.g:5309:6: (lv_attributes_6_0= ruleAttributeSet )
                             {
-                            // InternalWodel.g:5301:6: (lv_attributes_6_0= ruleAttributeSet )
-                            // InternalWodel.g:5302:7: lv_attributes_6_0= ruleAttributeSet
+                            // InternalWodel.g:5309:6: (lv_attributes_6_0= ruleAttributeSet )
+                            // InternalWodel.g:5310:7: lv_attributes_6_0= ruleAttributeSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -15142,13 +15156,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalWodel.g:5320:5: ( (lv_references_7_0= ruleReferenceSet ) )
+                            // InternalWodel.g:5328:5: ( (lv_references_7_0= ruleReferenceSet ) )
                             {
-                            // InternalWodel.g:5320:5: ( (lv_references_7_0= ruleReferenceSet ) )
-                            // InternalWodel.g:5321:6: (lv_references_7_0= ruleReferenceSet )
+                            // InternalWodel.g:5328:5: ( (lv_references_7_0= ruleReferenceSet ) )
+                            // InternalWodel.g:5329:6: (lv_references_7_0= ruleReferenceSet )
                             {
-                            // InternalWodel.g:5321:6: (lv_references_7_0= ruleReferenceSet )
-                            // InternalWodel.g:5322:7: lv_references_7_0= ruleReferenceSet
+                            // InternalWodel.g:5329:6: (lv_references_7_0= ruleReferenceSet )
+                            // InternalWodel.g:5330:7: lv_references_7_0= ruleReferenceSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -15185,7 +15199,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5340:4: (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )*
+                    // InternalWodel.g:5348:4: (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )*
                     loop100:
                     do {
                         int alt100=2;
@@ -15198,7 +15212,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt100) {
                     	case 1 :
-                    	    // InternalWodel.g:5341:5: otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:5349:5: otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
                     	    {
                     	    otherlv_8=(Token)match(input,26,FOLLOW_74); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -15206,18 +15220,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      					newLeafNode(otherlv_8, grammarAccess.getModifyInformationMutatorAccess().getCommaKeyword_3_3_0());
                     	      				
                     	    }
-                    	    // InternalWodel.g:5345:5: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:5353:5: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
                     	    int alt99=2;
                     	    alt99 = dfa99.predict(input);
                     	    switch (alt99) {
                     	        case 1 :
-                    	            // InternalWodel.g:5346:6: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:5354:6: ( (lv_attributes_9_0= ruleAttributeSet ) )
                     	            {
-                    	            // InternalWodel.g:5346:6: ( (lv_attributes_9_0= ruleAttributeSet ) )
-                    	            // InternalWodel.g:5347:7: (lv_attributes_9_0= ruleAttributeSet )
+                    	            // InternalWodel.g:5354:6: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:5355:7: (lv_attributes_9_0= ruleAttributeSet )
                     	            {
-                    	            // InternalWodel.g:5347:7: (lv_attributes_9_0= ruleAttributeSet )
-                    	            // InternalWodel.g:5348:8: lv_attributes_9_0= ruleAttributeSet
+                    	            // InternalWodel.g:5355:7: (lv_attributes_9_0= ruleAttributeSet )
+                    	            // InternalWodel.g:5356:8: lv_attributes_9_0= ruleAttributeSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -15252,13 +15266,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // InternalWodel.g:5366:6: ( (lv_references_10_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:5374:6: ( (lv_references_10_0= ruleReferenceSet ) )
                     	            {
-                    	            // InternalWodel.g:5366:6: ( (lv_references_10_0= ruleReferenceSet ) )
-                    	            // InternalWodel.g:5367:7: (lv_references_10_0= ruleReferenceSet )
+                    	            // InternalWodel.g:5374:6: ( (lv_references_10_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:5375:7: (lv_references_10_0= ruleReferenceSet )
                     	            {
-                    	            // InternalWodel.g:5367:7: (lv_references_10_0= ruleReferenceSet )
-                    	            // InternalWodel.g:5368:8: lv_references_10_0= ruleReferenceSet
+                    	            // InternalWodel.g:5375:7: (lv_references_10_0= ruleReferenceSet )
+                    	            // InternalWodel.g:5376:8: lv_references_10_0= ruleReferenceSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -15316,7 +15330,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5392:3: (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
+            // InternalWodel.g:5400:3: (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
             int alt103=2;
             int LA103_0 = input.LA(1);
 
@@ -15329,7 +15343,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt103) {
                 case 1 :
-                    // InternalWodel.g:5393:4: otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']'
+                    // InternalWodel.g:5401:4: otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']'
                     {
                     otherlv_12=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15337,7 +15351,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_12, grammarAccess.getModifyInformationMutatorAccess().getLeftSquareBracketKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:5397:4: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )?
+                    // InternalWodel.g:5405:4: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )?
                     int alt102=2;
                     int LA102_0 = input.LA(1);
 
@@ -15361,13 +15375,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt102) {
                         case 1 :
-                            // InternalWodel.g:5398:5: ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..'
+                            // InternalWodel.g:5406:5: ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..'
                             {
-                            // InternalWodel.g:5398:5: ( (lv_min_13_0= ruleEInt ) )
-                            // InternalWodel.g:5399:6: (lv_min_13_0= ruleEInt )
+                            // InternalWodel.g:5406:5: ( (lv_min_13_0= ruleEInt ) )
+                            // InternalWodel.g:5407:6: (lv_min_13_0= ruleEInt )
                             {
-                            // InternalWodel.g:5399:6: (lv_min_13_0= ruleEInt )
-                            // InternalWodel.g:5400:7: lv_min_13_0= ruleEInt
+                            // InternalWodel.g:5407:6: (lv_min_13_0= ruleEInt )
+                            // InternalWodel.g:5408:7: lv_min_13_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -15410,11 +15424,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5422:4: ( (lv_max_15_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:5423:5: (lv_max_15_0= ruleMaxCardinality )
+                    // InternalWodel.g:5430:4: ( (lv_max_15_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:5431:5: (lv_max_15_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:5423:5: (lv_max_15_0= ruleMaxCardinality )
-                    // InternalWodel.g:5424:6: lv_max_15_0= ruleMaxCardinality
+                    // InternalWodel.g:5431:5: (lv_max_15_0= ruleMaxCardinality )
+                    // InternalWodel.g:5432:6: lv_max_15_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -15482,7 +15496,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCreateReferenceMutator"
-    // InternalWodel.g:5450:1: entryRuleCreateReferenceMutator returns [EObject current=null] : iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF ;
+    // InternalWodel.g:5458:1: entryRuleCreateReferenceMutator returns [EObject current=null] : iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF ;
     public final EObject entryRuleCreateReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -15490,8 +15504,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5450:63: (iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF )
-            // InternalWodel.g:5451:2: iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF
+            // InternalWodel.g:5458:63: (iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF )
+            // InternalWodel.g:5459:2: iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCreateReferenceMutatorRule()); 
@@ -15522,7 +15536,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCreateReferenceMutator"
-    // InternalWodel.g:5457:1: ruleCreateReferenceMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) ;
+    // InternalWodel.g:5465:1: ruleCreateReferenceMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) ;
     public final EObject ruleCreateReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -15549,13 +15563,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5463:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) )
-            // InternalWodel.g:5464:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
+            // InternalWodel.g:5471:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) )
+            // InternalWodel.g:5472:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
             {
-            // InternalWodel.g:5464:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
-            // InternalWodel.g:5465:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
+            // InternalWodel.g:5472:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
+            // InternalWodel.g:5473:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
             {
-            // InternalWodel.g:5465:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:5473:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt104=2;
             int LA104_0 = input.LA(1);
 
@@ -15564,13 +15578,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt104) {
                 case 1 :
-                    // InternalWodel.g:5466:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:5474:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:5466:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:5467:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5474:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:5475:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:5467:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:5468:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:5475:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5476:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15620,11 +15634,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getCreateReferenceMutatorAccess().getReferenceKeyword_2());
               		
             }
-            // InternalWodel.g:5497:3: ( (otherlv_4= RULE_ID ) )
-            // InternalWodel.g:5498:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:5505:3: ( (otherlv_4= RULE_ID ) )
+            // InternalWodel.g:5506:4: (otherlv_4= RULE_ID )
             {
-            // InternalWodel.g:5498:4: (otherlv_4= RULE_ID )
-            // InternalWodel.g:5499:5: otherlv_4= RULE_ID
+            // InternalWodel.g:5506:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:5507:5: otherlv_4= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -15650,7 +15664,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5513:3: (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5521:3: (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )?
             int alt105=2;
             int LA105_0 = input.LA(1);
 
@@ -15659,7 +15673,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt105) {
                 case 1 :
-                    // InternalWodel.g:5514:4: otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5522:4: otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_5=(Token)match(input,67,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15667,11 +15681,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getCreateReferenceMutatorAccess().getToKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:5518:4: ( (lv_target_6_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5519:5: (lv_target_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5526:4: ( (lv_target_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5527:5: (lv_target_6_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5519:5: (lv_target_6_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5520:6: lv_target_6_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5527:5: (lv_target_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5528:6: lv_target_6_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -15708,7 +15722,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5538:3: (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5546:3: (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )?
             int alt106=2;
             int LA106_0 = input.LA(1);
 
@@ -15717,7 +15731,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt106) {
                 case 1 :
-                    // InternalWodel.g:5539:4: otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5547:4: otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_7=(Token)match(input,23,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15725,11 +15739,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_7, grammarAccess.getCreateReferenceMutatorAccess().getInKeyword_5_0());
                       			
                     }
-                    // InternalWodel.g:5543:4: ( (lv_source_8_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5544:5: (lv_source_8_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5551:4: ( (lv_source_8_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5552:5: (lv_source_8_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5544:5: (lv_source_8_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5545:6: lv_source_8_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5552:5: (lv_source_8_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5553:6: lv_source_8_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -15766,7 +15780,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5563:3: (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
+            // InternalWodel.g:5571:3: (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
             int alt108=2;
             int LA108_0 = input.LA(1);
 
@@ -15779,7 +15793,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt108) {
                 case 1 :
-                    // InternalWodel.g:5564:4: otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']'
+                    // InternalWodel.g:5572:4: otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']'
                     {
                     otherlv_9=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -15787,7 +15801,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_9, grammarAccess.getCreateReferenceMutatorAccess().getLeftSquareBracketKeyword_6_0());
                       			
                     }
-                    // InternalWodel.g:5568:4: ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )?
+                    // InternalWodel.g:5576:4: ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )?
                     int alt107=2;
                     int LA107_0 = input.LA(1);
 
@@ -15811,13 +15825,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt107) {
                         case 1 :
-                            // InternalWodel.g:5569:5: ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..'
+                            // InternalWodel.g:5577:5: ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..'
                             {
-                            // InternalWodel.g:5569:5: ( (lv_min_10_0= ruleEInt ) )
-                            // InternalWodel.g:5570:6: (lv_min_10_0= ruleEInt )
+                            // InternalWodel.g:5577:5: ( (lv_min_10_0= ruleEInt ) )
+                            // InternalWodel.g:5578:6: (lv_min_10_0= ruleEInt )
                             {
-                            // InternalWodel.g:5570:6: (lv_min_10_0= ruleEInt )
-                            // InternalWodel.g:5571:7: lv_min_10_0= ruleEInt
+                            // InternalWodel.g:5578:6: (lv_min_10_0= ruleEInt )
+                            // InternalWodel.g:5579:7: lv_min_10_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -15860,11 +15874,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5593:4: ( (lv_max_12_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:5594:5: (lv_max_12_0= ruleMaxCardinality )
+                    // InternalWodel.g:5601:4: ( (lv_max_12_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:5602:5: (lv_max_12_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:5594:5: (lv_max_12_0= ruleMaxCardinality )
-                    // InternalWodel.g:5595:6: lv_max_12_0= ruleMaxCardinality
+                    // InternalWodel.g:5602:5: (lv_max_12_0= ruleMaxCardinality )
+                    // InternalWodel.g:5603:6: lv_max_12_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -15932,7 +15946,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifySourceReferenceMutator"
-    // InternalWodel.g:5621:1: entryRuleModifySourceReferenceMutator returns [EObject current=null] : iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF ;
+    // InternalWodel.g:5629:1: entryRuleModifySourceReferenceMutator returns [EObject current=null] : iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF ;
     public final EObject entryRuleModifySourceReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -15940,8 +15954,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5621:69: (iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF )
-            // InternalWodel.g:5622:2: iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF
+            // InternalWodel.g:5629:69: (iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF )
+            // InternalWodel.g:5630:2: iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getModifySourceReferenceMutatorRule()); 
@@ -15972,7 +15986,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifySourceReferenceMutator"
-    // InternalWodel.g:5628:1: ruleModifySourceReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // InternalWodel.g:5636:1: ruleModifySourceReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleModifySourceReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -15997,11 +16011,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5634:2: ( (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // InternalWodel.g:5635:2: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5642:2: ( (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // InternalWodel.g:5643:2: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // InternalWodel.g:5635:2: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // InternalWodel.g:5636:3: otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:5643:2: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5644:3: otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
             otherlv_0=(Token)match(input,66,FOLLOW_84); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -16015,11 +16029,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getModifySourceReferenceMutatorAccess().getSourceKeyword_1());
               		
             }
-            // InternalWodel.g:5644:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:5645:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:5652:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:5653:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:5645:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:5646:5: otherlv_2= RULE_ID
+            // InternalWodel.g:5653:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:5654:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -16045,7 +16059,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5660:3: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5668:3: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
             int alt109=2;
             int LA109_0 = input.LA(1);
 
@@ -16054,7 +16068,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt109) {
                 case 1 :
-                    // InternalWodel.g:5661:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5669:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_3=(Token)match(input,24,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16062,11 +16076,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getModifySourceReferenceMutatorAccess().getFromKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:5665:4: ( (lv_source_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5666:5: (lv_source_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5673:4: ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5674:5: (lv_source_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5666:5: (lv_source_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5667:6: lv_source_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5674:5: (lv_source_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5675:6: lv_source_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16103,7 +16117,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5685:3: (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5693:3: (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )?
             int alt110=2;
             int LA110_0 = input.LA(1);
 
@@ -16112,7 +16126,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt110) {
                 case 1 :
-                    // InternalWodel.g:5686:4: otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5694:4: otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_5=(Token)match(input,67,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16120,11 +16134,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getModifySourceReferenceMutatorAccess().getToKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:5690:4: ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5691:5: (lv_newSource_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5698:4: ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5699:5: (lv_newSource_6_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5691:5: (lv_newSource_6_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5692:6: lv_newSource_6_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5699:5: (lv_newSource_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5700:6: lv_newSource_6_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16161,7 +16175,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5710:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:5718:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             int alt112=2;
             int LA112_0 = input.LA(1);
 
@@ -16174,7 +16188,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt112) {
                 case 1 :
-                    // InternalWodel.g:5711:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // InternalWodel.g:5719:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
                     otherlv_7=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16182,7 +16196,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_7, grammarAccess.getModifySourceReferenceMutatorAccess().getLeftSquareBracketKeyword_5_0());
                       			
                     }
-                    // InternalWodel.g:5715:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    // InternalWodel.g:5723:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
                     int alt111=2;
                     int LA111_0 = input.LA(1);
 
@@ -16206,13 +16220,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt111) {
                         case 1 :
-                            // InternalWodel.g:5716:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // InternalWodel.g:5724:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // InternalWodel.g:5716:5: ( (lv_min_8_0= ruleEInt ) )
-                            // InternalWodel.g:5717:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:5724:5: ( (lv_min_8_0= ruleEInt ) )
+                            // InternalWodel.g:5725:6: (lv_min_8_0= ruleEInt )
                             {
-                            // InternalWodel.g:5717:6: (lv_min_8_0= ruleEInt )
-                            // InternalWodel.g:5718:7: lv_min_8_0= ruleEInt
+                            // InternalWodel.g:5725:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:5726:7: lv_min_8_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -16255,11 +16269,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5740:4: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:5741:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:5748:4: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:5749:5: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:5741:5: (lv_max_10_0= ruleMaxCardinality )
-                    // InternalWodel.g:5742:6: lv_max_10_0= ruleMaxCardinality
+                    // InternalWodel.g:5749:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:5750:6: lv_max_10_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16327,7 +16341,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifyTargetReferenceMutator"
-    // InternalWodel.g:5768:1: entryRuleModifyTargetReferenceMutator returns [EObject current=null] : iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF ;
+    // InternalWodel.g:5776:1: entryRuleModifyTargetReferenceMutator returns [EObject current=null] : iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF ;
     public final EObject entryRuleModifyTargetReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -16335,8 +16349,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5768:69: (iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF )
-            // InternalWodel.g:5769:2: iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF
+            // InternalWodel.g:5776:69: (iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF )
+            // InternalWodel.g:5777:2: iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorRule()); 
@@ -16367,7 +16381,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifyTargetReferenceMutator"
-    // InternalWodel.g:5775:1: ruleModifyTargetReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // InternalWodel.g:5783:1: ruleModifyTargetReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleModifyTargetReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -16392,11 +16406,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5781:2: ( (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // InternalWodel.g:5782:2: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5789:2: ( (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // InternalWodel.g:5790:2: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // InternalWodel.g:5782:2: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // InternalWodel.g:5783:3: otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:5790:2: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5791:3: otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
             otherlv_0=(Token)match(input,66,FOLLOW_87); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -16410,11 +16424,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getModifyTargetReferenceMutatorAccess().getTargetKeyword_1());
               		
             }
-            // InternalWodel.g:5791:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:5792:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:5799:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:5800:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:5792:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:5793:5: otherlv_2= RULE_ID
+            // InternalWodel.g:5800:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:5801:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -16440,7 +16454,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5807:3: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5815:3: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
             int alt113=2;
             int LA113_0 = input.LA(1);
 
@@ -16449,7 +16463,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt113) {
                 case 1 :
-                    // InternalWodel.g:5808:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5816:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_3=(Token)match(input,24,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16457,11 +16471,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getModifyTargetReferenceMutatorAccess().getFromKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:5812:4: ( (lv_source_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5813:5: (lv_source_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5820:4: ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5821:5: (lv_source_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5813:5: (lv_source_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5814:6: lv_source_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5821:5: (lv_source_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5822:6: lv_source_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16498,7 +16512,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5832:3: (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:5840:3: (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )?
             int alt114=2;
             int LA114_0 = input.LA(1);
 
@@ -16507,7 +16521,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt114) {
                 case 1 :
-                    // InternalWodel.g:5833:4: otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5841:4: otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_5=(Token)match(input,67,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16515,11 +16529,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getModifyTargetReferenceMutatorAccess().getToKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:5837:4: ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:5838:5: (lv_newTarget_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5845:4: ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:5846:5: (lv_newTarget_6_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:5838:5: (lv_newTarget_6_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:5839:6: lv_newTarget_6_0= ruleObSelectionStrategy
+                    // InternalWodel.g:5846:5: (lv_newTarget_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:5847:6: lv_newTarget_6_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16556,7 +16570,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5857:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // InternalWodel.g:5865:3: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             int alt116=2;
             int LA116_0 = input.LA(1);
 
@@ -16569,7 +16583,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt116) {
                 case 1 :
-                    // InternalWodel.g:5858:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // InternalWodel.g:5866:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
                     otherlv_7=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16577,7 +16591,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_7, grammarAccess.getModifyTargetReferenceMutatorAccess().getLeftSquareBracketKeyword_5_0());
                       			
                     }
-                    // InternalWodel.g:5862:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    // InternalWodel.g:5870:4: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
                     int alt115=2;
                     int LA115_0 = input.LA(1);
 
@@ -16601,13 +16615,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt115) {
                         case 1 :
-                            // InternalWodel.g:5863:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // InternalWodel.g:5871:5: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // InternalWodel.g:5863:5: ( (lv_min_8_0= ruleEInt ) )
-                            // InternalWodel.g:5864:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:5871:5: ( (lv_min_8_0= ruleEInt ) )
+                            // InternalWodel.g:5872:6: (lv_min_8_0= ruleEInt )
                             {
-                            // InternalWodel.g:5864:6: (lv_min_8_0= ruleEInt )
-                            // InternalWodel.g:5865:7: lv_min_8_0= ruleEInt
+                            // InternalWodel.g:5872:6: (lv_min_8_0= ruleEInt )
+                            // InternalWodel.g:5873:7: lv_min_8_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -16650,11 +16664,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:5887:4: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:5888:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:5895:4: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:5896:5: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:5888:5: (lv_max_10_0= ruleMaxCardinality )
-                    // InternalWodel.g:5889:6: lv_max_10_0= ruleMaxCardinality
+                    // InternalWodel.g:5896:5: (lv_max_10_0= ruleMaxCardinality )
+                    // InternalWodel.g:5897:6: lv_max_10_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -16722,7 +16736,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCompositeMutator"
-    // InternalWodel.g:5915:1: entryRuleCompositeMutator returns [EObject current=null] : iv_ruleCompositeMutator= ruleCompositeMutator EOF ;
+    // InternalWodel.g:5923:1: entryRuleCompositeMutator returns [EObject current=null] : iv_ruleCompositeMutator= ruleCompositeMutator EOF ;
     public final EObject entryRuleCompositeMutator() throws RecognitionException {
         EObject current = null;
 
@@ -16730,8 +16744,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:5915:57: (iv_ruleCompositeMutator= ruleCompositeMutator EOF )
-            // InternalWodel.g:5916:2: iv_ruleCompositeMutator= ruleCompositeMutator EOF
+            // InternalWodel.g:5923:57: (iv_ruleCompositeMutator= ruleCompositeMutator EOF )
+            // InternalWodel.g:5924:2: iv_ruleCompositeMutator= ruleCompositeMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCompositeMutatorRule()); 
@@ -16762,7 +16776,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCompositeMutator"
-    // InternalWodel.g:5922:1: ruleCompositeMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) ;
+    // InternalWodel.g:5930:1: ruleCompositeMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleCompositeMutator() throws RecognitionException {
         EObject current = null;
 
@@ -16788,13 +16802,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:5928:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) )
-            // InternalWodel.g:5929:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5936:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) )
+            // InternalWodel.g:5937:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
             {
-            // InternalWodel.g:5929:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
-            // InternalWodel.g:5930:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
+            // InternalWodel.g:5937:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
+            // InternalWodel.g:5938:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
             {
-            // InternalWodel.g:5930:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:5938:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt117=2;
             int LA117_0 = input.LA(1);
 
@@ -16803,13 +16817,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt117) {
                 case 1 :
-                    // InternalWodel.g:5931:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:5939:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:5931:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:5932:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5939:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:5940:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:5932:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:5933:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:5940:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:5941:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16853,11 +16867,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getCompositeMutatorAccess().getLeftSquareBracketKeyword_1());
               		
             }
-            // InternalWodel.g:5958:3: ( (lv_commands_3_0= ruleMutator ) )
-            // InternalWodel.g:5959:4: (lv_commands_3_0= ruleMutator )
+            // InternalWodel.g:5966:3: ( (lv_commands_3_0= ruleMutator ) )
+            // InternalWodel.g:5967:4: (lv_commands_3_0= ruleMutator )
             {
-            // InternalWodel.g:5959:4: (lv_commands_3_0= ruleMutator )
-            // InternalWodel.g:5960:5: lv_commands_3_0= ruleMutator
+            // InternalWodel.g:5967:4: (lv_commands_3_0= ruleMutator )
+            // InternalWodel.g:5968:5: lv_commands_3_0= ruleMutator
             {
             if ( state.backtracking==0 ) {
 
@@ -16888,7 +16902,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:5977:3: ( (lv_commands_4_0= ruleMutator ) )*
+            // InternalWodel.g:5985:3: ( (lv_commands_4_0= ruleMutator ) )*
             loop118:
             do {
                 int alt118=2;
@@ -16901,10 +16915,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt118) {
             	case 1 :
-            	    // InternalWodel.g:5978:4: (lv_commands_4_0= ruleMutator )
+            	    // InternalWodel.g:5986:4: (lv_commands_4_0= ruleMutator )
             	    {
-            	    // InternalWodel.g:5978:4: (lv_commands_4_0= ruleMutator )
-            	    // InternalWodel.g:5979:5: lv_commands_4_0= ruleMutator
+            	    // InternalWodel.g:5986:4: (lv_commands_4_0= ruleMutator )
+            	    // InternalWodel.g:5987:5: lv_commands_4_0= ruleMutator
             	    {
             	    if ( state.backtracking==0 ) {
 
@@ -16947,7 +16961,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_5, grammarAccess.getCompositeMutatorAccess().getRightSquareBracketKeyword_4());
               		
             }
-            // InternalWodel.g:6000:3: (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
+            // InternalWodel.g:6008:3: (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
             int alt120=2;
             int LA120_0 = input.LA(1);
 
@@ -16960,7 +16974,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt120) {
                 case 1 :
-                    // InternalWodel.g:6001:4: otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']'
+                    // InternalWodel.g:6009:4: otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']'
                     {
                     otherlv_6=(Token)match(input,30,FOLLOW_29); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -16968,7 +16982,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_6, grammarAccess.getCompositeMutatorAccess().getLeftSquareBracketKeyword_5_0());
                       			
                     }
-                    // InternalWodel.g:6005:4: ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) )
+                    // InternalWodel.g:6013:4: ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) )
                     int alt119=2;
                     int LA119_0 = input.LA(1);
 
@@ -16978,11 +16992,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                         if ( (LA119_1==RULE_INT) ) {
                             int LA119_2 = input.LA(3);
 
-                            if ( (LA119_2==31) ) {
-                                alt119=1;
-                            }
-                            else if ( (LA119_2==32) ) {
+                            if ( (LA119_2==32) ) {
                                 alt119=2;
+                            }
+                            else if ( (LA119_2==31) ) {
+                                alt119=1;
                             }
                             else {
                                 if (state.backtracking>0) {state.failed=true; return current;}
@@ -17003,11 +17017,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     else if ( (LA119_0==RULE_INT) ) {
                         int LA119_2 = input.LA(2);
 
-                        if ( (LA119_2==31) ) {
-                            alt119=1;
-                        }
-                        else if ( (LA119_2==32) ) {
+                        if ( (LA119_2==32) ) {
                             alt119=2;
+                        }
+                        else if ( (LA119_2==31) ) {
+                            alt119=1;
                         }
                         else {
                             if (state.backtracking>0) {state.failed=true; return current;}
@@ -17026,16 +17040,16 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt119) {
                         case 1 :
-                            // InternalWodel.g:6006:5: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
+                            // InternalWodel.g:6014:5: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
                             {
-                            // InternalWodel.g:6006:5: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
-                            // InternalWodel.g:6007:6: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) )
+                            // InternalWodel.g:6014:5: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
+                            // InternalWodel.g:6015:6: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) )
                             {
-                            // InternalWodel.g:6007:6: ( (lv_min_7_0= ruleEInt ) )
-                            // InternalWodel.g:6008:7: (lv_min_7_0= ruleEInt )
+                            // InternalWodel.g:6015:6: ( (lv_min_7_0= ruleEInt ) )
+                            // InternalWodel.g:6016:7: (lv_min_7_0= ruleEInt )
                             {
-                            // InternalWodel.g:6008:7: (lv_min_7_0= ruleEInt )
-                            // InternalWodel.g:6009:8: lv_min_7_0= ruleEInt
+                            // InternalWodel.g:6016:7: (lv_min_7_0= ruleEInt )
+                            // InternalWodel.g:6017:8: lv_min_7_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17072,11 +17086,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               						newLeafNode(otherlv_8, grammarAccess.getCompositeMutatorAccess().getFullStopFullStopKeyword_5_1_0_1());
                               					
                             }
-                            // InternalWodel.g:6030:6: ( (lv_max_9_0= ruleMaxCardinality ) )
-                            // InternalWodel.g:6031:7: (lv_max_9_0= ruleMaxCardinality )
+                            // InternalWodel.g:6038:6: ( (lv_max_9_0= ruleMaxCardinality ) )
+                            // InternalWodel.g:6039:7: (lv_max_9_0= ruleMaxCardinality )
                             {
-                            // InternalWodel.g:6031:7: (lv_max_9_0= ruleMaxCardinality )
-                            // InternalWodel.g:6032:8: lv_max_9_0= ruleMaxCardinality
+                            // InternalWodel.g:6039:7: (lv_max_9_0= ruleMaxCardinality )
+                            // InternalWodel.g:6040:8: lv_max_9_0= ruleMaxCardinality
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17114,13 +17128,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalWodel.g:6051:5: ( (lv_fixed_10_0= ruleEInt ) )
+                            // InternalWodel.g:6059:5: ( (lv_fixed_10_0= ruleEInt ) )
                             {
-                            // InternalWodel.g:6051:5: ( (lv_fixed_10_0= ruleEInt ) )
-                            // InternalWodel.g:6052:6: (lv_fixed_10_0= ruleEInt )
+                            // InternalWodel.g:6059:5: ( (lv_fixed_10_0= ruleEInt ) )
+                            // InternalWodel.g:6060:6: (lv_fixed_10_0= ruleEInt )
                             {
-                            // InternalWodel.g:6052:6: (lv_fixed_10_0= ruleEInt )
-                            // InternalWodel.g:6053:7: lv_fixed_10_0= ruleEInt
+                            // InternalWodel.g:6060:6: (lv_fixed_10_0= ruleEInt )
+                            // InternalWodel.g:6061:7: lv_fixed_10_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17194,7 +17208,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCloneObjectMutator"
-    // InternalWodel.g:6080:1: entryRuleCloneObjectMutator returns [EObject current=null] : iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF ;
+    // InternalWodel.g:6088:1: entryRuleCloneObjectMutator returns [EObject current=null] : iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF ;
     public final EObject entryRuleCloneObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -17202,8 +17216,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6080:59: (iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF )
-            // InternalWodel.g:6081:2: iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF
+            // InternalWodel.g:6088:59: (iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF )
+            // InternalWodel.g:6089:2: iv_ruleCloneObjectMutator= ruleCloneObjectMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCloneObjectMutatorRule()); 
@@ -17234,7 +17248,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCloneObjectMutator"
-    // InternalWodel.g:6087:1: ruleCloneObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? ) ;
+    // InternalWodel.g:6095:1: ruleCloneObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? ) ;
     public final EObject ruleCloneObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -17271,13 +17285,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6093:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? ) )
-            // InternalWodel.g:6094:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? )
+            // InternalWodel.g:6101:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? ) )
+            // InternalWodel.g:6102:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? )
             {
-            // InternalWodel.g:6094:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? )
-            // InternalWodel.g:6095:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )?
+            // InternalWodel.g:6102:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )? )
+            // InternalWodel.g:6103:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? ( (lv_contents_2_0= 'deep' ) )? otherlv_3= 'clone' ( (lv_object_4_0= ruleObSelectionStrategy ) ) (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )? (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )?
             {
-            // InternalWodel.g:6095:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:6103:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt121=2;
             int LA121_0 = input.LA(1);
 
@@ -17286,13 +17300,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt121) {
                 case 1 :
-                    // InternalWodel.g:6096:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:6104:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:6096:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:6097:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:6104:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:6105:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:6097:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:6098:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:6105:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:6106:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -17330,7 +17344,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6119:3: ( (lv_contents_2_0= 'deep' ) )?
+            // InternalWodel.g:6127:3: ( (lv_contents_2_0= 'deep' ) )?
             int alt122=2;
             int LA122_0 = input.LA(1);
 
@@ -17339,10 +17353,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt122) {
                 case 1 :
-                    // InternalWodel.g:6120:4: (lv_contents_2_0= 'deep' )
+                    // InternalWodel.g:6128:4: (lv_contents_2_0= 'deep' )
                     {
-                    // InternalWodel.g:6120:4: (lv_contents_2_0= 'deep' )
-                    // InternalWodel.g:6121:5: lv_contents_2_0= 'deep'
+                    // InternalWodel.g:6128:4: (lv_contents_2_0= 'deep' )
+                    // InternalWodel.g:6129:5: lv_contents_2_0= 'deep'
                     {
                     lv_contents_2_0=(Token)match(input,70,FOLLOW_92); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -17373,11 +17387,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getCloneObjectMutatorAccess().getCloneKeyword_2());
               		
             }
-            // InternalWodel.g:6137:3: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:6138:4: (lv_object_4_0= ruleObSelectionStrategy )
+            // InternalWodel.g:6145:3: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:6146:4: (lv_object_4_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:6138:4: (lv_object_4_0= ruleObSelectionStrategy )
-            // InternalWodel.g:6139:5: lv_object_4_0= ruleObSelectionStrategy
+            // InternalWodel.g:6146:4: (lv_object_4_0= ruleObSelectionStrategy )
+            // InternalWodel.g:6147:5: lv_object_4_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -17408,7 +17422,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6156:3: (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:6164:3: (otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) ) )?
             int alt123=2;
             int LA123_0 = input.LA(1);
 
@@ -17417,7 +17431,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt123) {
                 case 1 :
-                    // InternalWodel.g:6157:4: otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6165:4: otherlv_5= 'in' ( (lv_container_6_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_5=(Token)match(input,23,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -17425,11 +17439,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getCloneObjectMutatorAccess().getInKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:6161:4: ( (lv_container_6_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:6162:5: (lv_container_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6169:4: ( (lv_container_6_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6170:5: (lv_container_6_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:6162:5: (lv_container_6_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:6163:6: lv_container_6_0= ruleObSelectionStrategy
+                    // InternalWodel.g:6170:5: (lv_container_6_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6171:6: lv_container_6_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -17466,7 +17480,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6181:3: (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )?
+            // InternalWodel.g:6189:3: (otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}' )?
             int alt127=2;
             int LA127_0 = input.LA(1);
 
@@ -17475,7 +17489,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt127) {
                 case 1 :
-                    // InternalWodel.g:6182:4: otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}'
+                    // InternalWodel.g:6190:4: otherlv_7= 'with' otherlv_8= '{' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )? (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )* otherlv_14= '}'
                     {
                     otherlv_7=(Token)match(input,11,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -17489,18 +17503,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_8, grammarAccess.getCloneObjectMutatorAccess().getLeftCurlyBracketKeyword_5_1());
                       			
                     }
-                    // InternalWodel.g:6190:4: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )?
+                    // InternalWodel.g:6198:4: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )?
                     int alt124=3;
                     alt124 = dfa124.predict(input);
                     switch (alt124) {
                         case 1 :
-                            // InternalWodel.g:6191:5: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                            // InternalWodel.g:6199:5: ( (lv_attributes_9_0= ruleAttributeSet ) )
                             {
-                            // InternalWodel.g:6191:5: ( (lv_attributes_9_0= ruleAttributeSet ) )
-                            // InternalWodel.g:6192:6: (lv_attributes_9_0= ruleAttributeSet )
+                            // InternalWodel.g:6199:5: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                            // InternalWodel.g:6200:6: (lv_attributes_9_0= ruleAttributeSet )
                             {
-                            // InternalWodel.g:6192:6: (lv_attributes_9_0= ruleAttributeSet )
-                            // InternalWodel.g:6193:7: lv_attributes_9_0= ruleAttributeSet
+                            // InternalWodel.g:6200:6: (lv_attributes_9_0= ruleAttributeSet )
+                            // InternalWodel.g:6201:7: lv_attributes_9_0= ruleAttributeSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17535,13 +17549,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalWodel.g:6211:5: ( (lv_references_10_0= ruleReferenceSet ) )
+                            // InternalWodel.g:6219:5: ( (lv_references_10_0= ruleReferenceSet ) )
                             {
-                            // InternalWodel.g:6211:5: ( (lv_references_10_0= ruleReferenceSet ) )
-                            // InternalWodel.g:6212:6: (lv_references_10_0= ruleReferenceSet )
+                            // InternalWodel.g:6219:5: ( (lv_references_10_0= ruleReferenceSet ) )
+                            // InternalWodel.g:6220:6: (lv_references_10_0= ruleReferenceSet )
                             {
-                            // InternalWodel.g:6212:6: (lv_references_10_0= ruleReferenceSet )
-                            // InternalWodel.g:6213:7: lv_references_10_0= ruleReferenceSet
+                            // InternalWodel.g:6220:6: (lv_references_10_0= ruleReferenceSet )
+                            // InternalWodel.g:6221:7: lv_references_10_0= ruleReferenceSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17578,7 +17592,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:6231:4: (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )*
+                    // InternalWodel.g:6239:4: (otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) ) )*
                     loop126:
                     do {
                         int alt126=2;
@@ -17591,7 +17605,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt126) {
                     	case 1 :
-                    	    // InternalWodel.g:6232:5: otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:6240:5: otherlv_11= ',' ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )
                     	    {
                     	    otherlv_11=(Token)match(input,26,FOLLOW_74); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -17599,18 +17613,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      					newLeafNode(otherlv_11, grammarAccess.getCloneObjectMutatorAccess().getCommaKeyword_5_3_0());
                     	      				
                     	    }
-                    	    // InternalWodel.g:6236:5: ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:6244:5: ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )
                     	    int alt125=2;
                     	    alt125 = dfa125.predict(input);
                     	    switch (alt125) {
                     	        case 1 :
-                    	            // InternalWodel.g:6237:6: ( (lv_attributes_12_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:6245:6: ( (lv_attributes_12_0= ruleAttributeSet ) )
                     	            {
-                    	            // InternalWodel.g:6237:6: ( (lv_attributes_12_0= ruleAttributeSet ) )
-                    	            // InternalWodel.g:6238:7: (lv_attributes_12_0= ruleAttributeSet )
+                    	            // InternalWodel.g:6245:6: ( (lv_attributes_12_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:6246:7: (lv_attributes_12_0= ruleAttributeSet )
                     	            {
-                    	            // InternalWodel.g:6238:7: (lv_attributes_12_0= ruleAttributeSet )
-                    	            // InternalWodel.g:6239:8: lv_attributes_12_0= ruleAttributeSet
+                    	            // InternalWodel.g:6246:7: (lv_attributes_12_0= ruleAttributeSet )
+                    	            // InternalWodel.g:6247:8: lv_attributes_12_0= ruleAttributeSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -17645,13 +17659,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // InternalWodel.g:6257:6: ( (lv_references_13_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:6265:6: ( (lv_references_13_0= ruleReferenceSet ) )
                     	            {
-                    	            // InternalWodel.g:6257:6: ( (lv_references_13_0= ruleReferenceSet ) )
-                    	            // InternalWodel.g:6258:7: (lv_references_13_0= ruleReferenceSet )
+                    	            // InternalWodel.g:6265:6: ( (lv_references_13_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:6266:7: (lv_references_13_0= ruleReferenceSet )
                     	            {
-                    	            // InternalWodel.g:6258:7: (lv_references_13_0= ruleReferenceSet )
-                    	            // InternalWodel.g:6259:8: lv_references_13_0= ruleReferenceSet
+                    	            // InternalWodel.g:6266:7: (lv_references_13_0= ruleReferenceSet )
+                    	            // InternalWodel.g:6267:8: lv_references_13_0= ruleReferenceSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -17709,7 +17723,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6283:3: (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )?
+            // InternalWodel.g:6291:3: (otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']' )?
             int alt129=2;
             int LA129_0 = input.LA(1);
 
@@ -17722,7 +17736,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt129) {
                 case 1 :
-                    // InternalWodel.g:6284:4: otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']'
+                    // InternalWodel.g:6292:4: otherlv_15= '[' ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )? ( (lv_max_18_0= ruleMaxCardinality ) ) otherlv_19= ']'
                     {
                     otherlv_15=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -17730,7 +17744,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_15, grammarAccess.getCloneObjectMutatorAccess().getLeftSquareBracketKeyword_6_0());
                       			
                     }
-                    // InternalWodel.g:6288:4: ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )?
+                    // InternalWodel.g:6296:4: ( ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..' )?
                     int alt128=2;
                     int LA128_0 = input.LA(1);
 
@@ -17754,13 +17768,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt128) {
                         case 1 :
-                            // InternalWodel.g:6289:5: ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..'
+                            // InternalWodel.g:6297:5: ( (lv_min_16_0= ruleEInt ) ) otherlv_17= '..'
                             {
-                            // InternalWodel.g:6289:5: ( (lv_min_16_0= ruleEInt ) )
-                            // InternalWodel.g:6290:6: (lv_min_16_0= ruleEInt )
+                            // InternalWodel.g:6297:5: ( (lv_min_16_0= ruleEInt ) )
+                            // InternalWodel.g:6298:6: (lv_min_16_0= ruleEInt )
                             {
-                            // InternalWodel.g:6290:6: (lv_min_16_0= ruleEInt )
-                            // InternalWodel.g:6291:7: lv_min_16_0= ruleEInt
+                            // InternalWodel.g:6298:6: (lv_min_16_0= ruleEInt )
+                            // InternalWodel.g:6299:7: lv_min_16_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -17803,11 +17817,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:6313:4: ( (lv_max_18_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:6314:5: (lv_max_18_0= ruleMaxCardinality )
+                    // InternalWodel.g:6321:4: ( (lv_max_18_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:6322:5: (lv_max_18_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:6314:5: (lv_max_18_0= ruleMaxCardinality )
-                    // InternalWodel.g:6315:6: lv_max_18_0= ruleMaxCardinality
+                    // InternalWodel.g:6322:5: (lv_max_18_0= ruleMaxCardinality )
+                    // InternalWodel.g:6323:6: lv_max_18_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -17875,7 +17889,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRetypeObjectMutator"
-    // InternalWodel.g:6341:1: entryRuleRetypeObjectMutator returns [EObject current=null] : iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF ;
+    // InternalWodel.g:6349:1: entryRuleRetypeObjectMutator returns [EObject current=null] : iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF ;
     public final EObject entryRuleRetypeObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -17883,8 +17897,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6341:60: (iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF )
-            // InternalWodel.g:6342:2: iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF
+            // InternalWodel.g:6349:60: (iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF )
+            // InternalWodel.g:6350:2: iv_ruleRetypeObjectMutator= ruleRetypeObjectMutator EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRetypeObjectMutatorRule()); 
@@ -17915,7 +17929,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRetypeObjectMutator"
-    // InternalWodel.g:6348:1: ruleRetypeObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? ) ;
+    // InternalWodel.g:6356:1: ruleRetypeObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? ) ;
     public final EObject ruleRetypeObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -17958,13 +17972,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6354:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? ) )
-            // InternalWodel.g:6355:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? )
+            // InternalWodel.g:6362:2: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? ) )
+            // InternalWodel.g:6363:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? )
             {
-            // InternalWodel.g:6355:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? )
-            // InternalWodel.g:6356:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )?
+            // InternalWodel.g:6363:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )? )
+            // InternalWodel.g:6364:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'retype' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )? otherlv_6= 'as' ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) ) (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )? (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )?
             {
-            // InternalWodel.g:6356:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            // InternalWodel.g:6364:3: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
             int alt130=2;
             int LA130_0 = input.LA(1);
 
@@ -17973,13 +17987,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt130) {
                 case 1 :
-                    // InternalWodel.g:6357:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // InternalWodel.g:6365:4: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // InternalWodel.g:6357:4: ( (lv_name_0_0= RULE_ID ) )
-                    // InternalWodel.g:6358:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:6365:4: ( (lv_name_0_0= RULE_ID ) )
+                    // InternalWodel.g:6366:5: (lv_name_0_0= RULE_ID )
                     {
-                    // InternalWodel.g:6358:5: (lv_name_0_0= RULE_ID )
-                    // InternalWodel.g:6359:6: lv_name_0_0= RULE_ID
+                    // InternalWodel.g:6366:5: (lv_name_0_0= RULE_ID )
+                    // InternalWodel.g:6367:6: lv_name_0_0= RULE_ID
                     {
                     lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_23); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -18023,11 +18037,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRetypeObjectMutatorAccess().getRetypeKeyword_1());
               		
             }
-            // InternalWodel.g:6384:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:6385:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:6392:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:6393:4: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:6385:4: (lv_object_3_0= ruleObSelectionStrategy )
-            // InternalWodel.g:6386:5: lv_object_3_0= ruleObSelectionStrategy
+            // InternalWodel.g:6393:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:6394:5: lv_object_3_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -18058,7 +18072,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6403:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
+            // InternalWodel.g:6411:3: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) )?
             int alt131=2;
             int LA131_0 = input.LA(1);
 
@@ -18067,7 +18081,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt131) {
                 case 1 :
-                    // InternalWodel.g:6404:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6412:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) )
                     {
                     otherlv_4=(Token)match(input,23,FOLLOW_64); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -18075,11 +18089,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_4, grammarAccess.getRetypeObjectMutatorAccess().getInKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:6408:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:6409:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6416:4: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6417:5: (lv_container_5_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:6409:5: (lv_container_5_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:6410:6: lv_container_5_0= ruleObSelectionStrategy
+                    // InternalWodel.g:6417:5: (lv_container_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6418:6: lv_container_5_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18122,7 +18136,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_6, grammarAccess.getRetypeObjectMutatorAccess().getAsKeyword_4());
               		
             }
-            // InternalWodel.g:6432:3: ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) )
+            // InternalWodel.g:6440:3: ( ( (otherlv_7= RULE_ID ) ) | (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' ) )
             int alt133=2;
             int LA133_0 = input.LA(1);
 
@@ -18141,13 +18155,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt133) {
                 case 1 :
-                    // InternalWodel.g:6433:4: ( (otherlv_7= RULE_ID ) )
+                    // InternalWodel.g:6441:4: ( (otherlv_7= RULE_ID ) )
                     {
-                    // InternalWodel.g:6433:4: ( (otherlv_7= RULE_ID ) )
-                    // InternalWodel.g:6434:5: (otherlv_7= RULE_ID )
+                    // InternalWodel.g:6441:4: ( (otherlv_7= RULE_ID ) )
+                    // InternalWodel.g:6442:5: (otherlv_7= RULE_ID )
                     {
-                    // InternalWodel.g:6434:5: (otherlv_7= RULE_ID )
-                    // InternalWodel.g:6435:6: otherlv_7= RULE_ID
+                    // InternalWodel.g:6442:5: (otherlv_7= RULE_ID )
+                    // InternalWodel.g:6443:6: otherlv_7= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18177,10 +18191,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:6450:4: (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' )
+                    // InternalWodel.g:6458:4: (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' )
                     {
-                    // InternalWodel.g:6450:4: (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' )
-                    // InternalWodel.g:6451:5: otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']'
+                    // InternalWodel.g:6458:4: (otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']' )
+                    // InternalWodel.g:6459:5: otherlv_8= '[' ( (otherlv_9= RULE_ID ) ) (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )* otherlv_12= ']'
                     {
                     otherlv_8=(Token)match(input,30,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -18188,11 +18202,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_8, grammarAccess.getRetypeObjectMutatorAccess().getLeftSquareBracketKeyword_5_1_0());
                       				
                     }
-                    // InternalWodel.g:6455:5: ( (otherlv_9= RULE_ID ) )
-                    // InternalWodel.g:6456:6: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:6463:5: ( (otherlv_9= RULE_ID ) )
+                    // InternalWodel.g:6464:6: (otherlv_9= RULE_ID )
                     {
-                    // InternalWodel.g:6456:6: (otherlv_9= RULE_ID )
-                    // InternalWodel.g:6457:7: otherlv_9= RULE_ID
+                    // InternalWodel.g:6464:6: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:6465:7: otherlv_9= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18218,7 +18232,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:6471:5: (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )*
+                    // InternalWodel.g:6479:5: (otherlv_10= ',' ( (otherlv_11= RULE_ID ) ) )*
                     loop132:
                     do {
                         int alt132=2;
@@ -18231,7 +18245,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt132) {
                     	case 1 :
-                    	    // InternalWodel.g:6472:6: otherlv_10= ',' ( (otherlv_11= RULE_ID ) )
+                    	    // InternalWodel.g:6480:6: otherlv_10= ',' ( (otherlv_11= RULE_ID ) )
                     	    {
                     	    otherlv_10=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -18239,11 +18253,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      						newLeafNode(otherlv_10, grammarAccess.getRetypeObjectMutatorAccess().getCommaKeyword_5_1_2_0());
                     	      					
                     	    }
-                    	    // InternalWodel.g:6476:6: ( (otherlv_11= RULE_ID ) )
-                    	    // InternalWodel.g:6477:7: (otherlv_11= RULE_ID )
+                    	    // InternalWodel.g:6484:6: ( (otherlv_11= RULE_ID ) )
+                    	    // InternalWodel.g:6485:7: (otherlv_11= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:6477:7: (otherlv_11= RULE_ID )
-                    	    // InternalWodel.g:6478:8: otherlv_11= RULE_ID
+                    	    // InternalWodel.g:6485:7: (otherlv_11= RULE_ID )
+                    	    // InternalWodel.g:6486:8: otherlv_11= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -18293,7 +18307,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6499:3: (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )?
+            // InternalWodel.g:6507:3: (otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}' )?
             int alt137=2;
             int LA137_0 = input.LA(1);
 
@@ -18302,7 +18316,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt137) {
                 case 1 :
-                    // InternalWodel.g:6500:4: otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}'
+                    // InternalWodel.g:6508:4: otherlv_13= 'with' otherlv_14= '{' ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )? (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )* otherlv_20= '}'
                     {
                     otherlv_13=(Token)match(input,11,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -18316,18 +18330,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_14, grammarAccess.getRetypeObjectMutatorAccess().getLeftCurlyBracketKeyword_6_1());
                       			
                     }
-                    // InternalWodel.g:6508:4: ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )?
+                    // InternalWodel.g:6516:4: ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )?
                     int alt134=3;
                     alt134 = dfa134.predict(input);
                     switch (alt134) {
                         case 1 :
-                            // InternalWodel.g:6509:5: ( (lv_attributes_15_0= ruleAttributeSet ) )
+                            // InternalWodel.g:6517:5: ( (lv_attributes_15_0= ruleAttributeSet ) )
                             {
-                            // InternalWodel.g:6509:5: ( (lv_attributes_15_0= ruleAttributeSet ) )
-                            // InternalWodel.g:6510:6: (lv_attributes_15_0= ruleAttributeSet )
+                            // InternalWodel.g:6517:5: ( (lv_attributes_15_0= ruleAttributeSet ) )
+                            // InternalWodel.g:6518:6: (lv_attributes_15_0= ruleAttributeSet )
                             {
-                            // InternalWodel.g:6510:6: (lv_attributes_15_0= ruleAttributeSet )
-                            // InternalWodel.g:6511:7: lv_attributes_15_0= ruleAttributeSet
+                            // InternalWodel.g:6518:6: (lv_attributes_15_0= ruleAttributeSet )
+                            // InternalWodel.g:6519:7: lv_attributes_15_0= ruleAttributeSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -18362,13 +18376,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalWodel.g:6529:5: ( (lv_references_16_0= ruleReferenceSet ) )
+                            // InternalWodel.g:6537:5: ( (lv_references_16_0= ruleReferenceSet ) )
                             {
-                            // InternalWodel.g:6529:5: ( (lv_references_16_0= ruleReferenceSet ) )
-                            // InternalWodel.g:6530:6: (lv_references_16_0= ruleReferenceSet )
+                            // InternalWodel.g:6537:5: ( (lv_references_16_0= ruleReferenceSet ) )
+                            // InternalWodel.g:6538:6: (lv_references_16_0= ruleReferenceSet )
                             {
-                            // InternalWodel.g:6530:6: (lv_references_16_0= ruleReferenceSet )
-                            // InternalWodel.g:6531:7: lv_references_16_0= ruleReferenceSet
+                            // InternalWodel.g:6538:6: (lv_references_16_0= ruleReferenceSet )
+                            // InternalWodel.g:6539:7: lv_references_16_0= ruleReferenceSet
                             {
                             if ( state.backtracking==0 ) {
 
@@ -18405,7 +18419,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:6549:4: (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )*
+                    // InternalWodel.g:6557:4: (otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) ) )*
                     loop136:
                     do {
                         int alt136=2;
@@ -18418,7 +18432,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt136) {
                     	case 1 :
-                    	    // InternalWodel.g:6550:5: otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:6558:5: otherlv_17= ',' ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )
                     	    {
                     	    otherlv_17=(Token)match(input,26,FOLLOW_74); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -18426,18 +18440,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      					newLeafNode(otherlv_17, grammarAccess.getRetypeObjectMutatorAccess().getCommaKeyword_6_3_0());
                     	      				
                     	    }
-                    	    // InternalWodel.g:6554:5: ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )
+                    	    // InternalWodel.g:6562:5: ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )
                     	    int alt135=2;
                     	    alt135 = dfa135.predict(input);
                     	    switch (alt135) {
                     	        case 1 :
-                    	            // InternalWodel.g:6555:6: ( (lv_attributes_18_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:6563:6: ( (lv_attributes_18_0= ruleAttributeSet ) )
                     	            {
-                    	            // InternalWodel.g:6555:6: ( (lv_attributes_18_0= ruleAttributeSet ) )
-                    	            // InternalWodel.g:6556:7: (lv_attributes_18_0= ruleAttributeSet )
+                    	            // InternalWodel.g:6563:6: ( (lv_attributes_18_0= ruleAttributeSet ) )
+                    	            // InternalWodel.g:6564:7: (lv_attributes_18_0= ruleAttributeSet )
                     	            {
-                    	            // InternalWodel.g:6556:7: (lv_attributes_18_0= ruleAttributeSet )
-                    	            // InternalWodel.g:6557:8: lv_attributes_18_0= ruleAttributeSet
+                    	            // InternalWodel.g:6564:7: (lv_attributes_18_0= ruleAttributeSet )
+                    	            // InternalWodel.g:6565:8: lv_attributes_18_0= ruleAttributeSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -18472,13 +18486,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // InternalWodel.g:6575:6: ( (lv_references_19_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:6583:6: ( (lv_references_19_0= ruleReferenceSet ) )
                     	            {
-                    	            // InternalWodel.g:6575:6: ( (lv_references_19_0= ruleReferenceSet ) )
-                    	            // InternalWodel.g:6576:7: (lv_references_19_0= ruleReferenceSet )
+                    	            // InternalWodel.g:6583:6: ( (lv_references_19_0= ruleReferenceSet ) )
+                    	            // InternalWodel.g:6584:7: (lv_references_19_0= ruleReferenceSet )
                     	            {
-                    	            // InternalWodel.g:6576:7: (lv_references_19_0= ruleReferenceSet )
-                    	            // InternalWodel.g:6577:8: lv_references_19_0= ruleReferenceSet
+                    	            // InternalWodel.g:6584:7: (lv_references_19_0= ruleReferenceSet )
+                    	            // InternalWodel.g:6585:8: lv_references_19_0= ruleReferenceSet
                     	            {
                     	            if ( state.backtracking==0 ) {
 
@@ -18536,7 +18550,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6601:3: (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )?
+            // InternalWodel.g:6609:3: (otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']' )?
             int alt139=2;
             int LA139_0 = input.LA(1);
 
@@ -18549,7 +18563,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt139) {
                 case 1 :
-                    // InternalWodel.g:6602:4: otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']'
+                    // InternalWodel.g:6610:4: otherlv_21= '[' ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )? ( (lv_max_24_0= ruleMaxCardinality ) ) otherlv_25= ']'
                     {
                     otherlv_21=(Token)match(input,30,FOLLOW_31); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -18557,7 +18571,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_21, grammarAccess.getRetypeObjectMutatorAccess().getLeftSquareBracketKeyword_7_0());
                       			
                     }
-                    // InternalWodel.g:6606:4: ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )?
+                    // InternalWodel.g:6614:4: ( ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..' )?
                     int alt138=2;
                     int LA138_0 = input.LA(1);
 
@@ -18581,13 +18595,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt138) {
                         case 1 :
-                            // InternalWodel.g:6607:5: ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..'
+                            // InternalWodel.g:6615:5: ( (lv_min_22_0= ruleEInt ) ) otherlv_23= '..'
                             {
-                            // InternalWodel.g:6607:5: ( (lv_min_22_0= ruleEInt ) )
-                            // InternalWodel.g:6608:6: (lv_min_22_0= ruleEInt )
+                            // InternalWodel.g:6615:5: ( (lv_min_22_0= ruleEInt ) )
+                            // InternalWodel.g:6616:6: (lv_min_22_0= ruleEInt )
                             {
-                            // InternalWodel.g:6608:6: (lv_min_22_0= ruleEInt )
-                            // InternalWodel.g:6609:7: lv_min_22_0= ruleEInt
+                            // InternalWodel.g:6616:6: (lv_min_22_0= ruleEInt )
+                            // InternalWodel.g:6617:7: lv_min_22_0= ruleEInt
                             {
                             if ( state.backtracking==0 ) {
 
@@ -18630,11 +18644,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:6631:4: ( (lv_max_24_0= ruleMaxCardinality ) )
-                    // InternalWodel.g:6632:5: (lv_max_24_0= ruleMaxCardinality )
+                    // InternalWodel.g:6639:4: ( (lv_max_24_0= ruleMaxCardinality ) )
+                    // InternalWodel.g:6640:5: (lv_max_24_0= ruleMaxCardinality )
                     {
-                    // InternalWodel.g:6632:5: (lv_max_24_0= ruleMaxCardinality )
-                    // InternalWodel.g:6633:6: lv_max_24_0= ruleMaxCardinality
+                    // InternalWodel.g:6640:5: (lv_max_24_0= ruleMaxCardinality )
+                    // InternalWodel.g:6641:6: lv_max_24_0= ruleMaxCardinality
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18702,7 +18716,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeSet"
-    // InternalWodel.g:6659:1: entryRuleAttributeSet returns [EObject current=null] : iv_ruleAttributeSet= ruleAttributeSet EOF ;
+    // InternalWodel.g:6667:1: entryRuleAttributeSet returns [EObject current=null] : iv_ruleAttributeSet= ruleAttributeSet EOF ;
     public final EObject entryRuleAttributeSet() throws RecognitionException {
         EObject current = null;
 
@@ -18710,8 +18724,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6659:53: (iv_ruleAttributeSet= ruleAttributeSet EOF )
-            // InternalWodel.g:6660:2: iv_ruleAttributeSet= ruleAttributeSet EOF
+            // InternalWodel.g:6667:53: (iv_ruleAttributeSet= ruleAttributeSet EOF )
+            // InternalWodel.g:6668:2: iv_ruleAttributeSet= ruleAttributeSet EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeSetRule()); 
@@ -18742,7 +18756,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeSet"
-    // InternalWodel.g:6666:1: ruleAttributeSet returns [EObject current=null] : (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation ) ;
+    // InternalWodel.g:6674:1: ruleAttributeSet returns [EObject current=null] : (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation ) ;
     public final EObject ruleAttributeSet() throws RecognitionException {
         EObject current = null;
 
@@ -18763,21 +18777,21 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6672:2: ( (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation ) )
-            // InternalWodel.g:6673:2: (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation )
+            // InternalWodel.g:6680:2: ( (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation ) )
+            // InternalWodel.g:6681:2: (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation )
             {
-            // InternalWodel.g:6673:2: (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation )
+            // InternalWodel.g:6681:2: (this_AttributeScalar_0= ruleAttributeScalar | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse | this_AttributeOperation_5= ruleAttributeOperation )
             int alt140=6;
             switch ( input.LA(1) ) {
             case RULE_ID:
                 {
                 int LA140_1 = input.LA(2);
 
-                if ( (LA140_1==53||LA140_1==78||LA140_1==97||(LA140_1>=104 && LA140_1<=105)) ) {
-                    alt140=6;
-                }
-                else if ( (LA140_1==23||LA140_1==28||LA140_1==37||(LA140_1>=98 && LA140_1<=103)) ) {
+                if ( (LA140_1==23||LA140_1==28||LA140_1==37||(LA140_1>=98 && LA140_1<=103)) ) {
                     alt140=1;
+                }
+                else if ( (LA140_1==53||LA140_1==78||LA140_1==97||(LA140_1>=104 && LA140_1<=105)) ) {
+                    alt140=6;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return current;}
@@ -18818,7 +18832,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             switch (alt140) {
                 case 1 :
-                    // InternalWodel.g:6674:3: this_AttributeScalar_0= ruleAttributeScalar
+                    // InternalWodel.g:6682:3: this_AttributeScalar_0= ruleAttributeScalar
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18845,7 +18859,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:6686:3: this_AttributeUnset_1= ruleAttributeUnset
+                    // InternalWodel.g:6694:3: this_AttributeUnset_1= ruleAttributeUnset
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18872,7 +18886,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:6698:3: this_AttributeSwap_2= ruleAttributeSwap
+                    // InternalWodel.g:6706:3: this_AttributeSwap_2= ruleAttributeSwap
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18899,7 +18913,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalWodel.g:6710:3: this_AttributeCopy_3= ruleAttributeCopy
+                    // InternalWodel.g:6718:3: this_AttributeCopy_3= ruleAttributeCopy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18926,7 +18940,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalWodel.g:6722:3: this_AttributeReverse_4= ruleAttributeReverse
+                    // InternalWodel.g:6730:3: this_AttributeReverse_4= ruleAttributeReverse
                     {
                     if ( state.backtracking==0 ) {
 
@@ -18953,7 +18967,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalWodel.g:6734:3: this_AttributeOperation_5= ruleAttributeOperation
+                    // InternalWodel.g:6742:3: this_AttributeOperation_5= ruleAttributeOperation
                     {
                     if ( state.backtracking==0 ) {
 
@@ -19004,7 +19018,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeScalar"
-    // InternalWodel.g:6749:1: entryRuleAttributeScalar returns [EObject current=null] : iv_ruleAttributeScalar= ruleAttributeScalar EOF ;
+    // InternalWodel.g:6757:1: entryRuleAttributeScalar returns [EObject current=null] : iv_ruleAttributeScalar= ruleAttributeScalar EOF ;
     public final EObject entryRuleAttributeScalar() throws RecognitionException {
         EObject current = null;
 
@@ -19012,8 +19026,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6749:56: (iv_ruleAttributeScalar= ruleAttributeScalar EOF )
-            // InternalWodel.g:6750:2: iv_ruleAttributeScalar= ruleAttributeScalar EOF
+            // InternalWodel.g:6757:56: (iv_ruleAttributeScalar= ruleAttributeScalar EOF )
+            // InternalWodel.g:6758:2: iv_ruleAttributeScalar= ruleAttributeScalar EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeScalarRule()); 
@@ -19044,7 +19058,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeScalar"
-    // InternalWodel.g:6756:1: ruleAttributeScalar returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) ) ;
+    // InternalWodel.g:6764:1: ruleAttributeScalar returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) ) ;
     public final EObject ruleAttributeScalar() throws RecognitionException {
         EObject current = null;
 
@@ -19056,17 +19070,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6762:2: ( ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) ) )
-            // InternalWodel.g:6763:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) )
+            // InternalWodel.g:6770:2: ( ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) ) )
+            // InternalWodel.g:6771:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) )
             {
-            // InternalWodel.g:6763:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) )
-            // InternalWodel.g:6764:3: ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) )
+            // InternalWodel.g:6771:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) ) )
+            // InternalWodel.g:6772:3: ( (otherlv_0= RULE_ID ) ) ( (lv_value_1_0= ruleAttributeType ) )
             {
-            // InternalWodel.g:6764:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:6765:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:6772:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:6773:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:6765:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:6766:5: otherlv_0= RULE_ID
+            // InternalWodel.g:6773:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:6774:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19092,11 +19106,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6780:3: ( (lv_value_1_0= ruleAttributeType ) )
-            // InternalWodel.g:6781:4: (lv_value_1_0= ruleAttributeType )
+            // InternalWodel.g:6788:3: ( (lv_value_1_0= ruleAttributeType ) )
+            // InternalWodel.g:6789:4: (lv_value_1_0= ruleAttributeType )
             {
-            // InternalWodel.g:6781:4: (lv_value_1_0= ruleAttributeType )
-            // InternalWodel.g:6782:5: lv_value_1_0= ruleAttributeType
+            // InternalWodel.g:6789:4: (lv_value_1_0= ruleAttributeType )
+            // InternalWodel.g:6790:5: lv_value_1_0= ruleAttributeType
             {
             if ( state.backtracking==0 ) {
 
@@ -19152,7 +19166,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeUnset"
-    // InternalWodel.g:6803:1: entryRuleAttributeUnset returns [EObject current=null] : iv_ruleAttributeUnset= ruleAttributeUnset EOF ;
+    // InternalWodel.g:6811:1: entryRuleAttributeUnset returns [EObject current=null] : iv_ruleAttributeUnset= ruleAttributeUnset EOF ;
     public final EObject entryRuleAttributeUnset() throws RecognitionException {
         EObject current = null;
 
@@ -19160,8 +19174,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6803:55: (iv_ruleAttributeUnset= ruleAttributeUnset EOF )
-            // InternalWodel.g:6804:2: iv_ruleAttributeUnset= ruleAttributeUnset EOF
+            // InternalWodel.g:6811:55: (iv_ruleAttributeUnset= ruleAttributeUnset EOF )
+            // InternalWodel.g:6812:2: iv_ruleAttributeUnset= ruleAttributeUnset EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeUnsetRule()); 
@@ -19192,7 +19206,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeUnset"
-    // InternalWodel.g:6810:1: ruleAttributeUnset returns [EObject current=null] : (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
+    // InternalWodel.g:6818:1: ruleAttributeUnset returns [EObject current=null] : (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
     public final EObject ruleAttributeUnset() throws RecognitionException {
         EObject current = null;
 
@@ -19205,11 +19219,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6816:2: ( (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
-            // InternalWodel.g:6817:2: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // InternalWodel.g:6824:2: ( (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
+            // InternalWodel.g:6825:2: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
             {
-            // InternalWodel.g:6817:2: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
-            // InternalWodel.g:6818:3: otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
+            // InternalWodel.g:6825:2: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // InternalWodel.g:6826:3: otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
             {
             otherlv_0=(Token)match(input,74,FOLLOW_41); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -19223,11 +19237,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getAttributeUnsetAccess().getLeftParenthesisKeyword_1());
               		
             }
-            // InternalWodel.g:6826:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:6827:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6834:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:6835:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:6827:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:6828:5: otherlv_2= RULE_ID
+            // InternalWodel.g:6835:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6836:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19284,7 +19298,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeSwap"
-    // InternalWodel.g:6850:1: entryRuleAttributeSwap returns [EObject current=null] : iv_ruleAttributeSwap= ruleAttributeSwap EOF ;
+    // InternalWodel.g:6858:1: entryRuleAttributeSwap returns [EObject current=null] : iv_ruleAttributeSwap= ruleAttributeSwap EOF ;
     public final EObject entryRuleAttributeSwap() throws RecognitionException {
         EObject current = null;
 
@@ -19292,8 +19306,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6850:54: (iv_ruleAttributeSwap= ruleAttributeSwap EOF )
-            // InternalWodel.g:6851:2: iv_ruleAttributeSwap= ruleAttributeSwap EOF
+            // InternalWodel.g:6858:54: (iv_ruleAttributeSwap= ruleAttributeSwap EOF )
+            // InternalWodel.g:6859:2: iv_ruleAttributeSwap= ruleAttributeSwap EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeSwapRule()); 
@@ -19324,7 +19338,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeSwap"
-    // InternalWodel.g:6857:1: ruleAttributeSwap returns [EObject current=null] : (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // InternalWodel.g:6865:1: ruleAttributeSwap returns [EObject current=null] : (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleAttributeSwap() throws RecognitionException {
         EObject current = null;
 
@@ -19342,11 +19356,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6863:2: ( (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // InternalWodel.g:6864:2: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:6871:2: ( (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // InternalWodel.g:6872:2: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // InternalWodel.g:6864:2: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // InternalWodel.g:6865:3: otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // InternalWodel.g:6872:2: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:6873:3: otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
             otherlv_0=(Token)match(input,75,FOLLOW_41); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -19360,11 +19374,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getAttributeSwapAccess().getLeftParenthesisKeyword_1());
               		
             }
-            // InternalWodel.g:6873:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:6874:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6881:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:6882:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:6874:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:6875:5: otherlv_2= RULE_ID
+            // InternalWodel.g:6882:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6883:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19396,7 +19410,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getAttributeSwapAccess().getCommaKeyword_3());
               		
             }
-            // InternalWodel.g:6893:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
+            // InternalWodel.g:6901:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
             int alt141=2;
             int LA141_0 = input.LA(1);
 
@@ -19412,13 +19426,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt141) {
                 case 1 :
-                    // InternalWodel.g:6894:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
+                    // InternalWodel.g:6902:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
                     {
-                    // InternalWodel.g:6894:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:6895:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6902:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6903:5: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:6895:5: (lv_object_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:6896:6: lv_object_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:6903:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6904:6: lv_object_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -19461,11 +19475,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:6918:3: ( (otherlv_6= RULE_ID ) )
-            // InternalWodel.g:6919:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:6926:3: ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:6927:4: (otherlv_6= RULE_ID )
             {
-            // InternalWodel.g:6919:4: (otherlv_6= RULE_ID )
-            // InternalWodel.g:6920:5: otherlv_6= RULE_ID
+            // InternalWodel.g:6927:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:6928:5: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19522,7 +19536,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeCopy"
-    // InternalWodel.g:6942:1: entryRuleAttributeCopy returns [EObject current=null] : iv_ruleAttributeCopy= ruleAttributeCopy EOF ;
+    // InternalWodel.g:6950:1: entryRuleAttributeCopy returns [EObject current=null] : iv_ruleAttributeCopy= ruleAttributeCopy EOF ;
     public final EObject entryRuleAttributeCopy() throws RecognitionException {
         EObject current = null;
 
@@ -19530,8 +19544,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:6942:54: (iv_ruleAttributeCopy= ruleAttributeCopy EOF )
-            // InternalWodel.g:6943:2: iv_ruleAttributeCopy= ruleAttributeCopy EOF
+            // InternalWodel.g:6950:54: (iv_ruleAttributeCopy= ruleAttributeCopy EOF )
+            // InternalWodel.g:6951:2: iv_ruleAttributeCopy= ruleAttributeCopy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeCopyRule()); 
@@ -19562,7 +19576,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeCopy"
-    // InternalWodel.g:6949:1: ruleAttributeCopy returns [EObject current=null] : (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // InternalWodel.g:6957:1: ruleAttributeCopy returns [EObject current=null] : (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleAttributeCopy() throws RecognitionException {
         EObject current = null;
 
@@ -19580,11 +19594,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:6955:2: ( (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // InternalWodel.g:6956:2: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:6963:2: ( (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // InternalWodel.g:6964:2: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // InternalWodel.g:6956:2: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // InternalWodel.g:6957:3: otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // InternalWodel.g:6964:2: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:6965:3: otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
             otherlv_0=(Token)match(input,76,FOLLOW_41); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -19598,11 +19612,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getAttributeCopyAccess().getLeftParenthesisKeyword_1());
               		
             }
-            // InternalWodel.g:6965:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:6966:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6973:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:6974:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:6966:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:6967:5: otherlv_2= RULE_ID
+            // InternalWodel.g:6974:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:6975:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19634,7 +19648,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getAttributeCopyAccess().getCommaKeyword_3());
               		
             }
-            // InternalWodel.g:6985:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
+            // InternalWodel.g:6993:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
             int alt142=2;
             int LA142_0 = input.LA(1);
 
@@ -19650,13 +19664,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt142) {
                 case 1 :
-                    // InternalWodel.g:6986:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
+                    // InternalWodel.g:6994:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
                     {
-                    // InternalWodel.g:6986:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:6987:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6994:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:6995:5: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:6987:5: (lv_object_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:6988:6: lv_object_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:6995:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:6996:6: lv_object_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -19699,11 +19713,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7010:3: ( (otherlv_6= RULE_ID ) )
-            // InternalWodel.g:7011:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:7018:3: ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:7019:4: (otherlv_6= RULE_ID )
             {
-            // InternalWodel.g:7011:4: (otherlv_6= RULE_ID )
-            // InternalWodel.g:7012:5: otherlv_6= RULE_ID
+            // InternalWodel.g:7019:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:7020:5: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19760,7 +19774,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeReverse"
-    // InternalWodel.g:7034:1: entryRuleAttributeReverse returns [EObject current=null] : iv_ruleAttributeReverse= ruleAttributeReverse EOF ;
+    // InternalWodel.g:7042:1: entryRuleAttributeReverse returns [EObject current=null] : iv_ruleAttributeReverse= ruleAttributeReverse EOF ;
     public final EObject entryRuleAttributeReverse() throws RecognitionException {
         EObject current = null;
 
@@ -19768,8 +19782,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7034:57: (iv_ruleAttributeReverse= ruleAttributeReverse EOF )
-            // InternalWodel.g:7035:2: iv_ruleAttributeReverse= ruleAttributeReverse EOF
+            // InternalWodel.g:7042:57: (iv_ruleAttributeReverse= ruleAttributeReverse EOF )
+            // InternalWodel.g:7043:2: iv_ruleAttributeReverse= ruleAttributeReverse EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeReverseRule()); 
@@ -19800,7 +19814,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeReverse"
-    // InternalWodel.g:7041:1: ruleAttributeReverse returns [EObject current=null] : (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
+    // InternalWodel.g:7049:1: ruleAttributeReverse returns [EObject current=null] : (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
     public final EObject ruleAttributeReverse() throws RecognitionException {
         EObject current = null;
 
@@ -19813,11 +19827,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7047:2: ( (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
-            // InternalWodel.g:7048:2: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // InternalWodel.g:7055:2: ( (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
+            // InternalWodel.g:7056:2: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
             {
-            // InternalWodel.g:7048:2: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
-            // InternalWodel.g:7049:3: otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
+            // InternalWodel.g:7056:2: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // InternalWodel.g:7057:3: otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
             {
             otherlv_0=(Token)match(input,77,FOLLOW_41); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -19831,11 +19845,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getAttributeReverseAccess().getLeftParenthesisKeyword_1());
               		
             }
-            // InternalWodel.g:7057:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:7058:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7065:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:7066:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:7058:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:7059:5: otherlv_2= RULE_ID
+            // InternalWodel.g:7066:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7067:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19892,7 +19906,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeOperation"
-    // InternalWodel.g:7081:1: entryRuleAttributeOperation returns [EObject current=null] : iv_ruleAttributeOperation= ruleAttributeOperation EOF ;
+    // InternalWodel.g:7089:1: entryRuleAttributeOperation returns [EObject current=null] : iv_ruleAttributeOperation= ruleAttributeOperation EOF ;
     public final EObject entryRuleAttributeOperation() throws RecognitionException {
         EObject current = null;
 
@@ -19900,8 +19914,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7081:59: (iv_ruleAttributeOperation= ruleAttributeOperation EOF )
-            // InternalWodel.g:7082:2: iv_ruleAttributeOperation= ruleAttributeOperation EOF
+            // InternalWodel.g:7089:59: (iv_ruleAttributeOperation= ruleAttributeOperation EOF )
+            // InternalWodel.g:7090:2: iv_ruleAttributeOperation= ruleAttributeOperation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeOperationRule()); 
@@ -19932,7 +19946,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeOperation"
-    // InternalWodel.g:7088:1: ruleAttributeOperation returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) ) ;
+    // InternalWodel.g:7096:1: ruleAttributeOperation returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) ) ;
     public final EObject ruleAttributeOperation() throws RecognitionException {
         EObject current = null;
 
@@ -19946,17 +19960,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7094:2: ( ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) ) )
-            // InternalWodel.g:7095:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) )
+            // InternalWodel.g:7102:2: ( ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) ) )
+            // InternalWodel.g:7103:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) )
             {
-            // InternalWodel.g:7095:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) )
-            // InternalWodel.g:7096:3: ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) )
+            // InternalWodel.g:7103:2: ( ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) ) )
+            // InternalWodel.g:7104:3: ( (otherlv_0= RULE_ID ) ) ( (lv_operator_1_0= ruleArithmeticOperator ) ) ( (lv_value_2_0= ruleAttributeEvaluationType ) )
             {
-            // InternalWodel.g:7096:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:7097:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7104:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:7105:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:7097:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:7098:5: otherlv_0= RULE_ID
+            // InternalWodel.g:7105:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7106:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -19982,11 +19996,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7112:3: ( (lv_operator_1_0= ruleArithmeticOperator ) )
-            // InternalWodel.g:7113:4: (lv_operator_1_0= ruleArithmeticOperator )
+            // InternalWodel.g:7120:3: ( (lv_operator_1_0= ruleArithmeticOperator ) )
+            // InternalWodel.g:7121:4: (lv_operator_1_0= ruleArithmeticOperator )
             {
-            // InternalWodel.g:7113:4: (lv_operator_1_0= ruleArithmeticOperator )
-            // InternalWodel.g:7114:5: lv_operator_1_0= ruleArithmeticOperator
+            // InternalWodel.g:7121:4: (lv_operator_1_0= ruleArithmeticOperator )
+            // InternalWodel.g:7122:5: lv_operator_1_0= ruleArithmeticOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -20017,11 +20031,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7131:3: ( (lv_value_2_0= ruleAttributeEvaluationType ) )
-            // InternalWodel.g:7132:4: (lv_value_2_0= ruleAttributeEvaluationType )
+            // InternalWodel.g:7139:3: ( (lv_value_2_0= ruleAttributeEvaluationType ) )
+            // InternalWodel.g:7140:4: (lv_value_2_0= ruleAttributeEvaluationType )
             {
-            // InternalWodel.g:7132:4: (lv_value_2_0= ruleAttributeEvaluationType )
-            // InternalWodel.g:7133:5: lv_value_2_0= ruleAttributeEvaluationType
+            // InternalWodel.g:7140:4: (lv_value_2_0= ruleAttributeEvaluationType )
+            // InternalWodel.g:7141:5: lv_value_2_0= ruleAttributeEvaluationType
             {
             if ( state.backtracking==0 ) {
 
@@ -20077,7 +20091,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceSet"
-    // InternalWodel.g:7154:1: entryRuleReferenceSet returns [EObject current=null] : iv_ruleReferenceSet= ruleReferenceSet EOF ;
+    // InternalWodel.g:7162:1: entryRuleReferenceSet returns [EObject current=null] : iv_ruleReferenceSet= ruleReferenceSet EOF ;
     public final EObject entryRuleReferenceSet() throws RecognitionException {
         EObject current = null;
 
@@ -20085,8 +20099,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7154:53: (iv_ruleReferenceSet= ruleReferenceSet EOF )
-            // InternalWodel.g:7155:2: iv_ruleReferenceSet= ruleReferenceSet EOF
+            // InternalWodel.g:7162:53: (iv_ruleReferenceSet= ruleReferenceSet EOF )
+            // InternalWodel.g:7163:2: iv_ruleReferenceSet= ruleReferenceSet EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceSetRule()); 
@@ -20117,7 +20131,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceSet"
-    // InternalWodel.g:7161:1: ruleReferenceSet returns [EObject current=null] : (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove ) ;
+    // InternalWodel.g:7169:1: ruleReferenceSet returns [EObject current=null] : (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove ) ;
     public final EObject ruleReferenceSet() throws RecognitionException {
         EObject current = null;
 
@@ -20136,20 +20150,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7167:2: ( (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove ) )
-            // InternalWodel.g:7168:2: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove )
+            // InternalWodel.g:7175:2: ( (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove ) )
+            // InternalWodel.g:7176:2: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove )
             {
-            // InternalWodel.g:7168:2: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove )
+            // InternalWodel.g:7176:2: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap | this_ReferenceAtt_2= ruleReferenceAtt | this_ReferenceAdd_3= ruleReferenceAdd | this_ReferenceRemove_4= ruleReferenceRemove )
             int alt143=5;
             int LA143_0 = input.LA(1);
 
             if ( (LA143_0==RULE_ID) ) {
                 switch ( input.LA(2) ) {
-                case 28:
-                    {
-                    alt143=1;
-                    }
-                    break;
                 case 78:
                     {
                     alt143=4;
@@ -20163,6 +20172,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                 case 38:
                     {
                     alt143=3;
+                    }
+                    break;
+                case 28:
+                    {
+                    alt143=1;
                     }
                     break;
                 default:
@@ -20186,7 +20200,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt143) {
                 case 1 :
-                    // InternalWodel.g:7169:3: this_ReferenceInit_0= ruleReferenceInit
+                    // InternalWodel.g:7177:3: this_ReferenceInit_0= ruleReferenceInit
                     {
                     if ( state.backtracking==0 ) {
 
@@ -20213,7 +20227,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:7181:3: this_ReferenceSwap_1= ruleReferenceSwap
+                    // InternalWodel.g:7189:3: this_ReferenceSwap_1= ruleReferenceSwap
                     {
                     if ( state.backtracking==0 ) {
 
@@ -20240,7 +20254,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:7193:3: this_ReferenceAtt_2= ruleReferenceAtt
+                    // InternalWodel.g:7201:3: this_ReferenceAtt_2= ruleReferenceAtt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -20267,7 +20281,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalWodel.g:7205:3: this_ReferenceAdd_3= ruleReferenceAdd
+                    // InternalWodel.g:7213:3: this_ReferenceAdd_3= ruleReferenceAdd
                     {
                     if ( state.backtracking==0 ) {
 
@@ -20294,7 +20308,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalWodel.g:7217:3: this_ReferenceRemove_4= ruleReferenceRemove
+                    // InternalWodel.g:7225:3: this_ReferenceRemove_4= ruleReferenceRemove
                     {
                     if ( state.backtracking==0 ) {
 
@@ -20345,7 +20359,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceInit"
-    // InternalWodel.g:7232:1: entryRuleReferenceInit returns [EObject current=null] : iv_ruleReferenceInit= ruleReferenceInit EOF ;
+    // InternalWodel.g:7240:1: entryRuleReferenceInit returns [EObject current=null] : iv_ruleReferenceInit= ruleReferenceInit EOF ;
     public final EObject entryRuleReferenceInit() throws RecognitionException {
         EObject current = null;
 
@@ -20353,8 +20367,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7232:54: (iv_ruleReferenceInit= ruleReferenceInit EOF )
-            // InternalWodel.g:7233:2: iv_ruleReferenceInit= ruleReferenceInit EOF
+            // InternalWodel.g:7240:54: (iv_ruleReferenceInit= ruleReferenceInit EOF )
+            // InternalWodel.g:7241:2: iv_ruleReferenceInit= ruleReferenceInit EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceInitRule()); 
@@ -20385,7 +20399,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceInit"
-    // InternalWodel.g:7239:1: ruleReferenceInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) ) ;
+    // InternalWodel.g:7247:1: ruleReferenceInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) ) ;
     public final EObject ruleReferenceInit() throws RecognitionException {
         EObject current = null;
 
@@ -20398,17 +20412,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7245:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) ) )
-            // InternalWodel.g:7246:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7253:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) ) )
+            // InternalWodel.g:7254:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) )
             {
-            // InternalWodel.g:7246:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) )
-            // InternalWodel.g:7247:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7254:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7255:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) )
             {
-            // InternalWodel.g:7247:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:7248:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7255:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:7256:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:7248:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:7249:5: otherlv_0= RULE_ID
+            // InternalWodel.g:7256:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7257:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -20440,11 +20454,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getReferenceInitAccess().getEqualsSignKeyword_1());
               		
             }
-            // InternalWodel.g:7267:3: ( (lv_object_2_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:7268:4: (lv_object_2_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7275:3: ( (lv_object_2_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7276:4: (lv_object_2_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:7268:4: (lv_object_2_0= ruleObSelectionStrategy )
-            // InternalWodel.g:7269:5: lv_object_2_0= ruleObSelectionStrategy
+            // InternalWodel.g:7276:4: (lv_object_2_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7277:5: lv_object_2_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -20500,7 +20514,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceAdd"
-    // InternalWodel.g:7290:1: entryRuleReferenceAdd returns [EObject current=null] : iv_ruleReferenceAdd= ruleReferenceAdd EOF ;
+    // InternalWodel.g:7298:1: entryRuleReferenceAdd returns [EObject current=null] : iv_ruleReferenceAdd= ruleReferenceAdd EOF ;
     public final EObject entryRuleReferenceAdd() throws RecognitionException {
         EObject current = null;
 
@@ -20508,8 +20522,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7290:53: (iv_ruleReferenceAdd= ruleReferenceAdd EOF )
-            // InternalWodel.g:7291:2: iv_ruleReferenceAdd= ruleReferenceAdd EOF
+            // InternalWodel.g:7298:53: (iv_ruleReferenceAdd= ruleReferenceAdd EOF )
+            // InternalWodel.g:7299:2: iv_ruleReferenceAdd= ruleReferenceAdd EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceAddRule()); 
@@ -20540,7 +20554,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceAdd"
-    // InternalWodel.g:7297:1: ruleReferenceAdd returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) ;
+    // InternalWodel.g:7305:1: ruleReferenceAdd returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) ;
     public final EObject ruleReferenceAdd() throws RecognitionException {
         EObject current = null;
 
@@ -20554,17 +20568,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7303:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) )
-            // InternalWodel.g:7304:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7311:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) )
+            // InternalWodel.g:7312:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
             {
-            // InternalWodel.g:7304:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
-            // InternalWodel.g:7305:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7312:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7313:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '+' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) )
             {
-            // InternalWodel.g:7305:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:7306:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7313:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:7314:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:7306:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:7307:5: otherlv_0= RULE_ID
+            // InternalWodel.g:7314:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7315:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -20602,11 +20616,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getReferenceAddAccess().getEqualsSignKeyword_2());
               		
             }
-            // InternalWodel.g:7329:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:7330:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7337:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7338:4: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:7330:4: (lv_object_3_0= ruleObSelectionStrategy )
-            // InternalWodel.g:7331:5: lv_object_3_0= ruleObSelectionStrategy
+            // InternalWodel.g:7338:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7339:5: lv_object_3_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -20662,7 +20676,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceRemove"
-    // InternalWodel.g:7352:1: entryRuleReferenceRemove returns [EObject current=null] : iv_ruleReferenceRemove= ruleReferenceRemove EOF ;
+    // InternalWodel.g:7360:1: entryRuleReferenceRemove returns [EObject current=null] : iv_ruleReferenceRemove= ruleReferenceRemove EOF ;
     public final EObject entryRuleReferenceRemove() throws RecognitionException {
         EObject current = null;
 
@@ -20670,8 +20684,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7352:56: (iv_ruleReferenceRemove= ruleReferenceRemove EOF )
-            // InternalWodel.g:7353:2: iv_ruleReferenceRemove= ruleReferenceRemove EOF
+            // InternalWodel.g:7360:56: (iv_ruleReferenceRemove= ruleReferenceRemove EOF )
+            // InternalWodel.g:7361:2: iv_ruleReferenceRemove= ruleReferenceRemove EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceRemoveRule()); 
@@ -20702,7 +20716,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceRemove"
-    // InternalWodel.g:7359:1: ruleReferenceRemove returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) ;
+    // InternalWodel.g:7367:1: ruleReferenceRemove returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) ;
     public final EObject ruleReferenceRemove() throws RecognitionException {
         EObject current = null;
 
@@ -20716,17 +20730,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7365:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) )
-            // InternalWodel.g:7366:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7373:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) ) )
+            // InternalWodel.g:7374:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
             {
-            // InternalWodel.g:7366:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
-            // InternalWodel.g:7367:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7374:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) ) )
+            // InternalWodel.g:7375:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '-' otherlv_2= '=' ( (lv_object_3_0= ruleObSelectionStrategy ) )
             {
-            // InternalWodel.g:7367:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:7368:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7375:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:7376:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:7368:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:7369:5: otherlv_0= RULE_ID
+            // InternalWodel.g:7376:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7377:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -20764,11 +20778,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getReferenceRemoveAccess().getEqualsSignKeyword_2());
               		
             }
-            // InternalWodel.g:7391:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // InternalWodel.g:7392:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7399:3: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // InternalWodel.g:7400:4: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // InternalWodel.g:7392:4: (lv_object_3_0= ruleObSelectionStrategy )
-            // InternalWodel.g:7393:5: lv_object_3_0= ruleObSelectionStrategy
+            // InternalWodel.g:7400:4: (lv_object_3_0= ruleObSelectionStrategy )
+            // InternalWodel.g:7401:5: lv_object_3_0= ruleObSelectionStrategy
             {
             if ( state.backtracking==0 ) {
 
@@ -20824,7 +20838,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceSwap"
-    // InternalWodel.g:7414:1: entryRuleReferenceSwap returns [EObject current=null] : iv_ruleReferenceSwap= ruleReferenceSwap EOF ;
+    // InternalWodel.g:7422:1: entryRuleReferenceSwap returns [EObject current=null] : iv_ruleReferenceSwap= ruleReferenceSwap EOF ;
     public final EObject entryRuleReferenceSwap() throws RecognitionException {
         EObject current = null;
 
@@ -20832,8 +20846,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7414:54: (iv_ruleReferenceSwap= ruleReferenceSwap EOF )
-            // InternalWodel.g:7415:2: iv_ruleReferenceSwap= ruleReferenceSwap EOF
+            // InternalWodel.g:7422:54: (iv_ruleReferenceSwap= ruleReferenceSwap EOF )
+            // InternalWodel.g:7423:2: iv_ruleReferenceSwap= ruleReferenceSwap EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceSwapRule()); 
@@ -20864,7 +20878,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceSwap"
-    // InternalWodel.g:7421:1: ruleReferenceSwap returns [EObject current=null] : (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // InternalWodel.g:7429:1: ruleReferenceSwap returns [EObject current=null] : (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleReferenceSwap() throws RecognitionException {
         EObject current = null;
 
@@ -20882,11 +20896,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7427:2: ( (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // InternalWodel.g:7428:2: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:7435:2: ( (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // InternalWodel.g:7436:2: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // InternalWodel.g:7428:2: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // InternalWodel.g:7429:3: otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // InternalWodel.g:7436:2: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // InternalWodel.g:7437:3: otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
             otherlv_0=(Token)match(input,79,FOLLOW_41); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -20900,11 +20914,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getReferenceSwapAccess().getLeftParenthesisKeyword_1());
               		
             }
-            // InternalWodel.g:7437:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:7438:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7445:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:7446:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:7438:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:7439:5: otherlv_2= RULE_ID
+            // InternalWodel.g:7446:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7447:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -20936,7 +20950,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getReferenceSwapAccess().getCommaKeyword_3());
               		
             }
-            // InternalWodel.g:7457:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )?
+            // InternalWodel.g:7465:3: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->' )?
             int alt144=2;
             int LA144_0 = input.LA(1);
 
@@ -20952,13 +20966,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt144) {
                 case 1 :
-                    // InternalWodel.g:7458:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->'
+                    // InternalWodel.g:7466:4: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '->'
                     {
-                    // InternalWodel.g:7458:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:7459:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:7466:4: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:7467:5: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:7459:5: (lv_object_4_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:7460:6: lv_object_4_0= ruleObSelectionStrategy
+                    // InternalWodel.g:7467:5: (lv_object_4_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:7468:6: lv_object_4_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -21001,11 +21015,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7482:3: ( (otherlv_6= RULE_ID ) )
-            // InternalWodel.g:7483:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:7490:3: ( (otherlv_6= RULE_ID ) )
+            // InternalWodel.g:7491:4: (otherlv_6= RULE_ID )
             {
-            // InternalWodel.g:7483:4: (otherlv_6= RULE_ID )
-            // InternalWodel.g:7484:5: otherlv_6= RULE_ID
+            // InternalWodel.g:7491:4: (otherlv_6= RULE_ID )
+            // InternalWodel.g:7492:5: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -21062,7 +21076,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceAtt"
-    // InternalWodel.g:7506:1: entryRuleReferenceAtt returns [EObject current=null] : iv_ruleReferenceAtt= ruleReferenceAtt EOF ;
+    // InternalWodel.g:7514:1: entryRuleReferenceAtt returns [EObject current=null] : iv_ruleReferenceAtt= ruleReferenceAtt EOF ;
     public final EObject entryRuleReferenceAtt() throws RecognitionException {
         EObject current = null;
 
@@ -21070,8 +21084,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7506:53: (iv_ruleReferenceAtt= ruleReferenceAtt EOF )
-            // InternalWodel.g:7507:2: iv_ruleReferenceAtt= ruleReferenceAtt EOF
+            // InternalWodel.g:7514:53: (iv_ruleReferenceAtt= ruleReferenceAtt EOF )
+            // InternalWodel.g:7515:2: iv_ruleReferenceAtt= ruleReferenceAtt EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReferenceAttRule()); 
@@ -21102,7 +21116,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceAtt"
-    // InternalWodel.g:7513:1: ruleReferenceAtt returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) ;
+    // InternalWodel.g:7521:1: ruleReferenceAtt returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) ;
     public final EObject ruleReferenceAtt() throws RecognitionException {
         EObject current = null;
 
@@ -21116,17 +21130,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7519:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) )
-            // InternalWodel.g:7520:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
+            // InternalWodel.g:7527:2: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) )
+            // InternalWodel.g:7528:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
             {
-            // InternalWodel.g:7520:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
-            // InternalWodel.g:7521:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) )
+            // InternalWodel.g:7528:2: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
+            // InternalWodel.g:7529:3: ( (otherlv_0= RULE_ID ) ) otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ( (lv_value_3_0= ruleAttributeType ) )
             {
-            // InternalWodel.g:7521:3: ( (otherlv_0= RULE_ID ) )
-            // InternalWodel.g:7522:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7529:3: ( (otherlv_0= RULE_ID ) )
+            // InternalWodel.g:7530:4: (otherlv_0= RULE_ID )
             {
-            // InternalWodel.g:7522:4: (otherlv_0= RULE_ID )
-            // InternalWodel.g:7523:5: otherlv_0= RULE_ID
+            // InternalWodel.g:7530:4: (otherlv_0= RULE_ID )
+            // InternalWodel.g:7531:5: otherlv_0= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -21158,11 +21172,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getReferenceAttAccess().getFullStopKeyword_1());
               		
             }
-            // InternalWodel.g:7541:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:7542:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7549:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:7550:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:7542:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:7543:5: otherlv_2= RULE_ID
+            // InternalWodel.g:7550:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:7551:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -21188,11 +21202,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7557:3: ( (lv_value_3_0= ruleAttributeType ) )
-            // InternalWodel.g:7558:4: (lv_value_3_0= ruleAttributeType )
+            // InternalWodel.g:7565:3: ( (lv_value_3_0= ruleAttributeType ) )
+            // InternalWodel.g:7566:4: (lv_value_3_0= ruleAttributeType )
             {
-            // InternalWodel.g:7558:4: (lv_value_3_0= ruleAttributeType )
-            // InternalWodel.g:7559:5: lv_value_3_0= ruleAttributeType
+            // InternalWodel.g:7566:4: (lv_value_3_0= ruleAttributeType )
+            // InternalWodel.g:7567:5: lv_value_3_0= ruleAttributeType
             {
             if ( state.backtracking==0 ) {
 
@@ -21248,7 +21262,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomTypeSelection"
-    // InternalWodel.g:7580:1: entryRuleRandomTypeSelection returns [EObject current=null] : iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF ;
+    // InternalWodel.g:7588:1: entryRuleRandomTypeSelection returns [EObject current=null] : iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF ;
     public final EObject entryRuleRandomTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -21256,8 +21270,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7580:60: (iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF )
-            // InternalWodel.g:7581:2: iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF
+            // InternalWodel.g:7588:60: (iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF )
+            // InternalWodel.g:7589:2: iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomTypeSelectionRule()); 
@@ -21288,7 +21302,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomTypeSelection"
-    // InternalWodel.g:7587:1: ruleRandomTypeSelection returns [EObject current=null] : ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? ) ;
+    // InternalWodel.g:7595:1: ruleRandomTypeSelection returns [EObject current=null] : ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? ) ;
     public final EObject ruleRandomTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -21318,14 +21332,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7593:2: ( ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? ) )
-            // InternalWodel.g:7594:2: ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? )
+            // InternalWodel.g:7601:2: ( ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? ) )
+            // InternalWodel.g:7602:2: ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? )
             {
-            // InternalWodel.g:7594:2: ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? )
-            // InternalWodel.g:7595:3: () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )?
+            // InternalWodel.g:7602:2: ( () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )? )
+            // InternalWodel.g:7603:3: () otherlv_1= 'one' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )? (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )?
             {
-            // InternalWodel.g:7595:3: ()
-            // InternalWodel.g:7596:4: 
+            // InternalWodel.g:7603:3: ()
+            // InternalWodel.g:7604:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -21348,7 +21362,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getRandomTypeSelectionAccess().getOneKeyword_1());
               		
             }
-            // InternalWodel.g:7609:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
+            // InternalWodel.g:7617:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
             int alt146=2;
             int LA146_0 = input.LA(1);
 
@@ -21367,13 +21381,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt146) {
                 case 1 :
-                    // InternalWodel.g:7610:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:7618:4: ( (otherlv_2= RULE_ID ) )
                     {
-                    // InternalWodel.g:7610:4: ( (otherlv_2= RULE_ID ) )
-                    // InternalWodel.g:7611:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:7618:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:7619:5: (otherlv_2= RULE_ID )
                     {
-                    // InternalWodel.g:7611:5: (otherlv_2= RULE_ID )
-                    // InternalWodel.g:7612:6: otherlv_2= RULE_ID
+                    // InternalWodel.g:7619:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:7620:6: otherlv_2= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -21403,10 +21417,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:7627:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:7635:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
                     {
-                    // InternalWodel.g:7627:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
-                    // InternalWodel.g:7628:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
+                    // InternalWodel.g:7635:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:7636:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
                     {
                     otherlv_3=(Token)match(input,30,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -21414,11 +21428,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_3, grammarAccess.getRandomTypeSelectionAccess().getLeftSquareBracketKeyword_2_1_0());
                       				
                     }
-                    // InternalWodel.g:7632:5: ( (otherlv_4= RULE_ID ) )
-                    // InternalWodel.g:7633:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:7640:5: ( (otherlv_4= RULE_ID ) )
+                    // InternalWodel.g:7641:6: (otherlv_4= RULE_ID )
                     {
-                    // InternalWodel.g:7633:6: (otherlv_4= RULE_ID )
-                    // InternalWodel.g:7634:7: otherlv_4= RULE_ID
+                    // InternalWodel.g:7641:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:7642:7: otherlv_4= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -21444,7 +21458,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:7648:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
+                    // InternalWodel.g:7656:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
                     loop145:
                     do {
                         int alt145=2;
@@ -21457,7 +21471,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt145) {
                     	case 1 :
-                    	    // InternalWodel.g:7649:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:7657:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
                     	    {
                     	    otherlv_5=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -21465,11 +21479,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      						newLeafNode(otherlv_5, grammarAccess.getRandomTypeSelectionAccess().getCommaKeyword_2_1_2_0());
                     	      					
                     	    }
-                    	    // InternalWodel.g:7653:6: ( (otherlv_6= RULE_ID ) )
-                    	    // InternalWodel.g:7654:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:7661:6: ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:7662:7: (otherlv_6= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:7654:7: (otherlv_6= RULE_ID )
-                    	    // InternalWodel.g:7655:8: otherlv_6= RULE_ID
+                    	    // InternalWodel.g:7662:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:7663:8: otherlv_6= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -21519,7 +21533,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7676:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
+            // InternalWodel.g:7684:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
             int alt149=2;
             int LA149_0 = input.LA(1);
 
@@ -21536,7 +21550,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt149) {
                 case 1 :
-                    // InternalWodel.g:7677:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:7685:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     {
                     otherlv_8=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -21544,11 +21558,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_8, grammarAccess.getRandomTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:7681:4: ( (otherlv_9= RULE_ID ) )
-                    // InternalWodel.g:7682:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:7689:4: ( (otherlv_9= RULE_ID ) )
+                    // InternalWodel.g:7690:5: (otherlv_9= RULE_ID )
                     {
-                    // InternalWodel.g:7682:5: (otherlv_9= RULE_ID )
-                    // InternalWodel.g:7683:6: otherlv_9= RULE_ID
+                    // InternalWodel.g:7690:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:7691:6: otherlv_9= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -21574,7 +21588,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:7697:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:7705:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     int alt148=2;
                     int LA148_0 = input.LA(1);
 
@@ -21591,7 +21605,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt148) {
                         case 1 :
-                            // InternalWodel.g:7698:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:7706:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             {
                             otherlv_10=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
@@ -21599,11 +21613,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               					newLeafNode(otherlv_10, grammarAccess.getRandomTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_0());
                               				
                             }
-                            // InternalWodel.g:7702:5: ( (otherlv_11= RULE_ID ) )
-                            // InternalWodel.g:7703:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:7710:5: ( (otherlv_11= RULE_ID ) )
+                            // InternalWodel.g:7711:6: (otherlv_11= RULE_ID )
                             {
-                            // InternalWodel.g:7703:6: (otherlv_11= RULE_ID )
-                            // InternalWodel.g:7704:7: otherlv_11= RULE_ID
+                            // InternalWodel.g:7711:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:7712:7: otherlv_11= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -21629,7 +21643,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:7718:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:7726:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             int alt147=2;
                             int LA147_0 = input.LA(1);
 
@@ -21646,7 +21660,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt147) {
                                 case 1 :
-                                    // InternalWodel.g:7719:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:7727:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
                                     {
                                     otherlv_12=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
@@ -21654,11 +21668,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                                       						newLeafNode(otherlv_12, grammarAccess.getRandomTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_2_0());
                                       					
                                     }
-                                    // InternalWodel.g:7723:6: ( (otherlv_13= RULE_ID ) )
-                                    // InternalWodel.g:7724:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:7731:6: ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:7732:7: (otherlv_13= RULE_ID )
                                     {
-                                    // InternalWodel.g:7724:7: (otherlv_13= RULE_ID )
-                                    // InternalWodel.g:7725:8: otherlv_13= RULE_ID
+                                    // InternalWodel.g:7732:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:7733:8: otherlv_13= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
@@ -21702,7 +21716,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7742:3: (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )?
+            // InternalWodel.g:7750:3: (otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources' )?
             int alt150=2;
             int LA150_0 = input.LA(1);
 
@@ -21719,7 +21733,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt150) {
                 case 1 :
-                    // InternalWodel.g:7743:4: otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources'
+                    // InternalWodel.g:7751:4: otherlv_14= 'from' ( (lv_resource_15_0= RULE_ID ) ) otherlv_16= 'resources'
                     {
                     otherlv_14=(Token)match(input,24,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -21727,11 +21741,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_14, grammarAccess.getRandomTypeSelectionAccess().getFromKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:7747:4: ( (lv_resource_15_0= RULE_ID ) )
-                    // InternalWodel.g:7748:5: (lv_resource_15_0= RULE_ID )
+                    // InternalWodel.g:7755:4: ( (lv_resource_15_0= RULE_ID ) )
+                    // InternalWodel.g:7756:5: (lv_resource_15_0= RULE_ID )
                     {
-                    // InternalWodel.g:7748:5: (lv_resource_15_0= RULE_ID )
-                    // InternalWodel.g:7749:6: lv_resource_15_0= RULE_ID
+                    // InternalWodel.g:7756:5: (lv_resource_15_0= RULE_ID )
+                    // InternalWodel.g:7757:6: lv_resource_15_0= RULE_ID
                     {
                     lv_resource_15_0=(Token)match(input,RULE_ID,FOLLOW_19); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -21769,7 +21783,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7770:3: (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )?
+            // InternalWodel.g:7778:3: (otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}' )?
             int alt151=2;
             int LA151_0 = input.LA(1);
 
@@ -21778,7 +21792,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt151) {
                 case 1 :
-                    // InternalWodel.g:7771:4: otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}'
+                    // InternalWodel.g:7779:4: otherlv_17= 'where' otherlv_18= '{' ( (lv_expression_19_0= ruleExpression ) ) otherlv_20= '}'
                     {
                     otherlv_17=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -21792,11 +21806,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_18, grammarAccess.getRandomTypeSelectionAccess().getLeftCurlyBracketKeyword_5_1());
                       			
                     }
-                    // InternalWodel.g:7779:4: ( (lv_expression_19_0= ruleExpression ) )
-                    // InternalWodel.g:7780:5: (lv_expression_19_0= ruleExpression )
+                    // InternalWodel.g:7787:4: ( (lv_expression_19_0= ruleExpression ) )
+                    // InternalWodel.g:7788:5: (lv_expression_19_0= ruleExpression )
                     {
-                    // InternalWodel.g:7780:5: (lv_expression_19_0= ruleExpression )
-                    // InternalWodel.g:7781:6: lv_expression_19_0= ruleExpression
+                    // InternalWodel.g:7788:5: (lv_expression_19_0= ruleExpression )
+                    // InternalWodel.g:7789:6: lv_expression_19_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -21864,7 +21878,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificObjectSelection"
-    // InternalWodel.g:7807:1: entryRuleSpecificObjectSelection returns [EObject current=null] : iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF ;
+    // InternalWodel.g:7815:1: entryRuleSpecificObjectSelection returns [EObject current=null] : iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF ;
     public final EObject entryRuleSpecificObjectSelection() throws RecognitionException {
         EObject current = null;
 
@@ -21872,8 +21886,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7807:64: (iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF )
-            // InternalWodel.g:7808:2: iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF
+            // InternalWodel.g:7815:64: (iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF )
+            // InternalWodel.g:7816:2: iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificObjectSelectionRule()); 
@@ -21904,7 +21918,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificObjectSelection"
-    // InternalWodel.g:7814:1: ruleSpecificObjectSelection returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) ;
+    // InternalWodel.g:7822:1: ruleSpecificObjectSelection returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) ;
     public final EObject ruleSpecificObjectSelection() throws RecognitionException {
         EObject current = null;
 
@@ -21925,14 +21939,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7820:2: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) )
-            // InternalWodel.g:7821:2: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
+            // InternalWodel.g:7828:2: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) )
+            // InternalWodel.g:7829:2: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
             {
-            // InternalWodel.g:7821:2: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
-            // InternalWodel.g:7822:3: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
+            // InternalWodel.g:7829:2: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
+            // InternalWodel.g:7830:3: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )? (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
             {
-            // InternalWodel.g:7822:3: ()
-            // InternalWodel.g:7823:4: 
+            // InternalWodel.g:7830:3: ()
+            // InternalWodel.g:7831:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -21949,11 +21963,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7832:3: ( (otherlv_1= RULE_ID ) )
-            // InternalWodel.g:7833:4: (otherlv_1= RULE_ID )
+            // InternalWodel.g:7840:3: ( (otherlv_1= RULE_ID ) )
+            // InternalWodel.g:7841:4: (otherlv_1= RULE_ID )
             {
-            // InternalWodel.g:7833:4: (otherlv_1= RULE_ID )
-            // InternalWodel.g:7834:5: otherlv_1= RULE_ID
+            // InternalWodel.g:7841:4: (otherlv_1= RULE_ID )
+            // InternalWodel.g:7842:5: otherlv_1= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -21979,7 +21993,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7848:3: (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )?
+            // InternalWodel.g:7856:3: (otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )? )?
             int alt154=2;
             int LA154_0 = input.LA(1);
 
@@ -21996,7 +22010,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt154) {
                 case 1 :
-                    // InternalWodel.g:7849:4: otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )?
+                    // InternalWodel.g:7857:4: otherlv_2= '->' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )?
                     {
                     otherlv_2=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22004,11 +22018,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_2, grammarAccess.getSpecificObjectSelectionAccess().getHyphenMinusGreaterThanSignKeyword_2_0());
                       			
                     }
-                    // InternalWodel.g:7853:4: ( (otherlv_3= RULE_ID ) )
-                    // InternalWodel.g:7854:5: (otherlv_3= RULE_ID )
+                    // InternalWodel.g:7861:4: ( (otherlv_3= RULE_ID ) )
+                    // InternalWodel.g:7862:5: (otherlv_3= RULE_ID )
                     {
-                    // InternalWodel.g:7854:5: (otherlv_3= RULE_ID )
-                    // InternalWodel.g:7855:6: otherlv_3= RULE_ID
+                    // InternalWodel.g:7862:5: (otherlv_3= RULE_ID )
+                    // InternalWodel.g:7863:6: otherlv_3= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22034,7 +22048,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:7869:4: (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )?
+                    // InternalWodel.g:7877:4: (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )? )?
                     int alt153=2;
                     int LA153_0 = input.LA(1);
 
@@ -22051,7 +22065,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt153) {
                         case 1 :
-                            // InternalWodel.g:7870:5: otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )?
+                            // InternalWodel.g:7878:5: otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )?
                             {
                             otherlv_4=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
@@ -22059,11 +22073,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               					newLeafNode(otherlv_4, grammarAccess.getSpecificObjectSelectionAccess().getHyphenMinusGreaterThanSignKeyword_2_2_0());
                               				
                             }
-                            // InternalWodel.g:7874:5: ( (otherlv_5= RULE_ID ) )
-                            // InternalWodel.g:7875:6: (otherlv_5= RULE_ID )
+                            // InternalWodel.g:7882:5: ( (otherlv_5= RULE_ID ) )
+                            // InternalWodel.g:7883:6: (otherlv_5= RULE_ID )
                             {
-                            // InternalWodel.g:7875:6: (otherlv_5= RULE_ID )
-                            // InternalWodel.g:7876:7: otherlv_5= RULE_ID
+                            // InternalWodel.g:7883:6: (otherlv_5= RULE_ID )
+                            // InternalWodel.g:7884:7: otherlv_5= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -22089,7 +22103,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:7890:5: (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )?
+                            // InternalWodel.g:7898:5: (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) )?
                             int alt152=2;
                             int LA152_0 = input.LA(1);
 
@@ -22106,7 +22120,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt152) {
                                 case 1 :
-                                    // InternalWodel.g:7891:6: otherlv_6= '->' ( (otherlv_7= RULE_ID ) )
+                                    // InternalWodel.g:7899:6: otherlv_6= '->' ( (otherlv_7= RULE_ID ) )
                                     {
                                     otherlv_6=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
@@ -22114,11 +22128,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                                       						newLeafNode(otherlv_6, grammarAccess.getSpecificObjectSelectionAccess().getHyphenMinusGreaterThanSignKeyword_2_2_2_0());
                                       					
                                     }
-                                    // InternalWodel.g:7895:6: ( (otherlv_7= RULE_ID ) )
-                                    // InternalWodel.g:7896:7: (otherlv_7= RULE_ID )
+                                    // InternalWodel.g:7903:6: ( (otherlv_7= RULE_ID ) )
+                                    // InternalWodel.g:7904:7: (otherlv_7= RULE_ID )
                                     {
-                                    // InternalWodel.g:7896:7: (otherlv_7= RULE_ID )
-                                    // InternalWodel.g:7897:8: otherlv_7= RULE_ID
+                                    // InternalWodel.g:7904:7: (otherlv_7= RULE_ID )
+                                    // InternalWodel.g:7905:8: otherlv_7= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
@@ -22162,7 +22176,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:7914:3: (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
+            // InternalWodel.g:7922:3: (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
             int alt155=2;
             int LA155_0 = input.LA(1);
 
@@ -22171,7 +22185,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt155) {
                 case 1 :
-                    // InternalWodel.g:7915:4: otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}'
+                    // InternalWodel.g:7923:4: otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}'
                     {
                     otherlv_8=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22185,11 +22199,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_9, grammarAccess.getSpecificObjectSelectionAccess().getLeftCurlyBracketKeyword_3_1());
                       			
                     }
-                    // InternalWodel.g:7923:4: ( (lv_expression_10_0= ruleExpression ) )
-                    // InternalWodel.g:7924:5: (lv_expression_10_0= ruleExpression )
+                    // InternalWodel.g:7931:4: ( (lv_expression_10_0= ruleExpression ) )
+                    // InternalWodel.g:7932:5: (lv_expression_10_0= ruleExpression )
                     {
-                    // InternalWodel.g:7924:5: (lv_expression_10_0= ruleExpression )
-                    // InternalWodel.g:7925:6: lv_expression_10_0= ruleExpression
+                    // InternalWodel.g:7932:5: (lv_expression_10_0= ruleExpression )
+                    // InternalWodel.g:7933:6: lv_expression_10_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22257,7 +22271,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificClosureSelection"
-    // InternalWodel.g:7951:1: entryRuleSpecificClosureSelection returns [EObject current=null] : iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF ;
+    // InternalWodel.g:7959:1: entryRuleSpecificClosureSelection returns [EObject current=null] : iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF ;
     public final EObject entryRuleSpecificClosureSelection() throws RecognitionException {
         EObject current = null;
 
@@ -22265,8 +22279,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:7951:65: (iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF )
-            // InternalWodel.g:7952:2: iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF
+            // InternalWodel.g:7959:65: (iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF )
+            // InternalWodel.g:7960:2: iv_ruleSpecificClosureSelection= ruleSpecificClosureSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificClosureSelectionRule()); 
@@ -22297,7 +22311,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificClosureSelection"
-    // InternalWodel.g:7958:1: ruleSpecificClosureSelection returns [EObject current=null] : ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? ) ;
+    // InternalWodel.g:7966:1: ruleSpecificClosureSelection returns [EObject current=null] : ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? ) ;
     public final EObject ruleSpecificClosureSelection() throws RecognitionException {
         EObject current = null;
 
@@ -22321,14 +22335,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:7964:2: ( ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? ) )
-            // InternalWodel.g:7965:2: ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? )
+            // InternalWodel.g:7972:2: ( ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? ) )
+            // InternalWodel.g:7973:2: ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? )
             {
-            // InternalWodel.g:7965:2: ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? )
-            // InternalWodel.g:7966:3: () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )?
+            // InternalWodel.g:7973:2: ( () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )? )
+            // InternalWodel.g:7974:3: () otherlv_1= 'closure' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )? otherlv_10= ')' (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )?
             {
-            // InternalWodel.g:7966:3: ()
-            // InternalWodel.g:7967:4: 
+            // InternalWodel.g:7974:3: ()
+            // InternalWodel.g:7975:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -22357,11 +22371,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getSpecificClosureSelectionAccess().getLeftParenthesisKeyword_2());
               		
             }
-            // InternalWodel.g:7984:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:7985:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:7992:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:7993:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:7985:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:7986:5: otherlv_3= RULE_ID
+            // InternalWodel.g:7993:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:7994:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -22387,7 +22401,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8000:3: (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )?
+            // InternalWodel.g:8008:3: (otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )? )?
             int alt158=2;
             int LA158_0 = input.LA(1);
 
@@ -22396,7 +22410,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt158) {
                 case 1 :
-                    // InternalWodel.g:8001:4: otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8009:4: otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )?
                     {
                     otherlv_4=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22404,11 +22418,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_4, grammarAccess.getSpecificClosureSelectionAccess().getHyphenMinusGreaterThanSignKeyword_4_0());
                       			
                     }
-                    // InternalWodel.g:8005:4: ( (otherlv_5= RULE_ID ) )
-                    // InternalWodel.g:8006:5: (otherlv_5= RULE_ID )
+                    // InternalWodel.g:8013:4: ( (otherlv_5= RULE_ID ) )
+                    // InternalWodel.g:8014:5: (otherlv_5= RULE_ID )
                     {
-                    // InternalWodel.g:8006:5: (otherlv_5= RULE_ID )
-                    // InternalWodel.g:8007:6: otherlv_5= RULE_ID
+                    // InternalWodel.g:8014:5: (otherlv_5= RULE_ID )
+                    // InternalWodel.g:8015:6: otherlv_5= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22434,7 +22448,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8021:4: (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8029:4: (otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )? )?
                     int alt157=2;
                     int LA157_0 = input.LA(1);
 
@@ -22443,7 +22457,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt157) {
                         case 1 :
-                            // InternalWodel.g:8022:5: otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )?
+                            // InternalWodel.g:8030:5: otherlv_6= '->' ( (otherlv_7= RULE_ID ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )?
                             {
                             otherlv_6=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
@@ -22451,11 +22465,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               					newLeafNode(otherlv_6, grammarAccess.getSpecificClosureSelectionAccess().getHyphenMinusGreaterThanSignKeyword_4_2_0());
                               				
                             }
-                            // InternalWodel.g:8026:5: ( (otherlv_7= RULE_ID ) )
-                            // InternalWodel.g:8027:6: (otherlv_7= RULE_ID )
+                            // InternalWodel.g:8034:5: ( (otherlv_7= RULE_ID ) )
+                            // InternalWodel.g:8035:6: (otherlv_7= RULE_ID )
                             {
-                            // InternalWodel.g:8027:6: (otherlv_7= RULE_ID )
-                            // InternalWodel.g:8028:7: otherlv_7= RULE_ID
+                            // InternalWodel.g:8035:6: (otherlv_7= RULE_ID )
+                            // InternalWodel.g:8036:7: otherlv_7= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -22481,7 +22495,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:8042:5: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )?
+                            // InternalWodel.g:8050:5: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) )?
                             int alt156=2;
                             int LA156_0 = input.LA(1);
 
@@ -22490,7 +22504,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt156) {
                                 case 1 :
-                                    // InternalWodel.g:8043:6: otherlv_8= '->' ( (otherlv_9= RULE_ID ) )
+                                    // InternalWodel.g:8051:6: otherlv_8= '->' ( (otherlv_9= RULE_ID ) )
                                     {
                                     otherlv_8=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
@@ -22498,11 +22512,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                                       						newLeafNode(otherlv_8, grammarAccess.getSpecificClosureSelectionAccess().getHyphenMinusGreaterThanSignKeyword_4_2_2_0());
                                       					
                                     }
-                                    // InternalWodel.g:8047:6: ( (otherlv_9= RULE_ID ) )
-                                    // InternalWodel.g:8048:7: (otherlv_9= RULE_ID )
+                                    // InternalWodel.g:8055:6: ( (otherlv_9= RULE_ID ) )
+                                    // InternalWodel.g:8056:7: (otherlv_9= RULE_ID )
                                     {
-                                    // InternalWodel.g:8048:7: (otherlv_9= RULE_ID )
-                                    // InternalWodel.g:8049:8: otherlv_9= RULE_ID
+                                    // InternalWodel.g:8056:7: (otherlv_9= RULE_ID )
+                                    // InternalWodel.g:8057:8: otherlv_9= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
@@ -22552,7 +22566,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_10, grammarAccess.getSpecificClosureSelectionAccess().getRightParenthesisKeyword_5());
               		
             }
-            // InternalWodel.g:8070:3: (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )?
+            // InternalWodel.g:8078:3: (otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}' )?
             int alt159=2;
             int LA159_0 = input.LA(1);
 
@@ -22561,7 +22575,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt159) {
                 case 1 :
-                    // InternalWodel.g:8071:4: otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}'
+                    // InternalWodel.g:8079:4: otherlv_11= 'where' otherlv_12= '{' ( (lv_expression_13_0= ruleExpression ) ) otherlv_14= '}'
                     {
                     otherlv_11=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22575,11 +22589,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_12, grammarAccess.getSpecificClosureSelectionAccess().getLeftCurlyBracketKeyword_6_1());
                       			
                     }
-                    // InternalWodel.g:8079:4: ( (lv_expression_13_0= ruleExpression ) )
-                    // InternalWodel.g:8080:5: (lv_expression_13_0= ruleExpression )
+                    // InternalWodel.g:8087:4: ( (lv_expression_13_0= ruleExpression ) )
+                    // InternalWodel.g:8088:5: (lv_expression_13_0= ruleExpression )
                     {
-                    // InternalWodel.g:8080:5: (lv_expression_13_0= ruleExpression )
-                    // InternalWodel.g:8081:6: lv_expression_13_0= ruleExpression
+                    // InternalWodel.g:8088:5: (lv_expression_13_0= ruleExpression )
+                    // InternalWodel.g:8089:6: lv_expression_13_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22647,7 +22661,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCompleteTypeSelection"
-    // InternalWodel.g:8107:1: entryRuleCompleteTypeSelection returns [EObject current=null] : iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF ;
+    // InternalWodel.g:8115:1: entryRuleCompleteTypeSelection returns [EObject current=null] : iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF ;
     public final EObject entryRuleCompleteTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -22655,8 +22669,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8107:62: (iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF )
-            // InternalWodel.g:8108:2: iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF
+            // InternalWodel.g:8115:62: (iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF )
+            // InternalWodel.g:8116:2: iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCompleteTypeSelectionRule()); 
@@ -22687,7 +22701,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCompleteTypeSelection"
-    // InternalWodel.g:8114:1: ruleCompleteTypeSelection returns [EObject current=null] : ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) ;
+    // InternalWodel.g:8122:1: ruleCompleteTypeSelection returns [EObject current=null] : ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) ;
     public final EObject ruleCompleteTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -22714,14 +22728,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8120:2: ( ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) )
-            // InternalWodel.g:8121:2: ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
+            // InternalWodel.g:8128:2: ( ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) )
+            // InternalWodel.g:8129:2: ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
             {
-            // InternalWodel.g:8121:2: ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
-            // InternalWodel.g:8122:3: () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
+            // InternalWodel.g:8129:2: ( () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
+            // InternalWodel.g:8130:3: () otherlv_1= 'all' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
             {
-            // InternalWodel.g:8122:3: ()
-            // InternalWodel.g:8123:4: 
+            // InternalWodel.g:8130:3: ()
+            // InternalWodel.g:8131:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -22744,7 +22758,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getCompleteTypeSelectionAccess().getAllKeyword_1());
               		
             }
-            // InternalWodel.g:8136:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
+            // InternalWodel.g:8144:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
             int alt161=2;
             int LA161_0 = input.LA(1);
 
@@ -22763,13 +22777,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt161) {
                 case 1 :
-                    // InternalWodel.g:8137:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8145:4: ( (otherlv_2= RULE_ID ) )
                     {
-                    // InternalWodel.g:8137:4: ( (otherlv_2= RULE_ID ) )
-                    // InternalWodel.g:8138:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8145:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8146:5: (otherlv_2= RULE_ID )
                     {
-                    // InternalWodel.g:8138:5: (otherlv_2= RULE_ID )
-                    // InternalWodel.g:8139:6: otherlv_2= RULE_ID
+                    // InternalWodel.g:8146:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8147:6: otherlv_2= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22799,10 +22813,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:8154:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8162:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
                     {
-                    // InternalWodel.g:8154:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
-                    // InternalWodel.g:8155:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
+                    // InternalWodel.g:8162:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8163:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
                     {
                     otherlv_3=(Token)match(input,30,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22810,11 +22824,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_3, grammarAccess.getCompleteTypeSelectionAccess().getLeftSquareBracketKeyword_2_1_0());
                       				
                     }
-                    // InternalWodel.g:8159:5: ( (otherlv_4= RULE_ID ) )
-                    // InternalWodel.g:8160:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8167:5: ( (otherlv_4= RULE_ID ) )
+                    // InternalWodel.g:8168:6: (otherlv_4= RULE_ID )
                     {
-                    // InternalWodel.g:8160:6: (otherlv_4= RULE_ID )
-                    // InternalWodel.g:8161:7: otherlv_4= RULE_ID
+                    // InternalWodel.g:8168:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8169:7: otherlv_4= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22840,7 +22854,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8175:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
+                    // InternalWodel.g:8183:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
                     loop160:
                     do {
                         int alt160=2;
@@ -22853,7 +22867,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt160) {
                     	case 1 :
-                    	    // InternalWodel.g:8176:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8184:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
                     	    {
                     	    otherlv_5=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -22861,11 +22875,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      						newLeafNode(otherlv_5, grammarAccess.getCompleteTypeSelectionAccess().getCommaKeyword_2_1_2_0());
                     	      					
                     	    }
-                    	    // InternalWodel.g:8180:6: ( (otherlv_6= RULE_ID ) )
-                    	    // InternalWodel.g:8181:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8188:6: ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8189:7: (otherlv_6= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:8181:7: (otherlv_6= RULE_ID )
-                    	    // InternalWodel.g:8182:8: otherlv_6= RULE_ID
+                    	    // InternalWodel.g:8189:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8190:8: otherlv_6= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -22915,7 +22929,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8203:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
+            // InternalWodel.g:8211:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
             int alt164=2;
             int LA164_0 = input.LA(1);
 
@@ -22932,7 +22946,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt164) {
                 case 1 :
-                    // InternalWodel.g:8204:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8212:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     {
                     otherlv_8=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -22940,11 +22954,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_8, grammarAccess.getCompleteTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:8208:4: ( (otherlv_9= RULE_ID ) )
-                    // InternalWodel.g:8209:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:8216:4: ( (otherlv_9= RULE_ID ) )
+                    // InternalWodel.g:8217:5: (otherlv_9= RULE_ID )
                     {
-                    // InternalWodel.g:8209:5: (otherlv_9= RULE_ID )
-                    // InternalWodel.g:8210:6: otherlv_9= RULE_ID
+                    // InternalWodel.g:8217:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:8218:6: otherlv_9= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -22970,7 +22984,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8224:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8232:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     int alt163=2;
                     int LA163_0 = input.LA(1);
 
@@ -22987,7 +23001,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt163) {
                         case 1 :
-                            // InternalWodel.g:8225:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:8233:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             {
                             otherlv_10=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
@@ -22995,11 +23009,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               					newLeafNode(otherlv_10, grammarAccess.getCompleteTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_0());
                               				
                             }
-                            // InternalWodel.g:8229:5: ( (otherlv_11= RULE_ID ) )
-                            // InternalWodel.g:8230:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:8237:5: ( (otherlv_11= RULE_ID ) )
+                            // InternalWodel.g:8238:6: (otherlv_11= RULE_ID )
                             {
-                            // InternalWodel.g:8230:6: (otherlv_11= RULE_ID )
-                            // InternalWodel.g:8231:7: otherlv_11= RULE_ID
+                            // InternalWodel.g:8238:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:8239:7: otherlv_11= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -23025,7 +23039,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:8245:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:8253:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             int alt162=2;
                             int LA162_0 = input.LA(1);
 
@@ -23042,7 +23056,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt162) {
                                 case 1 :
-                                    // InternalWodel.g:8246:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:8254:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
                                     {
                                     otherlv_12=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
@@ -23050,11 +23064,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                                       						newLeafNode(otherlv_12, grammarAccess.getCompleteTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_2_0());
                                       					
                                     }
-                                    // InternalWodel.g:8250:6: ( (otherlv_13= RULE_ID ) )
-                                    // InternalWodel.g:8251:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:8258:6: ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:8259:7: (otherlv_13= RULE_ID )
                                     {
-                                    // InternalWodel.g:8251:7: (otherlv_13= RULE_ID )
-                                    // InternalWodel.g:8252:8: otherlv_13= RULE_ID
+                                    // InternalWodel.g:8259:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:8260:8: otherlv_13= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
@@ -23098,7 +23112,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8269:3: (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
+            // InternalWodel.g:8277:3: (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
             int alt165=2;
             int LA165_0 = input.LA(1);
 
@@ -23107,7 +23121,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt165) {
                 case 1 :
-                    // InternalWodel.g:8270:4: otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}'
+                    // InternalWodel.g:8278:4: otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}'
                     {
                     otherlv_14=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -23121,11 +23135,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_15, grammarAccess.getCompleteTypeSelectionAccess().getLeftCurlyBracketKeyword_4_1());
                       			
                     }
-                    // InternalWodel.g:8278:4: ( (lv_expression_16_0= ruleExpression ) )
-                    // InternalWodel.g:8279:5: (lv_expression_16_0= ruleExpression )
+                    // InternalWodel.g:8286:4: ( (lv_expression_16_0= ruleExpression ) )
+                    // InternalWodel.g:8287:5: (lv_expression_16_0= ruleExpression )
                     {
-                    // InternalWodel.g:8279:5: (lv_expression_16_0= ruleExpression )
-                    // InternalWodel.g:8280:6: lv_expression_16_0= ruleExpression
+                    // InternalWodel.g:8287:5: (lv_expression_16_0= ruleExpression )
+                    // InternalWodel.g:8288:6: lv_expression_16_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23193,7 +23207,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOtherTypeSelection"
-    // InternalWodel.g:8306:1: entryRuleOtherTypeSelection returns [EObject current=null] : iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF ;
+    // InternalWodel.g:8314:1: entryRuleOtherTypeSelection returns [EObject current=null] : iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF ;
     public final EObject entryRuleOtherTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -23201,8 +23215,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8306:59: (iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF )
-            // InternalWodel.g:8307:2: iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF
+            // InternalWodel.g:8314:59: (iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF )
+            // InternalWodel.g:8315:2: iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getOtherTypeSelectionRule()); 
@@ -23233,7 +23247,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOtherTypeSelection"
-    // InternalWodel.g:8313:1: ruleOtherTypeSelection returns [EObject current=null] : ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) ;
+    // InternalWodel.g:8321:1: ruleOtherTypeSelection returns [EObject current=null] : ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) ;
     public final EObject ruleOtherTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -23260,14 +23274,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8319:2: ( ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) )
-            // InternalWodel.g:8320:2: ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
+            // InternalWodel.g:8327:2: ( ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? ) )
+            // InternalWodel.g:8328:2: ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
             {
-            // InternalWodel.g:8320:2: ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
-            // InternalWodel.g:8321:3: () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
+            // InternalWodel.g:8328:2: ( () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )? )
+            // InternalWodel.g:8329:3: () otherlv_1= 'other' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )? (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
             {
-            // InternalWodel.g:8321:3: ()
-            // InternalWodel.g:8322:4: 
+            // InternalWodel.g:8329:3: ()
+            // InternalWodel.g:8330:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -23290,7 +23304,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getOtherTypeSelectionAccess().getOtherKeyword_1());
               		
             }
-            // InternalWodel.g:8335:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
+            // InternalWodel.g:8343:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
             int alt167=2;
             int LA167_0 = input.LA(1);
 
@@ -23309,13 +23323,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt167) {
                 case 1 :
-                    // InternalWodel.g:8336:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8344:4: ( (otherlv_2= RULE_ID ) )
                     {
-                    // InternalWodel.g:8336:4: ( (otherlv_2= RULE_ID ) )
-                    // InternalWodel.g:8337:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8344:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8345:5: (otherlv_2= RULE_ID )
                     {
-                    // InternalWodel.g:8337:5: (otherlv_2= RULE_ID )
-                    // InternalWodel.g:8338:6: otherlv_2= RULE_ID
+                    // InternalWodel.g:8345:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8346:6: otherlv_2= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23345,10 +23359,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:8353:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8361:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
                     {
-                    // InternalWodel.g:8353:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
-                    // InternalWodel.g:8354:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
+                    // InternalWodel.g:8361:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8362:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
                     {
                     otherlv_3=(Token)match(input,30,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -23356,11 +23370,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_3, grammarAccess.getOtherTypeSelectionAccess().getLeftSquareBracketKeyword_2_1_0());
                       				
                     }
-                    // InternalWodel.g:8358:5: ( (otherlv_4= RULE_ID ) )
-                    // InternalWodel.g:8359:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8366:5: ( (otherlv_4= RULE_ID ) )
+                    // InternalWodel.g:8367:6: (otherlv_4= RULE_ID )
                     {
-                    // InternalWodel.g:8359:6: (otherlv_4= RULE_ID )
-                    // InternalWodel.g:8360:7: otherlv_4= RULE_ID
+                    // InternalWodel.g:8367:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8368:7: otherlv_4= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23386,7 +23400,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8374:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
+                    // InternalWodel.g:8382:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
                     loop166:
                     do {
                         int alt166=2;
@@ -23399,7 +23413,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt166) {
                     	case 1 :
-                    	    // InternalWodel.g:8375:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8383:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
                     	    {
                     	    otherlv_5=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -23407,11 +23421,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      						newLeafNode(otherlv_5, grammarAccess.getOtherTypeSelectionAccess().getCommaKeyword_2_1_2_0());
                     	      					
                     	    }
-                    	    // InternalWodel.g:8379:6: ( (otherlv_6= RULE_ID ) )
-                    	    // InternalWodel.g:8380:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8387:6: ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8388:7: (otherlv_6= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:8380:7: (otherlv_6= RULE_ID )
-                    	    // InternalWodel.g:8381:8: otherlv_6= RULE_ID
+                    	    // InternalWodel.g:8388:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8389:8: otherlv_6= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -23461,7 +23475,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8402:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
+            // InternalWodel.g:8410:3: (otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )? )?
             int alt170=2;
             int LA170_0 = input.LA(1);
 
@@ -23478,7 +23492,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt170) {
                 case 1 :
-                    // InternalWodel.g:8403:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8411:4: otherlv_8= '->' ( (otherlv_9= RULE_ID ) ) (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     {
                     otherlv_8=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -23486,11 +23500,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_8, grammarAccess.getOtherTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:8407:4: ( (otherlv_9= RULE_ID ) )
-                    // InternalWodel.g:8408:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:8415:4: ( (otherlv_9= RULE_ID ) )
+                    // InternalWodel.g:8416:5: (otherlv_9= RULE_ID )
                     {
-                    // InternalWodel.g:8408:5: (otherlv_9= RULE_ID )
-                    // InternalWodel.g:8409:6: otherlv_9= RULE_ID
+                    // InternalWodel.g:8416:5: (otherlv_9= RULE_ID )
+                    // InternalWodel.g:8417:6: otherlv_9= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23516,7 +23530,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8423:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
+                    // InternalWodel.g:8431:4: (otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )? )?
                     int alt169=2;
                     int LA169_0 = input.LA(1);
 
@@ -23533,7 +23547,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     switch (alt169) {
                         case 1 :
-                            // InternalWodel.g:8424:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:8432:5: otherlv_10= '->' ( (otherlv_11= RULE_ID ) ) (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             {
                             otherlv_10=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                             if ( state.backtracking==0 ) {
@@ -23541,11 +23555,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                               					newLeafNode(otherlv_10, grammarAccess.getOtherTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_0());
                               				
                             }
-                            // InternalWodel.g:8428:5: ( (otherlv_11= RULE_ID ) )
-                            // InternalWodel.g:8429:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:8436:5: ( (otherlv_11= RULE_ID ) )
+                            // InternalWodel.g:8437:6: (otherlv_11= RULE_ID )
                             {
-                            // InternalWodel.g:8429:6: (otherlv_11= RULE_ID )
-                            // InternalWodel.g:8430:7: otherlv_11= RULE_ID
+                            // InternalWodel.g:8437:6: (otherlv_11= RULE_ID )
+                            // InternalWodel.g:8438:7: otherlv_11= RULE_ID
                             {
                             if ( state.backtracking==0 ) {
 
@@ -23571,7 +23585,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalWodel.g:8444:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
+                            // InternalWodel.g:8452:5: (otherlv_12= '->' ( (otherlv_13= RULE_ID ) ) )?
                             int alt168=2;
                             int LA168_0 = input.LA(1);
 
@@ -23588,7 +23602,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                             }
                             switch (alt168) {
                                 case 1 :
-                                    // InternalWodel.g:8445:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:8453:6: otherlv_12= '->' ( (otherlv_13= RULE_ID ) )
                                     {
                                     otherlv_12=(Token)match(input,39,FOLLOW_20); if (state.failed) return current;
                                     if ( state.backtracking==0 ) {
@@ -23596,11 +23610,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                                       						newLeafNode(otherlv_12, grammarAccess.getOtherTypeSelectionAccess().getHyphenMinusGreaterThanSignKeyword_3_2_2_0());
                                       					
                                     }
-                                    // InternalWodel.g:8449:6: ( (otherlv_13= RULE_ID ) )
-                                    // InternalWodel.g:8450:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:8457:6: ( (otherlv_13= RULE_ID ) )
+                                    // InternalWodel.g:8458:7: (otherlv_13= RULE_ID )
                                     {
-                                    // InternalWodel.g:8450:7: (otherlv_13= RULE_ID )
-                                    // InternalWodel.g:8451:8: otherlv_13= RULE_ID
+                                    // InternalWodel.g:8458:7: (otherlv_13= RULE_ID )
+                                    // InternalWodel.g:8459:8: otherlv_13= RULE_ID
                                     {
                                     if ( state.backtracking==0 ) {
 
@@ -23644,7 +23658,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8468:3: (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
+            // InternalWodel.g:8476:3: (otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}' )?
             int alt171=2;
             int LA171_0 = input.LA(1);
 
@@ -23653,7 +23667,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt171) {
                 case 1 :
-                    // InternalWodel.g:8469:4: otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}'
+                    // InternalWodel.g:8477:4: otherlv_14= 'where' otherlv_15= '{' ( (lv_expression_16_0= ruleExpression ) ) otherlv_17= '}'
                     {
                     otherlv_14=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -23667,11 +23681,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_15, grammarAccess.getOtherTypeSelectionAccess().getLeftCurlyBracketKeyword_4_1());
                       			
                     }
-                    // InternalWodel.g:8477:4: ( (lv_expression_16_0= ruleExpression ) )
-                    // InternalWodel.g:8478:5: (lv_expression_16_0= ruleExpression )
+                    // InternalWodel.g:8485:4: ( (lv_expression_16_0= ruleExpression ) )
+                    // InternalWodel.g:8486:5: (lv_expression_16_0= ruleExpression )
                     {
-                    // InternalWodel.g:8478:5: (lv_expression_16_0= ruleExpression )
-                    // InternalWodel.g:8479:6: lv_expression_16_0= ruleExpression
+                    // InternalWodel.g:8486:5: (lv_expression_16_0= ruleExpression )
+                    // InternalWodel.g:8487:6: lv_expression_16_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23739,7 +23753,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypedSelection"
-    // InternalWodel.g:8505:1: entryRuleTypedSelection returns [EObject current=null] : iv_ruleTypedSelection= ruleTypedSelection EOF ;
+    // InternalWodel.g:8513:1: entryRuleTypedSelection returns [EObject current=null] : iv_ruleTypedSelection= ruleTypedSelection EOF ;
     public final EObject entryRuleTypedSelection() throws RecognitionException {
         EObject current = null;
 
@@ -23747,8 +23761,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8505:55: (iv_ruleTypedSelection= ruleTypedSelection EOF )
-            // InternalWodel.g:8506:2: iv_ruleTypedSelection= ruleTypedSelection EOF
+            // InternalWodel.g:8513:55: (iv_ruleTypedSelection= ruleTypedSelection EOF )
+            // InternalWodel.g:8514:2: iv_ruleTypedSelection= ruleTypedSelection EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypedSelectionRule()); 
@@ -23779,7 +23793,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypedSelection"
-    // InternalWodel.g:8512:1: ruleTypedSelection returns [EObject current=null] : ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) ;
+    // InternalWodel.g:8520:1: ruleTypedSelection returns [EObject current=null] : ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) ;
     public final EObject ruleTypedSelection() throws RecognitionException {
         EObject current = null;
 
@@ -23800,14 +23814,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8518:2: ( ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) )
-            // InternalWodel.g:8519:2: ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
+            // InternalWodel.g:8526:2: ( ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? ) )
+            // InternalWodel.g:8527:2: ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
             {
-            // InternalWodel.g:8519:2: ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
-            // InternalWodel.g:8520:3: () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
+            // InternalWodel.g:8527:2: ( () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )? )
+            // InternalWodel.g:8528:3: () otherlv_1= 'typed' ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) ) (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
             {
-            // InternalWodel.g:8520:3: ()
-            // InternalWodel.g:8521:4: 
+            // InternalWodel.g:8528:3: ()
+            // InternalWodel.g:8529:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -23830,7 +23844,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_1, grammarAccess.getTypedSelectionAccess().getTypedKeyword_1());
               		
             }
-            // InternalWodel.g:8534:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
+            // InternalWodel.g:8542:3: ( ( (otherlv_2= RULE_ID ) ) | (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' ) )
             int alt173=2;
             int LA173_0 = input.LA(1);
 
@@ -23849,13 +23863,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt173) {
                 case 1 :
-                    // InternalWodel.g:8535:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8543:4: ( (otherlv_2= RULE_ID ) )
                     {
-                    // InternalWodel.g:8535:4: ( (otherlv_2= RULE_ID ) )
-                    // InternalWodel.g:8536:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8543:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalWodel.g:8544:5: (otherlv_2= RULE_ID )
                     {
-                    // InternalWodel.g:8536:5: (otherlv_2= RULE_ID )
-                    // InternalWodel.g:8537:6: otherlv_2= RULE_ID
+                    // InternalWodel.g:8544:5: (otherlv_2= RULE_ID )
+                    // InternalWodel.g:8545:6: otherlv_2= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23885,10 +23899,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:8552:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8560:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
                     {
-                    // InternalWodel.g:8552:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
-                    // InternalWodel.g:8553:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
+                    // InternalWodel.g:8560:4: (otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']' )
+                    // InternalWodel.g:8561:5: otherlv_3= '[' ( (otherlv_4= RULE_ID ) ) (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )* otherlv_7= ']'
                     {
                     otherlv_3=(Token)match(input,30,FOLLOW_20); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -23896,11 +23910,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       					newLeafNode(otherlv_3, grammarAccess.getTypedSelectionAccess().getLeftSquareBracketKeyword_2_1_0());
                       				
                     }
-                    // InternalWodel.g:8557:5: ( (otherlv_4= RULE_ID ) )
-                    // InternalWodel.g:8558:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8565:5: ( (otherlv_4= RULE_ID ) )
+                    // InternalWodel.g:8566:6: (otherlv_4= RULE_ID )
                     {
-                    // InternalWodel.g:8558:6: (otherlv_4= RULE_ID )
-                    // InternalWodel.g:8559:7: otherlv_4= RULE_ID
+                    // InternalWodel.g:8566:6: (otherlv_4= RULE_ID )
+                    // InternalWodel.g:8567:7: otherlv_4= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23926,7 +23940,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalWodel.g:8573:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
+                    // InternalWodel.g:8581:5: (otherlv_5= ',' ( (otherlv_6= RULE_ID ) ) )*
                     loop172:
                     do {
                         int alt172=2;
@@ -23939,7 +23953,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                         switch (alt172) {
                     	case 1 :
-                    	    // InternalWodel.g:8574:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8582:6: otherlv_5= ',' ( (otherlv_6= RULE_ID ) )
                     	    {
                     	    otherlv_5=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
@@ -23947,11 +23961,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     	      						newLeafNode(otherlv_5, grammarAccess.getTypedSelectionAccess().getCommaKeyword_2_1_2_0());
                     	      					
                     	    }
-                    	    // InternalWodel.g:8578:6: ( (otherlv_6= RULE_ID ) )
-                    	    // InternalWodel.g:8579:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8586:6: ( (otherlv_6= RULE_ID ) )
+                    	    // InternalWodel.g:8587:7: (otherlv_6= RULE_ID )
                     	    {
-                    	    // InternalWodel.g:8579:7: (otherlv_6= RULE_ID )
-                    	    // InternalWodel.g:8580:8: otherlv_6= RULE_ID
+                    	    // InternalWodel.g:8587:7: (otherlv_6= RULE_ID )
+                    	    // InternalWodel.g:8588:8: otherlv_6= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -24001,7 +24015,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8601:3: (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
+            // InternalWodel.g:8609:3: (otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}' )?
             int alt174=2;
             int LA174_0 = input.LA(1);
 
@@ -24010,7 +24024,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt174) {
                 case 1 :
-                    // InternalWodel.g:8602:4: otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}'
+                    // InternalWodel.g:8610:4: otherlv_8= 'where' otherlv_9= '{' ( (lv_expression_10_0= ruleExpression ) ) otherlv_11= '}'
                     {
                     otherlv_8=(Token)match(input,80,FOLLOW_6); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -24024,11 +24038,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_9, grammarAccess.getTypedSelectionAccess().getLeftCurlyBracketKeyword_3_1());
                       			
                     }
-                    // InternalWodel.g:8610:4: ( (lv_expression_10_0= ruleExpression ) )
-                    // InternalWodel.g:8611:5: (lv_expression_10_0= ruleExpression )
+                    // InternalWodel.g:8618:4: ( (lv_expression_10_0= ruleExpression ) )
+                    // InternalWodel.g:8619:5: (lv_expression_10_0= ruleExpression )
                     {
-                    // InternalWodel.g:8611:5: (lv_expression_10_0= ruleExpression )
-                    // InternalWodel.g:8612:6: lv_expression_10_0= ruleExpression
+                    // InternalWodel.g:8619:5: (lv_expression_10_0= ruleExpression )
+                    // InternalWodel.g:8620:6: lv_expression_10_0= ruleExpression
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24096,7 +24110,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBooleanType"
-    // InternalWodel.g:8638:1: entryRuleBooleanType returns [EObject current=null] : iv_ruleBooleanType= ruleBooleanType EOF ;
+    // InternalWodel.g:8646:1: entryRuleBooleanType returns [EObject current=null] : iv_ruleBooleanType= ruleBooleanType EOF ;
     public final EObject entryRuleBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24104,8 +24118,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8638:52: (iv_ruleBooleanType= ruleBooleanType EOF )
-            // InternalWodel.g:8639:2: iv_ruleBooleanType= ruleBooleanType EOF
+            // InternalWodel.g:8646:52: (iv_ruleBooleanType= ruleBooleanType EOF )
+            // InternalWodel.g:8647:2: iv_ruleBooleanType= ruleBooleanType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getBooleanTypeRule()); 
@@ -24136,7 +24150,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBooleanType"
-    // InternalWodel.g:8645:1: ruleBooleanType returns [EObject current=null] : (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) ;
+    // InternalWodel.g:8653:1: ruleBooleanType returns [EObject current=null] : (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) ;
     public final EObject ruleBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24149,15 +24163,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8651:2: ( (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) )
-            // InternalWodel.g:8652:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
+            // InternalWodel.g:8659:2: ( (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) )
+            // InternalWodel.g:8660:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
             {
-            // InternalWodel.g:8652:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
+            // InternalWodel.g:8660:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
             int alt175=2;
             alt175 = dfa175.predict(input);
             switch (alt175) {
                 case 1 :
-                    // InternalWodel.g:8653:3: this_SpecificBooleanType_0= ruleSpecificBooleanType
+                    // InternalWodel.g:8661:3: this_SpecificBooleanType_0= ruleSpecificBooleanType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24184,7 +24198,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:8665:3: this_RandomBooleanType_1= ruleRandomBooleanType
+                    // InternalWodel.g:8673:3: this_RandomBooleanType_1= ruleRandomBooleanType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24235,7 +24249,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomBooleanType"
-    // InternalWodel.g:8680:1: entryRuleRandomBooleanType returns [EObject current=null] : iv_ruleRandomBooleanType= ruleRandomBooleanType EOF ;
+    // InternalWodel.g:8688:1: entryRuleRandomBooleanType returns [EObject current=null] : iv_ruleRandomBooleanType= ruleRandomBooleanType EOF ;
     public final EObject entryRuleRandomBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24243,8 +24257,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8680:58: (iv_ruleRandomBooleanType= ruleRandomBooleanType EOF )
-            // InternalWodel.g:8681:2: iv_ruleRandomBooleanType= ruleRandomBooleanType EOF
+            // InternalWodel.g:8688:58: (iv_ruleRandomBooleanType= ruleRandomBooleanType EOF )
+            // InternalWodel.g:8689:2: iv_ruleRandomBooleanType= ruleRandomBooleanType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomBooleanTypeRule()); 
@@ -24275,7 +24289,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomBooleanType"
-    // InternalWodel.g:8687:1: ruleRandomBooleanType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' ) ;
+    // InternalWodel.g:8695:1: ruleRandomBooleanType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' ) ;
     public final EObject ruleRandomBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24287,14 +24301,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8693:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' ) )
-            // InternalWodel.g:8694:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' )
+            // InternalWodel.g:8701:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' ) )
+            // InternalWodel.g:8702:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' )
             {
-            // InternalWodel.g:8694:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' )
-            // InternalWodel.g:8695:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean'
+            // InternalWodel.g:8702:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean' )
+            // InternalWodel.g:8703:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-boolean'
             {
-            // InternalWodel.g:8695:3: ()
-            // InternalWodel.g:8696:4: 
+            // InternalWodel.g:8703:3: ()
+            // InternalWodel.g:8704:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -24311,11 +24325,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8705:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:8706:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8713:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:8714:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:8706:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:8707:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:8714:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8715:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -24377,7 +24391,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificBooleanType"
-    // InternalWodel.g:8732:1: entryRuleSpecificBooleanType returns [EObject current=null] : iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF ;
+    // InternalWodel.g:8740:1: entryRuleSpecificBooleanType returns [EObject current=null] : iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF ;
     public final EObject entryRuleSpecificBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24385,8 +24399,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8732:60: (iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF )
-            // InternalWodel.g:8733:2: iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF
+            // InternalWodel.g:8740:60: (iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF )
+            // InternalWodel.g:8741:2: iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificBooleanTypeRule()); 
@@ -24417,7 +24431,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificBooleanType"
-    // InternalWodel.g:8739:1: ruleSpecificBooleanType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) ) ;
+    // InternalWodel.g:8747:1: ruleSpecificBooleanType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) ) ;
     public final EObject ruleSpecificBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -24430,14 +24444,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8745:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) ) )
-            // InternalWodel.g:8746:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) )
+            // InternalWodel.g:8753:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) ) )
+            // InternalWodel.g:8754:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) )
             {
-            // InternalWodel.g:8746:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) )
-            // InternalWodel.g:8747:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) )
+            // InternalWodel.g:8754:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) ) )
+            // InternalWodel.g:8755:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEBoolean ) )
             {
-            // InternalWodel.g:8747:3: ()
-            // InternalWodel.g:8748:4: 
+            // InternalWodel.g:8755:3: ()
+            // InternalWodel.g:8756:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -24454,11 +24468,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8757:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:8758:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8765:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:8766:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:8758:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:8759:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:8766:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8767:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -24489,11 +24503,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8776:3: ( (lv_value_2_0= ruleEBoolean ) )
-            // InternalWodel.g:8777:4: (lv_value_2_0= ruleEBoolean )
+            // InternalWodel.g:8784:3: ( (lv_value_2_0= ruleEBoolean ) )
+            // InternalWodel.g:8785:4: (lv_value_2_0= ruleEBoolean )
             {
-            // InternalWodel.g:8777:4: (lv_value_2_0= ruleEBoolean )
-            // InternalWodel.g:8778:5: lv_value_2_0= ruleEBoolean
+            // InternalWodel.g:8785:4: (lv_value_2_0= ruleEBoolean )
+            // InternalWodel.g:8786:5: lv_value_2_0= ruleEBoolean
             {
             if ( state.backtracking==0 ) {
 
@@ -24549,7 +24563,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStringType"
-    // InternalWodel.g:8799:1: entryRuleStringType returns [EObject current=null] : iv_ruleStringType= ruleStringType EOF ;
+    // InternalWodel.g:8807:1: entryRuleStringType returns [EObject current=null] : iv_ruleStringType= ruleStringType EOF ;
     public final EObject entryRuleStringType() throws RecognitionException {
         EObject current = null;
 
@@ -24557,8 +24571,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8799:51: (iv_ruleStringType= ruleStringType EOF )
-            // InternalWodel.g:8800:2: iv_ruleStringType= ruleStringType EOF
+            // InternalWodel.g:8807:51: (iv_ruleStringType= ruleStringType EOF )
+            // InternalWodel.g:8808:2: iv_ruleStringType= ruleStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getStringTypeRule()); 
@@ -24589,7 +24603,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStringType"
-    // InternalWodel.g:8806:1: ruleStringType returns [EObject current=null] : (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType ) ;
+    // InternalWodel.g:8814:1: ruleStringType returns [EObject current=null] : (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType ) ;
     public final EObject ruleStringType() throws RecognitionException {
         EObject current = null;
 
@@ -24614,15 +24628,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8812:2: ( (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType ) )
-            // InternalWodel.g:8813:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )
+            // InternalWodel.g:8820:2: ( (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType ) )
+            // InternalWodel.g:8821:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )
             {
-            // InternalWodel.g:8813:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )
+            // InternalWodel.g:8821:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )
             int alt176=8;
             alt176 = dfa176.predict(input);
             switch (alt176) {
                 case 1 :
-                    // InternalWodel.g:8814:3: this_SpecificStringType_0= ruleSpecificStringType
+                    // InternalWodel.g:8822:3: this_SpecificStringType_0= ruleSpecificStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24649,7 +24663,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:8826:3: this_RandomStringType_1= ruleRandomStringType
+                    // InternalWodel.g:8834:3: this_RandomStringType_1= ruleRandomStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24676,7 +24690,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:8838:3: this_UpperStringType_2= ruleUpperStringType
+                    // InternalWodel.g:8846:3: this_UpperStringType_2= ruleUpperStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24703,7 +24717,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalWodel.g:8850:3: this_LowerStringType_3= ruleLowerStringType
+                    // InternalWodel.g:8858:3: this_LowerStringType_3= ruleLowerStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24730,7 +24744,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalWodel.g:8862:3: this_CatStartStringType_4= ruleCatStartStringType
+                    // InternalWodel.g:8870:3: this_CatStartStringType_4= ruleCatStartStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24757,7 +24771,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalWodel.g:8874:3: this_CatEndStringType_5= ruleCatEndStringType
+                    // InternalWodel.g:8882:3: this_CatEndStringType_5= ruleCatEndStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24784,7 +24798,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalWodel.g:8886:3: this_ReplaceStringType_6= ruleReplaceStringType
+                    // InternalWodel.g:8894:3: this_ReplaceStringType_6= ruleReplaceStringType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24811,7 +24825,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalWodel.g:8898:3: this_RandomStringNumberType_7= ruleRandomStringNumberType
+                    // InternalWodel.g:8906:3: this_RandomStringNumberType_7= ruleRandomStringNumberType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -24862,7 +24876,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomStringType"
-    // InternalWodel.g:8913:1: entryRuleRandomStringType returns [EObject current=null] : iv_ruleRandomStringType= ruleRandomStringType EOF ;
+    // InternalWodel.g:8921:1: entryRuleRandomStringType returns [EObject current=null] : iv_ruleRandomStringType= ruleRandomStringType EOF ;
     public final EObject entryRuleRandomStringType() throws RecognitionException {
         EObject current = null;
 
@@ -24870,8 +24884,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:8913:57: (iv_ruleRandomStringType= ruleRandomStringType EOF )
-            // InternalWodel.g:8914:2: iv_ruleRandomStringType= ruleRandomStringType EOF
+            // InternalWodel.g:8921:57: (iv_ruleRandomStringType= ruleRandomStringType EOF )
+            // InternalWodel.g:8922:2: iv_ruleRandomStringType= ruleRandomStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomStringTypeRule()); 
@@ -24902,7 +24916,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomStringType"
-    // InternalWodel.g:8920:1: ruleRandomStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' ) ;
+    // InternalWodel.g:8928:1: ruleRandomStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' ) ;
     public final EObject ruleRandomStringType() throws RecognitionException {
         EObject current = null;
 
@@ -24921,14 +24935,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:8926:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' ) )
-            // InternalWodel.g:8927:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )
+            // InternalWodel.g:8934:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' ) )
+            // InternalWodel.g:8935:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )
             {
-            // InternalWodel.g:8927:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )
-            // InternalWodel.g:8928:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
+            // InternalWodel.g:8935:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )
+            // InternalWodel.g:8936:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-string' otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
             {
-            // InternalWodel.g:8928:3: ()
-            // InternalWodel.g:8929:4: 
+            // InternalWodel.g:8936:3: ()
+            // InternalWodel.g:8937:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -24945,11 +24959,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:8938:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:8939:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8946:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:8947:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:8939:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:8940:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:8947:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:8948:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -24992,11 +25006,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getRandomStringTypeAccess().getLeftParenthesisKeyword_3());
               		
             }
-            // InternalWodel.g:8965:3: ( (lv_min_4_0= ruleEInt ) )
-            // InternalWodel.g:8966:4: (lv_min_4_0= ruleEInt )
+            // InternalWodel.g:8973:3: ( (lv_min_4_0= ruleEInt ) )
+            // InternalWodel.g:8974:4: (lv_min_4_0= ruleEInt )
             {
-            // InternalWodel.g:8966:4: (lv_min_4_0= ruleEInt )
-            // InternalWodel.g:8967:5: lv_min_4_0= ruleEInt
+            // InternalWodel.g:8974:4: (lv_min_4_0= ruleEInt )
+            // InternalWodel.g:8975:5: lv_min_4_0= ruleEInt
             {
             if ( state.backtracking==0 ) {
 
@@ -25033,11 +25047,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_5, grammarAccess.getRandomStringTypeAccess().getCommaKeyword_5());
               		
             }
-            // InternalWodel.g:8988:3: ( (lv_max_6_0= ruleEInt ) )
-            // InternalWodel.g:8989:4: (lv_max_6_0= ruleEInt )
+            // InternalWodel.g:8996:3: ( (lv_max_6_0= ruleEInt ) )
+            // InternalWodel.g:8997:4: (lv_max_6_0= ruleEInt )
             {
-            // InternalWodel.g:8989:4: (lv_max_6_0= ruleEInt )
-            // InternalWodel.g:8990:5: lv_max_6_0= ruleEInt
+            // InternalWodel.g:8997:4: (lv_max_6_0= ruleEInt )
+            // InternalWodel.g:8998:5: lv_max_6_0= ruleEInt
             {
             if ( state.backtracking==0 ) {
 
@@ -25099,7 +25113,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificStringType"
-    // InternalWodel.g:9015:1: entryRuleSpecificStringType returns [EObject current=null] : iv_ruleSpecificStringType= ruleSpecificStringType EOF ;
+    // InternalWodel.g:9023:1: entryRuleSpecificStringType returns [EObject current=null] : iv_ruleSpecificStringType= ruleSpecificStringType EOF ;
     public final EObject entryRuleSpecificStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25107,8 +25121,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9015:59: (iv_ruleSpecificStringType= ruleSpecificStringType EOF )
-            // InternalWodel.g:9016:2: iv_ruleSpecificStringType= ruleSpecificStringType EOF
+            // InternalWodel.g:9023:59: (iv_ruleSpecificStringType= ruleSpecificStringType EOF )
+            // InternalWodel.g:9024:2: iv_ruleSpecificStringType= ruleSpecificStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificStringTypeRule()); 
@@ -25139,7 +25153,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificStringType"
-    // InternalWodel.g:9022:1: ruleSpecificStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) ) ;
+    // InternalWodel.g:9030:1: ruleSpecificStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) ) ;
     public final EObject ruleSpecificStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25151,14 +25165,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9028:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) ) )
-            // InternalWodel.g:9029:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) )
+            // InternalWodel.g:9036:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) ) )
+            // InternalWodel.g:9037:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) )
             {
-            // InternalWodel.g:9029:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) )
-            // InternalWodel.g:9030:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) )
+            // InternalWodel.g:9037:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) ) )
+            // InternalWodel.g:9038:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= RULE_STRING ) )
             {
-            // InternalWodel.g:9030:3: ()
-            // InternalWodel.g:9031:4: 
+            // InternalWodel.g:9038:3: ()
+            // InternalWodel.g:9039:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -25175,11 +25189,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9040:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9041:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9048:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9049:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9041:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9042:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9049:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9050:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -25210,11 +25224,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9059:3: ( (lv_value_2_0= RULE_STRING ) )
-            // InternalWodel.g:9060:4: (lv_value_2_0= RULE_STRING )
+            // InternalWodel.g:9067:3: ( (lv_value_2_0= RULE_STRING ) )
+            // InternalWodel.g:9068:4: (lv_value_2_0= RULE_STRING )
             {
-            // InternalWodel.g:9060:4: (lv_value_2_0= RULE_STRING )
-            // InternalWodel.g:9061:5: lv_value_2_0= RULE_STRING
+            // InternalWodel.g:9068:4: (lv_value_2_0= RULE_STRING )
+            // InternalWodel.g:9069:5: lv_value_2_0= RULE_STRING
             {
             lv_value_2_0=(Token)match(input,RULE_STRING,FOLLOW_2); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -25265,7 +25279,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUpperStringType"
-    // InternalWodel.g:9081:1: entryRuleUpperStringType returns [EObject current=null] : iv_ruleUpperStringType= ruleUpperStringType EOF ;
+    // InternalWodel.g:9089:1: entryRuleUpperStringType returns [EObject current=null] : iv_ruleUpperStringType= ruleUpperStringType EOF ;
     public final EObject entryRuleUpperStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25273,8 +25287,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9081:56: (iv_ruleUpperStringType= ruleUpperStringType EOF )
-            // InternalWodel.g:9082:2: iv_ruleUpperStringType= ruleUpperStringType EOF
+            // InternalWodel.g:9089:56: (iv_ruleUpperStringType= ruleUpperStringType EOF )
+            // InternalWodel.g:9090:2: iv_ruleUpperStringType= ruleUpperStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getUpperStringTypeRule()); 
@@ -25305,7 +25319,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUpperStringType"
-    // InternalWodel.g:9088:1: ruleUpperStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' ) ;
+    // InternalWodel.g:9096:1: ruleUpperStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' ) ;
     public final EObject ruleUpperStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25317,14 +25331,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9094:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' ) )
-            // InternalWodel.g:9095:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' )
+            // InternalWodel.g:9102:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' ) )
+            // InternalWodel.g:9103:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' )
             {
-            // InternalWodel.g:9095:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' )
-            // InternalWodel.g:9096:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper'
+            // InternalWodel.g:9103:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper' )
+            // InternalWodel.g:9104:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'upper'
             {
-            // InternalWodel.g:9096:3: ()
-            // InternalWodel.g:9097:4: 
+            // InternalWodel.g:9104:3: ()
+            // InternalWodel.g:9105:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -25341,11 +25355,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9106:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9107:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9114:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9115:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9107:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9108:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9115:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9116:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -25407,7 +25421,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCatStartStringType"
-    // InternalWodel.g:9133:1: entryRuleCatStartStringType returns [EObject current=null] : iv_ruleCatStartStringType= ruleCatStartStringType EOF ;
+    // InternalWodel.g:9141:1: entryRuleCatStartStringType returns [EObject current=null] : iv_ruleCatStartStringType= ruleCatStartStringType EOF ;
     public final EObject entryRuleCatStartStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25415,8 +25429,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9133:59: (iv_ruleCatStartStringType= ruleCatStartStringType EOF )
-            // InternalWodel.g:9134:2: iv_ruleCatStartStringType= ruleCatStartStringType EOF
+            // InternalWodel.g:9141:59: (iv_ruleCatStartStringType= ruleCatStartStringType EOF )
+            // InternalWodel.g:9142:2: iv_ruleCatStartStringType= ruleCatStartStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCatStartStringTypeRule()); 
@@ -25447,7 +25461,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCatStartStringType"
-    // InternalWodel.g:9140:1: ruleCatStartStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) ;
+    // InternalWodel.g:9148:1: ruleCatStartStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) ;
     public final EObject ruleCatStartStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25463,14 +25477,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9146:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) )
-            // InternalWodel.g:9147:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
+            // InternalWodel.g:9154:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) )
+            // InternalWodel.g:9155:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
             {
-            // InternalWodel.g:9147:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
-            // InternalWodel.g:9148:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')'
+            // InternalWodel.g:9155:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
+            // InternalWodel.g:9156:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catstart' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')'
             {
-            // InternalWodel.g:9148:3: ()
-            // InternalWodel.g:9149:4: 
+            // InternalWodel.g:9156:3: ()
+            // InternalWodel.g:9157:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -25487,11 +25501,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9158:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9159:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9166:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9167:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9159:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9160:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9167:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9168:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -25534,11 +25548,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getCatStartStringTypeAccess().getLeftParenthesisKeyword_3());
               		
             }
-            // InternalWodel.g:9185:3: ( (lv_value_4_0= ruleEString ) )
-            // InternalWodel.g:9186:4: (lv_value_4_0= ruleEString )
+            // InternalWodel.g:9193:3: ( (lv_value_4_0= ruleEString ) )
+            // InternalWodel.g:9194:4: (lv_value_4_0= ruleEString )
             {
-            // InternalWodel.g:9186:4: (lv_value_4_0= ruleEString )
-            // InternalWodel.g:9187:5: lv_value_4_0= ruleEString
+            // InternalWodel.g:9194:4: (lv_value_4_0= ruleEString )
+            // InternalWodel.g:9195:5: lv_value_4_0= ruleEString
             {
             if ( state.backtracking==0 ) {
 
@@ -25600,7 +25614,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCatEndStringType"
-    // InternalWodel.g:9212:1: entryRuleCatEndStringType returns [EObject current=null] : iv_ruleCatEndStringType= ruleCatEndStringType EOF ;
+    // InternalWodel.g:9220:1: entryRuleCatEndStringType returns [EObject current=null] : iv_ruleCatEndStringType= ruleCatEndStringType EOF ;
     public final EObject entryRuleCatEndStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25608,8 +25622,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9212:57: (iv_ruleCatEndStringType= ruleCatEndStringType EOF )
-            // InternalWodel.g:9213:2: iv_ruleCatEndStringType= ruleCatEndStringType EOF
+            // InternalWodel.g:9220:57: (iv_ruleCatEndStringType= ruleCatEndStringType EOF )
+            // InternalWodel.g:9221:2: iv_ruleCatEndStringType= ruleCatEndStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getCatEndStringTypeRule()); 
@@ -25640,7 +25654,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCatEndStringType"
-    // InternalWodel.g:9219:1: ruleCatEndStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) ;
+    // InternalWodel.g:9227:1: ruleCatEndStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) ;
     public final EObject ruleCatEndStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25656,14 +25670,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9225:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) )
-            // InternalWodel.g:9226:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
+            // InternalWodel.g:9233:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' ) )
+            // InternalWodel.g:9234:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
             {
-            // InternalWodel.g:9226:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
-            // InternalWodel.g:9227:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')'
+            // InternalWodel.g:9234:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')' )
+            // InternalWodel.g:9235:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'catend' otherlv_3= '(' ( (lv_value_4_0= ruleEString ) ) otherlv_5= ')'
             {
-            // InternalWodel.g:9227:3: ()
-            // InternalWodel.g:9228:4: 
+            // InternalWodel.g:9235:3: ()
+            // InternalWodel.g:9236:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -25680,11 +25694,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9237:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9238:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9245:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9246:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9238:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9239:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9246:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9247:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -25727,11 +25741,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getCatEndStringTypeAccess().getLeftParenthesisKeyword_3());
               		
             }
-            // InternalWodel.g:9264:3: ( (lv_value_4_0= ruleEString ) )
-            // InternalWodel.g:9265:4: (lv_value_4_0= ruleEString )
+            // InternalWodel.g:9272:3: ( (lv_value_4_0= ruleEString ) )
+            // InternalWodel.g:9273:4: (lv_value_4_0= ruleEString )
             {
-            // InternalWodel.g:9265:4: (lv_value_4_0= ruleEString )
-            // InternalWodel.g:9266:5: lv_value_4_0= ruleEString
+            // InternalWodel.g:9273:4: (lv_value_4_0= ruleEString )
+            // InternalWodel.g:9274:5: lv_value_4_0= ruleEString
             {
             if ( state.backtracking==0 ) {
 
@@ -25793,7 +25807,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleListStringType"
-    // InternalWodel.g:9291:1: entryRuleListStringType returns [EObject current=null] : iv_ruleListStringType= ruleListStringType EOF ;
+    // InternalWodel.g:9299:1: entryRuleListStringType returns [EObject current=null] : iv_ruleListStringType= ruleListStringType EOF ;
     public final EObject entryRuleListStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25801,8 +25815,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9291:55: (iv_ruleListStringType= ruleListStringType EOF )
-            // InternalWodel.g:9292:2: iv_ruleListStringType= ruleListStringType EOF
+            // InternalWodel.g:9299:55: (iv_ruleListStringType= ruleListStringType EOF )
+            // InternalWodel.g:9300:2: iv_ruleListStringType= ruleListStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getListStringTypeRule()); 
@@ -25833,7 +25847,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleListStringType"
-    // InternalWodel.g:9298:1: ruleListStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) ;
+    // InternalWodel.g:9306:1: ruleListStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) ;
     public final EObject ruleListStringType() throws RecognitionException {
         EObject current = null;
 
@@ -25851,14 +25865,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9304:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) )
-            // InternalWodel.g:9305:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
+            // InternalWodel.g:9312:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) )
+            // InternalWodel.g:9313:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
             {
-            // InternalWodel.g:9305:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
-            // InternalWodel.g:9306:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']'
+            // InternalWodel.g:9313:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
+            // InternalWodel.g:9314:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']'
             {
-            // InternalWodel.g:9306:3: ()
-            // InternalWodel.g:9307:4: 
+            // InternalWodel.g:9314:3: ()
+            // InternalWodel.g:9315:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -25875,11 +25889,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9316:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9317:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9324:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9325:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9317:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9318:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9325:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9326:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -25916,11 +25930,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getListStringTypeAccess().getLeftSquareBracketKeyword_2());
               		
             }
-            // InternalWodel.g:9339:3: ( (lv_value_3_0= ruleEString ) )
-            // InternalWodel.g:9340:4: (lv_value_3_0= ruleEString )
+            // InternalWodel.g:9347:3: ( (lv_value_3_0= ruleEString ) )
+            // InternalWodel.g:9348:4: (lv_value_3_0= ruleEString )
             {
-            // InternalWodel.g:9340:4: (lv_value_3_0= ruleEString )
-            // InternalWodel.g:9341:5: lv_value_3_0= ruleEString
+            // InternalWodel.g:9348:4: (lv_value_3_0= ruleEString )
+            // InternalWodel.g:9349:5: lv_value_3_0= ruleEString
             {
             if ( state.backtracking==0 ) {
 
@@ -25951,7 +25965,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9358:3: (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )*
+            // InternalWodel.g:9366:3: (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )*
             loop177:
             do {
                 int alt177=2;
@@ -25964,7 +25978,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt177) {
             	case 1 :
-            	    // InternalWodel.g:9359:4: otherlv_4= ',' ( (lv_value_5_0= ruleEString ) )
+            	    // InternalWodel.g:9367:4: otherlv_4= ',' ( (lv_value_5_0= ruleEString ) )
             	    {
             	    otherlv_4=(Token)match(input,26,FOLLOW_13); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
@@ -25972,11 +25986,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             	      				newLeafNode(otherlv_4, grammarAccess.getListStringTypeAccess().getCommaKeyword_4_0());
             	      			
             	    }
-            	    // InternalWodel.g:9363:4: ( (lv_value_5_0= ruleEString ) )
-            	    // InternalWodel.g:9364:5: (lv_value_5_0= ruleEString )
+            	    // InternalWodel.g:9371:4: ( (lv_value_5_0= ruleEString ) )
+            	    // InternalWodel.g:9372:5: (lv_value_5_0= ruleEString )
             	    {
-            	    // InternalWodel.g:9364:5: (lv_value_5_0= ruleEString )
-            	    // InternalWodel.g:9365:6: lv_value_5_0= ruleEString
+            	    // InternalWodel.g:9372:5: (lv_value_5_0= ruleEString )
+            	    // InternalWodel.g:9373:6: lv_value_5_0= ruleEString
             	    {
             	    if ( state.backtracking==0 ) {
 
@@ -26047,7 +26061,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLowerStringType"
-    // InternalWodel.g:9391:1: entryRuleLowerStringType returns [EObject current=null] : iv_ruleLowerStringType= ruleLowerStringType EOF ;
+    // InternalWodel.g:9399:1: entryRuleLowerStringType returns [EObject current=null] : iv_ruleLowerStringType= ruleLowerStringType EOF ;
     public final EObject entryRuleLowerStringType() throws RecognitionException {
         EObject current = null;
 
@@ -26055,8 +26069,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9391:56: (iv_ruleLowerStringType= ruleLowerStringType EOF )
-            // InternalWodel.g:9392:2: iv_ruleLowerStringType= ruleLowerStringType EOF
+            // InternalWodel.g:9399:56: (iv_ruleLowerStringType= ruleLowerStringType EOF )
+            // InternalWodel.g:9400:2: iv_ruleLowerStringType= ruleLowerStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getLowerStringTypeRule()); 
@@ -26087,7 +26101,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLowerStringType"
-    // InternalWodel.g:9398:1: ruleLowerStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' ) ;
+    // InternalWodel.g:9406:1: ruleLowerStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' ) ;
     public final EObject ruleLowerStringType() throws RecognitionException {
         EObject current = null;
 
@@ -26099,14 +26113,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9404:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' ) )
-            // InternalWodel.g:9405:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' )
+            // InternalWodel.g:9412:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' ) )
+            // InternalWodel.g:9413:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' )
             {
-            // InternalWodel.g:9405:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' )
-            // InternalWodel.g:9406:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower'
+            // InternalWodel.g:9413:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower' )
+            // InternalWodel.g:9414:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'lower'
             {
-            // InternalWodel.g:9406:3: ()
-            // InternalWodel.g:9407:4: 
+            // InternalWodel.g:9414:3: ()
+            // InternalWodel.g:9415:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -26123,11 +26137,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9416:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9417:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9424:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9425:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9417:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9418:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9425:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9426:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -26189,7 +26203,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReplaceStringType"
-    // InternalWodel.g:9443:1: entryRuleReplaceStringType returns [EObject current=null] : iv_ruleReplaceStringType= ruleReplaceStringType EOF ;
+    // InternalWodel.g:9451:1: entryRuleReplaceStringType returns [EObject current=null] : iv_ruleReplaceStringType= ruleReplaceStringType EOF ;
     public final EObject entryRuleReplaceStringType() throws RecognitionException {
         EObject current = null;
 
@@ -26197,8 +26211,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9443:58: (iv_ruleReplaceStringType= ruleReplaceStringType EOF )
-            // InternalWodel.g:9444:2: iv_ruleReplaceStringType= ruleReplaceStringType EOF
+            // InternalWodel.g:9451:58: (iv_ruleReplaceStringType= ruleReplaceStringType EOF )
+            // InternalWodel.g:9452:2: iv_ruleReplaceStringType= ruleReplaceStringType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getReplaceStringTypeRule()); 
@@ -26229,7 +26243,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReplaceStringType"
-    // InternalWodel.g:9450:1: ruleReplaceStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' ) ;
+    // InternalWodel.g:9458:1: ruleReplaceStringType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' ) ;
     public final EObject ruleReplaceStringType() throws RecognitionException {
         EObject current = null;
 
@@ -26248,14 +26262,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9456:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' ) )
-            // InternalWodel.g:9457:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' )
+            // InternalWodel.g:9464:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' ) )
+            // InternalWodel.g:9465:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' )
             {
-            // InternalWodel.g:9457:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' )
-            // InternalWodel.g:9458:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')'
+            // InternalWodel.g:9465:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')' )
+            // InternalWodel.g:9466:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'replace' otherlv_3= '(' ( (lv_oldstring_4_0= ruleEString ) ) otherlv_5= ',' ( (lv_newstring_6_0= ruleEString ) ) otherlv_7= ')'
             {
-            // InternalWodel.g:9458:3: ()
-            // InternalWodel.g:9459:4: 
+            // InternalWodel.g:9466:3: ()
+            // InternalWodel.g:9467:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -26272,11 +26286,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9468:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9469:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9476:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9477:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9469:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9470:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9477:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9478:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -26319,11 +26333,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getReplaceStringTypeAccess().getLeftParenthesisKeyword_3());
               		
             }
-            // InternalWodel.g:9495:3: ( (lv_oldstring_4_0= ruleEString ) )
-            // InternalWodel.g:9496:4: (lv_oldstring_4_0= ruleEString )
+            // InternalWodel.g:9503:3: ( (lv_oldstring_4_0= ruleEString ) )
+            // InternalWodel.g:9504:4: (lv_oldstring_4_0= ruleEString )
             {
-            // InternalWodel.g:9496:4: (lv_oldstring_4_0= ruleEString )
-            // InternalWodel.g:9497:5: lv_oldstring_4_0= ruleEString
+            // InternalWodel.g:9504:4: (lv_oldstring_4_0= ruleEString )
+            // InternalWodel.g:9505:5: lv_oldstring_4_0= ruleEString
             {
             if ( state.backtracking==0 ) {
 
@@ -26360,11 +26374,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_5, grammarAccess.getReplaceStringTypeAccess().getCommaKeyword_5());
               		
             }
-            // InternalWodel.g:9518:3: ( (lv_newstring_6_0= ruleEString ) )
-            // InternalWodel.g:9519:4: (lv_newstring_6_0= ruleEString )
+            // InternalWodel.g:9526:3: ( (lv_newstring_6_0= ruleEString ) )
+            // InternalWodel.g:9527:4: (lv_newstring_6_0= ruleEString )
             {
-            // InternalWodel.g:9519:4: (lv_newstring_6_0= ruleEString )
-            // InternalWodel.g:9520:5: lv_newstring_6_0= ruleEString
+            // InternalWodel.g:9527:4: (lv_newstring_6_0= ruleEString )
+            // InternalWodel.g:9528:5: lv_newstring_6_0= ruleEString
             {
             if ( state.backtracking==0 ) {
 
@@ -26426,7 +26440,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleDoubleType"
-    // InternalWodel.g:9545:1: entryRuleDoubleType returns [EObject current=null] : iv_ruleDoubleType= ruleDoubleType EOF ;
+    // InternalWodel.g:9553:1: entryRuleDoubleType returns [EObject current=null] : iv_ruleDoubleType= ruleDoubleType EOF ;
     public final EObject entryRuleDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26434,8 +26448,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9545:51: (iv_ruleDoubleType= ruleDoubleType EOF )
-            // InternalWodel.g:9546:2: iv_ruleDoubleType= ruleDoubleType EOF
+            // InternalWodel.g:9553:51: (iv_ruleDoubleType= ruleDoubleType EOF )
+            // InternalWodel.g:9554:2: iv_ruleDoubleType= ruleDoubleType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getDoubleTypeRule()); 
@@ -26466,7 +26480,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDoubleType"
-    // InternalWodel.g:9552:1: ruleDoubleType returns [EObject current=null] : (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) ;
+    // InternalWodel.g:9560:1: ruleDoubleType returns [EObject current=null] : (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) ;
     public final EObject ruleDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26479,15 +26493,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9558:2: ( (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) )
-            // InternalWodel.g:9559:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
+            // InternalWodel.g:9566:2: ( (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) )
+            // InternalWodel.g:9567:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
             {
-            // InternalWodel.g:9559:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
+            // InternalWodel.g:9567:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
             int alt178=2;
             alt178 = dfa178.predict(input);
             switch (alt178) {
                 case 1 :
-                    // InternalWodel.g:9560:3: this_SpecificDoubleType_0= ruleSpecificDoubleType
+                    // InternalWodel.g:9568:3: this_SpecificDoubleType_0= ruleSpecificDoubleType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -26514,7 +26528,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:9572:3: this_RandomDoubleType_1= ruleRandomDoubleType
+                    // InternalWodel.g:9580:3: this_RandomDoubleType_1= ruleRandomDoubleType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -26565,7 +26579,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomDoubleType"
-    // InternalWodel.g:9587:1: entryRuleRandomDoubleType returns [EObject current=null] : iv_ruleRandomDoubleType= ruleRandomDoubleType EOF ;
+    // InternalWodel.g:9595:1: entryRuleRandomDoubleType returns [EObject current=null] : iv_ruleRandomDoubleType= ruleRandomDoubleType EOF ;
     public final EObject entryRuleRandomDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26573,8 +26587,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9587:57: (iv_ruleRandomDoubleType= ruleRandomDoubleType EOF )
-            // InternalWodel.g:9588:2: iv_ruleRandomDoubleType= ruleRandomDoubleType EOF
+            // InternalWodel.g:9595:57: (iv_ruleRandomDoubleType= ruleRandomDoubleType EOF )
+            // InternalWodel.g:9596:2: iv_ruleRandomDoubleType= ruleRandomDoubleType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomDoubleTypeRule()); 
@@ -26605,7 +26619,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomDoubleType"
-    // InternalWodel.g:9594:1: ruleRandomDoubleType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? ) ;
+    // InternalWodel.g:9602:1: ruleRandomDoubleType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? ) ;
     public final EObject ruleRandomDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26624,14 +26638,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9600:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? ) )
-            // InternalWodel.g:9601:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:9608:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? ) )
+            // InternalWodel.g:9609:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? )
             {
-            // InternalWodel.g:9601:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? )
-            // InternalWodel.g:9602:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )?
+            // InternalWodel.g:9609:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:9610:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-double' (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )?
             {
-            // InternalWodel.g:9602:3: ()
-            // InternalWodel.g:9603:4: 
+            // InternalWodel.g:9610:3: ()
+            // InternalWodel.g:9611:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -26648,11 +26662,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9612:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9613:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9620:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9621:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9613:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9614:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9621:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9622:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -26689,7 +26703,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRandomDoubleTypeAccess().getRandomDoubleKeyword_2());
               		
             }
-            // InternalWodel.g:9635:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )?
+            // InternalWodel.g:9643:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')' )?
             int alt179=2;
             int LA179_0 = input.LA(1);
 
@@ -26698,7 +26712,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt179) {
                 case 1 :
-                    // InternalWodel.g:9636:4: otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')'
+                    // InternalWodel.g:9644:4: otherlv_3= '(' ( (lv_min_4_0= ruleEDouble ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEDouble ) ) otherlv_7= ')'
                     {
                     otherlv_3=(Token)match(input,41,FOLLOW_120); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -26706,11 +26720,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getRandomDoubleTypeAccess().getLeftParenthesisKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:9640:4: ( (lv_min_4_0= ruleEDouble ) )
-                    // InternalWodel.g:9641:5: (lv_min_4_0= ruleEDouble )
+                    // InternalWodel.g:9648:4: ( (lv_min_4_0= ruleEDouble ) )
+                    // InternalWodel.g:9649:5: (lv_min_4_0= ruleEDouble )
                     {
-                    // InternalWodel.g:9641:5: (lv_min_4_0= ruleEDouble )
-                    // InternalWodel.g:9642:6: lv_min_4_0= ruleEDouble
+                    // InternalWodel.g:9649:5: (lv_min_4_0= ruleEDouble )
+                    // InternalWodel.g:9650:6: lv_min_4_0= ruleEDouble
                     {
                     if ( state.backtracking==0 ) {
 
@@ -26747,11 +26761,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getRandomDoubleTypeAccess().getCommaKeyword_3_2());
                       			
                     }
-                    // InternalWodel.g:9663:4: ( (lv_max_6_0= ruleEDouble ) )
-                    // InternalWodel.g:9664:5: (lv_max_6_0= ruleEDouble )
+                    // InternalWodel.g:9671:4: ( (lv_max_6_0= ruleEDouble ) )
+                    // InternalWodel.g:9672:5: (lv_max_6_0= ruleEDouble )
                     {
-                    // InternalWodel.g:9664:5: (lv_max_6_0= ruleEDouble )
-                    // InternalWodel.g:9665:6: lv_max_6_0= ruleEDouble
+                    // InternalWodel.g:9672:5: (lv_max_6_0= ruleEDouble )
+                    // InternalWodel.g:9673:6: lv_max_6_0= ruleEDouble
                     {
                     if ( state.backtracking==0 ) {
 
@@ -26819,7 +26833,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificDoubleType"
-    // InternalWodel.g:9691:1: entryRuleSpecificDoubleType returns [EObject current=null] : iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF ;
+    // InternalWodel.g:9699:1: entryRuleSpecificDoubleType returns [EObject current=null] : iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF ;
     public final EObject entryRuleSpecificDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26827,8 +26841,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9691:59: (iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF )
-            // InternalWodel.g:9692:2: iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF
+            // InternalWodel.g:9699:59: (iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF )
+            // InternalWodel.g:9700:2: iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificDoubleTypeRule()); 
@@ -26859,7 +26873,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificDoubleType"
-    // InternalWodel.g:9698:1: ruleSpecificDoubleType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) ) ;
+    // InternalWodel.g:9706:1: ruleSpecificDoubleType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) ) ;
     public final EObject ruleSpecificDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -26872,14 +26886,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9704:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) ) )
-            // InternalWodel.g:9705:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) )
+            // InternalWodel.g:9712:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) ) )
+            // InternalWodel.g:9713:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) )
             {
-            // InternalWodel.g:9705:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) )
-            // InternalWodel.g:9706:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) )
+            // InternalWodel.g:9713:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) ) )
+            // InternalWodel.g:9714:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEDouble ) )
             {
-            // InternalWodel.g:9706:3: ()
-            // InternalWodel.g:9707:4: 
+            // InternalWodel.g:9714:3: ()
+            // InternalWodel.g:9715:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -26896,11 +26910,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9716:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9717:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9724:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9725:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9717:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9718:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9725:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9726:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -26931,11 +26945,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9735:3: ( (lv_value_2_0= ruleEDouble ) )
-            // InternalWodel.g:9736:4: (lv_value_2_0= ruleEDouble )
+            // InternalWodel.g:9743:3: ( (lv_value_2_0= ruleEDouble ) )
+            // InternalWodel.g:9744:4: (lv_value_2_0= ruleEDouble )
             {
-            // InternalWodel.g:9736:4: (lv_value_2_0= ruleEDouble )
-            // InternalWodel.g:9737:5: lv_value_2_0= ruleEDouble
+            // InternalWodel.g:9744:4: (lv_value_2_0= ruleEDouble )
+            // InternalWodel.g:9745:5: lv_value_2_0= ruleEDouble
             {
             if ( state.backtracking==0 ) {
 
@@ -26991,7 +27005,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMinValueType"
-    // InternalWodel.g:9758:1: entryRuleMinValueType returns [EObject current=null] : iv_ruleMinValueType= ruleMinValueType EOF ;
+    // InternalWodel.g:9766:1: entryRuleMinValueType returns [EObject current=null] : iv_ruleMinValueType= ruleMinValueType EOF ;
     public final EObject entryRuleMinValueType() throws RecognitionException {
         EObject current = null;
 
@@ -26999,8 +27013,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9758:53: (iv_ruleMinValueType= ruleMinValueType EOF )
-            // InternalWodel.g:9759:2: iv_ruleMinValueType= ruleMinValueType EOF
+            // InternalWodel.g:9766:53: (iv_ruleMinValueType= ruleMinValueType EOF )
+            // InternalWodel.g:9767:2: iv_ruleMinValueType= ruleMinValueType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMinValueTypeRule()); 
@@ -27031,7 +27045,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMinValueType"
-    // InternalWodel.g:9765:1: ruleMinValueType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) ;
+    // InternalWodel.g:9773:1: ruleMinValueType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) ;
     public final EObject ruleMinValueType() throws RecognitionException {
         EObject current = null;
 
@@ -27046,17 +27060,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9771:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) )
-            // InternalWodel.g:9772:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
+            // InternalWodel.g:9779:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) )
+            // InternalWodel.g:9780:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
             {
-            // InternalWodel.g:9772:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
-            // InternalWodel.g:9773:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')'
+            // InternalWodel.g:9780:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
+            // InternalWodel.g:9781:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'min' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')'
             {
-            // InternalWodel.g:9773:3: ( (lv_operator_0_0= ruleOperator ) )
-            // InternalWodel.g:9774:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:9781:3: ( (lv_operator_0_0= ruleOperator ) )
+            // InternalWodel.g:9782:4: (lv_operator_0_0= ruleOperator )
             {
-            // InternalWodel.g:9774:4: (lv_operator_0_0= ruleOperator )
-            // InternalWodel.g:9775:5: lv_operator_0_0= ruleOperator
+            // InternalWodel.g:9782:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:9783:5: lv_operator_0_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -27099,11 +27113,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getMinValueTypeAccess().getLeftParenthesisKeyword_2());
               		
             }
-            // InternalWodel.g:9800:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:9801:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:9808:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:9809:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:9801:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:9802:5: otherlv_3= RULE_ID
+            // InternalWodel.g:9809:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:9810:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -27160,7 +27174,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMaxValueType"
-    // InternalWodel.g:9824:1: entryRuleMaxValueType returns [EObject current=null] : iv_ruleMaxValueType= ruleMaxValueType EOF ;
+    // InternalWodel.g:9832:1: entryRuleMaxValueType returns [EObject current=null] : iv_ruleMaxValueType= ruleMaxValueType EOF ;
     public final EObject entryRuleMaxValueType() throws RecognitionException {
         EObject current = null;
 
@@ -27168,8 +27182,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9824:53: (iv_ruleMaxValueType= ruleMaxValueType EOF )
-            // InternalWodel.g:9825:2: iv_ruleMaxValueType= ruleMaxValueType EOF
+            // InternalWodel.g:9832:53: (iv_ruleMaxValueType= ruleMaxValueType EOF )
+            // InternalWodel.g:9833:2: iv_ruleMaxValueType= ruleMaxValueType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMaxValueTypeRule()); 
@@ -27200,7 +27214,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMaxValueType"
-    // InternalWodel.g:9831:1: ruleMaxValueType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) ;
+    // InternalWodel.g:9839:1: ruleMaxValueType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) ;
     public final EObject ruleMaxValueType() throws RecognitionException {
         EObject current = null;
 
@@ -27215,17 +27229,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9837:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) )
-            // InternalWodel.g:9838:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
+            // InternalWodel.g:9845:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' ) )
+            // InternalWodel.g:9846:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
             {
-            // InternalWodel.g:9838:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
-            // InternalWodel.g:9839:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')'
+            // InternalWodel.g:9846:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')' )
+            // InternalWodel.g:9847:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'max' otherlv_2= '(' ( (otherlv_3= RULE_ID ) ) otherlv_4= ')'
             {
-            // InternalWodel.g:9839:3: ( (lv_operator_0_0= ruleOperator ) )
-            // InternalWodel.g:9840:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:9847:3: ( (lv_operator_0_0= ruleOperator ) )
+            // InternalWodel.g:9848:4: (lv_operator_0_0= ruleOperator )
             {
-            // InternalWodel.g:9840:4: (lv_operator_0_0= ruleOperator )
-            // InternalWodel.g:9841:5: lv_operator_0_0= ruleOperator
+            // InternalWodel.g:9848:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:9849:5: lv_operator_0_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -27268,11 +27282,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getMaxValueTypeAccess().getLeftParenthesisKeyword_2());
               		
             }
-            // InternalWodel.g:9866:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:9867:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:9874:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:9875:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:9867:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:9868:5: otherlv_3= RULE_ID
+            // InternalWodel.g:9875:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:9876:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -27329,7 +27343,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIntegerType"
-    // InternalWodel.g:9890:1: entryRuleIntegerType returns [EObject current=null] : iv_ruleIntegerType= ruleIntegerType EOF ;
+    // InternalWodel.g:9898:1: entryRuleIntegerType returns [EObject current=null] : iv_ruleIntegerType= ruleIntegerType EOF ;
     public final EObject entryRuleIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27337,8 +27351,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9890:52: (iv_ruleIntegerType= ruleIntegerType EOF )
-            // InternalWodel.g:9891:2: iv_ruleIntegerType= ruleIntegerType EOF
+            // InternalWodel.g:9898:52: (iv_ruleIntegerType= ruleIntegerType EOF )
+            // InternalWodel.g:9899:2: iv_ruleIntegerType= ruleIntegerType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getIntegerTypeRule()); 
@@ -27369,7 +27383,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIntegerType"
-    // InternalWodel.g:9897:1: ruleIntegerType returns [EObject current=null] : (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) ;
+    // InternalWodel.g:9905:1: ruleIntegerType returns [EObject current=null] : (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) ;
     public final EObject ruleIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27382,15 +27396,15 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9903:2: ( (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) )
-            // InternalWodel.g:9904:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
+            // InternalWodel.g:9911:2: ( (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) )
+            // InternalWodel.g:9912:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
             {
-            // InternalWodel.g:9904:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
+            // InternalWodel.g:9912:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
             int alt180=2;
             alt180 = dfa180.predict(input);
             switch (alt180) {
                 case 1 :
-                    // InternalWodel.g:9905:3: this_SpecificIntegerType_0= ruleSpecificIntegerType
+                    // InternalWodel.g:9913:3: this_SpecificIntegerType_0= ruleSpecificIntegerType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -27417,7 +27431,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:9917:3: this_RandomIntegerType_1= ruleRandomIntegerType
+                    // InternalWodel.g:9925:3: this_RandomIntegerType_1= ruleRandomIntegerType
                     {
                     if ( state.backtracking==0 ) {
 
@@ -27468,7 +27482,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificIntegerType"
-    // InternalWodel.g:9932:1: entryRuleSpecificIntegerType returns [EObject current=null] : iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF ;
+    // InternalWodel.g:9940:1: entryRuleSpecificIntegerType returns [EObject current=null] : iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF ;
     public final EObject entryRuleSpecificIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27476,8 +27490,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9932:60: (iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF )
-            // InternalWodel.g:9933:2: iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF
+            // InternalWodel.g:9940:60: (iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF )
+            // InternalWodel.g:9941:2: iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSpecificIntegerTypeRule()); 
@@ -27508,7 +27522,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificIntegerType"
-    // InternalWodel.g:9939:1: ruleSpecificIntegerType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) ) ;
+    // InternalWodel.g:9947:1: ruleSpecificIntegerType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) ) ;
     public final EObject ruleSpecificIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27521,14 +27535,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:9945:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) ) )
-            // InternalWodel.g:9946:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) )
+            // InternalWodel.g:9953:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) ) )
+            // InternalWodel.g:9954:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) )
             {
-            // InternalWodel.g:9946:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) )
-            // InternalWodel.g:9947:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) )
+            // InternalWodel.g:9954:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) ) )
+            // InternalWodel.g:9955:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (lv_value_2_0= ruleEInt ) )
             {
-            // InternalWodel.g:9947:3: ()
-            // InternalWodel.g:9948:4: 
+            // InternalWodel.g:9955:3: ()
+            // InternalWodel.g:9956:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -27545,11 +27559,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9957:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:9958:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9965:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:9966:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:9958:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:9959:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:9966:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:9967:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -27580,11 +27594,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:9976:3: ( (lv_value_2_0= ruleEInt ) )
-            // InternalWodel.g:9977:4: (lv_value_2_0= ruleEInt )
+            // InternalWodel.g:9984:3: ( (lv_value_2_0= ruleEInt ) )
+            // InternalWodel.g:9985:4: (lv_value_2_0= ruleEInt )
             {
-            // InternalWodel.g:9977:4: (lv_value_2_0= ruleEInt )
-            // InternalWodel.g:9978:5: lv_value_2_0= ruleEInt
+            // InternalWodel.g:9985:4: (lv_value_2_0= ruleEInt )
+            // InternalWodel.g:9986:5: lv_value_2_0= ruleEInt
             {
             if ( state.backtracking==0 ) {
 
@@ -27640,7 +27654,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomIntegerType"
-    // InternalWodel.g:9999:1: entryRuleRandomIntegerType returns [EObject current=null] : iv_ruleRandomIntegerType= ruleRandomIntegerType EOF ;
+    // InternalWodel.g:10007:1: entryRuleRandomIntegerType returns [EObject current=null] : iv_ruleRandomIntegerType= ruleRandomIntegerType EOF ;
     public final EObject entryRuleRandomIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27648,8 +27662,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:9999:58: (iv_ruleRandomIntegerType= ruleRandomIntegerType EOF )
-            // InternalWodel.g:10000:2: iv_ruleRandomIntegerType= ruleRandomIntegerType EOF
+            // InternalWodel.g:10007:58: (iv_ruleRandomIntegerType= ruleRandomIntegerType EOF )
+            // InternalWodel.g:10008:2: iv_ruleRandomIntegerType= ruleRandomIntegerType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomIntegerTypeRule()); 
@@ -27680,7 +27694,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomIntegerType"
-    // InternalWodel.g:10006:1: ruleRandomIntegerType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) ;
+    // InternalWodel.g:10014:1: ruleRandomIntegerType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) ;
     public final EObject ruleRandomIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -27699,14 +27713,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10012:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) )
-            // InternalWodel.g:10013:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:10020:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) )
+            // InternalWodel.g:10021:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
             {
-            // InternalWodel.g:10013:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
-            // InternalWodel.g:10014:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
+            // InternalWodel.g:10021:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:10022:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
             {
-            // InternalWodel.g:10014:3: ()
-            // InternalWodel.g:10015:4: 
+            // InternalWodel.g:10022:3: ()
+            // InternalWodel.g:10023:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -27723,11 +27737,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10024:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:10025:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10032:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:10033:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:10025:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:10026:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:10033:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10034:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -27764,7 +27778,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRandomIntegerTypeAccess().getRandomIntKeyword_2());
               		
             }
-            // InternalWodel.g:10047:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
+            // InternalWodel.g:10055:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
             int alt181=2;
             int LA181_0 = input.LA(1);
 
@@ -27773,7 +27787,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt181) {
                 case 1 :
-                    // InternalWodel.g:10048:4: otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
+                    // InternalWodel.g:10056:4: otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
                     {
                     otherlv_3=(Token)match(input,41,FOLLOW_29); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -27781,11 +27795,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getRandomIntegerTypeAccess().getLeftParenthesisKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:10052:4: ( (lv_min_4_0= ruleEInt ) )
-                    // InternalWodel.g:10053:5: (lv_min_4_0= ruleEInt )
+                    // InternalWodel.g:10060:4: ( (lv_min_4_0= ruleEInt ) )
+                    // InternalWodel.g:10061:5: (lv_min_4_0= ruleEInt )
                     {
-                    // InternalWodel.g:10053:5: (lv_min_4_0= ruleEInt )
-                    // InternalWodel.g:10054:6: lv_min_4_0= ruleEInt
+                    // InternalWodel.g:10061:5: (lv_min_4_0= ruleEInt )
+                    // InternalWodel.g:10062:6: lv_min_4_0= ruleEInt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -27822,11 +27836,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getRandomIntegerTypeAccess().getCommaKeyword_3_2());
                       			
                     }
-                    // InternalWodel.g:10075:4: ( (lv_max_6_0= ruleEInt ) )
-                    // InternalWodel.g:10076:5: (lv_max_6_0= ruleEInt )
+                    // InternalWodel.g:10083:4: ( (lv_max_6_0= ruleEInt ) )
+                    // InternalWodel.g:10084:5: (lv_max_6_0= ruleEInt )
                     {
-                    // InternalWodel.g:10076:5: (lv_max_6_0= ruleEInt )
-                    // InternalWodel.g:10077:6: lv_max_6_0= ruleEInt
+                    // InternalWodel.g:10084:5: (lv_max_6_0= ruleEInt )
+                    // InternalWodel.g:10085:6: lv_max_6_0= ruleEInt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -27894,7 +27908,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomStringNumberType"
-    // InternalWodel.g:10103:1: entryRuleRandomStringNumberType returns [EObject current=null] : iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF ;
+    // InternalWodel.g:10111:1: entryRuleRandomStringNumberType returns [EObject current=null] : iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF ;
     public final EObject entryRuleRandomStringNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -27902,8 +27916,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10103:63: (iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF )
-            // InternalWodel.g:10104:2: iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF
+            // InternalWodel.g:10111:63: (iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF )
+            // InternalWodel.g:10112:2: iv_ruleRandomStringNumberType= ruleRandomStringNumberType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomStringNumberTypeRule()); 
@@ -27934,7 +27948,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomStringNumberType"
-    // InternalWodel.g:10110:1: ruleRandomStringNumberType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) ;
+    // InternalWodel.g:10118:1: ruleRandomStringNumberType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) ;
     public final EObject ruleRandomStringNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -27953,14 +27967,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10116:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) )
-            // InternalWodel.g:10117:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:10124:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? ) )
+            // InternalWodel.g:10125:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
             {
-            // InternalWodel.g:10117:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
-            // InternalWodel.g:10118:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
+            // InternalWodel.g:10125:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )? )
+            // InternalWodel.g:10126:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random-int-string' (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
             {
-            // InternalWodel.g:10118:3: ()
-            // InternalWodel.g:10119:4: 
+            // InternalWodel.g:10126:3: ()
+            // InternalWodel.g:10127:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -27977,11 +27991,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10128:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:10129:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10136:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:10137:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:10129:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:10130:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:10137:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10138:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -28018,7 +28032,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRandomStringNumberTypeAccess().getRandomIntStringKeyword_2());
               		
             }
-            // InternalWodel.g:10151:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
+            // InternalWodel.g:10159:3: (otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')' )?
             int alt182=2;
             int LA182_0 = input.LA(1);
 
@@ -28027,7 +28041,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt182) {
                 case 1 :
-                    // InternalWodel.g:10152:4: otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
+                    // InternalWodel.g:10160:4: otherlv_3= '(' ( (lv_min_4_0= ruleEInt ) ) otherlv_5= ',' ( (lv_max_6_0= ruleEInt ) ) otherlv_7= ')'
                     {
                     otherlv_3=(Token)match(input,41,FOLLOW_29); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -28035,11 +28049,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_3, grammarAccess.getRandomStringNumberTypeAccess().getLeftParenthesisKeyword_3_0());
                       			
                     }
-                    // InternalWodel.g:10156:4: ( (lv_min_4_0= ruleEInt ) )
-                    // InternalWodel.g:10157:5: (lv_min_4_0= ruleEInt )
+                    // InternalWodel.g:10164:4: ( (lv_min_4_0= ruleEInt ) )
+                    // InternalWodel.g:10165:5: (lv_min_4_0= ruleEInt )
                     {
-                    // InternalWodel.g:10157:5: (lv_min_4_0= ruleEInt )
-                    // InternalWodel.g:10158:6: lv_min_4_0= ruleEInt
+                    // InternalWodel.g:10165:5: (lv_min_4_0= ruleEInt )
+                    // InternalWodel.g:10166:6: lv_min_4_0= ruleEInt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -28076,11 +28090,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                       				newLeafNode(otherlv_5, grammarAccess.getRandomStringNumberTypeAccess().getCommaKeyword_3_2());
                       			
                     }
-                    // InternalWodel.g:10179:4: ( (lv_max_6_0= ruleEInt ) )
-                    // InternalWodel.g:10180:5: (lv_max_6_0= ruleEInt )
+                    // InternalWodel.g:10187:4: ( (lv_max_6_0= ruleEInt ) )
+                    // InternalWodel.g:10188:5: (lv_max_6_0= ruleEInt )
                     {
-                    // InternalWodel.g:10180:5: (lv_max_6_0= ruleEInt )
-                    // InternalWodel.g:10181:6: lv_max_6_0= ruleEInt
+                    // InternalWodel.g:10188:5: (lv_max_6_0= ruleEInt )
+                    // InternalWodel.g:10189:6: lv_max_6_0= ruleEInt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -28148,7 +28162,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomType"
-    // InternalWodel.g:10207:1: entryRuleRandomType returns [EObject current=null] : iv_ruleRandomType= ruleRandomType EOF ;
+    // InternalWodel.g:10215:1: entryRuleRandomType returns [EObject current=null] : iv_ruleRandomType= ruleRandomType EOF ;
     public final EObject entryRuleRandomType() throws RecognitionException {
         EObject current = null;
 
@@ -28156,8 +28170,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10207:51: (iv_ruleRandomType= ruleRandomType EOF )
-            // InternalWodel.g:10208:2: iv_ruleRandomType= ruleRandomType EOF
+            // InternalWodel.g:10215:51: (iv_ruleRandomType= ruleRandomType EOF )
+            // InternalWodel.g:10216:2: iv_ruleRandomType= ruleRandomType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomTypeRule()); 
@@ -28188,7 +28202,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomType"
-    // InternalWodel.g:10214:1: ruleRandomType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' ) ;
+    // InternalWodel.g:10222:1: ruleRandomType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' ) ;
     public final EObject ruleRandomType() throws RecognitionException {
         EObject current = null;
 
@@ -28200,14 +28214,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10220:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' ) )
-            // InternalWodel.g:10221:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' )
+            // InternalWodel.g:10228:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' ) )
+            // InternalWodel.g:10229:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' )
             {
-            // InternalWodel.g:10221:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' )
-            // InternalWodel.g:10222:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random'
+            // InternalWodel.g:10229:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random' )
+            // InternalWodel.g:10230:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= 'random'
             {
-            // InternalWodel.g:10222:3: ()
-            // InternalWodel.g:10223:4: 
+            // InternalWodel.g:10230:3: ()
+            // InternalWodel.g:10231:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -28224,11 +28238,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10232:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:10233:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10240:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:10241:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:10233:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:10234:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:10241:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10242:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -28290,7 +28304,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomDoubleNumberType"
-    // InternalWodel.g:10259:1: entryRuleRandomDoubleNumberType returns [EObject current=null] : iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF ;
+    // InternalWodel.g:10267:1: entryRuleRandomDoubleNumberType returns [EObject current=null] : iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF ;
     public final EObject entryRuleRandomDoubleNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -28298,8 +28312,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10259:63: (iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF )
-            // InternalWodel.g:10260:2: iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF
+            // InternalWodel.g:10267:63: (iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF )
+            // InternalWodel.g:10268:2: iv_ruleRandomDoubleNumberType= ruleRandomDoubleNumberType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomDoubleNumberTypeRule()); 
@@ -28330,7 +28344,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomDoubleNumberType"
-    // InternalWodel.g:10266:1: ruleRandomDoubleNumberType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) ;
+    // InternalWodel.g:10274:1: ruleRandomDoubleNumberType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) ;
     public final EObject ruleRandomDoubleNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -28351,17 +28365,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10272:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) )
-            // InternalWodel.g:10273:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
+            // InternalWodel.g:10280:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) )
+            // InternalWodel.g:10281:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
             {
-            // InternalWodel.g:10273:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
-            // InternalWodel.g:10274:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')'
+            // InternalWodel.g:10281:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
+            // InternalWodel.g:10282:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')'
             {
-            // InternalWodel.g:10274:3: ( (lv_operator_0_0= ruleOperator ) )
-            // InternalWodel.g:10275:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:10282:3: ( (lv_operator_0_0= ruleOperator ) )
+            // InternalWodel.g:10283:4: (lv_operator_0_0= ruleOperator )
             {
-            // InternalWodel.g:10275:4: (lv_operator_0_0= ruleOperator )
-            // InternalWodel.g:10276:5: lv_operator_0_0= ruleOperator
+            // InternalWodel.g:10283:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:10284:5: lv_operator_0_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -28404,11 +28418,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRandomDoubleNumberTypeAccess().getLeftParenthesisKeyword_2());
               		
             }
-            // InternalWodel.g:10301:3: ( (lv_min_3_0= ruleEDouble ) )
-            // InternalWodel.g:10302:4: (lv_min_3_0= ruleEDouble )
+            // InternalWodel.g:10309:3: ( (lv_min_3_0= ruleEDouble ) )
+            // InternalWodel.g:10310:4: (lv_min_3_0= ruleEDouble )
             {
-            // InternalWodel.g:10302:4: (lv_min_3_0= ruleEDouble )
-            // InternalWodel.g:10303:5: lv_min_3_0= ruleEDouble
+            // InternalWodel.g:10310:4: (lv_min_3_0= ruleEDouble )
+            // InternalWodel.g:10311:5: lv_min_3_0= ruleEDouble
             {
             if ( state.backtracking==0 ) {
 
@@ -28445,7 +28459,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_4, grammarAccess.getRandomDoubleNumberTypeAccess().getCommaKeyword_4());
               		
             }
-            // InternalWodel.g:10324:3: ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )?
+            // InternalWodel.g:10332:3: ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )?
             int alt183=2;
             int LA183_0 = input.LA(1);
 
@@ -28461,13 +28475,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt183) {
                 case 1 :
-                    // InternalWodel.g:10325:4: ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.'
+                    // InternalWodel.g:10333:4: ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.'
                     {
-                    // InternalWodel.g:10325:4: ( (lv_object_5_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:10326:5: (lv_object_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:10333:4: ( (lv_object_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:10334:5: (lv_object_5_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:10326:5: (lv_object_5_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:10327:6: lv_object_5_0= ruleObSelectionStrategy
+                    // InternalWodel.g:10334:5: (lv_object_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:10335:6: lv_object_5_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -28510,11 +28524,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10349:3: ( (otherlv_7= RULE_ID ) )
-            // InternalWodel.g:10350:4: (otherlv_7= RULE_ID )
+            // InternalWodel.g:10357:3: ( (otherlv_7= RULE_ID ) )
+            // InternalWodel.g:10358:4: (otherlv_7= RULE_ID )
             {
-            // InternalWodel.g:10350:4: (otherlv_7= RULE_ID )
-            // InternalWodel.g:10351:5: otherlv_7= RULE_ID
+            // InternalWodel.g:10358:4: (otherlv_7= RULE_ID )
+            // InternalWodel.g:10359:5: otherlv_7= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -28571,7 +28585,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomIntegerNumberType"
-    // InternalWodel.g:10373:1: entryRuleRandomIntegerNumberType returns [EObject current=null] : iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF ;
+    // InternalWodel.g:10381:1: entryRuleRandomIntegerNumberType returns [EObject current=null] : iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF ;
     public final EObject entryRuleRandomIntegerNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -28579,8 +28593,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10373:64: (iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF )
-            // InternalWodel.g:10374:2: iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF
+            // InternalWodel.g:10381:64: (iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF )
+            // InternalWodel.g:10382:2: iv_ruleRandomIntegerNumberType= ruleRandomIntegerNumberType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRandomIntegerNumberTypeRule()); 
@@ -28611,7 +28625,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomIntegerNumberType"
-    // InternalWodel.g:10380:1: ruleRandomIntegerNumberType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) ;
+    // InternalWodel.g:10388:1: ruleRandomIntegerNumberType returns [EObject current=null] : ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) ;
     public final EObject ruleRandomIntegerNumberType() throws RecognitionException {
         EObject current = null;
 
@@ -28632,17 +28646,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10386:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) )
-            // InternalWodel.g:10387:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
+            // InternalWodel.g:10394:2: ( ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' ) )
+            // InternalWodel.g:10395:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
             {
-            // InternalWodel.g:10387:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
-            // InternalWodel.g:10388:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')'
+            // InternalWodel.g:10395:2: ( ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')' )
+            // InternalWodel.g:10396:3: ( (lv_operator_0_0= ruleOperator ) ) otherlv_1= 'random' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )? ( (otherlv_7= RULE_ID ) ) otherlv_8= ')'
             {
-            // InternalWodel.g:10388:3: ( (lv_operator_0_0= ruleOperator ) )
-            // InternalWodel.g:10389:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:10396:3: ( (lv_operator_0_0= ruleOperator ) )
+            // InternalWodel.g:10397:4: (lv_operator_0_0= ruleOperator )
             {
-            // InternalWodel.g:10389:4: (lv_operator_0_0= ruleOperator )
-            // InternalWodel.g:10390:5: lv_operator_0_0= ruleOperator
+            // InternalWodel.g:10397:4: (lv_operator_0_0= ruleOperator )
+            // InternalWodel.g:10398:5: lv_operator_0_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -28685,11 +28699,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getRandomIntegerNumberTypeAccess().getLeftParenthesisKeyword_2());
               		
             }
-            // InternalWodel.g:10415:3: ( (lv_min_3_0= ruleEInt ) )
-            // InternalWodel.g:10416:4: (lv_min_3_0= ruleEInt )
+            // InternalWodel.g:10423:3: ( (lv_min_3_0= ruleEInt ) )
+            // InternalWodel.g:10424:4: (lv_min_3_0= ruleEInt )
             {
-            // InternalWodel.g:10416:4: (lv_min_3_0= ruleEInt )
-            // InternalWodel.g:10417:5: lv_min_3_0= ruleEInt
+            // InternalWodel.g:10424:4: (lv_min_3_0= ruleEInt )
+            // InternalWodel.g:10425:5: lv_min_3_0= ruleEInt
             {
             if ( state.backtracking==0 ) {
 
@@ -28726,7 +28740,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_4, grammarAccess.getRandomIntegerNumberTypeAccess().getCommaKeyword_4());
               		
             }
-            // InternalWodel.g:10438:3: ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )?
+            // InternalWodel.g:10446:3: ( ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.' )?
             int alt184=2;
             int LA184_0 = input.LA(1);
 
@@ -28742,13 +28756,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt184) {
                 case 1 :
-                    // InternalWodel.g:10439:4: ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.'
+                    // InternalWodel.g:10447:4: ( (lv_object_5_0= ruleObSelectionStrategy ) ) otherlv_6= '.'
                     {
-                    // InternalWodel.g:10439:4: ( (lv_object_5_0= ruleObSelectionStrategy ) )
-                    // InternalWodel.g:10440:5: (lv_object_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:10447:4: ( (lv_object_5_0= ruleObSelectionStrategy ) )
+                    // InternalWodel.g:10448:5: (lv_object_5_0= ruleObSelectionStrategy )
                     {
-                    // InternalWodel.g:10440:5: (lv_object_5_0= ruleObSelectionStrategy )
-                    // InternalWodel.g:10441:6: lv_object_5_0= ruleObSelectionStrategy
+                    // InternalWodel.g:10448:5: (lv_object_5_0= ruleObSelectionStrategy )
+                    // InternalWodel.g:10449:6: lv_object_5_0= ruleObSelectionStrategy
                     {
                     if ( state.backtracking==0 ) {
 
@@ -28791,11 +28805,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10463:3: ( (otherlv_7= RULE_ID ) )
-            // InternalWodel.g:10464:4: (otherlv_7= RULE_ID )
+            // InternalWodel.g:10471:3: ( (otherlv_7= RULE_ID ) )
+            // InternalWodel.g:10472:4: (otherlv_7= RULE_ID )
             {
-            // InternalWodel.g:10464:4: (otherlv_7= RULE_ID )
-            // InternalWodel.g:10465:5: otherlv_7= RULE_ID
+            // InternalWodel.g:10472:4: (otherlv_7= RULE_ID )
+            // InternalWodel.g:10473:5: otherlv_7= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -28852,7 +28866,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleListType"
-    // InternalWodel.g:10487:1: entryRuleListType returns [EObject current=null] : iv_ruleListType= ruleListType EOF ;
+    // InternalWodel.g:10495:1: entryRuleListType returns [EObject current=null] : iv_ruleListType= ruleListType EOF ;
     public final EObject entryRuleListType() throws RecognitionException {
         EObject current = null;
 
@@ -28860,8 +28874,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10487:49: (iv_ruleListType= ruleListType EOF )
-            // InternalWodel.g:10488:2: iv_ruleListType= ruleListType EOF
+            // InternalWodel.g:10495:49: (iv_ruleListType= ruleListType EOF )
+            // InternalWodel.g:10496:2: iv_ruleListType= ruleListType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getListTypeRule()); 
@@ -28892,7 +28906,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleListType"
-    // InternalWodel.g:10494:1: ruleListType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' ) ;
+    // InternalWodel.g:10502:1: ruleListType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' ) ;
     public final EObject ruleListType() throws RecognitionException {
         EObject current = null;
 
@@ -28908,14 +28922,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10500:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' ) )
-            // InternalWodel.g:10501:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' )
+            // InternalWodel.g:10508:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' ) )
+            // InternalWodel.g:10509:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' )
             {
-            // InternalWodel.g:10501:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' )
-            // InternalWodel.g:10502:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}'
+            // InternalWodel.g:10509:2: ( () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}' )
+            // InternalWodel.g:10510:3: () ( (lv_operator_1_0= ruleOperator ) ) otherlv_2= '{' ( (otherlv_3= RULE_ID ) ) (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )* otherlv_6= '}'
             {
-            // InternalWodel.g:10502:3: ()
-            // InternalWodel.g:10503:4: 
+            // InternalWodel.g:10510:3: ()
+            // InternalWodel.g:10511:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -28932,11 +28946,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10512:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:10513:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10520:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:10521:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:10513:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:10514:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:10521:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10522:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -28973,11 +28987,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_2, grammarAccess.getListTypeAccess().getLeftCurlyBracketKeyword_2());
               		
             }
-            // InternalWodel.g:10535:3: ( (otherlv_3= RULE_ID ) )
-            // InternalWodel.g:10536:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:10543:3: ( (otherlv_3= RULE_ID ) )
+            // InternalWodel.g:10544:4: (otherlv_3= RULE_ID )
             {
-            // InternalWodel.g:10536:4: (otherlv_3= RULE_ID )
-            // InternalWodel.g:10537:5: otherlv_3= RULE_ID
+            // InternalWodel.g:10544:4: (otherlv_3= RULE_ID )
+            // InternalWodel.g:10545:5: otherlv_3= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -29003,7 +29017,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10551:3: (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )*
+            // InternalWodel.g:10559:3: (otherlv_4= ',' ( (otherlv_5= RULE_ID ) ) )*
             loop185:
             do {
                 int alt185=2;
@@ -29016,7 +29030,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt185) {
             	case 1 :
-            	    // InternalWodel.g:10552:4: otherlv_4= ',' ( (otherlv_5= RULE_ID ) )
+            	    // InternalWodel.g:10560:4: otherlv_4= ',' ( (otherlv_5= RULE_ID ) )
             	    {
             	    otherlv_4=(Token)match(input,26,FOLLOW_20); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
@@ -29024,11 +29038,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             	      				newLeafNode(otherlv_4, grammarAccess.getListTypeAccess().getCommaKeyword_4_0());
             	      			
             	    }
-            	    // InternalWodel.g:10556:4: ( (otherlv_5= RULE_ID ) )
-            	    // InternalWodel.g:10557:5: (otherlv_5= RULE_ID )
+            	    // InternalWodel.g:10564:4: ( (otherlv_5= RULE_ID ) )
+            	    // InternalWodel.g:10565:5: (otherlv_5= RULE_ID )
             	    {
-            	    // InternalWodel.g:10557:5: (otherlv_5= RULE_ID )
-            	    // InternalWodel.g:10558:6: otherlv_5= RULE_ID
+            	    // InternalWodel.g:10565:5: (otherlv_5= RULE_ID )
+            	    // InternalWodel.g:10566:6: otherlv_5= RULE_ID
             	    {
             	    if ( state.backtracking==0 ) {
 
@@ -29094,7 +29108,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleObjectAttributeType"
-    // InternalWodel.g:10581:1: entryRuleObjectAttributeType returns [EObject current=null] : iv_ruleObjectAttributeType= ruleObjectAttributeType EOF ;
+    // InternalWodel.g:10589:1: entryRuleObjectAttributeType returns [EObject current=null] : iv_ruleObjectAttributeType= ruleObjectAttributeType EOF ;
     public final EObject entryRuleObjectAttributeType() throws RecognitionException {
         EObject current = null;
 
@@ -29102,8 +29116,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10581:60: (iv_ruleObjectAttributeType= ruleObjectAttributeType EOF )
-            // InternalWodel.g:10582:2: iv_ruleObjectAttributeType= ruleObjectAttributeType EOF
+            // InternalWodel.g:10589:60: (iv_ruleObjectAttributeType= ruleObjectAttributeType EOF )
+            // InternalWodel.g:10590:2: iv_ruleObjectAttributeType= ruleObjectAttributeType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getObjectAttributeTypeRule()); 
@@ -29134,7 +29148,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObjectAttributeType"
-    // InternalWodel.g:10588:1: ruleObjectAttributeType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) ) ;
+    // InternalWodel.g:10596:1: ruleObjectAttributeType returns [EObject current=null] : ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) ) ;
     public final EObject ruleObjectAttributeType() throws RecognitionException {
         EObject current = null;
 
@@ -29148,14 +29162,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10594:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) ) )
-            // InternalWodel.g:10595:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )
+            // InternalWodel.g:10602:2: ( ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) ) )
+            // InternalWodel.g:10603:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )
             {
-            // InternalWodel.g:10595:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )
-            // InternalWodel.g:10596:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
+            // InternalWodel.g:10603:2: ( () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )
+            // InternalWodel.g:10604:3: () ( (lv_operator_1_0= ruleOperator ) ) ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
             {
-            // InternalWodel.g:10596:3: ()
-            // InternalWodel.g:10597:4: 
+            // InternalWodel.g:10604:3: ()
+            // InternalWodel.g:10605:4: 
             {
             if ( state.backtracking==0 ) {
 
@@ -29172,11 +29186,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10606:3: ( (lv_operator_1_0= ruleOperator ) )
-            // InternalWodel.g:10607:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10614:3: ( (lv_operator_1_0= ruleOperator ) )
+            // InternalWodel.g:10615:4: (lv_operator_1_0= ruleOperator )
             {
-            // InternalWodel.g:10607:4: (lv_operator_1_0= ruleOperator )
-            // InternalWodel.g:10608:5: lv_operator_1_0= ruleOperator
+            // InternalWodel.g:10615:4: (lv_operator_1_0= ruleOperator )
+            // InternalWodel.g:10616:5: lv_operator_1_0= ruleOperator
             {
             if ( state.backtracking==0 ) {
 
@@ -29207,11 +29221,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalWodel.g:10625:3: ( (otherlv_2= RULE_ID ) )
-            // InternalWodel.g:10626:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:10633:3: ( (otherlv_2= RULE_ID ) )
+            // InternalWodel.g:10634:4: (otherlv_2= RULE_ID )
             {
-            // InternalWodel.g:10626:4: (otherlv_2= RULE_ID )
-            // InternalWodel.g:10627:5: otherlv_2= RULE_ID
+            // InternalWodel.g:10634:4: (otherlv_2= RULE_ID )
+            // InternalWodel.g:10635:5: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -29243,11 +29257,11 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_3, grammarAccess.getObjectAttributeTypeAccess().getFullStopKeyword_3());
               		
             }
-            // InternalWodel.g:10645:3: ( (otherlv_4= RULE_ID ) )
-            // InternalWodel.g:10646:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:10653:3: ( (otherlv_4= RULE_ID ) )
+            // InternalWodel.g:10654:4: (otherlv_4= RULE_ID )
             {
-            // InternalWodel.g:10646:4: (otherlv_4= RULE_ID )
-            // InternalWodel.g:10647:5: otherlv_4= RULE_ID
+            // InternalWodel.g:10654:4: (otherlv_4= RULE_ID )
+            // InternalWodel.g:10655:5: otherlv_4= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -29298,7 +29312,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMaxCardinality"
-    // InternalWodel.g:10665:1: entryRuleMaxCardinality returns [String current=null] : iv_ruleMaxCardinality= ruleMaxCardinality EOF ;
+    // InternalWodel.g:10673:1: entryRuleMaxCardinality returns [String current=null] : iv_ruleMaxCardinality= ruleMaxCardinality EOF ;
     public final String entryRuleMaxCardinality() throws RecognitionException {
         String current = null;
 
@@ -29306,8 +29320,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalWodel.g:10665:54: (iv_ruleMaxCardinality= ruleMaxCardinality EOF )
-            // InternalWodel.g:10666:2: iv_ruleMaxCardinality= ruleMaxCardinality EOF
+            // InternalWodel.g:10673:54: (iv_ruleMaxCardinality= ruleMaxCardinality EOF )
+            // InternalWodel.g:10674:2: iv_ruleMaxCardinality= ruleMaxCardinality EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMaxCardinalityRule()); 
@@ -29338,7 +29352,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMaxCardinality"
-    // InternalWodel.g:10672:1: ruleMaxCardinality returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_EInt_0= ruleEInt | kw= '*' ) ;
+    // InternalWodel.g:10680:1: ruleMaxCardinality returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_EInt_0= ruleEInt | kw= '*' ) ;
     public final AntlrDatatypeRuleToken ruleMaxCardinality() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -29350,10 +29364,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10678:2: ( (this_EInt_0= ruleEInt | kw= '*' ) )
-            // InternalWodel.g:10679:2: (this_EInt_0= ruleEInt | kw= '*' )
+            // InternalWodel.g:10686:2: ( (this_EInt_0= ruleEInt | kw= '*' ) )
+            // InternalWodel.g:10687:2: (this_EInt_0= ruleEInt | kw= '*' )
             {
-            // InternalWodel.g:10679:2: (this_EInt_0= ruleEInt | kw= '*' )
+            // InternalWodel.g:10687:2: (this_EInt_0= ruleEInt | kw= '*' )
             int alt186=2;
             int LA186_0 = input.LA(1);
 
@@ -29372,7 +29386,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt186) {
                 case 1 :
-                    // InternalWodel.g:10680:3: this_EInt_0= ruleEInt
+                    // InternalWodel.g:10688:3: this_EInt_0= ruleEInt
                     {
                     if ( state.backtracking==0 ) {
 
@@ -29398,7 +29412,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10691:3: kw= '*'
+                    // InternalWodel.g:10699:3: kw= '*'
                     {
                     kw=(Token)match(input,97,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29435,7 +29449,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLogicOperator"
-    // InternalWodel.g:10700:1: ruleLogicOperator returns [Enumerator current=null] : ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) ;
+    // InternalWodel.g:10708:1: ruleLogicOperator returns [Enumerator current=null] : ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) ;
     public final Enumerator ruleLogicOperator() throws RecognitionException {
         Enumerator current = null;
 
@@ -29446,10 +29460,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10706:2: ( ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) )
-            // InternalWodel.g:10707:2: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
+            // InternalWodel.g:10714:2: ( ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) )
+            // InternalWodel.g:10715:2: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
             {
-            // InternalWodel.g:10707:2: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
+            // InternalWodel.g:10715:2: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
             int alt187=2;
             int LA187_0 = input.LA(1);
 
@@ -29468,10 +29482,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt187) {
                 case 1 :
-                    // InternalWodel.g:10708:3: (enumLiteral_0= 'and' )
+                    // InternalWodel.g:10716:3: (enumLiteral_0= 'and' )
                     {
-                    // InternalWodel.g:10708:3: (enumLiteral_0= 'and' )
-                    // InternalWodel.g:10709:4: enumLiteral_0= 'and'
+                    // InternalWodel.g:10716:3: (enumLiteral_0= 'and' )
+                    // InternalWodel.g:10717:4: enumLiteral_0= 'and'
                     {
                     enumLiteral_0=(Token)match(input,44,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29487,10 +29501,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10716:3: (enumLiteral_1= 'or' )
+                    // InternalWodel.g:10724:3: (enumLiteral_1= 'or' )
                     {
-                    // InternalWodel.g:10716:3: (enumLiteral_1= 'or' )
-                    // InternalWodel.g:10717:4: enumLiteral_1= 'or'
+                    // InternalWodel.g:10724:3: (enumLiteral_1= 'or' )
+                    // InternalWodel.g:10725:4: enumLiteral_1= 'or'
                     {
                     enumLiteral_1=(Token)match(input,43,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29530,7 +29544,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOperator"
-    // InternalWodel.g:10727:1: ruleOperator returns [Enumerator current=null] : ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) ) ;
+    // InternalWodel.g:10735:1: ruleOperator returns [Enumerator current=null] : ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) ) ;
     public final Enumerator ruleOperator() throws RecognitionException {
         Enumerator current = null;
 
@@ -29548,10 +29562,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10733:2: ( ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) ) )
-            // InternalWodel.g:10734:2: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) )
+            // InternalWodel.g:10741:2: ( ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) ) )
+            // InternalWodel.g:10742:2: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) )
             {
-            // InternalWodel.g:10734:2: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) )
+            // InternalWodel.g:10742:2: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) | (enumLiteral_2= 'in' ) | (enumLiteral_3= 'is' ) | (enumLiteral_4= 'not' ) | (enumLiteral_5= '>=' ) | (enumLiteral_6= '<=' ) | (enumLiteral_7= '>' ) | (enumLiteral_8= '<' ) )
             int alt188=9;
             switch ( input.LA(1) ) {
             case 28:
@@ -29609,10 +29623,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             switch (alt188) {
                 case 1 :
-                    // InternalWodel.g:10735:3: (enumLiteral_0= '=' )
+                    // InternalWodel.g:10743:3: (enumLiteral_0= '=' )
                     {
-                    // InternalWodel.g:10735:3: (enumLiteral_0= '=' )
-                    // InternalWodel.g:10736:4: enumLiteral_0= '='
+                    // InternalWodel.g:10743:3: (enumLiteral_0= '=' )
+                    // InternalWodel.g:10744:4: enumLiteral_0= '='
                     {
                     enumLiteral_0=(Token)match(input,28,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29628,10 +29642,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10743:3: (enumLiteral_1= '<>' )
+                    // InternalWodel.g:10751:3: (enumLiteral_1= '<>' )
                     {
-                    // InternalWodel.g:10743:3: (enumLiteral_1= '<>' )
-                    // InternalWodel.g:10744:4: enumLiteral_1= '<>'
+                    // InternalWodel.g:10751:3: (enumLiteral_1= '<>' )
+                    // InternalWodel.g:10752:4: enumLiteral_1= '<>'
                     {
                     enumLiteral_1=(Token)match(input,37,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29647,10 +29661,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:10751:3: (enumLiteral_2= 'in' )
+                    // InternalWodel.g:10759:3: (enumLiteral_2= 'in' )
                     {
-                    // InternalWodel.g:10751:3: (enumLiteral_2= 'in' )
-                    // InternalWodel.g:10752:4: enumLiteral_2= 'in'
+                    // InternalWodel.g:10759:3: (enumLiteral_2= 'in' )
+                    // InternalWodel.g:10760:4: enumLiteral_2= 'in'
                     {
                     enumLiteral_2=(Token)match(input,23,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29666,10 +29680,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalWodel.g:10759:3: (enumLiteral_3= 'is' )
+                    // InternalWodel.g:10767:3: (enumLiteral_3= 'is' )
                     {
-                    // InternalWodel.g:10759:3: (enumLiteral_3= 'is' )
-                    // InternalWodel.g:10760:4: enumLiteral_3= 'is'
+                    // InternalWodel.g:10767:3: (enumLiteral_3= 'is' )
+                    // InternalWodel.g:10768:4: enumLiteral_3= 'is'
                     {
                     enumLiteral_3=(Token)match(input,98,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29685,10 +29699,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalWodel.g:10767:3: (enumLiteral_4= 'not' )
+                    // InternalWodel.g:10775:3: (enumLiteral_4= 'not' )
                     {
-                    // InternalWodel.g:10767:3: (enumLiteral_4= 'not' )
-                    // InternalWodel.g:10768:4: enumLiteral_4= 'not'
+                    // InternalWodel.g:10775:3: (enumLiteral_4= 'not' )
+                    // InternalWodel.g:10776:4: enumLiteral_4= 'not'
                     {
                     enumLiteral_4=(Token)match(input,99,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29704,10 +29718,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalWodel.g:10775:3: (enumLiteral_5= '>=' )
+                    // InternalWodel.g:10783:3: (enumLiteral_5= '>=' )
                     {
-                    // InternalWodel.g:10775:3: (enumLiteral_5= '>=' )
-                    // InternalWodel.g:10776:4: enumLiteral_5= '>='
+                    // InternalWodel.g:10783:3: (enumLiteral_5= '>=' )
+                    // InternalWodel.g:10784:4: enumLiteral_5= '>='
                     {
                     enumLiteral_5=(Token)match(input,100,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29723,10 +29737,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalWodel.g:10783:3: (enumLiteral_6= '<=' )
+                    // InternalWodel.g:10791:3: (enumLiteral_6= '<=' )
                     {
-                    // InternalWodel.g:10783:3: (enumLiteral_6= '<=' )
-                    // InternalWodel.g:10784:4: enumLiteral_6= '<='
+                    // InternalWodel.g:10791:3: (enumLiteral_6= '<=' )
+                    // InternalWodel.g:10792:4: enumLiteral_6= '<='
                     {
                     enumLiteral_6=(Token)match(input,101,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29742,10 +29756,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalWodel.g:10791:3: (enumLiteral_7= '>' )
+                    // InternalWodel.g:10799:3: (enumLiteral_7= '>' )
                     {
-                    // InternalWodel.g:10791:3: (enumLiteral_7= '>' )
-                    // InternalWodel.g:10792:4: enumLiteral_7= '>'
+                    // InternalWodel.g:10799:3: (enumLiteral_7= '>' )
+                    // InternalWodel.g:10800:4: enumLiteral_7= '>'
                     {
                     enumLiteral_7=(Token)match(input,102,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29761,10 +29775,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // InternalWodel.g:10799:3: (enumLiteral_8= '<' )
+                    // InternalWodel.g:10807:3: (enumLiteral_8= '<' )
                     {
-                    // InternalWodel.g:10799:3: (enumLiteral_8= '<' )
-                    // InternalWodel.g:10800:4: enumLiteral_8= '<'
+                    // InternalWodel.g:10807:3: (enumLiteral_8= '<' )
+                    // InternalWodel.g:10808:4: enumLiteral_8= '<'
                     {
                     enumLiteral_8=(Token)match(input,103,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29804,7 +29818,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleArithmeticOperator"
-    // InternalWodel.g:10810:1: ruleArithmeticOperator returns [Enumerator current=null] : ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) ) ;
+    // InternalWodel.g:10818:1: ruleArithmeticOperator returns [Enumerator current=null] : ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) ) ;
     public final Enumerator ruleArithmeticOperator() throws RecognitionException {
         Enumerator current = null;
 
@@ -29818,10 +29832,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10816:2: ( ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) ) )
-            // InternalWodel.g:10817:2: ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) )
+            // InternalWodel.g:10824:2: ( ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) ) )
+            // InternalWodel.g:10825:2: ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) )
             {
-            // InternalWodel.g:10817:2: ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) )
+            // InternalWodel.g:10825:2: ( (enumLiteral_0= '+' ) | (enumLiteral_1= '-' ) | (enumLiteral_2= '*' ) | (enumLiteral_3= '/' ) | (enumLiteral_4= '%' ) )
             int alt189=5;
             switch ( input.LA(1) ) {
             case 78:
@@ -29859,10 +29873,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
             switch (alt189) {
                 case 1 :
-                    // InternalWodel.g:10818:3: (enumLiteral_0= '+' )
+                    // InternalWodel.g:10826:3: (enumLiteral_0= '+' )
                     {
-                    // InternalWodel.g:10818:3: (enumLiteral_0= '+' )
-                    // InternalWodel.g:10819:4: enumLiteral_0= '+'
+                    // InternalWodel.g:10826:3: (enumLiteral_0= '+' )
+                    // InternalWodel.g:10827:4: enumLiteral_0= '+'
                     {
                     enumLiteral_0=(Token)match(input,78,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29878,10 +29892,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10826:3: (enumLiteral_1= '-' )
+                    // InternalWodel.g:10834:3: (enumLiteral_1= '-' )
                     {
-                    // InternalWodel.g:10826:3: (enumLiteral_1= '-' )
-                    // InternalWodel.g:10827:4: enumLiteral_1= '-'
+                    // InternalWodel.g:10834:3: (enumLiteral_1= '-' )
+                    // InternalWodel.g:10835:4: enumLiteral_1= '-'
                     {
                     enumLiteral_1=(Token)match(input,53,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29897,10 +29911,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalWodel.g:10834:3: (enumLiteral_2= '*' )
+                    // InternalWodel.g:10842:3: (enumLiteral_2= '*' )
                     {
-                    // InternalWodel.g:10834:3: (enumLiteral_2= '*' )
-                    // InternalWodel.g:10835:4: enumLiteral_2= '*'
+                    // InternalWodel.g:10842:3: (enumLiteral_2= '*' )
+                    // InternalWodel.g:10843:4: enumLiteral_2= '*'
                     {
                     enumLiteral_2=(Token)match(input,97,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29916,10 +29930,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalWodel.g:10842:3: (enumLiteral_3= '/' )
+                    // InternalWodel.g:10850:3: (enumLiteral_3= '/' )
                     {
-                    // InternalWodel.g:10842:3: (enumLiteral_3= '/' )
-                    // InternalWodel.g:10843:4: enumLiteral_3= '/'
+                    // InternalWodel.g:10850:3: (enumLiteral_3= '/' )
+                    // InternalWodel.g:10851:4: enumLiteral_3= '/'
                     {
                     enumLiteral_3=(Token)match(input,104,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29935,10 +29949,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalWodel.g:10850:3: (enumLiteral_4= '%' )
+                    // InternalWodel.g:10858:3: (enumLiteral_4= '%' )
                     {
-                    // InternalWodel.g:10850:3: (enumLiteral_4= '%' )
-                    // InternalWodel.g:10851:4: enumLiteral_4= '%'
+                    // InternalWodel.g:10858:3: (enumLiteral_4= '%' )
+                    // InternalWodel.g:10859:4: enumLiteral_4= '%'
                     {
                     enumLiteral_4=(Token)match(input,105,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -29978,7 +29992,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRepeat"
-    // InternalWodel.g:10861:1: ruleRepeat returns [Enumerator current=null] : ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) ;
+    // InternalWodel.g:10869:1: ruleRepeat returns [Enumerator current=null] : ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) ;
     public final Enumerator ruleRepeat() throws RecognitionException {
         Enumerator current = null;
 
@@ -29989,10 +30003,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10867:2: ( ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) )
-            // InternalWodel.g:10868:2: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
+            // InternalWodel.g:10875:2: ( ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) )
+            // InternalWodel.g:10876:2: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
             {
-            // InternalWodel.g:10868:2: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
+            // InternalWodel.g:10876:2: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
             int alt190=2;
             int LA190_0 = input.LA(1);
 
@@ -30011,10 +30025,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt190) {
                 case 1 :
-                    // InternalWodel.g:10869:3: (enumLiteral_0= 'yes' )
+                    // InternalWodel.g:10877:3: (enumLiteral_0= 'yes' )
                     {
-                    // InternalWodel.g:10869:3: (enumLiteral_0= 'yes' )
-                    // InternalWodel.g:10870:4: enumLiteral_0= 'yes'
+                    // InternalWodel.g:10877:3: (enumLiteral_0= 'yes' )
+                    // InternalWodel.g:10878:4: enumLiteral_0= 'yes'
                     {
                     enumLiteral_0=(Token)match(input,106,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -30030,10 +30044,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10877:3: (enumLiteral_1= 'no' )
+                    // InternalWodel.g:10885:3: (enumLiteral_1= 'no' )
                     {
-                    // InternalWodel.g:10877:3: (enumLiteral_1= 'no' )
-                    // InternalWodel.g:10878:4: enumLiteral_1= 'no'
+                    // InternalWodel.g:10885:3: (enumLiteral_1= 'no' )
+                    // InternalWodel.g:10886:4: enumLiteral_1= 'no'
                     {
                     enumLiteral_1=(Token)match(input,107,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -30073,7 +30087,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSampleClause"
-    // InternalWodel.g:10888:1: ruleSampleClause returns [Enumerator current=null] : ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) ) ;
+    // InternalWodel.g:10896:1: ruleSampleClause returns [Enumerator current=null] : ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) ) ;
     public final Enumerator ruleSampleClause() throws RecognitionException {
         Enumerator current = null;
 
@@ -30084,10 +30098,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalWodel.g:10894:2: ( ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) ) )
-            // InternalWodel.g:10895:2: ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) )
+            // InternalWodel.g:10902:2: ( ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) ) )
+            // InternalWodel.g:10903:2: ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) )
             {
-            // InternalWodel.g:10895:2: ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) )
+            // InternalWodel.g:10903:2: ( (enumLiteral_0= 'equals' ) | (enumLiteral_1= 'distinct' ) )
             int alt191=2;
             int LA191_0 = input.LA(1);
 
@@ -30106,10 +30120,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt191) {
                 case 1 :
-                    // InternalWodel.g:10896:3: (enumLiteral_0= 'equals' )
+                    // InternalWodel.g:10904:3: (enumLiteral_0= 'equals' )
                     {
-                    // InternalWodel.g:10896:3: (enumLiteral_0= 'equals' )
-                    // InternalWodel.g:10897:4: enumLiteral_0= 'equals'
+                    // InternalWodel.g:10904:3: (enumLiteral_0= 'equals' )
+                    // InternalWodel.g:10905:4: enumLiteral_0= 'equals'
                     {
                     enumLiteral_0=(Token)match(input,108,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -30125,10 +30139,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10904:3: (enumLiteral_1= 'distinct' )
+                    // InternalWodel.g:10912:3: (enumLiteral_1= 'distinct' )
                     {
-                    // InternalWodel.g:10904:3: (enumLiteral_1= 'distinct' )
-                    // InternalWodel.g:10905:4: enumLiteral_1= 'distinct'
+                    // InternalWodel.g:10912:3: (enumLiteral_1= 'distinct' )
+                    // InternalWodel.g:10913:4: enumLiteral_1= 'distinct'
                     {
                     enumLiteral_1=(Token)match(input,109,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -30298,17 +30312,17 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
     protected DFA178 dfa178 = new DFA178(this);
     protected DFA180 dfa180 = new DFA180(this);
     static final String dfa_1s = "\25\uffff";
-    static final String dfa_2s = "\1\4\1\34\1\4\1\uffff\2\4\2\uffff\1\36\5\uffff\1\4\1\uffff\1\4\1\uffff\1\4\2\uffff";
-    static final String dfa_3s = "\1\110\1\34\1\75\1\uffff\2\123\2\uffff\1\110\5\uffff\1\75\1\uffff\1\75\1\uffff\1\123\2\uffff";
-    static final String dfa_4s = "\3\uffff\1\4\2\uffff\1\13\1\14\1\uffff\1\1\1\7\1\12\1\5\1\6\1\uffff\1\10\1\uffff\1\11\1\uffff\1\2\1\3";
+    static final String dfa_2s = "\1\4\1\34\1\4\1\uffff\2\4\2\uffff\1\36\6\uffff\2\4\1\uffff\1\4\2\uffff";
+    static final String dfa_3s = "\1\110\1\34\1\75\1\uffff\2\123\2\uffff\1\110\6\uffff\2\75\1\uffff\1\123\2\uffff";
+    static final String dfa_4s = "\3\uffff\1\4\2\uffff\1\13\1\14\1\uffff\1\7\1\1\1\12\1\5\1\6\1\11\2\uffff\1\10\1\uffff\1\2\1\3";
     static final String dfa_5s = "\25\uffff}>";
     static final String[] dfa_6s = {
             "\1\1\31\uffff\1\3\34\uffff\1\5\3\uffff\1\2\2\uffff\1\4\3\uffff\2\6\1\7",
             "\1\10",
-            "\1\11\70\uffff\1\12",
+            "\1\12\70\uffff\1\11",
             "",
             "\1\13\67\uffff\1\13\1\uffff\1\13\5\uffff\1\14\1\15\13\uffff\3\13",
-            "\1\17\67\uffff\1\16\1\21\1\20\22\uffff\3\17",
+            "\1\21\67\uffff\1\20\1\16\1\17\22\uffff\3\21",
             "",
             "",
             "\1\3\40\uffff\1\2\1\22\1\uffff\1\13\3\uffff\2\6\1\7",
@@ -30317,9 +30331,9 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             "",
             "",
             "",
-            "\1\17\31\uffff\1\17\36\uffff\1\21",
             "",
-            "\1\17\31\uffff\1\17\36\uffff\1\21",
+            "\1\21\31\uffff\1\21\36\uffff\1\16",
+            "\1\21\31\uffff\1\21\36\uffff\1\16",
             "",
             "\1\23\67\uffff\1\23\1\uffff\1\23\2\uffff\1\24\17\uffff\3\23",
             "",
@@ -30395,26 +30409,26 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
         }
     }
     static final String dfa_13s = "\21\uffff";
-    static final String dfa_14s = "\13\uffff\1\20\5\uffff";
-    static final String dfa_15s = "\1\27\11\5\1\uffff\1\16\5\uffff";
-    static final String dfa_16s = "\1\147\11\140\1\uffff\1\54\5\uffff";
-    static final String dfa_17s = "\12\uffff\1\1\1\uffff\1\3\1\2\1\6\1\4\1\5";
+    static final String dfa_14s = "\15\uffff\1\20\3\uffff";
+    static final String dfa_15s = "\1\27\11\5\3\uffff\1\16\3\uffff";
+    static final String dfa_16s = "\1\147\11\140\3\uffff\1\147\3\uffff";
+    static final String dfa_17s = "\12\uffff\1\3\1\2\1\1\1\uffff\1\6\1\4\1\5";
     static final String dfa_18s = "\21\uffff}>";
     static final String[] dfa_19s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "\1\12\1\14\6\uffff\1\16\20\uffff\1\17\7\uffff\1\12\13\uffff\2\15\1\uffff\1\12\36\uffff\1\15\6\14\4\12\1\14\1\13",
-            "",
-            "\1\20\13\uffff\1\20\16\uffff\1\12\1\uffff\2\20",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
+            "\1\14\1\12\6\uffff\1\16\20\uffff\1\17\7\uffff\1\14\13\uffff\2\13\1\uffff\1\14\36\uffff\1\13\6\12\4\14\1\12\1\15",
             "",
             "",
+            "",
+            "\1\20\10\uffff\1\20\2\uffff\1\20\1\uffff\1\20\10\uffff\1\20\3\uffff\1\14\1\uffff\2\20\65\uffff\6\20",
             "",
             "",
             ""
@@ -30447,22 +30461,22 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_20s = "\14\uffff\1\17\4\uffff";
     static final String dfa_21s = "\1\27\11\5\1\uffff\1\5\1\16\4\uffff";
-    static final String dfa_22s = "\1\147\11\140\1\uffff\1\46\1\54\4\uffff";
-    static final String dfa_23s = "\12\uffff\1\2\2\uffff\1\4\1\5\1\1\1\3";
+    static final String dfa_22s = "\1\147\11\140\1\uffff\1\46\1\147\4\uffff";
+    static final String dfa_23s = "\12\uffff\1\5\2\uffff\1\2\1\3\1\1\1\4";
     static final String[] dfa_24s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
-            "\1\14\40\uffff\1\12\16\uffff\1\13\45\uffff\1\12\1\20\1\15\1\17\1\uffff\1\16",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
+            "\1\14\40\uffff\1\15\16\uffff\1\13\45\uffff\1\15\1\16\1\20\1\17\1\uffff\1\12",
             "",
-            "\1\14\40\uffff\1\12",
-            "\1\17\13\uffff\1\17\13\uffff\1\12\4\uffff\2\17",
+            "\1\14\40\uffff\1\15",
+            "\1\17\10\uffff\1\17\2\uffff\1\17\1\uffff\1\17\10\uffff\1\17\1\15\4\uffff\2\17\65\uffff\6\17",
             "",
             "",
             "",
@@ -30584,7 +30598,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_37;
         }
         public String getDescription() {
-            return "4113:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )";
+            return "4121:2: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )";
         }
     }
     static final String dfa_38s = "\1\4\1\27\3\uffff\1\4\2\27\2\4\2\16";
@@ -30623,7 +30637,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_41;
         }
         public String getDescription() {
-            return "4845:4: ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )?";
+            return "4853:4: ( ( (lv_attributes_8_0= ruleAttributeSet ) ) | ( (lv_references_9_0= ruleReferenceSet ) ) )?";
         }
     }
     static final String dfa_42s = "\13\uffff";
@@ -30666,28 +30680,9 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_47;
         }
         public String getDescription() {
-            return "4891:5: ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )";
+            return "4899:5: ( ( (lv_attributes_11_0= ruleAttributeSet ) ) | ( (lv_references_12_0= ruleReferenceSet ) ) )";
         }
     }
-    static final String dfa_48s = "\1\4\1\27\3\uffff\2\27\3\4\2\16";
-    static final String dfa_49s = "\1\117\1\151\3\uffff\2\147\3\140\2\120";
-    static final String[] dfa_50s = {
-            "\1\1\11\uffff\1\4\13\uffff\1\4\57\uffff\4\2\1\uffff\1\3",
-            "\1\2\4\uffff\1\7\10\uffff\1\2\1\3\16\uffff\1\6\30\uffff\1\5\22\uffff\11\2",
-            "",
-            "",
-            "",
-            "\1\2\4\uffff\1\10\10\uffff\1\2\74\uffff\6\2",
-            "\1\2\4\uffff\1\11\10\uffff\1\2\74\uffff\6\2",
-            "\1\3\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\12\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\13\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3",
-            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3"
-    };
-    static final char[] dfa_48 = DFA.unpackEncodedStringToUnsignedChars(dfa_48s);
-    static final char[] dfa_49 = DFA.unpackEncodedStringToUnsignedChars(dfa_49s);
-    static final short[][] dfa_50 = unpackEncodedStringArray(dfa_50s);
 
     class DFA98 extends DFA {
 
@@ -30696,34 +30691,16 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 98;
             this.eot = dfa_7;
             this.eof = dfa_7;
-            this.min = dfa_48;
-            this.max = dfa_49;
+            this.min = dfa_38;
+            this.max = dfa_39;
             this.accept = dfa_40;
             this.special = dfa_11;
-            this.transition = dfa_50;
+            this.transition = dfa_41;
         }
         public String getDescription() {
-            return "5299:4: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?";
+            return "5307:4: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?";
         }
     }
-    static final String dfa_51s = "\1\4\1\27\2\uffff\2\27\3\4\2\16";
-    static final String dfa_52s = "\1\117\1\151\2\uffff\2\147\3\140\2\120";
-    static final String[] dfa_53s = {
-            "\1\1\105\uffff\4\2\1\uffff\1\3",
-            "\1\2\4\uffff\1\6\10\uffff\1\2\1\3\16\uffff\1\5\30\uffff\1\4\22\uffff\11\2",
-            "",
-            "",
-            "\1\2\4\uffff\1\7\10\uffff\1\2\74\uffff\6\2",
-            "\1\2\4\uffff\1\10\10\uffff\1\2\74\uffff\6\2",
-            "\1\3\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\11\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\12\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
-            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3",
-            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3"
-    };
-    static final char[] dfa_51 = DFA.unpackEncodedStringToUnsignedChars(dfa_51s);
-    static final char[] dfa_52 = DFA.unpackEncodedStringToUnsignedChars(dfa_52s);
-    static final short[][] dfa_53 = unpackEncodedStringArray(dfa_53s);
 
     class DFA99 extends DFA {
 
@@ -30732,14 +30709,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 99;
             this.eot = dfa_42;
             this.eof = dfa_42;
-            this.min = dfa_51;
-            this.max = dfa_52;
+            this.min = dfa_43;
+            this.max = dfa_44;
             this.accept = dfa_45;
             this.special = dfa_46;
-            this.transition = dfa_53;
+            this.transition = dfa_47;
         }
         public String getDescription() {
-            return "5345:5: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )";
+            return "5353:5: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )";
         }
     }
 
@@ -30757,9 +30734,27 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_41;
         }
         public String getDescription() {
-            return "6190:4: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )?";
+            return "6198:4: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )?";
         }
     }
+    static final String dfa_48s = "\1\4\1\27\2\uffff\2\27\3\4\2\16";
+    static final String dfa_49s = "\1\117\1\151\2\uffff\2\147\3\140\2\120";
+    static final String[] dfa_50s = {
+            "\1\1\105\uffff\4\2\1\uffff\1\3",
+            "\1\2\4\uffff\1\6\10\uffff\1\2\1\3\16\uffff\1\5\30\uffff\1\4\22\uffff\11\2",
+            "",
+            "",
+            "\1\2\4\uffff\1\7\10\uffff\1\2\74\uffff\6\2",
+            "\1\2\4\uffff\1\10\10\uffff\1\2\74\uffff\6\2",
+            "\1\3\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
+            "\1\11\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
+            "\1\12\2\2\6\uffff\1\2\20\uffff\1\2\7\uffff\1\2\13\uffff\2\2\1\uffff\1\2\6\uffff\1\3\1\uffff\1\3\22\uffff\3\3\15\2",
+            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3",
+            "\1\3\13\uffff\1\3\13\uffff\1\2\1\3\50\uffff\1\3"
+    };
+    static final char[] dfa_48 = DFA.unpackEncodedStringToUnsignedChars(dfa_48s);
+    static final char[] dfa_49 = DFA.unpackEncodedStringToUnsignedChars(dfa_49s);
+    static final short[][] dfa_50 = unpackEncodedStringArray(dfa_50s);
 
     class DFA125 extends DFA {
 
@@ -30768,14 +30763,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 125;
             this.eot = dfa_42;
             this.eof = dfa_42;
-            this.min = dfa_43;
-            this.max = dfa_44;
+            this.min = dfa_48;
+            this.max = dfa_49;
             this.accept = dfa_45;
             this.special = dfa_46;
-            this.transition = dfa_47;
+            this.transition = dfa_50;
         }
         public String getDescription() {
-            return "6236:5: ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )";
+            return "6244:5: ( ( (lv_attributes_12_0= ruleAttributeSet ) ) | ( (lv_references_13_0= ruleReferenceSet ) ) )";
         }
     }
 
@@ -30793,7 +30788,7 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_41;
         }
         public String getDescription() {
-            return "6508:4: ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )?";
+            return "6516:4: ( ( (lv_attributes_15_0= ruleAttributeSet ) ) | ( (lv_references_16_0= ruleReferenceSet ) ) )?";
         }
     }
 
@@ -30811,13 +30806,13 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.transition = dfa_47;
         }
         public String getDescription() {
-            return "6554:5: ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )";
+            return "6562:5: ( ( (lv_attributes_18_0= ruleAttributeSet ) ) | ( (lv_references_19_0= ruleReferenceSet ) ) )";
         }
     }
-    static final String dfa_54s = "\1\27\11\62\2\uffff";
-    static final String dfa_55s = "\1\147\11\124\2\uffff";
-    static final String dfa_56s = "\12\uffff\1\2\1\1";
-    static final String[] dfa_57s = {
+    static final String dfa_51s = "\1\27\11\62\2\uffff";
+    static final String dfa_52s = "\1\147\11\124\2\uffff";
+    static final String dfa_53s = "\12\uffff\1\2\1\1";
+    static final String[] dfa_54s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
             "\2\13\40\uffff\1\12",
             "\2\13\40\uffff\1\12",
@@ -30831,10 +30826,10 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             "",
             ""
     };
-    static final char[] dfa_54 = DFA.unpackEncodedStringToUnsignedChars(dfa_54s);
-    static final char[] dfa_55 = DFA.unpackEncodedStringToUnsignedChars(dfa_55s);
-    static final short[] dfa_56 = DFA.unpackEncodedString(dfa_56s);
-    static final short[][] dfa_57 = unpackEncodedStringArray(dfa_57s);
+    static final char[] dfa_51 = DFA.unpackEncodedStringToUnsignedChars(dfa_51s);
+    static final char[] dfa_52 = DFA.unpackEncodedStringToUnsignedChars(dfa_52s);
+    static final short[] dfa_53 = DFA.unpackEncodedString(dfa_53s);
+    static final short[][] dfa_54 = unpackEncodedStringArray(dfa_54s);
 
     class DFA175 extends DFA {
 
@@ -30843,32 +30838,32 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 175;
             this.eot = dfa_7;
             this.eof = dfa_7;
-            this.min = dfa_54;
-            this.max = dfa_55;
-            this.accept = dfa_56;
+            this.min = dfa_51;
+            this.max = dfa_52;
+            this.accept = dfa_53;
             this.special = dfa_11;
-            this.transition = dfa_57;
+            this.transition = dfa_54;
         }
         public String getDescription() {
-            return "8652:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )";
+            return "8660:2: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )";
         }
     }
-    static final String dfa_58s = "\22\uffff";
-    static final String dfa_59s = "\1\27\11\6\10\uffff";
-    static final String dfa_60s = "\1\147\11\137\10\uffff";
-    static final String dfa_61s = "\12\uffff\1\3\1\5\1\7\1\4\1\2\1\10\1\1\1\6";
-    static final String dfa_62s = "\22\uffff}>";
-    static final String[] dfa_63s = {
+    static final String dfa_55s = "\22\uffff";
+    static final String dfa_56s = "\1\27\11\6\10\uffff";
+    static final String dfa_57s = "\1\147\11\137\10\uffff";
+    static final String dfa_58s = "\12\uffff\1\2\1\10\1\1\1\6\1\3\1\5\1\7\1\4";
+    static final String dfa_59s = "\22\uffff}>";
+    static final String[] dfa_60s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
-            "\1\20\116\uffff\1\16\1\12\1\13\1\21\1\15\1\14\4\uffff\1\17",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
+            "\1\14\116\uffff\1\12\1\16\1\17\1\15\1\21\1\20\4\uffff\1\13",
             "",
             "",
             "",
@@ -30879,49 +30874,49 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             ""
     };
 
+    static final short[] dfa_55 = DFA.unpackEncodedString(dfa_55s);
+    static final char[] dfa_56 = DFA.unpackEncodedStringToUnsignedChars(dfa_56s);
+    static final char[] dfa_57 = DFA.unpackEncodedStringToUnsignedChars(dfa_57s);
     static final short[] dfa_58 = DFA.unpackEncodedString(dfa_58s);
-    static final char[] dfa_59 = DFA.unpackEncodedStringToUnsignedChars(dfa_59s);
-    static final char[] dfa_60 = DFA.unpackEncodedStringToUnsignedChars(dfa_60s);
-    static final short[] dfa_61 = DFA.unpackEncodedString(dfa_61s);
-    static final short[] dfa_62 = DFA.unpackEncodedString(dfa_62s);
-    static final short[][] dfa_63 = unpackEncodedStringArray(dfa_63s);
+    static final short[] dfa_59 = DFA.unpackEncodedString(dfa_59s);
+    static final short[][] dfa_60 = unpackEncodedStringArray(dfa_60s);
 
     class DFA176 extends DFA {
 
         public DFA176(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             this.decisionNumber = 176;
-            this.eot = dfa_58;
-            this.eof = dfa_58;
-            this.min = dfa_59;
-            this.max = dfa_60;
-            this.accept = dfa_61;
-            this.special = dfa_62;
-            this.transition = dfa_63;
+            this.eot = dfa_55;
+            this.eof = dfa_55;
+            this.min = dfa_56;
+            this.max = dfa_57;
+            this.accept = dfa_58;
+            this.special = dfa_59;
+            this.transition = dfa_60;
         }
         public String getDescription() {
-            return "8813:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )";
+            return "8821:2: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType | this_RandomStringNumberType_7= ruleRandomStringNumberType )";
         }
     }
-    static final String dfa_64s = "\1\27\11\5\2\uffff";
-    static final String dfa_65s = "\1\147\11\133\2\uffff";
-    static final String[] dfa_66s = {
+    static final String dfa_61s = "\1\27\11\5\2\uffff";
+    static final String dfa_62s = "\1\147\11\133\2\uffff";
+    static final String[] dfa_63s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
-            "\1\12\40\uffff\1\12\16\uffff\1\12\45\uffff\1\13",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
+            "\1\13\40\uffff\1\13\16\uffff\1\13\45\uffff\1\12",
             "",
             ""
     };
-    static final char[] dfa_64 = DFA.unpackEncodedStringToUnsignedChars(dfa_64s);
-    static final char[] dfa_65 = DFA.unpackEncodedStringToUnsignedChars(dfa_65s);
-    static final short[][] dfa_66 = unpackEncodedStringArray(dfa_66s);
+    static final char[] dfa_61 = DFA.unpackEncodedStringToUnsignedChars(dfa_61s);
+    static final char[] dfa_62 = DFA.unpackEncodedStringToUnsignedChars(dfa_62s);
+    static final short[][] dfa_63 = unpackEncodedStringArray(dfa_63s);
 
     class DFA178 extends DFA {
 
@@ -30930,18 +30925,18 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 178;
             this.eot = dfa_7;
             this.eof = dfa_7;
-            this.min = dfa_64;
-            this.max = dfa_65;
-            this.accept = dfa_10;
+            this.min = dfa_61;
+            this.max = dfa_62;
+            this.accept = dfa_53;
             this.special = dfa_11;
-            this.transition = dfa_66;
+            this.transition = dfa_63;
         }
         public String getDescription() {
-            return "9559:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )";
+            return "9567:2: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )";
         }
     }
-    static final String dfa_67s = "\1\147\11\136\2\uffff";
-    static final String[] dfa_68s = {
+    static final String dfa_64s = "\1\147\11\136\2\uffff";
+    static final String[] dfa_65s = {
             "\1\3\4\uffff\1\1\10\uffff\1\2\74\uffff\1\4\1\5\1\6\1\7\1\10\1\11",
             "\1\13\57\uffff\1\13\50\uffff\1\12",
             "\1\13\57\uffff\1\13\50\uffff\1\12",
@@ -30955,8 +30950,8 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             "",
             ""
     };
-    static final char[] dfa_67 = DFA.unpackEncodedStringToUnsignedChars(dfa_67s);
-    static final short[][] dfa_68 = unpackEncodedStringArray(dfa_68s);
+    static final char[] dfa_64 = DFA.unpackEncodedStringToUnsignedChars(dfa_64s);
+    static final short[][] dfa_65 = unpackEncodedStringArray(dfa_65s);
 
     class DFA180 extends DFA {
 
@@ -30965,14 +30960,14 @@ public class InternalWodelParser extends AbstractInternalAntlrParser {
             this.decisionNumber = 180;
             this.eot = dfa_7;
             this.eof = dfa_7;
-            this.min = dfa_64;
-            this.max = dfa_67;
-            this.accept = dfa_56;
+            this.min = dfa_61;
+            this.max = dfa_64;
+            this.accept = dfa_53;
             this.special = dfa_11;
-            this.transition = dfa_68;
+            this.transition = dfa_65;
         }
         public String getDescription() {
-            return "9904:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )";
+            return "9912:2: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )";
         }
     }
  

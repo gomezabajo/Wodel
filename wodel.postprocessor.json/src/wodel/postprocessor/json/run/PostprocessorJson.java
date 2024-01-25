@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -42,7 +43,7 @@ public class PostprocessorJson implements IPostprocessor {
 	}
 
 	@Override
-	public boolean doProcess(String metamodelpath, String metamodel, Resource model, String filename) {
+	public boolean doProcess(String metamodelpath, List<String> metamodel, Resource model, String filename) {
 		// TODO Auto-generated method stub
 		// EMFJSON
 		try {

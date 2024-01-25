@@ -3,8 +3,8 @@ in "data/out/"
 from "data/model/"
 metamodel "/[@**@]/data/model/ATL.ecore"
 with resources from
-	{input="data/model/in" metamodel="/[@**@]/data/model/Ecore.ecore"},
-	{output="data/model/out" metamodel="/[@**@]/data/model/Ecore.ecore"}
+	{input="data/model/in" metamodel="/[@**@]/data/model/MyEcore.ecore"},
+	{output="data/model/out" metamodel="/[@**@]/data/model/MyEcore.ecore"}
 
 with blocks {
 	cmr "Create matched rule" {

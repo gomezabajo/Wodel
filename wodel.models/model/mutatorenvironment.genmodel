@@ -234,6 +234,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/attName"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/attValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ReferenceEvaluation/container"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ReferenceEvaluation/self"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Expression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Expression/first"/>
@@ -327,7 +328,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Resource/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Resource/path"/>
     </genClasses>
-    <nestedGenPackages prefix="MiniOCL" disposableProviderFactory="true" ecorePackage="MutatorEnvironment.ecore#//miniOCL">
+    <nestedGenPackages prefix="MiniOCL" basePackage="mutatorenvironment" disposableProviderFactory="true"
+        ecorePackage="MutatorEnvironment.ecore#//miniOCL">
       <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/RootCS">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/RootCS/packages"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/RootCS/contraints"/>

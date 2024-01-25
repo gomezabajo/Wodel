@@ -71,6 +71,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 class WodelScopeProvider extends AbstractWodelScopeProvider {
+	
 	/**
 	 * ObjectEmitter.type can contain any EClass from the input meta-model.
 	 * Except the RetypeObjectMutator that can contain any compatible EClass.
@@ -82,20 +83,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        	// add metamodel classes to scope
        	if (obj instanceof RetypeObjectMutator) {
        		val RetypeObjectMutator retypeObjectMutator = obj as RetypeObjectMutator
-       		classes = ModelManager.getSiblingEClasses(definition.metamodel, MutatorUtils.getStrategyType(retypeObjectMutator.object))
+       		val EClass type = MutatorUtils.getStrategyType(retypeObjectMutator.object)
+       		classes = ModelManager.getSiblingEClasses(definition.metamodel, type)
        	}
        	else if (obj instanceof RandomTypeSelection && obj.eContainer instanceof SelectObjectMutator) {
   			classes = new ArrayList<EClass>()
-			classes.addAll(getEClasses(definition.metamodel))
-			if (definition instanceof Program) {
-				val Program program = definition as Program
-				for (mutatorenvironment.Resource resource : program.resources) {
-					classes.addAll(getEClasses(resource.metamodel))
-				}
-   			}
+			classes.addAll(getEClasses(definition))
        	}
        	else {
-       		classes = getEClasses(definition.metamodel)
+       		classes = getEClasses(definition) 
        	}
        	Scopes.scopeFor( classes )   
 	}				
@@ -116,16 +112,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        	}
        	else if (obj instanceof RandomTypeSelection && obj.eContainer instanceof SelectObjectMutator) {
   			classes = new ArrayList<EClass>()
-			classes.addAll(getEClasses(definition.metamodel))
-			if (definition instanceof Program) {
-				val Program program = definition as Program
-				for (mutatorenvironment.Resource resource : program.resources) {
-					classes.addAll(getEClasses(resource.metamodel))
-				}
-   			}
+			classes.addAll(getEClasses(definition) )
        	}
        	else {
-       		classes = getEClasses(definition.metamodel)
+       		classes = getEClasses(definition) 
        	}
        	Scopes.scopeFor( classes )   
 	}				
@@ -148,12 +138,16 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
+			var List<String> classNames = new ArrayList<String>()
    			var List<EClass> classes = new ArrayList<EClass>()
-   			classes.add(eclass)
-   			classes.addAll(getESubClasses(metamodel, eclass))
-   			var List<String> classNames = new ArrayList<String>()
-   			for (EClass cl : classes) {
-   				classNames.add(cl.name)
+   			if (eclass !== null) {
+   				classes.add(eclass)
+   			}
+   			classes.addAll(getESubClasses(definition, eclass))
+			for (EClass cl : classes) {
+				if (!classNames.contains(cl.name)) {
+  					classNames.add(cl.name)
+   				}
    			}
         	for (mutator : commands) {
         		if (mutator.name !== null && 
@@ -181,12 +175,18 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    		if (eclass === null) {
 			metamodel = getMetamodel(definition, com.type.name)
    		}
-        val List<EClass> containers  = getEContainers(metamodel, com.type)
-        val List<String> scontainers = new ArrayList<String>()
-        for (EClassifier cl : containers) scontainers.add(cl.name)
-        val List<EReference> references = getEReferences(metamodel, com.type.name)
-        for (EReference eref : references) {
-        	scontainers.add(eref.getEType().name)
+        val List<String> resourceMM = getResourceMetamodels(definition)
+        var List<String> metamodels = new ArrayList<String>()
+        metamodels.add(metamodel)
+        metamodels.addAll(resourceMM)
+		var List<String> scontainers = new ArrayList<String>()
+        for (String mm : metamodels) {
+	        val List<EClass> containers  = getEContainers(mm, com.type)
+	        for (EClassifier cl : containers) scontainers.add(cl.name)
+	        val List<EReference> references = getEReferences(definition, com.type.name)
+	        for (EReference eref : references) {
+	        	scontainers.add(eref.getEType().name)
+	        }
         }
         // example: create Class in c [where c is the result of a previous mutator]
         
@@ -222,9 +222,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			metamodel = getMetamodel(definition, com.type.name)
    		}
         
-        val List<EClass> containers  = getEContainers(metamodel, com.type)
-        val List<String> scontainers = new ArrayList<String>()
-        for (EClassifier cl : containers) scontainers.add(cl.name)
+        val List<String> resourceMM = getResourceMetamodels(definition)
+        var List<String> metamodels = new ArrayList<String>()
+        metamodels.add(metamodel)
+        metamodels.addAll(resourceMM)
+		var List<String> scontainers = new ArrayList<String>()
+        for (String mm : metamodels) {
+	        val List<EClass> containers  = getEContainers(mm, com.type)
+	        for (EClassifier cl : containers) scontainers.add(cl.name)
+        }
 
         // example: create Class in c [where c is the result of a previous mutator]
         
@@ -260,12 +266,18 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			metamodel = getMetamodel(definition, com.type.name)
    		}
         
-        val List<EClass> containers  = getEContainers(metamodel, com.type)
-        val List<String> scontainers = new ArrayList<String>()
-        for (EClassifier cl : containers) scontainers.add(cl.name)
-        val List<EReference> references = getEReferences(metamodel, com.type.name)
-        for (EReference eref : references) {
-        	scontainers.add(eref.getEType().name)
+        val List<String> resourceMM = getResourceMetamodels(definition)
+        var List<String> metamodels = new ArrayList<String>()
+        metamodels.add(metamodel)
+        metamodels.addAll(resourceMM)
+		var List<String> scontainers = new ArrayList<String>()
+        for (String mm : metamodels) {
+	        val List<EClass> containers  = getEContainers(mm, com.type)
+	        for (EClassifier cl : containers) scontainers.add(cl.name)
+    	    val List<EReference> references = getEReferences(definition, com.type.name)
+	        for (EReference eref : references) {
+        		scontainers.add(eref.getEType().name)
+        	}
         }
         // example: create Class in c [where c is the result of a previous mutator]
         
@@ -302,9 +314,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			metamodel = getMetamodel(definition, com.type.name)
    		}
 
-        val List<EClass> containers  = getEContainers(metamodel, com.type)
-        val List<String> scontainers = new ArrayList<String>()
-        for (EClassifier cl : containers) scontainers.add(cl.name)
+        val List<String> resourceMM = getResourceMetamodels(definition)
+        var List<String> metamodels = new ArrayList<String>()
+        metamodels.add(metamodel)
+        metamodels.addAll(resourceMM)
+		var List<String> scontainers = new ArrayList<String>()
+        for (String mm : metamodels) {
+	        val List<EClass> containers  = getEContainers(mm, com.type)
+	        for (EClassifier cl : containers) scontainers.add(cl.name)
+        }
 
         // example: create Class in c [where c is the result of a previous mutator]
         
@@ -369,10 +387,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, com.type.name)
 			}
   			if (mutator.source == com) { // estamos modificando el source
-        		scope.addAll(getESources(metamodel, mutator.refType.name))
+        		scope.addAll(getESources(definition, mutator.refType.name))
   			} 
   			else if (mutator.newTarget == com) { // estamos modificando el newTarget
-        		scope.addAll(getETargets(metamodel, mutator.refType.name))
+        		scope.addAll(getETargets(definition, mutator.refType.name))
   			} 
 		}
 		else if (com.eContainer instanceof CreateReferenceMutator) {
@@ -383,10 +401,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, com.type.name)
 			}
   			if (mutator.source == com) { // estamos modificando el source
-        		scope.addAll(getESources(metamodel, mutator.refType.name))
+        		scope.addAll(getESources(definition, mutator.refType.name))
   			} 
   			else if (mutator.target == com) { // estamos modificando el newTarget
-        		scope.addAll(getETargets(metamodel, mutator.refType.name))
+        		scope.addAll(getETargets(definition, mutator.refType.name))
   			} 
 		}
 		else if (com.eContainer instanceof MutatorEnvironment ||
@@ -396,14 +414,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			     com.eContainer instanceof CloneObjectMutator ||
 			     com.eContainer instanceof RetypeObjectMutator) {
        		// add metamodel classes to scope
-  			var List<EClass> classes = new ArrayList<EClass>()
-			classes.addAll(getEClasses(definition.metamodel))
-			if (definition instanceof Program) {
-				val Program program = definition as Program
-				for (mutatorenvironment.Resource resource : program.resources) {
-					classes.addAll(getEClasses(resource.metamodel))
-				}
-   			}
+			var List<EClass> classes = getEClasses(definition)
         	scope.addAll(classes)
 		}       
 
@@ -423,7 +434,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
   			val List<Mutator> commands = getCommands(mutator)
   			
   			if (mutator.source == com) { // estamos modificando el source
-  				val List<EClass> containers  = getESources(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containers  = getESources(definition, mutator.refType.name)
         		val List<String> scontainers = new ArrayList<String>() 
         		for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -441,7 +452,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	}         
   		
   			else if (mutator.newTarget == com) { // estamos modificando el newTarget
-  				val List<EClass> containments  = getETargets(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containments  = getETargets(definition, mutator.refType.name)
         		val List<String> scontainments = new ArrayList<String>() 
         		for (EClassifier cl : containments) scontainments.add(cl.name)
 
@@ -463,7 +474,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
   			val List<Mutator> commands = getCommands(mutator)
   			
   			if (mutator.source == com) { // estamos modificando el source
-  				val List<EClass> containers  = getESources(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containers  = getESources(definition, mutator.refType.name)
         		val List<String> scontainers = new ArrayList<String>() 
         		for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -481,7 +492,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	}         
   		
   			else if (mutator.target == com) { // estamos modificando el newTarget
-  				val List<EClass> containments  = getETargets(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containments  = getETargets(definition, mutator.refType.name)
         		val List<String> scontainments = new ArrayList<String>() 
         		for (EClassifier cl : containments) scontainments.add(cl.name)
 
@@ -513,7 +524,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
   			val List<Mutator> commands = getCommands(mutator)
   			
   			if (mutator.source == com) { // estamos modificando el source
-  				val List<EClass> containers  = getESources(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containers  = getESources(definition, mutator.refType.name)
         		val List<String> scontainers = new ArrayList<String>() 
         		for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -531,7 +542,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	}         
   		
   			else if (mutator.newTarget == com) { // estamos modificando el newTarget
-  				val List<EClass> containments  = getETargets(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containments  = getETargets(definition, mutator.refType.name)
         		val List<String> scontainments = new ArrayList<String>() 
         		for (EClassifier cl : containments) scontainments.add(cl.name)
 
@@ -553,7 +564,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
   			val List<Mutator> commands = getCommands(mutator)
   			
   			if (mutator.source == com) { // estamos modificando el source
-  				val List<EClass> containers  = getESources(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containers  = getESources(definition, mutator.refType.name)
         		val List<String> scontainers = new ArrayList<String>() 
         		for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -571,7 +582,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	}         
   		
   			else if (mutator.target == com) { // estamos modificando el newTarget
-  				val List<EClass> containments  = getETargets(definition.metamodel, mutator.refType.name)
+  				val List<EClass> containments  = getETargets(definition, mutator.refType.name)
         		val List<String> scontainments = new ArrayList<String>() 
         		for (EClassifier cl : containments) scontainments.add(cl.name)
 
@@ -914,7 +925,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
        				sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -936,7 +947,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
        				sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -956,13 +967,13 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.type.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.type.name))
    		}
    		else {
        		var String className = com.type.name
        		
        		// 	add references to scope
-       		scope.addAll(getEReferences(definition.metamodel, className))
+       		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -979,7 +990,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.container.refRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.container.refRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -996,7 +1007,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.container.refRefRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.container.refRefRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1024,7 +1035,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1045,7 +1056,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1065,7 +1076,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   	   		scope.addAll(getEReferences(definition, className))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1082,7 +1093,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.object.refRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.object.refRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )
    	}
@@ -1099,7 +1110,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.object.refRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.object.refRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1126,7 +1137,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1147,7 +1158,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1167,7 +1178,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   	   		scope.addAll(getEReferences(definition, className))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1184,7 +1195,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.object.refRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.object.refRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1201,7 +1212,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName, com.object.refRefType.EType.name))
+   	   		scope.addAll(getEReferences(definition, sourceClassName, com.object.refRefType.EType.name))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1228,7 +1239,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1249,7 +1260,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1269,7 +1280,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   	   		scope.addAll(getEReferences(definition, className))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1286,7 +1297,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1303,7 +1314,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )  
     }
@@ -1312,23 +1323,22 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * SelectedObject.eContainer whose type is ReferenceEvaluation.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceEvaluation refEv, EReference ref) {
-        val List<EReference> scope = new ArrayList<EReference>()
 		var EObject container = refEv.eContainer
 		while (container instanceof Mutator == false && container !== null) {
 			container = container.eContainer
 		}
+       	val List<EReference> scope = new ArrayList<EReference>()
 		if (container !== null) {
 			val MutatorEnvironment env = getMutatorEnvironment(	container as Mutator)
-			val Definition definition = env.definition
+    		val Definition definition = env.definition
+			var String className = null
 			if (refEv.value instanceof SpecificObjectSelection) {
-				var String className = null
-				val SpecificObjectSelection selection = refEv.
-				value as SpecificObjectSelection
+				val SpecificObjectSelection selection = refEv.value as SpecificObjectSelection
 				if (selection.objSel instanceof CreateObjectMutator) {
 					className = selection.objSel.type.name
 				}
 				if (selection.objSel instanceof SelectObjectMutator) {
-					className = (selection.objSel as SelectObjectMutator).object.type.name
+					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1343,16 +1353,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = MutatorUtils.selectModifyInformationMutatorHelperName(selection.objSel as ModifyInformationMutator)
        			}
 				// add references to scope
-				scope.addAll(getEReferences(definition.metamodel, className))
+				scope.addAll(getEReferences(definition, className))
 			}
 			if (refEv.value instanceof SpecificClosureSelection) {
-				var String className = null
 				val SpecificClosureSelection selection = refEv.value as SpecificClosureSelection
 				if (selection.objSel instanceof CreateObjectMutator) {
 					className = selection.objSel.type.name
 				}
 				if (selection.objSel instanceof SelectObjectMutator) {
-					className = (selection.objSel as SelectObjectMutator).object.type.name
+					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1367,7 +1376,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = MutatorUtils.selectModifyInformationMutatorHelperName(selection.objSel as ModifyInformationMutator)
        			}
 				// add references to scope
-				scope.addAll(getEReferences(definition.metamodel, className))
+				scope.addAll(getEReferences(definition, className))
 			}
 		}
   		Scopes.scopeFor( scope )  
@@ -1378,15 +1387,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * SelectedObject.eContainer whose type is ReferenceEvaluation.type.
 	 */
     def IScope scope_ObSelectionStrategy_refRefType(ReferenceEvaluation refEv, EReference ref) {
-    	val List<EReference> scope = new ArrayList<EReference>()
 		var EObject container = refEv.eContainer
 		while (container instanceof Mutator == false && container !== null) {
 			container = container.eContainer
 		}
+    	val List<EReference> scope = new ArrayList<EReference>()
 		if (container !== null) {
 			val MutatorEnvironment env = getMutatorEnvironment(	container as Mutator)
 			val Definition definition = env.definition
-			scope.addAll(getEReferences(definition.metamodel, refEv.value.refType.EType.name))
+			scope.addAll(getEReferences(definition, refEv.value.refType.EType.name))
 		}
 		Scopes.scopeFor( scope ) 
 	}
@@ -1396,15 +1405,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * SelectedObject.eContainer whose type is ReferenceEvaluation.type.
 	 */
     def IScope scope_ObSelectionStrategy_refRefRefType(ReferenceEvaluation refEv, EReference ref) {
-    	val List<EReference> scope = new ArrayList<EReference>()
 		var EObject container = refEv.eContainer
 		while (container instanceof Mutator == false && container !== null) {
 			container = container.eContainer
 		}
+    	val List<EReference> scope = new ArrayList<EReference>()
 		if (container !== null) {
 			val MutatorEnvironment env = getMutatorEnvironment(	container as Mutator)
 			val Definition definition = env.definition
-			scope.addAll(getEReferences(definition.metamodel, refEv.value.refRefType.EType.name))
+			scope.addAll(getEReferences(definition, refEv.value.refRefType.EType.name))
 		}
 		Scopes.scopeFor( scope ) 
 	}
@@ -1417,7 +1426,6 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
-        var String metamodel = definition?.metamodel
         
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
@@ -1445,9 +1453,6 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    									resource = res
    								}
    							}
-   							if (resource !== null) {
-   								metamodel = resource.metamodel
-   							}
    						}
        				}
        			}
@@ -1471,7 +1476,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1520,7 +1525,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 //   				}
 //       		}
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
        	}
        	else {
        		var String className = null
@@ -1536,7 +1541,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -1554,7 +1559,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -1571,7 +1576,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
        		
        		// 	add references to scope
-       		scope.addAll(getEReferences(definition.metamodel, className))
+       		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -1588,7 +1593,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1606,7 +1611,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1634,7 +1639,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1655,7 +1660,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1704,7 +1709,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 //   				}
 //       		}
 	       	// 	add references to scope
-       		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+       		scope.addAll(getEReferences(definition, sourceClassName))
        	}
        	else {
        		var String className = null
@@ -1720,7 +1725,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -1738,7 +1743,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -1754,7 +1759,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        			className = com.object.type.name
        		}
        		// 	add references to scope
-       		scope.addAll(getEReferences(definition.metamodel, className))
+       		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -1771,7 +1776,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1788,7 +1793,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
    		}
    		Scopes.scopeFor( scope )
     }
@@ -1817,7 +1822,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1838,7 +1843,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				sourceClassName = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
+       				sourceClassName = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1890,7 +1895,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 //       			targetClassName = com.object.type.name
 //       		}
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
        	}
        	else {
        		var String className = null
@@ -1906,7 +1911,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1927,7 +1932,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -1946,7 +1951,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        			className = com.object.type.name
        		}
        		// 	add references to scope
-       		scope.addAll(getEReferences(definition.metamodel, className))
+       		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -1963,7 +1968,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
         }
    		Scopes.scopeFor( scope )
     }
@@ -1980,7 +1985,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.container.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
         }
    		Scopes.scopeFor( scope )
     }
@@ -2009,7 +2014,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -2030,7 +2035,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -2050,7 +2055,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   	   		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -2067,7 +2072,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
         }
    		Scopes.scopeFor( scope )
     }
@@ -2084,7 +2089,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         // the only possibility is that the container is a RandomTypeSelection
         if (com.object instanceof ObSelectionStrategy) {
         	var String sourceClassName = com.object.refRefType.EType.name
-   	   		scope.addAll(getEReferences(definition.metamodel, sourceClassName))
+   	   		scope.addAll(getEReferences(definition, sourceClassName))
         }
    		Scopes.scopeFor( scope )
     }
@@ -2097,7 +2102,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
         
-       	scope.addAll(getEReferences(definition.metamodel))
+       	scope.addAll(getEReferences(definition))
         
         Scopes.scopeFor( scope )              
     }
@@ -2111,7 +2116,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         
         val List<EReference> scope = new ArrayList<EReference>()
         
-       	scope.addAll(getEReferences(definition.metamodel))
+       	scope.addAll(getEReferences(definition))
         
         Scopes.scopeFor( scope )              
     }
@@ -2124,7 +2129,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
         
-       	scope.addAll(getEReferences(definition.metamodel))
+       	scope.addAll(getEReferences(definition))
         
         Scopes.scopeFor( scope )          
     }
@@ -2139,7 +2144,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition definition  = env.definition
         val scope = new ArrayList()
         
-        val List<EClass> containers  = getESources(definition.metamodel, com.refType.name)
+        val List<EClass> containers  = getESources(definition, com.refType.name)
         val List<String> scontainers = new ArrayList<String>() 
         for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -2164,7 +2169,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition definition  = env.definition
         val scope = new ArrayList()
         
-        val List<EClass> containers  = getESources(definition.metamodel, com.refType.name)
+        val List<EClass> containers  = getESources(definition, com.refType.name)
         val List<String> scontainers = new ArrayList<String>() 
         for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -2186,7 +2191,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         
-        Scopes.scopeFor( getESources(definition.metamodel, com.refType.name) )              
+        Scopes.scopeFor( getESources(definition, com.refType.name) )              
 	}
 	
 	/**
@@ -2197,7 +2202,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         
-        Scopes.scopeFor( getESources(definition.metamodel, com.refType.name) )              
+        Scopes.scopeFor( getESources(definition, com.refType.name) )              
 	}
 	
 	/**
@@ -2207,7 +2212,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val scope = new ArrayList()
 		/*if (program.source.multiple == false) {*/
 		if (!program.source.path.endsWith('/')) {
-        	scope.addAll(getModelEClasses(definition.metamodel, program.source.path))
+        	scope.addAll(getModelEClasses(definition, program.source.path))
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) {*/
@@ -2215,7 +2220,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
-						scope.addAll(getModelEClasses(definition.metamodel, file.getPath))
+						scope.addAll(getModelEClasses(definition, file.getPath))
 					}
 				}
 			}
@@ -2297,7 +2302,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
-        	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+        	Scopes.scopeFor( getEClasses(definition)  )    
         }
 	}
 	
@@ -2309,7 +2314,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
-        	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+        	Scopes.scopeFor( getEClasses(definition)  )    
         }
 	}
 
@@ -2327,7 +2332,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
         		val String model = ModelManager.getWorkspaceAbsolutePath +'/'+ ProjectUtils.getProject + '/' + definition.source.path
-        		val List<EClass> classes  = getModelEClasses(definition.metamodel, model)
+        		val List<EClass> classes  = getModelEClasses(definition, model)
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
        				val List<Mutator> objects = new ArrayList<Mutator>()
@@ -2355,7 +2360,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				}
 				val List<EClass> classes = new ArrayList<EClass>()
 				for (model : models) {
-        			classes.addAll(getModelEClasses(definition.metamodel, model))
+        			classes.addAll(getModelEClasses(definition, model))
         		}
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
@@ -2389,7 +2394,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
         		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
-        		val List<EClass> classes  = getModelEClasses(definition.metamodel, model)
+        		val List<EClass> classes  = getModelEClasses(definition, model)
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
        				val List<Mutator> objects = new ArrayList<Mutator>()
@@ -2417,7 +2422,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				}
 				val List<EClass> classes = new ArrayList<EClass>()
 				for (model : models) {
-        			classes.addAll(getModelEClasses(definition.metamodel, model))
+        			classes.addAll(getModelEClasses(definition, model))
         		}
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
@@ -2444,7 +2449,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if (definition instanceof Program) {
-	      	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+	      	Scopes.scopeFor( getEClasses(definition)  )    
         }          
 	}
 	
@@ -2455,7 +2460,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if (definition instanceof Program) {
-	      	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+	      	Scopes.scopeFor( getEClasses(definition)  )    
         }          
 	}
 	
@@ -2467,7 +2472,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
-        	Scopes.scopeFor( getEReferences(definition.metamodel) )    
+        	Scopes.scopeFor( getEReferences(definition) )    
         }          
 	}
 	
@@ -2479,7 +2484,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
-        	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+        	Scopes.scopeFor( getEClasses(definition)  )    
         }          
 	}
 	
@@ -2490,7 +2495,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val scope = new ArrayList()
 		if (!program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == false) {*/
-        	scope.addAll(getModelEClasses(definition.metamodel, program.source.path))
+        	scope.addAll(getModelEClasses(definition, program.source.path))
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) { */
@@ -2498,7 +2503,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
-						scope.addAll(getModelESources(definition.metamodel, file.getPath, refTypeName))
+						scope.addAll(getModelESources(definition, file.getPath, refTypeName))
 					}
 				}
 			}
@@ -2543,7 +2548,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
         	val scope = new ArrayList()
-        	scope.addAll(getEReferences(definition.metamodel))
+        	scope.addAll(getEReferences(definition))
         	Scopes.scopeFor(scope)    
         }          
 	}
@@ -2556,7 +2561,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
-        	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+        	Scopes.scopeFor( getEClasses(definition)  )    
         }          
 	}
 	
@@ -2595,7 +2600,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
-        	Scopes.scopeFor( getEReferences(definition.metamodel) )    
+        	Scopes.scopeFor( getEReferences(definition) )    
         }          
 	}
 	
@@ -2607,7 +2612,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         if(definition instanceof Program) {
         	//val String model = (definition as Program).model
-        	Scopes.scopeFor( getEClasses(definition.metamodel) )    
+        	Scopes.scopeFor( getEClasses(definition)  )    
         }          
 	}
 	
@@ -2625,7 +2630,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
         		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
-	        	val List<EClass> containers  = getModelESources(definition.metamodel, model, com.refType.name)
+	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
     	   		for (EClassifier cl : containers) scontainers.add(cl.name)
 		       	val List<Mutator> objects = new ArrayList<Mutator>()
@@ -2651,7 +2656,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				}
 	        	val List<EClass> containers = new ArrayList<EClass>()
 				for (model : models) {
-        			containers.addAll(getModelESources(definition.metamodel, model, com.refType.name))
+        			containers.addAll(getModelESources(definition, model, com.refType.name))
         		}
         		val List<String> scontainers = new ArrayList<String>() 
        			for (EClassifier cl : containers) scontainers.add(cl.name)
@@ -2683,7 +2688,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
         		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
-	        	val List<EClass> containers  = getModelESources(definition.metamodel, model, com.refType.name)
+	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
     	   		for (EClassifier cl : containers) scontainers.add(cl.name)
 		       	val List<Mutator> objects = new ArrayList<Mutator>()
@@ -2709,7 +2714,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				}
 	        	val List<EClass> containers = new ArrayList<EClass>()
 				for (model : models) {
-        			containers.addAll(getModelESources(definition.metamodel, model, com.refType.name))
+        			containers.addAll(getModelESources(definition, model, com.refType.name))
         		}
         		val List<String> scontainers = new ArrayList<String>() 
        			for (EClassifier cl : containers) scontainers.add(cl.name)
@@ -2735,11 +2740,11 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val Definition  definition = env.definition
         var String      metamodel = definition?.metamodel
         var String className = com.type.name
-        var List<EAttribute> attributes = getEAttributes(metamodel, className)
+        var List<EAttribute> attributes = getEAttributes(definition, className)
         if (com.attributes.size > 0) {
         	for (AttributeSet attSet : com.attributes) {
 				if (attSet instanceof AttributeScalar) {
-					attributes.addAll(getEAttributes(metamodel, className))
+					attributes.addAll(getEAttributes(definition, className))
 				}
 				if (attSet instanceof AttributeCopy) {
 					if ((attSet as AttributeCopy).object instanceof SpecificObjectSelection) {
@@ -2754,7 +2759,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 								if (eclass === null) {
 									metamodel = getMetamodel(definition, className)
 								}
-								attributes.addAll(getEAttributes(metamodel, className))
+								attributes.addAll(getEAttributes(definition, className))
 							}
 						}
 					}
@@ -2772,7 +2777,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 								if (eclass === null) {
 									metamodel = getMetamodel(definition, className)
 								}
-								attributes.addAll(getEAttributes(metamodel, className))
+								attributes.addAll(getEAttributes(definition, className))
 							}
 						}
 					}
@@ -2788,7 +2793,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
     def IScope scope_ReferenceSet_reference(CreateObjectMutator com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		val Definition definition = env.definition
-		Scopes.scopeFor(getEReferences(definition.metamodel, com.type.name))
+		Scopes.scopeFor(getEReferences(definition, com.type.name))
 	}
 
 	/**
@@ -2804,7 +2809,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand(name, commands, commands.indexOf(com))
 			if (command !== null) {
-				scope.addAll(getEAttributes(metamodel, getType(command)))
+				scope.addAll(getEAttributes(definition, getType(command)))
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
@@ -2812,7 +2817,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 							if (com.object instanceof RandomTypeSelection) {
 								var RandomTypeSelection strategy = com.object as RandomTypeSelection
 								var EClass type = strategy.type
-								scope.addAll(getEAttributes(metamodel, type.name))
+								scope.addAll(getEAttributes(definition, type.name))
 							}
 						}
 						if (attSet instanceof AttributeCopy) {
@@ -2829,7 +2834,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -2849,7 +2854,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -2861,7 +2866,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			val String name = (com.object as SpecificClosureSelection).objSel.name
 			var command = getCommand(name, commands, commands.indexOf(com))
 			if (command !== null) {
-				scope.addAll(getEAttributes(metamodel, getType(command)))
+				scope.addAll(getEAttributes(definition, getType(command)))
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
@@ -2879,7 +2884,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -2898,7 +2903,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -2912,7 +2917,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			var String className = ""
 			if (com.attributes.size > 0) {
 				for (AttributeSet attSet : com.attributes) {
@@ -2930,7 +2935,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -2949,7 +2954,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -2962,7 +2967,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			var String className = ""
 			if (com.attributes.size > 0) {
 				for (AttributeSet attSet : com.attributes) {
@@ -2980,7 +2985,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -2999,7 +3004,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -3012,7 +3017,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			{
 				var String className = ""
 				if (com.attributes.size > 0) {
@@ -3031,7 +3036,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3050,7 +3055,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3074,33 +3079,33 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        	if(com.object instanceof SpecificObjectSelection) {
        		val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
        	else if(com.object instanceof SpecificClosureSelection) {
        		val String name = (com.object as SpecificClosureSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
 		}
        	else if(com.object instanceof TypedSelection){
        		val String name = (com.object as TypedSelection).type.name
-			// for (EReference eref: getEReferences(definition.metamodel, name)) {
+			// for (EReference eref: getEReferences(definition, name)) {
 			// System.out.println("reference: "+ eref.name)
 			// }
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
 		}
 		Scopes.scopeFor(scope)
 	}
@@ -3118,7 +3123,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand(name, commands, commands.indexOf(com))
 			if (command !== null) {
-				scope.addAll(getEAttributes(metamodel, getType(command)))
+				scope.addAll(getEAttributes(definition, getType(command)))
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
@@ -3126,7 +3131,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 							if (com.object instanceof RandomTypeSelection) {
 								var RandomTypeSelection strategy = com.object as RandomTypeSelection
 								var EClass type = strategy.type
-								scope.addAll(getEAttributes(metamodel, type.name))
+								scope.addAll(getEAttributes(definition, type.name))
 							}
 						}
 						if (attSet instanceof AttributeCopy) {
@@ -3143,7 +3148,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3162,7 +3167,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3175,7 +3180,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			val String name = (com.object as SpecificClosureSelection).objSel.name
 			var command = getCommand(name, commands, commands.indexOf(com))
 			if (command !== null) {
-				scope.addAll(getEAttributes(metamodel, getType(command)))
+				scope.addAll(getEAttributes(definition, getType(command)))
 				var String className = ""
 				if (com.attributes.size > 0) {
 					for (AttributeSet attSet : com.attributes) {
@@ -3193,7 +3198,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3212,7 +3217,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3226,7 +3231,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			var String className = ""
 			if (com.attributes.size > 0) {
 				for (AttributeSet attSet : com.attributes) {
@@ -3244,7 +3249,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -3263,7 +3268,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -3276,7 +3281,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			var String className = ""
 			if (com.attributes.size > 0) {
 				for (AttributeSet attSet : com.attributes) {
@@ -3294,7 +3299,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -3313,7 +3318,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 									if (eclass === null) {
 										metamodel = getMetamodel(definition, className)
 									}
-									scope.addAll(getEAttributes(metamodel, className))
+									scope.addAll(getEAttributes(definition, className))
 								}
 							}
 						}
@@ -3326,7 +3331,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
 			// System.out.println("attribute: "+ eatt.name)
 			// }
-			scope.addAll(getEAttributes(metamodel, name))
+			scope.addAll(getEAttributes(definition, name))
 			{
 				var String className = ""
 				if (com.attributes.size > 0) {
@@ -3345,7 +3350,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3364,7 +3369,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 										if (eclass === null) {
 											metamodel = getMetamodel(definition, className)
 										}
-										scope.addAll(getEAttributes(metamodel, className))
+										scope.addAll(getEAttributes(definition, className))
 									}
 								}
 							}
@@ -3388,33 +3393,33 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        	if(com.object instanceof SpecificObjectSelection) {
        		val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
        	else if(com.object instanceof SpecificObjectSelection) {
        		val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	else if(com.object instanceof TypedSelection){
        		val String name = (com.object as TypedSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	Scopes.scopeFor(scope)       
     }
@@ -3427,7 +3432,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val Definition definition = env.definition
 		var String metamodel = definition?.metamodel
 		val scope = new ArrayList()
-		scope.addAll(getEAttributes(metamodel, getType(com)))
+		scope.addAll(getEAttributes(definition, getType(com)))
 		var String className = ""
 		if (com.attributes.size > 0) {
 			for (AttributeSet attSet : com.attributes) {
@@ -3435,7 +3440,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 					if (com.object instanceof RandomTypeSelection) {
 						var RandomTypeSelection strategy = com.object as RandomTypeSelection
 						var EClass type = strategy.type
-						scope.addAll(getEAttributes(metamodel, type.name))
+						scope.addAll(getEAttributes(definition, type.name))
 					}
 				}
 				if (attSet instanceof AttributeCopy) {
@@ -3451,7 +3456,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 								if (eclass === null) {
 									metamodel = getMetamodel(definition, className)
 								}
-								scope.addAll(getEAttributes(metamodel, className))
+								scope.addAll(getEAttributes(definition, className))
 							}
 						}
 					}
@@ -3469,7 +3474,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 								if (eclass === null) {
 									metamodel = getMetamodel(definition, className)
 								}
-								scope.addAll(getEAttributes(metamodel, className))
+								scope.addAll(getEAttributes(definition, className))
 							}
 						}
 					}
@@ -3485,7 +3490,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
     def IScope scope_ReferenceSet_reference(RetypeObjectMutator com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-       	Scopes.scopeFor(getEReferences(definition?.metamodel, getType(com)))              
+       	Scopes.scopeFor(getEReferences(definition, getType(com)))              
     }
 
     /**
@@ -3507,7 +3512,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			
 			// search specific selected object among the previous commands
 			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command !== null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )			
+			if (command !== null) return Scopes.scopeFor( getEReferences(definition, getType(command)) )			
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3525,7 +3530,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			// obtain mutator that contains the specific object selection
 			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
 			val List<Mutator> commands = getCommands(currentMutator)
-			if (com.object === null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(currentMutator)) )
+			if (com.object === null) return Scopes.scopeFor( getEReferences(definition, getType(currentMutator)) )
 			
 			var String      objectName = com.object?.type?.name
 			if (com.object instanceof SpecificObjectSelection) 
@@ -3535,7 +3540,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				
 			// search specific selected object among the previous commands
 			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command !== null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) return Scopes.scopeFor( getEReferences(definition, getType(command)) )
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3551,7 +3556,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			
 			// obtain mutator that contains the specific object selection
 			var String className = com.reference.get(0).EType.name
-			atts.addAll(getEAttributes(definition?.metamodel, className))
+			atts.addAll(getEAttributes(definition, className))
        	}
        	Scopes.scopeFor(atts)
     }
@@ -3575,7 +3580,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			
 			// search specific selected object among the previous commands
 			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command !== null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )			
+			if (command !== null) return Scopes.scopeFor( getEReferences(definition, getType(command)) )			
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3599,7 +3604,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			
 			// search specific selected object among the previous commands
 			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command !== null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )			
+			if (command !== null) return Scopes.scopeFor( getEReferences(definition, getType(command)) )			
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3618,7 +3623,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+       		Scopes.scopeFor( getEReferences(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3637,7 +3642,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEReferences(metamodel, className) )
+       		Scopes.scopeFor( getEReferences(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3650,7 +3655,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		if (env !== null) {
         	val Definition  definition = env.definition
    			val String       className = com.type?.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+       		Scopes.scopeFor( getEReferences(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3684,7 +3689,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-			return Scopes.scopeFor( getEReferences(metamodel, className) )
+			return Scopes.scopeFor( getEReferences(definition, className) )
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3704,10 +3709,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				val String objectName = com.objSel?.name
 				// search specific selected object among the previous commands
 				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-				if (command !== null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )
+				if (command !== null) return Scopes.scopeFor( getEReferences(definition, getType(command)) )
 			}
 			else {
-				return Scopes.scopeFor(getEReferences(definition?.metamodel, com.refType.EType.name))
+				return Scopes.scopeFor(getEReferences(definition, com.refType.EType.name))
 			}
        	}
        	Scopes.scopeFor(new ArrayList())
@@ -3721,7 +3726,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		if (env !== null) {
         	val Definition  definition = env.definition
    			val String       className = com.type?.name
-       		Scopes.scopeFor( getEReferences(definition?.metamodel, className) )
+       		Scopes.scopeFor( getEReferences(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3740,7 +3745,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+       		Scopes.scopeFor( getEAttributes(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3759,7 +3764,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
    			}
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+       		Scopes.scopeFor( getEAttributes(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3772,7 +3777,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		if (env !== null) {
         	val Definition  definition = env.definition
    			val String       className = com.type?.name
-       		Scopes.scopeFor( getEAttributes(definition?.metamodel, className) )
+       		Scopes.scopeFor( getEAttributes(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }    
@@ -3805,7 +3810,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    			if (eclass === null) {
 				metamodel = getMetamodel(definition, className)
 			}
-			return Scopes.scopeFor (getEAttributes(metamodel, className))
+			return Scopes.scopeFor (getEAttributes(definition, className))
        	}
        	Scopes.scopeFor(new ArrayList())
     }
@@ -3826,10 +3831,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			
 				// search specific selected object among the previous commands
 				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-				if (command !== null) return Scopes.scopeFor( getEAttributes(definition?.metamodel, getType(command)) )
+				if (command !== null) return Scopes.scopeFor( getEAttributes(definition, getType(command)) )
 			}
 			else {
-				return Scopes.scopeFor (getEAttributes(definition?.metamodel, com.refType.EType.name))
+				return Scopes.scopeFor (getEAttributes(definition, com.refType.EType.name))
 			}
        	}
        	Scopes.scopeFor(new ArrayList())
@@ -3843,7 +3848,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		if (env !== null) {
         	val Definition  definition = env.definition
    			val String       className = com.type?.name
-       		Scopes.scopeFor( getEAttributes(definition?.metamodel, className) )
+       		Scopes.scopeFor( getEAttributes(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -3860,21 +3865,21 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 //       	if(com.object instanceof SpecificObjectSelection) {
 //       		name = (com.object as SpecificObjectSelection).objSel.name
 //			var command = getCommand (name, commands, commands.indexOf(com))
-//			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )			
+//			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )			
 //       	}
 //        else if(com.object instanceof CompleteTypeSelection){
 //       		name = (com.object as CompleteTypeSelection).type.name
-//       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+//       		//for (EReference eref: getEReferences(definition, name)) {
 //       		//	System.out.println("reference: "+ eref.name)
 //       		//}
-//			scope.addAll(getEReferences(definition.metamodel, name))
+//			scope.addAll(getEReferences(definition, name))
 //       	}
 //       	else if(com.object instanceof RandomTypeSelection){
 //       		name = (com.object as RandomTypeSelection).type.name
-//       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+//       		//for (EReference eref: getEReferences(definition, name)) {
 //       		//	System.out.println("reference: "+ eref.name)
 //       		//}
-//			scope.addAll(getEReferences(definition.metamodel, name))
+//			scope.addAll(getEReferences(definition, name))
 //       	}
 //       	Scopes.scopeFor(scope)              
 //    }
@@ -3890,33 +3895,33 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        	if(com.object instanceof SpecificObjectSelection) {
        		val String name = (com.object as SpecificObjectSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
        	else if(com.object instanceof SpecificClosureSelection) {
        		val String name = (com.object as SpecificClosureSelection).objSel.name
 			var command = getCommand (name, commands, commands.indexOf(com))
-			if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+			if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	else if(com.object instanceof TypedSelection){
        		val String name = (com.object as TypedSelection).type.name
-       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//for (EReference eref: getEReferences(definition, name)) {
        		//	System.out.println("reference: "+ eref.name)
        		//}
-			scope.addAll(getEReferences(definition.metamodel, name))
+			scope.addAll(getEReferences(definition, name))
        	}
        	Scopes.scopeFor(scope)              
     }
@@ -3954,7 +3959,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		    				if ((first.value as SpecificObjectSelection).objSel !== null) {
 			       				val String name = (first.value as SpecificObjectSelection).objSel.name
 	       						var command = getCommand (name, commands, commands.indexOf(mut))
-	       						if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+	       						if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        			}
 		        		}
 		        	}
@@ -3964,7 +3969,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		        				if ((second.value as SpecificObjectSelection).objSel !== null) {
 				       				val String name = (second.value as SpecificObjectSelection).objSel.name
        								var command = getCommand (name, commands, commands.indexOf(mut))
-       								if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+       								if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        				}
 		        			}
 	        			}
@@ -4009,7 +4014,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		    				if ((first.value as SpecificObjectSelection).objSel !== null) {
 			       				val String name = (first.value as SpecificObjectSelection).objSel.name
 	       						var command = getCommand (name, commands, commands.indexOf(mut))
-	       						if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+	       						if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        			}
 		        		}
 		        	}
@@ -4019,7 +4024,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		        				if ((second.value as SpecificObjectSelection).objSel !== null) {
 				       				val String name = (second.value as SpecificObjectSelection).objSel.name
        								var command = getCommand (name, commands, commands.indexOf(mut))
-       								if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+       								if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        				}
 		        			}
 	        			}
@@ -4065,7 +4070,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		    				if ((first.value as SpecificObjectSelection).objSel !== null) {
 			       				val String name = (first.value as SpecificObjectSelection).objSel.name
 	       						var command = getCommand (name, commands, commands.indexOf(mut))
-	       						if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+	       						if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        			}
 		        		}
 		        	}
@@ -4075,7 +4080,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		        				if ((second.value as SpecificObjectSelection).objSel !== null) {
 				       				val String name = (second.value as SpecificObjectSelection).objSel.name
        								var command = getCommand (name, commands, commands.indexOf(mut))
-       								if (command !== null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
+       								if (command !== null) scope.addAll( getEReferences(definition, getType(command)) )
 		        				}
 		        			}
 	        			}
@@ -4091,192 +4096,384 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(RandomTypeSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }
     
     /**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(OtherTypeSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }
 
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(CompleteTypeSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }
     
   	/**
      * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificObjectSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }
     
     /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificClosureSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }        
     
      /**
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refName(TypedSelection com, EReference ref) {
-		var List<EReference> refs = new ArrayList<EReference>()
+       	val List<EReference> scope = new ArrayList<EReference>()
 		val MutatorEnvironment env = getMutatorEnvironment(com)
+       	val Definition  definition = env.definition
 		if (env !== null) {
-        	val Definition  definition = env.definition
-   			var EReference   reference = (com.expression?.first as ReferenceEvaluation).name
-   			var String       className = reference.EType.name
-   			var String       metamodel = definition?.metamodel
-   			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
-   			}
+			if (com.expression?.first instanceof ReferenceEvaluation) {
+		       	val ReferenceEvaluation refEv = com.expression?.first as ReferenceEvaluation
+		       	var EClass typeFirst = null
+				if (refEv.^self == true) {
+					var Mutator mut = null
+					var EObject container = com.eContainer
+					while (container instanceof Mutator == false && container !== null) {
+						container = container.eContainer
+					}
+					mut = container as Mutator
+					if (mut instanceof CreateObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof SelectObjectMutator) {
+       					typeFirst = mut.object.type
+       				}
+       				if (mut instanceof SelectSampleMutator) {
+       					typeFirst = MutatorUtils.selectSampleMutatorHelperType(mut)
+       				}
+       				if (mut instanceof CloneObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof RetypeObjectMutator) {
+       					typeFirst = mut.type
+       				}
+       				if (mut instanceof ModifyInformationMutator) {
+       					typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(mut as ModifyInformationMutator)
+       				}
+				}
+				else {
+					typeFirst = refEv.name.EType as EClass
+				}
+   				var String className = typeFirst.name
    			
-   			refs.addAll(getEReferences(metamodel, className))
-   			
-   			if (com.expression?.second !== null) {
-   				for (Evaluation second : com.expression?.second) {
-		        	if (second instanceof ReferenceEvaluation) {
-		        		reference = second.name
-		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+   				scope.addAll(getEReferences(definition, className))
+
+   				if (com.expression?.second !== null) {
+   					for (Evaluation second : com.expression?.second) {
+		        		if (second instanceof ReferenceEvaluation) {
+		        			var EClass type = null
+		        			if (second.^self == true) {
+		        				type = typeFirst
+		        			}
+		        			else {
+		        				type = second.name.EType as EClass
+		        			}
+		        			className = type.name
+		        			scope.addAll(getEReferences(definition, className))
+	        			}
 	        		}
-	        	}
+   				}
    			}
        	}
-   		Scopes.scopeFor( refs )
+   		Scopes.scopeFor( scope )
     }
 
     /**
@@ -4296,14 +4493,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4328,14 +4525,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4360,14 +4557,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4392,14 +4589,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4424,14 +4621,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4456,14 +4653,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4488,14 +4685,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4520,14 +4717,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			atts.addAll(getEAttributes(metamodel, className))
+   			atts.addAll(getEAttributes(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.name
 		        		className = reference.EType.name
-		        		atts.addAll(getEAttributes(metamodel, className))
+		        		atts.addAll(getEAttributes(definition, className))
 	        		}
 	        	}
    			}
@@ -4552,14 +4749,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4584,14 +4781,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4616,14 +4813,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4648,14 +4845,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				metamodel = getMetamodel(definition, className)
    			}
    			
-   			refs.addAll(getEReferences(metamodel, className))
+   			refs.addAll(getEReferences(definition, className))
    			
    			if (com.expression?.second !== null) {
    				for (Evaluation second : com.expression?.second) {
 		        	if (second instanceof ReferenceEvaluation) {
 		        		reference = second.refName
 		        		className = reference.EType.name
-		        		refs.addAll(getEReferences(metamodel, className))
+		        		refs.addAll(getEReferences(definition, className))
 	        		}
 	        	}
    			}
@@ -4670,7 +4867,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		val MutatorEnvironment env = getMutatorEnvironment(c)
         val Definition  definition = env.definition
        	// add metamodel classes to scope
-       	Scopes.scopeFor( getEClasses(definition.metamodel) )   
+       	Scopes.scopeFor( getEClasses(definition)  )   
 	}
 	
 	/**
@@ -4726,7 +4923,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
-        val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
+        val List<EReference> references = getEReferences(definition, com.type.name)
         for (EReference eref : references) {
         	scontainers.add(eref.getEType().name)
         }
@@ -4760,7 +4957,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
-        val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
+        val List<EReference> references = getEReferences(definition, com.type.name)
         for (EReference eref : references) {
         	scontainers.add(eref.getEType().name)
         }
@@ -4805,7 +5002,6 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		}
 		if (env !== null && className !== null) {
         	val Definition  definition = env.definition
-   			var String       metamodel = ""
    			var EObject      sel = com.objSel
    			if (sel instanceof SelectObjectMutator &&
    				(sel as SelectObjectMutator).object instanceof RandomTypeSelection &&
@@ -4820,15 +5016,9 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    							resource = res
    						}
    					}
-   					if (resource !== null) {
-   						metamodel = resource.metamodel
-   					}
    				}
    			}
-   			else {
-   				metamodel = definition?.metamodel
-   			}
-       		Scopes.scopeFor( getEAttributes(metamodel, className) )
+       		Scopes.scopeFor( getEAttributes(definition, className) )
        	}
        	else Scopes.scopeFor(new ArrayList())
     }
@@ -4861,7 +5051,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -4879,7 +5069,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -4911,7 +5101,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -4929,7 +5119,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -4962,7 +5152,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -4980,7 +5170,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5006,7 +5196,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        			}
        		}
 			if (className !== null) {
-				scopes.addAll( getEAttributes(definition?.metamodel, className) )
+				scopes.addAll( getEAttributes(definition, className) )
        		}
 		}
 		Scopes.scopeFor( scopes )
@@ -5040,7 +5230,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5058,7 +5248,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5090,7 +5280,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5108,7 +5298,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5141,7 +5331,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5159,7 +5349,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5185,7 +5375,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        			}
        		}
 			if (className !== null) {
-				scopes.addAll( getEAttributes(definition?.metamodel, className) )
+				scopes.addAll( getEAttributes(definition, className) )
        		}
 		}
 		Scopes.scopeFor( scopes )
@@ -5216,10 +5406,10 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -5234,7 +5424,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5258,7 +5448,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        			val TypedSelection selection = com.object as TypedSelection
        			className = selection.type.name
        		}
-			scopes.addAll( getEAttributes(definition?.metamodel, className) )
+			scopes.addAll( getEAttributes(definition, className) )
 		}
 		Scopes.scopeFor( scopes )
     }
@@ -5287,7 +5477,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        					className = selection.objSel.type.name
        				}
        				if (selection.objSel instanceof SelectObjectMutator) {
-       					className = (selection.objSel as SelectObjectMutator).object.type.name
+       					className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
 						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5310,7 +5500,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        				className = selection.objSel.type.name
        			}
        			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       				className = MutatorUtils.selectObjectMutatorHelperName(selection.objSel as SelectObjectMutator)
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
 					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
@@ -5327,8 +5517,8 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
        		}
         	
 	       	// 	add references to scope
-   	   		scope.addAll(getEAttributes(definition.metamodel, className))
-   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   	   		scope.addAll(getEAttributes(definition, className))
+   	   		scope.addAll(getEReferences(definition, className))
        	}
    		Scopes.scopeFor( scope )  
     }
@@ -5583,16 +5773,23 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * @param String file containing the metamodel
 	 * @return List<EClass>
 	 */
-	 def private List<EClass> getEClasses (String metamodelFile) {
-        val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-        val List<EClass>   classes   = new ArrayList<EClass>()
-        for (EPackage pck : metamodel) {
-          for (EClassifier cl : pck.EClassifiers)
-            if (cl instanceof EClass)
-              classes.add(cl as EClass)
-          if (pck.ESubpackages !== null) {
-          	classes.addAll(getEClassesHelper(pck.ESubpackages))
-          }
+	 def private List<EClass> getEClasses (Definition definition) {
+        val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	val List<EClass> classes = new ArrayList<EClass>()
+    	for (String mm : metamodels) {
+	        val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+        	for (EPackage pck : metamodel) {
+          	for (EClassifier cl : pck.EClassifiers)
+            	if (cl instanceof EClass)
+        	      	classes.add(cl as EClass)
+	        	  	if (pck.ESubpackages !== null) {
+    	      			classes.addAll(getEClassesHelper(pck.ESubpackages))
+          			}
+        	}
         }
         return classes
 	 }
@@ -5604,9 +5801,17 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * @param EClass given class
 	 * @return List<EClass>
 	 */
-	 def private List<EClass> getESubClasses (String metamodelFile, EClass eclass) {
-        val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-        val List<EClass>   classes   = ModelManager.getESubClasses(metamodel, eclass)
+	 def private List<EClass> getESubClasses (Definition definition, EClass eclass) {
+        val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	val List<EClass> classes = new ArrayList<EClass>()
+    	for (String mm : metamodels) {
+        	val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+        	classes.addAll(ModelManager.getESubClasses(metamodel, eclass))
+        }
         return classes
 	 }
 	 
@@ -5615,19 +5820,31 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * @param String file containing the model
 	 * @return List<EClass>
 	 */
-	 def private List<EClass> getModelEClasses (String metamodelFile, String modelFile) {
-        val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-        val Resource model = ModelManager.loadModel(metamodel, modelFile)
-        val List<EObject>   classes = ModelManager.getAllObjects(model)
-        val List<EClass>   ret   = new ArrayList<EClass>()
-        for(EObject o : classes){
-        	if(!ret.contains(o.eClass())) ret.add(o.eClass())
-        }
-        val List<EClass> mmclasses = ModelManager.getEClasses(metamodel)
-        for(EClass cl : mmclasses){
-        	if(!ret.contains(cl)) ret.add(cl)
-        }
-        return ret
+	 def private List<EClass> getModelEClasses (Definition definition, String modelFile) {
+	 	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	for (String mm : metamodels) {
+	        val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+	        try {
+	    	    val Resource model = ModelManager.loadModel(metamodel, modelFile)
+	    	    if (model !== null) {
+	        		val List<EObject>   classes = ModelManager.getAllObjects(model)
+        			val List<EClass>   ret   = new ArrayList<EClass>()
+        			for(EObject o : classes){
+        				if(!ret.contains(o.eClass())) ret.add(o.eClass())
+        			}
+        			val List<EClass> mmclasses = ModelManager.getEClasses(metamodel)
+        			for(EClass cl : mmclasses){
+        				if(!ret.contains(cl)) ret.add(cl)
+	       			}
+    	    		return ret
+    	    	}
+    	    } catch (Exception e) {
+    	    }
+    	}
+    	return new ArrayList<EClass>()
 	 }
 	 
 	/** 
@@ -5635,17 +5852,24 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 * @param String file containing the metamodel
 	 * @return List<EReference>
 	 */
-	 def private List<EReference> getEReferences (String metamodelFile) {
-        val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
-        val List<EReference> references = new ArrayList<EReference>()
-        for (EPackage pck : metamodel) {
-          for (EClassifier cl : pck.EClassifiers)
-            if (cl instanceof EClass)
-              references.addAll((cl as EClass).EReferences)
-          for (EPackage spck : pck.ESubpackages)
-	        for (EClassifier cl : spck.EClassifiers)
-    	      if (cl instanceof EClass)
-        	    references.addAll((cl as EClass).EReferences)
+	 def private List<EReference> getEReferences (Definition definition) {
+        val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	val List<EReference> references = new ArrayList<EReference>()
+    	for (String mm : metamodels) {
+	  		val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+        	for (EPackage pck : metamodel) {
+          	for (EClassifier cl : pck.EClassifiers)
+            	if (cl instanceof EClass)
+             		references.addAll((cl as EClass).EReferences)
+          			for (EPackage spck : pck.ESubpackages)
+				        for (EClassifier cl : spck.EClassifiers)
+    	    				if (cl instanceof EClass)
+        	    				references.addAll((cl as EClass).EReferences)
+        	}
         }
         return references
 	 }
@@ -5675,14 +5899,14 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  * @param String class name
 	  * @return List<EClass> list of containers
 	  */
-	  def private List<EClass> getESources (String metamodelFile, String ereferenceName) {
-	  	val List<EClass> eclasses = getEClasses(metamodelFile)
+	  def private List<EClass> getESources (Definition definition, String ereferenceName) {
+	  	val List<EClass> eclasses = getEClasses(definition)
 	  	// filter to keep only eclasses which define the received reference
 	  	val List<EClass> esources = new ArrayList<EClass>()
 	  	for (EClass cl : eclasses) {
 	  	  	if (cl.getEStructuralFeature(ereferenceName) !== null) {
 	  	    	esources.add(cl)
-		  		esources.addAll(getESubClasses(metamodelFile, cl))
+		  		esources.addAll(getESubClasses(definition, cl))
 	  		}
   	    }
 	  	return esources    
@@ -5695,9 +5919,9 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  * @param String class name
 	  * @return List<EClass> list of containments
 	  */
-	  def private List<EClass> getETargets (String metamodelFile, String ereferenceName) {
-	  	val List<EClass> eclasses = getEClasses(metamodelFile)
-	  	val List<EReference> ereferences = getEReferences(metamodelFile)
+	  def private List<EClass> getETargets (Definition definition, String ereferenceName) {
+	  	val List<EClass> eclasses = getEClasses(definition)
+	  	val List<EReference> ereferences = getEReferences(definition)
 	  	
 	  	// MODIFICAR ESTE METODO
 	  	// filter to keep only eclasses contained by the received reference
@@ -5706,7 +5930,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  		for(EReference rl : ereferences){
 	  			if(cl.getName().equals(rl.getEType.getName()) && rl.getName().equals(ereferenceName)){
 	  				etargets.add(cl)	  				
-			  		etargets.addAll(getESubClasses(metamodelFile, cl))
+			  		etargets.addAll(getESubClasses(definition, cl))
 	  			}
 	  		}
 	  	}
@@ -5719,15 +5943,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  * @param String class name
 	  * @return List<EClass> list of containers
 	  */
-	  def private List<EClass> getModelESources (String metamodelFile, String modelFile, String ereferenceName) {
-	  	val List<EClass> eclasses = getModelEClasses(metamodelFile, modelFile)
+	  def private List<EClass> getModelESources (Definition definition, String modelFile, String ereferenceName) {
+	  	val List<EClass> eclasses = getModelEClasses(definition, modelFile)
 	  	
 	  	// filter to keep only eclasses which define the received reference
 	  	val List<EClass> esources = new ArrayList<EClass>()
 	  	for (EClass cl : eclasses)
 	  	  if (cl.getEStructuralFeature(ereferenceName) !== null) {
 	  	    esources.add(cl)
-	  	    esources.addAll(getESubClasses(metamodelFile, cl))
+	  	    esources.addAll(getESubClasses(definition, cl))
 	  	  }
 	  	return esources    
 	  } 	  
@@ -5739,19 +5963,31 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  * @param String target class name
 	  * @return List<EReference> list of references
 	  */
-	  def private List<EReference> getEContainmentReferences (String metamodelFile, String esourceclassName, String etargetclassName) {
-	  	val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-	  	val EClass sourceclass = ModelManager.getObjectOfType(esourceclassName, metamodel) as EClass 
-	  	val EClass targetclass = ModelManager.getObjectOfType(etargetclassName, metamodel) as EClass
-
-	  	val List<EReference> references = new ArrayList<EReference>()
-	  	for (EReference ref : sourceclass.EAllReferences) {
-	  		if (ref.EReferenceType.isSuperTypeOf(targetclass) && // the same target type, or a supertype 
-	  			ref.containment && ref.changeable) // containment
-	  		    references.add(ref)	  		
-	  	}
+	  def private List<EReference> getEContainmentReferences (Definition definition, String esourceclassName, String etargetclassName) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
 	  	
-	  	return references 
+	  	for (String mmsource : metamodels) {
+	  		val List<EPackage> metamodelsource = ModelManager.loadMetaModel(mmsource)
+	  		val sourceclass = ModelManager.getObjectOfType(esourceclassName, metamodelsource) as EClass
+	  		if (sourceclass !== null) {
+	  			for (String mmtarget : metamodels) {
+		  			val List<EPackage> metamodeltarget = ModelManager.loadMetaModel(mmtarget)
+			  		val targetclass = ModelManager.getObjectOfType(esourceclassName, metamodeltarget) as EClass
+					val List<EReference> references = new ArrayList<EReference>()
+					if (sourceclass !== null && targetclass !== null) {
+		  				for (EReference ref : sourceclass.EAllReferences) {
+			  				if (ref.EReferenceType.isSuperTypeOf(targetclass)) // the same target type, or a supertype 
+					  			if (ref.containment && ref.changeable) // containment
+	  		    					references.add(ref)	  		
+		  				}	  		
+				  		return references 
+			  		}
+	  			}
+	  		} 
+		}  	
 	  }
 	  
 	 /**
@@ -5761,18 +5997,34 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  * @param String target class name
 	  * @return List<EReference> list of references
 	  */
-	  def private List<EReference> getEReferences (String metamodelFile, String esourceclassName, String etargetclassName) {
-	  	val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-	  	val EClass sourceclass = ModelManager.getObjectOfType(esourceclassName, metamodel) as EClass 
-	  	val EClass targetclass = ModelManager.getObjectOfType(etargetclassName, metamodel) as EClass
-
-	  	val List<EReference> references = new ArrayList<EReference>()
-	  	for (EReference ref : sourceclass.EAllReferences) {
-	  		if (ref.EReferenceType.isSuperTypeOf(targetclass)) // the same target type, or a supertype 
-	  		    references.add(ref)	  		
-	  	}
+	  def private List<EReference> getEReferences (Definition definition, String esourceclassName, String etargetclassName) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
 	  	
-	  	return references 
+		val List<EReference> references = new ArrayList<EReference>()
+	  	for (String mmsource : metamodels) {
+	  		val List<EPackage> metamodelsource = ModelManager.loadMetaModel(mmsource)
+	  		val sourceclass = ModelManager.getObjectOfType(esourceclassName, metamodelsource) as EClass
+	  		if (sourceclass !== null) {
+	  			for (String mmtarget : metamodels) {
+		  			val List<EPackage> metamodeltarget = ModelManager.loadMetaModel(mmtarget)
+			  		val targetclass = ModelManager.getObjectOfType(etargetclassName, metamodeltarget) as EClass
+					if (sourceclass !== null && targetclass !== null) {
+		  				for (EReference ref : sourceclass.EAllReferences) {
+		  					var EClass type = ModelManager.getEClassByName(metamodeltarget, ref.EReferenceType.name)
+		  					if (type === null) {
+		  						type = ref.EReferenceType
+		  					}
+			  				if (type.isSuperTypeOf(targetclass)) // the same target type, or a supertype 
+		  			    		references.add(ref)
+		  				}	  		
+				  		return references 
+			  		}
+	  			}
+	  		} 
+		}  	
 	  }
 
 	  /**
@@ -5781,21 +6033,26 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	   * @param String class name
 	   * @return List<EAttribute> list of attributes
 	   */ 
-	   def private List<EAttribute> getEAttributes (String metamodelFile, String eclassName) {
-	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
-	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
-	  	if (eclass !== null) {
-	  		val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
-	  		var List<EAttribute> attributes = new ArrayList<EAttribute>()
-	  		for (EClass subclass : subclasses) {
-	  			attributes.addAll(subclass.EAllAttributes)
-	  		}
-	  		attributes.addAll(eclass.EAllAttributes)
-	  		return attributes
-		}
-	  	else {
-	  		return new ArrayList<EAttribute>()
-	  	}
+	   def private List<EAttribute> getEAttributes (Definition definition, String eclassName) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	for (String mm : metamodels) {
+	  		val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+		  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+		  	if (eclass !== null) {
+	  			val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
+		  		var List<EAttribute> attributes = new ArrayList<EAttribute>()
+		  		for (EClass subclass : subclasses) {
+	  				attributes.addAll(subclass.EAllAttributes)
+	  			}
+	  			attributes.addAll(eclass.EAllAttributes)
+	  			return attributes
+			}
+    	}
+ 		return new ArrayList<EAttribute>()
   	}
   	
 	  /**
@@ -5804,21 +6061,27 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	   * @param String class name
 	   * @return List<EAttribute> list of attributes
 	   */ 
-	   def private List<EReference> getEReferences (String metamodelFile, String eclassName) {
-	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
-	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
-	  	if (eclass !== null) {
-	  		val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
-	  		var List<EReference> references = new ArrayList<EReference>()
-	  		for (EClass subclass : subclasses) {
-	  			references.addAll(subclass.EAllReferences)
+	   def private List<EReference> getEReferences (Definition definition, String eclassName) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	for (String mm : metamodels) {
+	  		val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+	  		val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+	  		if (eclass !== null) {
+	  			val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
+	  			var List<EReference> references = new ArrayList<EReference>()
+	  			for (EClass subclass : subclasses) {
+	  				references.addAll(subclass.EAllReferences)
+	  			}
+	  			references.addAll(eclass.EAllReferences)
+	  			return references
 	  		}
-	  		references.addAll(eclass.EAllReferences)
-	  		return references
 		}
-	  	else {
-	  		return new ArrayList<EReference>()
-	  	}
+	  
+	  	return new ArrayList<EReference>()
 	  }
 
 	  /**
@@ -5888,5 +6151,53 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    		}
    		return null
    	}
-	
+   	
+   	def private List<String> getResourceMetamodels(Definition definition) {
+   		var List<String> metamodels = new ArrayList<String>()
+        if (definition === null) {
+        	return metamodels
+        }
+        if (definition instanceof Program) { 
+        	val Program program = definition as Program
+        	for (mutatorenvironment.Resource resource : definition.resources) {
+        		if (!metamodels.contains(resource.metamodel)) {
+        			metamodels.add(resource.metamodel)
+        		}
+        	}
+        }
+   		return metamodels
+   	}
+
+   	def private void addResourceClasses (Definition definition, EClass type, List<EClass> classes) {
+   		if (classes === null || definition === null) {
+   			return
+   		}
+   		val List<String> metamodels = getResourceMetamodels(definition)
+   		for (String metamodel : metamodels) {
+   			var List<EClass> resourceClasses = ModelManager.getSiblingEClasses(metamodel, type)
+   			for (EClass resourceClass : resourceClasses) {
+   				if (!classes.contains(resourceClass)) {
+   					classes.add(resourceClass)
+   				}
+   			}
+   		} 
+   	}
+	/**
+	 * @param name
+	 *            Name of the reference
+	 * @param object
+	 *            Object one wants to explore
+	 * @return EStructuralFeature Specified reference
+	 */
+	def private EStructuralFeature getReferenceByName(Definition definition, String name,
+			String className) {
+   		var String metamodel = definition?.metamodel
+   		var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+		var EClass eClass = ModelManager.getEClassByName(packages, className)
+		var EStructuralFeature sf = null
+		if (eClass !== null) {
+			sf = eClass.getEStructuralFeature(name)
+		}
+		return sf
+	}
 }

@@ -184,7 +184,7 @@ public class MutatorUtils {
 	}
 
 	protected static class AttributeEvaluation extends Evaluation {
-		public List<String> values;
+		public List<Object> values;
 		public String type;
 
 		public AttributeEvaluation() {
@@ -331,9 +331,11 @@ public class MutatorUtils {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
 						if (candidate.eGet(att) != null) {
-							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-								if (!selected.contains(candidate)) {
-									selected.add(candidate);
+							for (Object value : attev.values) {
+								if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
+									if (!selected.contains(candidate)) {
+										selected.add(candidate);
+									}
 								}
 							}
 						}
@@ -344,9 +346,11 @@ public class MutatorUtils {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
 						if (candidate.eGet(att) != null) {
-							if (!candidate.eGet(att).toString().equals(attev.values.get(0))) {
-								if (!selected.contains(candidate)) {
-									selected.add(candidate);
+							for (Object value : attev.values) {
+								if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
+									if (!selected.contains(candidate)) {
+										selected.add(candidate);
+									}
 								}
 							}
 						}
@@ -358,7 +362,7 @@ public class MutatorUtils {
 					for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
 							if (candidate.eGet(att) != null) {
-								if (candidate.eGet(att).toString().equals(attev.values.get(i).toString())) {
+								if (candidate.eGet(att).equals(attev.values.get(i)) || candidate.eGet(att).toString().equals(attev.values.get(i).toString())) {
 									if (!selected.contains(candidate)) {
 										selected.add(candidate);
 									}
@@ -398,15 +402,105 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (candidate.equals(refev.value)) {
-					if (!selected.contains(candidate)) {
-						selected.add(candidate);
+				if (refev.value instanceof EObject) {
+					if (EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						if (!selected.contains(candidate)) {
+							selected.add(candidate);
+						}
+					}
+					else if (candidate.eIsProxy()) {
+						EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							if (!selected.contains(candidate)) {
+								selected.add(candidate);
+							}
+						}
+					}
+					else if (((EObject) refev.value).eIsProxy()) {
+						EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							if (!selected.contains(candidate)) {
+								selected.add(candidate);
+							}
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					for (EObject refevvalue : (List<EObject>) refev.value) { 
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							if (!selected.contains(candidate)) {
+								selected.add(candidate);
+							}
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
 					}
 				}
 			}
-			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
-				if (!selected.contains(candidate)) {
-					selected.add(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null) {
+						if (EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+							if (!selected.contains(candidate)) {
+								selected.add(candidate);
+							}
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
+						else if (((EObject) refev.value).eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							if (!selected.contains(candidate)) {
+								selected.add(candidate);
+							}
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
+							}
+						}
+					}
 				}
 			}
 		} else {
@@ -448,12 +542,70 @@ public class MutatorUtils {
 												selected.add(candidate);
 											}
 										}
+										else if (b == false && candidate.eIsProxy()) {
+											objects.clear();
+											objects.addAll((List<EObject>) candidate.eGet(ref));
+											b = true;
+											for (EObject obj : (List<EObject>) refev.value) {
+												EObject resolve = EcoreUtil.resolve(obj, candidate.eResource().getResourceSet());
+												if (resolve != null) {
+													if (!objects.contains(resolve)) {
+														b = false;
+														break;
+													}
+													objects.remove(resolve);
+												}
+											}
+											if (b == true && objects.size() == 0) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+										else if (b == false) {
+											objects.clear();
+											objects.addAll((List<EObject>) candidate.eGet(ref));
+											b = true;
+											for (EObject refevvalue : (List<EObject>) refev.value) {
+												if (refevvalue.eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+													if (resolve != null) {
+														if (!objects.contains(resolve)) {
+															b = false;
+															break;
+														}
+														objects.remove(resolve);
+													}
+												}
+											}
+											if (b == true && objects.size() == 0) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
 									}
 									else {
 										EObject object = (EObject) refev.value;
 										if (objects.contains(object)) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
+											}
+										}
+										else if (candidate.eIsProxy()) {
+											EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+											if (resolve != null && objects.contains(resolve)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+										else if (object.eIsProxy()) {
+											EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+											if (resolve != null && objects.contains(resolve)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
 											}
 										}
 									}
@@ -468,11 +620,43 @@ public class MutatorUtils {
 													selected.add(candidate);
 												}
 											}
+											else if (candidate.eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+												if (resolve != null && objects.contains(resolve)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+											else if (object.eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+												if (resolve != null && objects.contains(resolve)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
 										}
-										else {
-											if (object.equals(refev.value)) {
+										else if (refev.value instanceof EObject) {
+											if (EcoreUtil.equals(object, (EObject) refev.value)) {
 												if (!selected.contains(candidate)) {
 													selected.add(candidate);
+												}
+											}
+											else if (object.eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve(object, ((EObject) refev.value).eResource().getResourceSet());
+												if (resolve != null && EcoreUtil.equals((EObject) refev.value, resolve)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+											else if (((EObject) refev.value).eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+												if (resolve != null && EcoreUtil.equals(object, resolve)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
 												}
 											}
 										}
@@ -581,8 +765,8 @@ public class MutatorUtils {
 															}
 														}
 													}
-													else {
-														if (obj.equals(refev.value)) {
+													else if (refev.value instanceof EObject) {
+														if (EcoreUtil.equals(obj, (EObject) refev.value)) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -608,9 +792,9 @@ public class MutatorUtils {
 															}
 														}
 													}
-													else {
+													else if (refev.value instanceof EObject) {
 														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
 																if (!selected.contains(candidate)) {
 																	selected.add(candidate);
 																}
@@ -656,8 +840,8 @@ public class MutatorUtils {
 																}
 															}
 														}
-														else {
-															if (obj.equals(refev.value)) {
+														else if (refev.value instanceof EObject) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
 																if (!selected.contains(candidate)) {
 																	selected.add(candidate);
 																}
@@ -683,9 +867,9 @@ public class MutatorUtils {
 																}
 															}
 														}
-														else {
+														else if (refev.value instanceof EObject) {
 															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
 																	if (!selected.contains(candidate)) {
 																		selected.add(candidate);
 																	}
@@ -745,9 +929,11 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (o.equals(refev.value)) {
-																		if (!selected.contains(candidate)) {
-																			selected.add(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
 																		}
 																	}
 																}
@@ -792,8 +978,8 @@ public class MutatorUtils {
 																				}
 																			}
 																		}
-																		else {
-																			if (o.equals(refev.value)) {
+																		else if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(o, (EObject) refev.value)) {
 																				if (!selected.contains(candidate)) {
 																					selected.add(candidate);
 																				}
@@ -847,8 +1033,8 @@ public class MutatorUtils {
 																			}
 																		}
 																	}
-																	else {
-																		if (o.equals(refev.value)) {
+																	else if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(o, (EObject) refev.value)) {
 																			if (!selected.contains(candidate)) {
 																				selected.add(candidate);
 																			}
@@ -875,10 +1061,12 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
-																				if (!selected.contains(candidate)) {
-																					selected.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			for (EObject o : oo) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected.contains(candidate)) {
+																						selected.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -927,15 +1115,49 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (!candidate.equals(refev.value)) {
-					if (!selected.contains(candidate)) {
-						selected.add(candidate);
+				if (refev.value instanceof EObject) {
+					if (!EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						if (!selected.contains(candidate)) {
+							selected.add(candidate);
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) { 
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						if (!selected.contains(candidate)) {
+							selected.add(candidate);
+						}
 					}
 				}
 			}
-			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
-				if (!selected.contains(candidate)) {
-					selected.add(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null && EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+						if (!selected.contains(candidate)) {
+							selected.add(candidate);
+						}
+					}	
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						if (!selected.contains(candidate)) {
+							selected.add(candidate);
+						}
+					}
 				}
 			}
 		} else {
@@ -1001,9 +1223,11 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (!object.equals(refev.value)) {
-												if (!selected.contains(candidate)) {
-													selected.add(candidate);
+											if (refev.value instanceof EObject) {
+												if (!EcoreUtil.equals(object, (EObject) refev.value)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
 												}
 											}
 										}
@@ -1116,9 +1340,11 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															if (!obj.equals(refev.value)) {
-																if (!selected.contains(candidate)) {
-																	selected.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (!EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
 																}
 															}
 														}
@@ -1144,16 +1370,18 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														boolean exists = false;
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																exists = true;
-																break;
+														if (refev.value instanceof EObject) {
+															boolean exists = false;
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	exists = true;
+																	break;
+																}
 															}
-														}
-														if (exists == true) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
+															if (exists == true) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
 															}
 														}
 													}
@@ -1200,9 +1428,11 @@ public class MutatorUtils {
 																}
 															}
 															else {
-																if (!obj.equals(refev.value)) {
-																	if (!selected.contains(candidate)) {
-																		selected.add(candidate);
+																if (refev.value instanceof EObject) {
+																	if (!EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
 																	}
 																}
 															}
@@ -1228,16 +1458,18 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															boolean exists = false;
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	exists = true;
-																	break;
+															if (refev.value instanceof EObject) {
+																boolean exists = false;
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		exists = true;
+																		break;
+																	}
 																}
-															}
-															if (exists == false) {
-																if (!selected.contains(candidate)) {
-																	selected.add(candidate);
+																if (exists == false) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
 																}
 															}
 														}
@@ -1297,9 +1529,11 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (!o.equals(refev.value)) {
-																		if (!selected.contains(candidate)) {
-																			selected.add(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (!EcoreUtil.equals(o, (EObject) refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
 																		}
 																	}
 																}
@@ -1345,9 +1579,11 @@ public class MutatorUtils {
 																			}
 																		}
 																		else {
-																			if (!o.equals(refev.value)) {
-																				if (!selected.contains(candidate)) {
-																					selected.add(candidate);
+																			if (refev.value instanceof EObject) {
+																				if (!EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected.contains(candidate)) {
+																						selected.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -1400,16 +1636,18 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		if (!o.equals(refev.value)) {
-																			if (!selected.contains(candidate)) {
-																				selected.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			if (!EcoreUtil.equals(o, (EObject) refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
 																			}
 																		}
 																	}
 																}
 																else {
 																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
-																	if (obj.eGet(refff) instanceof List<?>) {
+																	if (refev.value instanceof List<?>) {
 																		List<EObject> lobjects = new ArrayList<EObject>();
 																		lobjects.addAll((List<EObject>) refev.value);
 																		boolean b = true;
@@ -1427,17 +1665,20 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		boolean exists = false;
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
-																				exists = true;
-																				break;
+																		if (refev.value instanceof EObject) {
+																			boolean exists = false;
+																			for (EObject o : oo) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					exists = true;
+																					break;
+																				}
 																			}
-																		}
-																		if (exists == false) {
-																			if (!selected.contains(candidate)) {
-																				selected.add(candidate);
+																			if (exists == false) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
 																			}
+																			
 																		}
 																	}																	
 																}
@@ -1511,9 +1752,11 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (object.equals(refev.value)) {
-												if (!selected.contains(candidate)) {
-													selected.add(candidate);
+											if (refev.value instanceof EObject) {
+												if (EcoreUtil.equals(object, (EObject) refev.value)) { 
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
 												}
 											}
 										}
@@ -1605,9 +1848,12 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														if (obj.eGet(reff).equals(refev.value)) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
+														Object objReff = obj.eGet(reff);
+														if (refev.value instanceof EObject && objReff instanceof EObject) {
+															if (EcoreUtil.equals((EObject) objReff, (EObject) refev.value)) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
 															}
 														}
 													}
@@ -1632,10 +1878,12 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																if (!selected.contains(candidate)) {
-																	selected.add(candidate);
+														if (refev.value instanceof EObject) {
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
 																}
 															}
 														}
@@ -1662,9 +1910,11 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															if (obj.equals(refev.value)) {
-																if (!selected.contains(candidate)) {
-																	selected.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
 																}
 															}
 														}
@@ -1689,10 +1939,12 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	if (!selected.contains(candidate)) {
-																		selected.add(candidate);
+															if (refev.value instanceof EObject) {
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
 																	}
 																}
 															}
@@ -1731,9 +1983,11 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (o.equals(refev.value)) {
-																		if (!selected.contains(candidate)) {
-																			selected.add(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(object, (EObject) refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
 																		}
 																	}
 																}
@@ -1760,9 +2014,11 @@ public class MutatorUtils {
 																			}
 																		}
 																		else {
-																			if (o.equals(refev.value)) {
-																				if (!selected.contains(candidate)) {
-																					selected.add(candidate);
+																			if (refev.value instanceof EObject) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected.contains(candidate)) {
+																						selected.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -1797,9 +2053,11 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		if (o.equals(refev.value)) {
-																			if (!selected.contains(candidate)) {
-																				selected.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
 																			}
 																		}
 																	}
@@ -1824,8 +2082,8 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
+																		if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(object, (EObject) refev.value)) {
 																				if (!selected.contains(candidate)) {
 																					selected.add(candidate);
 																				}
@@ -1902,7 +2160,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected.add(candidate);
 								}
 							}
@@ -1910,7 +2168,7 @@ public class MutatorUtils {
 								List<EObject> objects = (List<EObject>) refObj;
 								for (EObject object : objects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, object);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected.add(candidate);
 										break;
 									}
@@ -1962,7 +2220,7 @@ public class MutatorUtils {
 							if (refObj != null) {
 								if (refObj instanceof EObject) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected.add(candidate);
 										break;
 									}
@@ -1972,7 +2230,7 @@ public class MutatorUtils {
 									boolean found = false;
 									for (EObject refOb : refObjects) {
 										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-										if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 											selected.add(candidate);
 											found = true;
 											break;
@@ -2043,7 +2301,7 @@ public class MutatorUtils {
 					if (refObj != null) {
 						if (refObj instanceof EObject) {
 							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+							if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 								selected.remove(candidate);
 							}
 						}
@@ -2051,7 +2309,7 @@ public class MutatorUtils {
 							List<EObject> objects = (List<EObject>) refObj;
 							for (EObject object : objects) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, object);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected.remove(candidate);
 									break;
 								}
@@ -2103,7 +2361,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected.remove(candidate);
 									break;
 								}
@@ -2113,7 +2371,7 @@ public class MutatorUtils {
 								boolean found = false;
 								for (EObject refOb : refObjects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected.remove(candidate);
 										found = true;
 										break;
@@ -2252,8 +2510,10 @@ public class MutatorUtils {
 						.getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
 						if (candidate.eGet(att) != null) {
-							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-								selected_tmp.remove(candidate);
+							for (Object value : attev.values) { 
+								if (!(candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString()))) {
+									selected_tmp.remove(candidate);
+								}
 							}
 						}
 					}
@@ -2262,9 +2522,11 @@ public class MutatorUtils {
 			if (attev.operator.equals("different")) {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
-						if ((String) candidate.eGet(att) != null) {
-							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-								selected_tmp.remove(candidate);
+						if (candidate.eGet(att) != null) {
+							for (Object value : attev.values) { 
+								if (!(candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString()))) {
+									selected_tmp.remove(candidate);
+								}
 							}
 						}
 					}
@@ -2276,7 +2538,7 @@ public class MutatorUtils {
 						if (att.getName().equals(attev.name)) {
 							// CASO DE QUE SEA STRING
 							if (candidate.eGet(att) != null) {
-								if (!candidate.eGet(att).equals(attev.values.get(i).toString())) {
+								if (!(candidate.eGet(att).equals(attev.values.get(i)) || candidate.eGet(att).toString().equals(attev.values.get(i).toString()))) {
 									selected_tmp.remove(candidate);
 								}
 							}
@@ -2301,9 +2563,11 @@ public class MutatorUtils {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
 						if (candidate.eGet(att) != null) {
-							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-								if (!selected_tmp.contains(candidate)) {
-									selected_tmp.add(candidate);
+							for (Object value : attev.values) {
+								if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
+									if (!selected_tmp.contains(candidate)) {
+										selected_tmp.add(candidate);
+									}
 								}
 							}
 						}
@@ -2313,27 +2577,26 @@ public class MutatorUtils {
 			if (attev.operator.equals("different")) {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
-						if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-							if (!selected_tmp.contains(candidate)) {
-								selected_tmp.add(candidate);
+						for (Object value : attev.values) {
+							if (candidate.eGet(att).equals(value) || candidate.eGet(att).toString().equals(value.toString())) {
+								if (!selected_tmp.contains(candidate)) {
+									selected_tmp.add(candidate);
+								}
 							}
 						}
 					}
 				}
 			}
 			if (attev.operator.equals("in")) {
-				List<String> tmp_values = new ArrayList<String>();
+				List<Object> tmp_values = new ArrayList<Object>();
 				tmp_values.addAll(attev.values);
 				do {
 					int n = ModelManager.getRandomIndex(tmp_values);
 					for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
-							// CASO DE QUE SEA STRING
-							if (attev.type.toLowerCase().equals("string")) {
-								if (((String) candidate.eGet(att)).equals((String) tmp_values.get(n))) {
-									if (!selected_tmp.contains(candidate)) {
-										selected_tmp.add(candidate);
-									}
+							if ((candidate.eGet(att)).equals(tmp_values.get(n)) || candidate.eGet(att).toString().equals(tmp_values.get(n).toString())) {
+								if (!selected_tmp.contains(candidate)) {
+									selected_tmp.add(candidate);
 								}
 							}
 						}
@@ -2373,12 +2636,105 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (!candidate.equals(refev.value)) {
-					selected_tmp.remove(candidate);
+				if (refev.value instanceof EObject) {
+					boolean found = false;
+					if (EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						found = true;
+					}
+					else if (candidate.eIsProxy()){
+						EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							found = true;
+						}
+					}
+					else if (((EObject) refev.value).eIsProxy()){
+						EObject resolve = EcoreUtil.resolve(((EObject) refev.value), candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							found = true;
+						}
+					}
+					if (found == false) {
+						selected_tmp.remove(candidate);
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							found = true;
+							break;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								found = true;
+								break;
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								found = true;
+								break;
+							}
+						}
+					}
+					if (!found) {
+						selected_tmp.remove(candidate);
+					}
 				}
 			}
-			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
-				selected_tmp.remove(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null) {
+						boolean found = false;
+						if (EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+							found = true;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+							}
+						}
+						else if (((EObject) refev.value).eIsProxy()){
+							EObject resolve = EcoreUtil.resolve(((EObject) refev.value), candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+							}
+						}
+						if (!found) {
+							selected_tmp.remove(candidate);
+						}
+
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							found = true;
+							break;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+								break;
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+								break;
+							}
+						}
+					}
+					if (!found) {
+						selected_tmp.remove(candidate);
+					}
+				}				
 			}
 		} else {
 			if (refev.refName == null) {
@@ -2431,8 +2787,26 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (!object.equals(refev.value)) {
-												selected_tmp.remove(candidate);
+											if (refev.value instanceof EObject) {
+												boolean found = false;
+												if (EcoreUtil.equals(object, (EObject) refev.value)) {
+													found = true;
+												}
+												else if (object.eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve(object, ((EObject) refev.value).eResource().getResourceSet());
+													if (resolve != null && EcoreUtil.equals((EObject) refev.value, resolve)) {
+														found = true;
+													}
+												}
+												else if (((EObject) refev.value).eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve(((EObject) refev.value), candidate.eResource().getResourceSet());
+													if (resolve != null && EcoreUtil.equals(object, resolve)) {
+														found = true;
+													}
+												}
+												if (found == false) {
+													selected_tmp.remove(candidate);
+												}
 											}
 										}
 									}
@@ -2534,9 +2908,11 @@ public class MutatorUtils {
 
 														}
 														else {
-															if (!obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (!EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
 																}
 															}
 														}
@@ -2562,16 +2938,18 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														boolean exists = false;
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																exists = true;
-																break;
+														if (refev.value instanceof EObject) {
+															boolean exists = false;
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	exists = true;
+																	break;
+																}
 															}
-														}
-														if (exists == true) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+															if (exists == true) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
 															}
 														}
 													}
@@ -2615,9 +2993,11 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															if (obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
 																}
 															}
 														}
@@ -2642,10 +3022,12 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	if (!selected_tmp.contains(candidate)) {
-																		selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
 																	}
 																}
 															}
@@ -2703,9 +3085,11 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (o.equals(refev.value)) {
-																		if (!selected_tmp.contains(candidate)) {
-																			selected_tmp.add(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
 																		}
 																	}
 																}
@@ -2751,9 +3135,11 @@ public class MutatorUtils {
 																			}
 																		}
 																		else {
-																			if (o.equals(refev.value)) {
-																				if (!selected_tmp.contains(candidate)) {
-																					selected_tmp.add(candidate);
+																			if (refev.value instanceof EObject) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected_tmp.contains(candidate)) {
+																						selected_tmp.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -2806,9 +3192,11 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		if (o.equals(refev.value)) {
-																			if (!selected_tmp.contains(candidate)) {
-																				selected_tmp.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
 																			}
 																		}
 																	}
@@ -2833,10 +3221,12 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
-																				if (!selected_tmp.contains(candidate)) {
-																					selected_tmp.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			for (EObject o : oo) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected_tmp.contains(candidate)) {
+																						selected_tmp.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -2887,12 +3277,40 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (candidate.equals(refev.value)) {
-					selected_tmp.remove(candidate);
+				if (refev.value instanceof EObject) {
+					if (EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						selected_tmp.remove(candidate);
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) { 
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							found = true;
+						}
+					}
+					if (found) {
+						selected_tmp.remove(candidate);
+					}
 				}
 			}
-			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
-				selected_tmp.remove(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null && EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+						selected_tmp.remove(candidate);
+					}	
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							found = true;
+						}
+					}
+					if (found) {
+						selected_tmp.remove(candidate);
+					}
+				}
 			}
 		} else {
 			if (refev.refName == null) {
@@ -2948,8 +3366,10 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (object.equals(refev.value)) {
-												selected_tmp.remove(candidate);
+											if (refev.value instanceof EObject) {
+												if (EcoreUtil.equals(object, (EObject) refev.value)) {
+													selected_tmp.remove(candidate);
+												}
 											}
 										}
 									}
@@ -3079,8 +3499,10 @@ public class MutatorUtils {
 																}
 															}
 															else {
-																if (obj.equals(refev.value)) {
-																	selected_tmp.remove(candidate);
+																if (refev.value instanceof EObject) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		selected_tmp.remove(candidate);
+																	}
 																}
 															}
 														}
@@ -3103,9 +3525,11 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	selected_tmp.remove(candidate);
+															if (refev.value instanceof EObject) {
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		selected_tmp.remove(candidate);
+																	}
 																}
 															}
 														}
@@ -3120,17 +3544,19 @@ public class MutatorUtils {
 											for (EReference reff : object.eClass().getEAllReferences()) {
 												if (reff.getName().equals(refev.refName)) {
 													if (refev.value != null) {
-														if (object.eGet(reff) instanceof EObject) {
+														if (object.eGet(reff) instanceof EObject && refev.value instanceof EObject) {
 															EObject obj = (EObject) object.eGet(reff);
-															if (obj.equals(refev.value)) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
 																selected_tmp.remove(candidate);
 															}
 														}
 														if (object.eGet(reff) instanceof List<?>) {
 															List<EObject> objs = (List<EObject>) object.eGet(reff);
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	selected_tmp.remove(candidate);
+															if (refev.value instanceof EObject) {
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		selected_tmp.remove(candidate);
+																	}
 																}
 															}
 														}
@@ -3180,8 +3606,10 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (o.equals(refev.value)) {
-																		selected_tmp.remove(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																			selected_tmp.remove(candidate);
+																		}
 																	}
 																}
 															}
@@ -3219,8 +3647,10 @@ public class MutatorUtils {
 																			}
 																		}
 																		else {
-																			if (o.equals(refev.value)) {
-																				selected_tmp.remove(candidate);
+																			if (refev.value instanceof EObject) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					selected_tmp.remove(candidate);
+																				}
 																			}
 																		}
 																	}
@@ -3266,8 +3696,10 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		if (o.equals(refev.value)) {
-																			selected_tmp.remove(candidate);
+																		if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																				selected_tmp.remove(candidate);
+																			}
 																		}
 																	}
 																}
@@ -3289,9 +3721,11 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
-																				selected_tmp.remove(candidate);
+																		if (refev.value instanceof EObject) {
+																			for (EObject o : oo) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					selected_tmp.remove(candidate);
+																				}
 																			}
 																		}
 																	}
@@ -3361,8 +3795,10 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (!object.equals(refev.value)) {
-												selected_tmp.remove(candidate);
+											if (refev.value instanceof EObject) {
+												if (!EcoreUtil.equals(object, (EObject) refev.value)) {
+													selected_tmp.remove(candidate);
+												}
 											}
 										}
 									}
@@ -3437,9 +3873,11 @@ public class MutatorUtils {
 
 														}
 														else {
-															if (!obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (!EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
 																}
 															}
 														}
@@ -3465,16 +3903,18 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														boolean exists = false;
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																exists = true;
-																break;
+														if (refev.value instanceof EObject) {
+															boolean exists = false;
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	exists = true;
+																	break;
+																}
 															}
-														}
-														if (exists == true) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+															if (exists == true) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
 															}
 														}
 													}
@@ -3500,9 +3940,11 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															if (obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
 																}
 															}
 														}
@@ -3527,10 +3969,12 @@ public class MutatorUtils {
 															}
 														}
 														else {
-															for (EObject obj : objs) {
-																if (obj.equals(refev.value)) {
-																	if (!selected_tmp.contains(candidate)) {
-																		selected_tmp.add(candidate);
+															if (refev.value instanceof EObject) {
+																for (EObject obj : objs) {
+																	if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
 																	}
 																}
 															}
@@ -3569,9 +4013,11 @@ public class MutatorUtils {
 																	}
 																}
 																else {
-																	if (o.equals(refev.value)) {
-																		if (!selected_tmp.contains(candidate)) {
-																			selected_tmp.add(candidate);
+																	if (refev.value instanceof EObject) {
+																		if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
 																		}
 																	}
 																}
@@ -3598,9 +4044,11 @@ public class MutatorUtils {
 																			}
 																		}
 																		else {
-																			if (o.equals(refev.value)) {
-																				if (!selected_tmp.contains(candidate)) {
-																					selected_tmp.add(candidate);
+																			if (refev.value instanceof EObject) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected_tmp.contains(candidate)) {
+																						selected_tmp.add(candidate);
+																					}
 																				}
 																			}
 																		}
@@ -3635,9 +4083,11 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		if (o.equals(refev.value)) {
-																			if (!selected_tmp.contains(candidate)) {
-																				selected_tmp.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
 																			}
 																		}
 																	}
@@ -3662,12 +4112,15 @@ public class MutatorUtils {
 																		}
 																	}
 																	else {
-																		for (EObject o : oo) {
-																			if (o.equals(refev.value)) {
-																				if (!selected_tmp.contains(candidate)) {
-																					selected_tmp.add(candidate);
+																		if (refev.value instanceof EObject) {
+																			for (EObject o : oo) {
+																				if (EcoreUtil.equals(o, (EObject) refev.value)) {
+																					if (!selected_tmp.contains(candidate)) {
+																						selected_tmp.add(candidate);
+																					}
 																				}
 																			}
+																			
 																		}
 																	}
 																}
@@ -3740,7 +4193,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.remove(candidate);
 								}
 							}
@@ -3748,7 +4201,7 @@ public class MutatorUtils {
 								List<EObject> objects = (List<EObject>) refObj;
 								for (EObject object : objects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
-									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.remove(candidate);
 										break;
 									}
@@ -3775,7 +4228,7 @@ public class MutatorUtils {
 							if (refObj != null) {
 								if (refObj instanceof EObject) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.remove(candidate);
 										break;
 									}
@@ -3785,7 +4238,7 @@ public class MutatorUtils {
 									boolean found = false;
 									for (EObject refOb : refObjects) {
 										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-										if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 											selected_tmp.remove(candidate);
 											found = true;
 											break;
@@ -3856,7 +4309,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.add(candidate);
 								}
 							}
@@ -3864,7 +4317,7 @@ public class MutatorUtils {
 								List<EObject> objects = (List<EObject>) refObj;
 								for (EObject object : objects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.add(candidate);
 										break;
 									}
@@ -3891,7 +4344,7 @@ public class MutatorUtils {
 							if (refObj != null) {
 								if (refObj instanceof EObject) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.add(candidate);
 										break;
 									}
@@ -3901,7 +4354,7 @@ public class MutatorUtils {
 									boolean found = false;
 									for (EObject refOb : refObjects) {
 										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-										if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 											selected_tmp.add(candidate);
 											found = true;
 											break;
@@ -3972,7 +4425,7 @@ public class MutatorUtils {
 					if (refObj != null) {
 						if (refObj instanceof EObject) {
 							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+							if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 								selected_tmp.remove(candidate);
 							}
 						}
@@ -3980,7 +4433,7 @@ public class MutatorUtils {
 							List<EObject> objects = (List<EObject>) refObj;
 							for (EObject object : objects) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.remove(candidate);
 									break;
 								}
@@ -4007,7 +4460,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.remove(candidate);
 									break;
 								}
@@ -4017,7 +4470,7 @@ public class MutatorUtils {
 								boolean found = false;
 								for (EObject refOb : refObjects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.remove(candidate);
 										found = true;
 										break;
@@ -4087,7 +4540,7 @@ public class MutatorUtils {
 					if (refObj != null) {
 						if (refObj instanceof EObject) {
 							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-							if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+							if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 								selected_tmp.add(candidate);
 							}
 						}
@@ -4095,7 +4548,7 @@ public class MutatorUtils {
 							List<EObject> objects = (List<EObject>) refObj;
 							for (EObject object : objects) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
-								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.add(candidate);
 									break;
 								}
@@ -4122,7 +4575,7 @@ public class MutatorUtils {
 						if (refObj != null) {
 							if (refObj instanceof EObject) {
 								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
-								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 									selected_tmp.add(candidate);
 									break;
 								}
@@ -4132,7 +4585,7 @@ public class MutatorUtils {
 								boolean found = false;
 								for (EObject refOb : refObjects) {
 									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
-									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									if (refev.value != null && refRefObj != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
 										selected_tmp.add(candidate);
 										found = true;
 										break;
@@ -4284,15 +4737,111 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (candidate.equals(refev.value)) {
-					if (!selected_tmp.contains(candidate)) {
-						selected_tmp.add(candidate);
+				if (refev.value instanceof EObject) {
+					boolean found = false;
+					if (EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						found = true;
+					}
+					else if (candidate.eIsProxy()){
+						EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							found = true;
+						}
+					}
+					else if (((EObject) refev.value).eIsProxy()){
+						EObject resolve = EcoreUtil.resolve(((EObject) refev.value), candidate.eResource().getResourceSet());
+						if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+							found = true;
+						}
+					}
+					if (found) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) { 
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							found = true;
+							break;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								found = true;
+								break;
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate, resolve)) {
+								found = true;
+								break;
+							}
+						}
+					}
+					if (found) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
 					}
 				}
 			}
-			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
-				if (!selected_tmp.contains(candidate)) {
-					selected_tmp.add(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null) {
+						boolean found = false;
+						if (EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+							found = true;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+							}
+						}
+						else if (((EObject) refev.value).eIsProxy()){
+							EObject resolve = EcoreUtil.resolve(((EObject) refev.value), candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+							}
+						}
+						if (found) {
+							if (!selected_tmp.contains(candidate)) {
+								selected_tmp.add(candidate);
+							}
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							found = true;
+							break;
+						}
+						else if (candidate.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+								break;
+							}
+						}
+						else if (refevvalue.eIsProxy()) {
+							EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+							if (resolve != null && EcoreUtil.equals(candidate.eContainer(), resolve)) {
+								found = true;
+								break;
+							}
+						}
+					}
+					if (found) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
+					}
 				}
 			}
 		} else {
@@ -4334,12 +4883,70 @@ public class MutatorUtils {
 												selected_tmp.add(candidate);
 											}
 										}
+										else if (b == false && candidate.eIsProxy()) {
+											objects.clear();
+											objects.addAll((List<EObject>) candidate.eGet(ref));
+											b = true;
+											for (EObject obj : (List<EObject>) refev.value) {
+												EObject resolve = EcoreUtil.resolve(obj, candidate.eResource().getResourceSet());
+												if (resolve != null) {
+													if (!objects.contains(resolve)) {
+														b = false;
+														break;
+													}
+													objects.remove(resolve);
+												}
+											}
+											if (b == true && objects.size() == 0) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+										else if (b == false) {
+											objects.clear();
+											objects.addAll((List<EObject>) candidate.eGet(ref));
+											b = true;
+											for (EObject refevvalue : (List<EObject>) refev.value) {
+												if (refevvalue.eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve(refevvalue, candidate.eResource().getResourceSet());
+													if (resolve != null) {
+														if (!objects.contains(resolve)) {
+															b = false;
+															break;
+														}
+														objects.remove(resolve);
+													}
+												}
+											}
+											if (b == true && objects.size() == 0) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
 									}
 									else {
 										EObject object = (EObject) refev.value;
 										if (objects.contains(object)) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
+											}
+										}
+										else if (candidate.eIsProxy()) {
+											EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+											if (resolve != null && objects.contains(resolve)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+										else if (object.eIsProxy()) {
+											EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+											if (resolve != null && objects.contains(resolve)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
 											}
 										}
 									}
@@ -4354,11 +4961,45 @@ public class MutatorUtils {
 													selected_tmp.add(candidate);
 												}
 											}
+											else if (candidate.eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+												if (resolve != null && objects.contains(resolve)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+											else if (object.eIsProxy()) {
+												EObject resolve = EcoreUtil.resolve(object, candidate.eResource().getResourceSet());
+												if (resolve != null && objects.contains(resolve)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
 										}
 										else {
-											if (object.equals(refev.value)) {
-												if (!selected_tmp.contains(candidate)) {
-													selected_tmp.add(candidate);
+											if (refev.value instanceof EObject) { 
+												if (EcoreUtil.equals(object, (EObject) refev.value)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+												else if (object.eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve(object, ((EObject) refev.value).eResource().getResourceSet());
+													if (resolve != null && EcoreUtil.equals((EObject) refev.value, resolve)) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+												else if (((EObject) refev.value).eIsProxy()) {
+													EObject resolve = EcoreUtil.resolve((EObject) refev.value, candidate.eResource().getResourceSet());
+													if (resolve != null && EcoreUtil.equals(object, resolve)) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
 												}
 											}
 										}
@@ -4466,9 +5107,11 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													if (obj.equals(refev.value)) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+													if (refev.value instanceof EObject) {
+														if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -4493,16 +5136,18 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
+													if (refev.value instanceof EObject) {
+														boolean exists = false;
+														for (EObject obj : objs) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																exists = true;
+																break;
+															}
 														}
-													}
-													if (exists == true) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														if (exists == true) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -4545,9 +5190,11 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														if (obj.equals(refev.value)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+														if (refev.value instanceof EObject) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
 															}
 														}
 													}
@@ -4572,8 +5219,15 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
+														if (refev.value instanceof EObject) {
+															boolean found = false;
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	found = true;
+																	break;
+																}
+															}
+															if (found) {
 																if (!selected_tmp.contains(candidate)) {
 																	selected_tmp.add(candidate);
 																}
@@ -4622,15 +5276,50 @@ public class MutatorUtils {
 //		}
 		if (refev.name == null) {
 			if (refev.container == false) {
-				if (!candidate.equals(refev.value)) {
-					if (!selected_tmp.contains(candidate)) {
-						selected_tmp.add(candidate);
+				if (refev.value instanceof EObject) {
+					if (!EcoreUtil.equals(candidate, (EObject) refev.value)) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
+					}
+				}
+				if (refev.value instanceof List<?>) 
+				{
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) { 
+						if (EcoreUtil.equals(candidate, refevvalue)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
 					}
 				}
 			}
-			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
-				if (!selected_tmp.contains(candidate)) {
-					selected_tmp.add(candidate);
+			else {
+				if (refev.value instanceof EObject) {
+					if (candidate.eContainer() != null && !EcoreUtil.equals(candidate.eContainer(), (EObject) refev.value)) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
+					}	
+				}
+				if (refev.value instanceof List<?>) {
+					boolean found = false;
+					for (EObject refevvalue : (List<EObject>) refev.value) {
+						if (EcoreUtil.equals(candidate.eContainer(), refevvalue)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						if (!selected_tmp.contains(candidate)) {
+							selected_tmp.add(candidate);
+						}
+					}
 				}
 			}
 		} else {
@@ -4696,9 +5385,11 @@ public class MutatorUtils {
 												}
 											}
 										}
-										if (!object.equals(refev.value)) {
-											if (!selected_tmp.contains(candidate)) {
-												selected_tmp.add(candidate);
+										if (refev.value instanceof EObject) {
+											if (!EcoreUtil.equals(object, (EObject) refev.value)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
 											}
 										}
 									}
@@ -4837,9 +5528,11 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													if (!obj.equals(refev.value)) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+													if (refev.value instanceof EObject) {
+														if (!EcoreUtil.equals(obj, (EObject) refev.value)) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -4864,16 +5557,18 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
+													if (refev.value instanceof EObject) {
+														boolean exists = false;
+														for (EObject obj : objs) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																exists = true;
+																break;
+															}
 														}
-													}
-													if (exists == false) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														if (exists == false) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -4944,9 +5639,11 @@ public class MutatorUtils {
 											}
 										}
 										else {
-											if (object.equals(refev.value)) {
-												if (!selected_tmp.contains(candidate)) {
-													selected_tmp.add(candidate);
+											if (refev.value instanceof EObject) {
+												if (EcoreUtil.equals(object, (EObject) refev.value)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
 												}
 											}
 										}
@@ -5037,9 +5734,11 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													if (obj.equals(refev.value)) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+													if (refev.value instanceof EObject) {
+														if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -5064,16 +5763,18 @@ public class MutatorUtils {
 													}
 												}
 												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
+													if (refev.value instanceof EObject) {
+														boolean exists = false;
+														for (EObject obj : objs) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																exists = true;
+																break;
+															}
 														}
-													}
-													if (exists == true) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														if (exists == true) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
@@ -5099,9 +5800,11 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														if (obj.equals(refev.value)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+														if (refev.value instanceof EObject) {
+															if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
 															}
 														}
 													}
@@ -5126,8 +5829,15 @@ public class MutatorUtils {
 														}
 													}
 													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
+														if (refev.value instanceof EObject) {
+															boolean found = false;
+															for (EObject obj : objs) {
+																if (EcoreUtil.equals(obj, (EObject) refev.value)) {
+																	found = true;
+																	break;
+																}
+															}
+															if (found) {
 																if (!selected_tmp.contains(candidate)) {
 																	selected_tmp.add(candidate);
 																}
@@ -5443,7 +6153,7 @@ public class MutatorUtils {
 	 */
 	protected boolean validation(String metamodel, String uri, Class<?> cls) throws ModelNotFoundException {
 		boolean isValid = false;
-		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "", null);
+		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "EMF model validation", null);
 		if (extensionName.equals("")) {
 			return true;
 		}
@@ -5501,9 +6211,9 @@ public class MutatorUtils {
 	protected boolean different(String metamodel, String model,
 			Set<String> hashset_mutants, IProject project, Class<?> cls) throws ModelNotFoundException {
 		boolean isRepeated = false;
-		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard syntactic duplicate mutants", false, null);
+		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard syntactic duplicate mutants", true, null);
 		if (discardDuplicate == true) {
-			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "Syntactic Comparison", null);
+			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "EMF model comparison", null);
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(
@@ -5587,7 +6297,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean equivalent(String metamodel, String model,
+	protected boolean equivalent(List<String> metamodels, String model,
 			String seed, IProject project, Class<?> cls) throws ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
@@ -5604,7 +6314,7 @@ public class MutatorUtils {
 						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
 						Object equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getURI = extensionClass.getDeclaredMethod("getURI");
-						List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
+						List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
 						String uri = (String) getURI.invoke(equivalence);
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						String name = (String) getName.invoke(equivalence);
@@ -5625,8 +6335,8 @@ public class MutatorUtils {
 						Object equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(equivalence).equals(extensionName)) {
-							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
-							isRepeated = (boolean) doCompare.invoke(equivalence, metamodel, model, seed, project);
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{List.class, String.class, String.class, IProject.class, Class.class});
+							isRepeated = (boolean) doCompare.invoke(equivalence, metamodels, model, seed, project, cls);
 						}
 					}
 				} catch (InstantiationException e) {
@@ -6041,7 +6751,7 @@ public class MutatorUtils {
 	 * @throws IllegalAccessException 
 	 */
 	public static void generatePostprocessingPaths(File block,
-			List<EPackage> packages, Method doProcess, Object postprocessing, String metamodelpath, String metamodel)
+			List<EPackage> packages, Method doProcess, Object postprocessing, String metamodelpath, List<String> metamodels)
 			throws ModelNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (block.getName().equals("registry") != true) {
 			File[] folderBlock = block.listFiles();
@@ -6054,12 +6764,12 @@ public class MutatorUtils {
 						File f = new File(pathfileblock);
 						if(!f.isDirectory()) {
 							if (doProcess != null) {
-								doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfileblock, pathfileblock);
+								doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
 							}
 						}
 					}
 				} else {
-					generatePostprocessingPaths(folderBlock[i], packages, doProcess, postprocessing, metamodelpath, metamodel);
+					generatePostprocessingPaths(folderBlock[i], packages, doProcess, postprocessing, metamodelpath, metamodels);
 				}
 			}
 		}
@@ -6114,7 +6824,7 @@ public class MutatorUtils {
 	 * @throws IllegalAccessException 
 	 */
 	public static String generateLiveMutantPaths(File block,
-			List<EPackage> packages, List<String> liveMutantPaths, Method doCompare, Object equivalence, String metamodel, String targetfile, IProject sourceProject, String outputPath)
+			List<EPackage> packages, List<String> liveMutantPaths, Method doCompare, Object equivalence, List<String> metamodels, String targetfile, IProject sourceProject, String outputPath)
 			throws ModelNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String equivalentPaths = "";
 		if (block.getName().equals("registry") != true) {
@@ -6133,7 +6843,7 @@ public class MutatorUtils {
 										packages, pathfileblock);
 								File f = new File(pathfileblock);
 								if(!f.isDirectory() && !f.getName().contains("_")) { 
-									boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, pathfileblock, sourceProject);
+									boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject);
 									if (result == true) {
 										String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
 										equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
@@ -6145,7 +6855,7 @@ public class MutatorUtils {
 						}
 					}
 				} else {
-					equivalentPaths = generateLiveMutantPaths(folderBlock[i], packages,	liveMutantPaths, doCompare, equivalence, metamodel, targetfile, sourceProject, outputPath);
+					equivalentPaths = generateLiveMutantPaths(folderBlock[i], packages,	liveMutantPaths, doCompare, equivalence, metamodels, targetfile, sourceProject, outputPath);
 				}
 			}
 		}
@@ -8685,6 +9395,67 @@ public class MutatorUtils {
 	 * @param com
 	 * @return
 	 */
+	public static String selectObjectMutatorHelperName(SelectObjectMutator com) {
+		String className = null;
+		if (com.getObject() instanceof ObSelectionStrategy) {
+        	if (com.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+       			className = ((mutatorenvironment.RandomTypeSelection) com.getObject()).getType().getName();
+       		}
+       		if (com.getObject() instanceof CompleteTypeSelection) {
+       			className = ((CompleteTypeSelection) com.getObject()).getType().getName();
+       		}
+			if (com.getObject() instanceof SpecificObjectSelection) {
+				SpecificObjectSelection selection = (SpecificObjectSelection) com.getObject();
+				if (selection.getObjSel() instanceof CreateObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof SelectObjectMutator) {
+					className = selectObjectMutatorHelperName((SelectObjectMutator) selection.getObjSel());
+				}
+				if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelperName((SelectSampleMutator) selection.getObjSel());
+				}
+				if (selection.getObjSel() instanceof CloneObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
+				}
+			}
+       		if (com.getObject() instanceof SpecificClosureSelection) {
+       			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
+     			if (selection.getObjSel() instanceof CreateObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+       			if (selection.getObjSel() instanceof SelectObjectMutator) {
+       				className = selectObjectMutatorHelperName((SelectObjectMutator) selection.getObjSel());
+       			}
+       			if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelperName((SelectSampleMutator) selection.getObjSel());
+				}
+       			if (selection.getObjSel() instanceof CloneObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
+				}
+       		}
+		}
+		return className;
+	}
+
+	/**
+	 * Gets the type of the SelectSampleMutator
+	 * as a string
+	 * @param com
+	 * @return
+	 */
 	public static String selectSampleMutatorHelperName(SelectSampleMutator com) {
 		String className = null;
 		if (com.getObject() instanceof ObSelectionStrategy) {
@@ -9065,7 +9836,9 @@ public class MutatorUtils {
 				}
 				if (isValid == true && isRepeated == false) {
 					// VERIFY IF MUTANT IS EQUIVALENT
-					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project, cls);
+					List<String> metamodels = new ArrayList<String>();
+					metamodels.add(metamodel);
+					isEquivalent = equivalent(metamodels, mutFilename, modelFilename, project, cls);
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
@@ -10016,43 +10789,6 @@ public class MutatorUtils {
 					IOUtils.deleteFile(mutFilename);
 					isRepeated = true;
 				}
-				if (isValid == true) {
-					// VERIFY IF MUTANT IS DIFFERENT
-					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
-					if (isRepeated == true) {
-						IOUtils.deleteFile(mutFilename);
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
-						return isRepeated;
-					}
-				}
-				if (isValid == true && isRepeated == false) {
-					// VERIFY IF MUTANT IS EQUIVALENT
-					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project, cls);
-					if (isEquivalent == true) {
-						IOUtils.deleteFile(mutFilename);
-						isRepeated = true;
-						if (localRegisteredPackages != null) {
-							List<EPackage> localRegistered = new ArrayList<EPackage>();
-							localRegistered.addAll(localRegisteredPackages.values());
-							ModelManager.unregisterMetaModel(localRegistered);
-						}
-						if (registeredPackages != null) {
-							List<EPackage> registered = new ArrayList<EPackage>();
-							registered.addAll(registeredPackages.values());
-							ModelManager.unregisterMetaModel(registered);
-						}
-						return isRepeated;
-					}
-				}
 				if (localRegisteredPackages != null) {
 					List<EPackage> localRegistered = new ArrayList<EPackage>();
 					localRegistered.addAll(localRegisteredPackages.values());
@@ -10062,6 +10798,41 @@ public class MutatorUtils {
 					List<EPackage> registered = new ArrayList<EPackage>();
 					registered.addAll(registeredPackages.values());
 					ModelManager.unregisterMetaModel(registered);
+				}
+				if (isValid == true) {
+					// VERIFY IF MUTANT IS DIFFERENT
+					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
+					if (isRepeated == true) {
+						IOUtils.deleteFile(mutFilename);
+						return isRepeated;
+					}
+				}
+				if (isValid == true && isRepeated == false) {
+					// VERIFY IF MUTANT IS EQUIVALENT
+					if (registeredPackages != null) {
+						ModelManager.registerMetaModel(registeredPackages);
+					}
+					if (localRegisteredPackages != null) {
+						ModelManager.registerMetaModel(localRegisteredPackages);
+					}
+					List<String> metamodels = new ArrayList<String>();
+					metamodels.add(metamodel);
+					isEquivalent = equivalent(metamodels, mutFilename, modelFilename, project, cls);
+					if (localRegisteredPackages != null) {
+						List<EPackage> localRegistered = new ArrayList<EPackage>();
+						localRegistered.addAll(localRegisteredPackages.values());
+						ModelManager.unregisterMetaModel(localRegistered);
+					}
+					if (registeredPackages != null) {
+						List<EPackage> registered = new ArrayList<EPackage>();
+						registered.addAll(registeredPackages.values());
+						ModelManager.unregisterMetaModel(registered);
+					}
+					if (isEquivalent == true) {
+						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+						return isRepeated;
+					}
 				}
 
 				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
@@ -11566,14 +12337,14 @@ public class MutatorUtils {
 					expression.first = new AttributeEvaluation();
 					EObject name = ModelManager.getReference("name", first);
 					expression.first.operator = String.valueOf(ModelManager.getAttribute("operator", value));
-					((AttributeEvaluation) expression.first).values = new ArrayList<String>();
+					((AttributeEvaluation) expression.first).values = new ArrayList<Object>();
 				}
 				else {
 					expression.first = new AttributeEvaluation();
 					EObject name = ModelManager.getReference("name", first);
 					expression.first.name = (String) ModelManager.getStringAttribute("name", name);
 					expression.first.operator = String.valueOf(ModelManager.getAttribute("operator", value));
-					((AttributeEvaluation) expression.first).values = new ArrayList<String>();
+					((AttributeEvaluation) expression.first).values = new ArrayList<Object>();
 					((AttributeEvaluation) expression.first).values.add(String.valueOf(value));
 					if (value.eClass().getName().equals("StringType")) {
 						((AttributeEvaluation) expression.first).type = "String";
@@ -11703,14 +12474,14 @@ public class MutatorUtils {
 						EObject name = ModelManager.getReference("name", mutatorEv);
 						second.name = (String) ModelManager.getStringAttribute("name", name);
 						second.operator = String.valueOf(ModelManager.getAttribute("operator", value));
-						((AttributeEvaluation) second).values = new ArrayList<String>();
+						((AttributeEvaluation) second).values = new ArrayList<Object>();
 					}
 					else {
 						second = new AttributeEvaluation();
 						EObject name = ModelManager.getReference("name", mutatorEv);
 						second.name = (String) ModelManager.getStringAttribute("name", name);
 						second.operator = String.valueOf(ModelManager.getAttribute("operator", value));
-						((AttributeEvaluation) second).values = new ArrayList<String>();
+						((AttributeEvaluation) second).values = new ArrayList<Object>();
 						((AttributeEvaluation) second).values.add(String.valueOf(value));
 						if (value.eClass().getName().equals("StringType")) {
 							((AttributeEvaluation) second).type = "String";

@@ -88,11 +88,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("List<String> dotcode = new ArrayList<String>();");
     _builder.newLine();
     {
-      EList<Node> _nodes = draw.getNodes();
+      EList<Node> _nodes = draw.getInstances().get(0).getNodes();
       boolean _tripleNotEquals = (_nodes != null);
       if (_tripleNotEquals) {
         {
-          int _size = draw.getNodes().size();
+          int _size = draw.getInstances().get(0).getNodes().size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             _builder.append("generateNodes(packages, model, dotnodes, dotrels);");
@@ -102,11 +102,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
       }
     }
     {
-      EList<Relation> _relations = draw.getRelations();
+      EList<Relation> _relations = draw.getInstances().get(0).getRelations();
       boolean _tripleNotEquals_1 = (_relations != null);
       if (_tripleNotEquals_1) {
         {
-          int _size_1 = draw.getRelations().size();
+          int _size_1 = draw.getInstances().get(0).getRelations().size();
           boolean _greaterThan_1 = (_size_1 > 0);
           if (_greaterThan_1) {
             _builder.append("generateRelations(model, dotrels, dottext);");
@@ -116,7 +116,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
       }
     }
     _builder.append("dotcode.add(\"digraph ");
-    String _name = draw.getName().getName();
+    String _name = draw.getInstances().get(0).getName().getName();
     _builder.append(_name);
     _builder.append(" {\\n\\nrankdir=LR;\\n\");");
     _builder.newLineIfNotEmpty();
@@ -652,11 +652,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     String folder = (_plus + _name);
     _builder.newLineIfNotEmpty();
     {
-      EList<Node> _nodes = draw.getNodes();
+      EList<Node> _nodes = draw.getInstances().get(0).getNodes();
       boolean _tripleNotEquals = (_nodes != null);
       if (_tripleNotEquals) {
         {
-          int _size = draw.getNodes().size();
+          int _size = draw.getInstances().get(0).getNodes().size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             _builder.append("\t");
@@ -668,7 +668,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
             int counter = 0;
             _builder.newLineIfNotEmpty();
             {
-              EList<Node> _nodes_1 = draw.getNodes();
+              EList<Node> _nodes_1 = draw.getInstances().get(0).getNodes();
               for(final Node node : _nodes_1) {
                 _builder.append("\t");
                 _builder.append("\t");
@@ -3393,11 +3393,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                       EList<EReference> _reference_1 = node.getReference();
                                       for(final EReference ref : _reference_1) {
                                         {
-                                          EList<Content> _contents = draw.getContents();
+                                          EList<Content> _contents = draw.getInstances().get(0).getContents();
                                           boolean _tripleNotEquals_5 = (_contents != null);
                                           if (_tripleNotEquals_5) {
                                             {
-                                              int _size_3 = draw.getContents().size();
+                                              int _size_3 = draw.getInstances().get(0).getContents().size();
                                               boolean _greaterThan_2 = (_size_3 > 0);
                                               if (_greaterThan_2) {
                                                 _builder.append("\t");
@@ -3446,7 +3446,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                                 int count = 0;
                                                 _builder.newLineIfNotEmpty();
                                                 {
-                                                  EList<Content> _contents_1 = draw.getContents();
+                                                  EList<Content> _contents_1 = draw.getInstances().get(0).getContents();
                                                   for(final Content content : _contents_1) {
                                                     _builder.append("\t");
                                                     _builder.append("\t");
@@ -4274,11 +4274,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.newLine();
     {
-      EList<Relation> _relations = draw.getRelations();
+      EList<Relation> _relations = draw.getInstances().get(0).getRelations();
       boolean _tripleNotEquals_6 = (_relations != null);
       if (_tripleNotEquals_6) {
         {
-          int _size_4 = draw.getRelations().size();
+          int _size_4 = draw.getInstances().get(0).getRelations().size();
           boolean _greaterThan_3 = (_size_4 > 0);
           if (_greaterThan_3) {
             _builder.append("\t");
@@ -4290,7 +4290,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
             int counter_1 = 0;
             _builder.newLineIfNotEmpty();
             {
-              EList<Relation> _relations_1 = draw.getRelations();
+              EList<Relation> _relations_1 = draw.getInstances().get(0).getRelations();
               for(final Relation rel : _relations_1) {
                 {
                   if ((rel instanceof Edge)) {
@@ -4952,6 +4952,9 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         _builder.append("\t");
                         _builder.append("for (EObject targetNode : targetNodes) {");
                         _builder.newLine();
+                        _builder.append("\t\t");
+                        _builder.append("EObject featObject = null;");
+                        _builder.newLine();
                         {
                           EList<ValuedFeature> _targetFeature = edge.getTargetFeature();
                           boolean _tripleNotEquals_14 = (_targetFeature != null);
@@ -4972,7 +4975,16 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                 _builder.append("\")) {");
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t\t\t");
-                                _builder.append("Object featObject = targetNode.eGet(feat);");
+                                _builder.append("Object ob = targetNode.eGet(feat);");
+                                _builder.newLine();
+                                _builder.append("\t\t\t");
+                                _builder.append("if (ob instanceof EObject) {");
+                                _builder.newLine();
+                                _builder.append("\t\t\t\t");
+                                _builder.append("featObject = (EObject) ob;");
+                                _builder.newLine();
+                                _builder.append("\t\t\t");
+                                _builder.append("} ");
                                 _builder.newLine();
                                 {
                                   EStructuralFeature _feat_4 = feat_2.getFeat();
@@ -5193,7 +5205,34 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                           }
                         }
                         _builder.append("\t");
-                        _builder.append("EObject src = edge;");
+                        _builder.append("EObject src = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("EObject tar = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("if (featObject == null) {");
+                        _builder.newLine();
+                        _builder.append("\t\t");
+                        _builder.append("src = edge;");
+                        _builder.newLine();
+                        _builder.append("\t\t");
+                        _builder.append("tar = targetNode;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("else {");
+                        _builder.newLine();
+                        _builder.append("\t\t");
+                        _builder.append("src = targetNode;");
+                        _builder.newLine();
+                        _builder.append("\t\t");
+                        _builder.append("tar = featObject;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("}");
                         _builder.newLine();
                         _builder.append("\t");
                         _builder.append("String srcName = \"\";");
@@ -5236,9 +5275,6 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         _builder.append("}");
                         _builder.newLine();
                         _builder.append("\t");
-                        _builder.append("EObject tar = targetNode;");
-                        _builder.newLine();
-                        _builder.append("\t");
                         _builder.append("String tarName = \"\";");
                         _builder.newLine();
                         _builder.append("\t");
@@ -5279,7 +5315,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         _builder.append("}");
                         _builder.newLine();
                         _builder.append("\t");
-                        _builder.append("if (!srcName.isEmpty() && !tarName.isEmpty() && !source.contains(srcName) && !target.contains(tarName)) {");
+                        _builder.append("if (!srcName.isEmpty() && !tarName.isEmpty() && !source.contains(srcName)) { //&& !target.contains(tarName)) {");
                         _builder.newLine();
                         _builder.append("\t\t");
                         _builder.append("source.add(srcName);");
@@ -5887,107 +5923,117 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("for (int i = 0; i < source.size(); i++) {");
+                    _builder.append("if (source.size() == target.size()) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t\t");
+                    _builder.append("for (int i = 0; i < source.size() && i < target.size(); i++) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
                     _builder.append("if (dotrels.containsKey(source.get(i) + \"->\" + target.get(i)) == true) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t");
+                    _builder.append("\t\t\t\t");
                     _builder.append("rels = dotrels.get(source.get(i) + \"->\" + target.get(i));");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("else {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t");
+                    _builder.append("\t\t\t\t");
                     _builder.append("rels = new ArrayList<Map<String, String>>();");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("boolean found = false;");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("for (Map<String, String> rel : rels) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t");
+                    _builder.append("\t\t\t\t");
                     _builder.append("for (String key : rel.keySet()) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t");
+                    _builder.append("\t\t\t\t\t");
                     _builder.append("if (key.equals(\"label\")) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t");
                     _builder.append("for (String keyParameters : parameters.keySet()) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t\t");
                     _builder.append("if (key.equals(keyParameters)) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t\t\t");
                     _builder.append("if (parameters.get(keyParameters).length() > 1) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
                     _builder.append("String value = rel.get(key);");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
                     _builder.append("if (value.length() > 0) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t\t");
                     _builder.append("value = value.substring(0, value.length() - 1);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("value += \"\\n\" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("rel.put(key, value);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("found = true;");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t\t\t\t\t\t\t\t");
                     _builder.append("}");
-                    _builder.newLine();
-                    _builder.append("\t");
-                    _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t");
-                    _builder.append("value += \"\\n\" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());");
-                    _builder.newLine();
-                    _builder.append("\t");
-                    _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t");
-                    _builder.append("rel.put(key, value);");
-                    _builder.newLine();
-                    _builder.append("\t");
-                    _builder.append("\t");
-                    _builder.append("\t\t\t\t\t\t\t\t");
-                    _builder.append("found = true;");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
@@ -6016,18 +6062,23 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t");
-                    _builder.append("}");
-                    _builder.newLine();
-                    _builder.append("\t");
-                    _builder.append("\t");
-                    _builder.append("\t\t");
+                    _builder.append("\t\t\t");
                     _builder.append("if (found == false) {");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("\t\t\t");
+                    _builder.append("\t\t\t\t");
                     _builder.append("rels.add(parameters);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("dotrels.put(source.get(i) + \"->\" + target.get(i), rels);");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
@@ -6036,8 +6087,173 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
                     _builder.append("\t\t");
+                    _builder.append("for (int i = 0; i < source.size(); i++) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("if (dotrels.containsKey(source.get(i) + \"->\" + target.get(i)) == true) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("rels = dotrels.get(source.get(i) + \"->\" + target.get(i));");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("rels = new ArrayList<Map<String, String>>();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("boolean found = false;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("for (Map<String, String> rel : rels) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("for (String key : rel.keySet()) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t");
+                    _builder.append("if (key.equals(\"label\")) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("for (String keyParameters : parameters.keySet()) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t");
+                    _builder.append("if (key.equals(keyParameters)) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t");
+                    _builder.append("if (parameters.get(keyParameters).length() > 1) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("String value = rel.get(key);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("if (value.length() > 0) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t\t");
+                    _builder.append("value = value.substring(0, value.length() - 1);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("value += \"\\n\" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("rel.put(key, value);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t\t");
+                    _builder.append("found = true;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("if (found == false) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("rels.add(parameters);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
                     _builder.append("dotrels.put(source.get(i) + \"->\" + target.get(i), rels);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");

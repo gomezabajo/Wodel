@@ -70,11 +70,11 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 	}
 	public Resource getModel() {
 		if (this.model == null) {
-			if (this.models != null) {
+			if (this.models != null && this.models.size() > 0) {
 				return this.models.get(0);
 			}
 		}
-		return model;
+		return this.model;
 	}
 	
 	public void setModel(Resource model) {
@@ -87,7 +87,7 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 			ret.add(this.model);
 			return ret;
 		}
-		return models;
+		return this.models;
 	}
 	public void setModels(List<Resource> models) {
 		this.models = models;

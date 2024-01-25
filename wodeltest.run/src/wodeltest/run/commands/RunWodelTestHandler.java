@@ -23,6 +23,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -37,6 +38,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -66,10 +68,143 @@ import wodeltest.run.utils.MutatorHelper;
 import wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart;
 
 public class RunWodelTestHandler extends AbstractHandler {
+	
+	private static int PORT = 5005;
+	public static int[] EXCLUDED_PORTS = {5040};
+	
+	private static void incrementPort() {
+		boolean validPort = false;
+		while (validPort == false) {
+			PORT++;
+			validPort = true;
+			for (int excluded_port : EXCLUDED_PORTS) {
+				if (excluded_port == PORT) {
+					validPort = false;
+					break;
+				}
+			}
+		}
+	}
 
 	private static class RunWodelTestWithProgress implements IRunnableWithProgress {
 
 		private ExecutionEvent event = null;
+
+		public class Counter {
+			private int index = 0;
+			private int size;
+	        
+			public Counter(int size) {
+				this.size = size; 
+			}
+
+			public synchronized int next() {
+				return this.index++;
+			}
+			
+			public synchronized boolean canContinue() {
+				return this.index < this.size;
+			}
+		}
+
+		public class DynamicParallelWodelTestRunner implements Runnable {
+
+			private final Counter counter;
+			private IWodelTest test = null;
+			private IProject sourceProject = null;
+			private List<IProject> testSuitesProjects = null;
+			private List<String> partArtifacts = null;
+			private List<Integer> partPorts = null;
+			private Map<IProject, String> resultsPath = null;
+			private Map<IProject, String> testsResultsPath = null;
+			private int[] numMutantsGenerated = null;
+			private int[] numMutantsNonCompiling = null;
+			
+			public DynamicParallelWodelTestRunner(Counter counter, IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling) {
+				this.counter = counter;
+				this.test = test;
+				this.sourceProject = sourceProject;
+				this.testSuitesProjects = testSuitesProjects;
+				this.partArtifacts = partArtifacts;
+				this.partPorts = partPorts;
+				this.resultsPath = resultsPath;
+				this.testsResultsPath = testsResultsPath;
+				this.numMutantsGenerated = numMutantsGenerated;
+				this.numMutantsNonCompiling = numMutantsNonCompiling;
+			}
+
+			@Override
+			public void run() {
+				int k = 0;
+				while (counter.canContinue()) {
+					k = counter.next();
+					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, this.partArtifacts.get(k), this.partPorts.get(k));
+					if (globalResultMap != null) {
+						this.numMutantsGenerated[0]++;
+						boolean status = false;
+						for (IProject testSuiteProject : globalResultMap.keySet()) {
+							if (globalResultMap.get(testSuiteProject).getStatus() == WodelTestGlobalResult.Status.OK) {
+								status = true;
+								WodelTestResultClass.storeFile(this.resultsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject).getResults());
+								WodelTestGlobalResult.storeValues(this.testsResultsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject));
+							}
+						}
+						if (!status) {
+							this.numMutantsNonCompiling[0]++;
+						}
+					}
+				}
+			}
+		}
+
+		public class StaticParallelWodelTestRunner implements Runnable {
+
+			private IWodelTest test = null;
+			private IProject sourceProject = null;
+			private List<IProject> testSuitesProjects = null;
+			private List<String> partArtifacts = null;
+			private List<Integer> partPorts = null;
+			private Map<IProject, String> resultsPath = null;
+			private Map<IProject, String> testsResultsPath = null;
+			private int[] numMutantsGenerated = null;
+			private int[] numMutantsNonCompiling = null;
+			
+			public StaticParallelWodelTestRunner(IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling) {
+				this.test = test;
+				this.sourceProject = sourceProject;
+				this.testSuitesProjects = testSuitesProjects;
+				this.partArtifacts = partArtifacts;
+				this.partPorts = partPorts;
+				this.resultsPath = resultsPath;
+				this.testsResultsPath = testsResultsPath;
+				this.numMutantsGenerated = numMutantsGenerated;
+				this.numMutantsNonCompiling = numMutantsNonCompiling;
+			}
+
+			@Override
+			public void run() {
+				int k = 0;
+				for (String artifact : this.partArtifacts) {
+					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, artifact, this.partPorts.get(k));
+					if (globalResultMap != null) {
+						this.numMutantsGenerated[0]++;
+						boolean status = false;
+						for (IProject testSuiteProject : globalResultMap.keySet()) {
+							if (globalResultMap.get(testSuiteProject).getStatus() == WodelTestGlobalResult.Status.OK) {
+								status = true;
+								WodelTestResultClass.storeFile(this.resultsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject).getResults());
+								WodelTestGlobalResult.storeValues(this.testsResultsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject));
+							}
+						}
+						if (!status) {
+							this.numMutantsNonCompiling[0]++;
+						}
+					}
+					k++;
+				}
+			}
+		}
+
 		public RunWodelTestWithProgress(ExecutionEvent event) {
 			this.event = event;
 		}
@@ -112,6 +247,10 @@ public class RunWodelTestHandler extends AbstractHandler {
 			try {
 				IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getCurrentSelection(event);
 				IProject sProject = null;
+				if (selection.getFirstElement() instanceof IAdaptable)
+		        {
+		            sProject = (IProject)((IAdaptable) selection.getFirstElement()).getAdapter(IProject.class);
+		        }
 				if (selection.getFirstElement() instanceof IProject) {
 					sProject = (IProject) selection.getFirstElement();
 				}
@@ -129,25 +268,49 @@ public class RunWodelTestHandler extends AbstractHandler {
 				if (test == null) {
 					return;
 				}
-				String testSuiteName = WodelTestUtils.getTestSuiteName(sourceProject);
+				List<String> testSuitesNames = WodelTestUtils.getTestSuitesNames(sourceProject);
 				
 				MutatorHelper mutatorHelper = new MutatorHelper(test);
 				String projectName = sourceProject.getName();
 				SimpleEntry<String, Class<?>> mutatorLauncher = mutatorHelper.getLauncher();
+				IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+				List<IProject> testSuitesProjects = new ArrayList<IProject>();
+				for (String testSuiteName : testSuitesNames) {
+					IProject p = workspaceRoot.getProject(testSuiteName);
+					if (p != null) {
+						testSuitesProjects.add(p);
+					}
+				}
 				String path = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString();
 				IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.txt");
-				IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.results.txt");
+				for (IProject testSuiteProject : testSuitesProjects) {
+					File testSuiteResultsFolder = new File(path + "/data/" + testSuiteProject.getName());
+					if (!testSuiteResultsFolder.exists() || !testSuiteResultsFolder.isDirectory()) {
+						testSuiteResultsFolder.mkdirs();
+					}
+					IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/" + testSuiteProject.getName() + "/classes.results.txt");
+				}
 				long currentTimeMillis = System.currentTimeMillis();
 				int numMutatorsSelected = 0;
 				int numMutatorsApplied = 0;
 				List<String> mutatorsApplied = new ArrayList<String>();
 				int numMutantsGenerated = 0;
 				int numMutantsNonCompiling = 0;
-				String resultsPath = path + "/data/classes.results.txt";
-				String testsResultsPath = path + "/data/" + projectName + ".tests.results.txt";
-				WodelTestGlobalResult.resetValues(testsResultsPath);
-				String metamodel = null;
-				List<EPackage> packages = null;
+				Map<IProject, String> resultsProjectsPath = new HashMap<IProject, String>();
+				Map<IProject, String> testsResultsProjectsPath = new HashMap<IProject, String>();
+				for (IProject testSuiteProject : testSuitesProjects) {
+					File testSuiteResultsFolder = new File(path + "/data/" + testSuiteProject.getName());
+					if (!testSuiteResultsFolder.exists() || !testSuiteResultsFolder.isDirectory()) {
+						testSuiteResultsFolder.mkdirs();
+					}
+					String resultsPath = path + "/data/" + testSuiteProject.getName() + "/classes.results.txt";
+					resultsProjectsPath.put(testSuiteProject, resultsPath);
+					String testsResultsPath = path + "/data/" + testSuiteProject.getName() + "/" + projectName + ".tests.results.txt";
+					WodelTestGlobalResult.resetValues(testsResultsPath);
+					testsResultsProjectsPath.put(testSuiteProject, testsResultsPath);
+				}
+				List<String> metamodels = null;
+				List<EPackage> packages = new ArrayList<EPackage>();
 				String metamodelpath = null;
 				test.projectToModel(projectName, mutatorLauncher.getValue());
 				String outputPath = ModelManager.getOutputPath(mutatorLauncher.getValue());
@@ -158,7 +321,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 				}
 
-				metamodel = ModelManager.getMetaModel(mutatorLauncher.getValue());
+				metamodels = ModelManager.getMetaModel(mutatorLauncher.getValue());
 				metamodelpath = ModelManager.getMetaModelPath(mutatorLauncher.getValue());
 				Bundle bundle = Platform.getBundle("wodel.models");
 				URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
@@ -171,7 +334,11 @@ public class RunWodelTestHandler extends AbstractHandler {
 				try {
 					ecore = FileLocator.resolve(fileURL).getFile();
 					mutatorpackages = ModelManager.loadMetaModel(ecore);
-					packages = ModelManager.loadMetaModel(metamodel, cls);
+					isRegistered = ModelManager.isRegistered(mutatorpackages);
+					if (isRegistered == true) {
+						registeredPackages = ModelManager.registeredMetaModels(mutatorpackages);
+					}
+					packages = ModelManager.loadMetaModels(metamodels, cls);
 					//checks whether the meta-model is dynamically registered
 					isRegistered = ModelManager.isRegistered(packages);
 					if (isRegistered == true) {
@@ -191,23 +358,25 @@ public class RunWodelTestHandler extends AbstractHandler {
 				String projectNamePath = path + "/data/project.txt";
 				WodelTestResultClass.storeProjectInfo(projectNamePath, test.getProjectName(), test.getNatureId());
 
-				IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+				//IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 				if (sourceProject.hasNature(JavaCore.NATURE_ID)) {
-					IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
-					IJavaProject javaTestSuiteProject = JavaCore.create(testSuiteProject);
-					IClasspathEntry projectDependency = JavaCore.newProjectEntry(new Path("/" + projectName));
-					IClasspathEntry[] classpathEntries = javaTestSuiteProject.getRawClasspath();
-					boolean found = false;
-					for (IClasspathEntry classpathEntry : classpathEntries) {
-						if (classpathEntry.getPath().equals(projectDependency.getPath())) {
-							found = true;
-							break;
+					for (String testSuiteName : testSuitesNames) {
+						IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
+						IJavaProject javaTestSuiteProject = JavaCore.create(testSuiteProject);
+						IClasspathEntry projectDependency = JavaCore.newProjectEntry(new Path("/" + projectName));
+						IClasspathEntry[] classpathEntries = javaTestSuiteProject.getRawClasspath();
+						boolean found = false;
+						for (IClasspathEntry classpathEntry : classpathEntries) {
+							if (classpathEntry.getPath().equals(projectDependency.getPath())) {
+								found = true;
+								break;
+							}
 						}
-					}
-					if (!found) {
-						IClasspathEntry[] newClasspathEntries = Arrays.copyOf(classpathEntries, classpathEntries.length + 1);
-						newClasspathEntries[classpathEntries.length] = projectDependency;
-						javaTestSuiteProject.setRawClasspath(newClasspathEntries, new NullProgressMonitor());
+						if (!found) {
+							IClasspathEntry[] newClasspathEntries = Arrays.copyOf(classpathEntries, classpathEntries.length + 1);
+							newClasspathEntries[classpathEntries.length] = projectDependency;
+							javaTestSuiteProject.setRawClasspath(newClasspathEntries, new NullProgressMonitor());
+						}
 					}
 				}
 				IProjectDescription description = sourceProject.getDescription();
@@ -239,9 +408,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 				try {
 					ob = cls.getDeclaredConstructor().newInstance();
 					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
-					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
+					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
-					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
+					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
 					metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 					debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
 					serialize = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
@@ -380,11 +549,13 @@ public class RunWodelTestHandler extends AbstractHandler {
 								appropriateExtension = extension;
 							}
 						}
-						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						postprocessing = extensionClass.getDeclaredConstructor().newInstance();
-						Method getName = extensionClass.getDeclaredMethod("getName");
-						if (getName.invoke(postprocessing).equals(extensionName) ) {
-							doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});
+						if (appropriateExtension != null) {
+							Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+							postprocessing = extensionClass.getDeclaredConstructor().newInstance();
+							Method getName = extensionClass.getDeclaredMethod("getName");
+							if (getName.invoke(postprocessing).equals(extensionName) ) {
+								doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, List.class, Resource.class, String.class});
+							}
 						}
 					}
 					//HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
@@ -400,9 +571,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 								File f = new File(targetfile);
 								if(!f.isDirectory()) { 
 									if (doProcess != null) {
-										doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfile, targetfile);
+										doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, targetfile);
 									}
-									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfile);
+									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
 								}
 								//hashmap_postproc.put(modelfile, targetfile);
 							}
@@ -420,9 +591,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 										File f = new File(pathfile);
 										if(!f.isDirectory()) {
 											if (doProcess != null) {
-												doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfile, pathfile);
+												doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, pathfile);
 											}
-											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfile);
+											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
 										}
 										//hashmap_postproc.put(modelfile, pathfile);
 									}
@@ -439,14 +610,14 @@ public class RunWodelTestHandler extends AbstractHandler {
 													File f = new File(pathfileblock);
 													if(!f.isDirectory()) {
 														if (doProcess != null) {
-															doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfileblock, pathfileblock);
+															doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
 														}
-														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfileblock);
+														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock);
 													}
 												}
 											}
 											else {
-												MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodel);
+												MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodels);
 											}
 										}
 									}
@@ -492,33 +663,202 @@ public class RunWodelTestHandler extends AbstractHandler {
 					test.compile(sourceProject);
 					WodelTestUtils.storeClasses(classesPath, classes);
 					
-					IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
+//					List<IProject> testSuitesProjects = new ArrayList<IProject>();
+//					for (String testSuiteName : testSuitesNames) {
+//						IProject testSuiteP = workspaceRoot.getProject(testSuiteName);
+//						if (testSuiteP != null) {
+//							testSuitesProjects.add(testSuiteP);
+//						}
+//					}
 					
-					File mutantFolder = new File(path);
-					List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
-					for (String artifactPath : artifactPaths) {
-						boolean found = false;
-						for (String blockName : blockNames) {
-							if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
-								found = true;
-								break;
+					boolean parallelize = Platform.getPreferencesService().getBoolean("WodelTest", "Parallelize mutants execution", false, null);
+					
+					if (!parallelize) {
+						File mutantFolder = new File(path);
+						List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+						for (String artifactPath : artifactPaths) {
+							boolean found = false;
+							for (String blockName : blockNames) {
+								if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+									found = true;
+									break;
+								}
+							}
+							if (found != true) {
+								continue;
+							}
+							Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath);
+							if (globalResultMap != null) {
+								numMutantsGenerated++;
+								boolean st = false;
+								for (IProject testSuiteProject : globalResultMap.keySet()) {
+									if (globalResultMap.get(testSuiteProject).getStatus() == WodelTestGlobalResult.Status.OK) {
+										st = true;
+										WodelTestResultClass.storeFile(resultsProjectsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject).getResults());
+										WodelTestGlobalResult.storeValues(testsResultsProjectsPath.get(testSuiteProject), globalResultMap.get(testSuiteProject));
+									}
+								}
+								if (!st) {
+									numMutantsNonCompiling++;
+								}
+							}
+							
+						}
+					}
+					else {
+						int maximumParallel = Platform.getPreferencesService().getInt("WodelTest", "Parallel mutants", 10, null);
+						String parallelizationMode = Platform.getPreferencesService().getString("WodelTest", "Parallelization mode", "Static basic", null);
+						if (parallelizationMode.equals("Static basic")) {
+							File mutantFolder = new File(path);
+							List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+							List<Thread> threads = new ArrayList<Thread>();
+							List<Map<IProject, WodelTestGlobalResult>> globalResultsMaps = new ArrayList<Map<IProject, WodelTestGlobalResult>>();
+							int k = 0;
+							for (String artifactPath : artifactPaths) {
+								boolean found = false;
+								for (String blockName : blockNames) {
+									if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+										found = true;
+										break;
+									}
+								}
+								if (found != true) {
+									continue;
+								}
+								Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath, threads);
+								globalResultsMaps.add(globalResultMap);
+								k++;
+								if (k % maximumParallel == 0) {
+									for (Thread thread : threads) {
+										thread.join();
+									}
+									threads.clear();
+									for (int i = 0; i < globalResultsMaps.size(); i++) {
+										if (globalResultsMaps.get(i) != null) {
+											numMutantsGenerated++;
+											boolean st = false;
+											for (IProject testSuiteProject : globalResultsMaps.get(i).keySet()) {
+												if (globalResultsMaps.get(i).get(testSuiteProject).getStatus() == WodelTestGlobalResult.Status.OK) {
+													st = true;
+													WodelTestResultClass.storeFile(resultsProjectsPath.get(testSuiteProject), globalResultsMaps.get(i).get(testSuiteProject).getResults());
+													WodelTestGlobalResult.storeValues(testsResultsProjectsPath.get(testSuiteProject), globalResultsMaps.get(i).get(testSuiteProject));
+												}
+											}
+											if (!st) {
+												numMutantsNonCompiling++;
+											}
+										}
+									}
+									globalResultsMaps.clear();
+								}
+							}
+							if (threads.size() > 0) {
+								for (Thread thread : threads) {
+									thread.join();
+								}
+								threads.clear();
+								for (int i = 0; i < globalResultsMaps.size(); i++) {
+									if (globalResultsMaps.get(i) != null) {
+										numMutantsGenerated++;
+										boolean st = false;
+										for (IProject testSuiteProject : globalResultsMaps.get(i).keySet()) {
+											if (globalResultsMaps.get(i).get(testSuiteProject).getStatus() == WodelTestGlobalResult.Status.OK) {
+												st = true;
+												WodelTestResultClass.storeFile(resultsProjectsPath.get(testSuiteProject), globalResultsMaps.get(i).get(testSuiteProject).getResults());
+												WodelTestGlobalResult.storeValues(testsResultsProjectsPath.get(testSuiteProject), globalResultsMaps.get(i).get(testSuiteProject));
+											}
+										}
+										if (!st) {
+											numMutantsNonCompiling++;
+										}
+									}
+								}
+								globalResultsMaps.clear();
 							}
 						}
-						if (found != true) {
-							continue;
-						}
-						WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath);
-						if (globalResult != null) {
-							numMutantsGenerated++;
-							if (globalResult.getStatus() == WodelTestGlobalResult.Status.OK) {
-								WodelTestResultClass.storeFile(resultsPath, globalResult.getResults());
-								WodelTestGlobalResult.storeValues(testsResultsPath, globalResult);
+						if (parallelizationMode.equals("Static improved")) {
+							File mutantFolder = new File(path);
+							List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+							List<String> processedArtifacts = new ArrayList<String>(); 
+							for (int i = 0; i < artifactPaths.size(); i++) {
+								boolean found = false;
+								for (String blockName : blockNames) {
+									if (artifactPaths.get(i).replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+										found = true;
+										break;
+									}
+								}
+								if (!found) {
+									continue;
+								}
+								processedArtifacts.add(artifactPaths.get(i));
 							}
-							else {
-								numMutantsNonCompiling++;
+							List<List<String>> partitionedArtifacts = new ArrayList<List<String>>();
+							List<List<Integer>> artifactPorts = new ArrayList<List<Integer>>();
+							for (int i = 0; i < processedArtifacts.size(); i++) {
+								if (!(partitionedArtifacts.size() > i % maximumParallel)) {
+									List<String> partArtifacts = new ArrayList<String>();
+									partitionedArtifacts.add(partArtifacts);
+									List<Integer> partPorts = new ArrayList<Integer>();
+									artifactPorts.add(partPorts);
+								}
+								partitionedArtifacts.get(i % maximumParallel).add(processedArtifacts.get(i));
+								artifactPorts.get(i % maximumParallel).add(PORT);
+								incrementPort();
 							}
+							List<Thread> threads = new ArrayList<Thread>();
+							int[] arrNumMutantsGenerated = new int[] {0};
+							int[] arrNumMutantsNonCompiling = new int[] {0};
+							for (int i = 0; i < partitionedArtifacts.size(); i++) {
+								StaticParallelWodelTestRunner wodelTestRunner = new StaticParallelWodelTestRunner(test, sourceProject, testSuitesProjects, partitionedArtifacts.get(i), artifactPorts.get(i), resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling);
+								Thread thread = new Thread(wodelTestRunner);
+								thread.start();
+								threads.add(thread);
+							}
+							for (Thread thread : threads) {
+								thread.join();
+							}
+							numMutantsGenerated += arrNumMutantsGenerated[0];
+							numMutantsNonCompiling += arrNumMutantsNonCompiling[0];
 						}
-						
+						if (parallelizationMode.equals("Dynamic")) {
+							File mutantFolder = new File(path);
+							List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+							List<String> processedArtifacts = new ArrayList<String>(); 
+							List<Integer> artifactPorts = new ArrayList<Integer>();
+							for (int i = 0; i < artifactPaths.size(); i++) {
+								boolean found = false;
+								for (String blockName : blockNames) {
+									if (artifactPaths.get(i).replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+										found = true;
+										break;
+									}
+								}
+								if (!found) {
+									continue;
+								}
+								processedArtifacts.add(artifactPaths.get(i));
+								artifactPorts.add(PORT);
+								incrementPort();
+							}
+							List<Thread> threads = new ArrayList<Thread>();
+							int[] arrNumMutantsGenerated = new int[] {0};
+							int[] arrNumMutantsNonCompiling = new int[] {0};
+							Counter counter = new Counter(processedArtifacts.size());
+							for (int i = 0; i < maximumParallel; i++) {
+								DynamicParallelWodelTestRunner wodelTestRunner = new DynamicParallelWodelTestRunner(counter, test, sourceProject, testSuitesProjects, processedArtifacts, artifactPorts, resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling);
+								Thread thread = new Thread(wodelTestRunner);
+								threads.add(thread);
+							}
+							for (Thread thread : threads) {
+								thread.start();
+							}
+							for (Thread thread : threads) {
+								thread.join();
+							}
+							numMutantsGenerated += arrNumMutantsGenerated[0];
+							numMutantsNonCompiling += arrNumMutantsNonCompiling[0];
+						}
 					}
 					test.compile(sourceProject);
 					
@@ -560,105 +900,107 @@ public class RunWodelTestHandler extends AbstractHandler {
 								Method getName = extensionClass.getDeclaredMethod("getName");
 								outputPath = outputPath.substring(outputPath.indexOf(test.getProjectName()) + test.getProjectName().length() + 1, outputPath.length());
 								if (getName.invoke(equivalence).equals(discardExtensionName) ) {
-									doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
+									doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{List.class, String.class, String.class, IProject.class, Class.class});
 								}
 							}
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
 						String classpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/classes.txt";
-					    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsPath);
-					    List<String> liveMutantPaths = new ArrayList<String>();
-					    for (String packagename : packageClasses.keySet()) {
-					    	List<WodelTestClass> values = packageClasses.get(packagename);
-					    	for (WodelTestClass value : values) {
-					    		for (WodelTestClassInfo valueInfo : value.info) {
-					    			if (valueInfo.getNumFailedTests() == 0) {
-					    				if (!liveMutantPaths.contains(valueInfo.path)) {
-					    					liveMutantPaths.add(valueInfo.path);
-					    				}
-					    			}
-					    			else {
-					    				liveMutantPaths.remove(valueInfo.path);
-					    			}
-					    		}
-					    	}
-					    }
-						files = null;
-						String equivalentpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/classes.equivalent.txt";
-						if (doCompare != null) {
-							for (File file : sourcefiles) {
-								if (file.isFile() == true) {
-									String pathfile = file.getPath();
-									if (pathfile.endsWith(".model") == true) {
-										String targetfile = new File(metamodelpath + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
-										String equivalentPaths = "";
-										for (String ecoreURI : modelpaths) {
-											files = new File(ModelManager.getOutputPath(mutatorLauncher.getValue()) + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
-											if (files != null) {
-												for (int i = 0; i < files.length; i++) {
-													if (files[i].isFile() == true) {
-														String mutpathfile = files[i].getPath();
-														if (mutpathfile.endsWith(".model") == true && !mutpathfile.substring(mutpathfile.lastIndexOf("\\"), mutpathfile.length()).contains("_")) {
-															String mutantName = pathfile.substring(mutpathfile.lastIndexOf("\\"));
-															mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
-															String mutatorName = files[i].getName();
-															String mutantPath = mutatorName + "/" + mutantName;
-															for (String liveMutantPath : liveMutantPaths) {
-																if (liveMutantPath.contains(mutantPath)) {
-																	File f = new File(mutpathfile);
-																	if(!f.isDirectory() && !f.getName().contains("_")) { 
-																		boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, mutpathfile, sourceProject);
-																		if (result == true) {
-																			String equivalentPath = mutpathfile.replaceAll("\\\\", "/");
-																			equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
-																			equivalentPaths += equivalentPath + "|";
+						for (IProject testSuiteProject : testSuitesProjects) {
+						    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
+						    List<String> liveMutantPaths = new ArrayList<String>();
+						    for (String packagename : packageClasses.keySet()) {
+						    	List<WodelTestClass> values = packageClasses.get(packagename);
+						    	for (WodelTestClass value : values) {
+						    		for (WodelTestClassInfo valueInfo : value.info) {
+						    			if (valueInfo.getNumFailedTests() == 0) {
+						    				if (!liveMutantPaths.contains(valueInfo.path)) {
+						    					liveMutantPaths.add(valueInfo.path);
+						    				}
+						    			}
+						    			else {
+						    				liveMutantPaths.remove(valueInfo.path);
+						    			}
+						    		}
+						    	}
+						    }
+							files = null;
+							String equivalentpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
+							if (doCompare != null) {
+								for (File file : sourcefiles) {
+									if (file.isFile() == true) {
+										String pathfile = file.getPath();
+										if (pathfile.endsWith(".model") == true) {
+											String targetfile = new File(metamodelpath + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
+											String equivalentPaths = "";
+											for (String ecoreURI : modelpaths) {
+												files = new File(ModelManager.getOutputPath(mutatorLauncher.getValue()) + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
+												if (files != null) {
+													for (int i = 0; i < files.length; i++) {
+														if (files[i].isFile() == true) {
+															String mutpathfile = files[i].getPath();
+															if (mutpathfile.endsWith(".model") == true && !mutpathfile.substring(mutpathfile.lastIndexOf("\\"), mutpathfile.length()).contains("_")) {
+																String mutantName = pathfile.substring(mutpathfile.lastIndexOf("\\"));
+																mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
+																String mutatorName = files[i].getName();
+																String mutantPath = mutatorName + "/" + mutantName;
+																for (String liveMutantPath : liveMutantPaths) {
+																	if (liveMutantPath.contains(mutantPath)) {
+																		File f = new File(mutpathfile);
+																		if(!f.isDirectory() && !f.getName().contains("_")) { 
+																			boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, mutpathfile, sourceProject, cls);
+																			if (result == true) {
+																				String equivalentPath = mutpathfile.replaceAll("\\\\", "/");
+																				equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
+																				equivalentPaths += equivalentPath + "|";
+																			}
 																		}
+																		//hashmap_mutants.put(mutantfile, mutpathfile);
+																		break;
 																	}
-																	//hashmap_mutants.put(mutantfile, mutpathfile);
-																	break;
 																}
 															}
 														}
-													}
-													else {
-														if (files[i].getName().equals("registry") != true) {
-															File[] filesBlock = files[i].listFiles();
-															for (int j = 0; j < filesBlock.length; j++) {
-																if (filesBlock[j].isFile() == true) {
-																	String pathfileblock = filesBlock[j].getPath();
-																	if (pathfileblock.endsWith(".model") == true && !pathfileblock.substring(pathfileblock.lastIndexOf("\\"), pathfileblock.length()).contains("_")) {
-																		String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("\\"));
-																		mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
-																		String mutatorName = files[i].getName();
-																		String mutantPath = mutatorName + "/" + mutantName;
-																		for (String liveMutantPath : liveMutantPaths) {
-																			if (liveMutantPath.contains(mutantPath)) {
-																				File f = new File(pathfileblock);
-																				if(!f.isDirectory() && !f.getName().contains("_")) { 
-																					boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, pathfileblock, sourceProject);
-																					if (result == true) {
-																						String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
-																						equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
-																						equivalentPaths += equivalentPath + "|";
+														else {
+															if (files[i].getName().equals("registry") != true) {
+																File[] filesBlock = files[i].listFiles();
+																for (int j = 0; j < filesBlock.length; j++) {
+																	if (filesBlock[j].isFile() == true) {
+																		String pathfileblock = filesBlock[j].getPath();
+																		if (pathfileblock.endsWith(".model") == true && !pathfileblock.substring(pathfileblock.lastIndexOf("\\"), pathfileblock.length()).contains("_")) {
+																			String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("\\"));
+																			mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
+																			String mutatorName = files[i].getName();
+																			String mutantPath = mutatorName + "/" + mutantName;
+																			for (String liveMutantPath : liveMutantPaths) {
+																				if (liveMutantPath.contains(mutantPath)) {
+																					File f = new File(pathfileblock);
+																					if(!f.isDirectory() && !f.getName().contains("_")) { 
+																						boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject, cls);
+																						if (result == true) {
+																							String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
+																							equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
+																							equivalentPaths += equivalentPath + "|";
+																						}
 																					}
+																					//hashmap_mutants.put(modelfileblock, pathfileblock);
+																					break;
 																				}
-																				//hashmap_mutants.put(modelfileblock, pathfileblock);
-																				break;
 																			}
 																		}
 																	}
-																}
-																else {
-																	equivalentPaths += MutatorUtils.generateLiveMutantPaths(filesBlock[j], packages, liveMutantPaths, doCompare, equivalence, metamodel, targetfile, sourceProject, outputPath);
+																	else {
+																		equivalentPaths += MutatorUtils.generateLiveMutantPaths(filesBlock[j], packages, liveMutantPaths, doCompare, equivalence, metamodels, targetfile, sourceProject, outputPath);
+																	}
 																}
 															}
 														}
+														if (equivalentPaths.length() > 0) {
+															equivalentPaths = equivalentPaths.substring(0, equivalentPaths.length() - 1);
+														}
+														WodelTestUtils.storeFile(equivalentpath, equivalentPaths);
 													}
-													if (equivalentPaths.length() > 0) {
-														equivalentPaths = equivalentPaths.substring(0, equivalentPaths.length() - 1);
-													}
-													WodelTestUtils.storeFile(equivalentpath, equivalentPaths);
 												}
 											}
 										}
@@ -729,8 +1071,10 @@ public class RunWodelTestHandler extends AbstractHandler {
 				globalResultsData += numMutatorsApplied + "\n";
 				globalResultsData += numMutantsGenerated + "\n";
 				globalResultsData += numMutantsNonCompiling + "\n";
-				String globalResultsPath = path + "/data/" + projectName + ".global.results.txt";
-				WodelTestUtils.storeFile(globalResultsPath, globalResultsData);
+				for (IProject testSuiteProject : testSuitesProjects) {
+					String globalResultsPath = path + "/data/" + testSuiteProject.getName() + "/" + projectName + ".global.results.txt";
+					WodelTestUtils.storeFile(globalResultsPath, globalResultsData);
+				}
 
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 					public void run() {

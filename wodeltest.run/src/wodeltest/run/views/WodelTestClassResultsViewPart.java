@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +36,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -52,19 +57,28 @@ import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;
 import wodel.utils.manager.WodelTestResultInfo;
 
-public class WodelTestClassResultsViewPart extends ViewPart {
+public class WodelTestClassResultsViewPart extends ViewPart implements IPartListener {
 	
 	public static final String ID = "wodeltest.run.views.WodelTestClassResultsViewPart"; //$NON-NLS-1$
 	
-	private static Map<String, List<WodelTestClass>> classes = null;
+	private static Map<String, Map<String, List<WodelTestClass>>> classes = null;
 	
-	private static Map<String, List<WodelTestClass>> packageClasses = null;
-	private static String[] equivalentMutants = new String[0];
-	private static List<Button> buttons = new ArrayList<Button>();
+	private static Map<String, Map<String, List<WodelTestClass>>> packageClasses = null;
+	private static Map<String, String[]> equivalentMutants = new TreeMap<String, String[]>();
+	private static Map<String, List<Button>> buttons = new TreeMap<String, List<Button>>();
 	private static IProject sourceProject = null;
-	private static String testSuiteName = null;
+	private static List<String> testSuiteNames = null;
+	private static String currentTestSuiteName = null;
 	
-	private TreeViewer m_treeViewer;
+	private Map<String, TreeViewer> m_treeViewer = new TreeMap<String, TreeViewer>();
+
+	private static Map<String, Composite> contents = new TreeMap<String, Composite>();
+
+	private TabFolder m_tabFolder = null;
+
+	private static TabItem currentTab = null;
+	
+	private static boolean partDeactivated = false;
 	
 	private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
 
@@ -95,13 +109,28 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return true;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (filterIndex == -1 || filterIndex == 0) {
 				return true;
 			}
 			if (filterIndex == 1) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> clss = classes.get((String) element);
+					List<WodelTestClass> clss = classes.get(testSuiteName).get((String) element);
 					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.getNumFailedTests() > 0) {
@@ -130,7 +159,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			if (filterIndex == 2) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> clss = classes.get((String) element);
+					List<WodelTestClass> clss = classes.get(testSuiteName).get((String) element);
 					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.getNumFailedTests() == 0 && info.numFailures == 0) {
@@ -161,7 +190,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			if (filterIndex == 3) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
-					List<WodelTestClass> clss = classes.get((String) element);
+					List<WodelTestClass> clss = classes.get(testSuiteName).get((String) element);
 					for (WodelTestClass cls : clss) {
 						for (WodelTestClassInfo info : cls.info) {
 							if (info.numFailures > 0) {
@@ -191,7 +220,6 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			}
 			return false;
 		}
-		
 	}
 
 	@Override
@@ -203,180 +231,228 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 	    
 	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
 	    String classespath = path + "/data/classes.txt";
-	    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
+		//testSuiteName = Platform.getPreferencesService().getString("WodelTest", "Current test-suite", WodelTestUtils.getTestSuiteName(project), null);
+	    testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+		packageClasses = new TreeMap<String, Map<String, List<WodelTestClass>>>();
+		classes = new TreeMap<String, Map<String, List<WodelTestClass>>>();
+		Map<String, String> equivalentPaths = new TreeMap<String, String>();
+		Map<String, String[]> equivalents = new TreeMap<String, String[]>();
 	    IWodelTest test = MutatorHelper.getTest(project);
-	    packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
-	    classes = new HashMap<String, List<WodelTestClass>>();
-	    for (String pckName : packageClasses.keySet()) {
-	    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
-	    	classes.put(pckName, pckclasses);
-	    }
-	    boolean withErrors = false;
-	    for (List<WodelTestClass> l : classes.values()) {
-	    	for (WodelTestClass tc : l) {
-	    		for (WodelTestClassInfo info : tc.info) {
-	    			if (info.numFailures > 0) {
-	    				withErrors = true;
-	    				break;
-	    			}
-	    		}
-	    	}
-	    }
+	    Map<String, Boolean> withErrors = new TreeMap<String, Boolean>();
+		for (String testSuiteName : testSuiteNames) {
+			String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteName + "/classes.results.txt";
+			Map<String, List<WodelTestClass>> pckClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+			Map<String, List<WodelTestClass>> clss = new HashMap<String, List<WodelTestClass>>();
+		    for (String pckName : pckClasses.keySet()) {
+		    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(pckClasses, pckName, project.getName(), classespath, infopath);
+		    	clss.put(pckName, pckclasses);
+		    }
+		    classes.put(testSuiteName, clss);
+		    boolean bWithErrors = false;
+		    for (List<WodelTestClass> l : clss.values()) {
+		    	for (WodelTestClass tc : l) {
+		    		for (WodelTestClassInfo info : tc.info) {
+		    			if (info.numFailures > 0) {
+		    				bWithErrors = true;
+		    				break;
+		    			}
+		    		}
+		    	}
+		    }
+		    withErrors.put(testSuiteName, bWithErrors);
+			String equivalentpath = path + "/data/" + testSuiteName + "/classes.equivalent.txt";
+			equivalentPaths.put(testSuiteName, equivalentpath);
+		    String[] equivalent = WodelTestUtils.loadFile(equivalentpath);
+			equivalents.put(testSuiteName, equivalent);
+			if (equivalentMutants.get(testSuiteName) == null) {
+				equivalentMutants.put(testSuiteName, new String[0]);
+			}
+		    if (equivalent.length > 0) {
+			    equivalentMutants.put(testSuiteName, equivalent[0].split("[|]"));
+		    }
+		    else {
+		    	equivalentMutants.put(testSuiteName, null);
+		    }
+		}
 
-	    String equivalentpath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.equivalent.txt";
-	    String[] equivalent = WodelTestUtils.loadFile(equivalentpath);
-	    if (equivalent.length > 0) {
-		    equivalentMutants = equivalent[0].split("[|]");
-	    }
-	    
-		Composite contents = new Group(parent, SWT.FILL);
-	    GridLayout layout = new GridLayout();
-		contents.setLayout(layout);
-		layout.numColumns = 2;
-		layout.verticalSpacing = 9;
-	    GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
-	    gd.horizontalAlignment = SWT.FILL;
-	    contents.setLayoutData(gd);
-	    
-	    Group filter = new Group(contents, SWT.FILL);
-	    layout = new GridLayout();
-		filter.setLayout(layout);
-		layout.numColumns = 1;
-		layout.verticalSpacing = 9;
-	    filter.setText("Filter");
-	    gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalAlignment = SWT.FILL;
-		gd.verticalAlignment = SWT.ON_TOP;
-		gd.widthHint = 100;
-	    filter.setLayoutData(gd);
-        final Combo filterCombo = new Combo(filter, SWT.NONE);
-        filterCombo.add("All");
-        filterCombo.add("Failed");
-        filterCombo.add("Passed");
-        if (withErrors == true) {
-        	filterCombo.add("Error");
-        }
-        filterCombo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				filterIndex = filterCombo.getSelectionIndex();
-				for (Button button : buttons) {
-					button.dispose();
+	    m_tabFolder = new TabFolder(parent, SWT.FILL);
+		m_tabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				TabFolder tabFolder = (TabFolder) event.getSource();
+				currentTab = tabFolder.getItem(tabFolder.getSelectionIndex());
+				currentTestSuiteName = currentTab.getText();
+				String testSuiteName = currentTestSuiteName;
+				if (currentTab != null && contents != null && contents.get(testSuiteName) != null) {
+					m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestClassResultsContentProvider());
+					m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+					m_treeViewer.get(testSuiteName).setInput(classes.get(testSuiteName));
+					m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+					m_treeViewer.get(testSuiteName).collapseAll();
+					contents.get(testSuiteName).layout();
+					contents.get(testSuiteName).redraw();
 				}
-				buttons.clear();
-				m_treeViewer.collapseAll();
-				m_treeViewer.refresh();
 			}
 		});
-		
-		Group data = new Group(contents, SWT.FILL);
-		FillLayout fill = new FillLayout(SWT.VERTICAL);
-		data.setLayout(fill);
-		layout.numColumns = 1;
-		layout.verticalSpacing = 9;
-	    data.setText("Results");
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
-		gd.horizontalAlignment = SWT.FILL;
-	    data.setLayoutData(gd);
-	    
-		final Tree addressTree = new Tree(data, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		addressTree.setHeaderVisible(true);
-		addressTree.setLinesVisible(true);
-		sourceProject = project;
-		testSuiteName = WodelTestUtils.getTestSuiteName(project);
-		addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				Point point = new Point(event.x, event.y);
-				TreeItem item = addressTree.getItem(point);
-		        if (item != null) {
-                    Rectangle rect = item.getBounds(1);
-	                if (rect.contains(point)) {
-	                	if (item.getParentItem() != null) {
-	                		String path = item.getText(1);
-	                		if (path.indexOf("/" + sourceProject.getName()) > 0) {
-	                			path = path.substring(path.indexOf("/" + sourceProject.getName()), path.length());
-	                		}
-	                		if (path.indexOf("/" + testSuiteName) > 0) {
-								path = path.substring(path.indexOf("/" + testSuiteName), path.length());
-							}
-                    		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
-	                    }
-		        	}
-		        }
-			}
-		});
-		addressTree.addListener(SWT.Expand, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				Point point = new Point(event.x, event.y);
-				TreeItem item = addressTree.getItem(point);
-				if (item != null) {
-					if (item.getData() instanceof String) {
-						for (TreeItem it : item.getItems()) {
-							if (it.getData() instanceof WodelTestClass) {
-								for (TreeItem ti : it.getItems()) {
-									if (ti.getData() instanceof WodelTestClassInfo) {
-										WodelTestClassInfo info = (WodelTestClassInfo) ti.getData();
-										if (info.getNumFailedTests() == 0) {
-											TreeEditor editor = new TreeEditor(addressTree); 
-											Button button = new Button(addressTree, SWT.CHECK);
-											for (String equivalent : equivalentMutants) {
-												if (info.path.startsWith(equivalent)) {
-													button.setSelection(true);
-													break;
-												}
-											}
-											button.addSelectionListener(new SelectionAdapter() {
-												@Override
-												public void widgetSelected(SelectionEvent e)
-											    {
-											        Button button = (Button) e.widget;
-											        if (button.getSelection()) {
-											        	String[] newEquivalent = Arrays.copyOf(equivalentMutants, equivalentMutants.length + 1);
-											        	if (info.path.indexOf("src/") != -1) {
-											        		newEquivalent[equivalentMutants.length] = info.path.substring(0, info.path.indexOf("src/") + "src/".length());
-											        	}
-											        	else {
-											        		newEquivalent[equivalentMutants.length] = info.path;
-											        	}
-											        	equivalentMutants = newEquivalent;
-											        }
-											        else {
-											        	String[] newEquivalent = new String[equivalentMutants.length - 1];
-											        	String removedEquivalent = null;
-											        	if (info.path.indexOf("src/") != -1) {
-											        		removedEquivalent = info.path.substring(0, info.path.indexOf("src/") + "src/".length());
-											        	}
-											        	else {
-											        		removedEquivalent = info.path;
-											        	}
-											        	boolean found = false;
-											        	for (int i = 0; i < equivalentMutants.length; i++) {
-											        		if (removedEquivalent.equals(equivalentMutants[i])) {
-											        			found = true;
-											        		}
-											        		else {
-											        			newEquivalent[i - (found ? 1 : 0)] = equivalentMutants[i];
-											        		}
-											        	}
-											        	equivalentMutants = newEquivalent;
-											        }
-											        String equivalentPaths = "";
-											        for (String equivalentPath : equivalentMutants) {
-											        	equivalentPaths += equivalentPath + "|";
-											        }
-											        if (equivalentPaths.length() > 0) {
-														equivalentPaths = equivalentPaths.substring(0, equivalentPaths.length() - 1);
+
+		for (String testSuiteName : testSuiteNames) {
+			Composite currentContents = new Group(m_tabFolder, SWT.FILL);
+    		contents.put(testSuiteName, currentContents);
+
+    		final TabItem tabItem = new TabItem(m_tabFolder, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+    		tabItem.setText(testSuiteName);
+    		tabItem.setControl(currentContents);
+    		
+    		GridLayout layout = new GridLayout();
+		    currentContents.setLayout(layout);
+			layout.numColumns = 2;
+			layout.verticalSpacing = 9;
+
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
+		    gd.horizontalAlignment = SWT.FILL;
+		    currentContents.setLayoutData(gd);
+		    
+		    Group filter = new Group(currentContents, SWT.FILL);
+		    layout = new GridLayout();
+			filter.setLayout(layout);
+			layout.numColumns = 1;
+			layout.verticalSpacing = 9;
+		    filter.setText("Filter");
+		    gd = new GridData(GridData.FILL_HORIZONTAL);
+			gd.horizontalAlignment = SWT.FILL;
+			gd.verticalAlignment = SWT.ON_TOP;
+			gd.widthHint = 100;
+		    filter.setLayoutData(gd);
+
+	        final Combo filterCombo = new Combo(filter, SWT.NONE);
+	        filterCombo.add("All");
+	        filterCombo.add("Failed");
+	        filterCombo.add("Passed");
+	        if (withErrors.get(testSuiteName) == true) {
+	        	filterCombo.add("Error");
+	        }
+	        filterCombo.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					filterIndex = filterCombo.getSelectionIndex();
+					for (Button button : buttons.get(testSuiteName)) {
+						button.dispose();
+					}
+					buttons.get(testSuiteName).clear();
+					m_treeViewer.get(testSuiteName).collapseAll();
+					m_treeViewer.get(testSuiteName).refresh();
+				}
+			});
+			Group data = new Group(currentContents, SWT.FILL);
+			FillLayout fill = new FillLayout(SWT.VERTICAL);
+			data.setLayout(fill);
+			layout.numColumns = 1;
+			layout.verticalSpacing = 9;
+		    data.setText("Results");
+			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
+			gd.horizontalAlignment = SWT.FILL;
+		    data.setLayoutData(gd);
+
+			final Tree addressTree = new Tree(data, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+			addressTree.setHeaderVisible(true);
+			addressTree.setLinesVisible(true);
+			sourceProject = project;
+			addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					Point point = new Point(event.x, event.y);
+					TreeItem item = addressTree.getItem(point);
+			        if (item != null) {
+	                    Rectangle rect = item.getBounds(1);
+		                if (rect.contains(point)) {
+		                	if (item.getParentItem() != null) {
+		                		String path = item.getText(1);
+		                		if (path.indexOf("/" + sourceProject.getName()) > 0) {
+		                			path = path.substring(path.indexOf("/" + sourceProject.getName()), path.length());
+		                		}
+		                		if (path.indexOf("/" + testSuiteName) > 0) {
+									path = path.substring(path.indexOf("/" + testSuiteName), path.length());
+								}
+	                    		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
+		                    }
+			        	}
+			        }
+				}
+			});
+			addressTree.addListener(SWT.Expand, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					Point point = new Point(event.x, event.y);
+					TreeItem item = addressTree.getItem(point);
+					if (item != null) {
+						if (item.getData() instanceof String) {
+							for (TreeItem it : item.getItems()) {
+								if (it.getData() instanceof WodelTestClass) {
+									for (TreeItem ti : it.getItems()) {
+										if (ti.getData() instanceof WodelTestClassInfo) {
+											WodelTestClassInfo info = (WodelTestClassInfo) ti.getData();
+											if (info.getNumFailedTests() == 0) {
+												TreeEditor editor = new TreeEditor(addressTree); 
+												Button button = new Button(addressTree, SWT.CHECK);
+												for (String equivalent : equivalentMutants.get(testSuiteName)) {
+													if (info.path.startsWith(equivalent)) {
+														button.setSelection(true);
+														break;
 													}
-											        WodelTestUtils.storeFile(equivalentpath, equivalentPaths);
-											    }
-											});
-											button.pack();
-											editor.minimumWidth = button.getSize().x;
-											editor.horizontalAlignment = SWT.LEFT;
-											editor.setEditor(button, ti, 0);
-											buttons.add(button);
+												}
+												button.addSelectionListener(new SelectionAdapter() {
+													@Override
+													public void widgetSelected(SelectionEvent e)
+												    {
+												        Button button = (Button) e.widget;
+												        if (button.getSelection()) {
+												        	String[] newEquivalent = Arrays.copyOf(equivalentMutants.get(testSuiteName), equivalentMutants.get(testSuiteName).length + 1);
+												        	if (info.path.indexOf("src/") != -1) {
+												        		newEquivalent[equivalentMutants.get(testSuiteName).length] = info.path.substring(0, info.path.indexOf("src/") + "src/".length());
+												        	}
+												        	else {
+												        		newEquivalent[equivalentMutants.get(testSuiteName).length] = info.path;
+												        	}
+												        	equivalentMutants.put(testSuiteName, newEquivalent);
+												        }
+												        else {
+												        	String[] newEquivalent = new String[equivalentMutants.get(testSuiteName).length - 1];
+												        	String removedEquivalent = null;
+												        	if (info.path.indexOf("src/") != -1) {
+												        		removedEquivalent = info.path.substring(0, info.path.indexOf("src/") + "src/".length());
+												        	}
+												        	else {
+												        		removedEquivalent = info.path;
+												        	}
+												        	boolean found = false;
+												        	for (int i = 0; i < equivalentMutants.get(testSuiteName).length; i++) {
+												        		if (removedEquivalent.equals(equivalentMutants.get(testSuiteName)[i])) {
+												        			found = true;
+												        		}
+												        		else {
+												        			newEquivalent[i - (found ? 1 : 0)] = equivalentMutants.get(testSuiteName)[i];
+												        		}
+												        	}
+												        	equivalentMutants.put(testSuiteName, newEquivalent);
+												        }
+												        String equivalentpaths = "";
+												        for (String equivalentPath : equivalentMutants.get(testSuiteName)) {
+												        	equivalentpaths += equivalentPath + "|";
+												        }
+												        if (equivalentpaths.length() > 0) {
+															equivalentpaths = equivalentpaths.substring(0, equivalentpaths.length() - 1);
+														}
+												        WodelTestUtils.storeFile(equivalentPaths.get(testSuiteName), equivalentpaths);
+												    }
+												});
+												button.pack();
+												editor.minimumWidth = button.getSize().x;
+												editor.horizontalAlignment = SWT.LEFT;
+												editor.setEditor(button, ti, 0);
+												if (buttons.get(testSuiteName) == null) {
+													buttons.put(testSuiteName, new ArrayList<Button>());
+												}
+												buttons.get(testSuiteName).add(button);
+											}
 										}
 									}
 								}
@@ -384,73 +460,76 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 						}
 					}
 				}
-			}
-		});
-		addressTree.addListener(SWT.Collapse, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				Point point = new Point(event.x, event.y);
-				TreeItem item = addressTree.getItem(point);
-				boolean clear = false;
-				if (item != null) {
-					if (item.getData() instanceof String) {
-						if (item.getItems().length == 0) {
-							clear = true;
-						}
-						else {
-							for (TreeItem it : item.getItems()) {
-								if (it.getItems().length == 0) {
-									clear = true;
-									break;
+			});
+			addressTree.addListener(SWT.Collapse, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					Point point = new Point(event.x, event.y);
+					TreeItem item = addressTree.getItem(point);
+					boolean clear = false;
+					if (item != null) {
+						if (item.getData() instanceof String) {
+							if (item.getItems().length == 0) {
+								clear = true;
+							}
+							else {
+								for (TreeItem it : item.getItems()) {
+									if (it.getItems().length == 0) {
+										clear = true;
+										break;
+									}
 								}
 							}
 						}
 					}
-				}
-				if (clear == true) {
-					for (Button button : buttons) {
-						button.dispose();
+					if (clear == true) {
+						for (Button button : buttons.get(testSuiteName)) {
+							button.dispose();
+						}
+						buttons.get(testSuiteName).clear();
 					}
-					buttons.clear();
 				}
-			}
-		});
-		m_treeViewer = new TreeViewer(addressTree);
-		TreeColumn column0 = new TreeColumn(addressTree, SWT.LEFT);
-		column0.setAlignment(SWT.LEFT);
-		column0.setText("Equivalent");
-		column0.setWidth(100);
-		
-		TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
-		column1.setAlignment(SWT.LEFT);
-		column1.setText("Package/class/mutant");
-		column1.setWidth(400);
-		
-		TreeColumn column2 = new TreeColumn(addressTree, SWT.LEFT);
-		column2.setAlignment(SWT.LEFT);
-		column2.setText("#Executed tests");
-		column2.setWidth(100);
+			});
+			TreeViewer treeViewer = new TreeViewer(addressTree);
+    		m_treeViewer.put(testSuiteName, treeViewer);
+    		
+			TreeColumn column0 = new TreeColumn(addressTree, SWT.LEFT);
+			column0.setAlignment(SWT.LEFT);
+			column0.setText("Equivalent");
+			column0.setWidth(100);
+			
+			TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
+			column1.setAlignment(SWT.LEFT);
+			column1.setText("Package/class/mutant");
+			column1.setWidth(400);
+			
+			TreeColumn column2 = new TreeColumn(addressTree, SWT.LEFT);
+			column2.setAlignment(SWT.LEFT);
+			column2.setText("#Executed tests");
+			column2.setWidth(100);
 
-		TreeColumn column3 = new TreeColumn(addressTree, SWT.LEFT);
-		column3.setAlignment(SWT.LEFT);
-		column3.setText("#Failed tests");
-		column3.setWidth(100);
+			TreeColumn column3 = new TreeColumn(addressTree, SWT.LEFT);
+			column3.setAlignment(SWT.LEFT);
+			column3.setText("#Failed tests");
+			column3.setWidth(100);
 
-		TreeColumn column4 = new TreeColumn(addressTree, SWT.LEFT);
-		column4.setAlignment(SWT.LEFT);
-		column4.setText("#Passed tests");
-		column4.setWidth(100);
-		
-		TreeColumn column5 = new TreeColumn(addressTree, SWT.LEFT);
-		column5.setAlignment(SWT.LEFT);
-		column5.setText("Applied mutations/Failed test message");
-		column5.setWidth(400);
+			TreeColumn column4 = new TreeColumn(addressTree, SWT.LEFT);
+			column4.setAlignment(SWT.LEFT);
+			column4.setText("#Passed tests");
+			column4.setWidth(100);
+			
+			TreeColumn column5 = new TreeColumn(addressTree, SWT.LEFT);
+			column5.setAlignment(SWT.LEFT);
+			column5.setText("Applied mutations/Failed test message");
+			column5.setWidth(400);
 
-		m_treeViewer.setContentProvider(new WodelTestClassResultsContentProvider());
-		m_treeViewer.setLabelProvider(new TableLabelProvider());
-		m_treeViewer.setInput(classes);
-		m_treeViewer.addFilter(new DataFilter());
-		m_treeViewer.collapseAll();
+			m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestClassResultsContentProvider());
+			m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+			m_treeViewer.get(testSuiteName).setInput(classes.get(testSuiteName));
+			m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+			m_treeViewer.get(testSuiteName).collapseAll();
+		}
+		getSite().getPage().addPartListener(this);
 	}
 	
 	private class WodelTestClassResultsContentProvider implements ITreeContentProvider {
@@ -462,17 +541,34 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return new Object[0];
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (parentElement instanceof Map<?, ?>) {
 				return ((Map<?, ?>) parentElement).keySet().toArray();
 			}
-			if (parentElement instanceof String) {
-				List<WodelTestClass> ret = classes.get((String) parentElement);
-				if (ret != null) { 
-					return ret.toArray();
-				}
-			}
 			if (parentElement instanceof List<?>) {
-				return ((List<?>) parentElement).toArray();
+				return ((List<?>) parentElement).toArray(); 
+			}
+			if (parentElement instanceof String) {
+				String element = (String) parentElement;
+				if (classes.containsKey(testSuiteName)) {
+					if (classes.get(testSuiteName).containsKey(element)) {
+						return classes.get(testSuiteName).get(element).toArray();
+					}
+				}
 			}
 			if (parentElement instanceof WodelTestClass) {
 				return ((WodelTestClass) parentElement).info.toArray();
@@ -489,23 +585,40 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				return (String) element;
 			}
 			if (element instanceof WodelTestClass) {
-				return ((WodelTestClass) element).classname;
+				return (WodelTestClass) element;
 			}
 			if (element instanceof WodelTestClassInfo) {
-				return ((WodelTestClassInfo) element).path;
+				return (WodelTestClassInfo) element;
 			}
 			if (element instanceof WodelTestResultInfo) {
-				return ((WodelTestResultInfo) element).name;  
+				return (WodelTestResultInfo) element;  
 			}
 			return null;
 		}
 
 		@Override
 		public boolean hasChildren(Object element) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return false;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (element instanceof String) {
-				List<WodelTestClass> ret = classes.get((String) element);
-				if (ret != null) { 
-					return ret.size() > 0;
+				String item = (String) element;
+				if (classes.containsKey(testSuiteName)) {
+					if (classes.get(testSuiteName).containsKey(item)) {
+						return classes.get(testSuiteName).get(item).size() > 0;
+					}
 				}
 			}
 			if (element instanceof List<?>) {
@@ -556,8 +669,23 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 		}
 
 		private Color getBackground(Object element) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return null;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (element instanceof String) {
-				List<WodelTestClass> clss = classes.get((String) element);
+				List<WodelTestClass> clss = classes.get(testSuiteName).get((String) element);
 				boolean detected = false;
 				boolean error = false;
 				for (WodelTestClass cls : clss) {
@@ -577,7 +705,9 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				if (detected) {
 					return GREEN;
 				}
-				else return error ? BLUE : RED;
+				else {
+					return error ? BLUE : RED;
+				}
 			}
 			if (element instanceof WodelTestClass) {
 				WodelTestClass cls = (WodelTestClass) element;
@@ -595,21 +725,27 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				if (detected) {
 					return GREEN;
 				}
-				else return error ? BLUE : RED;
+				else {
+					return error ? BLUE : RED;
+				}
 			}
 			if (element instanceof WodelTestClassInfo) {
 				WodelTestClassInfo info = (WodelTestClassInfo) element;
 				if (info.getNumFailedTests() > 0) {
 					return GREEN;
 				}
-				else return info.numFailures > 0 ? BLUE : RED;
+				else {
+					return info.numFailures > 0 ? BLUE : RED;
+				}
 			}
 			if (element instanceof WodelTestResultInfo) {
 				WodelTestResultInfo result = (WodelTestResultInfo) element;
 				if (result.value) {
 					return GREEN;
 				}
-				else return result.failure ? BLUE : RED;
+				else {
+					return result.failure ? BLUE : RED;
+				}
 			}
 			return null;
 		}
@@ -627,10 +763,25 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return null;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			String text = null;
 			if (element instanceof String) {
 				String result = (String) element;
-				List<WodelTestClass> clss = classes.get((String) element);
+				List<WodelTestClass> clss = classes.get(testSuiteName).get((String) element);
 				int numExecutedTests = clss != null ? 0 : -1;
 				int numFailedTests = clss != null ? 0 : -1;
 				for (WodelTestClass cls : clss) {
@@ -772,5 +923,67 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	@Override
+	public void partActivated(IWorkbenchPart part) {
+		if (WodelTestUtils.isReadyProject() != true) {
+			return;
+		}
+		IProject project = WodelTestUtils.getProject();
+		testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+		// TODO Auto-generated method stub
+		if (partDeactivated == false) {
+			if (contents != null && m_treeViewer != null) {
+				for (String testSuiteName : testSuiteNames) {
+					if (m_treeViewer.get(testSuiteName) != null) {
+						m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestClassResultsContentProvider());
+						m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+						m_treeViewer.get(testSuiteName).setInput(classes.get(testSuiteName));
+						m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+						m_treeViewer.get(testSuiteName).collapseAll();
+					}
+					if (contents.get(testSuiteName) != null) {
+						contents.get(testSuiteName).layout();
+						contents.get(testSuiteName).redraw();
+					}
+				}
+			}
+	    }
+		partDeactivated = false;
+	}
+
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		partDeactivated = true;
+	}
+
+
+	@Override
+	public void partOpened(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void dispose() {
+		getSite().getPage().removePartListener(this);
 	}
 }

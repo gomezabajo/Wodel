@@ -671,6 +671,12 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t</runtime>");
 		pContent.append("\n");
+		pContent.append("\t<builder");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodel.project.sampleBuilder\">");
+		pContent.append("\n");
+		pContent.append("\t</builder>");
+		pContent.append("\n");
 		pContent.append("\t</extension>");
 		pContent.append("\n");
 		pContent.append("\t<extension");

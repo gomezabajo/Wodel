@@ -174,7 +174,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				WodelTestGlobalResult.resetValues(testsResultsPath);
 				MutatorHelper mutatorHelper = new MutatorHelper(test);
 				SimpleEntry<String, Class<?>> mutatorLauncher = mutatorHelper.getLauncher();
-				String metamodel = null;
+				List<String> metamodels = null;
 				List<EPackage> packages = null;
 				String metamodelpath = null;
 				List<Resource> models = null;
@@ -186,7 +186,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 						WodelTestUtils.deleteDirectory(outputFile);
 					}
 				}
-				metamodel = ModelManager.getMetaModel(mutatorLauncher.getValue());
+				metamodels = ModelManager.getMetaModel(mutatorLauncher.getValue());
 				metamodelpath = ModelManager.getMetaModelPath(mutatorLauncher.getValue());
 				Bundle bundle = Platform.getBundle("wodel.models");
 				List<EPackage> mutatorpackages = null;
@@ -197,7 +197,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				try {
 					String ecore = FileLocator.resolve(fileURL).getFile();
 					mutatorpackages = ModelManager.loadMetaModel(ecore);
-					packages = ModelManager.loadMetaModel(metamodel, cls);
+					packages = ModelManager.loadMetaModels(metamodels, cls);
 					//checks whether the meta-model is dynamically registered
 					isRegistered = ModelManager.isRegistered(packages);
 					if (isRegistered == true) {
@@ -393,11 +393,13 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 								appropriateExtension = extension;
 							}
 						}
-						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						postprocessing = extensionClass.getDeclaredConstructor().newInstance();
-						Method getName = extensionClass.getDeclaredMethod("getName");
-						if (getName.invoke(postprocessing).equals(extensionName) ) {
-							doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});
+						if (appropriateExtension != null) {
+							Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+							postprocessing = extensionClass.getDeclaredConstructor().newInstance();
+							Method getName = extensionClass.getDeclaredMethod("getName");
+							if (getName.invoke(postprocessing).equals(extensionName) ) {
+								doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, List.class, Resource.class, String.class});
+							}
 						}
 					}
 					//HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
@@ -413,9 +415,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 								File f = new File(targetfile);
 								if(!f.isDirectory()) { 
 									if (doProcess != null) {
-										doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfile, targetfile);
+										doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, targetfile);
 									}
-									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfile);
+									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
 								}
 								//hashmap_postproc.put(modelfile, targetfile);
 							}
@@ -433,9 +435,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 										File f = new File(pathfile);
 										if(!f.isDirectory()) {
 											if (doProcess != null) {
-												doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfile, pathfile);
+												doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, pathfile);
 											}
-											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfile);
+											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
 										}
 										//hashmap_postproc.put(modelfile, pathfile);
 									}
@@ -452,14 +454,14 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 													File f = new File(pathfileblock);
 													if(!f.isDirectory()) {
 														if (doProcess != null) {
-															doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfileblock, pathfileblock);
+															doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
 														}
-														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodel, modelfileblock);
+														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock);
 													}
 												}
 											}
 											else {
-												MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodel);
+												MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodels);
 											}
 										}
 									}
@@ -518,31 +520,97 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 
 					IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
 
-					File mutantFolder = new File(path);
-					List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
-					for (String artifactPath : artifactPaths) {
-						boolean found = false;
-						for (String blockName : blockNames) {
-							if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
-								found = true;
-								break;
+					boolean parallelize = Platform.getPreferencesService().getBoolean("WodelTest", "Parallelize mutants execution", false, null);
+					
+					if (!parallelize) {
+						File mutantFolder = new File(path);
+						List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+						for (String artifactPath : artifactPaths) {
+							boolean found = false;
+							for (String blockName : blockNames) {
+								if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+									found = true;
+									break;
+								}
+							}
+							if (found != true) {
+								continue;
+							}
+							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath);
+							if (globalResult != null) {
+								numMutantsGenerated++;
+								if (globalResult.getStatus() == WodelTestGlobalResult.Status.OK) {
+									WodelTestResultClass.storeFile(resultsPath, globalResult.getResults());
+									WodelTestGlobalResult.storeValues(testsResultsPath, globalResult);
+								}
+								else {
+									numMutantsNonCompiling++;
+								}
+							}
+							
+						}
+					}
+					else {
+						int maximumParallel = Platform.getPreferencesService().getInt("WodelTest", "Parallel mutants", 10, null);
+
+						File mutantFolder = new File(path);
+						List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);
+						List<Thread> threads = new ArrayList<Thread>();
+						List<WodelTestGlobalResult> globalResults = new ArrayList<WodelTestGlobalResult>();
+						int k = 0;
+						for (String artifactPath : artifactPaths) {
+							boolean found = false;
+							for (String blockName : blockNames) {
+								if (artifactPath.replaceAll("\\\\", "/").contains("/" + blockName + "/")) {
+									found = true;
+									break;
+								}
+							}
+							if (found != true) {
+								continue;
+							}
+							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath, threads);
+							globalResults.add(globalResult);
+							k++;
+							if (k % maximumParallel == 0) {
+								for (Thread thread : threads) {
+									thread.join();
+								}
+								threads.clear();
+								for (int i = 0; i < globalResults.size(); i++) {
+									if (globalResults.get(i) != null) {
+										numMutantsGenerated++;
+										if (globalResults.get(i).getStatus() == WodelTestGlobalResult.Status.OK) {
+											WodelTestResultClass.storeFile(resultsPath, globalResults.get(i).getResults());
+											WodelTestGlobalResult.storeValues(testsResultsPath, globalResults.get(i));
+										}
+										else {
+											numMutantsNonCompiling++;
+										}
+									}
+								}
+								globalResults.clear();
 							}
 						}
-						if (found != true) {
-							continue;
-						}
-						WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath);
-						if (globalResult != null) {
-							numMutantsGenerated++;
-							if (globalResult.getStatus() == WodelTestGlobalResult.Status.OK) {
-								WodelTestResultClass.storeFile(resultsPath, globalResult.getResults());
-								WodelTestGlobalResult.storeValues(testsResultsPath, globalResult);
+						if (threads.size() > 0) {
+							for (Thread thread : threads) {
+								thread.join();
 							}
-							else {
-								numMutantsNonCompiling++;
+							threads.clear();
+							for (int i = 0; i < globalResults.size(); i++) {
+								if (globalResults.get(i) != null) {
+									numMutantsGenerated++;
+									if (globalResults.get(i).getStatus() == WodelTestGlobalResult.Status.OK) {
+										WodelTestResultClass.storeFile(resultsPath, globalResults.get(i).getResults());
+										WodelTestGlobalResult.storeValues(testsResultsPath, globalResults.get(i));
+									}
+									else {
+										numMutantsNonCompiling++;
+									}
+								}
 							}
+							globalResults.clear();
 						}
-						
 					}
 					test.compile(sourceProject);
 					boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
@@ -580,7 +648,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 								Method getName = extensionClass.getDeclaredMethod("getName");
 								outputPath = outputPath.substring(outputPath.indexOf(test.getProjectName()) + test.getProjectName().length() + 1, outputPath.length());
 								if (getName.invoke(equivalence).equals(discardExtensionName) ) {
-									doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
+									doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{List.class, String.class, String.class, IProject.class, Class.class});
 								}
 							}
 						}
@@ -628,7 +696,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 																if (liveMutantPath.contains(mutantPath)) {
 																	File f = new File(mutpathfile);
 																	if(!f.isDirectory() && !f.getName().contains("_")) { 
-																		boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, mutpathfile, sourceProject);
+																		boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, mutpathfile, sourceProject, cls);
 																		if (result == true) {
 																			String equivalentPath = mutpathfile.replaceAll("\\\\", "/");
 																			equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
@@ -656,7 +724,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 																			if (liveMutantPath.contains(mutantPath)) {
 																				File f = new File(pathfileblock);
 																				if(!f.isDirectory() && !f.getName().contains("_")) { 
-																					boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, pathfileblock, sourceProject);
+																					boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject, cls);
 																					if (result == true) {
 																						String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
 																						equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
@@ -670,7 +738,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 																	}
 																}
 																else {
-																	equivalentPaths += MutatorUtils.generateLiveMutantPaths(filesBlock[j], packages, liveMutantPaths, doCompare, equivalence, metamodel, targetfile, sourceProject, outputPath);
+																	equivalentPaths += MutatorUtils.generateLiveMutantPaths(filesBlock[j], packages, liveMutantPaths, doCompare, equivalence, metamodels, targetfile, sourceProject, outputPath);
 																}
 															}
 														}

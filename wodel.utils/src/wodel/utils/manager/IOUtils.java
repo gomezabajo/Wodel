@@ -165,6 +165,14 @@ public class IOUtils {
 		out.close();
 	}
 	
+	public static void copyFolder(String input, String output) throws IOException {
+		File src = new File(input);
+		File dest = new File(output);
+		
+		copyFolder(src, dest);
+	}
+
+	
 	public static void copyFolder(File src, File dest) throws IOException {
 		
 		if (src.getPath().equals(dest.getPath())) {

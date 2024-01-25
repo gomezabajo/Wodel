@@ -164,9 +164,9 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
             //«var int numMutants = 10»
             //«var boolean registry = true»
             //«try {
-            	maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null))
+            	maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null))
             	numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null))
-            	registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null)
+            	registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null)
             } catch (Exception ex) {}»
 			int maxAttempts = «maxAttempts»;
 			int numMutants = «numMutants»;

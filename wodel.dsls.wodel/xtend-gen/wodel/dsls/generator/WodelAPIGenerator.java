@@ -309,9 +309,9 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     try {
       boolean _xblockexpression = false;
       {
-        maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
+        maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
         numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
-        _xblockexpression = registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
+        _xblockexpression = registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
       }
       _xtrycatchfinallyexpression = Boolean.valueOf(_xblockexpression);
     } catch (final Throwable _t) {

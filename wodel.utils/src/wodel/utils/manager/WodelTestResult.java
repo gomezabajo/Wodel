@@ -99,7 +99,7 @@ public class WodelTestResult {
 			this.path = path;
 		}
 		this.tests = new HashMap<String, Boolean>();
-		if (tests.get(0) instanceof Method) {
+		if (tests.size() > 0 && tests.get(0) instanceof Method) {
 			List<Method> methods = new ArrayList<Method>();
 			for (Object test : tests) {
 				methods.add((Method) test);
@@ -122,7 +122,7 @@ public class WodelTestResult {
 				this.tests.put(method.getName(), !error);
 			}
 		}
-		if (tests.get(0) instanceof String) {
+		if (tests.size() > 0 && tests.get(0) instanceof String) {
 			List<String> methods = new ArrayList<String>();
 			for (Object test : tests) {
 				methods.add((String) test);

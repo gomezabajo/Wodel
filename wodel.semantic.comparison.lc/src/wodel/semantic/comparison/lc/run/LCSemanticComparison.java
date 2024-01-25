@@ -25,7 +25,7 @@ public class LCSemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(String metamodel, String model1, String model2, IProject project) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
 		Resource resource1 = null;
 		Resource resource2 = null;
 		model1 = model1.replace("\\\\", "/");
@@ -34,7 +34,7 @@ public class LCSemanticComparison extends SemanticComparison {
 		LogicalCircuit c2 = null;
 		boolean ret = false;
 		try {
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
 			resource1 = ModelManager.loadModel(packages, model1);
 			resource2 = ModelManager.loadModel(packages, model2);
 			c1 = CircuitUtils.convertToLC(packages, resource1);

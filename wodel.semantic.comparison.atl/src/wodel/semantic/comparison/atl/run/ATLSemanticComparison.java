@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -45,6 +46,7 @@ import org.xmlunit.diff.ElementSelectors;
 import wodel.semantic.comparison.run.SemanticComparison;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.LockRegistry;
 import wodel.utils.manager.ModelManager;
 import wodel.project.builder.SampleNature;
 
@@ -239,7 +241,11 @@ public class ATLSemanticComparison extends SemanticComparison {
 			if (!xml1.equals("") && !xml2.equals("")) {
 				isRepeated = doCompare(xml1, xml2);
 			}
+			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
 			iFolder.delete(true, new NullProgressMonitor());
+			LockRegistry.INSTANCE.release(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
+		} catch (@SuppressWarnings("restriction") ResourceException e) {
+			
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -248,14 +254,14 @@ public class ATLSemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(String metamodel, String model1, String model2, IProject project) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
 		try {
 			//If it is a Wodel project
 			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(SampleNature.NATURE_ID)) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
 				Resource resource1 = ModelManager.loadModel(packages, model1);
 				Resource resource2 = ModelManager.loadModel(packages, model2);
 				boolean ret = ModelManager.compareModels(resource1, resource2);

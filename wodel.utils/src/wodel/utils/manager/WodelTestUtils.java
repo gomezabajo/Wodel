@@ -8,12 +8,22 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -678,7 +688,7 @@ public class WodelTestUtils {
 	}
 
 
-	public static List<WodelTestTest> getTests(IWodelTest wodelTest, Map<String, List<WodelTestClass>> packageClasses, String projectName, String path, String pathResults) {
+	public static List<WodelTestTest> getTests(Map<String, List<WodelTestClass>> packageClasses, String projectName, String path, String pathResults) {
 		List<WodelTestTest> tests = WodelTestTest.loadFile(pathResults);
 		for (String packagename : packageClasses.keySet()) {
 			List<WodelTestClass> testClasses = packageClasses.get(packagename);
@@ -730,7 +740,7 @@ public class WodelTestUtils {
 		return tests;
 	}
 	
-	public static List<WodelTestClass> getClasses(IWodelTest wodelTest, Map<String, List<WodelTestClass>> packageClasses, String pckName, String projectName, String path, String pathResults) {
+	public static List<WodelTestClass> getClasses(Map<String, List<WodelTestClass>> packageClasses, String pckName, String projectName, String path, String pathResults) {
 		List<WodelTestTest> tests = WodelTestTest.loadFile(pathResults);
 		List<WodelTestClass> testClasses = packageClasses.get(pckName);
 		Map<WodelTestTest, String> classNames = new HashMap<WodelTestTest, String>();
@@ -842,7 +852,7 @@ public class WodelTestUtils {
 					info.message = mutant.getMessage();
 					info.name = testResult.getName();
 					info.numExecutions = 1;
-					info.numFailed = mutant.getFailure() ? 1 : 0;
+					info.numFailed = mutant.getValue() ? 1 : 0;
 					info.value = mutant.getValue();
 					wtclinfo.tests.add(info);
 					wt.info.add(wtclinfo);
@@ -886,6 +896,7 @@ public class WodelTestUtils {
 		}
 		List<WodelTestClass> retClasses = new ArrayList<WodelTestClass>();
 		List<WodelTestClass> cClasses = new ArrayList<WodelTestClass>();
+		List<String> paths = new ArrayList<String>();
 		cClasses.addAll(tmpClasses);
 		while (cClasses.isEmpty() == false) {
 			WodelTestClass cls = cClasses.get(0);
@@ -894,35 +905,18 @@ public class WodelTestUtils {
 			retClass.classname = cls.classname;
 			retClass.depth = cls.depth;
 			retClass.info = new ArrayList<WodelTestClassInfo>();
-			for (WodelTestClass tCls : tmpClasses) {
-				for (WodelTestClassInfo clsInfo : cls.info) {
-					WodelTestClassInfo info = new WodelTestClassInfo();
-					boolean exists = false;
-					for (WodelTestClassInfo retInfo : retClass.info) {
-						if (retInfo.path.equals(clsInfo.path)) {
-							exists = true;
-							break;
-						}
-					}
-					if (exists == true) {
-						continue;
-					}
-					info.path = clsInfo.path;
-					info.mutationText = new ArrayList<String>();
-					info.mutationText.addAll(clsInfo.mutationText);
-					info.numFailures = clsInfo.numFailures;
-					info.packagename = clsInfo.packagename;
-					info.tests = new ArrayList<WodelTestResultInfo>();
-					for (WodelTestClassInfo cInfo : tCls.info) {
-						if (info.path.equals(cInfo.path)) {
-							for (WodelTestResultInfo testInfo : cInfo.tests) {
-								if (!info.tests.contains(testInfo)) {
-									info.tests.add(testInfo);
-								}
-							}
-						}
-					}
+			for (WodelTestClassInfo clsInfo : cls.info) {
+				WodelTestClassInfo info = new WodelTestClassInfo();
+				info.path = clsInfo.path;
+				info.mutationText = new ArrayList<String>();
+				info.mutationText.addAll(clsInfo.mutationText);
+				info.numFailures = clsInfo.numFailures;
+				info.packagename = clsInfo.packagename;
+				info.tests = new ArrayList<WodelTestResultInfo>();
+				info.tests.addAll(clsInfo.tests);
+				if (!paths.contains(info.path)) {
 					retClass.info.add(info);
+					paths.add(info.path);
 				}
 			}
 			retClasses.add(retClass);
@@ -937,16 +931,50 @@ public class WodelTestUtils {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path + "/data/" + project.getName() + ".test.txt"));
 			br.readLine();
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				testSuiteName = line;
-			}
+			String line = br.readLine();
+			testSuiteName = line;
 			br.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return testSuiteName;
+	}
+	
+	public static List<String> getTestSuitesNames(IProject project) {
+		List<String> testSuitesNames = new ArrayList<String>();
+		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(path + "/data/" + project.getName() + ".test.txt"));
+			br.readLine();
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				testSuitesNames.add(line);
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return testSuitesNames;
+	}
+	
+	public static List<String> getTestSuitesNames(String projectName) {
+		List<String> testSuitesNames = new ArrayList<String>();
+		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(path + "/data/" + projectName + ".test.txt"));
+			br.readLine();
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				testSuitesNames.add(line);
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return testSuitesNames;
 	}
 	
 	public static String findSourcePath(File file, String ext) {
@@ -1066,5 +1094,52 @@ public class WodelTestUtils {
 		}
 		return selection;
 	}
+	
+	public static BasicFileAttributes awaitFile(String target, long timeout) 
+		    throws IOException, InterruptedException
+		{
+		    final java.nio.file.Path name = Paths.get(target).getFileName();
+		    final java.nio.file.Path targetDir = Paths.get(target).getParent();
+
+		    // If path already exists, return early
+		    try {
+		        return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+		    } catch (NoSuchFileException ex) {}
+
+		    final WatchService watchService = FileSystems.getDefault().newWatchService();
+		    try {
+		        final WatchKey watchKey = targetDir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+		        // The file could have been created in the window between Files.readAttributes and Path.register
+		        try {
+		            return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+		        } catch (NoSuchFileException ex) {}
+		        // The file is absent: watch events in parent directory 
+		        WatchKey watchKey1 = null;
+		        boolean valid = true;
+		        do {
+		            long t0 = System.currentTimeMillis();
+		            watchKey1 = watchService.poll(timeout, TimeUnit.MILLISECONDS);
+		            if (watchKey1 == null) {
+		                return null; // timed out
+		            }
+		            // Examine events associated with key
+		            for (WatchEvent<?> event: watchKey1.pollEvents()) {
+		            	java.nio.file.Path path1 = (java.nio.file.Path) event.context();
+		                if (path1.getFileName().equals(name)) {
+		                    return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+		                }
+		            }
+		            // Did not receive an interesting event; re-register key to queue
+		            long elapsed = System.currentTimeMillis() - t0;
+		            timeout = elapsed < timeout? (timeout - elapsed) : 0L;
+		            valid = watchKey1.reset();
+		        } while (valid);
+		    } finally {
+		        watchService.close();
+		    }
+
+		    return null;
+		}
+
 	
 }

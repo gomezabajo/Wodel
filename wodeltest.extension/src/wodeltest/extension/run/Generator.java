@@ -277,15 +277,25 @@ public class Generator implements IGenerator {
 	
 	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
 		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		pContent.append("\n");
 		pContent.append("<?eclipse version=\"3.4\"?>");
+		pContent.append("\n");
 		pContent.append("<plugin>");
+		pContent.append("\n");
 		pContent.append("\t<extension");
+		pContent.append("\n");
 		pContent.append("\t\tpoint=\"wodeltest.extension.MutTesting\">");
+		pContent.append("\n");
 		pContent.append("\t\t<wodeltest");
+		pContent.append("\n");
 		pContent.append("\t\t\tclass=\"mutator.wodeltest." + project.getName() + ".WodelTest\">");
+		pContent.append("\n");
 		pContent.append("\t\t</wodeltest>");
+		pContent.append("\n");
 		pContent.append("\t</extension>");
+		pContent.append("\n");
 		pContent.append("</plugin>");
+		pContent.append("\n");
 		createFile("plugin.xml", project, pContent.toString(), progressMonitor);
 	}
 

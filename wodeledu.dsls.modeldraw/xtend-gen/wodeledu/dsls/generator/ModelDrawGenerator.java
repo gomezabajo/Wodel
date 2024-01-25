@@ -42,7 +42,7 @@ public class ModelDrawGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "", null);
+    String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
     boolean _equals = modelDrawMode.equals("Dot");
     if (_equals) {
       this.dotGenerator.doGenerate(resource, fsa, context);

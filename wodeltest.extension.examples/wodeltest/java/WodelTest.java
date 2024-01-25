@@ -10,9 +10,12 @@ import wodel.utils.manager.WodelTestUtils;
 //import wodeltest.extension.utils.MyGenerateJavaExtended;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -236,7 +239,11 @@ public class WodelTest implements IWodelTest {
 					}
 				}
 			}
-			Thread.sleep(200);
+			WodelTestUtils.awaitFile(newSrcPath, 2000);
+			File newSrc = new File(newSrcPath);
+			while (!newSrc.exists()) {
+				WodelTestUtils.awaitFile(newSrcPath, 2000);
+			}
 			IOUtils.copyFile(newSrcPath, srcJavaFilePath);
 			IOUtils.deleteFile(newSrcPath);
 			current.setContextClassLoader(oldLoader);
@@ -250,6 +257,9 @@ public class WodelTest implements IWodelTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -359,4 +369,108 @@ public class WodelTest implements IWodelTest {
 		return true;
 	}
 
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath,
+			List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath) {
+		Map<IProject, WodelTestGlobalResult> globalResultMap = new HashMap<IProject, WodelTestGlobalResult>();
+		try {
+			for (IProject testSuiteProject : testSuitesProjects) {
+				WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
+				IJavaProject javaProject = JavaCore.create(project);
+				IClasspathEntry[] entries = javaProject.getRawClasspath();
+				IClasspathEntry srcEntry = null;
+				for (int i = 0; i < entries.length; i++) {
+					IPath entryPath = entries[i].getPath();
+					if (entryPath.lastSegment().equals("src")) {
+						srcEntry = entries[i];
+						break;
+					}
+				}
+				Thread current = Thread.currentThread();
+				ClassLoader oldLoader = current.getContextClassLoader();
+				current.setContextClassLoader(testSuiteProject.getClass().getClassLoader());
+				String className = artifactPath.substring(artifactPath.lastIndexOf(File.separator) + 1, artifactPath.length() - ".java".length());
+				String packageName = artifactPath.substring(artifactPath.indexOf(project.getName() + File.separator) + (project.getName() + File.separator).length(), artifactPath.length());
+				if (packageName.indexOf("." + className) > 0) {
+					packageName = packageName.substring(0, packageName.indexOf("." + className));
+				}
+				String folderPath = "/" + project.getName() + "/" + artifactPath.substring(artifactPath.indexOf(File.separator + packageName + "." + className) + File.pathSeparator.length(), artifactPath.length());
+				folderPath = folderPath.substring(0, folderPath.lastIndexOf(File.separator + "src"));
+				String javaFileName = className.substring(className.lastIndexOf(".") + 1, className.length()) + ".java";
+				String srcJavaFilePath = "";
+				if (packageName.length() > 0) {
+					srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
+				}
+				else {
+					srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + javaFileName;
+				}
+				String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
+				IOUtils.copyFile(srcJavaFilePath, newSrcPath);
+				IOUtils.copyFile(artifactPath, srcJavaFilePath);
+				compile(project);
+				Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
+				for (Class<?> clazz : classes) {
+					List<Object> tests = getTests(clazz);
+					if (tests.size() > 0) {
+						runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
+						if (globalResult.getStatus() != Status.OK) {
+							break;
+						}
+					}
+				}
+				WodelTestUtils.awaitFile(newSrcPath, 2000);
+				File newSrc = new File(newSrcPath);
+				while (!newSrc.exists()) {
+					WodelTestUtils.awaitFile(newSrcPath, 2000);
+				}
+				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+				IOUtils.deleteFile(newSrcPath);
+				current.setContextClassLoader(oldLoader);
+				globalResultMap.put(testSuiteProject, globalResult);
+			}
+		} catch (JavaModelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return globalResultMap;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

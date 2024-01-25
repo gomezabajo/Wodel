@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getAttName <em>Att Name</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getAttValue <em>Att Value</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#isContainer <em>Container</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#isSelf <em>Self</em>}</li>
  * </ul>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation()
@@ -231,5 +232,28 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * @generated
 	 */
 	void setContainer(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Self</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Self</em>' attribute.
+	 * @see #setSelf(boolean)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_Self()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	boolean isSelf();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#isSelf <em>Self</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Self</em>' attribute.
+	 * @see #isSelf()
+	 * @generated
+	 */
+	void setSelf(boolean value);
 
 } // ReferenceEvaluation

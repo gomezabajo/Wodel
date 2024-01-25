@@ -2200,7 +2200,8 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Assignment cNameAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
 		private final CrossReference cNameEReferenceCrossReference_1_0_0 = (CrossReference)cNameAssignment_1_0.eContents().get(0);
 		private final RuleCall cNameEReferenceIDTerminalRuleCall_1_0_0_1 = (RuleCall)cNameEReferenceCrossReference_1_0_0.eContents().get(1);
-		private final Keyword cSelfKeyword_1_1 = (Keyword)cAlternatives_1.eContents().get(1);
+		private final Assignment cSelfAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
+		private final Keyword cSelfSelfKeyword_1_1_0 = (Keyword)cSelfAssignment_1_1.eContents().get(0);
 		private final Assignment cContainerAssignment_1_2 = (Assignment)cAlternatives_1.eContents().get(2);
 		private final Keyword cContainerContainerKeyword_1_2_0 = (Keyword)cContainerAssignment_1_2.eContents().get(0);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
@@ -2212,41 +2213,40 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Assignment cAttValueAssignment_2_0_2 = (Assignment)cGroup_2_0.eContents().get(2);
 		private final RuleCall cAttValueAttributeEvaluationTypeParserRuleCall_2_0_2_0 = (RuleCall)cAttValueAssignment_2_0_2.eContents().get(0);
 		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
-		private final Group cGroup_2_1_0 = (Group)cGroup_2_1.eContents().get(0);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_2_1_0_0 = (Keyword)cGroup_2_1_0.eContents().get(0);
-		private final Assignment cRefNameAssignment_2_1_0_1 = (Assignment)cGroup_2_1_0.eContents().get(1);
-		private final CrossReference cRefNameEReferenceCrossReference_2_1_0_1_0 = (CrossReference)cRefNameAssignment_2_1_0_1.eContents().get(0);
-		private final RuleCall cRefNameEReferenceIDTerminalRuleCall_2_1_0_1_0_1 = (RuleCall)cRefNameEReferenceCrossReference_2_1_0_1_0.eContents().get(1);
-		private final Group cGroup_2_1_0_2 = (Group)cGroup_2_1_0.eContents().get(2);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_2_1_0_2_0 = (Keyword)cGroup_2_1_0_2.eContents().get(0);
-		private final Assignment cRefRefNameAssignment_2_1_0_2_1 = (Assignment)cGroup_2_1_0_2.eContents().get(1);
-		private final CrossReference cRefRefNameEReferenceCrossReference_2_1_0_2_1_0 = (CrossReference)cRefRefNameAssignment_2_1_0_2_1.eContents().get(0);
-		private final RuleCall cRefRefNameEReferenceIDTerminalRuleCall_2_1_0_2_1_0_1 = (RuleCall)cRefRefNameEReferenceCrossReference_2_1_0_2_1_0.eContents().get(1);
-		private final Assignment cOperatorAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
-		private final RuleCall cOperatorOperatorEnumRuleCall_2_1_1_0 = (RuleCall)cOperatorAssignment_2_1_1.eContents().get(0);
-		private final Alternatives cAlternatives_2_1_2 = (Alternatives)cGroup_2_1.eContents().get(2);
-		private final Assignment cValueAssignment_2_1_2_0 = (Assignment)cAlternatives_2_1_2.eContents().get(0);
-		private final RuleCall cValueObSelectionStrategyParserRuleCall_2_1_2_0_0 = (RuleCall)cValueAssignment_2_1_2_0.eContents().get(0);
-		private final Keyword cNullKeyword_2_1_2_1 = (Keyword)cAlternatives_2_1_2.eContents().get(1);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cRefNameAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cRefNameEReferenceCrossReference_2_1_1_0 = (CrossReference)cRefNameAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cRefNameEReferenceIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cRefNameEReferenceCrossReference_2_1_1_0.eContents().get(1);
+		private final Group cGroup_2_1_2 = (Group)cGroup_2_1.eContents().get(2);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_2_1_2_0 = (Keyword)cGroup_2_1_2.eContents().get(0);
+		private final Assignment cRefRefNameAssignment_2_1_2_1 = (Assignment)cGroup_2_1_2.eContents().get(1);
+		private final CrossReference cRefRefNameEReferenceCrossReference_2_1_2_1_0 = (CrossReference)cRefRefNameAssignment_2_1_2_1.eContents().get(0);
+		private final RuleCall cRefRefNameEReferenceIDTerminalRuleCall_2_1_2_1_0_1 = (RuleCall)cRefRefNameEReferenceCrossReference_2_1_2_1_0.eContents().get(1);
+		private final Assignment cOperatorAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cOperatorOperatorEnumRuleCall_3_0 = (RuleCall)cOperatorAssignment_3.eContents().get(0);
+		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
+		private final Assignment cValueAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
+		private final RuleCall cValueObSelectionStrategyParserRuleCall_4_0_0 = (RuleCall)cValueAssignment_4_0.eContents().get(0);
+		private final Keyword cNullKeyword_4_1 = (Keyword)cAlternatives_4.eContents().get(1);
 		
 		//ReferenceEvaluation returns ReferenceEvaluation:
 		//    {ReferenceEvaluation}
-		//    (name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+		//    (name=[ecore::EReference|ID] | self?='self' | container ?= 'container')
 		//    (('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType)
-		//        | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
+		//        | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?) operator=Operator (value=ObSelectionStrategy | 'null' )
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{ReferenceEvaluation}
-		//(name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+		//(name=[ecore::EReference|ID] | self?='self' | container ?= 'container')
 		//(('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType)
-		//    | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
+		//    | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?) operator=Operator (value=ObSelectionStrategy | 'null' )
 		public Group getGroup() { return cGroup; }
 		
 		//{ReferenceEvaluation}
 		public Action getReferenceEvaluationAction_0() { return cReferenceEvaluationAction_0; }
 		
-		//(name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+		//(name=[ecore::EReference|ID] | self?='self' | container ?= 'container')
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 		
 		//name=[ecore::EReference|ID]
@@ -2258,8 +2258,11 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//ID
 		public RuleCall getNameEReferenceIDTerminalRuleCall_1_0_0_1() { return cNameEReferenceIDTerminalRuleCall_1_0_0_1; }
 		
+		//self?='self'
+		public Assignment getSelfAssignment_1_1() { return cSelfAssignment_1_1; }
+		
 		//'self'
-		public Keyword getSelfKeyword_1_1() { return cSelfKeyword_1_1; }
+		public Keyword getSelfSelfKeyword_1_1_0() { return cSelfSelfKeyword_1_1_0; }
 		
 		//container ?= 'container'
 		public Assignment getContainerAssignment_1_2() { return cContainerAssignment_1_2; }
@@ -2268,7 +2271,7 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		public Keyword getContainerContainerKeyword_1_2_0() { return cContainerContainerKeyword_1_2_0; }
 		
 		//(('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType)
-		//    | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
+		//    | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?)
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 		
 		//('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType)
@@ -2292,56 +2295,53 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//AttributeEvaluationType
 		public RuleCall getAttValueAttributeEvaluationTypeParserRuleCall_2_0_2_0() { return cAttValueAttributeEvaluationTypeParserRuleCall_2_0_2_0; }
 		
-		//('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' )
+		//('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?
 		public Group getGroup_2_1() { return cGroup_2_1; }
 		
-		//('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?
-		public Group getGroup_2_1_0() { return cGroup_2_1_0; }
-		
 		//'->'
-		public Keyword getHyphenMinusGreaterThanSignKeyword_2_1_0_0() { return cHyphenMinusGreaterThanSignKeyword_2_1_0_0; }
+		public Keyword getHyphenMinusGreaterThanSignKeyword_2_1_0() { return cHyphenMinusGreaterThanSignKeyword_2_1_0; }
 		
 		//refName=[ecore::EReference|ID]
-		public Assignment getRefNameAssignment_2_1_0_1() { return cRefNameAssignment_2_1_0_1; }
+		public Assignment getRefNameAssignment_2_1_1() { return cRefNameAssignment_2_1_1; }
 		
 		//[ecore::EReference|ID]
-		public CrossReference getRefNameEReferenceCrossReference_2_1_0_1_0() { return cRefNameEReferenceCrossReference_2_1_0_1_0; }
+		public CrossReference getRefNameEReferenceCrossReference_2_1_1_0() { return cRefNameEReferenceCrossReference_2_1_1_0; }
 		
 		//ID
-		public RuleCall getRefNameEReferenceIDTerminalRuleCall_2_1_0_1_0_1() { return cRefNameEReferenceIDTerminalRuleCall_2_1_0_1_0_1; }
+		public RuleCall getRefNameEReferenceIDTerminalRuleCall_2_1_1_0_1() { return cRefNameEReferenceIDTerminalRuleCall_2_1_1_0_1; }
 		
 		//('->' refRefName=[ecore::EReference|ID])?
-		public Group getGroup_2_1_0_2() { return cGroup_2_1_0_2; }
+		public Group getGroup_2_1_2() { return cGroup_2_1_2; }
 		
 		//'->'
-		public Keyword getHyphenMinusGreaterThanSignKeyword_2_1_0_2_0() { return cHyphenMinusGreaterThanSignKeyword_2_1_0_2_0; }
+		public Keyword getHyphenMinusGreaterThanSignKeyword_2_1_2_0() { return cHyphenMinusGreaterThanSignKeyword_2_1_2_0; }
 		
 		//refRefName=[ecore::EReference|ID]
-		public Assignment getRefRefNameAssignment_2_1_0_2_1() { return cRefRefNameAssignment_2_1_0_2_1; }
+		public Assignment getRefRefNameAssignment_2_1_2_1() { return cRefRefNameAssignment_2_1_2_1; }
 		
 		//[ecore::EReference|ID]
-		public CrossReference getRefRefNameEReferenceCrossReference_2_1_0_2_1_0() { return cRefRefNameEReferenceCrossReference_2_1_0_2_1_0; }
+		public CrossReference getRefRefNameEReferenceCrossReference_2_1_2_1_0() { return cRefRefNameEReferenceCrossReference_2_1_2_1_0; }
 		
 		//ID
-		public RuleCall getRefRefNameEReferenceIDTerminalRuleCall_2_1_0_2_1_0_1() { return cRefRefNameEReferenceIDTerminalRuleCall_2_1_0_2_1_0_1; }
+		public RuleCall getRefRefNameEReferenceIDTerminalRuleCall_2_1_2_1_0_1() { return cRefRefNameEReferenceIDTerminalRuleCall_2_1_2_1_0_1; }
 		
 		//operator=Operator
-		public Assignment getOperatorAssignment_2_1_1() { return cOperatorAssignment_2_1_1; }
+		public Assignment getOperatorAssignment_3() { return cOperatorAssignment_3; }
 		
 		//Operator
-		public RuleCall getOperatorOperatorEnumRuleCall_2_1_1_0() { return cOperatorOperatorEnumRuleCall_2_1_1_0; }
+		public RuleCall getOperatorOperatorEnumRuleCall_3_0() { return cOperatorOperatorEnumRuleCall_3_0; }
 		
 		//(value=ObSelectionStrategy | 'null' )
-		public Alternatives getAlternatives_2_1_2() { return cAlternatives_2_1_2; }
+		public Alternatives getAlternatives_4() { return cAlternatives_4; }
 		
 		//value=ObSelectionStrategy
-		public Assignment getValueAssignment_2_1_2_0() { return cValueAssignment_2_1_2_0; }
+		public Assignment getValueAssignment_4_0() { return cValueAssignment_4_0; }
 		
 		//ObSelectionStrategy
-		public RuleCall getValueObSelectionStrategyParserRuleCall_2_1_2_0_0() { return cValueObSelectionStrategyParserRuleCall_2_1_2_0_0; }
+		public RuleCall getValueObSelectionStrategyParserRuleCall_4_0_0() { return cValueObSelectionStrategyParserRuleCall_4_0_0; }
 		
 		//'null'
-		public Keyword getNullKeyword_2_1_2_1() { return cNullKeyword_2_1_2_1; }
+		public Keyword getNullKeyword_4_1() { return cNullKeyword_4_1; }
 	}
 	public class EvaluationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.Evaluation");
@@ -7945,9 +7945,9 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	//ReferenceEvaluation returns ReferenceEvaluation:
 	//    {ReferenceEvaluation}
-	//    (name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+	//    (name=[ecore::EReference|ID] | self?='self' | container ?= 'container')
 	//    (('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType)
-	//        | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
+	//        | ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?) operator=Operator (value=ObSelectionStrategy | 'null' )
 	//;
 	public ReferenceEvaluationElements getReferenceEvaluationAccess() {
 		return pReferenceEvaluation;

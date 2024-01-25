@@ -2198,6 +2198,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getReferenceEvaluation_Self() {
+		return (EAttribute) referenceEvaluationEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExpression() {
 		return expressionEClass;
 	}
@@ -3144,6 +3153,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__ATT_NAME);
 		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__ATT_VALUE);
 		createEAttribute(referenceEvaluationEClass, REFERENCE_EVALUATION__CONTAINER);
+		createEAttribute(referenceEvaluationEClass, REFERENCE_EVALUATION__SELF);
 
 		expressionEClass = createEClass(EXPRESSION);
 		createEReference(expressionEClass, EXPRESSION__FIRST);
@@ -3793,6 +3803,9 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 				1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getReferenceEvaluation_Container(), ecorePackage.getEBoolean(), "container", "false", 1, 1,
+				ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferenceEvaluation_Self(), ecorePackage.getEBoolean(), "self", "false", 1, 1,
 				ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

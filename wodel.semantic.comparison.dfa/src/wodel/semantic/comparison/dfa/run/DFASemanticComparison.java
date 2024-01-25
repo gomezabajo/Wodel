@@ -480,13 +480,13 @@ public class DFASemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(String metamodel, String model1, String model2, IProject project) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
 		boolean isRepeated = false;
 		try {
 			//metamodel = "C:\\eclipse\\workspace\\wodel.automata\\models\\DFAAutomaton.ecore";
 			//model1 = "C:\\eclipse\\workspace\\wodel.automata\\models\\dfa1.model";
 			//model2 = "C:\\eclipse\\workspace\\wodel.automata\\models\\dfa2.model";
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
 			Resource ndfa1 = ModelManager.loadModel(packages, model1);
 			Resource ndfa2 = ModelManager.loadModel(packages, model2);
 			//isRepeated = ModelManager.compareModels(resource1, resource2);

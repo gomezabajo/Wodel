@@ -1562,11 +1562,10 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *
 	 * Constraint:
 	 *     (
-	 *         (name=[EReference|ID] | container?='container')? 
-	 *         (
-	 *             (attName=[EAttribute|ID] attValue=AttributeEvaluationType) | 
-	 *             ((refName=[EReference|ID] refRefName=[EReference|ID]?)? operator=Operator value=ObSelectionStrategy?)
-	 *         )
+	 *         (name=[EReference|ID] | self?='self' | container?='container') 
+	 *         ((attName=[EAttribute|ID] attValue=AttributeEvaluationType) | (refName=[EReference|ID] refRefName=[EReference|ID]?))? 
+	 *         operator=Operator 
+	 *         value=ObSelectionStrategy?
 	 *     )
 	 * </pre>
 	 */

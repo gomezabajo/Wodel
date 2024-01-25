@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.java,
  wodel.utils,
  wodeltest.extension,
- wodel.project
+ wodel.project,
+ org.eclipse.modisco.java.generation
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodel.semantic.comparison.java
 Bundle-ActivationPolicy: lazy

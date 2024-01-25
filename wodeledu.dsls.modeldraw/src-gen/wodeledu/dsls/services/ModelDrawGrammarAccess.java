@@ -33,41 +33,19 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		private final Keyword cMetamodelKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cMetamodelAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cMetamodelEStringParserRuleCall_2_0 = (RuleCall)cMetamodelAssignment_2.eContents().get(0);
-		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final CrossReference cNameEClassCrossReference_3_0 = (CrossReference)cNameAssignment_3.eContents().get(0);
-		private final RuleCall cNameEClassIDTerminalRuleCall_3_0_1 = (RuleCall)cNameEClassCrossReference_3_0.eContents().get(1);
-		private final Keyword cColonKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cTypeAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cTypeDrawTypeEnumRuleCall_5_0 = (RuleCall)cTypeAssignment_5.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cNodesAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cNodesNodeParserRuleCall_7_0 = (RuleCall)cNodesAssignment_7.eContents().get(0);
-		private final Assignment cRelationsAssignment_8 = (Assignment)cGroup.eContents().get(8);
-		private final RuleCall cRelationsRelationParserRuleCall_8_0 = (RuleCall)cRelationsAssignment_8.eContents().get(0);
-		private final Assignment cContentsAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cContentsContentParserRuleCall_9_0 = (RuleCall)cContentsAssignment_9.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_10 = (Keyword)cGroup.eContents().get(10);
+		private final Assignment cInstancesAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cInstancesMutatorInstanceParserRuleCall_3_0 = (RuleCall)cInstancesAssignment_3.eContents().get(0);
 		
 		//MutatorDraw returns MutatorDraw:
 		//    {MutatorDraw}
 		//    'metamodel' metamodel=EString
-		//    name=[ecore::EClass|ID] ':' type=DrawType
-		//    '{'
-		//    (nodes+=Node)*
-		//    (relations+=Relation)*
-		//    (contents+=Content)*
-		//    '}'
+		//    (instances+=MutatorInstance)+
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{MutatorDraw}
 		//'metamodel' metamodel=EString
-		//name=[ecore::EClass|ID] ':' type=DrawType
-		//'{'
-		//(nodes+=Node)*
-		//(relations+=Relation)*
-		//(contents+=Content)*
-		//'}'
+		//(instances+=MutatorInstance)+
 		public Group getGroup() { return cGroup; }
 		
 		//{MutatorDraw}
@@ -82,47 +60,95 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		//EString
 		public RuleCall getMetamodelEStringParserRuleCall_2_0() { return cMetamodelEStringParserRuleCall_2_0; }
 		
+		//(instances+=MutatorInstance)+
+		public Assignment getInstancesAssignment_3() { return cInstancesAssignment_3; }
+		
+		//MutatorInstance
+		public RuleCall getInstancesMutatorInstanceParserRuleCall_3_0() { return cInstancesMutatorInstanceParserRuleCall_3_0; }
+	}
+	public class MutatorInstanceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelDraw.MutatorInstance");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cMutatorInstanceAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cNameEClassCrossReference_1_0 = (CrossReference)cNameAssignment_1.eContents().get(0);
+		private final RuleCall cNameEClassIDTerminalRuleCall_1_0_1 = (RuleCall)cNameEClassCrossReference_1_0.eContents().get(1);
+		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cTypeDrawTypeEnumRuleCall_3_0 = (RuleCall)cTypeAssignment_3.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cNodesAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cNodesNodeParserRuleCall_5_0 = (RuleCall)cNodesAssignment_5.eContents().get(0);
+		private final Assignment cRelationsAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cRelationsRelationParserRuleCall_6_0 = (RuleCall)cRelationsAssignment_6.eContents().get(0);
+		private final Assignment cContentsAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cContentsContentParserRuleCall_7_0 = (RuleCall)cContentsAssignment_7.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_8 = (Keyword)cGroup.eContents().get(8);
+		
+		//MutatorInstance returns MutatorInstance:
+		//    {MutatorInstance}
+		//    name=[ecore::EClass|ID] ':' type=DrawType
+		//    '{'
+		//    (nodes+=Node)*
+		//    (relations+=Relation)*
+		//    (contents+=Content)*
+		//    '}'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{MutatorInstance}
+		//name=[ecore::EClass|ID] ':' type=DrawType
+		//'{'
+		//(nodes+=Node)*
+		//(relations+=Relation)*
+		//(contents+=Content)*
+		//'}'
+		public Group getGroup() { return cGroup; }
+		
+		//{MutatorInstance}
+		public Action getMutatorInstanceAction_0() { return cMutatorInstanceAction_0; }
+		
 		//name=[ecore::EClass|ID]
-		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 		
 		//[ecore::EClass|ID]
-		public CrossReference getNameEClassCrossReference_3_0() { return cNameEClassCrossReference_3_0; }
+		public CrossReference getNameEClassCrossReference_1_0() { return cNameEClassCrossReference_1_0; }
 		
 		//ID
-		public RuleCall getNameEClassIDTerminalRuleCall_3_0_1() { return cNameEClassIDTerminalRuleCall_3_0_1; }
+		public RuleCall getNameEClassIDTerminalRuleCall_1_0_1() { return cNameEClassIDTerminalRuleCall_1_0_1; }
 		
 		//':'
-		public Keyword getColonKeyword_4() { return cColonKeyword_4; }
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
 		
 		//type=DrawType
-		public Assignment getTypeAssignment_5() { return cTypeAssignment_5; }
+		public Assignment getTypeAssignment_3() { return cTypeAssignment_3; }
 		
 		//DrawType
-		public RuleCall getTypeDrawTypeEnumRuleCall_5_0() { return cTypeDrawTypeEnumRuleCall_5_0; }
+		public RuleCall getTypeDrawTypeEnumRuleCall_3_0() { return cTypeDrawTypeEnumRuleCall_3_0; }
 		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_6() { return cLeftCurlyBracketKeyword_6; }
+		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
 		
 		//(nodes+=Node)*
-		public Assignment getNodesAssignment_7() { return cNodesAssignment_7; }
+		public Assignment getNodesAssignment_5() { return cNodesAssignment_5; }
 		
 		//Node
-		public RuleCall getNodesNodeParserRuleCall_7_0() { return cNodesNodeParserRuleCall_7_0; }
+		public RuleCall getNodesNodeParserRuleCall_5_0() { return cNodesNodeParserRuleCall_5_0; }
 		
 		//(relations+=Relation)*
-		public Assignment getRelationsAssignment_8() { return cRelationsAssignment_8; }
+		public Assignment getRelationsAssignment_6() { return cRelationsAssignment_6; }
 		
 		//Relation
-		public RuleCall getRelationsRelationParserRuleCall_8_0() { return cRelationsRelationParserRuleCall_8_0; }
+		public RuleCall getRelationsRelationParserRuleCall_6_0() { return cRelationsRelationParserRuleCall_6_0; }
 		
 		//(contents+=Content)*
-		public Assignment getContentsAssignment_9() { return cContentsAssignment_9; }
+		public Assignment getContentsAssignment_7() { return cContentsAssignment_7; }
 		
 		//Content
-		public RuleCall getContentsContentParserRuleCall_9_0() { return cContentsContentParserRuleCall_9_0; }
+		public RuleCall getContentsContentParserRuleCall_7_0() { return cContentsContentParserRuleCall_7_0; }
 		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_10() { return cRightCurlyBracketKeyword_10; }
+		public Keyword getRightCurlyBracketKeyword_8() { return cRightCurlyBracketKeyword_8; }
 	}
 	public class EStringElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.ModelDraw.EString");
@@ -547,11 +573,12 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		private final Assignment cSourceAssignment_3_0_1 = (Assignment)cGroup_3_0.eContents().get(1);
 		private final CrossReference cSourceEReferenceCrossReference_3_0_1_0 = (CrossReference)cSourceAssignment_3_0_1.eContents().get(0);
 		private final RuleCall cSourceEReferenceIDTerminalRuleCall_3_0_1_0_1 = (RuleCall)cSourceEReferenceCrossReference_3_0_1_0.eContents().get(1);
-		private final Keyword cCommaKeyword_3_0_2 = (Keyword)cGroup_3_0.eContents().get(2);
-		private final Assignment cTargetAssignment_3_0_3 = (Assignment)cGroup_3_0.eContents().get(3);
-		private final CrossReference cTargetEReferenceCrossReference_3_0_3_0 = (CrossReference)cTargetAssignment_3_0_3.eContents().get(0);
-		private final RuleCall cTargetEReferenceIDTerminalRuleCall_3_0_3_0_1 = (RuleCall)cTargetEReferenceCrossReference_3_0_3_0.eContents().get(1);
-		private final Keyword cRightParenthesisKeyword_3_0_4 = (Keyword)cGroup_3_0.eContents().get(4);
+		private final Group cGroup_3_0_2 = (Group)cGroup_3_0.eContents().get(2);
+		private final Keyword cCommaKeyword_3_0_2_0 = (Keyword)cGroup_3_0_2.eContents().get(0);
+		private final Assignment cTargetAssignment_3_0_2_1 = (Assignment)cGroup_3_0_2.eContents().get(1);
+		private final CrossReference cTargetEReferenceCrossReference_3_0_2_1_0 = (CrossReference)cTargetAssignment_3_0_2_1.eContents().get(0);
+		private final RuleCall cTargetEReferenceIDTerminalRuleCall_3_0_2_1_0_1 = (RuleCall)cTargetEReferenceCrossReference_3_0_2_1_0.eContents().get(1);
+		private final Keyword cRightParenthesisKeyword_3_0_3 = (Keyword)cGroup_3_0.eContents().get(3);
 		private final Group cGroup_3_1 = (Group)cAlternatives_3.eContents().get(1);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_3_1_0 = (Keyword)cGroup_3_1.eContents().get(0);
 		private final Assignment cTargetNodeAssignment_3_1_1 = (Assignment)cGroup_3_1.eContents().get(1);
@@ -679,7 +706,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		
 		//Edge returns Edge:
 		//    {Edge}
-		//    name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
+		//    name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] (',' target=[ecore::EReference|ID])? ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
 		//    'edge' ('=' attName=[ecore::EAttribute|ID])?
 		//    ( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
 		//        "{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
@@ -695,7 +722,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{Edge}
-		//name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
+		//name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] (',' target=[ecore::EReference|ID])? ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
 		//'edge' ('=' attName=[ecore::EAttribute|ID])?
 		//( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
 		//    "{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
@@ -748,10 +775,10 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		//')'
 		public Keyword getRightParenthesisKeyword_2_3() { return cRightParenthesisKeyword_2_3; }
 		
-		//('(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?)
+		//('(' source=[ecore::EReference|ID] (',' target=[ecore::EReference|ID])? ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?)
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 		
-		//'(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')'
+		//'(' source=[ecore::EReference|ID] (',' target=[ecore::EReference|ID])? ')'
 		public Group getGroup_3_0() { return cGroup_3_0; }
 		
 		//'('
@@ -766,20 +793,23 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		//ID
 		public RuleCall getSourceEReferenceIDTerminalRuleCall_3_0_1_0_1() { return cSourceEReferenceIDTerminalRuleCall_3_0_1_0_1; }
 		
+		//(',' target=[ecore::EReference|ID])?
+		public Group getGroup_3_0_2() { return cGroup_3_0_2; }
+		
 		//','
-		public Keyword getCommaKeyword_3_0_2() { return cCommaKeyword_3_0_2; }
+		public Keyword getCommaKeyword_3_0_2_0() { return cCommaKeyword_3_0_2_0; }
 		
 		//target=[ecore::EReference|ID]
-		public Assignment getTargetAssignment_3_0_3() { return cTargetAssignment_3_0_3; }
+		public Assignment getTargetAssignment_3_0_2_1() { return cTargetAssignment_3_0_2_1; }
 		
 		//[ecore::EReference|ID]
-		public CrossReference getTargetEReferenceCrossReference_3_0_3_0() { return cTargetEReferenceCrossReference_3_0_3_0; }
+		public CrossReference getTargetEReferenceCrossReference_3_0_2_1_0() { return cTargetEReferenceCrossReference_3_0_2_1_0; }
 		
 		//ID
-		public RuleCall getTargetEReferenceIDTerminalRuleCall_3_0_3_0_1() { return cTargetEReferenceIDTerminalRuleCall_3_0_3_0_1; }
+		public RuleCall getTargetEReferenceIDTerminalRuleCall_3_0_2_1_0_1() { return cTargetEReferenceIDTerminalRuleCall_3_0_2_1_0_1; }
 		
 		//')'
-		public Keyword getRightParenthesisKeyword_3_0_4() { return cRightParenthesisKeyword_3_0_4; }
+		public Keyword getRightParenthesisKeyword_3_0_3() { return cRightParenthesisKeyword_3_0_3; }
 		
 		//'->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?
 		public Group getGroup_3_1() { return cGroup_3_1; }
@@ -2161,6 +2191,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 	}
 	
 	private final MutatorDrawElements pMutatorDraw;
+	private final MutatorInstanceElements pMutatorInstance;
 	private final EStringElements pEString;
 	private final DrawTypeElements eDrawType;
 	private final NodeElements pNode;
@@ -2188,6 +2219,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaTerminals = gaTerminals;
 		this.pMutatorDraw = new MutatorDrawElements();
+		this.pMutatorInstance = new MutatorInstanceElements();
 		this.pEString = new EStringElements();
 		this.eDrawType = new DrawTypeElements();
 		this.pNode = new NodeElements();
@@ -2236,12 +2268,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 	//MutatorDraw returns MutatorDraw:
 	//    {MutatorDraw}
 	//    'metamodel' metamodel=EString
-	//    name=[ecore::EClass|ID] ':' type=DrawType
-	//    '{'
-	//    (nodes+=Node)*
-	//    (relations+=Relation)*
-	//    (contents+=Content)*
-	//    '}'
+	//    (instances+=MutatorInstance)+
 	//;
 	public MutatorDrawElements getMutatorDrawAccess() {
 		return pMutatorDraw;
@@ -2249,6 +2276,23 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 	
 	public ParserRule getMutatorDrawRule() {
 		return getMutatorDrawAccess().getRule();
+	}
+	
+	//MutatorInstance returns MutatorInstance:
+	//    {MutatorInstance}
+	//    name=[ecore::EClass|ID] ':' type=DrawType
+	//    '{'
+	//    (nodes+=Node)*
+	//    (relations+=Relation)*
+	//    (contents+=Content)*
+	//    '}'
+	//;
+	public MutatorInstanceElements getMutatorInstanceAccess() {
+		return pMutatorInstance;
+	}
+	
+	public ParserRule getMutatorInstanceRule() {
+		return getMutatorInstanceAccess().getRule();
 	}
 	
 	//EString returns ecore::EString:
@@ -2313,7 +2357,7 @@ public class ModelDrawGrammarAccess extends AbstractElementFinder.AbstractGramma
 	
 	//Edge returns Edge:
 	//    {Edge}
-	//    name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
+	//    name=[ecore::EClass|ID] ('(' feature+=ValuedFeature (',' feature+=ValuedFeature)* ')')? ('(' source=[ecore::EReference|ID] (',' target=[ecore::EReference|ID])? ')' | '->' targetNode=[ecore::EClass|ID]  ('(' targetFeature+=ValuedFeature (',' targetFeature+=ValuedFeature)* ')')?) ':'
 	//    'edge' ('=' attName=[ecore::EAttribute|ID])?
 	//    ( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
 	//        "{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]

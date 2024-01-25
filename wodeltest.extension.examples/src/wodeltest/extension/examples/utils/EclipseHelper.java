@@ -109,7 +109,7 @@ public class EclipseHelper {
 				}
 			}
 
-			projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", WodelTestNature.NATURE_ID });
+			projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", WodelTestNature.NATURE_ID, WodelTestNature.WODEL_NATURE_ID });
 
 			final ICommand java = projectDescription.newCommand();
 			java.setBuilderName(JavaCore.BUILDER_ID);

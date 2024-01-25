@@ -33,7 +33,7 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.WodelTestResultClass;
 
 public class AnnotateMutations {
-	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, String metamodel, Resource model) {
+	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, List<String> metamodel, Resource model) {
 		try {
 
 			List<IWodelTest> tests = new ArrayList<IWodelTest>();
@@ -73,7 +73,7 @@ public class AnnotateMutations {
 					String seedName = path.substring(path.lastIndexOf("out" + File.separator) + ("out" + File.separator).length(), path.length());
 					seedName = seedName.substring(0, seedName.indexOf(File.separator)) + ".model";
 					String seedPath = metamodelpath + "/" + seedName;
-					List<EPackage> domainPackages = ModelManager.loadMetaModel(metamodel);
+					List<EPackage> domainPackages = ModelManager.loadMetaModels(metamodel);
 					File seedFile = new File(seedPath);
 					if (!seedFile.exists()) {
 						return false;
@@ -106,9 +106,11 @@ public class AnnotateMutations {
 								EObject container = ModelManager.getContainer(seed, seedObject);
 								while (container != null) {
 									for (EClass containerECl : containerEClasses) {
-										if (containerECl.getName().equals(container.eClass().getName())) {
-											found = true;
-											break;
+										if (containerECl != null) {
+											if (containerECl.getName().equals(container.eClass().getName())) {
+												found = true;
+												break;
+											}
 										}
 									}
 									if (found == true) {
@@ -147,9 +149,11 @@ public class AnnotateMutations {
 									EObject container = ModelManager.getContainer(seed, seedObject);
 									while (container != null) {
 										for (EClass containerECl : containerEClasses) {
-											if (containerECl.getName().equals(container.eClass().getName())) {
-												found = true;
-												break;
+											if (containerECl != null) {
+												if (containerECl.getName().equals(container.eClass().getName())) {
+													found = true;
+													break;
+												}
 											}
 										}
 										if (found == true) {
@@ -180,9 +184,11 @@ public class AnnotateMutations {
 									EObject container = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(mutantContainer));
 									while (container != null) {
 										for (EClass containerECl : containerEClasses) {
-											if (containerECl.getName().equals(container.eClass().getName())) {
-												found = true;
-												break;
+											if (containerECl != null) {
+												if (containerECl.getName().equals(container.eClass().getName())) {
+													found = true;
+													break;
+												}
 											}
 										}
 										if (found == true) {
@@ -214,9 +220,11 @@ public class AnnotateMutations {
 									EObject container = ModelManager.getContainer(seed, seedObject);
 									while (container != null) {
 										for (EClass containerECl : containerEClasses) {
-											if (containerECl.getName().equals(container.eClass().getName())) {
-												found = true;
-												break;
+											if (containerECl != null) {
+												if (containerECl.getName().equals(container.eClass().getName())) {
+													found = true;
+													break;
+												}
 											}
 										}
 										if (found == true) {
@@ -255,9 +263,11 @@ public class AnnotateMutations {
 										EObject container = ModelManager.getContainer(seed, seedObject);
 										while (container != null) {
 											for (EClass containerECl : containerEClasses) {
-												if (containerECl.getName().equals(container.eClass().getName())) {
-													found = true;
-													break;
+												if (containerECl != null) {
+													if (containerECl.getName().equals(container.eClass().getName())) {
+														found = true;
+														break;
+													}
 												}
 											}
 											if (found == true) {
@@ -288,9 +298,11 @@ public class AnnotateMutations {
 										EObject container = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(mutantContainer));
 										while (container != null) {
 											for (EClass containerECl : containerEClasses) {
-												if (containerECl.getName().equals(container.eClass().getName())) {
-													found = true;
-													break;
+												if (containerECl != null) {
+													if (containerECl.getName().equals(container.eClass().getName())) {
+														found = true;
+														break;
+													}
 												}
 											}
 											if (found == true) {

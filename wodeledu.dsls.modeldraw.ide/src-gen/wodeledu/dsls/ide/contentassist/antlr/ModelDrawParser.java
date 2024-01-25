@@ -41,6 +41,7 @@ public class ModelDrawParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getNodeStyleAccess().getAlternatives(), "rule__NodeStyle__Alternatives");
 			builder.put(grammarAccess.getDecorationAccess().getAlternatives(), "rule__Decoration__Alternatives");
 			builder.put(grammarAccess.getMutatorDrawAccess().getGroup(), "rule__MutatorDraw__Group__0");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getGroup(), "rule__MutatorInstance__Group__0");
 			builder.put(grammarAccess.getNodeAccess().getGroup(), "rule__Node__Group__0");
 			builder.put(grammarAccess.getNodeAccess().getGroup_2(), "rule__Node__Group_2__0");
 			builder.put(grammarAccess.getNodeAccess().getGroup_2_2(), "rule__Node__Group_2_2__0");
@@ -60,6 +61,7 @@ public class ModelDrawParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getEdgeAccess().getGroup_2(), "rule__Edge__Group_2__0");
 			builder.put(grammarAccess.getEdgeAccess().getGroup_2_2(), "rule__Edge__Group_2_2__0");
 			builder.put(grammarAccess.getEdgeAccess().getGroup_3_0(), "rule__Edge__Group_3_0__0");
+			builder.put(grammarAccess.getEdgeAccess().getGroup_3_0_2(), "rule__Edge__Group_3_0_2__0");
 			builder.put(grammarAccess.getEdgeAccess().getGroup_3_1(), "rule__Edge__Group_3_1__0");
 			builder.put(grammarAccess.getEdgeAccess().getGroup_3_1_2(), "rule__Edge__Group_3_1_2__0");
 			builder.put(grammarAccess.getEdgeAccess().getGroup_3_1_2_2(), "rule__Edge__Group_3_1_2_2__0");
@@ -116,11 +118,12 @@ public class ModelDrawParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getInformationAccess().getGroup(), "rule__Information__Group__0");
 			builder.put(grammarAccess.getInformationAccess().getGroup_2(), "rule__Information__Group_2__0");
 			builder.put(grammarAccess.getMutatorDrawAccess().getMetamodelAssignment_2(), "rule__MutatorDraw__MetamodelAssignment_2");
-			builder.put(grammarAccess.getMutatorDrawAccess().getNameAssignment_3(), "rule__MutatorDraw__NameAssignment_3");
-			builder.put(grammarAccess.getMutatorDrawAccess().getTypeAssignment_5(), "rule__MutatorDraw__TypeAssignment_5");
-			builder.put(grammarAccess.getMutatorDrawAccess().getNodesAssignment_7(), "rule__MutatorDraw__NodesAssignment_7");
-			builder.put(grammarAccess.getMutatorDrawAccess().getRelationsAssignment_8(), "rule__MutatorDraw__RelationsAssignment_8");
-			builder.put(grammarAccess.getMutatorDrawAccess().getContentsAssignment_9(), "rule__MutatorDraw__ContentsAssignment_9");
+			builder.put(grammarAccess.getMutatorDrawAccess().getInstancesAssignment_3(), "rule__MutatorDraw__InstancesAssignment_3");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getNameAssignment_1(), "rule__MutatorInstance__NameAssignment_1");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getTypeAssignment_3(), "rule__MutatorInstance__TypeAssignment_3");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getNodesAssignment_5(), "rule__MutatorInstance__NodesAssignment_5");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getRelationsAssignment_6(), "rule__MutatorInstance__RelationsAssignment_6");
+			builder.put(grammarAccess.getMutatorInstanceAccess().getContentsAssignment_7(), "rule__MutatorInstance__ContentsAssignment_7");
 			builder.put(grammarAccess.getNodeAccess().getNameAssignment_1(), "rule__Node__NameAssignment_1");
 			builder.put(grammarAccess.getNodeAccess().getFeatureAssignment_2_1(), "rule__Node__FeatureAssignment_2_1");
 			builder.put(grammarAccess.getNodeAccess().getFeatureAssignment_2_2_1(), "rule__Node__FeatureAssignment_2_2_1");
@@ -143,7 +146,7 @@ public class ModelDrawParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getEdgeAccess().getFeatureAssignment_2_1(), "rule__Edge__FeatureAssignment_2_1");
 			builder.put(grammarAccess.getEdgeAccess().getFeatureAssignment_2_2_1(), "rule__Edge__FeatureAssignment_2_2_1");
 			builder.put(grammarAccess.getEdgeAccess().getSourceAssignment_3_0_1(), "rule__Edge__SourceAssignment_3_0_1");
-			builder.put(grammarAccess.getEdgeAccess().getTargetAssignment_3_0_3(), "rule__Edge__TargetAssignment_3_0_3");
+			builder.put(grammarAccess.getEdgeAccess().getTargetAssignment_3_0_2_1(), "rule__Edge__TargetAssignment_3_0_2_1");
 			builder.put(grammarAccess.getEdgeAccess().getTargetNodeAssignment_3_1_1(), "rule__Edge__TargetNodeAssignment_3_1_1");
 			builder.put(grammarAccess.getEdgeAccess().getTargetFeatureAssignment_3_1_2_1(), "rule__Edge__TargetFeatureAssignment_3_1_2_1");
 			builder.put(grammarAccess.getEdgeAccess().getTargetFeatureAssignment_3_1_2_2_1(), "rule__Edge__TargetFeatureAssignment_3_1_2_2_1");

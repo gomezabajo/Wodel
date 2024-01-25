@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import java.util.Arrays;
 import modeldraw.Content;
 import modeldraw.MutatorDraw;
+import modeldraw.MutatorInstance;
 import modeldraw.Node;
 import modeldraw.Relation;
 import modeldraw.ValuedFeature;
@@ -25,17 +26,26 @@ public class ModelDrawFormatter extends AbstractFormatter2 {
   private ModelDrawGrammarAccess _modelDrawGrammarAccess;
 
   protected void _format(final MutatorDraw mutatorDraw, @Extension final IFormattableDocument document) {
-    EList<Node> _nodes = mutatorDraw.getNodes();
-    for (final Node node : _nodes) {
-      document.<Node>format(node);
+    EList<MutatorInstance> _instances = mutatorDraw.getInstances();
+    for (final MutatorInstance instance : _instances) {
+      EList<Node> _nodes = instance.getNodes();
+      for (final Node node : _nodes) {
+        document.<Node>format(node);
+      }
     }
-    EList<Relation> _relations = mutatorDraw.getRelations();
-    for (final Relation relation : _relations) {
-      document.<Relation>format(relation);
+    EList<MutatorInstance> _instances_1 = mutatorDraw.getInstances();
+    for (final MutatorInstance instance_1 : _instances_1) {
+      EList<Relation> _relations = instance_1.getRelations();
+      for (final Relation relation : _relations) {
+        document.<Relation>format(relation);
+      }
     }
-    EList<Content> _contents = mutatorDraw.getContents();
-    for (final Content content : _contents) {
-      document.<Content>format(content);
+    EList<MutatorInstance> _instances_2 = mutatorDraw.getInstances();
+    for (final MutatorInstance instance_2 : _instances_2) {
+      EList<Content> _contents = instance_2.getContents();
+      for (final Content content : _contents) {
+        document.<Content>format(content);
+      }
     }
   }
 

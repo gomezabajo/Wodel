@@ -76,6 +76,10 @@ public class ModeldrawAdapterFactory extends AdapterFactoryImpl {
 				return createMutatorDrawAdapter();
 			}
 			@Override
+			public Adapter caseMutatorInstance(MutatorInstance object) {
+				return createMutatorInstanceAdapter();
+			}
+			@Override
 			public Adapter caseNamedItem(NamedItem object) {
 				return createNamedItemAdapter();
 			}
@@ -160,6 +164,20 @@ public class ModeldrawAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMutatorDrawAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link modeldraw.MutatorInstance <em>Mutator Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see modeldraw.MutatorInstance
+	 * @generated
+	 */
+	public Adapter createMutatorInstanceAdapter() {
 		return null;
 	}
 

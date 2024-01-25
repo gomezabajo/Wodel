@@ -8,6 +8,8 @@ public class CalculatorView extends JFrame {
     // Declaring fields
     private JTextField display;
     private static final Font BOLD_FONT = new Font(Font.MONOSPACED, Font.BOLD, 20);
+    
+    private static final long serialVersionUID = 1; //$NON-NLS-1$
 
     // Variables for calculator's state
     private boolean startNumber = true;                         // expecting number, not operation

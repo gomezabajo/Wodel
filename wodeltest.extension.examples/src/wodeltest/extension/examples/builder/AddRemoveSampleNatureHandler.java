@@ -79,13 +79,14 @@ public class AddRemoveSampleNatureHandler extends AbstractHandler {
 		IProjectDescription description = project.getDescription();
 		String[] natures = description.getNatureIds();
 
-		boolean natureID = toggleNature(WodelTestNature.NATURE_ID, natures, description, project);
-		if (!natureID) {
-			addNature(WodelTestNature.NATURE_ID, natures, description, project);
-		}
-		natureID = toggleNature(WodelTestNature.WODEL_NATURE_ID, natures, description, project);
+		boolean natureID = toggleNature(WodelTestNature.WODEL_NATURE_ID, natures, description, project);
 		if (!natureID) {
 			addNature(WodelTestNature.WODEL_NATURE_ID, natures, description, project);
+		}
+ 
+		natureID = toggleNature(WodelTestNature.NATURE_ID, natures, description, project);
+		if (!natureID) {
+			addNature(WodelTestNature.NATURE_ID, natures, description, project);
 		}
 	}
 }

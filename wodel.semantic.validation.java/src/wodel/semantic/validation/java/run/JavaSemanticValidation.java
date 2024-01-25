@@ -24,11 +24,15 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.IProblemRequestor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.WorkingCopyOwner;
-import org.eclipse.jdt.core.compiler.IProblem;
+import org.eclipse.jdt.core.compiler.CategorizedProblem;
+import org.eclipse.jdt.internal.compiler.ast.CompilationUnitDeclaration;
+import org.eclipse.jdt.internal.core.CompilationUnit;
+import org.eclipse.jdt.internal.core.CompilationUnitProblemFinder;
+import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.modisco.java.emf.JavaPackage;
 import org.eclipse.modisco.java.generation.files.GenerateJavaExtended;
 import wodel.semantic.validation.run.SemanticValidation;
@@ -37,6 +41,8 @@ import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.AcceleoUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
+
+import java.util.HashMap;
 
 public class JavaSemanticValidation extends SemanticValidation {
 
@@ -111,54 +117,49 @@ public class JavaSemanticValidation extends SemanticValidation {
 		return units;
 	}
 	
-	private static class ProblemRequestor implements IProblemRequestor {
-
-		public boolean hasErrors = false;
-		@Override
-		public void acceptProblem(IProblem problem) {
-			if (problem.isError()) {
-				hasErrors = true;
-			}
-		}
-
-		@Override
-		public void beginReporting() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void endReporting() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public boolean isActive() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-		
-		public ProblemRequestor() {
-			hasErrors = false;
-		}
-		
-	}
-	
-	@SuppressWarnings("deprecation")
 	public static boolean hasErrors(List<ICompilationUnit> compilationUnits) {
-		try {
-			// use working copy to hold source with error
-			for (ICompilationUnit compilationUnit : compilationUnits) {
-				ProblemRequestor problemRequestor = new ProblemRequestor();
-				compilationUnit.getWorkingCopy(new WorkingCopyOwner() {}, problemRequestor, null);
-				if (problemRequestor.hasErrors == true) {
+		// use working copy to hold source with error
+		for (ICompilationUnit compilationUnit : compilationUnits) {
+	        CompilationUnitDeclaration unit = null;
+	        ICompilationUnit workingCopy = null;
+			try {
+				workingCopy = compilationUnit.getWorkingCopy(null);
+				boolean wasConsistent = workingCopy.isConsistent();
+				if (wasConsistent == false) {
 					return true;
 				}
-			}
-		} catch (JavaModelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				WorkingCopyOwner workingCopyOwner = new WorkingCopyOwner() {};
+		        HashMap<String, CategorizedProblem[]> problems = new HashMap<String, CategorizedProblem[]>();
+	            JavaModelManager.getJavaModelManager().abortOnMissingSource.set(Boolean.TRUE);
+	            // find problems if needed
+	            if (JavaProject.hasJavaNature(workingCopy.getJavaProject().getProject())
+	                    && ICompilationUnit.FORCE_PROBLEM_DETECTION != 0) {
+	                unit = CompilationUnitProblemFinder.process((CompilationUnit) compilationUnit, workingCopyOwner, problems,
+	                        true/*creating AST if level is not NO_AST */,                                                                                                                                                                          
+	                        0x10, new NullProgressMonitor());
+	                
+	            }
+                if (problems.entrySet().size() > 0) {
+                	for (String problem : problems.keySet()) {
+                		String errors = "Errors found in Java program\n";
+                		for (CategorizedProblem categorizedProblem : problems.get(problem)) {
+                			errors += categorizedProblem.getMessage() + "\n";
+                		}
+                		System.out.println(errors);
+                	}
+                	return true;
+                }
+	        } catch (JavaModelException e) {
+	            if (JavaProject.hasJavaNature(workingCopy.getJavaProject().getProject()))
+	                e.printStackTrace();
+	            // else JavaProject has lost its nature (or most likely was closed/deleted) while reconciling -> ignore
+	            // (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=100919)
+	        } finally {
+	            JavaModelManager.getJavaModelManager().abortOnMissingSource.set(null);
+	            if (unit != null) {
+	                unit.cleanUp();
+	            }
+	        }
 		}
 		return false;
 	}

@@ -4253,13 +4253,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REFERENCE_EVALUATION__CONTAINER = EVALUATION_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Self</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_EVALUATION__SELF = EVALUATION_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Reference Evaluation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 9;
+	int REFERENCE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of operations of the '<em>Reference Evaluation</em>' class.
@@ -7495,6 +7504,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EAttribute getReferenceEvaluation_Container();
 
 	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.ReferenceEvaluation#isSelf <em>Self</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Self</em>'.
+	 * @see mutatorenvironment.ReferenceEvaluation#isSelf()
+	 * @see #getReferenceEvaluation()
+	 * @generated
+	 */
+	EAttribute getReferenceEvaluation_Self();
+
+	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.Expression <em>Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9691,6 +9711,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REFERENCE_EVALUATION__CONTAINER = eINSTANCE.getReferenceEvaluation_Container();
+
+		/**
+		 * The meta object literal for the '<em><b>Self</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_EVALUATION__SELF = eINSTANCE.getReferenceEvaluation_Self();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.ExpressionImpl <em>Expression</em>}' class.

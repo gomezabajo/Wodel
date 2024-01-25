@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -39,10 +40,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -61,15 +66,19 @@ import wodeltest.extension.utils.WodelTestMutatorGroup;
 import wodeltest.extension.utils.WodelTestMutatorResult;
 import wodel.utils.manager.WodelTestUtils;
 
-public class WodelTestMutatorResultsViewPart extends ViewPart {
+public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartListener {
 
-	public static final String ID= "wodeltest.run.views.WodelTestMutatorResultsViewPart"; //$NON-NLS-1$
+	public static final String ID = "wodeltest.run.views.WodelTestMutatorResultsViewPart"; //$NON-NLS-1$
 
-	private static Map<String, List<WodelTestMutatorGroup>> mutatorData = null;
+	private static Map<String, Map<String, List<WodelTestMutatorGroup>>> mutatorData = null;
 
 	private static IProject sourceProject = null;
 
-	private TreeViewer m_treeViewer;
+	private static List<String> testSuiteNames = null;
+
+	private static String currentTestSuiteName = null;
+
+	private Map<String, TreeViewer> m_treeViewer = new TreeMap<String, TreeViewer>();
 	
 	private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
 
@@ -77,9 +86,17 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 	private static final Color BLUE = new Color(Display.getCurrent(), 102, 102, 255);
 
+	private static Map<String, Composite> contents = new TreeMap<String, Composite>();
+
+	private TabFolder m_tabFolder = null;
+
+	private static TabItem currentTab = null;
+	
+	private static boolean partDeactivated = false;
+
 	private static int filterIndex = -1;
 	
-	private static int totalNumberOfMutants = 0;
+	private static Map<String, Integer> totalNumberOfMutants = null;
 
 	private static void openFileInEditor(String path) {
 		File fileToOpen = new File(path);
@@ -102,12 +119,30 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return true;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (filterIndex == -1 || filterIndex == 0) {
 				return true;
 			}
 			if (filterIndex == 1) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
+					if (mutatorData.containsKey(testSuiteName)) {
+						return mutatorData.get(testSuiteName).size() > 0;
+					}
 					return true;
 				}
 				if (element instanceof WodelTestMutatorGroup) {
@@ -127,6 +162,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			if (filterIndex == 2) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
+					if (mutatorData.containsKey(testSuiteName)) {
+						return mutatorData.get(testSuiteName).size() > 0;
+					}
 					return true;
 				}
 				if (element instanceof WodelTestMutatorGroup) {
@@ -145,6 +183,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			if (filterIndex == 3) {
 				// TODO Auto-generated method stub
 				if (element instanceof String) {
+					if (mutatorData.containsKey(testSuiteName)) {
+						return mutatorData.get(testSuiteName).size() > 0;
+					}
 					return true;
 				}
 				if (element instanceof WodelTestMutatorGroup) {
@@ -174,80 +215,91 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 	    
 	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
 	    String classespath = path + "/data/classes.txt";
-	    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
+		//String testSuiteName = Platform.getPreferencesService().getString("WodelTest", "Current test-suite", WodelTestUtils.getTestSuiteName(project), null);
+	    testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 	    IWodelTest test = MutatorHelper.getTest(project);
-
-	    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
-	    Map<String, List<WodelTestClass>> classes =  new HashMap<String, List<WodelTestClass>>();
-	    for (String pckName : packageClasses.keySet()) {
-	    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(test, packageClasses, pckName, project.getName(), classespath, infopath);
-	    	classes.put(pckName, pckclasses);
-	    }
 		MutatorHelper mutatorHelper = new MutatorHelper(test);
 		Map<String, Class<?>> mutators = mutatorHelper.getMutators();
-
 		Bundle bundle = Platform.getBundle("wodel.models");
 		URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
-		
-		mutatorData = new HashMap<String, List<WodelTestMutatorGroup>>();
-		List<WodelTestMutatorGroup> mutatorList = new ArrayList<WodelTestMutatorGroup>();
-		boolean withErrors = false;
-
-		List<String> pathsToProcess = new ArrayList<String>();
-		for (String key : classes.keySet()) {
-			List<WodelTestClass> wtcl = classes.get(key);
-			for (WodelTestClass wtc : wtcl) {
-				for (WodelTestClassInfo info : wtc.info) {
-					if (!pathsToProcess.contains(info.path)) {
-						pathsToProcess.add(info.path);
-					}
-				}
-			}
-		}
+		Map<String, Boolean> withErrors = new TreeMap<String, Boolean>();
+		totalNumberOfMutants = new TreeMap<String, Integer>();
+		mutatorData = new TreeMap<String, Map<String, List<WodelTestMutatorGroup>>>();
 		try {
 			String ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
-			List<WodelTestMutatorGroup> lwtmg = new ArrayList<WodelTestMutatorGroup>();
-			for (String projectName : mutators.keySet()) {
-				List<WodelTestMutatorResult> lwtmr = new ArrayList<WodelTestMutatorResult>();
-				Class<?> mutator = mutators.get(projectName);
-				Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName().replace("Dynamic", "") + ".model");
-				List<EObject> blocks = MutatorUtils.getBlocks(model);
-				EObject program = ModelManager.getObjectsOfType("Program", model).get(0);
-				String description = ModelManager.getStringAttribute("description", program);
-				WodelTestMutatorGroup wtmg = new WodelTestMutatorGroup(projectName, description, lwtmr);
-				lwtmg.add(wtmg);
-				for (EObject block : blocks) {
-					String name = ModelManager.getStringAttribute("name", block);
-					description = ModelManager.getStringAttribute("description", block);
-					WodelTestMutatorResult wtmr = new WodelTestMutatorResult(name, description, 0, 0, new ArrayList<String>());
-					lwtmr.add(wtmr);
+		    for (String testSuiteName : testSuiteNames) {
+		    	String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteName + "/classes.results.txt";
+			    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
+			    Map<String, List<WodelTestClass>> classes =  new HashMap<String, List<WodelTestClass>>();
+			    for (String pckName : packageClasses.keySet()) {
+			    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(packageClasses, pckName, project.getName(), classespath, infopath);
+			    	classes.put(pckName, pckclasses);
+			    }
+				List<WodelTestMutatorGroup> mutatorList = new ArrayList<WodelTestMutatorGroup>();
+				List<String> pathsToProcess = new ArrayList<String>();
+				for (String key : classes.keySet()) {
+					List<WodelTestClass> wtcl = classes.get(key);
+					for (WodelTestClass wtc : wtcl) {
+						for (WodelTestClassInfo info : wtc.info) {
+							if (!pathsToProcess.contains(info.path)) {
+								pathsToProcess.add(info.path);
+							}
+						}
+					}
 				}
-			}
-			for (String key : classes.keySet()) {
-				List<WodelTestClass> wtcl = classes.get(key);
-				for (WodelTestClass wtc : wtcl) {
-					for (WodelTestClassInfo info : wtc.info) { 
-						for (WodelTestMutatorGroup wtmg : lwtmg) {
-							List<WodelTestMutatorResult> lwtmr = wtmg.getResults();
-							for (WodelTestMutatorResult wtmr : lwtmr) {
-								if (info.path.contains("/" + wtmr.getMutatorName() + "/") || info.path.contains("\\" + wtmr.getMutatorName() + "\\")) {
-									wtmr.setNumberOfMutants(wtmr.getNumberOfMutants() + 1);
-									wtmr.getPaths().add(info.path);
-									wtmr.setFailures(wtmr.getFailures() + info.numFailures);
+				withErrors.put(testSuiteName, false);
+				List<WodelTestMutatorGroup> lwtmg = new ArrayList<WodelTestMutatorGroup>();
+				for (String projectName : mutators.keySet()) {
+					List<WodelTestMutatorResult> lwtmr = new ArrayList<WodelTestMutatorResult>();
+					Class<?> mutator = mutators.get(projectName);
+					Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath(mutator) + "/" + mutator.getSimpleName().replace("Dynamic", "") + ".model");
+					List<EObject> blocks = MutatorUtils.getBlocks(model);
+					EObject program = ModelManager.getObjectsOfType("Program", model).get(0);
+					String description = ModelManager.getStringAttribute("description", program);
+					WodelTestMutatorGroup wtmg = new WodelTestMutatorGroup(projectName, description, lwtmr);
+					lwtmg.add(wtmg);
+					for (EObject block : blocks) {
+						String name = ModelManager.getStringAttribute("name", block);
+						description = ModelManager.getStringAttribute("description", block);
+						WodelTestMutatorResult wtmr = new WodelTestMutatorResult(name, description, 0, 0, new ArrayList<String>());
+						lwtmr.add(wtmr);
+					}
+				}
+				for (String key : classes.keySet()) {
+					List<WodelTestClass> wtcl = classes.get(key);
+					for (WodelTestClass wtc : wtcl) {
+						for (WodelTestClassInfo info : wtc.info) { 
+							for (WodelTestMutatorGroup wtmg : lwtmg) {
+								List<WodelTestMutatorResult> lwtmr = wtmg.getResults();
+								for (WodelTestMutatorResult wtmr : lwtmr) {
+									if (info.path.contains("/" + wtmr.getMutatorName() + "/") || info.path.contains("\\" + wtmr.getMutatorName() + "\\")) {
+										wtmr.setNumberOfMutants(wtmr.getNumberOfMutants() + 1);
+										wtmr.getPaths().add(info.path);
+										wtmr.setFailures(wtmr.getFailures() + info.numFailures);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			
-			for (WodelTestMutatorGroup wtmg : lwtmg) {
-				mutatorList.add(wtmg);
-				totalNumberOfMutants += wtmg.getNumberOfMutants();
-			}
-			
-			mutatorData.put(test.getProjectName(), mutatorList);
+				int numTotalOfMutants = 0;
+				for (WodelTestMutatorGroup wtmg : lwtmg) {
+					mutatorList.add(wtmg);
+					numTotalOfMutants += wtmg.getNumberOfMutants();
+				}
+				totalNumberOfMutants.put(testSuiteName, numTotalOfMutants);
+				Map<String, List<WodelTestMutatorGroup>> mutData = new TreeMap<String, List<WodelTestMutatorGroup>>();
+				mutData.put(test.getProjectName(), mutatorList);
+				mutatorData.put(testSuiteName, mutData);
+
+				String nonProcessedPaths = "";
+				for (String pth : pathsToProcess) {
+					nonProcessedPaths += pth + "\n";
+				}
+				WodelTestUtils.storeFile(path + "/data/" + testSuiteName + "/non.processed.paths.txt", nonProcessedPaths);
+		    }
+		
 //			for (String projectName : mutators.keySet()) {
 //				List<WodelTestMutatorResult> lwtmr = new ArrayList<WodelTestMutatorResult>();
 //				Class<?> mutator = mutators.get(projectName);
@@ -293,105 +345,131 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String nonProcessedPaths = "";
-		for (String pth : pathsToProcess) {
-			nonProcessedPaths += pth + "\n";
-		}
-		WodelTestUtils.storeFile(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/non.processed.paths.txt", nonProcessedPaths);
 
-		Composite contents = new Group(parent, SWT.FILL);
-	    GridLayout layout = new GridLayout();
-		contents.setLayout(layout);
-		layout.numColumns = 2;
-		layout.verticalSpacing = 9;
-	    GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
-	    gd.horizontalAlignment = SWT.FILL;
-	    contents.setLayoutData(gd);
-	    
-	    Group filter = new Group(contents, SWT.FILL);
-	    layout = new GridLayout();
-		filter.setLayout(layout);
-		layout.numColumns = 1;
-		layout.verticalSpacing = 9;
-	    filter.setText("Filter");
-	    gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalAlignment = SWT.FILL;
-		gd.verticalAlignment = SWT.ON_TOP;
-		gd.widthHint = 100;
-	    filter.setLayoutData(gd);
-        final Combo filterCombo = new Combo(filter, SWT.NONE);
-        filterCombo.add("All");
-        filterCombo.add("Applied");
-        filterCombo.add("Not applied");
-        if (withErrors == true) {
-        	filterCombo.add("Error");
-        }
-        filterCombo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				filterIndex = filterCombo.getSelectionIndex();
-				m_treeViewer.collapseAll();
-				m_treeViewer.refresh();
-			}
-		});		
-		Group data = new Group(contents, SWT.FILL);
-		FillLayout fill = new FillLayout(SWT.VERTICAL);
-		data.setLayout(fill);
-		layout.numColumns = 1;
-		layout.verticalSpacing = 9;
-	    data.setText("Results");
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
-		gd.horizontalAlignment = SWT.FILL;
-	    data.setLayoutData(gd);
-	    
-		final Tree addressTree = new Tree(data, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		addressTree.setHeaderVisible(true);
-		addressTree.setLinesVisible(true);
-		sourceProject = project;
-		addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				Point point = new Point(event.x, event.y);
-				TreeItem item = addressTree.getItem(point);
-		        if (item != null) {
-                    Rectangle rect = item.getBounds(2);
-	                if (rect.contains(point)) {
-	                	if (item.getParentItem() != null) {
-	                		String path = item.getText(2);
-	                		if (path.indexOf("/" + sourceProject.getName()) > 0) {
-	                			path = path.substring(path.indexOf("/" + sourceProject.getName()), path.length());
-	                		}
-                    		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
-	                    }
-		        	}
-		        }
+	    m_tabFolder = new TabFolder(parent, SWT.FILL);
+		m_tabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				TabFolder tabFolder = (TabFolder) event.getSource();
+				currentTab = tabFolder.getItem(tabFolder.getSelectionIndex());
+				currentTestSuiteName = currentTab.getText();
+				String testSuiteName = currentTestSuiteName;
+				if (currentTab != null && contents != null && contents.get(testSuiteName) != null) {
+					m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestMutatorResultsContentProvider());
+					m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+					m_treeViewer.get(testSuiteName).setInput(mutatorData.get(testSuiteName));
+					m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+					m_treeViewer.get(testSuiteName).collapseAll();
+					contents.get(testSuiteName).layout();
+					contents.get(testSuiteName).redraw();
+				}
 			}
 		});
+		
+		for (String testSuiteName : testSuiteNames) {
+			Composite currentContents = new Group(m_tabFolder, SWT.FILL);
+    		contents.put(testSuiteName, currentContents);
 
-		m_treeViewer = new TreeViewer(addressTree);
-		TreeColumn column0 = new TreeColumn(addressTree, SWT.LEFT);
-		column0.setAlignment(SWT.LEFT);
-		column0.setWidth(100);
+    		final TabItem tabItem = new TabItem(m_tabFolder, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+    		tabItem.setText(testSuiteName);
+    		tabItem.setControl(currentContents);
+    		
+    		GridLayout layout = new GridLayout();
+		    currentContents.setLayout(layout);
+			layout.numColumns = 2;
+			layout.verticalSpacing = 9;
 
-		TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
-		column1.setAlignment(SWT.LEFT);
-		column1.setText("Mutation operator/description");
-		column1.setWidth(400);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
+		    gd.horizontalAlignment = SWT.FILL;
+		    currentContents.setLayoutData(gd);
 
-		TreeColumn column2 = new TreeColumn(addressTree, SWT.LEFT);
-		column2.setAlignment(SWT.LEFT);
-		column2.setText("Generated mutants/paths");
-		column2.setWidth(200);
+		    Group filter = new Group(currentContents, SWT.FILL);
+		    layout = new GridLayout();
+			filter.setLayout(layout);
+			layout.numColumns = 1;
+			layout.verticalSpacing = 9;
+		    filter.setText("Filter");
+		    gd = new GridData(GridData.FILL_HORIZONTAL);
+			gd.horizontalAlignment = SWT.FILL;
+			gd.verticalAlignment = SWT.ON_TOP;
+			gd.widthHint = 100;
+		    filter.setLayoutData(gd);
 
-		m_treeViewer.setContentProvider(new WodelTestMutantResultsContentProvider());
-		m_treeViewer.setLabelProvider(new TableLabelProvider());
-		m_treeViewer.setInput(mutatorData);
-		m_treeViewer.addFilter(new DataFilter());
-		m_treeViewer.collapseAll();
+		    final Combo filterCombo = new Combo(filter, SWT.NONE);
+	        filterCombo.add("All");
+	        filterCombo.add("Applied");
+	        filterCombo.add("Not applied");
+	        if (withErrors.get(testSuiteName) == true) {
+	        	filterCombo.add("Error");
+	        }
+	        filterCombo.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					filterIndex = filterCombo.getSelectionIndex();
+					m_treeViewer.get(testSuiteName).collapseAll();
+					m_treeViewer.get(testSuiteName).refresh();
+				}
+			});		
+			Group data = new Group(currentContents, SWT.FILL);
+			FillLayout fill = new FillLayout(SWT.VERTICAL);
+			data.setLayout(fill);
+			layout.numColumns = 1;
+			layout.verticalSpacing = 9;
+		    data.setText("Results");
+			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
+			gd.horizontalAlignment = SWT.FILL;
+		    data.setLayoutData(gd);
 
+			final Tree addressTree = new Tree(data, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+			addressTree.setHeaderVisible(true);
+			addressTree.setLinesVisible(true);
+			sourceProject = project;
+			addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					Point point = new Point(event.x, event.y);
+					TreeItem item = addressTree.getItem(point);
+			        if (item != null) {
+	                    Rectangle rect = item.getBounds(2);
+		                if (rect.contains(point)) {
+		                	if (item.getParentItem() != null) {
+		                		String path = item.getText(2);
+		                		if (path.indexOf("/" + sourceProject.getName()) > 0) {
+		                			path = path.substring(path.indexOf("/" + sourceProject.getName()), path.length());
+		                		}
+	                    		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
+		                    }
+			        	}
+			        }
+				}
+			});
+
+			TreeViewer treeViewer = new TreeViewer(addressTree);
+    		m_treeViewer.put(testSuiteName, treeViewer);
+
+    		TreeColumn column0 = new TreeColumn(addressTree, SWT.LEFT);
+			column0.setAlignment(SWT.LEFT);
+			column0.setWidth(100);
+
+			TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
+			column1.setAlignment(SWT.LEFT);
+			column1.setText("Mutation operator/description");
+			column1.setWidth(400);
+
+			TreeColumn column2 = new TreeColumn(addressTree, SWT.LEFT);
+			column2.setAlignment(SWT.LEFT);
+			column2.setText("Generated mutants/paths");
+			column2.setWidth(200);
+
+			m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestMutatorResultsContentProvider());
+			m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+			m_treeViewer.get(testSuiteName).setInput(mutatorData.get(testSuiteName));
+			m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+			m_treeViewer.get(testSuiteName).collapseAll();
+		}
+		getSite().getPage().addPartListener(this);
 	}
 
-	private class WodelTestMutantResultsContentProvider implements ITreeContentProvider {
+	private class WodelTestMutatorResultsContentProvider implements ITreeContentProvider {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			return getChildren(inputElement);
@@ -399,13 +477,30 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return new Object[0];
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (parentElement instanceof Map<?, ?>) {
 				return ((Map<?, ?>) parentElement).keySet().toArray();
 			}
 			if (parentElement instanceof String) {
-				List<WodelTestMutatorGroup> ret = mutatorData.get((String) parentElement);
-				if (ret != null) { 
-					return ret.toArray();
+				String element = (String) parentElement;
+				if (mutatorData.containsKey(testSuiteName)) {
+					if (mutatorData.get(testSuiteName).containsKey(element)) {
+						return mutatorData.get(testSuiteName).get(element).toArray();
+					}
 				}
 			}
 			if (parentElement instanceof List<?>) {
@@ -436,8 +531,28 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public boolean hasChildren(Object element) {
-			if (element instanceof String && mutatorData.get((String) element) != null) {
-				return mutatorData.get((String) element).size() > 0;
+			if (WodelTestUtils.isReadyProject() != true) {
+				return false;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
+			if (element instanceof String) {
+				String item = (String) element;
+				if (mutatorData.containsKey(testSuiteName)) {
+					if (mutatorData.get(testSuiteName).containsKey(item)) {
+						return mutatorData.get(testSuiteName).get(item).size() > 0;
+					}
+				}
 			}
 			if (element instanceof List<?>) {
 				return ((List<?>) element).size() > 0;
@@ -487,8 +602,23 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 		}
 		
 		private Color getBackground(Object element) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return null;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			if (element instanceof String) {
-				List<WodelTestMutatorGroup> mutatorList = mutatorData.get((String) element);
+				List<WodelTestMutatorGroup> mutatorList = mutatorData.get(testSuiteName).get((String) element);
 				if (mutatorList != null) {
 					boolean failures = false;
 					for (WodelTestMutatorGroup data : mutatorList) {
@@ -556,6 +686,21 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
+			if (WodelTestUtils.isReadyProject() != true) {
+				return null;
+			}
+			IProject project = WodelTestUtils.getProject();
+			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+			String testSuiteName = null;
+			if (testSuiteNames.size() > 0) {
+				testSuiteName = testSuiteNames.get(0);
+			}
+			if (currentTab != null && currentTab.isDisposed() == false) {
+				testSuiteName = currentTab.getText();
+			}
+			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
+				testSuiteName = currentTestSuiteName;
+			}
 			String text = null;
 			if (element instanceof String) {
 				switch (columnIndex) {
@@ -565,7 +710,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 					text = (String) element;
 					break;
 				case 2:
-					text = String.format("%d", totalNumberOfMutants);
+					text = String.format("%d", (new File((String) element)).exists() ? 1 : totalNumberOfMutants.get(testSuiteName));
 					break;
 				}
 			}
@@ -607,5 +752,62 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void partActivated(IWorkbenchPart part) {
+		if (WodelTestUtils.isReadyProject() != true) {
+			return;
+		}
+		IProject project = WodelTestUtils.getProject();
+		testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
+		// TODO Auto-generated method stub
+		if (partDeactivated == false) {
+			if (contents != null && m_treeViewer != null) {
+				for (String testSuiteName : testSuiteNames) {
+					if (m_treeViewer.get(testSuiteName) != null) {
+						m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestMutatorResultsContentProvider());
+						m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
+						m_treeViewer.get(testSuiteName).setInput(mutatorData.get(testSuiteName));
+						m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+						m_treeViewer.get(testSuiteName).collapseAll();
+					}
+					if (contents.get(testSuiteName) != null) {
+						contents.get(testSuiteName).layout();
+						contents.get(testSuiteName).redraw();
+					}
+				}
+			}
+	    }
+		partDeactivated = false;
+	}
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		partDeactivated = true;
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPart part) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		getSite().getPage().removePartListener(this);
 	}
 }

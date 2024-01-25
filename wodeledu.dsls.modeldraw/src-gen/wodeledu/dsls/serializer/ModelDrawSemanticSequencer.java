@@ -12,6 +12,7 @@ import modeldraw.Information;
 import modeldraw.Level;
 import modeldraw.ModeldrawPackage;
 import modeldraw.MutatorDraw;
+import modeldraw.MutatorInstance;
 import modeldraw.Node;
 import modeldraw.NodeEnumerator;
 import modeldraw.ValuedFeature;
@@ -58,6 +59,9 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 			case ModeldrawPackage.MUTATOR_DRAW:
 				sequence_MutatorDraw(context, (MutatorDraw) semanticObject); 
 				return; 
+			case ModeldrawPackage.MUTATOR_INSTANCE:
+				sequence_MutatorInstance(context, (MutatorInstance) semanticObject); 
+				return; 
 			case ModeldrawPackage.NODE:
 				sequence_Node(context, (Node) semanticObject); 
 				return; 
@@ -102,7 +106,7 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *     (
 	 *         name=[EClass|ID] 
 	 *         (feature+=ValuedFeature feature+=ValuedFeature*)? 
-	 *         ((source=[EReference|ID] target=[EReference|ID]) | (targetNode=[EClass|ID] (targetFeature+=ValuedFeature targetFeature+=ValuedFeature*)?)) 
+	 *         ((source=[EReference|ID] target=[EReference|ID]?) | (targetNode=[EClass|ID] (targetFeature+=ValuedFeature targetFeature+=ValuedFeature*)?)) 
 	 *         attName=[EAttribute|ID]? 
 	 *         (
 	 *             ((reference+=[EReference|ID] refType+=[EReference|ID]?)? label+=[EAttribute|ID]) | 
@@ -208,17 +212,24 @@ public class ModelDrawSemanticSequencer extends AbstractDelegatingSemanticSequen
 	 *     MutatorDraw returns MutatorDraw
 	 *
 	 * Constraint:
-	 *     (
-	 *         metamodel=EString 
-	 *         name=[EClass|ID] 
-	 *         type=DrawType 
-	 *         nodes+=Node* 
-	 *         relations+=Relation* 
-	 *         contents+=Content*
-	 *     )
+	 *     (metamodel=EString instances+=MutatorInstance+)
 	 * </pre>
 	 */
 	protected void sequence_MutatorDraw(ISerializationContext context, MutatorDraw semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     MutatorInstance returns MutatorInstance
+	 *
+	 * Constraint:
+	 *     (name=[EClass|ID] type=DrawType nodes+=Node* relations+=Relation* contents+=Content*)
+	 * </pre>
+	 */
+	protected void sequence_MutatorInstance(ISerializationContext context, MutatorInstance semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

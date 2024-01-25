@@ -13,6 +13,7 @@ import mutatorenvironment.Program
 import wodel.dsls.WodelUtils
 import java.util.List
 import wodel.utils.manager.JavaUtils
+import org.eclipse.emf.common.util.URI
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -30,14 +31,14 @@ class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
 		standalone = false
 		try {
 			bundle = Platform.getBundle("wodel.models")
-			metricsURL = FileLocator.resolve(bundle.getEntry("/model/MutatorMetrics.ecore")).getFile()
-			mutatorURL = FileLocator.resolve(bundle.getEntry("/model/MutatorEnvironment.ecore")).getFile()
+			metricsURL = URI.createURI("file:" + FileLocator.resolve(bundle.getEntry("/model/MutatorMetrics.ecore")).getFile()).toFileString().replace("\\", "/")
+			mutatorURL = URI.createURI("file:" + FileLocator.resolve(bundle.getEntry("/model/MutatorEnvironment.ecore")).getFile()).toFileString().replace("\\", "/")
 			ModelManager.saveMetricsEnvironmentBundle(resource, metricsURL)
 			ModelManager.saveMutatorEnvironmentBundle(resource, mutatorURL)
 		}
 		catch (Exception ex) {
-			metricsURL = ModelManager.getMetricsEnvironmentBundle(resource)
-			mutatorURL = ModelManager.getMutatorEnvironmentBundle(resource)
+			metricsURL = URI.createURI("file:" + ModelManager.getMetricsEnvironmentBundle(resource)).toFileString().replace("\\", "/")
+			mutatorURL = URI.createURI("file:" + ModelManager.getMutatorEnvironmentBundle(resource)).toFileString().replace("\\", "/")
 		}
 		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
 		var File projectFolder = new File(projectFolderName)

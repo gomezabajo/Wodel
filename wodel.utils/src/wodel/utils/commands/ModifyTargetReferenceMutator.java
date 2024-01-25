@@ -3,8 +3,10 @@ package wodel.utils.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import wodel.utils.manager.EMFCopier;
 import wodel.utils.manager.ModelManager;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -66,7 +68,37 @@ public class ModifyTargetReferenceMutator extends Mutator {
 	/**
 	 * Old target
 	 */
-	private EObject oldTarget;
+	private List<EObject> oldTarget;
+	
+	/**
+	 * Identification
+	 */
+	private String identification;
+	
+	/**
+	 * URI
+	 */
+	private URI uri;
+
+	/**
+	 * Identification
+	 */
+	private String identificationNewTarget;
+	
+	/**
+	 * URI
+	 */
+	private URI uriNewTarget;
+
+	/**
+	 * Identification
+	 */
+	private String identificationOldTarget;
+	
+	/**
+	 * URI
+	 */
+	private URI uriOldTarget;
 
 	/**
 	 * @param model
@@ -97,18 +129,24 @@ public class ModifyTargetReferenceMutator extends Mutator {
 		EObject container = this.source.getObject();
 		EObject newTarget = this.newTarget.getObject();
 
+		this.identification = EcoreUtil.getIdentification(container);
+		this.uri = EcoreUtil.getURI(container);
+
+		this.identificationNewTarget = EcoreUtil.getIdentification(newTarget);
+		this.uriNewTarget = EcoreUtil.getURI(newTarget);
+
 		// We get the specified references
 		List<EStructuralFeature> refs = ModelManager
 				.getAllReferencesByName(refType, this.getModel());
 
 		if (refs == null) {
-			result = null;
+			this.result = null;
 			return null;
 		}
 
 		// We select a random source
 		if (container == null) {
-			ArrayList<EObject> sources = new ArrayList<EObject>();
+			List<EObject> sources = new ArrayList<EObject>();
 			for (EObject o : ModelManager.getAllObjects(this.getModel())) {
 				if (ModelManager.getReferenceByName(refType, o) != null) {
 					sources.add(o);
@@ -120,47 +158,56 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			}
 		}
 		if (container == null) {
-			result = null;
+			this.result = null;
 			return null;
 		}
 		
 		// We select a random new Target
 		if (newTarget == null) {
-			ArrayList<EObject> newTargets = new ArrayList<EObject>();
+			List<EObject> newTargets = new ArrayList<EObject>();
 			EReference r = (EReference) ModelManager.getReferenceByName(
-					refType, container);
+					this.refType, container);
 			for (EObject o : ModelManager.getAllObjects(this.getModel())) {
 				if (r.getEType().getName().equals(o.eClass().getName())) {
 					newTargets.add(o);
 				}
 			}
 			// Random object
-			if (newTargets.size() > 0) {
-				newTarget = newTargets.get(ModelManager
-						.getRandomIndex(newTargets));
+			while (newTargets.size() > 0) {
+				int index = ModelManager.getRandomIndex(newTargets);
+				newTarget = newTargets.get(index);
 			}
 		}
 
 		if (container == null || newTarget == null) {
-			result = null;
+			this.result = null;
 			return null;
 		}
 
 		// We get a different object
 		EStructuralFeature ref = null;
+		this.oldTarget = new ArrayList<EObject>();
 		for (EStructuralFeature r : refs) {
-			oldTarget = (EObject) container.eGet(r);
-			if (!EcoreUtil.equals(oldTarget, newTarget)) {
+			this.oldTarget.add((EObject) container.eGet(r));
+			if (!EcoreUtil.equals(oldTarget.get(0), newTarget)) {
 				ref = r;
 				break;
 			}
 		}
-		if (EcoreUtil.equals(oldTarget, newTarget)) {
-			result = null;
+		if (this.oldTarget == null || this.oldTarget.size() == 0 || this.oldTarget.get(0) == null) {
+			this.result = null;
 			return null;
 		}
 
-		object = container;
+		if (EcoreUtil.equals(this.oldTarget.get(0), newTarget)) {
+			this.result = null;
+			return null;
+		}
+
+		this.identificationOldTarget = EcoreUtil.getIdentification(this.oldTarget.get(0));
+		this.uriOldTarget = EcoreUtil.getURI(this.oldTarget.get(0));
+		
+		this.object = container;
 
 		if(!ref.getEType().getName().equals(newTarget.eClass().getName())){
 			boolean found = false;
@@ -171,7 +218,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 				}
 			}
 			if (found == false) {			
-				result = null;
+				this.result = null;
 				throw new ObjectNoTargetableException("The reference '"+ref.getName()+"' cannot contain the object '"+newTarget.eClass().getName()+"'.");
 			}
 		}
@@ -185,7 +232,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			}
 			// Source has not that kind of reference
 			catch (Exception e) {
-				result = null;
+				this.result = null;
 				throw new ReferenceNonExistingException("No reference "
 						+ ref.getName() + " found in "
 						+ container.eClass().getName());
@@ -210,7 +257,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			}
 			// Source has not that kind of reference
 			catch (Exception e) {
-				result = null;
+				this.result = null;
 				throw new ReferenceNonExistingException("No reference "
 						+ ref.getName() + " found in "
 						+ container.eClass().getName());
@@ -225,8 +272,8 @@ public class ModifyTargetReferenceMutator extends Mutator {
 				continue;
 			}
 			if (r.getEType().getName().equals(newTarget.eClass().getName())) {
-				srcObject = (EObject) container.eGet(r, true);
-				srcRefType = r.getName();
+				this.srcObject = (EObject) container.eGet(r, true);
+				this.srcRefType = r.getName();
 			}
 		}
 
@@ -249,15 +296,15 @@ public class ModifyTargetReferenceMutator extends Mutator {
 	}
 	*/
 	public EObject getSource() {
-		return srcObject;
+		return this.srcObject;
 	}
 	
 	public String getSrcRefType() {
-		return srcRefType;
+		return this.srcRefType;
 	}
 
 	public EObject getObject() {
-		return object;
+		return this.object;
 		//if (source != null) {
 		//	try {
 		//		return source.getObject();
@@ -270,7 +317,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 	}
 	
 	public EObject getNewTarget() {
-		return result;
+		return this.result;
 		//if (newTarget != null) {
 		//	try {
 		//		return newTarget.getObject();
@@ -282,12 +329,40 @@ public class ModifyTargetReferenceMutator extends Mutator {
 		//return null;
 	}
 	
+	public EObject getObjectByID(Resource model) {
+		return ModelManager.getObjectByID(model, this.identification);
+	}
+
+	public EObject getObjectByURI(Resource model) {
+		return ModelManager.getObjectByURI(model, this.uri);
+	}
+
+	public EObject getNewTargetByID(Resource model) {
+		return ModelManager.getObjectByID(model, this.identificationNewTarget);
+	}
+
+	public EObject getNewTargetByURI(Resource model) {
+		return ModelManager.getObjectByURI(model, this.uriNewTarget);
+	}
+	
+	public EObject getOldTargetByID(Resource model) {
+		return ModelManager.getObjectByID(model, this.identificationOldTarget);
+	}
+
+	public EObject getOldTargetByURI(Resource model) {
+		return ModelManager.getObjectByURI(model, this.uriOldTarget);
+	}
+	
+	public URI getOldTargetURI() {
+		return this.uriOldTarget;
+	}
+
 	public EObject getOldTarget() {
-		return oldTarget;
+		return this.oldTarget != null ? (this.oldTarget.size() > 0 ? this.oldTarget.get(0) : null) : null;
 	}
 
 	public String getRefType() {
-		return refType;
+		return this.refType;
 	}
 	// END GETTERS AND SETTERS
 }

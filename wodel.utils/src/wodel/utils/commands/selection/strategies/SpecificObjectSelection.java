@@ -212,14 +212,14 @@ public class SpecificObjectSelection extends SpecificSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject o : objects) {
-						if (EcoreUtil.getURI(o).equals(EcoreUtil.getURI(obj))) {
+						if (EcoreUtil.equals(o, obj)) {
 							return o;
 						}
 					}
 				}
 				if (container.eGet(reference) instanceof EObject) {
 					EObject object = (EObject) container.eGet(reference);
-					if (EcoreUtil.getURI(object).equals(EcoreUtil.getURI(obj))) {
+					if (EcoreUtil.equals(object, obj)) {
 						return object;
 					}
 				}
@@ -261,7 +261,7 @@ public class SpecificObjectSelection extends SpecificSelection{
 					for (EObject obj : objs) {
 						List<EObject> lo = (List<EObject>) container.eGet(reference);
 						for (EObject o : lo) {
-							if (EcoreUtil.getURI(o).equals(EcoreUtil.getURI(obj))) {
+							if (EcoreUtil.equals(o, obj)) {
 								objects.add(o);
 							}
 						}
@@ -270,7 +270,7 @@ public class SpecificObjectSelection extends SpecificSelection{
 				if (container.eGet(reference) instanceof EObject) {
 					EObject object = (EObject) container.eGet(reference);
 					for (EObject obj : objs) {
-						if (EcoreUtil.getURI(object).equals(EcoreUtil.getURI(obj))) {
+						if (EcoreUtil.equals(object, obj)) {
 							objects.add(object);
 						}
 					}

@@ -1,6 +1,7 @@
 package wodel.utils.commands.strategies;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import wodel.utils.manager.ModelManager;
 
@@ -22,6 +23,7 @@ public class MaxValueConfigurationStrategy extends AttributeConfigurationStrateg
 	
 	private int intValue = 0;
 	private double doubleValue = 0;
+	private float floatValue = 0;
 	private EAttribute attribute = null;
 
 	public MaxValueConfigurationStrategy(List<EPackage> packages, Resource model, String className, String attName) {
@@ -56,6 +58,149 @@ public class MaxValueConfigurationStrategy extends AttributeConfigurationStrateg
 			}
 			doubleValue = max;
 		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			float max = Float.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				float value = ModelManager.getFloatAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			floatValue = max;
+		}
+	}
+
+	public MaxValueConfigurationStrategy(List<EPackage> packages, List<Resource> models, String className, String attName) {
+		super(attName);
+
+		EClass eClass = ModelManager.getEClassByName(packages, className);
+		for (EAttribute att : eClass.getEAllAttributes()) {
+			if (att.getName().equals(attribute2mutate)) {
+				attribute = att;
+				break;
+			}
+		}
+		
+		List<EObject> candidates = new ArrayList<EObject>();
+		for (Resource model : models) {
+			candidates.addAll(ModelManager.getObjectsOfType(className, model));
+		}
+		if (attribute.getEType().getName().equals("EInt")) {
+			int max = Integer.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				int value = ModelManager.getIntAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			intValue = max;
+		}
+		if (attribute.getEType().getName().equals("EDouble")) {
+			double max = Double.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				double value = ModelManager.getDoubleAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			doubleValue = max;
+		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			float max = Float.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				float value = ModelManager.getFloatAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			floatValue = max;
+		}
+	}
+
+	public MaxValueConfigurationStrategy(List<EPackage> packages, Resource model, String className, List<EObject> candidates, String attName) {
+		super(attName);
+
+		EClass eClass = ModelManager.getEClassByName(packages, className);
+		for (EAttribute att : eClass.getEAllAttributes()) {
+			if (att.getName().equals(attribute2mutate)) {
+				attribute = att;
+				break;
+			}
+		}
+		
+		if (attribute.getEType().getName().equals("EInt")) {
+			int max = Integer.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				int value = ModelManager.getIntAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			intValue = max;
+		}
+		if (attribute.getEType().getName().equals("EDouble")) {
+			double max = Double.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				double value = ModelManager.getDoubleAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			doubleValue = max;
+		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			float max = Float.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				float value = ModelManager.getFloatAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			floatValue = max;
+		}
+	}
+
+	public MaxValueConfigurationStrategy(List<EPackage> packages, List<Resource> models, String className, List<EObject> candidates, String attName) {
+		super(attName);
+
+		EClass eClass = ModelManager.getEClassByName(packages, className);
+		for (EAttribute att : eClass.getEAllAttributes()) {
+			if (att.getName().equals(attribute2mutate)) {
+				attribute = att;
+				break;
+			}
+		}
+		
+		if (attribute.getEType().getName().equals("EInt")) {
+			int max = Integer.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				int value = ModelManager.getIntAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			intValue = max;
+		}
+		if (attribute.getEType().getName().equals("EDouble")) {
+			double max = Double.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				double value = ModelManager.getDoubleAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			doubleValue = max;
+		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			float max = Float.MIN_VALUE;
+			for (EObject candidate : candidates) {
+				float value = ModelManager.getFloatAttribute(attName, candidate);
+				if (max < value) {
+					max = value;
+				}
+			}
+			floatValue = max;
+		}
 	}
 
 	@Override
@@ -77,6 +222,9 @@ public class MaxValueConfigurationStrategy extends AttributeConfigurationStrateg
 		if (attribute.getEType().getName().equals("EDouble")) {
 			return doubleValue;
 		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			return floatValue;
+		}
 		return null;
 	}
 
@@ -86,6 +234,9 @@ public class MaxValueConfigurationStrategy extends AttributeConfigurationStrateg
 		}
 		if (attribute.getEType().getName().equals("EDouble")) {
 			return doubleValue;
+		}
+		if (attribute.getEType().getName().equals("EFloat")) {
+			return floatValue;
 		}
 		return null;
 	}

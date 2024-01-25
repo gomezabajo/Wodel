@@ -663,7 +663,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<extension");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodeltest.extension.sampleNature\"");
+		pContent.append("\tid=\"wodel.project.sampleNature\"");
 		pContent.append("\n");
 		pContent.append("\tname=\"Sample Project Nature\"");
 		pContent.append("\n");
@@ -678,6 +678,12 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		pContent.append("\t</run>");
 		pContent.append("\n");
 		pContent.append("\t</runtime>");
+		pContent.append("\n");
+		pContent.append("\t<builder");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodel.project.sampleBuilder\">");
+		pContent.append("\n");
+		pContent.append("\t</builder>");
 		pContent.append("\n");
 		pContent.append("\t</extension>");
 		pContent.append("\n");

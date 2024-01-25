@@ -40,11 +40,14 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//Item/name"/>
     </genClasses>
     <genClasses ecoreClass="ModelDraw.ecore#//MutatorDraw">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelDraw.ecore#//MutatorDraw/type"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorDraw/nodes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorDraw/relations"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorDraw/contents"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelDraw.ecore#//MutatorDraw/metamodel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorDraw/instances"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelDraw.ecore#//MutatorInstance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelDraw.ecore#//MutatorInstance/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorInstance/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorInstance/relations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//MutatorInstance/contents"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ModelDraw.ecore#//NamedItem">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelDraw.ecore#//NamedItem/attName"/>

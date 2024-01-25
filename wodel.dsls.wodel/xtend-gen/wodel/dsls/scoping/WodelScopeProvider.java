@@ -90,21 +90,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       List<EClass> classes = null;
       if ((obj instanceof RetypeObjectMutator)) {
         final RetypeObjectMutator retypeObjectMutator = ((RetypeObjectMutator) obj);
-        classes = ModelManager.getSiblingEClasses(definition.getMetamodel(), MutatorUtils.getStrategyType(retypeObjectMutator.getObject()));
+        final EClass type = MutatorUtils.getStrategyType(retypeObjectMutator.getObject());
+        classes = ModelManager.getSiblingEClasses(definition.getMetamodel(), type);
       } else {
         if (((obj instanceof RandomTypeSelection) && (obj.eContainer() instanceof SelectObjectMutator))) {
           ArrayList<EClass> _arrayList = new ArrayList<EClass>();
           classes = _arrayList;
-          classes.addAll(this.getEClasses(definition.getMetamodel()));
-          if ((definition instanceof Program)) {
-            final Program program = ((Program) definition);
-            EList<Resource> _resources = program.getResources();
-            for (final Resource resource : _resources) {
-              classes.addAll(this.getEClasses(resource.getMetamodel()));
-            }
-          }
+          classes.addAll(this.getEClasses(definition));
         } else {
-          classes = this.getEClasses(definition.getMetamodel());
+          classes = this.getEClasses(definition);
         }
       }
       _xblockexpression = Scopes.scopeFor(classes);
@@ -130,16 +124,9 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if (((obj instanceof RandomTypeSelection) && (obj.eContainer() instanceof SelectObjectMutator))) {
           ArrayList<EClass> _arrayList = new ArrayList<EClass>();
           classes = _arrayList;
-          classes.addAll(this.getEClasses(definition.getMetamodel()));
-          if ((definition instanceof Program)) {
-            final Program program = ((Program) definition);
-            EList<Resource> _resources = program.getResources();
-            for (final Resource resource : _resources) {
-              classes.addAll(this.getEClasses(resource.getMetamodel()));
-            }
-          }
+          classes.addAll(this.getEClasses(definition));
         } else {
-          classes = this.getEClasses(definition.getMetamodel());
+          classes = this.getEClasses(definition);
         }
       }
       _xblockexpression = Scopes.scopeFor(classes);
@@ -172,12 +159,18 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          List<EClass> classes = new ArrayList<EClass>();
-          classes.add(eclass);
-          classes.addAll(this.getESubClasses(metamodel, eclass));
           List<String> classNames = new ArrayList<String>();
+          List<EClass> classes = new ArrayList<EClass>();
+          if ((eclass != null)) {
+            classes.add(eclass);
+          }
+          classes.addAll(this.getESubClasses(definition, eclass));
           for (final EClass cl : classes) {
-            classNames.add(cl.getName());
+            boolean _contains = classNames.contains(cl.getName());
+            boolean _not = (!_contains);
+            if (_not) {
+              classNames.add(cl.getName());
+            }
           }
           for (final Mutator mutator : commands) {
             if (((((mutator.getName() != null) && 
@@ -216,14 +209,22 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
-        final List<EClass> containers = this.getEContainers(metamodel, com.getType());
-        final List<String> scontainers = new ArrayList<String>();
-        for (final EClassifier cl : containers) {
-          scontainers.add(cl.getName());
-        }
-        final List<EReference> references = this.getEReferences(metamodel, com.getType().getName());
-        for (final EReference eref : references) {
-          scontainers.add(eref.getEType().getName());
+        final List<String> resourceMM = this.getResourceMetamodels(definition);
+        List<String> metamodels = new ArrayList<String>();
+        metamodels.add(metamodel);
+        metamodels.addAll(resourceMM);
+        List<String> scontainers = new ArrayList<String>();
+        for (final String mm : metamodels) {
+          {
+            final List<EClass> containers = this.getEContainers(mm, com.getType());
+            for (final EClassifier cl : containers) {
+              scontainers.add(cl.getName());
+            }
+            final List<EReference> references = this.getEReferences(definition, com.getType().getName());
+            for (final EReference eref : references) {
+              scontainers.add(eref.getEType().getName());
+            }
+          }
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
@@ -262,10 +263,18 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
-        final List<EClass> containers = this.getEContainers(metamodel, com.getType());
-        final List<String> scontainers = new ArrayList<String>();
-        for (final EClassifier cl : containers) {
-          scontainers.add(cl.getName());
+        final List<String> resourceMM = this.getResourceMetamodels(definition);
+        List<String> metamodels = new ArrayList<String>();
+        metamodels.add(metamodel);
+        metamodels.addAll(resourceMM);
+        List<String> scontainers = new ArrayList<String>();
+        for (final String mm : metamodels) {
+          {
+            final List<EClass> containers = this.getEContainers(mm, com.getType());
+            for (final EClassifier cl : containers) {
+              scontainers.add(cl.getName());
+            }
+          }
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
@@ -304,14 +313,22 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
-        final List<EClass> containers = this.getEContainers(metamodel, com.getType());
-        final List<String> scontainers = new ArrayList<String>();
-        for (final EClassifier cl : containers) {
-          scontainers.add(cl.getName());
-        }
-        final List<EReference> references = this.getEReferences(metamodel, com.getType().getName());
-        for (final EReference eref : references) {
-          scontainers.add(eref.getEType().getName());
+        final List<String> resourceMM = this.getResourceMetamodels(definition);
+        List<String> metamodels = new ArrayList<String>();
+        metamodels.add(metamodel);
+        metamodels.addAll(resourceMM);
+        List<String> scontainers = new ArrayList<String>();
+        for (final String mm : metamodels) {
+          {
+            final List<EClass> containers = this.getEContainers(mm, com.getType());
+            for (final EClassifier cl : containers) {
+              scontainers.add(cl.getName());
+            }
+            final List<EReference> references = this.getEReferences(definition, com.getType().getName());
+            for (final EReference eref : references) {
+              scontainers.add(eref.getEType().getName());
+            }
+          }
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
@@ -350,10 +367,18 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
-        final List<EClass> containers = this.getEContainers(metamodel, com.getType());
-        final List<String> scontainers = new ArrayList<String>();
-        for (final EClassifier cl : containers) {
-          scontainers.add(cl.getName());
+        final List<String> resourceMM = this.getResourceMetamodels(definition);
+        List<String> metamodels = new ArrayList<String>();
+        metamodels.add(metamodel);
+        metamodels.addAll(resourceMM);
+        List<String> scontainers = new ArrayList<String>();
+        for (final String mm : metamodels) {
+          {
+            final List<EClass> containers = this.getEContainers(mm, com.getType());
+            for (final EClassifier cl : containers) {
+              scontainers.add(cl.getName());
+            }
+          }
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
@@ -426,12 +451,12 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObSelectionStrategy _source = mutator.getSource();
           boolean _equals = Objects.equal(_source, com);
           if (_equals) {
-            scope.addAll(this.getESources(metamodel, mutator.getRefType().getName()));
+            scope.addAll(this.getESources(definition, mutator.getRefType().getName()));
           } else {
             ObSelectionStrategy _newTarget = mutator.getNewTarget();
             boolean _equals_1 = Objects.equal(_newTarget, com);
             if (_equals_1) {
-              scope.addAll(this.getETargets(metamodel, mutator.getRefType().getName()));
+              scope.addAll(this.getETargets(definition, mutator.getRefType().getName()));
             }
           }
         } else {
@@ -447,12 +472,12 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObSelectionStrategy _source_1 = mutator_1.getSource();
             boolean _equals_2 = Objects.equal(_source_1, com);
             if (_equals_2) {
-              scope.addAll(this.getESources(metamodel, mutator_1.getRefType().getName()));
+              scope.addAll(this.getESources(definition, mutator_1.getRefType().getName()));
             } else {
               ObSelectionStrategy _target = mutator_1.getTarget();
               boolean _equals_3 = Objects.equal(_target, com);
               if (_equals_3) {
-                scope.addAll(this.getETargets(metamodel, mutator_1.getRefType().getName()));
+                scope.addAll(this.getETargets(definition, mutator_1.getRefType().getName()));
               }
             }
           } else {
@@ -462,15 +487,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               (com.eContainer() instanceof SelectSampleMutator)) || 
               (com.eContainer() instanceof CloneObjectMutator)) || 
               (com.eContainer() instanceof RetypeObjectMutator))) {
-              List<EClass> classes = new ArrayList<EClass>();
-              classes.addAll(this.getEClasses(definition.getMetamodel()));
-              if ((definition instanceof Program)) {
-                final Program program = ((Program) definition);
-                EList<Resource> _resources = program.getResources();
-                for (final Resource resource : _resources) {
-                  classes.addAll(this.getEClasses(resource.getMetamodel()));
-                }
-              }
+              List<EClass> classes = this.getEClasses(definition);
               scope.addAll(classes);
             }
           }
@@ -506,7 +523,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if (_equals) {
             IScope _xblockexpression_2 = null;
             {
-              final List<EClass> containers = this.getESources(definition.getMetamodel(), mutator.getRefType().getName());
+              final List<EClass> containers = this.getESources(definition, mutator.getRefType().getName());
               final List<String> scontainers = new ArrayList<String>();
               for (final EClassifier cl : containers) {
                 scontainers.add(cl.getName());
@@ -528,7 +545,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if (_equals_1) {
               IScope _xblockexpression_3 = null;
               {
-                final List<EClass> containments = this.getETargets(definition.getMetamodel(), mutator.getRefType().getName());
+                final List<EClass> containments = this.getETargets(definition, mutator.getRefType().getName());
                 final List<String> scontainments = new ArrayList<String>();
                 for (final EClassifier cl : containments) {
                   scontainments.add(cl.getName());
@@ -564,7 +581,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if (_equals) {
               IScope _xblockexpression_3 = null;
               {
-                final List<EClass> containers = this.getESources(definition.getMetamodel(), mutator.getRefType().getName());
+                final List<EClass> containers = this.getESources(definition, mutator.getRefType().getName());
                 final List<String> scontainers = new ArrayList<String>();
                 for (final EClassifier cl : containers) {
                   scontainers.add(cl.getName());
@@ -586,7 +603,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if (_equals_1) {
                 IScope _xblockexpression_4 = null;
                 {
-                  final List<EClass> containments = this.getETargets(definition.getMetamodel(), mutator.getRefType().getName());
+                  final List<EClass> containments = this.getETargets(definition, mutator.getRefType().getName());
                   final List<String> scontainments = new ArrayList<String>();
                   for (final EClassifier cl : containments) {
                     scontainments.add(cl.getName());
@@ -638,7 +655,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if (_equals) {
             IScope _xblockexpression_2 = null;
             {
-              final List<EClass> containers = this.getESources(definition.getMetamodel(), mutator.getRefType().getName());
+              final List<EClass> containers = this.getESources(definition, mutator.getRefType().getName());
               final List<String> scontainers = new ArrayList<String>();
               for (final EClassifier cl : containers) {
                 scontainers.add(cl.getName());
@@ -660,7 +677,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if (_equals_1) {
               IScope _xblockexpression_3 = null;
               {
-                final List<EClass> containments = this.getETargets(definition.getMetamodel(), mutator.getRefType().getName());
+                final List<EClass> containments = this.getETargets(definition, mutator.getRefType().getName());
                 final List<String> scontainments = new ArrayList<String>();
                 for (final EClassifier cl : containments) {
                   scontainments.add(cl.getName());
@@ -696,7 +713,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if (_equals) {
               IScope _xblockexpression_3 = null;
               {
-                final List<EClass> containers = this.getESources(definition.getMetamodel(), mutator.getRefType().getName());
+                final List<EClass> containers = this.getESources(definition, mutator.getRefType().getName());
                 final List<String> scontainers = new ArrayList<String>();
                 for (final EClassifier cl : containers) {
                   scontainers.add(cl.getName());
@@ -718,7 +735,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if (_equals_1) {
                 IScope _xblockexpression_4 = null;
                 {
-                  final List<EClass> containments = this.getETargets(definition.getMetamodel(), mutator.getRefType().getName());
+                  final List<EClass> containments = this.getETargets(definition, mutator.getRefType().getName());
                   final List<String> scontainments = new ArrayList<String>();
                   for (final EClassifier cl : containments) {
                     scontainments.add(cl.getName());
@@ -1199,7 +1216,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -1231,7 +1248,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -1256,10 +1273,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_container_7 instanceof TypedSelection)) {
           sourceClassName = com.getContainer().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getType().getName()));
       } else {
         String className = com.getType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1279,7 +1296,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getContainer().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getContainer().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1299,7 +1316,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getContainer().getRefRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getContainer().getRefRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1338,7 +1355,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -1370,7 +1387,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -1395,7 +1412,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_7 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1415,7 +1432,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getObject().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getObject().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1435,7 +1452,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getObject().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getObject().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1474,7 +1491,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -1506,7 +1523,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -1531,7 +1548,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_7 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1551,7 +1568,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getObject().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getObject().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1571,7 +1588,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName, com.getObject().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, sourceClassName, com.getObject().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1610,7 +1627,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -1642,7 +1659,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -1667,7 +1684,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_7 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1687,7 +1704,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1707,7 +1724,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1721,17 +1738,17 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
   public IScope scope_ObSelectionStrategy_refType(final ReferenceEvaluation refEv, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
       while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
+      final List<EReference> scope = new ArrayList<EReference>();
       if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
+        String className = null;
         ObSelectionStrategy _value = refEv.getValue();
         if ((_value instanceof SpecificObjectSelection)) {
-          String className = null;
           ObSelectionStrategy _value_1 = refEv.getValue();
           final SpecificObjectSelection selection = ((SpecificObjectSelection) _value_1);
           ObjectEmitter _objSel = selection.getObjSel();
@@ -1741,7 +1758,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -1761,41 +1778,40 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_8 = selection.getObjSel();
             className = MutatorUtils.selectModifyInformationMutatorHelperName(((ModifyInformationMutator) _objSel_8));
           }
-          scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+          scope.addAll(this.getEReferences(definition, className));
         }
         ObSelectionStrategy _value_2 = refEv.getValue();
         if ((_value_2 instanceof SpecificClosureSelection)) {
-          String className_1 = null;
           ObSelectionStrategy _value_3 = refEv.getValue();
           final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _value_3);
           ObjectEmitter _objSel_9 = selection_1.getObjSel();
           if ((_objSel_9 instanceof CreateObjectMutator)) {
-            className_1 = selection_1.getObjSel().getType().getName();
+            className = selection_1.getObjSel().getType().getName();
           }
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            className_1 = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            className_1 = MutatorUtils.selectSampleMutatorHelperName(((SelectSampleMutator) _objSel_13));
+            className = MutatorUtils.selectSampleMutatorHelperName(((SelectSampleMutator) _objSel_13));
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
           if ((_objSel_14 instanceof CloneObjectMutator)) {
-            className_1 = selection_1.getObjSel().getType().getName();
+            className = selection_1.getObjSel().getType().getName();
           }
           ObjectEmitter _objSel_15 = selection_1.getObjSel();
           if ((_objSel_15 instanceof RetypeObjectMutator)) {
-            className_1 = selection_1.getObjSel().getType().getName();
+            className = selection_1.getObjSel().getType().getName();
           }
           ObjectEmitter _objSel_16 = selection_1.getObjSel();
           if ((_objSel_16 instanceof ModifyInformationMutator)) {
             ObjectEmitter _objSel_17 = selection_1.getObjSel();
-            className_1 = MutatorUtils.selectModifyInformationMutatorHelperName(((ModifyInformationMutator) _objSel_17));
+            className = MutatorUtils.selectModifyInformationMutatorHelperName(((ModifyInformationMutator) _objSel_17));
           }
-          scope.addAll(this.getEReferences(definition.getMetamodel(), className_1));
+          scope.addAll(this.getEReferences(definition, className));
         }
       }
       _xblockexpression = Scopes.scopeFor(scope);
@@ -1810,15 +1826,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
   public IScope scope_ObSelectionStrategy_refRefType(final ReferenceEvaluation refEv, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
       while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
+      final List<EReference> scope = new ArrayList<EReference>();
       if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), refEv.getValue().getRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, refEv.getValue().getRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1832,15 +1848,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
   public IScope scope_ObSelectionStrategy_refRefRefType(final ReferenceEvaluation refEv, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
       while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
+      final List<EReference> scope = new ArrayList<EReference>();
       if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), refEv.getValue().getRefRefType().getEType().getName()));
+        scope.addAll(this.getEReferences(definition, refEv.getValue().getRefRefType().getEType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -1857,11 +1873,6 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
       final List<EReference> scope = new ArrayList<EReference>();
-      String _metamodel = null;
-      if (definition!=null) {
-        _metamodel=definition.getMetamodel();
-      }
-      String metamodel = _metamodel;
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = null;
@@ -1901,9 +1912,6 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                     resource = res;
                   }
                 }
-                if ((resource != null)) {
-                  metamodel = resource.getMetamodel();
-                }
               }
             }
           }
@@ -1937,7 +1945,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_13).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_13));
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
           if ((_objSel_14 instanceof SelectSampleMutator)) {
@@ -1962,7 +1970,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_container_7 instanceof TypedSelection)) {
           sourceClassName = com.getContainer().getType().getName();
         }
-        scope.addAll(this.getEReferences(metamodel, sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       } else {
         String className = null;
         ObSelectionStrategy _object = com.getObject();
@@ -1984,7 +1992,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_21 = selection_2.getObjSel();
           if ((_objSel_21 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_22 = selection_2.getObjSel();
-            className = ((SelectObjectMutator) _objSel_22).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_22));
           }
           ObjectEmitter _objSel_23 = selection_2.getObjSel();
           if ((_objSel_23 instanceof CloneObjectMutator)) {
@@ -2011,7 +2019,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_28 = selection_3.getObjSel();
           if ((_objSel_28 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_29 = selection_3.getObjSel();
-            className = ((SelectObjectMutator) _objSel_29).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_29));
           }
           ObjectEmitter _objSel_30 = selection_3.getObjSel();
           if ((_objSel_30 instanceof CloneObjectMutator)) {
@@ -2031,7 +2039,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_6 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2051,7 +2059,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2071,7 +2079,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2110,7 +2118,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -2142,7 +2150,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -2167,7 +2175,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_container_7 instanceof TypedSelection)) {
           sourceClassName = com.getContainer().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       } else {
         String className = null;
         ObSelectionStrategy _object = com.getObject();
@@ -2189,7 +2197,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_19 = selection_2.getObjSel();
           if ((_objSel_19 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_20 = selection_2.getObjSel();
-            className = ((SelectObjectMutator) _objSel_20).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_20));
           }
           ObjectEmitter _objSel_21 = selection_2.getObjSel();
           if ((_objSel_21 instanceof CloneObjectMutator)) {
@@ -2216,7 +2224,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_26 = selection_3.getObjSel();
           if ((_objSel_26 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_27 = selection_3.getObjSel();
-            className = ((SelectObjectMutator) _objSel_27).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_27));
           }
           ObjectEmitter _objSel_28 = selection_3.getObjSel();
           if ((_objSel_28 instanceof CloneObjectMutator)) {
@@ -2236,7 +2244,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_6 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2256,7 +2264,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2276,7 +2284,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2315,7 +2323,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -2347,7 +2355,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            sourceClassName = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            sourceClassName = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -2372,7 +2380,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_container_7 instanceof TypedSelection)) {
           sourceClassName = com.getContainer().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       } else {
         String className = null;
         ObSelectionStrategy _object = com.getObject();
@@ -2394,7 +2402,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_19 = selection_2.getObjSel();
           if ((_objSel_19 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_20 = selection_2.getObjSel();
-            className = ((SelectObjectMutator) _objSel_20).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_20));
           }
           ObjectEmitter _objSel_21 = selection_2.getObjSel();
           if ((_objSel_21 instanceof SelectSampleMutator)) {
@@ -2426,7 +2434,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_28 = selection_3.getObjSel();
           if ((_objSel_28 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_29 = selection_3.getObjSel();
-            className = ((SelectObjectMutator) _objSel_29).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_29));
           }
           ObjectEmitter _objSel_30 = selection_3.getObjSel();
           if ((_objSel_30 instanceof SelectSampleMutator)) {
@@ -2451,7 +2459,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_6 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2471,7 +2479,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2491,7 +2499,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getContainer().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2530,7 +2538,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -2562,7 +2570,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_11 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_11).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_11));
           }
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
@@ -2587,7 +2595,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_7 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2607,7 +2615,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2627,7 +2635,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       ObSelectionStrategy _object = com.getObject();
       if ((_object instanceof ObSelectionStrategy)) {
         String sourceClassName = com.getObject().getRefRefType().getEType().getName();
-        scope.addAll(this.getEReferences(definition.getMetamodel(), sourceClassName));
+        scope.addAll(this.getEReferences(definition, sourceClassName));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -2643,7 +2651,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
       final List<EReference> scope = new ArrayList<EReference>();
-      scope.addAll(this.getEReferences(definition.getMetamodel()));
+      scope.addAll(this.getEReferences(definition));
       _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
@@ -2658,7 +2666,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
       final List<EReference> scope = new ArrayList<EReference>();
-      scope.addAll(this.getEReferences(definition.getMetamodel()));
+      scope.addAll(this.getEReferences(definition));
       _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
@@ -2673,7 +2681,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
       final List<EReference> scope = new ArrayList<EReference>();
-      scope.addAll(this.getEReferences(definition.getMetamodel()));
+      scope.addAll(this.getEReferences(definition));
       _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
@@ -2690,7 +2698,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final List<Mutator> commands = this.getCommands(com);
       final Definition definition = env.getDefinition();
       final ArrayList<Mutator> scope = new ArrayList<Mutator>();
-      final List<EClass> containers = this.getESources(definition.getMetamodel(), com.getRefType().getName());
+      final List<EClass> containers = this.getESources(definition, com.getRefType().getName());
       final List<String> scontainers = new ArrayList<String>();
       for (final EClassifier cl : containers) {
         scontainers.add(cl.getName());
@@ -2718,7 +2726,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final List<Mutator> commands = this.getCommands(com);
       final Definition definition = env.getDefinition();
       final ArrayList<Mutator> scope = new ArrayList<Mutator>();
-      final List<EClass> containers = this.getESources(definition.getMetamodel(), com.getRefType().getName());
+      final List<EClass> containers = this.getESources(definition, com.getRefType().getName());
       final List<String> scontainers = new ArrayList<String>();
       for (final EClassifier cl : containers) {
         scontainers.add(cl.getName());
@@ -2744,7 +2752,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      _xblockexpression = Scopes.scopeFor(this.getESources(definition.getMetamodel(), com.getRefType().getName()));
+      _xblockexpression = Scopes.scopeFor(this.getESources(definition, com.getRefType().getName()));
     }
     return _xblockexpression;
   }
@@ -2758,7 +2766,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      _xblockexpression = Scopes.scopeFor(this.getESources(definition.getMetamodel(), com.getRefType().getName()));
+      _xblockexpression = Scopes.scopeFor(this.getESources(definition, com.getRefType().getName()));
     }
     return _xblockexpression;
   }
@@ -2771,7 +2779,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     boolean _endsWith = program.getSource().getPath().endsWith("/");
     boolean _not = (!_endsWith);
     if (_not) {
-      scope.addAll(this.getModelEClasses(definition.getMetamodel(), program.getSource().getPath()));
+      scope.addAll(this.getModelEClasses(definition, program.getSource().getPath()));
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
@@ -2790,7 +2798,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_2 = file.getPath().endsWith(".model");
           boolean _equals_1 = (_endsWith_2 == true);
           if (_equals_1) {
-            scope.addAll(this.getModelEClasses(definition.getMetamodel(), file.getPath()));
+            scope.addAll(this.getModelEClasses(definition, file.getPath()));
           }
         }
       }
@@ -2915,7 +2923,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -2933,7 +2941,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -2965,7 +2973,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             String _plus_2 = (_plus_1 + "/");
             String _path = ((Program)definition).getSource().getPath();
             final String model = (_plus_2 + _path);
-            final List<EClass> classes = this.getModelEClasses(((Program)definition).getMetamodel(), model);
+            final List<EClass> classes = this.getModelEClasses(definition, model);
             final List<String> sclasses = new ArrayList<String>();
             for (final EClassifier cl : classes) {
               sclasses.add(cl.getName());
@@ -3006,7 +3014,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             }
             final List<EClass> classes_1 = new ArrayList<EClass>();
             for (final String model_1 : models) {
-              classes_1.addAll(this.getModelEClasses(((Program)definition).getMetamodel(), model_1));
+              classes_1.addAll(this.getModelEClasses(definition, model_1));
             }
             final List<String> sclasses_1 = new ArrayList<String>();
             for (final EClassifier cl_1 : classes_1) {
@@ -3058,7 +3066,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             String _plus_2 = (_plus_1 + "/");
             String _path = ((Program)definition).getSource().getPath();
             final String model = (_plus_2 + _path);
-            final List<EClass> classes = this.getModelEClasses(((Program)definition).getMetamodel(), model);
+            final List<EClass> classes = this.getModelEClasses(definition, model);
             final List<String> sclasses = new ArrayList<String>();
             for (final EClassifier cl : classes) {
               sclasses.add(cl.getName());
@@ -3099,7 +3107,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             }
             final List<EClass> classes_1 = new ArrayList<EClass>();
             for (final String model_1 : models) {
-              classes_1.addAll(this.getModelEClasses(((Program)definition).getMetamodel(), model_1));
+              classes_1.addAll(this.getModelEClasses(definition, model_1));
             }
             final List<String> sclasses_1 = new ArrayList<String>();
             for (final EClassifier cl_1 : classes_1) {
@@ -3136,7 +3144,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3153,7 +3161,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3170,7 +3178,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEReferences(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEReferences(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3187,7 +3195,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3202,7 +3210,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     boolean _endsWith = program.getSource().getPath().endsWith("/");
     boolean _not = (!_endsWith);
     if (_not) {
-      scope.addAll(this.getModelEClasses(definition.getMetamodel(), program.getSource().getPath()));
+      scope.addAll(this.getModelEClasses(definition, program.getSource().getPath()));
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
@@ -3221,7 +3229,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_2 = file.getPath().endsWith(".model");
           boolean _equals_1 = (_endsWith_2 == true);
           if (_equals_1) {
-            scope.addAll(this.getModelESources(definition.getMetamodel(), file.getPath(), refTypeName));
+            scope.addAll(this.getModelESources(definition, file.getPath(), refTypeName));
           }
         }
       }
@@ -3291,7 +3299,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         IScope _xblockexpression_1 = null;
         {
           final ArrayList<EReference> scope = new ArrayList<EReference>();
-          scope.addAll(this.getEReferences(((Program)definition).getMetamodel()));
+          scope.addAll(this.getEReferences(definition));
           _xblockexpression_1 = Scopes.scopeFor(scope);
         }
         _xifexpression = _xblockexpression_1;
@@ -3311,7 +3319,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3376,7 +3384,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEReferences(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEReferences(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3393,7 +3401,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
       if ((definition instanceof Program)) {
-        _xifexpression = Scopes.scopeFor(this.getEClasses(((Program)definition).getMetamodel()));
+        _xifexpression = Scopes.scopeFor(this.getEClasses(definition));
       }
       _xblockexpression = _xifexpression;
     }
@@ -3425,7 +3433,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             String _plus_2 = (_plus_1 + "/");
             String _path = ((Program)definition).getSource().getPath();
             final String model = (_plus_2 + _path);
-            final List<EClass> containers = this.getModelESources(((Program)definition).getMetamodel(), model, com.getRefType().getName());
+            final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
             final List<String> scontainers = new ArrayList<String>();
             for (final EClassifier cl : containers) {
               scontainers.add(cl.getName());
@@ -3464,7 +3472,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             }
             final List<EClass> containers_1 = new ArrayList<EClass>();
             for (final String model_1 : models) {
-              containers_1.addAll(this.getModelESources(((Program)definition).getMetamodel(), model_1, com.getRefType().getName()));
+              containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
             }
             final List<String> scontainers_1 = new ArrayList<String>();
             for (final EClassifier cl_1 : containers_1) {
@@ -3514,7 +3522,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             String _plus_2 = (_plus_1 + "/");
             String _path = ((Program)definition).getSource().getPath();
             final String model = (_plus_2 + _path);
-            final List<EClass> containers = this.getModelESources(((Program)definition).getMetamodel(), model, com.getRefType().getName());
+            final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
             final List<String> scontainers = new ArrayList<String>();
             for (final EClassifier cl : containers) {
               scontainers.add(cl.getName());
@@ -3553,7 +3561,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             }
             final List<EClass> containers_1 = new ArrayList<EClass>();
             for (final String model_1 : models) {
-              containers_1.addAll(this.getModelESources(((Program)definition).getMetamodel(), model_1, com.getRefType().getName()));
+              containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
             }
             final List<String> scontainers_1 = new ArrayList<String>();
             for (final EClassifier cl_1 : containers_1) {
@@ -3593,7 +3601,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         String metamodel = _metamodel;
         String className = com.getType().getName();
-        List<EAttribute> attributes = this.getEAttributes(metamodel, className);
+        List<EAttribute> attributes = this.getEAttributes(definition, className);
         int _size = com.getAttributes().size();
         boolean _greaterThan = (_size > 0);
         if (_greaterThan) {
@@ -3601,7 +3609,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           for (final AttributeSet attSet : _attributes) {
             {
               if ((attSet instanceof AttributeScalar)) {
-                attributes.addAll(this.getEAttributes(metamodel, className));
+                attributes.addAll(this.getEAttributes(definition, className));
               }
               if ((attSet instanceof AttributeCopy)) {
                 ObSelectionStrategy _object = ((AttributeCopy) attSet).getObject();
@@ -3622,7 +3630,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       if ((eclass == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
-                      attributes.addAll(this.getEAttributes(metamodel, className));
+                      attributes.addAll(this.getEAttributes(definition, className));
                     }
                   }
                 }
@@ -3646,7 +3654,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       if ((eclass_1 == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
-                      attributes.addAll(this.getEAttributes(metamodel, className));
+                      attributes.addAll(this.getEAttributes(definition, className));
                     }
                   }
                 }
@@ -3670,7 +3678,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      _xblockexpression = Scopes.scopeFor(this.getEReferences(definition.getMetamodel(), com.getType().getName()));
+      _xblockexpression = Scopes.scopeFor(this.getEReferences(definition, com.getType().getName()));
     }
     return _xblockexpression;
   }
@@ -3697,7 +3705,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
           Mutator command = this.getCommand(name, commands, commands.indexOf(com));
           if ((command != null)) {
-            scope.addAll(this.getEAttributes(metamodel, this.getType(command)));
+            scope.addAll(this.getEAttributes(definition, this.getType(command)));
             String className = "";
             int _size = com.getAttributes().size();
             boolean _greaterThan = (_size > 0);
@@ -3711,7 +3719,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       ObSelectionStrategy _object_3 = com.getObject();
                       RandomTypeSelection strategy = ((RandomTypeSelection) _object_3);
                       EClass type = strategy.getType();
-                      scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                      scope.addAll(this.getEAttributes(definition, type.getName()));
                     }
                   }
                   if ((attSet instanceof AttributeCopy)) {
@@ -3733,7 +3741,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                           if ((eclass == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
-                          scope.addAll(this.getEAttributes(metamodel, className));
+                          scope.addAll(this.getEAttributes(definition, className));
                         }
                       }
                     }
@@ -3757,7 +3765,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                           if ((eclass_1 == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
-                          scope.addAll(this.getEAttributes(metamodel, className));
+                          scope.addAll(this.getEAttributes(definition, className));
                         }
                       }
                     }
@@ -3773,7 +3781,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
             Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
             if ((command_1 != null)) {
-              scope.addAll(this.getEAttributes(metamodel, this.getType(command_1)));
+              scope.addAll(this.getEAttributes(definition, this.getType(command_1)));
               String className_1 = "";
               int _size_1 = com.getAttributes().size();
               boolean _greaterThan_1 = (_size_1 > 0);
@@ -3800,7 +3808,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_1));
+                            scope.addAll(this.getEAttributes(definition, className_1));
                           }
                         }
                       }
@@ -3824,7 +3832,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_1));
+                            scope.addAll(this.getEAttributes(definition, className_1));
                           }
                         }
                       }
@@ -3838,7 +3846,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((_object_4 instanceof CompleteTypeSelection)) {
               ObSelectionStrategy _object_5 = com.getObject();
               final String name_2 = ((CompleteTypeSelection) _object_5).getType().getName();
-              scope.addAll(this.getEAttributes(metamodel, name_2));
+              scope.addAll(this.getEAttributes(definition, name_2));
               String className_2 = "";
               int _size_2 = com.getAttributes().size();
               boolean _greaterThan_2 = (_size_2 > 0);
@@ -3865,7 +3873,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_2));
+                            scope.addAll(this.getEAttributes(definition, className_2));
                           }
                         }
                       }
@@ -3889,7 +3897,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_2));
+                            scope.addAll(this.getEAttributes(definition, className_2));
                           }
                         }
                       }
@@ -3902,7 +3910,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((_object_6 instanceof RandomTypeSelection)) {
                 ObSelectionStrategy _object_7 = com.getObject();
                 final String name_3 = ((RandomTypeSelection) _object_7).getType().getName();
-                scope.addAll(this.getEAttributes(metamodel, name_3));
+                scope.addAll(this.getEAttributes(definition, name_3));
                 String className_3 = "";
                 int _size_3 = com.getAttributes().size();
                 boolean _greaterThan_3 = (_size_3 > 0);
@@ -3929,7 +3937,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                               if ((eclass == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
-                              scope.addAll(this.getEAttributes(metamodel, className_3));
+                              scope.addAll(this.getEAttributes(definition, className_3));
                             }
                           }
                         }
@@ -3953,7 +3961,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                               if ((eclass_1 == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
-                              scope.addAll(this.getEAttributes(metamodel, className_3));
+                              scope.addAll(this.getEAttributes(definition, className_3));
                             }
                           }
                         }
@@ -3966,7 +3974,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                 if ((_object_8 instanceof TypedSelection)) {
                   ObSelectionStrategy _object_9 = com.getObject();
                   final String name_4 = ((TypedSelection) _object_9).getType().getName();
-                  scope.addAll(this.getEAttributes(metamodel, name_4));
+                  scope.addAll(this.getEAttributes(definition, name_4));
                   {
                     String className_4 = "";
                     int _size_4 = com.getAttributes().size();
@@ -3994,7 +4002,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                                   if ((eclass == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
-                                  scope.addAll(this.getEAttributes(metamodel, className_4));
+                                  scope.addAll(this.getEAttributes(definition, className_4));
                                 }
                               }
                             }
@@ -4018,7 +4026,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                                   if ((eclass_1 == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
-                                  scope.addAll(this.getEAttributes(metamodel, className_4));
+                                  scope.addAll(this.getEAttributes(definition, className_4));
                                 }
                               }
                             }
@@ -4056,11 +4064,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+          scope.addAll(this.getEReferences(definition, this.getType(command)));
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
@@ -4069,30 +4073,26 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
           if ((command_1 != null)) {
-            String _metamodel_1 = null;
-            if (definition!=null) {
-              _metamodel_1=definition.getMetamodel();
-            }
-            scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+            scope.addAll(this.getEReferences(definition, this.getType(command_1)));
           }
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
           if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
             final String name_2 = ((CompleteTypeSelection) _object_5).getType().getName();
-            scope.addAll(this.getEReferences(definition.getMetamodel(), name_2));
+            scope.addAll(this.getEReferences(definition, name_2));
           } else {
             ObSelectionStrategy _object_6 = com.getObject();
             if ((_object_6 instanceof RandomTypeSelection)) {
               ObSelectionStrategy _object_7 = com.getObject();
               final String name_3 = ((RandomTypeSelection) _object_7).getType().getName();
-              scope.addAll(this.getEReferences(definition.getMetamodel(), name_3));
+              scope.addAll(this.getEReferences(definition, name_3));
             } else {
               ObSelectionStrategy _object_8 = com.getObject();
               if ((_object_8 instanceof TypedSelection)) {
                 ObSelectionStrategy _object_9 = com.getObject();
                 final String name_4 = ((TypedSelection) _object_9).getType().getName();
-                scope.addAll(this.getEReferences(definition.getMetamodel(), name_4));
+                scope.addAll(this.getEReferences(definition, name_4));
               }
             }
           }
@@ -4125,7 +4125,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
           Mutator command = this.getCommand(name, commands, commands.indexOf(com));
           if ((command != null)) {
-            scope.addAll(this.getEAttributes(metamodel, this.getType(command)));
+            scope.addAll(this.getEAttributes(definition, this.getType(command)));
             String className = "";
             int _size = com.getAttributes().size();
             boolean _greaterThan = (_size > 0);
@@ -4139,7 +4139,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       ObSelectionStrategy _object_3 = com.getObject();
                       RandomTypeSelection strategy = ((RandomTypeSelection) _object_3);
                       EClass type = strategy.getType();
-                      scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                      scope.addAll(this.getEAttributes(definition, type.getName()));
                     }
                   }
                   if ((attSet instanceof AttributeCopy)) {
@@ -4161,7 +4161,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                           if ((eclass == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
-                          scope.addAll(this.getEAttributes(metamodel, className));
+                          scope.addAll(this.getEAttributes(definition, className));
                         }
                       }
                     }
@@ -4185,7 +4185,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                           if ((eclass_1 == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
-                          scope.addAll(this.getEAttributes(metamodel, className));
+                          scope.addAll(this.getEAttributes(definition, className));
                         }
                       }
                     }
@@ -4201,7 +4201,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
             Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
             if ((command_1 != null)) {
-              scope.addAll(this.getEAttributes(metamodel, this.getType(command_1)));
+              scope.addAll(this.getEAttributes(definition, this.getType(command_1)));
               String className_1 = "";
               int _size_1 = com.getAttributes().size();
               boolean _greaterThan_1 = (_size_1 > 0);
@@ -4228,7 +4228,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_1));
+                            scope.addAll(this.getEAttributes(definition, className_1));
                           }
                         }
                       }
@@ -4252,7 +4252,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_1));
+                            scope.addAll(this.getEAttributes(definition, className_1));
                           }
                         }
                       }
@@ -4266,7 +4266,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((_object_4 instanceof CompleteTypeSelection)) {
               ObSelectionStrategy _object_5 = com.getObject();
               final String name_2 = ((CompleteTypeSelection) _object_5).getType().getName();
-              scope.addAll(this.getEAttributes(metamodel, name_2));
+              scope.addAll(this.getEAttributes(definition, name_2));
               String className_2 = "";
               int _size_2 = com.getAttributes().size();
               boolean _greaterThan_2 = (_size_2 > 0);
@@ -4293,7 +4293,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_2));
+                            scope.addAll(this.getEAttributes(definition, className_2));
                           }
                         }
                       }
@@ -4317,7 +4317,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                             if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
-                            scope.addAll(this.getEAttributes(metamodel, className_2));
+                            scope.addAll(this.getEAttributes(definition, className_2));
                           }
                         }
                       }
@@ -4330,7 +4330,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((_object_6 instanceof RandomTypeSelection)) {
                 ObSelectionStrategy _object_7 = com.getObject();
                 final String name_3 = ((RandomTypeSelection) _object_7).getType().getName();
-                scope.addAll(this.getEAttributes(metamodel, name_3));
+                scope.addAll(this.getEAttributes(definition, name_3));
                 String className_3 = "";
                 int _size_3 = com.getAttributes().size();
                 boolean _greaterThan_3 = (_size_3 > 0);
@@ -4357,7 +4357,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                               if ((eclass == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
-                              scope.addAll(this.getEAttributes(metamodel, className_3));
+                              scope.addAll(this.getEAttributes(definition, className_3));
                             }
                           }
                         }
@@ -4381,7 +4381,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                               if ((eclass_1 == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
-                              scope.addAll(this.getEAttributes(metamodel, className_3));
+                              scope.addAll(this.getEAttributes(definition, className_3));
                             }
                           }
                         }
@@ -4394,7 +4394,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                 if ((_object_8 instanceof TypedSelection)) {
                   ObSelectionStrategy _object_9 = com.getObject();
                   final String name_4 = ((TypedSelection) _object_9).getType().getName();
-                  scope.addAll(this.getEAttributes(metamodel, name_4));
+                  scope.addAll(this.getEAttributes(definition, name_4));
                   {
                     String className_4 = "";
                     int _size_4 = com.getAttributes().size();
@@ -4422,7 +4422,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                                   if ((eclass == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
-                                  scope.addAll(this.getEAttributes(metamodel, className_4));
+                                  scope.addAll(this.getEAttributes(definition, className_4));
                                 }
                               }
                             }
@@ -4446,7 +4446,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                                   if ((eclass_1 == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
-                                  scope.addAll(this.getEAttributes(metamodel, className_4));
+                                  scope.addAll(this.getEAttributes(definition, className_4));
                                 }
                               }
                             }
@@ -4484,11 +4484,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+          scope.addAll(this.getEReferences(definition, this.getType(command)));
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
@@ -4497,30 +4493,26 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String name_1 = ((SpecificObjectSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
           if ((command_1 != null)) {
-            String _metamodel_1 = null;
-            if (definition!=null) {
-              _metamodel_1=definition.getMetamodel();
-            }
-            scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+            scope.addAll(this.getEReferences(definition, this.getType(command_1)));
           }
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
           if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
             final String name_2 = ((CompleteTypeSelection) _object_5).getType().getName();
-            scope.addAll(this.getEReferences(definition.getMetamodel(), name_2));
+            scope.addAll(this.getEReferences(definition, name_2));
           } else {
             ObSelectionStrategy _object_6 = com.getObject();
             if ((_object_6 instanceof RandomTypeSelection)) {
               ObSelectionStrategy _object_7 = com.getObject();
               final String name_3 = ((RandomTypeSelection) _object_7).getType().getName();
-              scope.addAll(this.getEReferences(definition.getMetamodel(), name_3));
+              scope.addAll(this.getEReferences(definition, name_3));
             } else {
               ObSelectionStrategy _object_8 = com.getObject();
               if ((_object_8 instanceof TypedSelection)) {
                 ObSelectionStrategy _object_9 = com.getObject();
                 final String name_4 = ((TypedSelection) _object_9).getType().getName();
-                scope.addAll(this.getEReferences(definition.getMetamodel(), name_4));
+                scope.addAll(this.getEReferences(definition, name_4));
               }
             }
           }
@@ -4546,7 +4538,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         String metamodel = _metamodel;
         final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
-        scope.addAll(this.getEAttributes(metamodel, this.getType(com)));
+        scope.addAll(this.getEAttributes(definition, this.getType(com)));
         String className = "";
         int _size = com.getAttributes().size();
         boolean _greaterThan = (_size > 0);
@@ -4560,7 +4552,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                   ObSelectionStrategy _object_1 = com.getObject();
                   RandomTypeSelection strategy = ((RandomTypeSelection) _object_1);
                   EClass type = strategy.getType();
-                  scope.addAll(this.getEAttributes(metamodel, type.getName()));
+                  scope.addAll(this.getEAttributes(definition, type.getName()));
                 }
               }
               if ((attSet instanceof AttributeCopy)) {
@@ -4582,7 +4574,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       if ((eclass == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
-                      scope.addAll(this.getEAttributes(metamodel, className));
+                      scope.addAll(this.getEAttributes(definition, className));
                     }
                   }
                 }
@@ -4606,7 +4598,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                       if ((eclass_1 == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
-                      scope.addAll(this.getEAttributes(metamodel, className));
+                      scope.addAll(this.getEAttributes(definition, className));
                     }
                   }
                 }
@@ -4630,11 +4622,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      String _metamodel = null;
-      if (definition!=null) {
-        _metamodel=definition.getMetamodel();
-      }
-      _xblockexpression = Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(com)));
+      _xblockexpression = Scopes.scopeFor(this.getEReferences(definition, this.getType(com)));
     }
     return _xblockexpression;
   }
@@ -4688,11 +4676,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(command)));
+          return Scopes.scopeFor(this.getEReferences(definition, this.getType(command)));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -4716,11 +4700,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         ObSelectionStrategy _object = com.getObject();
         boolean _tripleEquals = (_object == null);
         if (_tripleEquals) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(currentMutator)));
+          return Scopes.scopeFor(this.getEReferences(definition, this.getType(currentMutator)));
         }
         ObSelectionStrategy _object_1 = com.getObject();
         EClass _type = null;
@@ -4760,11 +4740,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
         if ((command != null)) {
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel_1, this.getType(command)));
+          return Scopes.scopeFor(this.getEReferences(definition, this.getType(command)));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -4784,11 +4760,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       if ((env != null)) {
         final Definition definition = env.getDefinition();
         String className = com.getReference().get(0).getEType().getName();
-        String _metamodel = null;
-        if (definition!=null) {
-          _metamodel=definition.getMetamodel();
-        }
-        atts.addAll(this.getEAttributes(_metamodel, className));
+        atts.addAll(this.getEAttributes(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(atts);
     }
@@ -4844,11 +4816,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(command)));
+          return Scopes.scopeFor(this.getEReferences(definition, this.getType(command)));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -4906,11 +4874,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(command)));
+          return Scopes.scopeFor(this.getEReferences(definition, this.getType(command)));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -4948,7 +4912,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(definition, className));
           }
           _xifexpression = _xblockexpression_1;
         } else {
@@ -4992,7 +4956,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
+            _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(definition, className));
           }
           _xifexpression = _xblockexpression_1;
         } else {
@@ -5025,11 +4989,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             _name=_type.getName();
           }
           final String className = _name;
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(definition, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -5080,7 +5040,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          return Scopes.scopeFor(this.getEReferences(metamodel, className));
+          return Scopes.scopeFor(this.getEReferences(definition, className));
         }
         ArrayList<EObject> _arrayList = new ArrayList<EObject>();
         _xblockexpression = Scopes.scopeFor(_arrayList);
@@ -5113,18 +5073,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String objectName = _name;
           Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
           if ((command != null)) {
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            return Scopes.scopeFor(this.getEReferences(_metamodel, this.getType(command)));
+            return Scopes.scopeFor(this.getEReferences(definition, this.getType(command)));
           }
         } else {
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEReferences(_metamodel_1, com.getRefType().getEType().getName()));
+          return Scopes.scopeFor(this.getEReferences(definition, com.getRefType().getEType().getName()));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -5151,11 +5103,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             _name=_type.getName();
           }
           final String className = _name;
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(definition, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -5196,7 +5144,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(definition, className));
           }
           _xifexpression = _xblockexpression_1;
         } else {
@@ -5240,7 +5188,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
-            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+            _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(definition, className));
           }
           _xifexpression = _xblockexpression_1;
         } else {
@@ -5273,11 +5221,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             _name=_type.getName();
           }
           final String className = _name;
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(definition, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -5328,7 +5272,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          return Scopes.scopeFor(this.getEAttributes(metamodel, className));
+          return Scopes.scopeFor(this.getEAttributes(definition, className));
         }
         ArrayList<EObject> _arrayList = new ArrayList<EObject>();
         _xblockexpression = Scopes.scopeFor(_arrayList);
@@ -5361,18 +5305,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String objectName = _name;
           Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
           if ((command != null)) {
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            return Scopes.scopeFor(this.getEAttributes(_metamodel, this.getType(command)));
+            return Scopes.scopeFor(this.getEAttributes(definition, this.getType(command)));
           }
         } else {
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          return Scopes.scopeFor(this.getEAttributes(_metamodel_1, com.getRefType().getEType().getName()));
+          return Scopes.scopeFor(this.getEAttributes(definition, com.getRefType().getEType().getName()));
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -5399,11 +5335,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             _name=_type.getName();
           }
           final String className = _name;
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(definition, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -5431,11 +5363,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
         if ((command != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+          scope.addAll(this.getEReferences(definition, this.getType(command)));
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
@@ -5444,30 +5372,26 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
           if ((command_1 != null)) {
-            String _metamodel_1 = null;
-            if (definition!=null) {
-              _metamodel_1=definition.getMetamodel();
-            }
-            scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+            scope.addAll(this.getEReferences(definition, this.getType(command_1)));
           }
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
           if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
             final String name_2 = ((CompleteTypeSelection) _object_5).getType().getName();
-            scope.addAll(this.getEReferences(definition.getMetamodel(), name_2));
+            scope.addAll(this.getEReferences(definition, name_2));
           } else {
             ObSelectionStrategy _object_6 = com.getObject();
             if ((_object_6 instanceof RandomTypeSelection)) {
               ObSelectionStrategy _object_7 = com.getObject();
               final String name_3 = ((RandomTypeSelection) _object_7).getType().getName();
-              scope.addAll(this.getEReferences(definition.getMetamodel(), name_3));
+              scope.addAll(this.getEReferences(definition, name_3));
             } else {
               ObSelectionStrategy _object_8 = com.getObject();
               if ((_object_8 instanceof TypedSelection)) {
                 ObSelectionStrategy _object_9 = com.getObject();
                 final String name_4 = ((TypedSelection) _object_9).getType().getName();
-                scope.addAll(this.getEReferences(definition.getMetamodel(), name_4));
+                scope.addAll(this.getEReferences(definition, name_4));
               }
             }
           }
@@ -5523,11 +5447,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
                   if ((command != null)) {
-                    String _metamodel = null;
-                    if (definition!=null) {
-                      _metamodel=definition.getMetamodel();
-                    }
-                    scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+                    scope.addAll(this.getEReferences(definition, this.getType(command)));
                   }
                 }
               }
@@ -5545,11 +5465,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
                     if ((command_1 != null)) {
-                      String _metamodel_1 = null;
-                      if (definition!=null) {
-                        _metamodel_1=definition.getMetamodel();
-                      }
-                      scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+                      scope.addAll(this.getEReferences(definition, this.getType(command_1)));
                     }
                   }
                 }
@@ -5608,11 +5524,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
                   if ((command != null)) {
-                    String _metamodel = null;
-                    if (definition!=null) {
-                      _metamodel=definition.getMetamodel();
-                    }
-                    scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+                    scope.addAll(this.getEReferences(definition, this.getType(command)));
                   }
                 }
               }
@@ -5630,11 +5542,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
                     if ((command_1 != null)) {
-                      String _metamodel_1 = null;
-                      if (definition!=null) {
-                        _metamodel_1=definition.getMetamodel();
-                      }
-                      scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+                      scope.addAll(this.getEReferences(definition, this.getType(command_1)));
                     }
                   }
                 }
@@ -5693,11 +5601,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
                   if ((command != null)) {
-                    String _metamodel = null;
-                    if (definition!=null) {
-                      _metamodel=definition.getMetamodel();
-                    }
-                    scope.addAll(this.getEReferences(_metamodel, this.getType(command)));
+                    scope.addAll(this.getEReferences(definition, this.getType(command)));
                   }
                 }
               }
@@ -5715,11 +5619,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
                     if ((command_1 != null)) {
-                      String _metamodel_1 = null;
-                      if (definition!=null) {
-                        _metamodel_1=definition.getMetamodel();
-                      }
-                      scope.addAll(this.getEReferences(_metamodel_1, this.getType(command_1)));
+                      scope.addAll(this.getEReferences(definition, this.getType(command_1)));
                     }
                   }
                 }
@@ -5737,348 +5637,546 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refName(final RandomTypeSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refName(final OtherTypeSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refName(final CompleteTypeSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
    * ReferenceEvaluation.refName must contain the references defined by com.type
    */
   public IScope scope_ReferenceEvaluation_refName(final SpecificObjectSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refName(final SpecificClosureSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
    * ReferenceEvaluation.name must contain the references defined by ...
    */
   public IScope scope_ReferenceEvaluation_refName(final TypedSelection com, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        List<EReference> refs = new ArrayList<EReference>();
-        final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        if ((env != null)) {
-          final Definition definition = env.getDefinition();
-          Expression _expression = com.getExpression();
-          Evaluation _first = null;
-          if (_expression!=null) {
-            _first=_expression.getFirst();
-          }
-          EReference reference = ((ReferenceEvaluation) _first).getName();
-          String className = reference.getEType().getName();
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          String metamodel = _metamodel;
-          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-          EClass eclass = ModelManager.getEClassByName(packages, className);
-          if ((eclass == null)) {
-            metamodel = this.getMetamodel(definition, className);
-          }
-          refs.addAll(this.getEReferences(metamodel, className));
+    IScope _xblockexpression = null;
+    {
+      final List<EReference> scope = new ArrayList<EReference>();
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      if ((env != null)) {
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        if ((_first instanceof ReferenceEvaluation)) {
           Expression _expression_1 = com.getExpression();
-          EList<Evaluation> _second = null;
+          Evaluation _first_1 = null;
           if (_expression_1!=null) {
-            _second=_expression_1.getSecond();
+            _first_1=_expression_1.getFirst();
+          }
+          final ReferenceEvaluation refEv = ((ReferenceEvaluation) _first_1);
+          EClass typeFirst = null;
+          boolean _isSelf = refEv.isSelf();
+          boolean _equals = (_isSelf == true);
+          if (_equals) {
+            Mutator mut = null;
+            EObject container = com.eContainer();
+            while ((((container instanceof Mutator) == false) && (container != null))) {
+              container = container.eContainer();
+            }
+            mut = ((Mutator) container);
+            if ((mut instanceof CreateObjectMutator)) {
+              typeFirst = ((CreateObjectMutator)mut).getType();
+            }
+            if ((mut instanceof SelectObjectMutator)) {
+              typeFirst = ((SelectObjectMutator)mut).getObject().getType();
+            }
+            if ((mut instanceof SelectSampleMutator)) {
+              typeFirst = MutatorUtils.selectSampleMutatorHelperType(((SelectSampleMutator)mut));
+            }
+            if ((mut instanceof CloneObjectMutator)) {
+              typeFirst = ((CloneObjectMutator)mut).getType();
+            }
+            if ((mut instanceof RetypeObjectMutator)) {
+              typeFirst = ((RetypeObjectMutator)mut).getType();
+            }
+            if ((mut instanceof ModifyInformationMutator)) {
+              typeFirst = MutatorUtils.selectModifyInformationMutatorHelperType(((ModifyInformationMutator) mut));
+            }
+          } else {
+            EClassifier _eType = refEv.getName().getEType();
+            typeFirst = ((EClass) _eType);
+          }
+          String className = typeFirst.getName();
+          scope.addAll(this.getEReferences(definition, className));
+          Expression _expression_2 = com.getExpression();
+          EList<Evaluation> _second = null;
+          if (_expression_2!=null) {
+            _second=_expression_2.getSecond();
           }
           boolean _tripleNotEquals = (_second != null);
           if (_tripleNotEquals) {
-            Expression _expression_2 = com.getExpression();
+            Expression _expression_3 = com.getExpression();
             EList<Evaluation> _second_1 = null;
-            if (_expression_2!=null) {
-              _second_1=_expression_2.getSecond();
+            if (_expression_3!=null) {
+              _second_1=_expression_3.getSecond();
             }
             for (final Evaluation second : _second_1) {
               if ((second instanceof ReferenceEvaluation)) {
-                reference = ((ReferenceEvaluation)second).getName();
-                className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                EClass type = null;
+                boolean _isSelf_1 = ((ReferenceEvaluation)second).isSelf();
+                boolean _equals_1 = (_isSelf_1 == true);
+                if (_equals_1) {
+                  type = typeFirst;
+                } else {
+                  EClassifier _eType_1 = ((ReferenceEvaluation)second).getName().getEType();
+                  type = ((EClass) _eType_1);
+                }
+                className = type.getName();
+                scope.addAll(this.getEReferences(definition, className));
               }
             }
           }
         }
-        _xblockexpression = Scopes.scopeFor(refs);
       }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   /**
@@ -6109,7 +6207,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6126,7 +6224,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6167,7 +6265,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6184,7 +6282,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6225,7 +6323,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6242,7 +6340,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6283,7 +6381,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6300,7 +6398,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6341,7 +6439,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6358,7 +6456,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6399,7 +6497,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6416,7 +6514,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6457,7 +6555,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6474,7 +6572,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6515,7 +6613,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          atts.addAll(this.getEAttributes(metamodel, className));
+          atts.addAll(this.getEAttributes(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6532,7 +6630,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getName();
                 className = reference.getEType().getName();
-                atts.addAll(this.getEAttributes(metamodel, className));
+                atts.addAll(this.getEAttributes(definition, className));
               }
             }
           }
@@ -6573,7 +6671,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6590,7 +6688,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6631,7 +6729,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6648,7 +6746,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6689,7 +6787,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6706,7 +6804,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6747,7 +6845,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
-          refs.addAll(this.getEReferences(metamodel, className));
+          refs.addAll(this.getEReferences(definition, className));
           Expression _expression_1 = com.getExpression();
           EList<Evaluation> _second = null;
           if (_expression_1!=null) {
@@ -6764,7 +6862,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               if ((second instanceof ReferenceEvaluation)) {
                 reference = ((ReferenceEvaluation)second).getRefName();
                 className = reference.getEType().getName();
-                refs.addAll(this.getEReferences(metamodel, className));
+                refs.addAll(this.getEReferences(definition, className));
               }
             }
           }
@@ -6785,7 +6883,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(c);
       final Definition definition = env.getDefinition();
-      _xblockexpression = Scopes.scopeFor(this.getEClasses(definition.getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(this.getEClasses(definition));
     }
     return _xblockexpression;
   }
@@ -6861,7 +6959,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       for (final EClassifier cl : containers) {
         scontainers.add(cl.getName());
       }
-      final List<EReference> references = this.getEReferences(definition.getMetamodel(), com.getType().getName());
+      final List<EReference> references = this.getEReferences(definition, com.getType().getName());
       for (final EReference eref : references) {
         scontainers.add(eref.getEType().getName());
       }
@@ -6892,7 +6990,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
       for (final EClassifier cl : containers) {
         scontainers.add(cl.getName());
       }
-      final List<EReference> references = this.getEReferences(definition.getMetamodel(), com.getType().getName());
+      final List<EReference> references = this.getEReferences(definition, com.getType().getName());
       for (final EReference eref : references) {
         scontainers.add(eref.getEType().getName());
       }
@@ -6939,7 +7037,6 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
-          String metamodel = "";
           EObject sel = com.getObjSel();
           if ((((sel instanceof SelectObjectMutator) && 
             (((SelectObjectMutator) sel).getObject() instanceof RandomTypeSelection)) && 
@@ -6956,18 +7053,9 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
                   resource = res;
                 }
               }
-              if ((resource != null)) {
-                metamodel = resource.getMetamodel();
-              }
             }
-          } else {
-            String _metamodel = null;
-            if (definition!=null) {
-              _metamodel=definition.getMetamodel();
-            }
-            metamodel = _metamodel;
           }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(definition, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -7011,7 +7099,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_1 = selection.getObjSel();
             if ((_objSel_1 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_2 = selection.getObjSel();
-              className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
             }
             ObjectEmitter _objSel_3 = selection.getObjSel();
             if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -7038,7 +7126,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_8 = selection_1.getObjSel();
             if ((_objSel_8 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_9 = selection_1.getObjSel();
-              className = ((SelectObjectMutator) _objSel_9).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_9));
             }
             ObjectEmitter _objSel_10 = selection_1.getObjSel();
             if ((_objSel_10 instanceof SelectSampleMutator)) {
@@ -7085,7 +7173,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_15 = selection_5.getObjSel();
             if ((_objSel_15 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_16 = selection_5.getObjSel();
-              className = ((SelectObjectMutator) _objSel_16).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_16));
             }
             ObjectEmitter _objSel_17 = selection_5.getObjSel();
             if ((_objSel_17 instanceof SelectSampleMutator)) {
@@ -7112,7 +7200,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_22 = selection_6.getObjSel();
             if ((_objSel_22 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_23 = selection_6.getObjSel();
-              className = ((SelectObjectMutator) _objSel_23).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_23));
             }
             ObjectEmitter _objSel_24 = selection_6.getObjSel();
             if ((_objSel_24 instanceof SelectSampleMutator)) {
@@ -7159,7 +7247,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_29 = selection_10.getObjSel();
             if ((_objSel_29 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_30 = selection_10.getObjSel();
-              className = ((SelectObjectMutator) _objSel_30).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_30));
             }
             ObjectEmitter _objSel_31 = selection_10.getObjSel();
             if ((_objSel_31 instanceof SelectSampleMutator)) {
@@ -7186,7 +7274,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_36 = selection_11.getObjSel();
             if ((_objSel_36 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_37 = selection_11.getObjSel();
-              className = ((SelectObjectMutator) _objSel_37).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_37));
             }
             ObjectEmitter _objSel_38 = selection_11.getObjSel();
             if ((_objSel_38 instanceof SelectSampleMutator)) {
@@ -7222,11 +7310,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           }
         }
         if ((className != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          scopes.addAll(this.getEAttributes(_metamodel, className));
+          scopes.addAll(this.getEAttributes(definition, className));
         }
       }
       _xblockexpression = Scopes.scopeFor(scopes);
@@ -7266,7 +7350,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_1 = selection.getObjSel();
             if ((_objSel_1 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_2 = selection.getObjSel();
-              className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
             }
             ObjectEmitter _objSel_3 = selection.getObjSel();
             if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -7293,7 +7377,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_8 = selection_1.getObjSel();
             if ((_objSel_8 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_9 = selection_1.getObjSel();
-              className = ((SelectObjectMutator) _objSel_9).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_9));
             }
             ObjectEmitter _objSel_10 = selection_1.getObjSel();
             if ((_objSel_10 instanceof SelectSampleMutator)) {
@@ -7340,7 +7424,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_15 = selection_5.getObjSel();
             if ((_objSel_15 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_16 = selection_5.getObjSel();
-              className = ((SelectObjectMutator) _objSel_16).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_16));
             }
             ObjectEmitter _objSel_17 = selection_5.getObjSel();
             if ((_objSel_17 instanceof SelectSampleMutator)) {
@@ -7367,7 +7451,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_22 = selection_6.getObjSel();
             if ((_objSel_22 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_23 = selection_6.getObjSel();
-              className = ((SelectObjectMutator) _objSel_23).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_23));
             }
             ObjectEmitter _objSel_24 = selection_6.getObjSel();
             if ((_objSel_24 instanceof SelectSampleMutator)) {
@@ -7414,7 +7498,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_29 = selection_10.getObjSel();
             if ((_objSel_29 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_30 = selection_10.getObjSel();
-              className = ((SelectObjectMutator) _objSel_30).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_30));
             }
             ObjectEmitter _objSel_31 = selection_10.getObjSel();
             if ((_objSel_31 instanceof SelectSampleMutator)) {
@@ -7441,7 +7525,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_36 = selection_11.getObjSel();
             if ((_objSel_36 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_37 = selection_11.getObjSel();
-              className = ((SelectObjectMutator) _objSel_37).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_37));
             }
             ObjectEmitter _objSel_38 = selection_11.getObjSel();
             if ((_objSel_38 instanceof SelectSampleMutator)) {
@@ -7477,11 +7561,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           }
         }
         if ((className != null)) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
-          }
-          scopes.addAll(this.getEAttributes(_metamodel, className));
+          scopes.addAll(this.getEAttributes(definition, className));
         }
       }
       _xblockexpression = Scopes.scopeFor(scopes);
@@ -7522,7 +7602,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_1 = selection.getObjSel();
           if ((_objSel_1 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_2 = selection.getObjSel();
-            className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
           }
           ObjectEmitter _objSel_3 = selection.getObjSel();
           if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -7549,7 +7629,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_8 = selection_1.getObjSel();
           if ((_objSel_8 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_9 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_9).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_9));
           }
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectSampleMutator)) {
@@ -7583,11 +7663,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final TypedSelection selection_4 = ((TypedSelection) _object_10);
           className = selection_4.getType().getName();
         }
-        String _metamodel = null;
-        if (definition!=null) {
-          _metamodel=definition.getMetamodel();
-        }
-        scopes.addAll(this.getEAttributes(_metamodel, className));
+        scopes.addAll(this.getEAttributes(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scopes);
     }
@@ -7628,7 +7704,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             ObjectEmitter _objSel_1 = selection.getObjSel();
             if ((_objSel_1 instanceof SelectObjectMutator)) {
               ObjectEmitter _objSel_2 = selection.getObjSel();
-              className = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
+              className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_2));
             }
             ObjectEmitter _objSel_3 = selection.getObjSel();
             if ((_objSel_3 instanceof SelectSampleMutator)) {
@@ -7658,7 +7734,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           ObjectEmitter _objSel_8 = selection_1.getObjSel();
           if ((_objSel_8 instanceof SelectObjectMutator)) {
             ObjectEmitter _objSel_9 = selection_1.getObjSel();
-            className = ((SelectObjectMutator) _objSel_9).getObject().getType().getName();
+            className = MutatorUtils.selectObjectMutatorHelperName(((SelectObjectMutator) _objSel_9));
           }
           ObjectEmitter _objSel_10 = selection_1.getObjSel();
           if ((_objSel_10 instanceof SelectSampleMutator)) {
@@ -7678,8 +7754,8 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         if ((_object_7 instanceof TypedSelection)) {
           className = com.getObject().getType().getName();
         }
-        scope.addAll(this.getEAttributes(definition.getMetamodel(), className));
-        scope.addAll(this.getEReferences(definition.getMetamodel(), className));
+        scope.addAll(this.getEAttributes(definition, className));
+        scope.addAll(this.getEReferences(definition, className));
       }
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -8268,22 +8344,30 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String file containing the metamodel
    * @return List<EClass>
    */
-  private List<EClass> getEClasses(final String metamodelFile) {
+  private List<EClass> getEClasses(final Definition definition) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
       final List<EClass> classes = new ArrayList<EClass>();
-      for (final EPackage pck : metamodel) {
+      for (final String mm : metamodels) {
         {
-          EList<EClassifier> _eClassifiers = pck.getEClassifiers();
-          for (final EClassifier cl : _eClassifiers) {
-            if ((cl instanceof EClass)) {
-              classes.add(((EClass) cl));
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          for (final EPackage pck : metamodel) {
+            {
+              EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+              for (final EClassifier cl : _eClassifiers) {
+                if ((cl instanceof EClass)) {
+                  classes.add(((EClass) cl));
+                }
+              }
+              EList<EPackage> _eSubpackages = pck.getESubpackages();
+              boolean _tripleNotEquals = (_eSubpackages != null);
+              if (_tripleNotEquals) {
+                classes.addAll(this.getEClassesHelper(pck.getESubpackages()));
+              }
             }
-          }
-          EList<EPackage> _eSubpackages = pck.getESubpackages();
-          boolean _tripleNotEquals = (_eSubpackages != null);
-          if (_tripleNotEquals) {
-            classes.addAll(this.getEClassesHelper(pck.getESubpackages()));
           }
         }
       }
@@ -8299,10 +8383,19 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param EClass given class
    * @return List<EClass>
    */
-  private List<EClass> getESubClasses(final String metamodelFile, final EClass eclass) {
+  private List<EClass> getESubClasses(final Definition definition, final EClass eclass) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      final List<EClass> classes = ModelManager.getESubClasses(metamodel, eclass);
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
+      final List<EClass> classes = new ArrayList<EClass>();
+      for (final String mm : metamodels) {
+        {
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          classes.addAll(ModelManager.getESubClasses(metamodel, eclass));
+        }
+      }
       return classes;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -8314,28 +8407,46 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String file containing the model
    * @return List<EClass>
    */
-  private List<EClass> getModelEClasses(final String metamodelFile, final String modelFile) {
+  private List<EClass> getModelEClasses(final Definition definition, final String modelFile) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      final org.eclipse.emf.ecore.resource.Resource model = ModelManager.loadModel(metamodel, modelFile);
-      final List<EObject> classes = ModelManager.getAllObjects(model);
-      final List<EClass> ret = new ArrayList<EClass>();
-      for (final EObject o : classes) {
-        boolean _contains = ret.contains(o.eClass());
-        boolean _not = (!_contains);
-        if (_not) {
-          ret.add(o.eClass());
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
+      for (final String mm : metamodels) {
+        {
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          try {
+            final org.eclipse.emf.ecore.resource.Resource model = ModelManager.loadModel(metamodel, modelFile);
+            if ((model != null)) {
+              final List<EObject> classes = ModelManager.getAllObjects(model);
+              final List<EClass> ret = new ArrayList<EClass>();
+              for (final EObject o : classes) {
+                boolean _contains = ret.contains(o.eClass());
+                boolean _not = (!_contains);
+                if (_not) {
+                  ret.add(o.eClass());
+                }
+              }
+              final List<EClass> mmclasses = ModelManager.getEClasses(metamodel);
+              for (final EClass cl : mmclasses) {
+                boolean _contains_1 = ret.contains(cl);
+                boolean _not_1 = (!_contains_1);
+                if (_not_1) {
+                  ret.add(cl);
+                }
+              }
+              return ret;
+            }
+          } catch (final Throwable _t) {
+            if (_t instanceof Exception) {
+            } else {
+              throw Exceptions.sneakyThrow(_t);
+            }
+          }
         }
       }
-      final List<EClass> mmclasses = ModelManager.getEClasses(metamodel);
-      for (final EClass cl : mmclasses) {
-        boolean _contains_1 = ret.contains(cl);
-        boolean _not_1 = (!_contains_1);
-        if (_not_1) {
-          ret.add(cl);
-        }
-      }
-      return ret;
+      return new ArrayList<EClass>();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -8346,24 +8457,32 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String file containing the metamodel
    * @return List<EReference>
    */
-  private List<EReference> getEReferences(final String metamodelFile) {
+  private List<EReference> getEReferences(final Definition definition) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
       final List<EReference> references = new ArrayList<EReference>();
-      for (final EPackage pck : metamodel) {
+      for (final String mm : metamodels) {
         {
-          EList<EClassifier> _eClassifiers = pck.getEClassifiers();
-          for (final EClassifier cl : _eClassifiers) {
-            if ((cl instanceof EClass)) {
-              references.addAll(((EClass) cl).getEReferences());
-            }
-          }
-          EList<EPackage> _eSubpackages = pck.getESubpackages();
-          for (final EPackage spck : _eSubpackages) {
-            EList<EClassifier> _eClassifiers_1 = spck.getEClassifiers();
-            for (final EClassifier cl_1 : _eClassifiers_1) {
-              if ((cl_1 instanceof EClass)) {
-                references.addAll(((EClass) cl_1).getEReferences());
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          for (final EPackage pck : metamodel) {
+            {
+              EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+              for (final EClassifier cl : _eClassifiers) {
+                if ((cl instanceof EClass)) {
+                  references.addAll(((EClass) cl).getEReferences());
+                }
+              }
+              EList<EPackage> _eSubpackages = pck.getESubpackages();
+              for (final EPackage spck : _eSubpackages) {
+                EList<EClassifier> _eClassifiers_1 = spck.getEClassifiers();
+                for (final EClassifier cl_1 : _eClassifiers_1) {
+                  if ((cl_1 instanceof EClass)) {
+                    references.addAll(((EClass) cl_1).getEReferences());
+                  }
+                }
               }
             }
           }
@@ -8403,15 +8522,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String class name
    * @return List<EClass> list of containers
    */
-  private List<EClass> getESources(final String metamodelFile, final String ereferenceName) {
-    final List<EClass> eclasses = this.getEClasses(metamodelFile);
+  private List<EClass> getESources(final Definition definition, final String ereferenceName) {
+    final List<EClass> eclasses = this.getEClasses(definition);
     final List<EClass> esources = new ArrayList<EClass>();
     for (final EClass cl : eclasses) {
       EStructuralFeature _eStructuralFeature = cl.getEStructuralFeature(ereferenceName);
       boolean _tripleNotEquals = (_eStructuralFeature != null);
       if (_tripleNotEquals) {
         esources.add(cl);
-        esources.addAll(this.getESubClasses(metamodelFile, cl));
+        esources.addAll(this.getESubClasses(definition, cl));
       }
     }
     return esources;
@@ -8423,15 +8542,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String class name
    * @return List<EClass> list of containments
    */
-  private List<EClass> getETargets(final String metamodelFile, final String ereferenceName) {
-    final List<EClass> eclasses = this.getEClasses(metamodelFile);
-    final List<EReference> ereferences = this.getEReferences(metamodelFile);
+  private List<EClass> getETargets(final Definition definition, final String ereferenceName) {
+    final List<EClass> eclasses = this.getEClasses(definition);
+    final List<EReference> ereferences = this.getEReferences(definition);
     final List<EClass> etargets = new ArrayList<EClass>();
     for (final EClass cl : eclasses) {
       for (final EReference rl : ereferences) {
         if ((cl.getName().equals(rl.getEType().getName()) && rl.getName().equals(ereferenceName))) {
           etargets.add(cl);
-          etargets.addAll(this.getESubClasses(metamodelFile, cl));
+          etargets.addAll(this.getESubClasses(definition, cl));
         }
       }
     }
@@ -8444,15 +8563,15 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String class name
    * @return List<EClass> list of containers
    */
-  private List<EClass> getModelESources(final String metamodelFile, final String modelFile, final String ereferenceName) {
-    final List<EClass> eclasses = this.getModelEClasses(metamodelFile, modelFile);
+  private List<EClass> getModelESources(final Definition definition, final String modelFile, final String ereferenceName) {
+    final List<EClass> eclasses = this.getModelEClasses(definition, modelFile);
     final List<EClass> esources = new ArrayList<EClass>();
     for (final EClass cl : eclasses) {
       EStructuralFeature _eStructuralFeature = cl.getEStructuralFeature(ereferenceName);
       boolean _tripleNotEquals = (_eStructuralFeature != null);
       if (_tripleNotEquals) {
         esources.add(cl);
-        esources.addAll(this.getESubClasses(metamodelFile, cl));
+        esources.addAll(this.getESubClasses(definition, cl));
       }
     }
     return esources;
@@ -8465,22 +8584,42 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String target class name
    * @return List<EReference> list of references
    */
-  private List<EReference> getEContainmentReferences(final String metamodelFile, final String esourceclassName, final String etargetclassName) {
+  private List<EReference> getEContainmentReferences(final Definition definition, final String esourceclassName, final String etargetclassName) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(esourceclassName, metamodel);
-      final EClass sourceclass = ((EClass) _objectOfType);
-      EObject _objectOfType_1 = ModelManager.getObjectOfType(etargetclassName, metamodel);
-      final EClass targetclass = ((EClass) _objectOfType_1);
-      final List<EReference> references = new ArrayList<EReference>();
-      EList<EReference> _eAllReferences = sourceclass.getEAllReferences();
-      for (final EReference ref : _eAllReferences) {
-        if (((ref.getEReferenceType().isSuperTypeOf(targetclass) && 
-          ref.isContainment()) && ref.isChangeable())) {
-          references.add(ref);
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
+      for (final String mmsource : metamodels) {
+        {
+          final List<EPackage> metamodelsource = ModelManager.loadMetaModel(mmsource);
+          EObject _objectOfType = ModelManager.getObjectOfType(esourceclassName, metamodelsource);
+          final EClass sourceclass = ((EClass) _objectOfType);
+          if ((sourceclass != null)) {
+            for (final String mmtarget : metamodels) {
+              {
+                final List<EPackage> metamodeltarget = ModelManager.loadMetaModel(mmtarget);
+                EObject _objectOfType_1 = ModelManager.getObjectOfType(esourceclassName, metamodeltarget);
+                final EClass targetclass = ((EClass) _objectOfType_1);
+                final List<EReference> references = new ArrayList<EReference>();
+                if (((sourceclass != null) && (targetclass != null))) {
+                  EList<EReference> _eAllReferences = sourceclass.getEAllReferences();
+                  for (final EReference ref : _eAllReferences) {
+                    boolean _isSuperTypeOf = ref.getEReferenceType().isSuperTypeOf(targetclass);
+                    if (_isSuperTypeOf) {
+                      if ((ref.isContainment() && ref.isChangeable())) {
+                        references.add(ref);
+                      }
+                    }
+                  }
+                  return references;
+                }
+              }
+            }
+          }
         }
       }
-      return references;
+      return null;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -8493,22 +8632,46 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String target class name
    * @return List<EReference> list of references
    */
-  private List<EReference> getEReferences(final String metamodelFile, final String esourceclassName, final String etargetclassName) {
+  private List<EReference> getEReferences(final Definition definition, final String esourceclassName, final String etargetclassName) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(esourceclassName, metamodel);
-      final EClass sourceclass = ((EClass) _objectOfType);
-      EObject _objectOfType_1 = ModelManager.getObjectOfType(etargetclassName, metamodel);
-      final EClass targetclass = ((EClass) _objectOfType_1);
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
       final List<EReference> references = new ArrayList<EReference>();
-      EList<EReference> _eAllReferences = sourceclass.getEAllReferences();
-      for (final EReference ref : _eAllReferences) {
-        boolean _isSuperTypeOf = ref.getEReferenceType().isSuperTypeOf(targetclass);
-        if (_isSuperTypeOf) {
-          references.add(ref);
+      for (final String mmsource : metamodels) {
+        {
+          final List<EPackage> metamodelsource = ModelManager.loadMetaModel(mmsource);
+          EObject _objectOfType = ModelManager.getObjectOfType(esourceclassName, metamodelsource);
+          final EClass sourceclass = ((EClass) _objectOfType);
+          if ((sourceclass != null)) {
+            for (final String mmtarget : metamodels) {
+              {
+                final List<EPackage> metamodeltarget = ModelManager.loadMetaModel(mmtarget);
+                EObject _objectOfType_1 = ModelManager.getObjectOfType(etargetclassName, metamodeltarget);
+                final EClass targetclass = ((EClass) _objectOfType_1);
+                if (((sourceclass != null) && (targetclass != null))) {
+                  EList<EReference> _eAllReferences = sourceclass.getEAllReferences();
+                  for (final EReference ref : _eAllReferences) {
+                    {
+                      EClass type = ModelManager.getEClassByName(metamodeltarget, ref.getEReferenceType().getName());
+                      if ((type == null)) {
+                        type = ref.getEReferenceType();
+                      }
+                      boolean _isSuperTypeOf = type.isSuperTypeOf(targetclass);
+                      if (_isSuperTypeOf) {
+                        references.add(ref);
+                      }
+                    }
+                  }
+                  return references;
+                }
+              }
+            }
+          }
         }
       }
-      return references;
+      return null;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -8520,22 +8683,29 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String class name
    * @return List<EAttribute> list of attributes
    */
-  private List<EAttribute> getEAttributes(final String metamodelFile, final String eclassName) {
+  private List<EAttribute> getEAttributes(final Definition definition, final String eclassName) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
-      final EClass eclass = ((EClass) _objectOfType);
-      if ((eclass != null)) {
-        final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
-        List<EAttribute> attributes = new ArrayList<EAttribute>();
-        for (final EClass subclass : subclasses) {
-          attributes.addAll(subclass.getEAllAttributes());
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
+      for (final String mm : metamodels) {
+        {
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
+          final EClass eclass = ((EClass) _objectOfType);
+          if ((eclass != null)) {
+            final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
+            List<EAttribute> attributes = new ArrayList<EAttribute>();
+            for (final EClass subclass : subclasses) {
+              attributes.addAll(subclass.getEAllAttributes());
+            }
+            attributes.addAll(eclass.getEAllAttributes());
+            return attributes;
+          }
         }
-        attributes.addAll(eclass.getEAllAttributes());
-        return attributes;
-      } else {
-        return new ArrayList<EAttribute>();
       }
+      return new ArrayList<EAttribute>();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -8547,22 +8717,29 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
    * @param String class name
    * @return List<EAttribute> list of attributes
    */
-  private List<EReference> getEReferences(final String metamodelFile, final String eclassName) {
+  private List<EReference> getEReferences(final Definition definition, final String eclassName) {
     try {
-      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
-      final EClass eclass = ((EClass) _objectOfType);
-      if ((eclass != null)) {
-        final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
-        List<EReference> references = new ArrayList<EReference>();
-        for (final EClass subclass : subclasses) {
-          references.addAll(subclass.getEAllReferences());
+      final List<String> resourceMM = this.getResourceMetamodels(definition);
+      List<String> metamodels = new ArrayList<String>();
+      metamodels.add(definition.getMetamodel());
+      metamodels.addAll(resourceMM);
+      for (final String mm : metamodels) {
+        {
+          final List<EPackage> metamodel = ModelManager.loadMetaModel(mm);
+          EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
+          final EClass eclass = ((EClass) _objectOfType);
+          if ((eclass != null)) {
+            final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
+            List<EReference> references = new ArrayList<EReference>();
+            for (final EClass subclass : subclasses) {
+              references.addAll(subclass.getEAllReferences());
+            }
+            references.addAll(eclass.getEAllReferences());
+            return references;
+          }
         }
-        references.addAll(eclass.getEAllReferences());
-        return references;
-      } else {
-        return new ArrayList<EReference>();
       }
+      return new ArrayList<EReference>();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -8655,6 +8832,70 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
       }
       return null;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  private List<String> getResourceMetamodels(final Definition definition) {
+    List<String> metamodels = new ArrayList<String>();
+    if ((definition == null)) {
+      return metamodels;
+    }
+    if ((definition instanceof Program)) {
+      final Program program = ((Program) definition);
+      EList<Resource> _resources = ((Program)definition).getResources();
+      for (final Resource resource : _resources) {
+        boolean _contains = metamodels.contains(resource.getMetamodel());
+        boolean _not = (!_contains);
+        if (_not) {
+          metamodels.add(resource.getMetamodel());
+        }
+      }
+    }
+    return metamodels;
+  }
+
+  private void addResourceClasses(final Definition definition, final EClass type, final List<EClass> classes) {
+    if (((classes == null) || (definition == null))) {
+      return;
+    }
+    final List<String> metamodels = this.getResourceMetamodels(definition);
+    for (final String metamodel : metamodels) {
+      {
+        List<EClass> resourceClasses = ModelManager.getSiblingEClasses(metamodel, type);
+        for (final EClass resourceClass : resourceClasses) {
+          boolean _contains = classes.contains(resourceClass);
+          boolean _not = (!_contains);
+          if (_not) {
+            classes.add(resourceClass);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @param name
+   *            Name of the reference
+   * @param object
+   *            Object one wants to explore
+   * @return EStructuralFeature Specified reference
+   */
+  private EStructuralFeature getReferenceByName(final Definition definition, final String name, final String className) {
+    try {
+      String _metamodel = null;
+      if (definition!=null) {
+        _metamodel=definition.getMetamodel();
+      }
+      String metamodel = _metamodel;
+      List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+      EClass eClass = ModelManager.getEClassByName(packages, className);
+      EStructuralFeature sf = null;
+      if ((eClass != null)) {
+        sf = eClass.getEStructuralFeature(name);
+      }
+      return sf;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

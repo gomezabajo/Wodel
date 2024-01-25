@@ -1,5 +1,7 @@
 package wodel.postprocessor.run;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -14,6 +16,6 @@ public interface IPostprocessor extends IExecutableExtension {
 
 	public abstract String getURI();
 	
-	public boolean doProcess(String metamodelpath, String metamodel, Resource model, String filename);
+	public boolean doProcess(String metamodelpath, List<String> metamodel, Resource model, String filename);
 
 }

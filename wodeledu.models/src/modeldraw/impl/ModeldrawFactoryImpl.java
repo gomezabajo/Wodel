@@ -58,6 +58,7 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModeldrawPackage.MUTATOR_DRAW: return createMutatorDraw();
+			case ModeldrawPackage.MUTATOR_INSTANCE: return createMutatorInstance();
 			case ModeldrawPackage.VALUED_FEATURE: return createValuedFeature();
 			case ModeldrawPackage.NODE: return createNode();
 			case ModeldrawPackage.EDGE: return createEdge();
@@ -129,6 +130,16 @@ public class ModeldrawFactoryImpl extends EFactoryImpl implements ModeldrawFacto
 	public MutatorDraw createMutatorDraw() {
 		MutatorDrawImpl mutatorDraw = new MutatorDrawImpl();
 		return mutatorDraw;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MutatorInstance createMutatorInstance() {
+		MutatorInstanceImpl mutatorInstance = new MutatorInstanceImpl();
+		return mutatorInstance;
 	}
 
 	/**

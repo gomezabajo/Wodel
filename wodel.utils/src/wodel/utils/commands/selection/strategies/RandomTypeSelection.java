@@ -5,7 +5,6 @@ import java.util.List;
 
 import wodel.utils.manager.ModelManager;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -287,10 +286,12 @@ public class RandomTypeSelection extends RandomSelection{
 			}
 			if (this.getModels() != null) {
 				for (Resource resource : this.getModels()) {
-					List<EObject> lr = ModelManager.getObjectsOfType(type, resource);
-					for (EObject rob : lr) {
-						if (!l.contains(rob)) {
-							l.add(rob);
+					if (resource != null) {
+						List<EObject> lr = ModelManager.getObjectsOfType(type, resource);
+						for (EObject rob : lr) {
+							if (!l.contains(rob)) {
+								l.add(rob);
+							}
 						}
 					}
 				}
@@ -307,18 +308,12 @@ public class RandomTypeSelection extends RandomSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject obj : objects) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -326,18 +321,12 @@ public class RandomTypeSelection extends RandomSelection{
 				else {
 					EObject obj = (EObject) container.eGet(reference);
 					if (obj != null) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -366,11 +355,13 @@ public class RandomTypeSelection extends RandomSelection{
 			}
 			if (this.getModels() != null) {
 				for (Resource resource : this.getModels()) {
-					for (String t : types) {
-						List<EObject> lr = ModelManager.getObjectsOfType(t, resource);
-						for (EObject rob : lr) {
-							if (!l.contains(rob)) {
-								l.add(rob);
+					if (resource != null) {
+						for (String t : types) {
+							List<EObject> lr = ModelManager.getObjectsOfType(t, resource);
+							for (EObject rob : lr) {
+								if (!l.contains(rob)) {
+									l.add(rob);
+								}
 							}
 						}
 					}
@@ -388,18 +379,12 @@ public class RandomTypeSelection extends RandomSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject obj : objects) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -407,18 +392,12 @@ public class RandomTypeSelection extends RandomSelection{
 				else {
 					EObject obj = (EObject) container.eGet(reference);
 					if (obj != null) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -450,10 +429,12 @@ public class RandomTypeSelection extends RandomSelection{
 			}
 			if (this.getModels() != null) {
 				for (Resource resource : this.getModels()) {
-					List<EObject> lr = ModelManager.getObjectsOfType(type, resource);
-					for (EObject rob : lr) {
-						if (!l.contains(rob)) {
-							l.add(rob);
+					if (resource != null) {
+						List<EObject> lr = ModelManager.getObjectsOfType(type, resource);
+						for (EObject rob : lr) {
+							if (!l.contains(rob)) {
+								l.add(rob);
+							}
 						}
 					}
 				}
@@ -470,18 +451,12 @@ public class RandomTypeSelection extends RandomSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject obj : objects) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -489,18 +464,12 @@ public class RandomTypeSelection extends RandomSelection{
 				else {
 					EObject obj = (EObject) container.eGet(reference);
 					if (obj != null) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -523,11 +492,13 @@ public class RandomTypeSelection extends RandomSelection{
 			}
 			if (this.getModels() != null) {
 				for (Resource resource : this.getModels()) {
-					for (String t : types) {
-						List<EObject> lr = ModelManager.getObjectsOfType(t, resource);
-						for (EObject rob : lr) {
-							if (!l.contains(rob)) {
-								l.add(rob);
+					if (resource != null) {
+						for (String t : types) {
+							List<EObject> lr = ModelManager.getObjectsOfType(t, resource);
+							for (EObject rob : lr) {
+								if (!l.contains(rob)) {
+									l.add(rob);
+								}
 							}
 						}
 					}
@@ -545,18 +516,12 @@ public class RandomTypeSelection extends RandomSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject obj : objects) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}
@@ -564,18 +529,12 @@ public class RandomTypeSelection extends RandomSelection{
 				else {
 					EObject obj = (EObject) container.eGet(reference);
 					if (obj != null) {
-						URI objURI = EcoreUtil.getURI(obj);
 						for (EObject ob : l) {
-							URI obURI = EcoreUtil.getURI(ob);
-							if (obURI != null && objURI != null) {
-								if (EcoreUtil.getURI(ob).equals(EcoreUtil.getURI(obj))) {
-									ret.add(ob);
-								}
+							if (EcoreUtil.equals(obj, ob)) {
+								ret.add(ob);
 							}
-							else {
-								if (ob.equals(obj)) {
-									ret.add(ob);
-								}
+							else if (ob.equals(obj)) {
+								ret.add(ob);
 							}
 						}
 					}

@@ -3937,10 +3937,20 @@ ruleReferenceEvaluation returns [EObject current=null]
 				)
 			)
 			    |
-			otherlv_2='self'
-			{
-				newLeafNode(otherlv_2, grammarAccess.getReferenceEvaluationAccess().getSelfKeyword_1_1());
-			}
+			(
+				(
+					lv_self_2_0='self'
+					{
+						newLeafNode(lv_self_2_0, grammarAccess.getReferenceEvaluationAccess().getSelfSelfKeyword_1_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getReferenceEvaluationRule());
+						}
+						setWithLastConsumed($current, "self", lv_self_2_0 != null, "self");
+					}
+				)
+			)
 			    |
 			(
 				(
@@ -4001,10 +4011,30 @@ ruleReferenceEvaluation returns [EObject current=null]
 			)
 			    |
 			(
+				otherlv_7='->'
+				{
+					newLeafNode(otherlv_7, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0());
+				}
 				(
-					otherlv_7='->'
+					(
+						{
+							/* */
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getReferenceEvaluationRule());
+							}
+						}
+						otherlv_8=RULE_ID
+						{
+							newLeafNode(otherlv_8, grammarAccess.getReferenceEvaluationAccess().getRefNameEReferenceCrossReference_2_1_1_0());
+						}
+					)
+				)
+				(
+					otherlv_9='->'
 					{
-						newLeafNode(otherlv_7, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0_0());
+						newLeafNode(otherlv_9, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_2_0());
 					}
 					(
 						(
@@ -4016,81 +4046,59 @@ ruleReferenceEvaluation returns [EObject current=null]
 									$current = createModelElement(grammarAccess.getReferenceEvaluationRule());
 								}
 							}
-							otherlv_8=RULE_ID
+							otherlv_10=RULE_ID
 							{
-								newLeafNode(otherlv_8, grammarAccess.getReferenceEvaluationAccess().getRefNameEReferenceCrossReference_2_1_0_1_0());
+								newLeafNode(otherlv_10, grammarAccess.getReferenceEvaluationAccess().getRefRefNameEReferenceCrossReference_2_1_2_1_0());
 							}
 						)
 					)
-					(
-						otherlv_9='->'
-						{
-							newLeafNode(otherlv_9, grammarAccess.getReferenceEvaluationAccess().getHyphenMinusGreaterThanSignKeyword_2_1_0_2_0());
-						}
-						(
-							(
-								{
-									/* */
-								}
-								{
-									if ($current==null) {
-										$current = createModelElement(grammarAccess.getReferenceEvaluationRule());
-									}
-								}
-								otherlv_10=RULE_ID
-								{
-									newLeafNode(otherlv_10, grammarAccess.getReferenceEvaluationAccess().getRefRefNameEReferenceCrossReference_2_1_0_2_1_0());
-								}
-							)
-						)
-					)?
 				)?
+			)?
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getOperatorOperatorEnumRuleCall_3_0());
+				}
+				lv_operator_11_0=ruleOperator
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
+					}
+					set(
+						$current,
+						"operator",
+						lv_operator_11_0,
+						"wodel.dsls.Wodel.Operator");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
 				(
-					(
-						{
-							newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getOperatorOperatorEnumRuleCall_2_1_1_0());
-						}
-						lv_operator_11_0=ruleOperator
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
-							}
-							set(
-								$current,
-								"operator",
-								lv_operator_11_0,
-								"wodel.dsls.Wodel.Operator");
-							afterParserOrEnumRuleCall();
-						}
-					)
-				)
-				(
-					(
-						(
-							{
-								newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getValueObSelectionStrategyParserRuleCall_2_1_2_0_0());
-							}
-							lv_value_12_0=ruleObSelectionStrategy
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
-								}
-								set(
-									$current,
-									"value",
-									lv_value_12_0,
-									"wodel.dsls.Wodel.ObSelectionStrategy");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-					    |
-					otherlv_13='null'
 					{
-						newLeafNode(otherlv_13, grammarAccess.getReferenceEvaluationAccess().getNullKeyword_2_1_2_1());
+						newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getValueObSelectionStrategyParserRuleCall_4_0_0());
+					}
+					lv_value_12_0=ruleObSelectionStrategy
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getReferenceEvaluationRule());
+						}
+						set(
+							$current,
+							"value",
+							lv_value_12_0,
+							"wodel.dsls.Wodel.ObSelectionStrategy");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
+			    |
+			otherlv_13='null'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getReferenceEvaluationAccess().getNullKeyword_4_1());
+			}
 		)
 	)
 ;

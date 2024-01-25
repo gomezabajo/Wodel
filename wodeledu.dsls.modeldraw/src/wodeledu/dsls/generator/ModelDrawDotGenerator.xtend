@@ -60,17 +60,17 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		Map<String, List<Map<String, String>>> dotrels = new HashMap<String, List<Map<String, String>>>();
 		Map<String, List<String>> dottext = new HashMap<String, List<String>>();
 		List<String> dotcode = new ArrayList<String>();
-		«IF draw.nodes !== null»
-		«IF draw.nodes.size() > 0»
+		«IF draw.instances.get(0).nodes !== null»
+		«IF draw.instances.get(0).nodes.size() > 0»
 		generateNodes(packages, model, dotnodes, dotrels);
 		«ENDIF»
 		«ENDIF»
-		«IF draw.relations !== null»
-		«IF draw.relations.size() > 0»
+		«IF draw.instances.get(0).relations !== null»
+		«IF draw.instances.get(0).relations.size() > 0»
 		generateRelations(model, dotrels, dottext);
 		«ENDIF»
 		«ENDIF»
-		dotcode.add("digraph «draw.name.name» {\n\nrankdir=LR;\n");
+		dotcode.add("digraph «draw.instances.get(0).name.name» {\n\nrankdir=LR;\n");
 		for (EObject dotnode : dotnodes.keySet()) {
 			if (dotnodes.get(dotnode) != null) {
 				dotcode.add(dotnodes.get(dotnode).name.replaceAll("'", "") + " [" + dotnodes.get(dotnode).label.replaceAll("'", "") + "];\n");
@@ -274,11 +274,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		
    		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
 	   			+ project.name»
-		«IF draw.nodes !== null»
-		«IF draw.nodes.size() > 0»
+		«IF draw.instances.get(0).nodes !== null»
+		«IF draw.instances.get(0).nodes.size() > 0»
 		private static void generateNodes(List<EPackage> packages, Resource model, Map<EObject, LabelStyle> dotnodes, Map<String, List<Map<String, String>>> dotrels) {
 			// COUNTER: «var counter = 0»
-			«FOR Node node : draw.nodes»
+			«FOR Node node : draw.instances.get(0).nodes»
 			List<EObject> lnode_«counter» = ModelManager.getObjectsOfType("«node.name.name»", model);
 			for (EObject node : lnode_«counter») {
 				Map<String, String> parameters = new LinkedHashMap<String, String>();
@@ -802,15 +802,15 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 						«IF node.reference.size() > 0»
 						Map<EObject, String> table = new HashMap<EObject, String>();
 						«FOR ref : node.reference»
-						«IF draw.contents !== null»
-						«IF draw.contents.size() > 0»
+						«IF draw.instances.get(0).contents !== null»
+						«IF draw.instances.get(0).contents.size() > 0»
 						for (EReference ref : node.eClass().getEAllReferences()) {
 							String label = "";
 							List<EClass> classes = null;
 							EClass cl = null;
 							if (ref.getName().equals("«ref.name»")) {
 								//COUNT SET:«var int count = 0»
-								«FOR content : draw.contents»
+								«FOR content : draw.instances.get(0).contents»
 								//COUNT INC: «count++»
 								classes = new ArrayList<EClass>();
 								cl = ModelManager.getEClassByName(packages, "«content.name.name»");
@@ -954,11 +954,11 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		«ENDIF»
 		«ENDIF»
 		
-		«IF draw.relations !== null»
-		«IF draw.relations.size() > 0»
+		«IF draw.instances.get(0).relations !== null»
+		«IF draw.instances.get(0).relations.size() > 0»
 		private static void generateRelations(Resource model, Map<String, List<Map<String, String>>> dotrels, Map<String, List<String>> dottext) {
 			// COUNTER: «var counter = 0»
-			«FOR Relation rel : draw.relations»
+			«FOR Relation rel : draw.instances.get(0).relations»
 			«IF rel instanceof Edge»
 			//«var Edge edge = rel as Edge»
 			List<EObject> ledge_«counter» = ModelManager.getObjectsOfType("«edge.name.name»", model);
@@ -1085,12 +1085,16 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 				«IF edge.targetNode !== null»
 				List<EObject> targetNodes = ModelManager.getConnectedObjectsOfType("«edge.targetNode.name»", edge);
 				for (EObject targetNode : targetNodes) {
+					EObject featObject = null;
 					«IF edge.targetFeature !== null»
 					boolean targetValid = true;
 					«FOR ValuedFeature feat : edge.targetFeature»
 					for (EStructuralFeature feat : targetNode.eClass().getEAllStructuralFeatures()) {
 						if (feat.getName().equals("«feat.feat.name»")) {
-							Object featObject = targetNode.eGet(feat);
+							Object ob = targetNode.eGet(feat);
+							if (ob instanceof EObject) {
+								featObject = (EObject) ob;
+							} 
 							«IF feat.feat instanceof EAttribute»
 							if (featObject instanceof Boolean) {
 							Boolean value = (Boolean) featObject;
@@ -1159,7 +1163,16 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 					continue;
 				}	
 				«ENDIF»
-				EObject src = edge;
+				EObject src = null;
+				EObject tar = null;
+				if (featObject == null) {
+					src = edge;
+					tar = targetNode;
+				}
+				else {
+					src = targetNode;
+					tar = featObject;
+				}
 				String srcName = "";
 				if (src != null) {
 					for (EAttribute att : src.eClass().getEAllAttributes()) {
@@ -1173,7 +1186,6 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 						}
 					}
 				}
-				EObject tar = targetNode;
 				String tarName = "";
 				if (tar != null) {
 					for (EAttribute att : tar.eClass().getEAllAttributes()) {
@@ -1187,7 +1199,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 						}
 					}
 				}
-				if (!srcName.isEmpty() && !tarName.isEmpty() && !source.contains(srcName) && !target.contains(tarName)) {
+				if (!srcName.isEmpty() && !tarName.isEmpty() && !source.contains(srcName)) { //&& !target.contains(tarName)) {
 					source.add(srcName);
 					target.add(tarName);
 				}
@@ -1307,37 +1319,73 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 				«ENDIF»
 				«ENDIF»
 				«edge.decorate»
-				for (int i = 0; i < source.size(); i++) {
-					if (dotrels.containsKey(source.get(i) + "->" + target.get(i)) == true) {
-						rels = dotrels.get(source.get(i) + "->" + target.get(i));
-					}
-					else {
-						rels = new ArrayList<Map<String, String>>();
-					}
-					boolean found = false;
-					for (Map<String, String> rel : rels) {
-						for (String key : rel.keySet()) {
-							if (key.equals("label")) {
-								for (String keyParameters : parameters.keySet()) {
-									if (key.equals(keyParameters)) {
-										if (parameters.get(keyParameters).length() > 1) {
-											String value = rel.get(key);
-											if (value.length() > 0) {
-												value = value.substring(0, value.length() - 1);
+				if (source.size() == target.size()) {
+					for (int i = 0; i < source.size() && i < target.size(); i++) {
+						if (dotrels.containsKey(source.get(i) + "->" + target.get(i)) == true) {
+							rels = dotrels.get(source.get(i) + "->" + target.get(i));
+						}
+						else {
+							rels = new ArrayList<Map<String, String>>();
+						}
+						boolean found = false;
+						for (Map<String, String> rel : rels) {
+							for (String key : rel.keySet()) {
+								if (key.equals("label")) {
+									for (String keyParameters : parameters.keySet()) {
+										if (key.equals(keyParameters)) {
+											if (parameters.get(keyParameters).length() > 1) {
+												String value = rel.get(key);
+												if (value.length() > 0) {
+													value = value.substring(0, value.length() - 1);
+												}
+												value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
+												rel.put(key, value);
+												found = true;
 											}
-											value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
-											rel.put(key, value);
-											found = true;
 										}
 									}
 								}
 							}
 						}
+						if (found == false) {
+							rels.add(parameters);
+						}
+						dotrels.put(source.get(i) + "->" + target.get(i), rels);
 					}
-					if (found == false) {
-						rels.add(parameters);
+				}
+				else {
+					for (int i = 0; i < source.size(); i++) {
+						if (dotrels.containsKey(source.get(i) + "->" + target.get(i)) == true) {
+							rels = dotrels.get(source.get(i) + "->" + target.get(i));
+						}
+						else {
+							rels = new ArrayList<Map<String, String>>();
+						}
+						boolean found = false;
+						for (Map<String, String> rel : rels) {
+							for (String key : rel.keySet()) {
+								if (key.equals("label")) {
+									for (String keyParameters : parameters.keySet()) {
+										if (key.equals(keyParameters)) {
+											if (parameters.get(keyParameters).length() > 1) {
+												String value = rel.get(key);
+												if (value.length() > 0) {
+													value = value.substring(0, value.length() - 1);
+												}
+												value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
+												rel.put(key, value);
+												found = true;
+											}
+										}
+									}
+								}
+							}
+						}
+						if (found == false) {
+							rels.add(parameters);
+						}
+						dotrels.put(source.get(i) + "->" + target.get(i), rels);
 					}
-					dotrels.put(source.get(i) + "->" + target.get(i), rels);
 				}
 			}
 			«ENDIF»

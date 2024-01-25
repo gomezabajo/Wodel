@@ -109,6 +109,7 @@ public class WodelTestResultClass {
 	public static void storeFile(String path, List<WodelTestResultClass> resultsClass) {
 		File file = new File(path);
 		try {
+			LockRegistry.INSTANCE.acquire(path, LockRegistry.LockType.WRITE);
 			if (file.exists() != true) {
 				file.createNewFile();
 			}
@@ -120,7 +121,7 @@ public class WodelTestResultClass {
 			}
 			writer.flush();
 			writer.close();
-
+			LockRegistry.INSTANCE.release(path, LockRegistry.LockType.WRITE);
 		} catch (IOException e) {
 		}
 	}

@@ -263,9 +263,9 @@ AttributeEvaluation returns AttributeEvaluation:
 
 ReferenceEvaluation returns ReferenceEvaluation:
 	{ReferenceEvaluation}
-	(name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+	(name=[ecore::EReference|ID] | self?='self' | container ?= 'container')
 	(('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType) 
-		| ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
+		| ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)?) operator=Operator (value=ObSelectionStrategy | 'null' )
 ;
 
 Evaluation returns Evaluation:

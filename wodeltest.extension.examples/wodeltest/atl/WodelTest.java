@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -377,4 +378,64 @@ public class WodelTest implements IWodelTest {
 		return true;
 	}
 
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath,
+			List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath) {
+		Map<IProject, WodelTestGlobalResult> globalResultMap = new HashMap<IProject, WodelTestGlobalResult>();
+		for (IProject testSuiteProject : testSuitesProjects) {
+			WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
+			try {
+				List<WodelTestResultClass> results = globalResult.getResults();
+				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
+				String in = getIn(projectPath, project.getName());
+				String inMetamodel = projectPath + "/" + in + ".ecore";
+				String out = getOut(projectPath, project.getName());
+				String outMetamodel = projectPath + "/" + out + ".ecore";
+				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				List<Object> tests = getTests(testSuitePath);
+				for (Object test : tests) {
+					String inModel = (String) test;
+					String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
+					String modelPath = artifactPath.substring(0, artifactPath.indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
+					runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
+					String blockName = artifactPath.substring(artifactPath.indexOf("\\" + project.getName() + "/") + ("\\" + project.getName() + "/").length(), artifactPath.length());
+					blockName = blockName.substring(0, blockName.indexOf("/"));
+					runHelper(globalResult, results, project, tests, test, artifactPath, blockName, in, inMetamodel, out, outMetamodel, projectPath);
+				}
+				globalResultMap.put(testSuiteProject, globalResult);
+			} catch (SecurityException e) {
+				// 	TODO Auto-generated catch block
+				e.printStackTrace();
+				globalResult.setStatus(Status.EXCEPTION);
+			}
+		}
+		return globalResultMap;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, int port) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
+			String artifactPath, List<Thread> threads) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

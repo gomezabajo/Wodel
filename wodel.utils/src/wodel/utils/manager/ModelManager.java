@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -125,13 +126,21 @@ public class ModelManager {
 			if (fmm.exists() == false && uri.indexOf("/") == -1) {
 				mmURI = getMetaModelPath() + "/" + uri;
 			}
+			fmm = new File(mmURI);
+			if (fmm.exists() == false && mmURI.startsWith("/") && (mmURI.indexOf(":") != -1)) {
+				mmURI = mmURI.substring(1, mmURI.length());
+			}
+			fmm = new File(mmURI);
+			if (fmm.exists() == false) {
+				throw new MetaModelNotFoundException(mmURI);
+			}
 			
 			// check if it is already registered
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
 			
 			// otherwise
 			if (pck == null) {
-				EPackage.Registry.INSTANCE.put(mmURI, EPackage.class);
+				EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
 				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
 					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 				
@@ -156,6 +165,62 @@ public class ModelManager {
 		return metamodel;
 	}
 
+	public static List<EPackage> loadMetaModels (List<String> uris) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = null;
+		for (String uri : uris) {
+			String mmURI = uri;
+			
+			try {
+				metamodel = new ArrayList<EPackage>();
+				
+				File fmm = new File(uri);
+				if (fmm.exists() == false && uri.indexOf("/") != -1) {
+					mmURI = getMetaModelPath() + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+				}
+				if (fmm.exists() == false && uri.indexOf("/") == -1) {
+					mmURI = getMetaModelPath() + "/" + uri;
+				}
+				if (mmURI.startsWith("/")) {
+					mmURI = mmURI.substring(1, mmURI.length());
+				}
+				fmm = new File(mmURI);
+				if (fmm.exists() == false && mmURI.startsWith("/") && (mmURI.indexOf(":") != -1)) {
+					mmURI = mmURI.substring(1, mmURI.length());
+				}
+				fmm = new File(mmURI);
+				if (fmm.exists() == false) {
+					throw new MetaModelNotFoundException(mmURI);
+				}
+				
+				// check if it is already registered
+				EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
+				
+				// otherwise
+				if (pck == null) {
+					EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
+					if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+						Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+					
+					ResourceSetImpl resourceSet = new ResourceSetImpl();
+					Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+					
+					for (EObject obj : resource.getContents()) {
+						if (obj instanceof EPackage) {
+							resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+							metamodel.add((EPackage)obj);
+						}
+					}
+				}
+				else metamodel.add(pck);
+
+				
+			}
+			catch (Exception e) {
+				throw new MetaModelNotFoundException(mmURI);
+			}
+		}
+		return metamodel;
+	}
 
 	public static List<EPackage> loadMetaModel (String uri, Class<?> cls) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
@@ -171,11 +236,23 @@ public class ModelManager {
 			if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
 				mmURI = getMetaModelPath(cls) + "/" + mmURI;
 			}
-			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+			if (mmURI.startsWith("/")) {
+				mmURI = mmURI.substring(1, mmURI.length());
+			}
+			fmm = new File(mmURI);
+			if (fmm.exists() == false && mmURI.startsWith("/") && (mmURI.indexOf(":") != -1)) {
+				mmURI = mmURI.substring(1, mmURI.length());
+			}
+			fmm = new File(mmURI);
+			if (fmm.exists() == false) {
+				throw new MetaModelNotFoundException(mmURI);
+			}
+			
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
 			
 			// otherwise
 			if (pck==null) {
-				EPackage.Registry.INSTANCE.put(mmURI, EPackage.class);
+				EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
 				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
 					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 				
@@ -194,6 +271,58 @@ public class ModelManager {
 		}
 		catch (Exception e) {
 			throw new MetaModelNotFoundException(mmURI);
+		}
+		
+		return metamodel;
+	}
+
+	public static List<EPackage> loadMetaModels (List<String> uris, Class<?> cls) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = null;
+		for (String uri : uris) {
+			String mmURI = uri;
+			try {
+				metamodel = new ArrayList<EPackage>();
+				
+				// check if it is already registered
+				File fmm = new File(uri);
+				if (fmm.exists() == false && mmURI.indexOf("/") != -1) {
+					mmURI = getMetaModelPath(cls) + "/" + mmURI.substring(mmURI.lastIndexOf("/") + 1, mmURI.length());
+				}
+				if (fmm.exists() == false && mmURI.indexOf("/") == -1) {
+					mmURI = getMetaModelPath(cls) + "/" + mmURI;
+				}
+				fmm = new File(mmURI);
+				if (fmm.exists() == false && mmURI.startsWith("/") && (mmURI.indexOf(":") != -1)) {
+					mmURI = mmURI.substring(1, mmURI.length());
+				}
+				fmm = new File(mmURI);
+				if (fmm.exists() == false) {
+					throw new MetaModelNotFoundException(mmURI);
+				}
+				EPackage pck = EPackage.Registry.INSTANCE.getEPackage(URI.createFileURI(mmURI).toFileString());
+				
+				// otherwise
+				if (pck==null) {
+					EPackage.Registry.INSTANCE.put(URI.createFileURI(mmURI).toFileString(), EPackage.class);
+					if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+						Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+					
+					ResourceSetImpl resourceSet = new ResourceSetImpl();
+					Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+					for (EObject obj : resource.getContents()) {
+						if (obj instanceof EPackage) {
+							resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+							metamodel.add((EPackage)obj);
+						}
+					}
+				}
+				else metamodel.add(pck);
+
+				
+			}
+			catch (Exception e) {
+				throw new MetaModelNotFoundException(mmURI);
+			}
 		}
 		
 		return metamodel;
@@ -390,11 +519,57 @@ public class ModelManager {
 
 		return uri;
 	}
+	
+	private static IWodelTest getTest() {
+		IWodelTest test = null;
+		List<IWodelTest> tests = new ArrayList<IWodelTest>();
+		if (Platform.getExtensionRegistry() != null) {
+			IConfigurationElement[] extensions = Platform
+					.getExtensionRegistry().getConfigurationElementsFor(
+							"wodeltest.extension.MutTesting");
+			for (int j = 0; j < extensions.length; j++) {
+				IWodelTest t = null;
+				try {
+					t = (IWodelTest) extensions[j]
+							.createExecutableExtension("class");
+				} catch (CoreException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				tests.add(t);
+			}
+		}
+		
+		for (IWodelTest t : tests) {
+			test = t;
+			break;
+		}
+		return test;
+	}
+
 
 	public static String getMetaModel() {
 		try {
-			String path = getWorkspaceAbsolutePath() + '/'
-					+ ProjectUtils.getProject().getName();
+			String path = "";
+			if (ProjectUtils.getProject() != null) {
+				path = getWorkspaceAbsolutePath() + '/'
+						+ ProjectUtils.getProject().getName();
+			}
+			else {
+				IWodelTest test = getTest();
+				if (test != null) {
+					path = test.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+					path = path.replaceAll("\\\\", "/");
+					int index = path.lastIndexOf("/bin");
+					if (index == -1) {
+						index = path.lastIndexOf("/");
+					}
+					path = path.substring(0, index);
+				}
+			}
+			if (path.length() == 0) {
+				return "";
+			}
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -418,7 +593,53 @@ public class ModelManager {
 		return "";
 	}
 
-	public static String getMetaModel(Class<?> cls) {
+	public static List<String> getMetaModels() {
+		List<String> modelpaths = new ArrayList<String>();
+		try {
+			String path = "";
+			if (ProjectUtils.getProject() != null) {
+				path = getWorkspaceAbsolutePath() + '/'
+						+ ProjectUtils.getProject().getName();
+			}
+			else {
+				IWodelTest test = getTest();
+				if (test != null) {
+					path = test.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+					path = path.replaceAll("\\\\", "/");
+					int index = path.lastIndexOf("/bin");
+					if (index == -1) {
+						index = path.lastIndexOf("/");
+					}
+					path = path.substring(0, index);
+				}
+			}
+			if (path.length() == 0) {
+				return modelpaths;
+			}
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String modelName = br.readLine();
+			File[] files = new File(path + '/' + modelName).listFiles();
+			for (File file : files) {
+				if (file.isFile() == true) {
+					String modelpath = file.getPath().replaceAll("\\\\", "/");
+					if (modelpath.endsWith(".ecore") == true) {
+						modelpaths.add(modelpath);
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelpaths;
+	}
+
+	public static List<String> getMetaModel(Class<?> cls) {
+		List<String> modelpaths = new ArrayList<String>();
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
 			path = path.replaceAll("\\\\", "/");
@@ -449,8 +670,7 @@ public class ModelManager {
 				if (file.isFile() == true) {
 					String modelpath = file.getPath().replaceAll("\\\\", "/");
 					if (modelpath.endsWith(".ecore") == true) {
-						br.close();
-						return modelpath;
+						modelpaths.add(modelpath);
 					}
 				}
 			}
@@ -459,7 +679,7 @@ public class ModelManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "";
+		return modelpaths;
 	}
 
 	public static String getMetaModel(EObject object) {
@@ -2627,20 +2847,69 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObject(Resource model, EObject eobj) {
+		EObject ob = null;
 		if (eobj != null) {
 			List<EObject> objs = getAllObjects(model);
 
 			for (EObject obj : objs) {
-				if (EcoreUtil.equals(obj.eClass(), eobj.eClass())) {
-					if (EMFComparison.equals(obj, eobj)) {
-						return obj;
+				if (EcoreUtil.equals(obj, eobj)) {
+					ob = obj;
+					break;
+				}
+			}
+			if (ob == null) {
+				ob = getObjectByURI(model, EcoreUtil.getURI(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByURIEnding(model, EcoreUtil.getURI(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByID(model, EcoreUtil.getIdentification(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByPartialID(model, EcoreUtil.getIdentification(eobj));
+			}
+		}
+		return ob;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EObject getObject(List<Resource> models, EObject eobj) {
+		EObject ob = null;
+		if (eobj != null) {
+			for (Resource model : models) {
+				List<EObject> objs = getAllObjects(model);
+
+				for (EObject obj : objs) {
+					if (EcoreUtil.equals(obj, eobj)) {
+						ob = obj;
+						break;
 					}
+				}
+				if (ob == null) {
+					ob = getObjectByURI(model, EcoreUtil.getURI(eobj));
+				}
+				if (ob == null) {
+					ob = getObjectByURIEnding(model, EcoreUtil.getURI(eobj));
+				}
+				if (ob == null) {
+					ob = getObjectByID(model, EcoreUtil.getIdentification(eobj));
+				}
+				if (ob == null) {
+					ob = getObjectByPartialID(model, EcoreUtil.getIdentification(eobj));
+				}
+				if (ob != null) {
+					break;
 				}
 			}
 		}
-		return null;
+		return ob;
 	}
-	
+
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -2935,6 +3204,44 @@ public class ModelManager {
 		}
 		return null;
 	}
+
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @return List<String> Values of the attribute named by -att-
+	 */
+	public static List<String> getStringAttributes(String att, EObject object) {
+		List<String> ret = new ArrayList<String>();
+		if (att == null || object == null) {
+			return ret;
+		}
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				if (sf.getEType() instanceof EEnum) {
+					Object value = object.eGet(sf, true);
+					if (value instanceof EEnumLiteral) {
+						ret.add(((EEnumLiteral) value).getLiteral());
+						break;
+					}
+				}
+				if (sf.getUpperBound() > 1 || sf.getUpperBound() == -1) {
+					EDataTypeUniqueEList<String> list = (EDataTypeUniqueEList<String>) object.eGet(sf, true);
+					for (String value : list) {
+						ret.add(value); 
+					}
+					break;
+				}
+				ret.add((String) object.eGet(sf, true));
+				break;
+			}
+		}
+		return ret;
+	}
 	
 	/**
 	 * @param att
@@ -3080,6 +3387,28 @@ public class ModelManager {
 	/**
 	 * @throws ReferenceNonExistingException
 	 */
+	public static Object getReferenced(String ref, List<EObject> objects) throws
+		ReferenceNonExistingException {
+
+		List<Object> ret = new ArrayList<Object>();
+		
+		for (EObject object : objects) {
+			EClass tipo = object.eClass();
+
+			for (EStructuralFeature sf : tipo.getEAllReferences()) {
+				if (sf != null) {
+					if (sf.getName().equals(ref)) {
+						ret.add(object.eGet(sf));
+					}
+				}
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * @throws ReferenceNonExistingException
+	 */
 	public static List<EObject> getReferences(String ref, EObject object) throws
 		ReferenceNonExistingException {
 
@@ -3088,7 +3417,15 @@ public class ModelManager {
 		for (EStructuralFeature sf : tipo.getEAllReferences()) {
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
-					return (List<EObject>) object.eGet(sf);
+					Object ob = object.eGet(sf);
+					if (ob instanceof List<?>) {
+						return (List<EObject>) ob;
+					}
+					if (ob instanceof EObject) {
+						List<EObject> ret = new ArrayList<EObject>();
+						ret.add((EObject) ob);
+						return ret;
+					}
 				}
 			}
 		}
@@ -3452,7 +3789,26 @@ public class ModelManager {
 		return null;
 	}
 	
+
 	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @return Float Value of the attribute named by -att-
+	 */
+	public static Float getFloatAttribute(String att, EObject object) {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				return (Float) object.eGet(sf, true);
+			}
+		}
+		return null;
+	}
+/**
 	 * @param att
 	 *            Name of the attribute
 	 * @param object
@@ -3654,6 +4010,19 @@ public class ModelManager {
 	 *            Object one wants to explore
 	 * @return EStructuralFeature Specified reference
 	 */
+	public static EStructuralFeature getReferenceByName(String name,
+			EClass eClass) {
+		EStructuralFeature sf = eClass.getEStructuralFeature(name);
+		return sf;
+	}
+	
+	/**
+	 * @param name
+	 *            Name of the reference
+	 * @param object
+	 *            Object one wants to explore
+	 * @return EStructuralFeature Specified reference
+	 */
 	public static EReference getReferenceByURI(URI uri,
 			EClass eClass) {
 		List<EReference> refs = eClass.getEAllReferences();
@@ -3750,6 +4119,7 @@ public class ModelManager {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		resource.unload();
 	}
 	
 	/**
@@ -3954,6 +4324,44 @@ public class ModelManager {
 		return classifiers;
 	}
 	
+	public static boolean compareModels(String metamodel, String model1, String model2) {
+		URI uri1 = URI.createFileURI(model1);
+	    URI uri2 = URI.createFileURI(model2);
+	    
+	    List<EPackage> packages = null;
+	    
+	    try {
+			packages = ModelManager.loadMetaModel(metamodel);
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+	    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+
+	    ResourceSet baseResourceSet = new ResourceSetImpl();
+	    ResourceSet branchResourceSet = new ResourceSetImpl();
+
+	    for (EPackage pck : packages) {
+	    	baseResourceSet.getPackageRegistry().put(pck.getNsURI(), pck.getEFactoryInstance().getEPackage());
+	    	branchResourceSet.getPackageRegistry().put(pck.getNsURI(), pck.getEFactoryInstance().getEPackage());
+	    }
+
+	    baseResourceSet.getResource(uri1, true);
+	    branchResourceSet.getResource(uri2, true);
+
+	    IComparisonScope scope = new DefaultComparisonScope(branchResourceSet, baseResourceSet, null);
+	    Comparison comparison = EMFCompare.builder().build().compare(scope);
+	    
+	    List<Diff> differences = comparison.getDifferences();
+		if (differences.size() == 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static boolean compareModels(Resource model1, Resource model2) {
 		IComparisonScope scope = new DefaultComparisonScope(model1, model2, null);
 		Comparison comparison = EMFCompare.builder().build().compare(scope);
@@ -3963,7 +4371,7 @@ public class ModelManager {
 		if (differences.size() == 0) {
 			return true;
 		}
-
+		
 		return false;
 	}
 	
@@ -4065,12 +4473,17 @@ public class ModelManager {
 	 */
 	public static List<EClass> getESubClasses(List<EPackage> packages, EClass eClass) {
 		List<EClass> subclasses = new ArrayList<EClass>();
+		if (eClass == null) {
+			return subclasses; 
+		}
 		List<EClass> classes = ModelManager.getEClasses(packages);
 		for (EClass cl : classes) {
 			List<EClass> superTypes = cl.getEAllSuperTypes();
 			for (EClass superType : superTypes) {
-				if (EcoreUtil.getURI(superType).equals(EcoreUtil.getURI(eClass))) {
-					subclasses.add(cl);
+				if (superType != null) {
+					if (EcoreUtil.getURI(superType).equals(EcoreUtil.getURI(eClass))) {
+						subclasses.add(cl);
+					}
 				}
 			}
 		}
@@ -4370,6 +4783,24 @@ public class ModelManager {
 		}
 		target.clear();
 		target.addAll(tmpList);
+	}
+	
+	/** 
+	 * Finds the model the object belongs to
+	 */
+	public static Resource findModel(List<Resource> models, EObject obj) {
+		if (obj == null || models == null || models.size() == 0) {
+			return null;
+		}
+		for (Resource model : models) {
+			List<EObject> objects = ModelManager.getAllObjects(model);
+			for (EObject object : objects) {
+				if (EcoreUtil.equals(obj, object)) {
+					return model;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public static boolean isBigInteger (String type) { return type.equals("EBigInteger"); }	

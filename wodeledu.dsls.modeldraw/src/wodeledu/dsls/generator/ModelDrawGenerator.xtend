@@ -33,7 +33,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	private String xmiFileName
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "", null);
+		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
 		if (modelDrawMode.equals("Dot")) {
 			dotGenerator.doGenerate(resource, fsa, context)
 		}

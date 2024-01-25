@@ -17,10 +17,13 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -46,6 +49,8 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 	protected List<BooleanFieldEditor> fieldEditors = new ArrayList<BooleanFieldEditor>();
 	protected List<String> labelNames = new ArrayList<String>();
 	protected RadioGroupFieldEditor selectAll = null;
+	protected BooleanFieldEditor parallelize = null;
+	protected StringFieldEditor parallel = null;
 	
 	@Override
     protected void createFieldEditors() {
@@ -64,8 +69,17 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 	        {
 	            project = (IProject)((IAdaptable)firstElement).getAdapter(IProject.class);
 	        }
+			if (selection.getFirstElement() instanceof IProject) {
+				project = (IProject) selection.getFirstElement();
+			}
+			if (selection.getFirstElement() instanceof IJavaProject) {
+				project = ((IJavaProject) selection.getFirstElement()).getProject();
+			}
 	    }
-		Map<String, Map<String, Class<?>>> valueMap = new HashMap<String, Map<String, Class<?>>>();
+	    final IProject sourceProject = project;
+	    //final List<String> testSuitesNames = WodelTestUtils.getTestSuitesNames(sourceProject);
+	    
+	    Map<String, Map<String, Class<?>>> valueMap = new HashMap<String, Map<String, Class<?>>>();
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
@@ -102,7 +116,7 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (projectName.length() > 0) {
+				if (projectName != null && projectName.length() > 0) {
 					valueMap.put(projectName, mutators);
 				}
 			}
@@ -117,6 +131,45 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 				String ecore = FileLocator.resolve(fileURL).getFile();
 				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
 				IPreferenceStore preferenceStore = getPreferenceStore();
+
+				/*
+				String[][] values = new String[testSuitesNames.size()][2];
+				int index = 0;
+				for (String value : testSuitesNames) {
+					values[index][0] = value;
+					values[index][1] = value;
+					index++;
+				}
+				addField(new LabelFieldEditor("Select the current test-suite shown in Wodel-Test views", composite));
+				ComboFieldEditor testSuiteSelector = new ComboFieldEditor("Current test-suite", "", values, composite);
+			    addField(testSuiteSelector);
+			    preferenceStore.setDefault("Current test-suite", testSuitesNames.get(0));
+			    */
+			    
+				addField(new LabelFieldEditor(" ", composite));
+				parallelize = new BooleanFieldEditor("Parallelize mutants execution", "Parallelize mutants execution", composite);
+		    	addField(parallelize);
+		    	preferenceStore.setDefault("Parallelize mutants execution", false);
+		    	List<String> parallelizationModeList = new ArrayList<String>();
+		    	parallelizationModeList.add("Static basic");
+		    	parallelizationModeList.add("Static improved");
+		    	parallelizationModeList.add("Dynamic");
+		    	String[][] values = new String[parallelizationModeList.size()][2];
+				int index = 0;
+				for (String value : parallelizationModeList) {
+					values[index][0] = value;
+					values[index][1] = value;
+					index++;
+				}
+				new LabelFieldEditor("\n\nParallelization mode", composite);
+				ComboFieldEditor combo = new ComboFieldEditor("Parallelization mode", "", values, composite);
+				addField(combo);
+				preferenceStore.setDefault("Parallelization mode", "Static");
+		    	new LabelFieldEditor("\n\nInput the maximum number of mutants that will we executed in parallel", composite);
+		    	parallel = new StringFieldEditor("Parallel mutants", "", 10, composite);
+		    	addField(parallel);
+		    	preferenceStore.setDefault("Parallel mutants", 10);
+		    	new LabelFieldEditor(" \n\n", composite);
 				String[][] selection = new String[][] {
 					{"Select all", "all"},
 					{"Deselect all", "none"} };
@@ -196,7 +249,7 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(new ScopedPreferenceStore(InstanceScope.INSTANCE, "WodelTest"));
-        setDescription("Select which mutation operators you would like to apply");
+        setDescription("Parallelize execution and select which mutation operators you would like to apply");
 	}
 	
 	@Override

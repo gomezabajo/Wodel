@@ -110,57 +110,102 @@ ruleMutatorDraw returns [EObject current=null]
 		(
 			(
 				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getMutatorDrawRule());
-					}
+					newCompositeNode(grammarAccess.getMutatorDrawAccess().getInstancesMutatorInstanceParserRuleCall_3_0());
 				}
-				otherlv_3=RULE_ID
-				{
-					newLeafNode(otherlv_3, grammarAccess.getMutatorDrawAccess().getNameEClassCrossReference_3_0());
-				}
-			)
-		)
-		otherlv_4=':'
-		{
-			newLeafNode(otherlv_4, grammarAccess.getMutatorDrawAccess().getColonKeyword_4());
-		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getMutatorDrawAccess().getTypeDrawTypeEnumRuleCall_5_0());
-				}
-				lv_type_5_0=ruleDrawType
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getMutatorDrawRule());
-					}
-					set(
-						$current,
-						"type",
-						lv_type_5_0,
-						"wodeledu.dsls.ModelDraw.DrawType");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		otherlv_6='{'
-		{
-			newLeafNode(otherlv_6, grammarAccess.getMutatorDrawAccess().getLeftCurlyBracketKeyword_6());
-		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getMutatorDrawAccess().getNodesNodeParserRuleCall_7_0());
-				}
-				lv_nodes_7_0=ruleNode
+				lv_instances_3_0=ruleMutatorInstance
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getMutatorDrawRule());
 					}
 					add(
 						$current,
+						"instances",
+						lv_instances_3_0,
+						"wodeledu.dsls.ModelDraw.MutatorInstance");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)+
+	)
+;
+
+// Entry rule entryRuleMutatorInstance
+entryRuleMutatorInstance returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMutatorInstanceRule()); }
+	iv_ruleMutatorInstance=ruleMutatorInstance
+	{ $current=$iv_ruleMutatorInstance.current; }
+	EOF;
+
+// Rule MutatorInstance
+ruleMutatorInstance returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getMutatorInstanceAccess().getMutatorInstanceAction_0(),
+					$current);
+			}
+		)
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getMutatorInstanceRule());
+					}
+				}
+				otherlv_1=RULE_ID
+				{
+					newLeafNode(otherlv_1, grammarAccess.getMutatorInstanceAccess().getNameEClassCrossReference_1_0());
+				}
+			)
+		)
+		otherlv_2=':'
+		{
+			newLeafNode(otherlv_2, grammarAccess.getMutatorInstanceAccess().getColonKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMutatorInstanceAccess().getTypeDrawTypeEnumRuleCall_3_0());
+				}
+				lv_type_3_0=ruleDrawType
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMutatorInstanceRule());
+					}
+					set(
+						$current,
+						"type",
+						lv_type_3_0,
+						"wodeledu.dsls.ModelDraw.DrawType");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_4='{'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getMutatorInstanceAccess().getLeftCurlyBracketKeyword_4());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMutatorInstanceAccess().getNodesNodeParserRuleCall_5_0());
+				}
+				lv_nodes_5_0=ruleNode
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMutatorInstanceRule());
+					}
+					add(
+						$current,
 						"nodes",
-						lv_nodes_7_0,
+						lv_nodes_5_0,
 						"wodeledu.dsls.ModelDraw.Node");
 					afterParserOrEnumRuleCall();
 				}
@@ -169,17 +214,17 @@ ruleMutatorDraw returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getMutatorDrawAccess().getRelationsRelationParserRuleCall_8_0());
+					newCompositeNode(grammarAccess.getMutatorInstanceAccess().getRelationsRelationParserRuleCall_6_0());
 				}
-				lv_relations_8_0=ruleRelation
+				lv_relations_6_0=ruleRelation
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getMutatorDrawRule());
+						$current = createModelElementForParent(grammarAccess.getMutatorInstanceRule());
 					}
 					add(
 						$current,
 						"relations",
-						lv_relations_8_0,
+						lv_relations_6_0,
 						"wodeledu.dsls.ModelDraw.Relation");
 					afterParserOrEnumRuleCall();
 				}
@@ -188,25 +233,25 @@ ruleMutatorDraw returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getMutatorDrawAccess().getContentsContentParserRuleCall_9_0());
+					newCompositeNode(grammarAccess.getMutatorInstanceAccess().getContentsContentParserRuleCall_7_0());
 				}
-				lv_contents_9_0=ruleContent
+				lv_contents_7_0=ruleContent
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getMutatorDrawRule());
+						$current = createModelElementForParent(grammarAccess.getMutatorInstanceRule());
 					}
 					add(
 						$current,
 						"contents",
-						lv_contents_9_0,
+						lv_contents_7_0,
 						"wodeledu.dsls.ModelDraw.Content");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_10='}'
+		otherlv_8='}'
 		{
-			newLeafNode(otherlv_10, grammarAccess.getMutatorDrawAccess().getRightCurlyBracketKeyword_10());
+			newLeafNode(otherlv_8, grammarAccess.getMutatorInstanceAccess().getRightCurlyBracketKeyword_8());
 		}
 	)
 ;
@@ -850,26 +895,28 @@ ruleEdge returns [EObject current=null]
 						}
 					)
 				)
-				otherlv_9=','
-				{
-					newLeafNode(otherlv_9, grammarAccess.getEdgeAccess().getCommaKeyword_3_0_2());
-				}
 				(
+					otherlv_9=','
+					{
+						newLeafNode(otherlv_9, grammarAccess.getEdgeAccess().getCommaKeyword_3_0_2_0());
+					}
 					(
-						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getEdgeRule());
+						(
+							{
+								if ($current==null) {
+									$current = createModelElement(grammarAccess.getEdgeRule());
+								}
 							}
-						}
-						otherlv_10=RULE_ID
-						{
-							newLeafNode(otherlv_10, grammarAccess.getEdgeAccess().getTargetEReferenceCrossReference_3_0_3_0());
-						}
+							otherlv_10=RULE_ID
+							{
+								newLeafNode(otherlv_10, grammarAccess.getEdgeAccess().getTargetEReferenceCrossReference_3_0_2_1_0());
+							}
+						)
 					)
-				)
+				)?
 				otherlv_11=')'
 				{
-					newLeafNode(otherlv_11, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_3_0_4());
+					newLeafNode(otherlv_11, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_3_0_3());
 				}
 			)
 			    |

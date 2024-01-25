@@ -117,11 +117,11 @@ public class RunWodel extends AbstractHandler {
 			boolean metrics = false;
 			boolean debugMetrics = false;
 			Object ob = null;
-			String metamodel = ModelManager.getMetaModel();
+			List<String> metamodel = ModelManager.getMetaModels();
 			String metamodelpath = ModelManager.getMetaModelPath();
 			List<EPackage> packages = null;
 			try {
-				packages = ModelManager.loadMetaModel(metamodel);
+				packages = ModelManager.loadMetaModels(metamodel);
 			} catch (MetaModelNotFoundException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -130,9 +130,9 @@ public class RunWodel extends AbstractHandler {
 			try {
 				ob = cls.getDeclaredConstructor().newInstance();
 				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
-				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
+				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
-				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
+				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
 				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
 				result = m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null, null);
@@ -340,7 +340,7 @@ public class RunWodel extends AbstractHandler {
 						Object postprocessing =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(postprocessing).equals(extensionName) ) {
-							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});
+							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{List.class, List.class, Resource.class, String.class});
 							Set<Resource> resources = hashmap_postproc.keySet();
 							for (Resource r : resources) {
 								File f = new File(hashmap_postproc.get(r));

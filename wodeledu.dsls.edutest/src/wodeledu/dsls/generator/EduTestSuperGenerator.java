@@ -3398,7 +3398,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								EClass eClass = modify.getObject().getType();
 								EAttribute eAttribute = null;
 								for (EAttribute attribute : eClass.getEAllAttributes()) {
-									if (attribute.getName().equals(attributeName)) {
+									if (attribute.getName().equals(attributeName.getName())) {
 										eAttribute = attribute;
 										break;
 									}

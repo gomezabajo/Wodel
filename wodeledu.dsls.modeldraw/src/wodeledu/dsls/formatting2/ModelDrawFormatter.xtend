@@ -15,16 +15,22 @@ class ModelDrawFormatter extends AbstractFormatter2 {
 	@Inject extension ModelDrawGrammarAccess
 
 	def dispatch void format(MutatorDraw mutatorDraw, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (node : mutatorDraw.nodes) {
-			node.format
-		}
-		for (relation : mutatorDraw.relations) {
-			relation.format
-		}
-		for (content : mutatorDraw.contents) {
-			content.format
-		}
+		// TODO: format HiddenRegions around keywords, attributes, cross references, etc.
+		for (instance : mutatorDraw.instances) { 
+			for (node : instance.nodes) {
+				node.format
+			}
+		} 
+		for (instance : mutatorDraw.instances) { 
+			for (relation : instance.relations) {
+				relation.format
+			}
+		} 
+		for (instance : mutatorDraw.instances) { 
+			for (content : instance.contents) {
+				content.format
+			}
+		} 
 	}
 
 	def dispatch void format(Node node, extension IFormattableDocument document) {

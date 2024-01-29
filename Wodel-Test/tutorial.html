@@ -103,7 +103,7 @@
 <p>Role of WodelTestGlobalResult, WodelTestResult, WodelTestResultClass, and WodelTestInfo classes:</p>
 
 <p>WodelTestInfo(String testName, boolean value, String info, String message)</p>
-<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestInfo.java">WodelTestInfo.java</a></p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/wodel/utils/manager/WodelTestInfo.java">WodelTestInfo.java</a></p>
 
 <p>testName: the name of the test (this is an atomic test case, it can be included in a file with more test cases)<br />
 value: whether the test has passed (mutant is live) : false, or the test has not passed (mutant is killed) : true<br />
@@ -111,7 +111,7 @@ info: some other string info that you can need, like the test file path<br />
 message: the error message from the test in case it has not passed</p>
 
 <p>WodelTestResult(String className, String modelPath, List&lt;Object&gt; tests, List&lt;WodelTestInfo&gt; info)</p>
-<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestResult.java">WodelTestResult.java</a></p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/wodel/utils/manager/WodelTestResult.java">WodelTestResult.java</a></p>
 
 <p>className: the name of the class containing the tests<br />
 modelPath: the path to the model that has been tested<br />
@@ -119,7 +119,7 @@ tests: the tests that had been executed (although it is a List&lt;Object&gt; var
 info: a list of the single test cases corresponding to this test file and their results in the format of the previous WodelTestInfo class</p>
 
 <p>WodelTestResultClass</p>
-<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestResultClass.java">WodelTestResultClass.java</a></p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/wodel/utils/manager/WodelTestResultClass.java">WodelTestResultClass.java</a></p>
 <p>Collection of the mutation testing results so far. When each test file finishes its execution, you need to update it with:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, modelPath);
 if (resultClass == null) {        //if we need a new WodelTestResultClass object
@@ -130,7 +130,7 @@ resultClass.addResult(wtr); //wtr is the WodelTestResult object obtained in the 
 </code></pre></div></div>
 
 <p>WodelTestGlobalResult</p>
-<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestGlobalResult.java">WodelTestGlobalResult.java</a></p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/wodel/utils/manager/WodelTestGlobalResult.java">WodelTestGlobalResult.java</a></p>
 <p>This is the root class for the mutation testing process results. It is the object that the run() method returns. We only need to create it at the beginning of the run() method:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 List<WodelTestResultClass> results = globalResult.getResults();

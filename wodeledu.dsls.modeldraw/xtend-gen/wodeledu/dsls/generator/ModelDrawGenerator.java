@@ -32,6 +32,9 @@ public class ModelDrawGenerator extends AbstractGenerator {
   @Inject
   private ModelDrawCircuitGenerator circuitGenerator;
 
+  @Inject
+  private ModelDrawPlantUMLGenerator plantUMLGenerator;
+
   protected IProject project = null;
 
   private String fileName;
@@ -50,6 +53,10 @@ public class ModelDrawGenerator extends AbstractGenerator {
     boolean _equals_1 = modelDrawMode.equals("Circuit");
     if (_equals_1) {
       this.circuitGenerator.doGenerate(resource, fsa, context);
+    }
+    boolean _equals_2 = modelDrawMode.equals("PlantUML");
+    if (_equals_2) {
+      this.plantUMLGenerator.doGenerate(resource, fsa, context);
     }
     ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();

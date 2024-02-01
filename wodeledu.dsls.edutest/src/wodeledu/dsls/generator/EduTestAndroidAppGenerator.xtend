@@ -27,6 +27,7 @@ import java.util.AbstractMap.SimpleEntry
 import java.util.HashMap
 import edutest.MatchPairs
 import java.util.TreeMap
+import java.util.stream.Collectors
 
 class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	
@@ -142,10 +143,12 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 				«FOR test : exercise.tests»
 					«var int j = 0»
 					«var HashMap<Integer,String> diccAux = new HashMap()»
-					«FOR diag : diagrams.get(exercise).get(test)»
+					«FOR String key : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diag : diagrams.get(exercise).get(test).get(key)»
 						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
 						«diccAux.put(j, "q" + i + "_respuesta" + j+".png")»
 						«{j++; ""}»
+					«ENDFOR»
 					«ENDFOR»
 					«drawableAnswer.put(i,diccAux)»
 					«{i++; ""}»
@@ -932,10 +935,13 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 					«FOR test : exercise.tests»
 					«var int i=0»
 					«var int correct=i»
-					«FOR diagram : diagrams.get(exercise).get(test)»«IF diagram.equals(test.source.replace('.model', '.png'))»
+					«FOR String key : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
+					«IF diagram.equals(test.source.replace('.model', '.png'))»
 							«{correct=i; ""}»
 						«ENDIF»
 						«{i++; ""}»
+					«ENDFOR»
 					«ENDFOR»
 						<item>0;«test.question.replace("\"", "'").replace("'", "")»;«i»;«correct»</item>
 						<!--<tipo;pregunta;n_respuesta;respues_correcta>-->
@@ -1116,10 +1122,13 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 					«FOR test : exercise.tests»
 					«var int i=0»
 					«var int correct=i»
-					«FOR diagram : diagrams.get(exercise).get(test)»«IF diagram.equals(test.source.replace('.model', '.png'))»
+					«FOR String key : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
+					«IF diagram.equals(test.source.replace('.model', '.png'))»
 							«{correct=i; ""}»
 						«ENDIF»
 						«{i++; ""}»
+					«ENDFOR»
 					«ENDFOR»
 						<item>0;«test.question.replace("\"", "'").replace("'", "")»;«i»;«correct»</item>
 						<!--<tipo;pregunta;n_respuesta;respues_correcta>-->

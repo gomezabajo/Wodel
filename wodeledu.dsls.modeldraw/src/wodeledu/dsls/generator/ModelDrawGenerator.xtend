@@ -26,6 +26,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 
 	@Inject ModelDrawDotGenerator dotGenerator
 	@Inject ModelDrawCircuitGenerator circuitGenerator
+	@Inject ModelDrawPlantUMLGenerator plantUMLGenerator
 	
 	protected IProject project = null
 	private String fileName
@@ -39,6 +40,9 @@ class ModelDrawGenerator extends AbstractGenerator {
 		}
 		if (modelDrawMode.equals("Circuit")) {
 			circuitGenerator.doGenerate(resource, fsa, context)
+		}
+		if (modelDrawMode.equals("PlantUML")) {
+			plantUMLGenerator.doGenerate(resource, fsa, context)
 		}
 		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()

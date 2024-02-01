@@ -127,7 +127,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan = (_size > 0);
                     if (_greaterThan) {
                       _builder.append("\t\t");
-                      String diagram = this.rand.get(exercise).get(test).get(0);
+                      List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
@@ -338,90 +338,95 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                   TreeMap<Integer, String> diccAux = new TreeMap<Integer, String>();
                   _builder.newLineIfNotEmpty();
                   {
-                    List<String> _get_2 = this.diagrams.get(exercise).get(test_2);
-                    for(final String diag : _get_2) {
-                      _builder.append("\t\t");
-                      String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_32 = (_workspaceAbsolutePath_6 + "/");
-                      String _name_6 = this.project.getName();
-                      String _plus_33 = (_plus_32 + _name_6);
-                      String _plus_34 = (_plus_33 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_35 = (_plus_34 + Integer.valueOf(i));
-                      String _plus_36 = (_plus_35 + "respuesta");
-                      String _plus_37 = (_plus_36 + Integer.valueOf(j));
-                      String diagramFolderName_2 = (_plus_37 + ".imageset/");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      File diagramFolder_2 = new File(diagramFolderName_2);
-                      _builder.newLineIfNotEmpty();
+                    Set<String> _keySet = this.diagrams.get(exercise).get(test_2).keySet();
+                    for(final String key : _keySet) {
                       {
-                        boolean _exists_2 = diagramFolder_2.exists();
-                        boolean _equals_2 = (_exists_2 == false);
-                        if (_equals_2) {
+                        List<String> _get_2 = this.diagrams.get(exercise).get(test_2).get(key);
+                        for(final String diag : _get_2) {
                           _builder.append("\t\t");
-                          String _xblockexpression_5 = null;
+                          String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
+                          String _plus_32 = (_workspaceAbsolutePath_6 + "/");
+                          String _name_6 = this.project.getName();
+                          String _plus_33 = (_plus_32 + _name_6);
+                          String _plus_34 = (_plus_33 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
+                          String _plus_35 = (_plus_34 + Integer.valueOf(i));
+                          String _plus_36 = (_plus_35 + "respuesta");
+                          String _plus_37 = (_plus_36 + Integer.valueOf(j));
+                          String diagramFolderName_2 = (_plus_37 + ".imageset/");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          File diagramFolder_2 = new File(diagramFolderName_2);
+                          _builder.newLineIfNotEmpty();
                           {
-                            diagramFolder_2.mkdirs();
-                            _xblockexpression_5 = "";
+                            boolean _exists_2 = diagramFolder_2.exists();
+                            boolean _equals_2 = (_exists_2 == false);
+                            if (_equals_2) {
+                              _builder.append("\t\t");
+                              String _xblockexpression_5 = null;
+                              {
+                                diagramFolder_2.mkdirs();
+                                _xblockexpression_5 = "";
+                              }
+                              _builder.append(_xblockexpression_5, "\t\t");
+                              _builder.newLineIfNotEmpty();
+                            }
                           }
-                          _builder.append(_xblockexpression_5, "\t\t");
+                          _builder.append("\t\t");
+                          String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
+                          String _plus_38 = (_workspaceAbsolutePath_7 + "/");
+                          String _name_7 = this.project.getName();
+                          String _plus_39 = (_plus_38 + _name_7);
+                          String _plus_40 = (_plus_39 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
+                          String _plus_41 = (_plus_40 + Integer.valueOf(i));
+                          String _plus_42 = (_plus_41 + "respuesta");
+                          String _plus_43 = (_plus_42 + Integer.valueOf(j));
+                          String _plus_44 = (_plus_43 + ".imageset/ejercicio");
+                          String _plus_45 = (_plus_44 + Integer.valueOf(i));
+                          String _plus_46 = (_plus_45 + "respuesta");
+                          String _plus_47 = (_plus_46 + Integer.valueOf(j));
+                          String diagramFileName_2 = (_plus_47 + ".png");
+                          _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          _builder.append("//");
+                          String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
+                          String _plus_48 = (_workspaceAbsolutePath_8 + "/");
+                          String _name_8 = this.project.getName();
+                          String _plus_49 = (_plus_48 + _name_8);
+                          String _plus_50 = (_plus_49 + "/src-gen/html/diagrams/");
+                          String _replace_1 = test_2.getSource().replace(".model", "");
+                          String _plus_51 = (_plus_50 + _replace_1);
+                          String _plus_52 = (_plus_51 + "/");
+                          String _plus_53 = (_plus_52 + diag);
+                          File _file_4 = new File(_plus_53);
+                          File _file_5 = new File(diagramFileName_2);
+                          IOUtils.copyFile(_file_4, _file_5);
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          String jsonDiagramFileName_2 = (((("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".imageset/Contents.json");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          _builder.append("//");
+                          int _lastIndexOf_2 = diagramFileName_2.lastIndexOf("/");
+                          int _plus_54 = (_lastIndexOf_2 + 1);
+                          fsa.generateFile(jsonDiagramFileName_2, this.compileJsonDiagramFile(diagramFileName_2.substring(_plus_54, diagramFileName_2.length())));
+                          _builder.append("  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          _builder.append("//");
+                          String _put_2 = diccAux.put(Integer.valueOf(j), (((("ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".png"));
+                          _builder.append(_put_2, "\t\t");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t\t");
+                          String _xblockexpression_6 = null;
+                          {
+                            j++;
+                            _xblockexpression_6 = "";
+                          }
+                          _builder.append(_xblockexpression_6, "\t\t");
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      _builder.append("\t\t");
-                      String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_38 = (_workspaceAbsolutePath_7 + "/");
-                      String _name_7 = this.project.getName();
-                      String _plus_39 = (_plus_38 + _name_7);
-                      String _plus_40 = (_plus_39 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_41 = (_plus_40 + Integer.valueOf(i));
-                      String _plus_42 = (_plus_41 + "respuesta");
-                      String _plus_43 = (_plus_42 + Integer.valueOf(j));
-                      String _plus_44 = (_plus_43 + ".imageset/ejercicio");
-                      String _plus_45 = (_plus_44 + Integer.valueOf(i));
-                      String _plus_46 = (_plus_45 + "respuesta");
-                      String _plus_47 = (_plus_46 + Integer.valueOf(j));
-                      String diagramFileName_2 = (_plus_47 + ".png");
-                      _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      _builder.append("//");
-                      String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_48 = (_workspaceAbsolutePath_8 + "/");
-                      String _name_8 = this.project.getName();
-                      String _plus_49 = (_plus_48 + _name_8);
-                      String _plus_50 = (_plus_49 + "/src-gen/html/diagrams/");
-                      String _replace_1 = test_2.getSource().replace(".model", "");
-                      String _plus_51 = (_plus_50 + _replace_1);
-                      String _plus_52 = (_plus_51 + "/");
-                      String _plus_53 = (_plus_52 + diag);
-                      File _file_4 = new File(_plus_53);
-                      File _file_5 = new File(diagramFileName_2);
-                      IOUtils.copyFile(_file_4, _file_5);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      String jsonDiagramFileName_2 = (((("../app/ios/tfgApp/Assets.xcassets/ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".imageset/Contents.json");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      _builder.append("//");
-                      int _lastIndexOf_2 = diagramFileName_2.lastIndexOf("/");
-                      int _plus_54 = (_lastIndexOf_2 + 1);
-                      fsa.generateFile(jsonDiagramFileName_2, this.compileJsonDiagramFile(diagramFileName_2.substring(_plus_54, diagramFileName_2.length())));
-                      _builder.append("  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      _builder.append("//");
-                      String _put_2 = diccAux.put(Integer.valueOf(j), (((("ejercicio" + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".png"));
-                      _builder.append(_put_2, "\t\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      String _xblockexpression_6 = null;
-                      {
-                        j++;
-                        _xblockexpression_6 = "";
-                      }
-                      _builder.append(_xblockexpression_6, "\t\t");
-                      _builder.newLineIfNotEmpty();
                     }
                   }
                   _builder.append("\t\t");
@@ -470,10 +475,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(exercise).get(test_3);
                         for(final EduTestSuperGenerator.TestOption opt_1 : _get_3) {
                           {
-                            Set<String> _keySet = opt_1.text.keySet();
-                            for(final String key : _keySet) {
+                            Set<String> _keySet_1 = opt_1.text.keySet();
+                            for(final String key_1 : _keySet_1) {
                               {
-                                List<String> _get_4 = opt_1.text.get(key);
+                                List<String> _get_4 = opt_1.text.get(key_1);
                                 for(final String text : _get_4) {
                                   {
                                     boolean _contains = textOptions.contains(text);
@@ -3006,7 +3011,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan = (_size > 0);
                     if (_greaterThan) {
                       _builder.append("\t\t");
-                      String diagram = this.rand.get(exercise).get(test).get(0);
+                      List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       _builder.newLine();
@@ -3091,7 +3096,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan_1 = (_size_1 > 0);
                     if (_greaterThan_1) {
                       _builder.append("\t\t\t");
-                      String diagram_1 = this.rand.get(exercise_1).get(test_1).get(0);
+                      List<String> diagram_1 = this.rand.get(exercise_1).get(test_1).get(Integer.valueOf(0));
                       _builder.newLineIfNotEmpty();
                       {
                         boolean _equals = diagram_1.equals(test_1.getSource().replace(".model", ".png"));
@@ -3146,30 +3151,35 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                   int correct = j;
                   _builder.newLineIfNotEmpty();
                   {
-                    List<String> _get = this.diagrams.get(exercise_1).get(test_2);
-                    for(final String diagram_2 : _get) {
+                    Set<String> _keySet = this.diagrams.get(exercise_1).get(test_2).keySet();
+                    for(final String key : _keySet) {
                       {
-                        boolean _equals_1 = diagram_2.equals(test_2.getSource().replace(".model", ".png"));
-                        if (_equals_1) {
-                          _builder.append("\t\t\t");
-                          String _xblockexpression_4 = null;
+                        List<String> _get = this.diagrams.get(exercise_1).get(test_2).get(key);
+                        for(final String diagram_2 : _get) {
                           {
-                            correct = j;
-                            _xblockexpression_4 = "";
+                            boolean _equals_1 = diagram_2.equals(test_2.getSource().replace(".model", ".png"));
+                            if (_equals_1) {
+                              _builder.append("\t\t\t");
+                              String _xblockexpression_4 = null;
+                              {
+                                correct = j;
+                                _xblockexpression_4 = "";
+                              }
+                              _builder.append(_xblockexpression_4, "\t\t\t");
+                              _builder.newLineIfNotEmpty();
+                            }
                           }
-                          _builder.append(_xblockexpression_4, "\t\t\t");
+                          _builder.append("\t\t\t");
+                          _builder.append("\t\t\t\t");
+                          String _xblockexpression_5 = null;
+                          {
+                            j++;
+                            _xblockexpression_5 = "";
+                          }
+                          _builder.append(_xblockexpression_5, "\t\t\t\t\t\t\t");
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      _builder.append("\t\t\t");
-                      _builder.append("\t\t\t\t");
-                      String _xblockexpression_5 = null;
-                      {
-                        j++;
-                        _xblockexpression_5 = "";
-                      }
-                      _builder.append(_xblockexpression_5, "\t\t\t\t\t\t\t");
-                      _builder.newLineIfNotEmpty();
                     }
                   }
                   _builder.append("\t\t\t");
@@ -3248,10 +3258,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise_1).get(test_3);
                         for(final EduTestSuperGenerator.TestOption opt : _get_1) {
                           {
-                            Set<String> _keySet = opt.text.keySet();
-                            for(final String key : _keySet) {
+                            Set<String> _keySet_1 = opt.text.keySet();
+                            for(final String key_1 : _keySet_1) {
                               {
-                                List<String> _get_2 = opt.text.get(key);
+                                List<String> _get_2 = opt.text.get(key_1);
                                 for(final String text : _get_2) {
                                   _builder.append("\t\t\t");
                                   boolean found = false;
@@ -3351,10 +3361,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                     boolean _greaterThan_3 = (_size_3 > 0);
                                     if (_greaterThan_3) {
                                       {
-                                        Set<String> _keySet_1 = opt_2.text.keySet();
-                                        for(final String key_1 : _keySet_1) {
+                                        Set<String> _keySet_2 = opt_2.text.keySet();
+                                        for(final String key_2 : _keySet_2) {
                                           {
-                                            List<String> _get_7 = opt_2.text.get(key_1);
+                                            List<String> _get_7 = opt_2.text.get(key_2);
                                             for(final String text_1 : _get_7) {
                                               {
                                                 boolean _contains = textOptions_1.contains(text_1);
@@ -3387,10 +3397,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_4 = (_size_4 > 0);
                                         if (_greaterThan_4) {
                                           {
-                                            Set<String> _keySet_2 = opt_3.text.keySet();
-                                            for(final String key_2 : _keySet_2) {
+                                            Set<String> _keySet_3 = opt_3.text.keySet();
+                                            for(final String key_3 : _keySet_3) {
                                               {
-                                                List<String> _get_9 = opt_3.text.get(key_2);
+                                                List<String> _get_9 = opt_3.text.get(key_3);
                                                 for(final String text_2 : _get_9) {
                                                   String _xblockexpression_14 = null;
                                                   {
@@ -3418,10 +3428,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_5 = (_size_5 > 0);
                                         if (_greaterThan_5) {
                                           {
-                                            Set<String> _keySet_3 = opt_3.text.keySet();
-                                            for(final String key_3 : _keySet_3) {
+                                            Set<String> _keySet_4 = opt_3.text.keySet();
+                                            for(final String key_4 : _keySet_4) {
                                               {
-                                                List<String> _get_10 = opt_3.text.get(key_3);
+                                                List<String> _get_10 = opt_3.text.get(key_4);
                                                 for(final String text_3 : _get_10) {
                                                   String _xblockexpression_15 = null;
                                                   {
@@ -3518,10 +3528,10 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise_1).get(test_4);
                         for(final EduTestSuperGenerator.TestOption opt_4 : _get_11) {
                           {
-                            Set<String> _keySet_4 = opt_4.text.keySet();
-                            for(final String key_4 : _keySet_4) {
+                            Set<String> _keySet_5 = opt_4.text.keySet();
+                            for(final String key_5 : _keySet_5) {
                               {
-                                List<String> _get_12 = opt_4.text.get(key_4);
+                                List<String> _get_12 = opt_4.text.get(key_5);
                                 for(final String text_4 : _get_12) {
                                   {
                                     boolean _contains_1 = textOptions_2.contains(text_4);
@@ -3599,23 +3609,23 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                             boolean _equals_4 = (_isExpression == true);
                             if (_equals_4) {
                               _builder.append("\t\t\t");
-                              String key_5 = this.getText(test_4.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                              String key_6 = this.getText(test_4.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
                               _builder.newLineIfNotEmpty();
                               {
-                                int _length = key_5.length();
+                                int _length = key_6.length();
                                 boolean _lessEqualsThan = (_length <= 36);
                                 if (_lessEqualsThan) {
                                   _builder.append("\t\t\t");
                                   boolean found_1 = false;
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<Integer> _keySet_5 = entries.keySet();
-                                    for(final int length : _keySet_5) {
+                                    Set<Integer> _keySet_6 = entries.keySet();
+                                    for(final int length : _keySet_6) {
                                       _builder.append("\t\t\t");
                                       AbstractMap.SimpleEntry<String, String> entry_1 = entries.get(Integer.valueOf(length));
                                       _builder.newLineIfNotEmpty();
                                       {
-                                        boolean _equals_5 = entry_1.getValue().equals(key_5);
+                                        boolean _equals_5 = entry_1.getValue().equals(key_6);
                                         if (_equals_5) {
                                           _builder.append("\t\t\t");
                                           String _xblockexpression_24 = null;
@@ -3633,12 +3643,12 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                     if ((found_1 == false)) {
                                       _builder.append("\t\t\t");
                                       String _trim = op.text.get(((Object[])Conversions.unwrapArray(op.text.keySet(), Object.class))[index]).get(index).trim();
-                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_5, _trim);
+                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t\t");
                                       String _xblockexpression_25 = null;
                                       {
-                                        entries.put(Integer.valueOf(key_5.length()), entry_2);
+                                        entries.put(Integer.valueOf(key_6.length()), entry_2);
                                         _xblockexpression_25 = "";
                                       }
                                       _builder.append(_xblockexpression_25, "\t\t\t");
@@ -3658,8 +3668,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       int counter2 = 0;
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<Integer> _keySet_6 = entries.keySet();
-                        for(final int length_1 : _keySet_6) {
+                        Set<Integer> _keySet_7 = entries.keySet();
+                        for(final int length_1 : _keySet_7) {
                           {
                             if ((counter2 < min)) {
                               _builder.append("\t\t\t");
@@ -3718,8 +3728,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
       _builder.append("let allQuestionsImages = [");
       _builder.newLine();
       {
-        Set<Integer> _keySet_7 = this.drawable.keySet();
-        for(final int numExercise : _keySet_7) {
+        Set<Integer> _keySet_8 = this.drawable.keySet();
+        for(final int numExercise : _keySet_8) {
           {
             if ((isFirst2 == false)) {
               _builder.append("\t\t\t");
@@ -3752,8 +3762,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
       _builder.append("let allAnswersImages = [");
       _builder.newLine();
       {
-        Set<Integer> _keySet_8 = this.drawableAnswer.keySet();
-        for(final int numExercise_1 : _keySet_8) {
+        Set<Integer> _keySet_9 = this.drawableAnswer.keySet();
+        for(final int numExercise_1 : _keySet_9) {
           {
             if ((isFirst3 == false)) {
               _builder.append("\t\t\t");
@@ -3777,8 +3787,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
           _builder.append("\t\t\t");
           _builder.newLine();
           {
-            Set<Integer> _keySet_9 = this.drawableAnswer.get(Integer.valueOf(numExercise_1)).keySet();
-            for(final int numAnswer : _keySet_9) {
+            Set<Integer> _keySet_10 = this.drawableAnswer.get(Integer.valueOf(numExercise_1)).keySet();
+            for(final int numAnswer : _keySet_10) {
               {
                 if ((isFirst4 == false)) {
                   _builder.append("\t\t\t");

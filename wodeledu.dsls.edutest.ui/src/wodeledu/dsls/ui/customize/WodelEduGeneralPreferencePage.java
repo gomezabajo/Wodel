@@ -69,13 +69,15 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     	addField(combo);
     	
     	composite = getFieldEditorParent();
-		values = new String[3][2];
+		values = new String[4][2];
 		values[0][0] = "";
 		values[0][1] = "";
 		values[1][0] = "Dot";
 		values[1][1] = "Dot";
 		values[2][0] = "Circuit";
 		values[2][1] = "Circuit";
+		values[3][0] = "PlantUML";
+		values[3][1] = "PlantUML";
 
     	new LabelFieldEditor(" \n\n", composite);
 		new LabelFieldEditor("\n\nModel-Draw mode", composite);

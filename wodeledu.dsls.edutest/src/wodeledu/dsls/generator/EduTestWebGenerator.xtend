@@ -241,7 +241,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
     		«IF rand.get(exercise).get(test).size() > 0»
-			//DIAGRAM: «var diagram = rand.get(exercise).get(test).get(0)»
+    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
+			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(key).get(0)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -289,8 +290,9 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		//COUNTER: «num = 0»
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-    		«IF rand.get(exercise).get(test).size > 0»
-			//DIAGRAM: «var diagram = rand.get(exercise).get(test).get(0)»
+    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
+    		«IF rand.get(exercise).get(test).get(key).size > 0»
+			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(key).get(0)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -340,7 +342,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		//COUNTER: «num = 0»
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-			«FOR diagram : diagrams.get(exercise).get(test)»
+    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
+			«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -567,8 +570,9 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		</td>
     	<!--COUNTER: «num = 0»--> 
 		«FOR test : ss.tests»
-			«IF rand.get(ss).get(test).size > 0»
-    		<!--DIAGRAM: «var diagram = rand.get(ss).get(test).get(0)»-->
+    		<!--KEY: «var String key = new ArrayList<String>(rand.get(ss).get(test).keySet()).get(0)»-->
+			«IF rand.get(ss).get(test).get(key).size > 0»
+    		<!--DIAGRAM: «var diagram = rand.get(ss).get(test).get(key).get(0)»-->
 			<!--COUNTER: «num = num + 1»-->
 			<td class="exercise-«num»-«part»" id="exercise-«num»-«part»" valign="top" style="display: none;">
 			<fieldset valign="top">
@@ -655,7 +659,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 			<td valign="top">
 			<table class="pretty">
 			<tr>
-			«FOR diagram : rand.get(ss).get(test)»
+    		<!--KEY: «var String key = new ArrayList<String>(rand.get(ss).get(test).keySet()).get(0)»-->
+			«FOR String diagram : rand.get(ss).get(test).get(key)»
 			<td id="td-exercise-«num»-«part»-«diagram.replace('/', '-')»" valign="top">
 			«IF diagram.indexOf('/') > 0»
 			<a href="#" class="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" id="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" onclick="check«part»(«num»,'«diagram.substring(diagram.indexOf('/') + 1)»');"><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram.replace('/', '-')»" id="exercise-«num»-«diagram.replace('/', '-')»" name="exercise-«num»-«diagram.replace('/', '-')»" class="images" /></a>

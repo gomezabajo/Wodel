@@ -119,6 +119,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 	
 	public static boolean hasErrors(List<ICompilationUnit> compilationUnits) {
 		// use working copy to hold source with error
+		boolean hasErrors = false;
 		for (ICompilationUnit compilationUnit : compilationUnits) {
 	        CompilationUnitDeclaration unit = null;
 	        ICompilationUnit workingCopy = null;
@@ -143,11 +144,14 @@ public class JavaSemanticValidation extends SemanticValidation {
                 	for (String problem : problems.keySet()) {
                 		String errors = "Errors found in Java program\n";
                 		for (CategorizedProblem categorizedProblem : problems.get(problem)) {
+                			if (categorizedProblem.getCategoryID() < CategorizedProblem.CAT_JAVADOC || 
+                					categorizedProblem.getCategoryID() >= CategorizedProblem.CAT_MODULE) {
+                				hasErrors = true;
+                			}
                 			errors += categorizedProblem.getMessage() + "\n";
                 		}
                 		System.out.println(errors);
                 	}
-                	return true;
                 }
 	        } catch (JavaModelException e) {
 	            if (JavaProject.hasJavaNature(workingCopy.getJavaProject().getProject()))
@@ -161,7 +165,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 	            }
 	        }
 		}
-		return false;
+    	return hasErrors;
 	}
 
 	@Override
@@ -185,7 +189,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 			String packageName = "";
 			if (mutantName.lastIndexOf(".") != -1) {
 				className = mutantName.substring(mutantName.lastIndexOf(".") + 1, mutantName.length());
-				packageName = mutantName.substring(0, mutantName.lastIndexOf("."));
+				packageName = mutantName.substring(0, mutantName.lastIndexOf(".")).replace(".", "/");
 			}
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			Resource resource = ModelManager.loadModel(packages, model);

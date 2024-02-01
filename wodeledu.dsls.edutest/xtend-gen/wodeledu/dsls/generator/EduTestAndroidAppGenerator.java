@@ -181,7 +181,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan = (_size > 0);
                     if (_greaterThan) {
                       _builder.append("\t");
-                      String diagram = this.rand.get(exercise).get(test).get(0);
+                      List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
                       String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
@@ -301,43 +301,48 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                   HashMap<Integer, String> diccAux = new HashMap<Integer, String>();
                   _builder.newLineIfNotEmpty();
                   {
-                    List<String> _get_2 = this.diagrams.get(exercise).get(test_2);
-                    for(final String diag : _get_2) {
-                      _builder.append("\t");
-                      String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_20 = (_workspaceAbsolutePath_4 + "/");
-                      String _name_4 = this.project.getName();
-                      String _plus_21 = (_plus_20 + _name_4);
-                      String _plus_22 = (_plus_21 + "/src-gen/html/diagrams/");
-                      String _replace_1 = test_2.getSource().replace(".model", "");
-                      String _plus_23 = (_plus_22 + _replace_1);
-                      String _plus_24 = (_plus_23 + "/");
-                      String _plus_25 = (_plus_24 + diag);
-                      File _file_4 = new File(_plus_25);
-                      String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_26 = (_workspaceAbsolutePath_5 + "/");
-                      String _name_5 = this.project.getName();
-                      String _plus_27 = (_plus_26 + _name_5);
-                      String _plus_28 = (_plus_27 + "/app/mobile/app/src/main/res/drawable/q");
-                      String _plus_29 = (_plus_28 + Integer.valueOf(i));
-                      String _plus_30 = (_plus_29 + "_respuesta");
-                      String _plus_31 = (_plus_30 + Integer.valueOf(j));
-                      String _plus_32 = (_plus_31 + ".png");
-                      File _file_5 = new File(_plus_32);
-                      IOUtils.copyFile(_file_4, _file_5);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      String _put_2 = diccAux.put(Integer.valueOf(j), (((("q" + Integer.valueOf(i)) + "_respuesta") + Integer.valueOf(j)) + ".png"));
-                      _builder.append(_put_2, "\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      String _xblockexpression_3 = null;
+                    Set<String> _keySet = this.diagrams.get(exercise).get(test_2).keySet();
+                    for(final String key : _keySet) {
                       {
-                        j++;
-                        _xblockexpression_3 = "";
+                        List<String> _get_2 = this.diagrams.get(exercise).get(test_2).get(key);
+                        for(final String diag : _get_2) {
+                          _builder.append("\t");
+                          String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
+                          String _plus_20 = (_workspaceAbsolutePath_4 + "/");
+                          String _name_4 = this.project.getName();
+                          String _plus_21 = (_plus_20 + _name_4);
+                          String _plus_22 = (_plus_21 + "/src-gen/html/diagrams/");
+                          String _replace_1 = test_2.getSource().replace(".model", "");
+                          String _plus_23 = (_plus_22 + _replace_1);
+                          String _plus_24 = (_plus_23 + "/");
+                          String _plus_25 = (_plus_24 + diag);
+                          File _file_4 = new File(_plus_25);
+                          String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
+                          String _plus_26 = (_workspaceAbsolutePath_5 + "/");
+                          String _name_5 = this.project.getName();
+                          String _plus_27 = (_plus_26 + _name_5);
+                          String _plus_28 = (_plus_27 + "/app/mobile/app/src/main/res/drawable/q");
+                          String _plus_29 = (_plus_28 + Integer.valueOf(i));
+                          String _plus_30 = (_plus_29 + "_respuesta");
+                          String _plus_31 = (_plus_30 + Integer.valueOf(j));
+                          String _plus_32 = (_plus_31 + ".png");
+                          File _file_5 = new File(_plus_32);
+                          IOUtils.copyFile(_file_4, _file_5);
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t");
+                          String _put_2 = diccAux.put(Integer.valueOf(j), (((("q" + Integer.valueOf(i)) + "_respuesta") + Integer.valueOf(j)) + ".png"));
+                          _builder.append(_put_2, "\t");
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("\t");
+                          String _xblockexpression_3 = null;
+                          {
+                            j++;
+                            _xblockexpression_3 = "";
+                          }
+                          _builder.append(_xblockexpression_3, "\t");
+                          _builder.newLineIfNotEmpty();
+                        }
                       }
-                      _builder.append(_xblockexpression_3, "\t");
-                      _builder.newLineIfNotEmpty();
                     }
                   }
                   _builder.append("\t");
@@ -385,10 +390,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(exercise).get(test_3);
                         for(final EduTestSuperGenerator.TestOption opt_1 : _get_3) {
                           {
-                            Set<String> _keySet = opt_1.text.keySet();
-                            for(final String key : _keySet) {
+                            Set<String> _keySet_1 = opt_1.text.keySet();
+                            for(final String key_1 : _keySet_1) {
                               {
-                                List<String> _get_4 = opt_1.text.get(key);
+                                List<String> _get_4 = opt_1.text.get(key_1);
                                 for(final String text : _get_4) {
                                   {
                                     boolean _contains = textOptions.contains(text);
@@ -641,8 +646,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
           _builder.append("private HashMap<Integer, Integer> statements=new HashMap<Integer,Integer>(){{");
           _builder.newLine();
           {
-            Set<Integer> _keySet_1 = drawable.keySet();
-            for(final Integer k_2 : _keySet_1) {
+            Set<Integer> _keySet_2 = drawable.keySet();
+            for(final Integer k_2 : _keySet_2) {
               _builder.append("            \t");
               _builder.append("put(");
               _builder.append(k_2, "            \t");
@@ -668,16 +673,16 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
           _builder.append("private HashMap<Integer, HashMap<Integer,Integer>> statementsAnswers=new HashMap<Integer, HashMap<Integer,Integer>>(){{");
           _builder.newLine();
           {
-            Set<Integer> _keySet_2 = drawableAnswer.keySet();
-            for(final Integer k1 : _keySet_2) {
+            Set<Integer> _keySet_3 = drawableAnswer.keySet();
+            for(final Integer k1 : _keySet_3) {
               _builder.append("\t");
               _builder.append("put(");
               _builder.append(k1, "\t");
               _builder.append(",new HashMap<Integer,Integer>(){{");
               _builder.newLineIfNotEmpty();
               {
-                Set<Integer> _keySet_3 = drawableAnswer.get(k1).keySet();
-                for(final Integer k2 : _keySet_3) {
+                Set<Integer> _keySet_4 = drawableAnswer.get(k1).keySet();
+                for(final Integer k2 : _keySet_4) {
                   _builder.append("\t");
                   _builder.append("\t");
                   _builder.append("put(");
@@ -2638,7 +2643,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                     if (_greaterThan) {
                       _builder.append("\t");
                       _builder.append("<!--");
-                      String diagram = this.rand.get(exercise).get(test).get(0);
+                      List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -2677,30 +2682,35 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                   int correct = i;
                   _builder.newLineIfNotEmpty();
                   {
-                    List<String> _get = this.diagrams.get(exercise).get(test_1);
-                    for(final String diagram_1 : _get) {
+                    Set<String> _keySet = this.diagrams.get(exercise).get(test_1).keySet();
+                    for(final String key : _keySet) {
                       {
-                        boolean _equals_1 = diagram_1.equals(test_1.getSource().replace(".model", ".png"));
-                        if (_equals_1) {
-                          _builder.append("\t");
-                          String _xblockexpression = null;
+                        List<String> _get = this.diagrams.get(exercise).get(test_1).get(key);
+                        for(final String diagram_1 : _get) {
                           {
-                            correct = i;
-                            _xblockexpression = "";
+                            boolean _equals_1 = diagram_1.equals(test_1.getSource().replace(".model", ".png"));
+                            if (_equals_1) {
+                              _builder.append("\t");
+                              String _xblockexpression = null;
+                              {
+                                correct = i;
+                                _xblockexpression = "";
+                              }
+                              _builder.append(_xblockexpression, "\t");
+                              _builder.newLineIfNotEmpty();
+                            }
                           }
-                          _builder.append(_xblockexpression, "\t");
+                          _builder.append("\t");
+                          _builder.append("\t");
+                          String _xblockexpression_1 = null;
+                          {
+                            i++;
+                            _xblockexpression_1 = "";
+                          }
+                          _builder.append(_xblockexpression_1, "\t\t");
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      _builder.append("\t");
-                      _builder.append("\t");
-                      String _xblockexpression_1 = null;
-                      {
-                        i++;
-                        _xblockexpression_1 = "";
-                      }
-                      _builder.append(_xblockexpression_1, "\t\t");
-                      _builder.newLineIfNotEmpty();
                     }
                   }
                   _builder.append("\t");
@@ -2754,10 +2764,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise).get(test_2);
                         for(final EduTestSuperGenerator.TestOption opt : _get_1) {
                           {
-                            Set<String> _keySet = opt.text.keySet();
-                            for(final String key : _keySet) {
+                            Set<String> _keySet_1 = opt.text.keySet();
+                            for(final String key_1 : _keySet_1) {
                               {
-                                List<String> _get_2 = opt.text.get(key);
+                                List<String> _get_2 = opt.text.get(key_1);
                                 for(final String text : _get_2) {
                                   _builder.append("\t");
                                   boolean found = false;
@@ -2856,10 +2866,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                     boolean _greaterThan_2 = (_size_2 > 0);
                                     if (_greaterThan_2) {
                                       {
-                                        Set<String> _keySet_1 = opt_2.text.keySet();
-                                        for(final String key_1 : _keySet_1) {
+                                        Set<String> _keySet_2 = opt_2.text.keySet();
+                                        for(final String key_2 : _keySet_2) {
                                           {
-                                            List<String> _get_7 = opt_2.text.get(key_1);
+                                            List<String> _get_7 = opt_2.text.get(key_2);
                                             for(final String text_1 : _get_7) {
                                               {
                                                 boolean _contains = textOptions_1.contains(text_1);
@@ -2892,10 +2902,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_3 = (_size_3 > 0);
                                         if (_greaterThan_3) {
                                           {
-                                            Set<String> _keySet_2 = opt_3.text.keySet();
-                                            for(final String key_2 : _keySet_2) {
+                                            Set<String> _keySet_3 = opt_3.text.keySet();
+                                            for(final String key_3 : _keySet_3) {
                                               {
-                                                List<String> _get_9 = opt_3.text.get(key_2);
+                                                List<String> _get_9 = opt_3.text.get(key_3);
                                                 for(final String text_2 : _get_9) {
                                                   _builder.append("*");
                                                   String _trim = text_2.trim();
@@ -2917,10 +2927,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_4 = (_size_4 > 0);
                                         if (_greaterThan_4) {
                                           {
-                                            Set<String> _keySet_3 = opt_3.text.keySet();
-                                            for(final String key_3 : _keySet_3) {
+                                            Set<String> _keySet_4 = opt_3.text.keySet();
+                                            for(final String key_4 : _keySet_4) {
                                               {
-                                                List<String> _get_10 = opt_3.text.get(key_3);
+                                                List<String> _get_10 = opt_3.text.get(key_4);
                                                 for(final String text_3 : _get_10) {
                                                   String _trim_1 = text_3.trim();
                                                   _builder.append(_trim_1);
@@ -2981,10 +2991,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise).get(test_3);
                         for(final EduTestSuperGenerator.TestOption opt_4 : _get_11) {
                           {
-                            Set<String> _keySet_4 = opt_4.text.keySet();
-                            for(final String key_4 : _keySet_4) {
+                            Set<String> _keySet_5 = opt_4.text.keySet();
+                            for(final String key_5 : _keySet_5) {
                               {
-                                List<String> _get_12 = opt_4.text.get(key_4);
+                                List<String> _get_12 = opt_4.text.get(key_5);
                                 for(final String text_4 : _get_12) {
                                   {
                                     boolean _contains_1 = textOptions_2.contains(text_4);
@@ -3054,23 +3064,23 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                             boolean _equals_4 = (_isExpression == true);
                             if (_equals_4) {
                               _builder.append("\t\t\t\t\t\t\t");
-                              String key_5 = this.getText(test_3.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                              String key_6 = this.getText(test_3.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
                               _builder.newLineIfNotEmpty();
                               {
-                                int _length = key_5.length();
+                                int _length = key_6.length();
                                 boolean _lessEqualsThan = (_length <= 36);
                                 if (_lessEqualsThan) {
                                   _builder.append("\t\t\t\t\t\t\t");
                                   boolean found_1 = false;
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<Integer> _keySet_5 = entries.keySet();
-                                    for(final int length : _keySet_5) {
+                                    Set<Integer> _keySet_6 = entries.keySet();
+                                    for(final int length : _keySet_6) {
                                       _builder.append("\t\t\t\t\t\t\t");
                                       AbstractMap.SimpleEntry<String, String> entry_1 = entries.get(Integer.valueOf(length));
                                       _builder.newLineIfNotEmpty();
                                       {
-                                        boolean _equals_5 = entry_1.getValue().equals(key_5);
+                                        boolean _equals_5 = entry_1.getValue().equals(key_6);
                                         if (_equals_5) {
                                           _builder.append("\t\t\t\t\t\t\t");
                                           String _xblockexpression_11 = null;
@@ -3088,12 +3098,12 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                     if ((found_1 == false)) {
                                       _builder.append("\t\t\t\t\t\t\t");
                                       String _trim_2 = op.text.get(((Object[])Conversions.unwrapArray(op.text.keySet(), Object.class))[index]).get(index).trim();
-                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_5, _trim_2);
+                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim_2);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t\t\t\t\t\t");
                                       String _xblockexpression_12 = null;
                                       {
-                                        entries.put(Integer.valueOf(key_5.length()), entry_2);
+                                        entries.put(Integer.valueOf(key_6.length()), entry_2);
                                         _xblockexpression_12 = "";
                                       }
                                       _builder.append(_xblockexpression_12, "\t\t\t\t\t\t\t");
@@ -3113,8 +3123,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int counter2 = 0;
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<Integer> _keySet_6 = entries.keySet();
-                        for(final int length_1 : _keySet_6) {
+                        Set<Integer> _keySet_7 = entries.keySet();
+                        for(final int length_1 : _keySet_7) {
                           {
                             if ((counter2 < min)) {
                               _builder.append("\t\t\t\t\t\t\t");
@@ -3225,7 +3235,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                     if (_greaterThan) {
                       _builder.append("\t");
                       _builder.append("<!--");
-                      String diagram = this.rand.get(exercise).get(test).get(0);
+                      List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -3264,30 +3274,35 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                   int correct = i;
                   _builder.newLineIfNotEmpty();
                   {
-                    List<String> _get = this.diagrams.get(exercise).get(test_1);
-                    for(final String diagram_1 : _get) {
+                    Set<String> _keySet = this.diagrams.get(exercise).get(test_1).keySet();
+                    for(final String key : _keySet) {
                       {
-                        boolean _equals_1 = diagram_1.equals(test_1.getSource().replace(".model", ".png"));
-                        if (_equals_1) {
-                          _builder.append("\t");
-                          String _xblockexpression = null;
+                        List<String> _get = this.diagrams.get(exercise).get(test_1).get(key);
+                        for(final String diagram_1 : _get) {
                           {
-                            correct = i;
-                            _xblockexpression = "";
+                            boolean _equals_1 = diagram_1.equals(test_1.getSource().replace(".model", ".png"));
+                            if (_equals_1) {
+                              _builder.append("\t");
+                              String _xblockexpression = null;
+                              {
+                                correct = i;
+                                _xblockexpression = "";
+                              }
+                              _builder.append(_xblockexpression, "\t");
+                              _builder.newLineIfNotEmpty();
+                            }
                           }
-                          _builder.append(_xblockexpression, "\t");
+                          _builder.append("\t");
+                          _builder.append("\t");
+                          String _xblockexpression_1 = null;
+                          {
+                            i++;
+                            _xblockexpression_1 = "";
+                          }
+                          _builder.append(_xblockexpression_1, "\t\t");
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      _builder.append("\t");
-                      _builder.append("\t");
-                      String _xblockexpression_1 = null;
-                      {
-                        i++;
-                        _xblockexpression_1 = "";
-                      }
-                      _builder.append(_xblockexpression_1, "\t\t");
-                      _builder.newLineIfNotEmpty();
                     }
                   }
                   _builder.append("\t");
@@ -3341,10 +3356,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise).get(test_2);
                         for(final EduTestSuperGenerator.TestOption opt : _get_1) {
                           {
-                            Set<String> _keySet = opt.text.keySet();
-                            for(final String key : _keySet) {
+                            Set<String> _keySet_1 = opt.text.keySet();
+                            for(final String key_1 : _keySet_1) {
                               {
-                                List<String> _get_2 = opt.text.get(key);
+                                List<String> _get_2 = opt.text.get(key_1);
                                 for(final String text : _get_2) {
                                   _builder.append("\t");
                                   boolean found = false;
@@ -3443,10 +3458,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                     boolean _greaterThan_2 = (_size_2 > 0);
                                     if (_greaterThan_2) {
                                       {
-                                        Set<String> _keySet_1 = opt_2.text.keySet();
-                                        for(final String key_1 : _keySet_1) {
+                                        Set<String> _keySet_2 = opt_2.text.keySet();
+                                        for(final String key_2 : _keySet_2) {
                                           {
-                                            List<String> _get_7 = opt_2.text.get(key_1);
+                                            List<String> _get_7 = opt_2.text.get(key_2);
                                             for(final String text_1 : _get_7) {
                                               {
                                                 boolean _contains = textOptions_1.contains(text_1);
@@ -3479,10 +3494,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_3 = (_size_3 > 0);
                                         if (_greaterThan_3) {
                                           {
-                                            Set<String> _keySet_2 = opt_3.text.keySet();
-                                            for(final String key_2 : _keySet_2) {
+                                            Set<String> _keySet_3 = opt_3.text.keySet();
+                                            for(final String key_3 : _keySet_3) {
                                               {
-                                                List<String> _get_9 = opt_3.text.get(key_2);
+                                                List<String> _get_9 = opt_3.text.get(key_3);
                                                 for(final String text_2 : _get_9) {
                                                   _builder.append("*");
                                                   String _trim = text_2.trim();
@@ -3504,10 +3519,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                         boolean _greaterThan_4 = (_size_4 > 0);
                                         if (_greaterThan_4) {
                                           {
-                                            Set<String> _keySet_3 = opt_3.text.keySet();
-                                            for(final String key_3 : _keySet_3) {
+                                            Set<String> _keySet_4 = opt_3.text.keySet();
+                                            for(final String key_4 : _keySet_4) {
                                               {
-                                                List<String> _get_10 = opt_3.text.get(key_3);
+                                                List<String> _get_10 = opt_3.text.get(key_4);
                                                 for(final String text_3 : _get_10) {
                                                   String _trim_1 = text_3.trim();
                                                   _builder.append(_trim_1);
@@ -3568,10 +3583,10 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise).get(test_3);
                         for(final EduTestSuperGenerator.TestOption opt_4 : _get_11) {
                           {
-                            Set<String> _keySet_4 = opt_4.text.keySet();
-                            for(final String key_4 : _keySet_4) {
+                            Set<String> _keySet_5 = opt_4.text.keySet();
+                            for(final String key_5 : _keySet_5) {
                               {
-                                List<String> _get_12 = opt_4.text.get(key_4);
+                                List<String> _get_12 = opt_4.text.get(key_5);
                                 for(final String text_4 : _get_12) {
                                   {
                                     boolean _contains_1 = textOptions_2.contains(text_4);
@@ -3641,23 +3656,23 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                             boolean _equals_4 = (_isExpression == true);
                             if (_equals_4) {
                               _builder.append("\t\t\t\t\t\t\t");
-                              String key_5 = this.getText(test_3.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                              String key_6 = this.getText(test_3.getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
                               _builder.newLineIfNotEmpty();
                               {
-                                int _length = key_5.length();
+                                int _length = key_6.length();
                                 boolean _lessEqualsThan = (_length <= 36);
                                 if (_lessEqualsThan) {
                                   _builder.append("\t\t\t\t\t\t\t");
                                   boolean found_1 = false;
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<Integer> _keySet_5 = entries.keySet();
-                                    for(final int length : _keySet_5) {
+                                    Set<Integer> _keySet_6 = entries.keySet();
+                                    for(final int length : _keySet_6) {
                                       _builder.append("\t\t\t\t\t\t\t");
                                       AbstractMap.SimpleEntry<String, String> entry_1 = entries.get(Integer.valueOf(length));
                                       _builder.newLineIfNotEmpty();
                                       {
-                                        boolean _equals_5 = entry_1.getValue().equals(key_5);
+                                        boolean _equals_5 = entry_1.getValue().equals(key_6);
                                         if (_equals_5) {
                                           _builder.append("\t\t\t\t\t\t\t");
                                           String _xblockexpression_11 = null;
@@ -3675,12 +3690,12 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                     if ((found_1 == false)) {
                                       _builder.append("\t\t\t\t\t\t\t");
                                       String _trim_2 = op.text.get(((Object[])Conversions.unwrapArray(op.text.keySet(), Object.class))[index]).get(index).trim();
-                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_5, _trim_2);
+                                      AbstractMap.SimpleEntry<String, String> entry_2 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim_2);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t\t\t\t\t\t");
                                       String _xblockexpression_12 = null;
                                       {
-                                        entries.put(Integer.valueOf(key_5.length()), entry_2);
+                                        entries.put(Integer.valueOf(key_6.length()), entry_2);
                                         _xblockexpression_12 = "";
                                       }
                                       _builder.append(_xblockexpression_12, "\t\t\t\t\t\t\t");
@@ -3700,8 +3715,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int counter2 = 0;
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<Integer> _keySet_6 = entries.keySet();
-                        for(final int length_1 : _keySet_6) {
+                        Set<Integer> _keySet_7 = entries.keySet();
+                        for(final int length_1 : _keySet_7) {
                           {
                             if ((counter2 < min)) {
                               _builder.append("\t\t\t\t\t\t\t");

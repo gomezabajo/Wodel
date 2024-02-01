@@ -121,7 +121,8 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 									«FOR test : exercise.tests»
 										«var int j = 0»
 										«var TreeMap<Integer,String> diccAux = new TreeMap()»
-										«FOR diag : diagrams.get(exercise).get(test)»
+										«FOR String key : diagrams.get(exercise).get(test).keySet()»
+										«FOR String diag : diagrams.get(exercise).get(test).get(key)»
 											«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/"»
 											«var File diagramFolder = new File(diagramFolderName)»
 											«IF diagramFolder.exists() == false»
@@ -133,6 +134,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 											//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  															
 											//«diccAux.put(j, "ejercicio" + i + "respuesta" + j+".png")»
 											«{j++; ""}»
+										«ENDFOR»
 										«ENDFOR»
 										//«drawableAnswer.put(i,diccAux)»
 										«{i++; ""}»
@@ -1068,12 +1070,14 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 								«ENDIF»					
 								«var int j=0»
 								«var int correct=j»
-								«FOR diagram : diagrams.get(exercise).get(test)»
+								«FOR String key : diagrams.get(exercise).get(test).keySet()»
+								«FOR diagram : diagrams.get(exercise).get(test).get(key)»
 								«IF diagram.equals(test.source.replace('.model', '.png'))»
 									«{correct=j; ""}»
 												«ENDIF»
 												«{j++; ""}»
 											«ENDFOR»
+								«ENDFOR»
 										"0;«test.question.replace("\"", "'").replace("'", "")»;«j»;«correct»"
 							«ENDFOR»
 						«ENDIF»

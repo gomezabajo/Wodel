@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -82,8 +83,8 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 
 	protected IProject project = null;
 	protected Map<MutatorTests, List<Test>> tests = new HashMap<MutatorTests, List<Test>>();
-	protected Map<MutatorTests, Map<Test, List<String>>> diagrams = new HashMap<MutatorTests, Map<Test, List<String>>>();
-	protected Map<MutatorTests, Map<Test, List<String>>> rand = new HashMap<MutatorTests, Map<Test, List<String>>>();
+	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> diagrams = new HashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> rand = new HashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new HashMap<MutatorTests, Map<Test, Registry>>();
 	protected Map<MutatorTests, Map<Test, Double>> puntuation = new HashMap<MutatorTests, Map<Test, Double>>();
 	protected Map<MutatorTests, Map<Test, Double>> penalty = new HashMap<MutatorTests, Map<Test, Double>>();
@@ -694,14 +695,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param exercise
 	 * @param diags
 	 */
-	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, List<String>> diags) {
+	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, Map<String, List<String>>> diags) {
 		for (Test test : exercise.getTests()) {
 			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
-			List<String> fileNames = new ArrayList<String>();
+			Map<String, List<String>> mapFileNames = new LinkedHashMap<String, List<String>>();
 			if (folder.isDirectory() == true) {
 				for (File f : folder.listFiles()) {
 					if (f.getName().endsWith(".png")) {
-						fileNames.add(f.getName());
+						mapFileNames.put(f.getName(), new ArrayList<String>());
 					}
 				}
 			}
@@ -711,7 +712,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					if (folder.isDirectory() == true) {
 						for (File f : folder.listFiles()) {
 							if (f.getName().endsWith(".png")) {
-								fileNames.add(block.getName() + "/" + f.getName());
+								for (String key : mapFileNames.keySet()) {
+									mapFileNames.get(key).add(block.getName() + "/" + f.getName());
+								}
 							}
 						}
 					}
@@ -722,7 +725,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								for (File f : wrongFolder.listFiles()) {
 									for (File w : f.listFiles()) {
 										if (w.getName().endsWith(".png")) {
-											fileNames.add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+											for (String key : mapFileNames.keySet()) {
+												mapFileNames.get(key).add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+											}
 										}
 									}
 								}
@@ -731,13 +736,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 				}
 			}
-			diags.put(test, fileNames);
+			diags.put(test, mapFileNames);
 		}
 		diagrams.put(exercise, diags);
-		Map<Test, List<String>> random = new HashMap<Test, List<String>>();
+		Map<Test, Map<String, List<String>>> random = new HashMap<Test, Map<String, List<String>>>();
 		for (Test test : exercise.getTests()) {
-			List<String> entry = diagrams.get(exercise).get(test);
-			Collections.shuffle(entry);
+			Map<String, List<String>> entry = diagrams.get(exercise).get(test);
+			for (String key : entry.keySet()) {
+				Collections.shuffle(entry.get(key));
+			}
 			random.put(test, entry);
 		}
 		rand.put(exercise, random);
@@ -5498,7 +5505,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected void buildOptions(Program program, Resource resource, List<EObject> blocks, Class<?> cls) {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
-			Map<Test, List<String>> diags = new HashMap<Test, List<String>>();
+			Map<Test, Map<String, List<String>>> diags = new HashMap<Test, Map<String, List<String>>>();
 			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText || exercise instanceof AlternativeText) {
 				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags);
 			}

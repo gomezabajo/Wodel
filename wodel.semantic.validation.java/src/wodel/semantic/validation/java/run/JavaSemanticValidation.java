@@ -45,6 +45,10 @@ import wodel.utils.manager.ModelManager;
 import java.util.HashMap;
 
 public class JavaSemanticValidation extends SemanticValidation {
+	
+	private static final String OTHER_PROBLEM = "Other";
+	private static final String ERROR_PROBLEM = "Error";
+	private static final String WARNING_PROBLEM = "Warning";
 
 	@Override
 	public String getName() {
@@ -142,13 +146,17 @@ public class JavaSemanticValidation extends SemanticValidation {
 	            }
                 if (problems.entrySet().size() > 0) {
                 	for (String problem : problems.keySet()) {
-                		String errors = "Errors found in Java program\n";
+                		String errors = "Issues found in Java program\n";
                 		for (CategorizedProblem categorizedProblem : problems.get(problem)) {
-                			if (categorizedProblem.getCategoryID() < CategorizedProblem.CAT_JAVADOC || 
-                					categorizedProblem.getCategoryID() >= CategorizedProblem.CAT_MODULE) {
+                			String problemKind = OTHER_PROBLEM;
+                			if (categorizedProblem.isError()) {
                 				hasErrors = true;
+                				problemKind = ERROR_PROBLEM;
                 			}
-                			errors += categorizedProblem.getMessage() + "\n";
+                			else if (categorizedProblem.isWarning()) {
+                				problemKind = WARNING_PROBLEM;
+                			}
+                			errors += problemKind + ": " + categorizedProblem.getMessage() + "\n";
                 		}
                 		System.out.println(errors);
                 	}

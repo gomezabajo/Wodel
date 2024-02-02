@@ -146,7 +146,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 	            }
                 if (problems.entrySet().size() > 0) {
                 	for (String problem : problems.keySet()) {
-                		String errors = "Issues found in Java program\n";
+                		String issues = "Issues found in Java program\n";
                 		for (CategorizedProblem categorizedProblem : problems.get(problem)) {
                 			String problemKind = OTHER_PROBLEM;
                 			if (categorizedProblem.isError()) {
@@ -156,9 +156,9 @@ public class JavaSemanticValidation extends SemanticValidation {
                 			else if (categorizedProblem.isWarning()) {
                 				problemKind = WARNING_PROBLEM;
                 			}
-                			errors += problemKind + ": " + categorizedProblem.getMessage() + "\n";
+                			issues += problemKind + ": " + categorizedProblem.getMessage() + "\n";
                 		}
-                		System.out.println(errors);
+                		System.out.println(issues);
                 	}
                 }
 	        } catch (JavaModelException e) {
@@ -223,7 +223,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 			if (block.indexOf("/") != -1) {
 				block = block.substring(block.lastIndexOf("/") + 1, block.length());
 			}
-			System.out.println("block: " + block);
+			System.out.println("block/mutant: " + block + "/" + mutantName);
 			modelToProject(resource, block, mutantName, project.getName());
 			String artifactPath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			String srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						

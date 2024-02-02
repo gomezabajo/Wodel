@@ -57,23 +57,17 @@ public class JavaSemanticComparison extends SemanticComparison {
 		}
 	}
 	
-	public boolean modelToProject(Resource model, String folderName, String modelName, String packageName, String className, String projectName) {
+	public boolean modelToProject(Resource model, String folderName, String modelName, String projectName) {
 		try {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
-			String folder = "";
-			if (folderName.length() > 0) {
-				folder = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + packageName + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
-			}
-			else {
-				folder = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + packageName + "/temp/" + modelName.replace(".model", "") + "/src/";
-			}
+			String folder = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + projectName + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
-				new File(folder), new ArrayList<Object>());//, serialized);
+				new File(folder), new ArrayList<Object>()); //serialized);
 			//if (javaGenerator.status == true) {
 				javaGenerator.doGenerate(null);
-			//	return true;
+				return true;
 			//}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -112,7 +106,6 @@ public class JavaSemanticComparison extends SemanticComparison {
 			String classname = srcFile.getName().replace(".java", "");
 			bytecodePath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/bin/" + packagename + "/" + classname + ".class";
 		}
-		
 		return bytecodePath;
 	}
 	
@@ -157,12 +150,12 @@ public class JavaSemanticComparison extends SemanticComparison {
 			}
 			// GET BYTCODE FOR FIRST PROGRAM
 			String mutantName = model1.replace("\\", "/");
-			String packageName = mutantName.substring(mutantName.indexOf("/data/out/") + ("/data/out/").length(), mutantName.length());
-			packageName = packageName.substring(0, packageName.indexOf("/")).replace(".", "/");
+			String packageName = mutantName.substring(mutantName.indexOf("/data/model/") + ("/data/model/").length(), mutantName.length());
+			packageName = packageName.substring(0, packageName.lastIndexOf(".")).replace(".", "/");
 			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
-			String className = packageName.substring(packageName.indexOf("/") + 1, packageName.length());
-			packageName = packageName.substring(0, packageName.indexOf("/"));
-			modelToProject(resource1, "", mutantName, packageName, className, project.getName());
+			String className = packageName.substring(packageName.lastIndexOf("/") + 1, packageName.length());
+			packageName = packageName.substring(0, packageName.lastIndexOf("/"));
+			modelToProject(resource1, "", mutantName, project.getName());
 			IJavaProject javaProject = JavaCore.create(project);
 			IClasspathEntry[] entries = javaProject.getRawClasspath();
 			IClasspathEntry srcEntry = null;
@@ -184,10 +177,13 @@ public class JavaSemanticComparison extends SemanticComparison {
 			byte[] byteArrayModel1 = getBytecode(project, javaProject, resource1, "", className + ".java", srcJavaFilePath, packageName);
 
 			//GET BYTECODE FOR SECOND PROGRAM
-			mutantName = model2.substring(model2.lastIndexOf(File.separator) + 1, model2.length()).replace(".model", "");
-			String block = model2.substring(0, model2.lastIndexOf(mutantName) - 1);
-			block = block.substring(block.lastIndexOf(File.separator) + 1, block.length());
-			modelToProject(resource2, block, mutantName, packageName, className, project.getName());
+			mutantName = model2.replace("\\", "/");
+			String block = mutantName.substring(0, mutantName.lastIndexOf("Output") - 1);
+			if (block.indexOf("/") != -1) {
+				block = block.substring(block.lastIndexOf("/") + 1, block.length());
+			}
+			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
+			modelToProject(resource2, block, mutantName, project.getName());
 			String artifactPath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);
 			compile(project);
@@ -238,7 +234,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				ret = ModelManager.compareModels(resource1, resource2);
 			}
 			else {
-				ret = applyTCE(resource1, model1, resource2, model2, project);
+				ret = applyTCE(resource2, model2, resource1, model1, project);
 			}
 			try {
 				resource2.unload();

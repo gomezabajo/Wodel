@@ -1,6 +1,13 @@
 # Wodel
 A domain-specific language for model mutation
 
+Wodel is a Domain-Specific Language for the specification and generation of model mutants. Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models. Wodel provides nine mutation primitives for object creation and deletion, reference redirection, attribute modification, cloning, and retyping (change the type of an object to one of its siblings types), among others.
+
+The engine verifies that each generated mutant is a valid model (i.e., it conforms to the domain meta-model and satisfies its integrity constraints).
+
+You can access the following links to learn more about this DSL and the tool support provided: 
+
+- [Wodel Website](https://gomezabajo.github.io/Wodel/)
 - [Wodel Tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started)
 
 ## Wodel-Edu plugins

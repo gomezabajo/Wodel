@@ -1143,6 +1143,121 @@ ruleTestConfiguration returns [EObject current=null]
 				)
 			)
 		)
+		(
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getTestConfigurationAccess().getCommaKeyword_4_0());
+			}
+			otherlv_5='mode'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getTestConfigurationAccess().getModeKeyword_4_1());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_4_2());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getTestConfigurationAccess().getModeModeEnumRuleCall_4_3_0());
+					}
+					lv_mode_7_0=ruleMode
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+						}
+						set(
+							$current,
+							"mode",
+							lv_mode_7_0,
+							"wodeledu.dsls.EduTest.Mode");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)?
+		(
+			otherlv_8=','
+			{
+				newLeafNode(otherlv_8, grammarAccess.getTestConfigurationAccess().getCommaKeyword_5_0());
+			}
+			otherlv_9='statement'
+			{
+				newLeafNode(otherlv_9, grammarAccess.getTestConfigurationAccess().getStatementKeyword_5_1());
+			}
+			otherlv_10='='
+			{
+				newLeafNode(otherlv_10, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_5_2());
+			}
+			otherlv_11='('
+			{
+				newLeafNode(otherlv_11, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_5_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getTestConfigurationAccess().getStatementEStringParserRuleCall_5_4_0());
+					}
+					lv_statement_12_0=ruleEString
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+						}
+						set(
+							$current,
+							"statement",
+							lv_statement_12_0,
+							"wodeledu.dsls.EduTest.EString");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_5_5());
+			}
+		)?
+		(
+			otherlv_14=','
+			{
+				newLeafNode(otherlv_14, grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0());
+			}
+			otherlv_15='answers'
+			{
+				newLeafNode(otherlv_15, grammarAccess.getTestConfigurationAccess().getAnswersKeyword_6_1());
+			}
+			otherlv_16='='
+			{
+				newLeafNode(otherlv_16, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2());
+			}
+			otherlv_17='('
+			{
+				newLeafNode(otherlv_17, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_6_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getTestConfigurationAccess().getAnswersEStringParserRuleCall_6_4_0());
+					}
+					lv_answers_18_0=ruleEString
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+						}
+						set(
+							$current,
+							"answers",
+							lv_answers_18_0,
+							"wodeledu.dsls.EduTest.EString");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_19=')'
+			{
+				newLeafNode(otherlv_19, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_6_5());
+			}
+		)?
 	)
 ;
 

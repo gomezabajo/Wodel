@@ -297,7 +297,7 @@ public class ModifyInformationMutator extends Mutator {
 								prev = ((List<EObject>) p).get(0);
 							}
 							previous.put(e.getKey(), prev);
-							Object n = srcf.getNext(eobjref);
+							Object n = srcf.getNext(object);
 							EObject nxt = null;
 							if (n instanceof EObject) {
 								nxt = (EObject) p;

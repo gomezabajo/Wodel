@@ -12,6 +12,9 @@ package edutest;
  * </p>
  * <ul>
  *   <li>{@link edutest.TestConfiguration#isRetry <em>Retry</em>}</li>
+ *   <li>{@link edutest.TestConfiguration#getMode <em>Mode</em>}</li>
+ *   <li>{@link edutest.TestConfiguration#getStatement <em>Statement</em>}</li>
+ *   <li>{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}</li>
  * </ul>
  *
  * @see edutest.EdutestPackage#getTestConfiguration()
@@ -41,5 +44,74 @@ public interface TestConfiguration extends Configuration {
 	 * @generated
 	 */
 	void setRetry(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Mode</b></em>' attribute.
+	 * The literals are from the enumeration {@link edutest.Mode}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mode</em>' attribute.
+	 * @see edutest.Mode
+	 * @see #setMode(Mode)
+	 * @see edutest.EdutestPackage#getTestConfiguration_Mode()
+	 * @model
+	 * @generated
+	 */
+	Mode getMode();
+
+	/**
+	 * Sets the value of the '{@link edutest.TestConfiguration#getMode <em>Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Mode</em>' attribute.
+	 * @see edutest.Mode
+	 * @see #getMode()
+	 * @generated
+	 */
+	void setMode(Mode value);
+
+	/**
+	 * Returns the value of the '<em><b>Statement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Statement</em>' attribute.
+	 * @see #setStatement(String)
+	 * @see edutest.EdutestPackage#getTestConfiguration_Statement()
+	 * @model
+	 * @generated
+	 */
+	String getStatement();
+
+	/**
+	 * Sets the value of the '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Statement</em>' attribute.
+	 * @see #getStatement()
+	 * @generated
+	 */
+	void setStatement(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Answers</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Answers</em>' attribute.
+	 * @see #setAnswers(String)
+	 * @see edutest.EdutestPackage#getTestConfiguration_Answers()
+	 * @model
+	 * @generated
+	 */
+	String getAnswers();
+
+	/**
+	 * Sets the value of the '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Answers</em>' attribute.
+	 * @see #getAnswers()
+	 * @generated
+	 */
+	void setAnswers(String value);
 
 } // TestConfiguration

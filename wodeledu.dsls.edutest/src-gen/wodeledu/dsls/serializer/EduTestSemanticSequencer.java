@@ -266,7 +266,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     TestConfiguration returns TestConfiguration
 	 *
 	 * Constraint:
-	 *     (retry?='yes' | retry?='no')
+	 *     ((retry?='yes' | retry?='no') mode=Mode? statement=EString? answers=EString?)
 	 * </pre>
 	 */
 	protected void sequence_TestConfiguration(ISerializationContext context, TestConfiguration semanticObject) {

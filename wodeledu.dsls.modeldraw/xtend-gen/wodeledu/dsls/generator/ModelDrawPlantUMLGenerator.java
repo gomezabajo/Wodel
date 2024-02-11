@@ -2,10 +2,12 @@ package wodeledu.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import modeldraw.Edge;
 import modeldraw.MutatorDraw;
 import modeldraw.MutatorInstance;
 import modeldraw.Node;
 import modeldraw.NodeStyle;
+import modeldraw.Relation;
 import modeldraw.ValuedFeature;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
@@ -75,13 +77,15 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
           int _size = draw.getInstances().get(index).getNodes().size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
-            _builder.append("generateUMLNodes(packages, model, umlnodes, umlrels);");
+            _builder.append("generateUMLNodes(packages, model, umlnodes, umlrels, id);");
             _builder.newLine();
           }
         }
       }
     }
     _builder.append("umlcode.add(\"@startuml\");");
+    _builder.newLine();
+    _builder.append("Set<String> rels = new HashSet<String>();");
     _builder.newLine();
     _builder.append("for (EObject umlnode : umlnodes.get(");
     _builder.append(index);
@@ -99,29 +103,62 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append(index, "\t\t");
     _builder.append(").get(umlnode).name.replaceAll(\"\'\", \"\")).trim());");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    {
+      EList<Relation> _relations = draw.getInstances().get(index).getRelations();
+      boolean _tripleNotEquals_1 = (_relations != null);
+      if (_tripleNotEquals_1) {
+        {
+          int _size_1 = draw.getInstances().get(index).getRelations().size();
+          boolean _greaterThan_1 = (_size_1 > 0);
+          if (_greaterThan_1) {
+            _builder.append("generateUMLEdges(packages, model, umlnodes, umlrels, id);");
+            _builder.newLine();
+          }
+        }
+      }
+    }
+    _builder.append("for (EObject umlrel : umlrels.get(");
+    _builder.append(index);
+    _builder.append(").keySet()) {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
     _builder.append("if (umlrels.get(");
+    _builder.append(index, "\t");
+    _builder.append(").get(umlrel) != null) {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.append("for (String key : umlrels.get(");
     _builder.append(index, "\t\t");
-    _builder.append(").get(umlnode) != null) {");
+    _builder.append(").get(umlrel).keySet()) {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
-    _builder.append("for (String rel : umlrels.get(");
+    _builder.append("for (LabelStyle value : umlrels.get(");
     _builder.append(index, "\t\t\t");
-    _builder.append(").get(umlnode)) { ");
+    _builder.append(").get(umlrel).get(key)) {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
-    _builder.append("umlcode.add((rel.replaceAll(\"\'\", \"\") + \" <|-- \" + umlnodes.get(");
-    _builder.append(index, "\t\t\t\t");
-    _builder.append(").get(umlnode).name.replaceAll(\"\'\", \"\")).trim());");
-    _builder.newLineIfNotEmpty();
+    _builder.append("rels.add((key.replaceAll(\"\'\", \"\") + \" \" + value.style + \" \" + value.name.replaceAll(\"\'\", \"\")).trim());");
+    _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("}");
+    _builder.append("} \t\t\t\t\t");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("for (String rel : rels) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("umlcode.add(rel);");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
@@ -162,6 +199,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("import java.util.HashMap;");
     _builder.newLine();
     _builder.append("import java.util.LinkedHashMap;");
+    _builder.newLine();
+    _builder.append("import java.util.Set;");
+    _builder.newLine();
+    _builder.append("import java.util.HashSet;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EObject;");
@@ -255,7 +296,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     String folder = (_plus + _name);
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, List<String>>> umlrels) {");
+    _builder.append("private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("// COUNTER: ");
@@ -265,7 +306,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("Map<EObject, LabelStyle> localnodes = null;");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("Map<EObject, List<String>> localrels = null;");
+    _builder.append("Map<EObject, Map<String, List<LabelStyle>>> localrels = null;");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("int i = 0;");
@@ -274,7 +317,26 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
       EList<MutatorInstance> _instances = draw.getInstances();
       for(final MutatorInstance instance : _instances) {
         _builder.append("\t");
+        _builder.append("if (umlnodes.get(");
+        _builder.append(counter, "\t");
+        _builder.append(") == null) {\t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
         _builder.append("localnodes = new LinkedHashMap<EObject, LabelStyle>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("localnodes = new LinkedHashMap<EObject, LabelStyle>(umlnodes.get(");
+        _builder.append(counter, "\t\t");
+        _builder.append("));");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("umlnodes.put(");
@@ -282,7 +344,26 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append(", localnodes);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        _builder.append("localrels = new LinkedHashMap<EObject, List<String>>();");
+        _builder.append("if (umlrels.get(");
+        _builder.append(counter, "\t");
+        _builder.append(") == null) {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("localrels = new LinkedHashMap<EObject, Map<String, List<LabelStyle>>>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("localrels = new LinkedHashMap<EObject, Map<String, List<LabelStyle>>>(umlrels.get(");
+        _builder.append(counter, "\t\t");
+        _builder.append("));");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("umlrels.put(");
@@ -291,6 +372,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("try {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("Map<String, List<LabelStyle>> rels = new LinkedHashMap<String, List<LabelStyle>>();");
         _builder.newLine();
         {
           EList<Node> _nodes = draw.getInstances().get(counter).getNodes();
@@ -388,6 +472,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                           _builder.append("\t");
                           _builder.append("label.name = \"\\\"\" + name + \" :<u>\" + ModelManager.getStringAttribute(\"name\", cl) + \"</u>\\\" as \" + getOrdinalFor(i);");
                           _builder.newLine();
+                          _builder.append("\t");
+                          _builder.append("\t");
+                          _builder.append("id.put(node, i);");
+                          _builder.newLine();
                         }
                       }
                     }
@@ -454,10 +542,6 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t\t");
-                    _builder.append("List<String> rels = new ArrayList<String>();");
-                    _builder.newLine();
-                    _builder.append("\t");
-                    _builder.append("\t\t");
                     _builder.append("for (EObject nnode : (List<EObject>) noderels) {");
                     _builder.newLine();
                     _builder.append("\t");
@@ -466,7 +550,39 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t\t\t");
-                    _builder.append("rels.add(rel);");
+                    _builder.append("List<LabelStyle> values = new ArrayList<LabelStyle>();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("if (rels.get(rel) != null) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("values = rels.get(rel);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("label = new LabelStyle();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("label.name = name;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("label.style = \"<|--\";");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("values.add(label);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("rels.put(rel, values);");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t\t");
@@ -524,21 +640,534 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("// COUNTER: ");
+    _builder.append(counter = 0, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.append("Map<EObject, Map<String, List<LabelStyle>>> localrels = null;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("int i = 0;");
+    _builder.newLine();
+    {
+      EList<MutatorInstance> _instances_1 = draw.getInstances();
+      for(final MutatorInstance instance_1 : _instances_1) {
+        _builder.append("\t");
+        _builder.append("if (umlrels.get(");
+        _builder.append(counter, "\t");
+        _builder.append(") == null) {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("localrels = new LinkedHashMap<EObject, Map<String, List<LabelStyle>>>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("localrels = new LinkedHashMap<EObject, Map<String, List<LabelStyle>>>(umlrels.get(");
+        _builder.append(counter, "\t\t");
+        _builder.append("));");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("umlrels.put(");
+        _builder.append(counter, "\t");
+        _builder.append(", localrels);");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("try {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("Map<String, List<LabelStyle>> rels = null;");
+        _builder.newLine();
+        {
+          EList<Relation> _relations = draw.getInstances().get(counter).getRelations();
+          boolean _tripleNotEquals_2 = (_relations != null);
+          if (_tripleNotEquals_2) {
+            {
+              int _size_1 = draw.getInstances().get(counter).getRelations().size();
+              boolean _greaterThan_1 = (_size_1 > 0);
+              if (_greaterThan_1) {
+                _builder.append("\t");
+                _builder.append("// COUNTER: ");
+                int counter2_1 = 0;
+                _builder.newLineIfNotEmpty();
+                {
+                  EList<Relation> _relations_1 = draw.getInstances().get(counter).getRelations();
+                  for(final Relation rel : _relations_1) {
+                    {
+                      if ((rel instanceof Edge)) {
+                        _builder.append("\t");
+                        _builder.append("//");
+                        Edge edge = ((Edge) rel);
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("\t");
+                        _builder.append("List<EObject> ledge_");
+                        _builder.append(counter, "\t");
+                        _builder.append("_");
+                        _builder.append(counter2_1, "\t");
+                        _builder.append(" = ModelManager.getObjectsOfType(\"");
+                        String _name_4 = edge.getName().getName();
+                        _builder.append(_name_4, "\t");
+                        _builder.append("\", model);");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("\t");
+                        _builder.append("i = 0;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("for (EObject edge : ledge_");
+                        _builder.append(counter, "\t");
+                        _builder.append("_");
+                        _builder.append(counter2_1, "\t");
+                        _builder.append(") {");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (localrels.get(edge) == null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("rels = new LinkedHashMap<String, List<LabelStyle>>();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("else {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("rels = new LinkedHashMap<String, List<LabelStyle>>(localrels.get(edge));");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String typeName = edge.eClass().getName();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String src_label = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String tar_label = \"\";");
+                        _builder.newLine();
+                        {
+                          if (((edge.getName().getName().equals("ClassAssociation") || edge.getName().getName().equals("ClassAggregation")) || edge.getName().getName().equals("ClassComposition"))) {
+                            {
+                              if (((edge.getSource() != null) && (edge.getTarget() != null))) {
+                                {
+                                  boolean _equals_4 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_4) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("String ref = \"source\";");
+                                    _builder.newLine();
+                                  } else {
+                                    boolean _equals_5 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_5) {
+                                      _builder.append("\t");
+                                      _builder.append("\t");
+                                      _builder.append("String ref = \"source\";");
+                                      _builder.newLine();
+                                    } else {
+                                      boolean _equals_6 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_6) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("String ref = \"constituent\";");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("Object o = ModelManager.getReferences(ref, edge);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("EObject src = null;");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (o instanceof List<?>) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("src = ((List<EObject>) o).get(0);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                {
+                                  boolean _equals_7 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_7) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("ref = \"target\";");
+                                    _builder.newLine();
+                                  } else {
+                                    boolean _equals_8 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_8) {
+                                      _builder.append("\t");
+                                      _builder.append("\t");
+                                      _builder.append("ref = \"target\";");
+                                      _builder.newLine();
+                                    } else {
+                                      boolean _equals_9 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_9) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("ref = \"composite\";");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("o = ModelManager.getReferences(ref, edge);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("EObject tar = null;");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (o instanceof List<?>) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar = ((List<EObject>) o).get(0);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (src != null && tar != null) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("src_label = ModelManager.getStringAttribute(\"name\", src);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar_label = ModelManager.getStringAttribute(\"name\", tar);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("List<LabelStyle> target = new ArrayList<LabelStyle>();");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (rels.get(src_label) != null) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t\t");
+                                _builder.append("target = rels.get(src_label);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("LabelStyle tar_lbl = new LabelStyle();");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar_lbl.name = tar_label;");
+                                _builder.newLine();
+                                {
+                                  boolean _equals_10 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_10) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("tar_lbl.style = \"<-->\";");
+                                    _builder.newLine();
+                                  } else {
+                                    boolean _equals_11 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_11) {
+                                      _builder.append("\t");
+                                      _builder.append("\t");
+                                      _builder.append("tar_lbl.style = \"o-->\";");
+                                      _builder.newLine();
+                                    } else {
+                                      boolean _equals_12 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_12) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("tar_lbl.style = \"*-->\";");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("target.add(tar_lbl);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("rels.put(src_label, target);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                              }
+                            }
+                          }
+                        }
+                        {
+                          if (((edge.getName().getName().equals("ObjectAssociation") || edge.getName().getName().equals("ObjectAggregation")) || edge.getName().getName().equals("ObjectComposition"))) {
+                            {
+                              if (((edge.getSource() != null) && (edge.getTarget() != null))) {
+                                {
+                                  boolean _equals_13 = edge.getName().getName().equals("ObjectAssociation");
+                                  if (_equals_13) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("String ref = \"source\";");
+                                    _builder.newLine();
+                                  } else {
+                                    boolean _equals_14 = edge.getName().getName().equals("ObjectAggregation");
+                                    if (_equals_14) {
+                                      _builder.append("\t");
+                                      _builder.append("\t");
+                                      _builder.append("String ref = \"source\";");
+                                      _builder.newLine();
+                                    } else {
+                                      boolean _equals_15 = edge.getName().getName().equals("ObjectComposition");
+                                      if (_equals_15) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("String ref = \"constituent\";");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("Object o = ModelManager.getReferences(ref, edge);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("EObject src = null;");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (o instanceof List<?>) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("src = ((List<EObject>) o).get(0);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                {
+                                  boolean _equals_16 = edge.getName().getName().equals("ObjectAssociation");
+                                  if (_equals_16) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("ref = \"target\";");
+                                    _builder.newLine();
+                                  } else {
+                                    boolean _equals_17 = edge.getName().getName().equals("ObjectAggregation");
+                                    if (_equals_17) {
+                                      _builder.append("\t");
+                                      _builder.append("\t");
+                                      _builder.append("ref = \"target\";");
+                                      _builder.newLine();
+                                    } else {
+                                      boolean _equals_18 = edge.getName().getName().equals("ObjectComposition");
+                                      if (_equals_18) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("ref = \"composite\";");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("o = ModelManager.getReferences(ref, edge);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("EObject tar = null;");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (o instanceof List<?>) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar = ((List<EObject>) o).get(0);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (src != null && tar != null) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("src_label = getOrdinalFor(id.get(src));");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar_label = getOrdinalFor(id.get(tar));");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("List<LabelStyle> target = new ArrayList<LabelStyle>();");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("if (rels.get(src_label) != null) {");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t\t");
+                                _builder.append("target = rels.get(src_label);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("LabelStyle tar_lbl = new LabelStyle();");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar_lbl.name = tar_label;");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("tar_lbl.style = \"--\";");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("target.add(tar_lbl);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("rels.put(src_label, target);");
+                                _builder.newLine();
+                                _builder.append("\t");
+                                _builder.append("\t");
+                                _builder.append("}");
+                                _builder.newLine();
+                              }
+                            }
+                          }
+                        }
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("localrels.put(edge, rels);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("i++;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("// INC COUNTER: ");
+                    int _plusPlus_2 = counter2_1++;
+                    _builder.append(_plusPlus_2, "\t\t");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+          }
+        }
+        _builder.append("\t");
+        _builder.append("} catch (ReferenceNonExistingException e) {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("// TODO Auto-generated catch block");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("e.printStackTrace();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("// INC COUNTER: ");
+        int _plusPlus_3 = counter++;
+        _builder.append(_plusPlus_3);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("public static void generateUMLGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("//");
     _builder.append(counter = 0, "\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("Map<Integer, Map<EObject, List<String>>> umlrels = new LinkedHashMap<Integer, Map<EObject, List<String>>>();");
-    _builder.newLine();
     {
-      EList<MutatorInstance> _instances_1 = draw.getInstances();
-      for(final MutatorInstance instance_1 : _instances_1) {
+      EList<MutatorInstance> _instances_2 = draw.getInstances();
+      for(final MutatorInstance instance_2 : _instances_2) {
         _builder.append("\t");
         _builder.append("if (file.isFile()) {");
         _builder.newLine();
@@ -570,6 +1199,18 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append(counter, "\t\t\t\t");
         _builder.append(".txt\");");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();");
+        _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t");
         CharSequence _generate = this.generate(draw, folder, counter);
@@ -726,8 +1367,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("//");
-        int _plusPlus_2 = counter++;
-        _builder.append(_plusPlus_2, "\t\t");
+        int _plusPlus_4 = counter++;
+        _builder.append(_plusPlus_4, "\t\t");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -740,12 +1381,6 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("public void generate() throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("Map<Integer, Map<EObject, List<String>>> umlrels = new LinkedHashMap<Integer, Map<EObject, List<String>>>();");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("String metamodel = \"");
@@ -772,8 +1407,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append(counter = 0, "\t\t");
     _builder.newLineIfNotEmpty();
     {
-      EList<MutatorInstance> _instances_2 = draw.getInstances();
-      for(final MutatorInstance instance_2 : _instances_2) {
+      EList<MutatorInstance> _instances_3 = draw.getInstances();
+      for(final MutatorInstance instance_3 : _instances_3) {
         _builder.append("\t\t");
         _builder.append("if (file.isFile()) {");
         _builder.newLine();
@@ -805,6 +1440,18 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append(counter, "\t\t\t\t\t");
         _builder.append(".txt\");");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();");
+        _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t");
         CharSequence _generate_1 = this.generate(draw, folder, counter);
@@ -970,8 +1617,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t");
         _builder.append("//");
-        int _plusPlus_3 = counter++;
-        _builder.append(_plusPlus_3, "\t\t\t");
+        int _plusPlus_5 = counter++;
+        _builder.append(_plusPlus_5, "\t\t\t");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -1001,8 +1648,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append(counter = 0, "\t\t\t\t");
     _builder.newLineIfNotEmpty();
     {
-      EList<MutatorInstance> _instances_3 = draw.getInstances();
-      for(final MutatorInstance instance_3 : _instances_3) {
+      EList<MutatorInstance> _instances_4 = draw.getInstances();
+      for(final MutatorInstance instance_4 : _instances_4) {
         _builder.append("\t\t\t\t");
         _builder.append("if (file.isFile()) {");
         _builder.newLine();
@@ -1030,6 +1677,18 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append(counter, "\t\t\t\t\t\t\t");
         _builder.append(".txt\");");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("\t\t");
+        _builder.append("Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();");
+        _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");
         CharSequence _generate_2 = this.generate(draw, folder, counter);
@@ -1237,8 +1896,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
         _builder.append("//");
-        int _plusPlus_4 = counter++;
-        _builder.append(_plusPlus_4, "\t\t\t\t\t");
+        int _plusPlus_6 = counter++;
+        _builder.append(_plusPlus_6, "\t\t\t\t\t");
         _builder.newLineIfNotEmpty();
       }
     }

@@ -78,7 +78,7 @@ ProgramConfiguration returns ProgramConfiguration:
 
 TestConfiguration returns TestConfiguration:
 	{TestConfiguration}
-	'retry' '=' retry?=('yes' | 'no')
+	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
 ;
 
 MultiChoiceEmConfig returns MultiChoiceEmConfig:

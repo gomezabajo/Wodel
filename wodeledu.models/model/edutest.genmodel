@@ -38,12 +38,14 @@
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//TestConfiguration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/retry"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/statement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/answers"/>
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//MultiChoiceEmConfig">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/weighted"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/penalty"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/order"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/mode"/>
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//TextConfiguration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TextConfiguration/identifier"/>

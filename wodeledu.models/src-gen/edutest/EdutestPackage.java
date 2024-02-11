@@ -235,13 +235,40 @@ public interface EdutestPackage extends EPackage {
 	int TEST_CONFIGURATION__RETRY = CONFIGURATION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Mode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CONFIGURATION__MODE = CONFIGURATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CONFIGURATION__STATEMENT = CONFIGURATION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CONFIGURATION__ANSWERS = CONFIGURATION_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Test Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CONFIGURATION_FEATURE_COUNT = CONFIGURATION_FEATURE_COUNT + 1;
+	int TEST_CONFIGURATION_FEATURE_COUNT = CONFIGURATION_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Test Configuration</em>' class.
@@ -272,6 +299,33 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__RETRY = TEST_CONFIGURATION__RETRY;
 
 	/**
+	 * The feature id for the '<em><b>Mode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_CHOICE_EM_CONFIG__MODE = TEST_CONFIGURATION__MODE;
+
+	/**
+	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_CHOICE_EM_CONFIG__STATEMENT = TEST_CONFIGURATION__STATEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_CHOICE_EM_CONFIG__ANSWERS = TEST_CONFIGURATION__ANSWERS;
+
+	/**
 	 * The feature id for the '<em><b>Weighted</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -299,22 +353,13 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__ORDER = TEST_CONFIGURATION_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_CHOICE_EM_CONFIG__MODE = TEST_CONFIGURATION_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>Multi Choice Em Config</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_EM_CONFIG_FEATURE_COUNT = TEST_CONFIGURATION_FEATURE_COUNT + 4;
+	int MULTI_CHOICE_EM_CONFIG_FEATURE_COUNT = TEST_CONFIGURATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Multi Choice Em Config</em>' class.
@@ -343,6 +388,33 @@ public interface EdutestPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXT_CONFIGURATION__RETRY = TEST_CONFIGURATION__RETRY;
+
+	/**
+	 * The feature id for the '<em><b>Mode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CONFIGURATION__MODE = TEST_CONFIGURATION__MODE;
+
+	/**
+	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CONFIGURATION__STATEMENT = TEST_CONFIGURATION__STATEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_CONFIGURATION__ANSWERS = TEST_CONFIGURATION__ANSWERS;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
@@ -1022,6 +1094,39 @@ public interface EdutestPackage extends EPackage {
 	EAttribute getTestConfiguration_Retry();
 
 	/**
+	 * Returns the meta object for the attribute '{@link edutest.TestConfiguration#getMode <em>Mode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mode</em>'.
+	 * @see edutest.TestConfiguration#getMode()
+	 * @see #getTestConfiguration()
+	 * @generated
+	 */
+	EAttribute getTestConfiguration_Mode();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Statement</em>'.
+	 * @see edutest.TestConfiguration#getStatement()
+	 * @see #getTestConfiguration()
+	 * @generated
+	 */
+	EAttribute getTestConfiguration_Statement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Answers</em>'.
+	 * @see edutest.TestConfiguration#getAnswers()
+	 * @see #getTestConfiguration()
+	 * @generated
+	 */
+	EAttribute getTestConfiguration_Answers();
+
+	/**
 	 * Returns the meta object for class '{@link edutest.MultiChoiceEmConfig <em>Multi Choice Em Config</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1063,17 +1168,6 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMultiChoiceEmConfig_Order();
-
-	/**
-	 * Returns the meta object for the attribute '{@link edutest.MultiChoiceEmConfig#getMode <em>Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Mode</em>'.
-	 * @see edutest.MultiChoiceEmConfig#getMode()
-	 * @see #getMultiChoiceEmConfig()
-	 * @generated
-	 */
-	EAttribute getMultiChoiceEmConfig_Mode();
 
 	/**
 	 * Returns the meta object for class '{@link edutest.TextConfiguration <em>Text Configuration</em>}'.
@@ -1470,6 +1564,30 @@ public interface EdutestPackage extends EPackage {
 		EAttribute TEST_CONFIGURATION__RETRY = eINSTANCE.getTestConfiguration_Retry();
 
 		/**
+		 * The meta object literal for the '<em><b>Mode</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_CONFIGURATION__MODE = eINSTANCE.getTestConfiguration_Mode();
+
+		/**
+		 * The meta object literal for the '<em><b>Statement</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_CONFIGURATION__STATEMENT = eINSTANCE.getTestConfiguration_Statement();
+
+		/**
+		 * The meta object literal for the '<em><b>Answers</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_CONFIGURATION__ANSWERS = eINSTANCE.getTestConfiguration_Answers();
+
+		/**
 		 * The meta object literal for the '{@link edutest.impl.MultiChoiceEmConfigImpl <em>Multi Choice Em Config</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1502,14 +1620,6 @@ public interface EdutestPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MULTI_CHOICE_EM_CONFIG__ORDER = eINSTANCE.getMultiChoiceEmConfig_Order();
-
-		/**
-		 * The meta object literal for the '<em><b>Mode</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MULTI_CHOICE_EM_CONFIG__MODE = eINSTANCE.getMultiChoiceEmConfig_Mode();
 
 		/**
 		 * The meta object literal for the '{@link edutest.impl.TextConfigurationImpl <em>Text Configuration</em>}' class.

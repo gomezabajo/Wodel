@@ -800,15 +800,37 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Alternatives cRetryAlternatives_3_0 = (Alternatives)cRetryAssignment_3.eContents().get(0);
 		private final Keyword cRetryYesKeyword_3_0_0 = (Keyword)cRetryAlternatives_3_0.eContents().get(0);
 		private final Keyword cRetryNoKeyword_3_0_1 = (Keyword)cRetryAlternatives_3_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cModeKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_4_2 = (Keyword)cGroup_4.eContents().get(2);
+		private final Assignment cModeAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
+		private final RuleCall cModeModeEnumRuleCall_4_3_0 = (RuleCall)cModeAssignment_4_3.eContents().get(0);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cCommaKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Keyword cStatementKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_5_3 = (Keyword)cGroup_5.eContents().get(3);
+		private final Assignment cStatementAssignment_5_4 = (Assignment)cGroup_5.eContents().get(4);
+		private final RuleCall cStatementEStringParserRuleCall_5_4_0 = (RuleCall)cStatementAssignment_5_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_5_5 = (Keyword)cGroup_5.eContents().get(5);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Keyword cCommaKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
+		private final Keyword cAnswersKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_2 = (Keyword)cGroup_6.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_6_3 = (Keyword)cGroup_6.eContents().get(3);
+		private final Assignment cAnswersAssignment_6_4 = (Assignment)cGroup_6.eContents().get(4);
+		private final RuleCall cAnswersEStringParserRuleCall_6_4_0 = (RuleCall)cAnswersAssignment_6_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_6_5 = (Keyword)cGroup_6.eContents().get(5);
 		
 		//TestConfiguration returns TestConfiguration:
 		//    {TestConfiguration}
-		//    'retry' '=' retry?=('yes' | 'no')
+		//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{TestConfiguration}
-		//'retry' '=' retry?=('yes' | 'no')
+		//'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
 		public Group getGroup() { return cGroup; }
 		
 		//{TestConfiguration}
@@ -831,6 +853,72 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		
 		//'no'
 		public Keyword getRetryNoKeyword_3_0_1() { return cRetryNoKeyword_3_0_1; }
+		
+		//(',' 'mode' '=' mode=Mode)?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//','
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
+		
+		//'mode'
+		public Keyword getModeKeyword_4_1() { return cModeKeyword_4_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_4_2() { return cEqualsSignKeyword_4_2; }
+		
+		//mode=Mode
+		public Assignment getModeAssignment_4_3() { return cModeAssignment_4_3; }
+		
+		//Mode
+		public RuleCall getModeModeEnumRuleCall_4_3_0() { return cModeModeEnumRuleCall_4_3_0; }
+		
+		//(',' 'statement' '=' '(' statement = EString ')')?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//','
+		public Keyword getCommaKeyword_5_0() { return cCommaKeyword_5_0; }
+		
+		//'statement'
+		public Keyword getStatementKeyword_5_1() { return cStatementKeyword_5_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_5_2() { return cEqualsSignKeyword_5_2; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5_3() { return cLeftParenthesisKeyword_5_3; }
+		
+		//statement = EString
+		public Assignment getStatementAssignment_5_4() { return cStatementAssignment_5_4; }
+		
+		//EString
+		public RuleCall getStatementEStringParserRuleCall_5_4_0() { return cStatementEStringParserRuleCall_5_4_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_5_5() { return cRightParenthesisKeyword_5_5; }
+		
+		//(',' 'answers' '=' '(' answers = EString ')')?
+		public Group getGroup_6() { return cGroup_6; }
+		
+		//','
+		public Keyword getCommaKeyword_6_0() { return cCommaKeyword_6_0; }
+		
+		//'answers'
+		public Keyword getAnswersKeyword_6_1() { return cAnswersKeyword_6_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_6_2() { return cEqualsSignKeyword_6_2; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_6_3() { return cLeftParenthesisKeyword_6_3; }
+		
+		//answers = EString
+		public Assignment getAnswersAssignment_6_4() { return cAnswersAssignment_6_4; }
+		
+		//EString
+		public RuleCall getAnswersEStringParserRuleCall_6_4_0() { return cAnswersEStringParserRuleCall_6_4_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_6_5() { return cRightParenthesisKeyword_6_5; }
 	}
 	public class MultiChoiceEmConfigElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MultiChoiceEmConfig");
@@ -1496,7 +1584,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	//TestConfiguration returns TestConfiguration:
 	//    {TestConfiguration}
-	//    'retry' '=' retry?=('yes' | 'no')
+	//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
 	//;
 	public TestConfigurationElements getTestConfigurationAccess() {
 		return pTestConfiguration;

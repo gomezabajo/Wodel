@@ -3,7 +3,6 @@
 package edutest.impl;
 
 import edutest.EdutestPackage;
-import edutest.Mode;
 import edutest.MultiChoiceEmConfig;
 import edutest.Order;
 
@@ -24,7 +23,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#isWeighted <em>Weighted</em>}</li>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getPenalty <em>Penalty</em>}</li>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getOrder <em>Order</em>}</li>
- *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getMode <em>Mode</em>}</li>
  * </ul>
  *
  * @generated
@@ -89,26 +87,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * @ordered
 	 */
 	protected Order order = ORDER_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getMode() <em>Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMode()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Mode MODE_EDEFAULT = Mode.RADIOBUTTON;
-
-	/**
-	 * The cached value of the '{@link #getMode() <em>Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMode()
-	 * @generated
-	 * @ordered
-	 */
-	protected Mode mode = MODE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -200,28 +178,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Mode getMode() {
-		return mode;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMode(Mode newMode) {
-		Mode oldMode = mode;
-		mode = newMode == null ? MODE_EDEFAULT : newMode;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.MULTI_CHOICE_EM_CONFIG__MODE, oldMode,
-					mode));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -231,8 +187,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 			return getPenalty();
 		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__ORDER:
 			return getOrder();
-		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__MODE:
-			return getMode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -253,9 +207,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 			return;
 		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__ORDER:
 			setOrder((Order) newValue);
-			return;
-		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__MODE:
-			setMode((Mode) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -278,9 +229,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__ORDER:
 			setOrder(ORDER_EDEFAULT);
 			return;
-		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__MODE:
-			setMode(MODE_EDEFAULT);
-			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -299,8 +247,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 			return penalty != PENALTY_EDEFAULT;
 		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__ORDER:
 			return order != ORDER_EDEFAULT;
-		case EdutestPackage.MULTI_CHOICE_EM_CONFIG__MODE:
-			return mode != MODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -322,8 +268,6 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 		result.append(penalty);
 		result.append(", order: ");
 		result.append(order);
-		result.append(", mode: ");
-		result.append(mode);
 		result.append(')');
 		return result.toString();
 	}

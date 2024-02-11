@@ -68,6 +68,9 @@ public class EduTestParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getDragAndDropTextAccess().getGroup_1_1(), "rule__DragAndDropText__Group_1_1__0");
 			builder.put(grammarAccess.getProgramConfigurationAccess().getGroup(), "rule__ProgramConfiguration__Group__0");
 			builder.put(grammarAccess.getTestConfigurationAccess().getGroup(), "rule__TestConfiguration__Group__0");
+			builder.put(grammarAccess.getTestConfigurationAccess().getGroup_4(), "rule__TestConfiguration__Group_4__0");
+			builder.put(grammarAccess.getTestConfigurationAccess().getGroup_5(), "rule__TestConfiguration__Group_5__0");
+			builder.put(grammarAccess.getTestConfigurationAccess().getGroup_6(), "rule__TestConfiguration__Group_6__0");
 			builder.put(grammarAccess.getMultiChoiceEmConfigAccess().getGroup(), "rule__MultiChoiceEmConfig__Group__0");
 			builder.put(grammarAccess.getTextConfigurationAccess().getGroup(), "rule__TextConfiguration__Group__0");
 			builder.put(grammarAccess.getTestAccess().getGroup(), "rule__Test__Group__0");
@@ -111,6 +114,9 @@ public class EduTestParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getDragAndDropTextAccess().getTestsAssignment_4(), "rule__DragAndDropText__TestsAssignment_4");
 			builder.put(grammarAccess.getProgramConfigurationAccess().getNavigationAssignment_2(), "rule__ProgramConfiguration__NavigationAssignment_2");
 			builder.put(grammarAccess.getTestConfigurationAccess().getRetryAssignment_3(), "rule__TestConfiguration__RetryAssignment_3");
+			builder.put(grammarAccess.getTestConfigurationAccess().getModeAssignment_4_3(), "rule__TestConfiguration__ModeAssignment_4_3");
+			builder.put(grammarAccess.getTestConfigurationAccess().getStatementAssignment_5_4(), "rule__TestConfiguration__StatementAssignment_5_4");
+			builder.put(grammarAccess.getTestConfigurationAccess().getAnswersAssignment_6_4(), "rule__TestConfiguration__AnswersAssignment_6_4");
 			builder.put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAssignment_3(), "rule__MultiChoiceEmConfig__RetryAssignment_3");
 			builder.put(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAssignment_7(), "rule__MultiChoiceEmConfig__WeightedAssignment_7");
 			builder.put(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyAssignment_11(), "rule__MultiChoiceEmConfig__PenaltyAssignment_11");

@@ -69,6 +69,8 @@ import mutatorenvironment.Block
 import mutatorenvironment.CompositeMutator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
+import java.util.Set
+import java.util.HashSet
 
 class WodelScopeProvider extends AbstractWodelScopeProvider {
 	
@@ -3485,12 +3487,13 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	}
 
     /**
-     * RetypeObjectMutator.references must contain references of the CloneObjectMutator.type type. 
+     * RetypeObjectMutator.references must contain references of the RetypeObjectMutator.type type and RetypeObjectMutator.types. 
      */  
     def IScope scope_ReferenceSet_reference(RetypeObjectMutator com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-       	Scopes.scopeFor(getEReferences(definition, getType(com)))              
+       	Scopes.scopeFor(getEReferences(definition, getType(com))) 
+       	             
     }
 
     /**
@@ -3665,6 +3668,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
      */
      def IScope scope_ReferenceEvaluation_name(SpecificObjectSelection com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EReference> references = new ArrayList<EReference>()
 		if (env !== null) {
 			val Definition  definition = env.definition
 			
@@ -3672,26 +3676,28 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
 			val List<Mutator> commands = getCommands(currentMutator)
 			var String      metamodel = definition?.metamodel
-			var String		className = ""
+			var Set<String>	classNames = new HashSet<String>()
 			if (com.refType === null) {
 				val String objectName = com.objSel?.name
 				// search specific selected object among the previous commands
 				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
 				if (command !== null) {
-					className = getType(command)
+					classNames.addAll(getType(command))
 				}
 			}
 			else {
-				className = com.refType.EType.name
+				classNames.add(com.refType.EType.name)
 			}
 			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
+			for (String className : classNames) {
+				var EClass eclass = ModelManager.getEClassByName(packages, className)
+   				if (eclass === null) {
+					metamodel = getMetamodel(definition, className)
+   				}
+   				references.addAll( getEReferences(definition, className) )
    			}
-			return Scopes.scopeFor( getEReferences(definition, className) )
        	}
-       	Scopes.scopeFor(new ArrayList())
+       	Scopes.scopeFor(references)
     }
     
     /**
@@ -3787,11 +3793,12 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
      */
      def IScope scope_AttributeEvaluation_name(SpecificObjectSelection com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		var List<EAttribute> attributes = new ArrayList<EAttribute>()
 		if (env !== null) {
 			val Definition  definition = env.definition
 			
 			var String      metamodel = definition?.metamodel
-			var String		className = ""
+			var Set<String>		classNames = new HashSet<String>()
 			if (com.refType === null) {
 				val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
 				val List<Mutator>	commands = getCommands(currentMutator)
@@ -3799,20 +3806,22 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 				// search specific selected object among the previous commands
 				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
 				if (command !== null) {
-					className = getType(command)
+					classNames.addAll(getType(command))
 				}
 			}
 			else {
-				className = com.refType.EType.name
+				classNames.add(com.refType.EType.name)
 			}
    			var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
-   			var EClass eclass = ModelManager.getEClassByName(packages, className)
-   			if (eclass === null) {
-				metamodel = getMetamodel(definition, className)
+   			for (String className : classNames) {
+	   			var EClass eclass = ModelManager.getEClassByName(packages, className)
+   				if (eclass === null) {
+					metamodel = getMetamodel(definition, className)
+				}
+				attributes.addAll( getEAttributes(definition, className) )
 			}
-			return Scopes.scopeFor (getEAttributes(definition, className))
        	}
-       	Scopes.scopeFor(new ArrayList())
+       	Scopes.scopeFor(attributes)
     }
     
     /**
@@ -4985,6 +4994,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	 */
      def IScope scope_ObjectAttributeType_attribute(ObjectAttributeType com, EReference ref) {
 		val MutatorEnvironment env = getMutatorEnvironment(com.objSel)
+		var List<EAttribute> attributes = new ArrayList<EAttribute>()
 		var Mutator mut = null
 		var EObject container = com.eContainer
 		while (container instanceof Mutator == false && container !== null) {
@@ -4992,15 +5002,15 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 		}
 		mut = container as Mutator
 		val List<Mutator> commands = getCommands(mut)
-		var String className = null
+		var Set<String> classNames = new HashSet<String>()
 		for (Mutator command : commands) {
 			if (command.name !== null) {
 				if (command.name.equals(com.objSel.name)) {
-					className = getType(command)
+					classNames.addAll(getType(command))
 				}
 			}
 		}
-		if (env !== null && className !== null) {
+		if (env !== null && classNames !== null && classNames.size() > 0) {
         	val Definition  definition = env.definition
    			var EObject      sel = com.objSel
    			if (sel instanceof SelectObjectMutator &&
@@ -5018,9 +5028,11 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
    					}
    				}
    			}
-       		Scopes.scopeFor( getEAttributes(definition, className) )
+   			for (String className : classNames) {
+   				attributes.addAll( getEAttributes(definition, className) ) 
+   			}
        	}
-       	else Scopes.scopeFor(new ArrayList())
+       	Scopes.scopeFor(attributes)
     }
     
 	/**
@@ -5590,152 +5602,191 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
     /**
      * It returns the type to which a mutator applies.  
      */
-    def private String getType (Mutator mutator) {
+    def private Set<String> getType (Mutator mutator) {
+    	var Set<String> types = new HashSet<String>()
     	if (mutator instanceof SelectObjectMutator)
-    	      return (mutator as SelectObjectMutator).object?.type?.name
+    		types.add((mutator as SelectObjectMutator).object?.type?.name)
     	if (mutator instanceof SelectSampleMutator) {
 			if ((mutator as SelectSampleMutator).object instanceof RandomTypeSelection) {
-				return (mutator as SelectSampleMutator).object?.type?.name
+				types.add((mutator as SelectSampleMutator).object?.type?.name)
 			}
 			if ((mutator as SelectSampleMutator).object instanceof SpecificObjectSelection) {
 				if (((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType === null) {
 					val ObjectEmitter o = ((mutator as SelectSampleMutator).object as SpecificObjectSelection).objSel
 					if (o instanceof SelectObjectMutator) {
-						return (o as SelectObjectMutator).object?.type?.name
+						types.add((o as SelectObjectMutator).object?.type?.name)
 					}
 					if (o instanceof CreateObjectMutator) {
-						return (o as CreateObjectMutator).type?.name
+						types.add((o as CreateObjectMutator).type?.name)
 					}
 	       			if (o instanceof SelectSampleMutator) {
-						return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+						types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 					}
 					if (o instanceof CloneObjectMutator) {
-						return (o as CloneObjectMutator).object?.type?.name
+						types.add((o as CloneObjectMutator).object?.type?.name)
 					}
 	   				if (o instanceof RetypeObjectMutator) {
-   						return (o as RetypeObjectMutator).object?.type?.name
+   						types.add((o as RetypeObjectMutator).object?.type?.name)
+   						types.add((o as RetypeObjectMutator).type?.name)
+   						for (EClass type : (o as RetypeObjectMutator)?.types) {
+   							types.add(type.name)
+   						}
    					}
 				}
 				else {
-					return ((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType.EType.name
+					types.add(((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType.EType.name)
 				}
 			}
 			if ((mutator as SelectSampleMutator).object instanceof SpecificClosureSelection) {
 				if (((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType === null) {
 					val ObjectEmitter o = ((mutator as SelectSampleMutator).object as SpecificClosureSelection).objSel
 					if (o instanceof SelectObjectMutator) {
-						return (o as SelectObjectMutator).object?.type?.name
+						types.add((o as SelectObjectMutator).object?.type?.name)
 					}
 					if (o instanceof CreateObjectMutator) {
-						return (o as CreateObjectMutator).type?.name
+						types.add((o as CreateObjectMutator).type?.name)
 					}
 					if (o instanceof SelectSampleMutator) {
-						return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+						types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 					}
 					if (o instanceof CloneObjectMutator) {
-						return (o as CloneObjectMutator).object?.type?.name
+						types.add((o as CloneObjectMutator).object?.type?.name)
 					}
 	   				if (o instanceof RetypeObjectMutator) {
-   						return (o as RetypeObjectMutator).object?.type?.name
+   						types.add((o as RetypeObjectMutator).object?.type?.name)
+   						types.add((o as RetypeObjectMutator).type?.name)
+   						for (EClass type : (o as RetypeObjectMutator)?.types) {
+   							types.add(type.name)
+   						}
    					}
 				}
 				else {
-					return ((mutator as SelectSampleMutator).object as SpecificClosureSelection).refType.EType.name
+					types.add(((mutator as SelectSampleMutator).object as SpecificClosureSelection).refType.EType.name)
 				}
 			}
 			if ((mutator as SelectSampleMutator).object instanceof TypedSelection) {
-				return (mutator as SelectSampleMutator).object?.type?.name
+				types.add((mutator as SelectSampleMutator).object?.type?.name)
 			}
 		}
 		if (mutator instanceof ModifyInformationMutator) {
 			if ((mutator as ModifyInformationMutator).object instanceof RandomTypeSelection) {
-				return (mutator as ModifyInformationMutator).object?.type?.name
+				types.add((mutator as ModifyInformationMutator).object?.type?.name)
 			}
 			if ((mutator as ModifyInformationMutator).object instanceof SpecificObjectSelection) {
 				val ObjectEmitter o = ((mutator as ModifyInformationMutator).object as SpecificObjectSelection).objSel
 				if (o instanceof SelectObjectMutator) {
-					return (o as SelectObjectMutator).object?.type?.name
+					types.add((o as SelectObjectMutator).object?.type?.name)
 				}
 				if (o instanceof CreateObjectMutator) {
-					return (o as CreateObjectMutator).type?.name
+					types.add((o as CreateObjectMutator).type?.name)
 				}
 				if (o instanceof SelectSampleMutator) {
-					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 				}
 				if (o instanceof CloneObjectMutator) {
-					return (o as CloneObjectMutator).object?.type?.name
+					types.add((o as CloneObjectMutator).object?.type?.name)
 				}
    				if (o instanceof RetypeObjectMutator) {
-					return (o as RetypeObjectMutator).object?.type?.name
+   					types.add((o as RetypeObjectMutator).object?.type?.name)
+   					types.add((o as RetypeObjectMutator).type?.name)
+   					for (EClass type : (o as RetypeObjectMutator)?.types) {
+   						types.add(type.name)
+   					}
 				}
 			}
 			if ((mutator as ModifyInformationMutator).object instanceof SpecificClosureSelection) {
 				val ObjectEmitter o = ((mutator as ModifyInformationMutator).object as SpecificClosureSelection).objSel
 				if (o instanceof SelectObjectMutator) {
-					return (o as SelectObjectMutator).object?.type?.name
+					types.add((o as SelectObjectMutator).object?.type?.name)
 				}
 				if (o instanceof CreateObjectMutator) {
-					return (o as CreateObjectMutator).type?.name
+					types.add((o as CreateObjectMutator).type?.name)
 				}
 				if (o instanceof SelectSampleMutator) {
-					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 				}
 				if (o instanceof CloneObjectMutator) {
-					return (o as CloneObjectMutator).object?.type?.name
+					types.add((o as CloneObjectMutator).object?.type?.name)
 				}
    				if (o instanceof RetypeObjectMutator) {
-					return (o as RetypeObjectMutator).object?.type?.name
+   					types.add((o as RetypeObjectMutator).object?.type?.name)
+   					types.add((o as RetypeObjectMutator).type?.name)
+   					for (EClass type : (o as RetypeObjectMutator)?.types) {
+   						types.add(type.name)
+   					}
 				}
 			}
 			if ((mutator as ModifyInformationMutator).object instanceof TypedSelection) {
-				return (mutator as ModifyInformationMutator).object?.type?.name
+				types.add((mutator as ModifyInformationMutator).object?.type?.name)
 			}
 		}
 		if (mutator instanceof RetypeObjectMutator) {
+			types.add((mutator as RetypeObjectMutator).type?.name)
+			for (EClass type : (mutator as RetypeObjectMutator).types) {
+				types.add(type.name)
+			}
 			if ((mutator as RetypeObjectMutator).object instanceof RandomTypeSelection) {
-				return (mutator as RetypeObjectMutator).object?.type?.name
+				types.add((mutator as RetypeObjectMutator).object?.type?.name)
+			}
+			if ((mutator as RetypeObjectMutator).object instanceof SpecificObjectSelection) {
+				types.add(((mutator as RetypeObjectMutator).object as SpecificObjectSelection).objSel?.type?.name)
 			}
 			if ((mutator as RetypeObjectMutator).object instanceof SpecificObjectSelection) {
 				val ObjectEmitter o = ((mutator as RetypeObjectMutator).object as SpecificObjectSelection).objSel
 				if (o instanceof SelectObjectMutator) {
-					return (o as SelectObjectMutator).object?.type?.name
+					types.add((o as SelectObjectMutator).object?.type?.name)
 				}
 				if (o instanceof CreateObjectMutator) {
-					return (o as CreateObjectMutator).type?.name
+					types.add((o as CreateObjectMutator).type?.name)
 				}
 				if (o instanceof SelectSampleMutator) {
-					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 				}
 				if (o instanceof CloneObjectMutator) {
-					return (o as CloneObjectMutator).object?.type?.name
+					types.add((o as CloneObjectMutator).object?.type?.name)
 				}
    				if (o instanceof RetypeObjectMutator) {
-					return (o as RetypeObjectMutator).object?.type?.name
+   					types.add((o as RetypeObjectMutator).object?.type?.name)
+   					types.add((o as RetypeObjectMutator).type?.name)
+   					for (EClass type : (o as RetypeObjectMutator)?.types) {
+   						types.add(type.name)
+   					}
 				}
 			}
 			if ((mutator as RetypeObjectMutator).object instanceof SpecificClosureSelection) {
 				val ObjectEmitter o = ((mutator as RetypeObjectMutator).object as SpecificClosureSelection).objSel
 				if (o instanceof SelectObjectMutator) {
-					return (o as SelectObjectMutator).object?.type?.name
+					types.add((o as SelectObjectMutator).object?.type?.name)
 				}
 				if (o instanceof CreateObjectMutator) {
-					return (o as CreateObjectMutator).type?.name
+					types.add((o as CreateObjectMutator).type?.name)
 				}
 				if (o instanceof SelectSampleMutator) {
-					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					types.add(MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator))
 				}
 				if (o instanceof CloneObjectMutator) {
-					return (o as CloneObjectMutator).object?.type?.name
+					types.add((o as CloneObjectMutator).object?.type?.name)
 				}
    				if (o instanceof RetypeObjectMutator) {
-					return (o as RetypeObjectMutator).object?.type?.name
+   					types.add((o as RetypeObjectMutator).object?.type?.name)
+   					types.add((o as RetypeObjectMutator).type?.name)
+   					for (EClass type : (o as RetypeObjectMutator)?.types) {
+   						types.add(type.name)
+   					}
 				}
 			}
 			if ((mutator as RetypeObjectMutator).object instanceof TypedSelection) {
-				return (mutator as RetypeObjectMutator).object?.type?.name
+				types.add((mutator as RetypeObjectMutator).object?.type?.name)
+				types.add((mutator as RetypeObjectMutator).type?.name)
+				for (EClass type : (mutator as RetypeObjectMutator).types) {
+					types.add(type.name)
+				}
 			}
 		}
-    	return mutator.type?.name
+		if (types.size() == 0) {
+			types.add(mutator.type?.name)
+		}
+    	return types
     }
     
     /**
@@ -6061,6 +6112,34 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	   * @param String class name
 	   * @return List<EAttribute> list of attributes
 	   */ 
+	   def private List<EAttribute> getEAttributes (Definition definition, Set<String> eclassNames) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+    	var List<EAttribute> attributes = new ArrayList<EAttribute>()
+    	for (String mm : metamodels) {
+	  		val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+	  		for (String eclassName : eclassNames) {
+		  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+		  	if (eclass !== null) {
+	  			val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
+		  		for (EClass subclass : subclasses) {
+	  				attributes.addAll(subclass.EAllAttributes)
+	  			}
+	  			attributes.addAll(eclass.EAllAttributes)
+			}
+			}
+    	}
+ 		return attributes
+  	}
+	  /**
+	   * It return the list of attributes of a class.
+	   * @param String file containing the metamodel
+	   * @param String class name
+	   * @return List<EAttribute> list of attributes
+	   */ 
 	   def private List<EReference> getEReferences (Definition definition, String eclassName) {
 	  	val List<String> resourceMM = getResourceMetamodels(definition)
     	var List<String> metamodels = new ArrayList<String>()
@@ -6084,6 +6163,35 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 	  	return new ArrayList<EReference>()
 	  }
 
+	  /**
+	   * It return the list of attributes of a class.
+	   * @param String file containing the metamodel
+	   * @param String class name
+	   * @return List<EAttribute> list of attributes
+	   */ 
+	   def private List<EReference> getEReferences (Definition definition, Set<String> eclassNames) {
+	  	val List<String> resourceMM = getResourceMetamodels(definition)
+    	var List<String> metamodels = new ArrayList<String>()
+	    metamodels.add(definition.metamodel)
+    	metamodels.addAll(resourceMM)
+    	
+		var List<EReference> references = new ArrayList<EReference>()
+    	for (String mm : metamodels) {
+	  		val List<EPackage> metamodel = ModelManager.loadMetaModel(mm)
+	  		for (String eclassName : eclassNames) {
+		  		val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+		  		if (eclass !== null) {
+	  				val List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass)
+	  				for (EClass subclass : subclasses) {
+	  					references.addAll(subclass.EAllReferences)
+	  				}
+	  				references.addAll(eclass.EAllReferences)
+	  			}
+	  		}
+		}
+	  
+	  	return references
+	  }
 	  /**
 	   * It return the list of attributes of a class.
 	   * @param String file containing the metamodel

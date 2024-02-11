@@ -22,8 +22,9 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalEduTestParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'AlternativeResponse'", "','", "'{'", "'}'", "'MultiChoiceDiagram'", "'MultiChoiceEmendation'", "'MatchPairs'", "'MissingWords'", "'MultiChoiceText'", "'AlternativeTextResponse'", "'DragAndDropText'", "'navigation'", "'='", "'retry'", "'yes'", "'no'", "'weighted'", "'penalty'", "'order'", "'mode'", "'text'", "'description'", "'for'", "'%text'", "'('", "')'", "'-'", "'.'", "'E'", "'e'", "'fixed'", "'random'", "'options-ascending'", "'options-descending'", "'radiobutton'", "'checkbox'", "'free'", "'locked'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'AlternativeResponse'", "','", "'{'", "'}'", "'MultiChoiceDiagram'", "'MultiChoiceEmendation'", "'MatchPairs'", "'MissingWords'", "'MultiChoiceText'", "'AlternativeTextResponse'", "'DragAndDropText'", "'navigation'", "'='", "'retry'", "'yes'", "'no'", "'mode'", "'statement'", "'('", "')'", "'answers'", "'weighted'", "'penalty'", "'order'", "'text'", "'description'", "'for'", "'%text'", "'-'", "'.'", "'E'", "'e'", "'fixed'", "'random'", "'options-ascending'", "'options-descending'", "'radiobutton'", "'checkbox'", "'free'", "'locked'"
     };
+    public static final int T__50=50;
     public static final int T__19=19;
     public static final int T__15=15;
     public static final int T__16=16;
@@ -62,6 +63,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
     public static final int RULE_WS=9;
     public static final int RULE_ANY_OTHER=10;
     public static final int T__48=48;
+    public static final int T__49=49;
     public static final int T__44=44;
     public static final int T__45=45;
     public static final int T__46=46;
@@ -771,7 +773,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt6=2;
                 int LA6_0 = input.LA(1);
 
-                if ( (LA6_0==32) ) {
+                if ( (LA6_0==36) ) {
                     alt6=1;
                 }
 
@@ -1034,7 +1036,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt9=2;
                 int LA9_0 = input.LA(1);
 
-                if ( (LA9_0==32) ) {
+                if ( (LA9_0==36) ) {
                     alt9=1;
                 }
 
@@ -1297,7 +1299,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt12=2;
                 int LA12_0 = input.LA(1);
 
-                if ( (LA12_0==32) ) {
+                if ( (LA12_0==36) ) {
                     alt12=1;
                 }
 
@@ -1560,7 +1562,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt15=2;
                 int LA15_0 = input.LA(1);
 
-                if ( (LA15_0==32) ) {
+                if ( (LA15_0==36) ) {
                     alt15=1;
                 }
 
@@ -1823,7 +1825,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt18=2;
                 int LA18_0 = input.LA(1);
 
-                if ( (LA18_0==32) ) {
+                if ( (LA18_0==36) ) {
                     alt18=1;
                 }
 
@@ -2086,7 +2088,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt21=2;
                 int LA21_0 = input.LA(1);
 
-                if ( (LA21_0==32) ) {
+                if ( (LA21_0==36) ) {
                     alt21=1;
                 }
 
@@ -2349,7 +2351,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt24=2;
                 int LA24_0 = input.LA(1);
 
-                if ( (LA24_0==32) ) {
+                if ( (LA24_0==36) ) {
                     alt24=1;
                 }
 
@@ -2612,7 +2614,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 int alt27=2;
                 int LA27_0 = input.LA(1);
 
-                if ( (LA27_0==32) ) {
+                if ( (LA27_0==36) ) {
                     alt27=1;
                 }
 
@@ -2835,7 +2837,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTestConfiguration"
-    // InternalEduTest.g:1096:1: ruleTestConfiguration returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) ) ;
+    // InternalEduTest.g:1096:1: ruleTestConfiguration returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )? (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )? (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )? ) ;
     public final EObject ruleTestConfiguration() throws RecognitionException {
         EObject current = null;
 
@@ -2843,16 +2845,35 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         Token otherlv_2=null;
         Token lv_retry_3_1=null;
         Token lv_retry_3_2=null;
+        Token otherlv_4=null;
+        Token otherlv_5=null;
+        Token otherlv_6=null;
+        Token otherlv_8=null;
+        Token otherlv_9=null;
+        Token otherlv_10=null;
+        Token otherlv_11=null;
+        Token otherlv_13=null;
+        Token otherlv_14=null;
+        Token otherlv_15=null;
+        Token otherlv_16=null;
+        Token otherlv_17=null;
+        Token otherlv_19=null;
+        Enumerator lv_mode_7_0 = null;
+
+        AntlrDatatypeRuleToken lv_statement_12_0 = null;
+
+        AntlrDatatypeRuleToken lv_answers_18_0 = null;
+
 
 
         	enterRule();
 
         try {
-            // InternalEduTest.g:1102:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) ) )
-            // InternalEduTest.g:1103:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) )
+            // InternalEduTest.g:1102:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )? (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )? (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )? ) )
+            // InternalEduTest.g:1103:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )? (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )? (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )? )
             {
-            // InternalEduTest.g:1103:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) )
-            // InternalEduTest.g:1104:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) )
+            // InternalEduTest.g:1103:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )? (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )? (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )? )
+            // InternalEduTest.g:1104:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )? (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )? (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )?
             {
             // InternalEduTest.g:1104:3: ()
             // InternalEduTest.g:1105:4: 
@@ -2899,7 +2920,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalEduTest.g:1122:6: lv_retry_3_1= 'yes'
                     {
-                    lv_retry_3_1=(Token)match(input,25,FOLLOW_2); 
+                    lv_retry_3_1=(Token)match(input,25,FOLLOW_13); 
 
                     						newLeafNode(lv_retry_3_1, grammarAccess.getTestConfigurationAccess().getRetryYesKeyword_3_0_0());
                     					
@@ -2915,7 +2936,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                 case 2 :
                     // InternalEduTest.g:1133:6: lv_retry_3_2= 'no'
                     {
-                    lv_retry_3_2=(Token)match(input,26,FOLLOW_2); 
+                    lv_retry_3_2=(Token)match(input,26,FOLLOW_13); 
 
                     						newLeafNode(lv_retry_3_2, grammarAccess.getTestConfigurationAccess().getRetryNoKeyword_3_0_1());
                     					
@@ -2934,6 +2955,210 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
+
+            }
+
+            // InternalEduTest.g:1146:3: (otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) ) )?
+            int alt29=2;
+            int LA29_0 = input.LA(1);
+
+            if ( (LA29_0==12) ) {
+                int LA29_1 = input.LA(2);
+
+                if ( (LA29_1==27) ) {
+                    alt29=1;
+                }
+            }
+            switch (alt29) {
+                case 1 :
+                    // InternalEduTest.g:1147:4: otherlv_4= ',' otherlv_5= 'mode' otherlv_6= '=' ( (lv_mode_7_0= ruleMode ) )
+                    {
+                    otherlv_4=(Token)match(input,12,FOLLOW_14); 
+
+                    				newLeafNode(otherlv_4, grammarAccess.getTestConfigurationAccess().getCommaKeyword_4_0());
+                    			
+                    otherlv_5=(Token)match(input,27,FOLLOW_10); 
+
+                    				newLeafNode(otherlv_5, grammarAccess.getTestConfigurationAccess().getModeKeyword_4_1());
+                    			
+                    otherlv_6=(Token)match(input,23,FOLLOW_15); 
+
+                    				newLeafNode(otherlv_6, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_4_2());
+                    			
+                    // InternalEduTest.g:1159:4: ( (lv_mode_7_0= ruleMode ) )
+                    // InternalEduTest.g:1160:5: (lv_mode_7_0= ruleMode )
+                    {
+                    // InternalEduTest.g:1160:5: (lv_mode_7_0= ruleMode )
+                    // InternalEduTest.g:1161:6: lv_mode_7_0= ruleMode
+                    {
+
+                    						newCompositeNode(grammarAccess.getTestConfigurationAccess().getModeModeEnumRuleCall_4_3_0());
+                    					
+                    pushFollow(FOLLOW_13);
+                    lv_mode_7_0=ruleMode();
+
+                    state._fsp--;
+
+
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+                    						}
+                    						set(
+                    							current,
+                    							"mode",
+                    							lv_mode_7_0,
+                    							"wodeledu.dsls.EduTest.Mode");
+                    						afterParserOrEnumRuleCall();
+                    					
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+            // InternalEduTest.g:1179:3: (otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')' )?
+            int alt30=2;
+            int LA30_0 = input.LA(1);
+
+            if ( (LA30_0==12) ) {
+                int LA30_1 = input.LA(2);
+
+                if ( (LA30_1==28) ) {
+                    alt30=1;
+                }
+            }
+            switch (alt30) {
+                case 1 :
+                    // InternalEduTest.g:1180:4: otherlv_8= ',' otherlv_9= 'statement' otherlv_10= '=' otherlv_11= '(' ( (lv_statement_12_0= ruleEString ) ) otherlv_13= ')'
+                    {
+                    otherlv_8=(Token)match(input,12,FOLLOW_16); 
+
+                    				newLeafNode(otherlv_8, grammarAccess.getTestConfigurationAccess().getCommaKeyword_5_0());
+                    			
+                    otherlv_9=(Token)match(input,28,FOLLOW_10); 
+
+                    				newLeafNode(otherlv_9, grammarAccess.getTestConfigurationAccess().getStatementKeyword_5_1());
+                    			
+                    otherlv_10=(Token)match(input,23,FOLLOW_17); 
+
+                    				newLeafNode(otherlv_10, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_5_2());
+                    			
+                    otherlv_11=(Token)match(input,29,FOLLOW_18); 
+
+                    				newLeafNode(otherlv_11, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_5_3());
+                    			
+                    // InternalEduTest.g:1196:4: ( (lv_statement_12_0= ruleEString ) )
+                    // InternalEduTest.g:1197:5: (lv_statement_12_0= ruleEString )
+                    {
+                    // InternalEduTest.g:1197:5: (lv_statement_12_0= ruleEString )
+                    // InternalEduTest.g:1198:6: lv_statement_12_0= ruleEString
+                    {
+
+                    						newCompositeNode(grammarAccess.getTestConfigurationAccess().getStatementEStringParserRuleCall_5_4_0());
+                    					
+                    pushFollow(FOLLOW_19);
+                    lv_statement_12_0=ruleEString();
+
+                    state._fsp--;
+
+
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+                    						}
+                    						set(
+                    							current,
+                    							"statement",
+                    							lv_statement_12_0,
+                    							"wodeledu.dsls.EduTest.EString");
+                    						afterParserOrEnumRuleCall();
+                    					
+
+                    }
+
+
+                    }
+
+                    otherlv_13=(Token)match(input,30,FOLLOW_13); 
+
+                    				newLeafNode(otherlv_13, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_5_5());
+                    			
+
+                    }
+                    break;
+
+            }
+
+            // InternalEduTest.g:1220:3: (otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')' )?
+            int alt31=2;
+            int LA31_0 = input.LA(1);
+
+            if ( (LA31_0==12) ) {
+                alt31=1;
+            }
+            switch (alt31) {
+                case 1 :
+                    // InternalEduTest.g:1221:4: otherlv_14= ',' otherlv_15= 'answers' otherlv_16= '=' otherlv_17= '(' ( (lv_answers_18_0= ruleEString ) ) otherlv_19= ')'
+                    {
+                    otherlv_14=(Token)match(input,12,FOLLOW_20); 
+
+                    				newLeafNode(otherlv_14, grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0());
+                    			
+                    otherlv_15=(Token)match(input,31,FOLLOW_10); 
+
+                    				newLeafNode(otherlv_15, grammarAccess.getTestConfigurationAccess().getAnswersKeyword_6_1());
+                    			
+                    otherlv_16=(Token)match(input,23,FOLLOW_17); 
+
+                    				newLeafNode(otherlv_16, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2());
+                    			
+                    otherlv_17=(Token)match(input,29,FOLLOW_18); 
+
+                    				newLeafNode(otherlv_17, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_6_3());
+                    			
+                    // InternalEduTest.g:1237:4: ( (lv_answers_18_0= ruleEString ) )
+                    // InternalEduTest.g:1238:5: (lv_answers_18_0= ruleEString )
+                    {
+                    // InternalEduTest.g:1238:5: (lv_answers_18_0= ruleEString )
+                    // InternalEduTest.g:1239:6: lv_answers_18_0= ruleEString
+                    {
+
+                    						newCompositeNode(grammarAccess.getTestConfigurationAccess().getAnswersEStringParserRuleCall_6_4_0());
+                    					
+                    pushFollow(FOLLOW_19);
+                    lv_answers_18_0=ruleEString();
+
+                    state._fsp--;
+
+
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+                    						}
+                    						set(
+                    							current,
+                    							"answers",
+                    							lv_answers_18_0,
+                    							"wodeledu.dsls.EduTest.EString");
+                    						afterParserOrEnumRuleCall();
+                    					
+
+                    }
+
+
+                    }
+
+                    otherlv_19=(Token)match(input,30,FOLLOW_2); 
+
+                    				newLeafNode(otherlv_19, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_6_5());
+                    			
+
+                    }
+                    break;
 
             }
 
@@ -2960,7 +3185,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMultiChoiceEmConfig"
-    // InternalEduTest.g:1150:1: entryRuleMultiChoiceEmConfig returns [EObject current=null] : iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF ;
+    // InternalEduTest.g:1265:1: entryRuleMultiChoiceEmConfig returns [EObject current=null] : iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF ;
     public final EObject entryRuleMultiChoiceEmConfig() throws RecognitionException {
         EObject current = null;
 
@@ -2968,8 +3193,8 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalEduTest.g:1150:60: (iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF )
-            // InternalEduTest.g:1151:2: iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF
+            // InternalEduTest.g:1265:60: (iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF )
+            // InternalEduTest.g:1266:2: iv_ruleMultiChoiceEmConfig= ruleMultiChoiceEmConfig EOF
             {
              newCompositeNode(grammarAccess.getMultiChoiceEmConfigRule()); 
             pushFollow(FOLLOW_1);
@@ -2996,7 +3221,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMultiChoiceEmConfig"
-    // InternalEduTest.g:1157:1: ruleMultiChoiceEmConfig returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) ) ;
+    // InternalEduTest.g:1272:1: ruleMultiChoiceEmConfig returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) ) ;
     public final EObject ruleMultiChoiceEmConfig() throws RecognitionException {
         EObject current = null;
 
@@ -3029,14 +3254,14 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1163:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) ) )
-            // InternalEduTest.g:1164:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) )
+            // InternalEduTest.g:1278:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) ) )
+            // InternalEduTest.g:1279:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) )
             {
-            // InternalEduTest.g:1164:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) )
-            // InternalEduTest.g:1165:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) )
+            // InternalEduTest.g:1279:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) ) )
+            // InternalEduTest.g:1280:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'weighted' otherlv_6= '=' ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) ) otherlv_8= ',' otherlv_9= 'penalty' otherlv_10= '=' ( (lv_penalty_11_0= ruleEDouble ) ) otherlv_12= ',' otherlv_13= 'order' otherlv_14= '=' ( (lv_order_15_0= ruleOrder ) ) otherlv_16= ',' otherlv_17= 'mode' otherlv_18= '=' ( (lv_mode_19_0= ruleMode ) )
             {
-            // InternalEduTest.g:1165:3: ()
-            // InternalEduTest.g:1166:4: 
+            // InternalEduTest.g:1280:3: ()
+            // InternalEduTest.g:1281:4: 
             {
 
             				current = forceCreateModelElement(
@@ -3054,33 +3279,33 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_2, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_2());
             		
-            // InternalEduTest.g:1180:3: ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) )
-            // InternalEduTest.g:1181:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
+            // InternalEduTest.g:1295:3: ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) )
+            // InternalEduTest.g:1296:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
             {
-            // InternalEduTest.g:1181:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
-            // InternalEduTest.g:1182:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
+            // InternalEduTest.g:1296:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
+            // InternalEduTest.g:1297:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
             {
-            // InternalEduTest.g:1182:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
-            int alt29=2;
-            int LA29_0 = input.LA(1);
+            // InternalEduTest.g:1297:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            if ( (LA29_0==25) ) {
-                alt29=1;
+            if ( (LA32_0==25) ) {
+                alt32=1;
             }
-            else if ( (LA29_0==26) ) {
-                alt29=2;
+            else if ( (LA32_0==26) ) {
+                alt32=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 29, 0, input);
+                    new NoViableAltException("", 32, 0, input);
 
                 throw nvae;
             }
-            switch (alt29) {
+            switch (alt32) {
                 case 1 :
-                    // InternalEduTest.g:1183:6: lv_retry_3_1= 'yes'
+                    // InternalEduTest.g:1298:6: lv_retry_3_1= 'yes'
                     {
-                    lv_retry_3_1=(Token)match(input,25,FOLLOW_13); 
+                    lv_retry_3_1=(Token)match(input,25,FOLLOW_21); 
 
                     						newLeafNode(lv_retry_3_1, grammarAccess.getMultiChoiceEmConfigAccess().getRetryYesKeyword_3_0_0());
                     					
@@ -3094,9 +3319,9 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1194:6: lv_retry_3_2= 'no'
+                    // InternalEduTest.g:1309:6: lv_retry_3_2= 'no'
                     {
-                    lv_retry_3_2=(Token)match(input,26,FOLLOW_13); 
+                    lv_retry_3_2=(Token)match(input,26,FOLLOW_21); 
 
                     						newLeafNode(lv_retry_3_2, grammarAccess.getMultiChoiceEmConfigAccess().getRetryNoKeyword_3_0_1());
                     					
@@ -3118,11 +3343,11 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,12,FOLLOW_14); 
+            otherlv_4=(Token)match(input,12,FOLLOW_22); 
 
             			newLeafNode(otherlv_4, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_4());
             		
-            otherlv_5=(Token)match(input,27,FOLLOW_10); 
+            otherlv_5=(Token)match(input,32,FOLLOW_10); 
 
             			newLeafNode(otherlv_5, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedKeyword_5());
             		
@@ -3130,33 +3355,33 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_6, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_6());
             		
-            // InternalEduTest.g:1219:3: ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) )
-            // InternalEduTest.g:1220:4: ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) )
+            // InternalEduTest.g:1334:3: ( ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) ) )
+            // InternalEduTest.g:1335:4: ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) )
             {
-            // InternalEduTest.g:1220:4: ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) )
-            // InternalEduTest.g:1221:5: (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' )
+            // InternalEduTest.g:1335:4: ( (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' ) )
+            // InternalEduTest.g:1336:5: (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' )
             {
-            // InternalEduTest.g:1221:5: (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' )
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // InternalEduTest.g:1336:5: (lv_weighted_7_1= 'yes' | lv_weighted_7_2= 'no' )
+            int alt33=2;
+            int LA33_0 = input.LA(1);
 
-            if ( (LA30_0==25) ) {
-                alt30=1;
+            if ( (LA33_0==25) ) {
+                alt33=1;
             }
-            else if ( (LA30_0==26) ) {
-                alt30=2;
+            else if ( (LA33_0==26) ) {
+                alt33=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 30, 0, input);
+                    new NoViableAltException("", 33, 0, input);
 
                 throw nvae;
             }
-            switch (alt30) {
+            switch (alt33) {
                 case 1 :
-                    // InternalEduTest.g:1222:6: lv_weighted_7_1= 'yes'
+                    // InternalEduTest.g:1337:6: lv_weighted_7_1= 'yes'
                     {
-                    lv_weighted_7_1=(Token)match(input,25,FOLLOW_13); 
+                    lv_weighted_7_1=(Token)match(input,25,FOLLOW_21); 
 
                     						newLeafNode(lv_weighted_7_1, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedYesKeyword_7_0_0());
                     					
@@ -3170,9 +3395,9 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1233:6: lv_weighted_7_2= 'no'
+                    // InternalEduTest.g:1348:6: lv_weighted_7_2= 'no'
                     {
-                    lv_weighted_7_2=(Token)match(input,26,FOLLOW_13); 
+                    lv_weighted_7_2=(Token)match(input,26,FOLLOW_21); 
 
                     						newLeafNode(lv_weighted_7_2, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedNoKeyword_7_0_1());
                     					
@@ -3194,28 +3419,28 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_8=(Token)match(input,12,FOLLOW_15); 
+            otherlv_8=(Token)match(input,12,FOLLOW_23); 
 
             			newLeafNode(otherlv_8, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_8());
             		
-            otherlv_9=(Token)match(input,28,FOLLOW_10); 
+            otherlv_9=(Token)match(input,33,FOLLOW_10); 
 
             			newLeafNode(otherlv_9, grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyKeyword_9());
             		
-            otherlv_10=(Token)match(input,23,FOLLOW_16); 
+            otherlv_10=(Token)match(input,23,FOLLOW_24); 
 
             			newLeafNode(otherlv_10, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_10());
             		
-            // InternalEduTest.g:1258:3: ( (lv_penalty_11_0= ruleEDouble ) )
-            // InternalEduTest.g:1259:4: (lv_penalty_11_0= ruleEDouble )
+            // InternalEduTest.g:1373:3: ( (lv_penalty_11_0= ruleEDouble ) )
+            // InternalEduTest.g:1374:4: (lv_penalty_11_0= ruleEDouble )
             {
-            // InternalEduTest.g:1259:4: (lv_penalty_11_0= ruleEDouble )
-            // InternalEduTest.g:1260:5: lv_penalty_11_0= ruleEDouble
+            // InternalEduTest.g:1374:4: (lv_penalty_11_0= ruleEDouble )
+            // InternalEduTest.g:1375:5: lv_penalty_11_0= ruleEDouble
             {
 
             					newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyEDoubleParserRuleCall_11_0());
             				
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_21);
             lv_penalty_11_0=ruleEDouble();
 
             state._fsp--;
@@ -3237,28 +3462,28 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_12=(Token)match(input,12,FOLLOW_17); 
+            otherlv_12=(Token)match(input,12,FOLLOW_25); 
 
             			newLeafNode(otherlv_12, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_12());
             		
-            otherlv_13=(Token)match(input,29,FOLLOW_10); 
+            otherlv_13=(Token)match(input,34,FOLLOW_10); 
 
             			newLeafNode(otherlv_13, grammarAccess.getMultiChoiceEmConfigAccess().getOrderKeyword_13());
             		
-            otherlv_14=(Token)match(input,23,FOLLOW_18); 
+            otherlv_14=(Token)match(input,23,FOLLOW_26); 
 
             			newLeafNode(otherlv_14, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_14());
             		
-            // InternalEduTest.g:1289:3: ( (lv_order_15_0= ruleOrder ) )
-            // InternalEduTest.g:1290:4: (lv_order_15_0= ruleOrder )
+            // InternalEduTest.g:1404:3: ( (lv_order_15_0= ruleOrder ) )
+            // InternalEduTest.g:1405:4: (lv_order_15_0= ruleOrder )
             {
-            // InternalEduTest.g:1290:4: (lv_order_15_0= ruleOrder )
-            // InternalEduTest.g:1291:5: lv_order_15_0= ruleOrder
+            // InternalEduTest.g:1405:4: (lv_order_15_0= ruleOrder )
+            // InternalEduTest.g:1406:5: lv_order_15_0= ruleOrder
             {
 
             					newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getOrderOrderEnumRuleCall_15_0());
             				
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_21);
             lv_order_15_0=ruleOrder();
 
             state._fsp--;
@@ -3280,23 +3505,23 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_16=(Token)match(input,12,FOLLOW_19); 
+            otherlv_16=(Token)match(input,12,FOLLOW_14); 
 
             			newLeafNode(otherlv_16, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_16());
             		
-            otherlv_17=(Token)match(input,30,FOLLOW_10); 
+            otherlv_17=(Token)match(input,27,FOLLOW_10); 
 
             			newLeafNode(otherlv_17, grammarAccess.getMultiChoiceEmConfigAccess().getModeKeyword_17());
             		
-            otherlv_18=(Token)match(input,23,FOLLOW_20); 
+            otherlv_18=(Token)match(input,23,FOLLOW_15); 
 
             			newLeafNode(otherlv_18, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_18());
             		
-            // InternalEduTest.g:1320:3: ( (lv_mode_19_0= ruleMode ) )
-            // InternalEduTest.g:1321:4: (lv_mode_19_0= ruleMode )
+            // InternalEduTest.g:1435:3: ( (lv_mode_19_0= ruleMode ) )
+            // InternalEduTest.g:1436:4: (lv_mode_19_0= ruleMode )
             {
-            // InternalEduTest.g:1321:4: (lv_mode_19_0= ruleMode )
-            // InternalEduTest.g:1322:5: lv_mode_19_0= ruleMode
+            // InternalEduTest.g:1436:4: (lv_mode_19_0= ruleMode )
+            // InternalEduTest.g:1437:5: lv_mode_19_0= ruleMode
             {
 
             					newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getModeModeEnumRuleCall_19_0());
@@ -3346,7 +3571,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTextConfiguration"
-    // InternalEduTest.g:1343:1: entryRuleTextConfiguration returns [EObject current=null] : iv_ruleTextConfiguration= ruleTextConfiguration EOF ;
+    // InternalEduTest.g:1458:1: entryRuleTextConfiguration returns [EObject current=null] : iv_ruleTextConfiguration= ruleTextConfiguration EOF ;
     public final EObject entryRuleTextConfiguration() throws RecognitionException {
         EObject current = null;
 
@@ -3354,8 +3579,8 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalEduTest.g:1343:58: (iv_ruleTextConfiguration= ruleTextConfiguration EOF )
-            // InternalEduTest.g:1344:2: iv_ruleTextConfiguration= ruleTextConfiguration EOF
+            // InternalEduTest.g:1458:58: (iv_ruleTextConfiguration= ruleTextConfiguration EOF )
+            // InternalEduTest.g:1459:2: iv_ruleTextConfiguration= ruleTextConfiguration EOF
             {
              newCompositeNode(grammarAccess.getTextConfigurationRule()); 
             pushFollow(FOLLOW_1);
@@ -3382,7 +3607,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTextConfiguration"
-    // InternalEduTest.g:1350:1: ruleTextConfiguration returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) ) ;
+    // InternalEduTest.g:1465:1: ruleTextConfiguration returns [EObject current=null] : ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) ) ;
     public final EObject ruleTextConfiguration() throws RecognitionException {
         EObject current = null;
 
@@ -3400,14 +3625,14 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1356:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) ) )
-            // InternalEduTest.g:1357:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) )
+            // InternalEduTest.g:1471:2: ( ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) ) )
+            // InternalEduTest.g:1472:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) )
             {
-            // InternalEduTest.g:1357:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) )
-            // InternalEduTest.g:1358:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) )
+            // InternalEduTest.g:1472:2: ( () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) ) )
+            // InternalEduTest.g:1473:3: () otherlv_1= 'retry' otherlv_2= '=' ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) ) otherlv_4= ',' otherlv_5= 'text' otherlv_6= '=' ( (lv_identifier_7_0= ruleEString ) )
             {
-            // InternalEduTest.g:1358:3: ()
-            // InternalEduTest.g:1359:4: 
+            // InternalEduTest.g:1473:3: ()
+            // InternalEduTest.g:1474:4: 
             {
 
             				current = forceCreateModelElement(
@@ -3425,33 +3650,33 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_2, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_2());
             		
-            // InternalEduTest.g:1373:3: ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) )
-            // InternalEduTest.g:1374:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
+            // InternalEduTest.g:1488:3: ( ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) ) )
+            // InternalEduTest.g:1489:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
             {
-            // InternalEduTest.g:1374:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
-            // InternalEduTest.g:1375:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
+            // InternalEduTest.g:1489:4: ( (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' ) )
+            // InternalEduTest.g:1490:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
             {
-            // InternalEduTest.g:1375:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
-            int alt31=2;
-            int LA31_0 = input.LA(1);
+            // InternalEduTest.g:1490:5: (lv_retry_3_1= 'yes' | lv_retry_3_2= 'no' )
+            int alt34=2;
+            int LA34_0 = input.LA(1);
 
-            if ( (LA31_0==25) ) {
-                alt31=1;
+            if ( (LA34_0==25) ) {
+                alt34=1;
             }
-            else if ( (LA31_0==26) ) {
-                alt31=2;
+            else if ( (LA34_0==26) ) {
+                alt34=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 31, 0, input);
+                    new NoViableAltException("", 34, 0, input);
 
                 throw nvae;
             }
-            switch (alt31) {
+            switch (alt34) {
                 case 1 :
-                    // InternalEduTest.g:1376:6: lv_retry_3_1= 'yes'
+                    // InternalEduTest.g:1491:6: lv_retry_3_1= 'yes'
                     {
-                    lv_retry_3_1=(Token)match(input,25,FOLLOW_13); 
+                    lv_retry_3_1=(Token)match(input,25,FOLLOW_21); 
 
                     						newLeafNode(lv_retry_3_1, grammarAccess.getTextConfigurationAccess().getRetryYesKeyword_3_0_0());
                     					
@@ -3465,9 +3690,9 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1387:6: lv_retry_3_2= 'no'
+                    // InternalEduTest.g:1502:6: lv_retry_3_2= 'no'
                     {
-                    lv_retry_3_2=(Token)match(input,26,FOLLOW_13); 
+                    lv_retry_3_2=(Token)match(input,26,FOLLOW_21); 
 
                     						newLeafNode(lv_retry_3_2, grammarAccess.getTextConfigurationAccess().getRetryNoKeyword_3_0_1());
                     					
@@ -3489,23 +3714,23 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,12,FOLLOW_21); 
+            otherlv_4=(Token)match(input,12,FOLLOW_27); 
 
             			newLeafNode(otherlv_4, grammarAccess.getTextConfigurationAccess().getCommaKeyword_4());
             		
-            otherlv_5=(Token)match(input,31,FOLLOW_10); 
+            otherlv_5=(Token)match(input,35,FOLLOW_10); 
 
             			newLeafNode(otherlv_5, grammarAccess.getTextConfigurationAccess().getTextKeyword_5());
             		
-            otherlv_6=(Token)match(input,23,FOLLOW_22); 
+            otherlv_6=(Token)match(input,23,FOLLOW_18); 
 
             			newLeafNode(otherlv_6, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_6());
             		
-            // InternalEduTest.g:1412:3: ( (lv_identifier_7_0= ruleEString ) )
-            // InternalEduTest.g:1413:4: (lv_identifier_7_0= ruleEString )
+            // InternalEduTest.g:1527:3: ( (lv_identifier_7_0= ruleEString ) )
+            // InternalEduTest.g:1528:4: (lv_identifier_7_0= ruleEString )
             {
-            // InternalEduTest.g:1413:4: (lv_identifier_7_0= ruleEString )
-            // InternalEduTest.g:1414:5: lv_identifier_7_0= ruleEString
+            // InternalEduTest.g:1528:4: (lv_identifier_7_0= ruleEString )
+            // InternalEduTest.g:1529:5: lv_identifier_7_0= ruleEString
             {
 
             					newCompositeNode(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_7_0());
@@ -3555,7 +3780,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTest"
-    // InternalEduTest.g:1435:1: entryRuleTest returns [EObject current=null] : iv_ruleTest= ruleTest EOF ;
+    // InternalEduTest.g:1550:1: entryRuleTest returns [EObject current=null] : iv_ruleTest= ruleTest EOF ;
     public final EObject entryRuleTest() throws RecognitionException {
         EObject current = null;
 
@@ -3563,8 +3788,8 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalEduTest.g:1435:45: (iv_ruleTest= ruleTest EOF )
-            // InternalEduTest.g:1436:2: iv_ruleTest= ruleTest EOF
+            // InternalEduTest.g:1550:45: (iv_ruleTest= ruleTest EOF )
+            // InternalEduTest.g:1551:2: iv_ruleTest= ruleTest EOF
             {
              newCompositeNode(grammarAccess.getTestRule()); 
             pushFollow(FOLLOW_1);
@@ -3591,7 +3816,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTest"
-    // InternalEduTest.g:1442:1: ruleTest returns [EObject current=null] : (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? ) ;
+    // InternalEduTest.g:1557:1: ruleTest returns [EObject current=null] : (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? ) ;
     public final EObject ruleTest() throws RecognitionException {
         EObject current = null;
 
@@ -3612,25 +3837,25 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1448:2: ( (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? ) )
-            // InternalEduTest.g:1449:2: (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? )
+            // InternalEduTest.g:1563:2: ( (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? ) )
+            // InternalEduTest.g:1564:2: (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? )
             {
-            // InternalEduTest.g:1449:2: (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? )
-            // InternalEduTest.g:1450:3: otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )?
+            // InternalEduTest.g:1564:2: (otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )? )
+            // InternalEduTest.g:1565:3: otherlv_0= 'description' otherlv_1= 'for' ( (lv_source_2_0= ruleEString ) ) otherlv_3= '=' ( (lv_question_4_0= ruleEString ) ) ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )?
             {
-            otherlv_0=(Token)match(input,32,FOLLOW_23); 
+            otherlv_0=(Token)match(input,36,FOLLOW_28); 
 
             			newLeafNode(otherlv_0, grammarAccess.getTestAccess().getDescriptionKeyword_0());
             		
-            otherlv_1=(Token)match(input,33,FOLLOW_22); 
+            otherlv_1=(Token)match(input,37,FOLLOW_18); 
 
             			newLeafNode(otherlv_1, grammarAccess.getTestAccess().getForKeyword_1());
             		
-            // InternalEduTest.g:1458:3: ( (lv_source_2_0= ruleEString ) )
-            // InternalEduTest.g:1459:4: (lv_source_2_0= ruleEString )
+            // InternalEduTest.g:1573:3: ( (lv_source_2_0= ruleEString ) )
+            // InternalEduTest.g:1574:4: (lv_source_2_0= ruleEString )
             {
-            // InternalEduTest.g:1459:4: (lv_source_2_0= ruleEString )
-            // InternalEduTest.g:1460:5: lv_source_2_0= ruleEString
+            // InternalEduTest.g:1574:4: (lv_source_2_0= ruleEString )
+            // InternalEduTest.g:1575:5: lv_source_2_0= ruleEString
             {
 
             					newCompositeNode(grammarAccess.getTestAccess().getSourceEStringParserRuleCall_2_0());
@@ -3657,20 +3882,20 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,23,FOLLOW_22); 
+            otherlv_3=(Token)match(input,23,FOLLOW_18); 
 
             			newLeafNode(otherlv_3, grammarAccess.getTestAccess().getEqualsSignKeyword_3());
             		
-            // InternalEduTest.g:1481:3: ( (lv_question_4_0= ruleEString ) )
-            // InternalEduTest.g:1482:4: (lv_question_4_0= ruleEString )
+            // InternalEduTest.g:1596:3: ( (lv_question_4_0= ruleEString ) )
+            // InternalEduTest.g:1597:4: (lv_question_4_0= ruleEString )
             {
-            // InternalEduTest.g:1482:4: (lv_question_4_0= ruleEString )
-            // InternalEduTest.g:1483:5: lv_question_4_0= ruleEString
+            // InternalEduTest.g:1597:4: (lv_question_4_0= ruleEString )
+            // InternalEduTest.g:1598:5: lv_question_4_0= ruleEString
             {
 
             					newCompositeNode(grammarAccess.getTestAccess().getQuestionEStringParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_24);
+            pushFollow(FOLLOW_29);
             lv_question_4_0=ruleEString();
 
             state._fsp--;
@@ -3692,24 +3917,24 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalEduTest.g:1500:3: ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )?
-            int alt33=2;
-            int LA33_0 = input.LA(1);
+            // InternalEduTest.g:1615:3: ( ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )? )?
+            int alt36=2;
+            int LA36_0 = input.LA(1);
 
-            if ( (LA33_0==34) ) {
-                alt33=1;
+            if ( (LA36_0==38) ) {
+                alt36=1;
             }
-            switch (alt33) {
+            switch (alt36) {
                 case 1 :
-                    // InternalEduTest.g:1501:4: ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )?
+                    // InternalEduTest.g:1616:4: ( (lv_expression_5_0= '%text' ) ) (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )?
                     {
-                    // InternalEduTest.g:1501:4: ( (lv_expression_5_0= '%text' ) )
-                    // InternalEduTest.g:1502:5: (lv_expression_5_0= '%text' )
+                    // InternalEduTest.g:1616:4: ( (lv_expression_5_0= '%text' ) )
+                    // InternalEduTest.g:1617:5: (lv_expression_5_0= '%text' )
                     {
-                    // InternalEduTest.g:1502:5: (lv_expression_5_0= '%text' )
-                    // InternalEduTest.g:1503:6: lv_expression_5_0= '%text'
+                    // InternalEduTest.g:1617:5: (lv_expression_5_0= '%text' )
+                    // InternalEduTest.g:1618:6: lv_expression_5_0= '%text'
                     {
-                    lv_expression_5_0=(Token)match(input,34,FOLLOW_25); 
+                    lv_expression_5_0=(Token)match(input,38,FOLLOW_30); 
 
                     						newLeafNode(lv_expression_5_0, grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0());
                     					
@@ -3725,31 +3950,31 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalEduTest.g:1515:4: (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )?
-                    int alt32=2;
-                    int LA32_0 = input.LA(1);
+                    // InternalEduTest.g:1630:4: (otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')' )?
+                    int alt35=2;
+                    int LA35_0 = input.LA(1);
 
-                    if ( (LA32_0==35) ) {
-                        alt32=1;
+                    if ( (LA35_0==29) ) {
+                        alt35=1;
                     }
-                    switch (alt32) {
+                    switch (alt35) {
                         case 1 :
-                            // InternalEduTest.g:1516:5: otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')'
+                            // InternalEduTest.g:1631:5: otherlv_6= '(' ( (lv_identifier_7_0= ruleEString ) ) otherlv_8= ')'
                             {
-                            otherlv_6=(Token)match(input,35,FOLLOW_22); 
+                            otherlv_6=(Token)match(input,29,FOLLOW_18); 
 
                             					newLeafNode(otherlv_6, grammarAccess.getTestAccess().getLeftParenthesisKeyword_5_1_0());
                             				
-                            // InternalEduTest.g:1520:5: ( (lv_identifier_7_0= ruleEString ) )
-                            // InternalEduTest.g:1521:6: (lv_identifier_7_0= ruleEString )
+                            // InternalEduTest.g:1635:5: ( (lv_identifier_7_0= ruleEString ) )
+                            // InternalEduTest.g:1636:6: (lv_identifier_7_0= ruleEString )
                             {
-                            // InternalEduTest.g:1521:6: (lv_identifier_7_0= ruleEString )
-                            // InternalEduTest.g:1522:7: lv_identifier_7_0= ruleEString
+                            // InternalEduTest.g:1636:6: (lv_identifier_7_0= ruleEString )
+                            // InternalEduTest.g:1637:7: lv_identifier_7_0= ruleEString
                             {
 
                             							newCompositeNode(grammarAccess.getTestAccess().getIdentifierEStringParserRuleCall_5_1_1_0());
                             						
-                            pushFollow(FOLLOW_26);
+                            pushFollow(FOLLOW_19);
                             lv_identifier_7_0=ruleEString();
 
                             state._fsp--;
@@ -3771,7 +3996,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_8=(Token)match(input,36,FOLLOW_2); 
+                            otherlv_8=(Token)match(input,30,FOLLOW_2); 
 
                             					newLeafNode(otherlv_8, grammarAccess.getTestAccess().getRightParenthesisKeyword_5_1_2());
                             				
@@ -3810,7 +4035,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // InternalEduTest.g:1549:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
+    // InternalEduTest.g:1664:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
     public final String entryRuleEString() throws RecognitionException {
         String current = null;
 
@@ -3818,8 +4043,8 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalEduTest.g:1549:47: (iv_ruleEString= ruleEString EOF )
-            // InternalEduTest.g:1550:2: iv_ruleEString= ruleEString EOF
+            // InternalEduTest.g:1664:47: (iv_ruleEString= ruleEString EOF )
+            // InternalEduTest.g:1665:2: iv_ruleEString= ruleEString EOF
             {
              newCompositeNode(grammarAccess.getEStringRule()); 
             pushFollow(FOLLOW_1);
@@ -3846,7 +4071,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEString"
-    // InternalEduTest.g:1556:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
+    // InternalEduTest.g:1671:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleEString() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -3857,28 +4082,28 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1562:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
-            // InternalEduTest.g:1563:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalEduTest.g:1677:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
+            // InternalEduTest.g:1678:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             {
-            // InternalEduTest.g:1563:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // InternalEduTest.g:1678:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            int alt37=2;
+            int LA37_0 = input.LA(1);
 
-            if ( (LA34_0==RULE_STRING) ) {
-                alt34=1;
+            if ( (LA37_0==RULE_STRING) ) {
+                alt37=1;
             }
-            else if ( (LA34_0==RULE_ID) ) {
-                alt34=2;
+            else if ( (LA37_0==RULE_ID) ) {
+                alt37=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 34, 0, input);
+                    new NoViableAltException("", 37, 0, input);
 
                 throw nvae;
             }
-            switch (alt34) {
+            switch (alt37) {
                 case 1 :
-                    // InternalEduTest.g:1564:3: this_STRING_0= RULE_STRING
+                    // InternalEduTest.g:1679:3: this_STRING_0= RULE_STRING
                     {
                     this_STRING_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
@@ -3891,7 +4116,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1572:3: this_ID_1= RULE_ID
+                    // InternalEduTest.g:1687:3: this_ID_1= RULE_ID
                     {
                     this_ID_1=(Token)match(input,RULE_ID,FOLLOW_2); 
 
@@ -3926,7 +4151,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEDouble"
-    // InternalEduTest.g:1583:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
+    // InternalEduTest.g:1698:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
     public final String entryRuleEDouble() throws RecognitionException {
         String current = null;
 
@@ -3934,8 +4159,8 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalEduTest.g:1583:47: (iv_ruleEDouble= ruleEDouble EOF )
-            // InternalEduTest.g:1584:2: iv_ruleEDouble= ruleEDouble EOF
+            // InternalEduTest.g:1698:47: (iv_ruleEDouble= ruleEDouble EOF )
+            // InternalEduTest.g:1699:2: iv_ruleEDouble= ruleEDouble EOF
             {
              newCompositeNode(grammarAccess.getEDoubleRule()); 
             pushFollow(FOLLOW_1);
@@ -3962,7 +4187,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEDouble"
-    // InternalEduTest.g:1590:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
+    // InternalEduTest.g:1705:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
     public final AntlrDatatypeRuleToken ruleEDouble() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -3975,24 +4200,24 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1596:2: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
-            // InternalEduTest.g:1597:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // InternalEduTest.g:1711:2: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
+            // InternalEduTest.g:1712:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
             {
-            // InternalEduTest.g:1597:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
-            // InternalEduTest.g:1598:3: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            // InternalEduTest.g:1712:2: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // InternalEduTest.g:1713:3: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
             {
-            // InternalEduTest.g:1598:3: (kw= '-' )?
-            int alt35=2;
-            int LA35_0 = input.LA(1);
+            // InternalEduTest.g:1713:3: (kw= '-' )?
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA35_0==37) ) {
-                alt35=1;
+            if ( (LA38_0==39) ) {
+                alt38=1;
             }
-            switch (alt35) {
+            switch (alt38) {
                 case 1 :
-                    // InternalEduTest.g:1599:4: kw= '-'
+                    // InternalEduTest.g:1714:4: kw= '-'
                     {
-                    kw=(Token)match(input,37,FOLLOW_27); 
+                    kw=(Token)match(input,39,FOLLOW_31); 
 
                     				current.merge(kw);
                     				newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_0());
@@ -4003,18 +4228,18 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalEduTest.g:1605:3: (this_INT_1= RULE_INT )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            // InternalEduTest.g:1720:3: (this_INT_1= RULE_INT )?
+            int alt39=2;
+            int LA39_0 = input.LA(1);
 
-            if ( (LA36_0==RULE_INT) ) {
-                alt36=1;
+            if ( (LA39_0==RULE_INT) ) {
+                alt39=1;
             }
-            switch (alt36) {
+            switch (alt39) {
                 case 1 :
-                    // InternalEduTest.g:1606:4: this_INT_1= RULE_INT
+                    // InternalEduTest.g:1721:4: this_INT_1= RULE_INT
                     {
-                    this_INT_1=(Token)match(input,RULE_INT,FOLLOW_28); 
+                    this_INT_1=(Token)match(input,RULE_INT,FOLLOW_32); 
 
                     				current.merge(this_INT_1);
                     			
@@ -4027,50 +4252,50 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
             }
 
-            kw=(Token)match(input,38,FOLLOW_29); 
+            kw=(Token)match(input,40,FOLLOW_33); 
 
             			current.merge(kw);
             			newLeafNode(kw, grammarAccess.getEDoubleAccess().getFullStopKeyword_2());
             		
-            this_INT_3=(Token)match(input,RULE_INT,FOLLOW_30); 
+            this_INT_3=(Token)match(input,RULE_INT,FOLLOW_34); 
 
             			current.merge(this_INT_3);
             		
 
             			newLeafNode(this_INT_3, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_3());
             		
-            // InternalEduTest.g:1626:3: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // InternalEduTest.g:1741:3: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            int alt42=2;
+            int LA42_0 = input.LA(1);
 
-            if ( ((LA39_0>=39 && LA39_0<=40)) ) {
-                alt39=1;
+            if ( ((LA42_0>=41 && LA42_0<=42)) ) {
+                alt42=1;
             }
-            switch (alt39) {
+            switch (alt42) {
                 case 1 :
-                    // InternalEduTest.g:1627:4: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
+                    // InternalEduTest.g:1742:4: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
                     {
-                    // InternalEduTest.g:1627:4: (kw= 'E' | kw= 'e' )
-                    int alt37=2;
-                    int LA37_0 = input.LA(1);
+                    // InternalEduTest.g:1742:4: (kw= 'E' | kw= 'e' )
+                    int alt40=2;
+                    int LA40_0 = input.LA(1);
 
-                    if ( (LA37_0==39) ) {
-                        alt37=1;
+                    if ( (LA40_0==41) ) {
+                        alt40=1;
                     }
-                    else if ( (LA37_0==40) ) {
-                        alt37=2;
+                    else if ( (LA40_0==42) ) {
+                        alt40=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 37, 0, input);
+                            new NoViableAltException("", 40, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt37) {
+                    switch (alt40) {
                         case 1 :
-                            // InternalEduTest.g:1628:5: kw= 'E'
+                            // InternalEduTest.g:1743:5: kw= 'E'
                             {
-                            kw=(Token)match(input,39,FOLLOW_31); 
+                            kw=(Token)match(input,41,FOLLOW_35); 
 
                             					current.merge(kw);
                             					newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_0());
@@ -4079,9 +4304,9 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // InternalEduTest.g:1634:5: kw= 'e'
+                            // InternalEduTest.g:1749:5: kw= 'e'
                             {
-                            kw=(Token)match(input,40,FOLLOW_31); 
+                            kw=(Token)match(input,42,FOLLOW_35); 
 
                             					current.merge(kw);
                             					newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_1());
@@ -4092,18 +4317,18 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalEduTest.g:1640:4: (kw= '-' )?
-                    int alt38=2;
-                    int LA38_0 = input.LA(1);
+                    // InternalEduTest.g:1755:4: (kw= '-' )?
+                    int alt41=2;
+                    int LA41_0 = input.LA(1);
 
-                    if ( (LA38_0==37) ) {
-                        alt38=1;
+                    if ( (LA41_0==39) ) {
+                        alt41=1;
                     }
-                    switch (alt38) {
+                    switch (alt41) {
                         case 1 :
-                            // InternalEduTest.g:1641:5: kw= '-'
+                            // InternalEduTest.g:1756:5: kw= '-'
                             {
-                            kw=(Token)match(input,37,FOLLOW_29); 
+                            kw=(Token)match(input,39,FOLLOW_33); 
 
                             					current.merge(kw);
                             					newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_4_1());
@@ -4150,7 +4375,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOrder"
-    // InternalEduTest.g:1659:1: ruleOrder returns [Enumerator current=null] : ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) ) ;
+    // InternalEduTest.g:1774:1: ruleOrder returns [Enumerator current=null] : ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) ) ;
     public final Enumerator ruleOrder() throws RecognitionException {
         Enumerator current = null;
 
@@ -4163,47 +4388,47 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1665:2: ( ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) ) )
-            // InternalEduTest.g:1666:2: ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) )
+            // InternalEduTest.g:1780:2: ( ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) ) )
+            // InternalEduTest.g:1781:2: ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) )
             {
-            // InternalEduTest.g:1666:2: ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) )
-            int alt40=4;
+            // InternalEduTest.g:1781:2: ( (enumLiteral_0= 'fixed' ) | (enumLiteral_1= 'random' ) | (enumLiteral_2= 'options-ascending' ) | (enumLiteral_3= 'options-descending' ) )
+            int alt43=4;
             switch ( input.LA(1) ) {
-            case 41:
-                {
-                alt40=1;
-                }
-                break;
-            case 42:
-                {
-                alt40=2;
-                }
-                break;
             case 43:
                 {
-                alt40=3;
+                alt43=1;
                 }
                 break;
             case 44:
                 {
-                alt40=4;
+                alt43=2;
+                }
+                break;
+            case 45:
+                {
+                alt43=3;
+                }
+                break;
+            case 46:
+                {
+                alt43=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 40, 0, input);
+                    new NoViableAltException("", 43, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt40) {
+            switch (alt43) {
                 case 1 :
-                    // InternalEduTest.g:1667:3: (enumLiteral_0= 'fixed' )
+                    // InternalEduTest.g:1782:3: (enumLiteral_0= 'fixed' )
                     {
-                    // InternalEduTest.g:1667:3: (enumLiteral_0= 'fixed' )
-                    // InternalEduTest.g:1668:4: enumLiteral_0= 'fixed'
+                    // InternalEduTest.g:1782:3: (enumLiteral_0= 'fixed' )
+                    // InternalEduTest.g:1783:4: enumLiteral_0= 'fixed'
                     {
-                    enumLiteral_0=(Token)match(input,41,FOLLOW_2); 
+                    enumLiteral_0=(Token)match(input,43,FOLLOW_2); 
 
                     				current = grammarAccess.getOrderAccess().getFixedEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_0, grammarAccess.getOrderAccess().getFixedEnumLiteralDeclaration_0());
@@ -4215,12 +4440,12 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1675:3: (enumLiteral_1= 'random' )
+                    // InternalEduTest.g:1790:3: (enumLiteral_1= 'random' )
                     {
-                    // InternalEduTest.g:1675:3: (enumLiteral_1= 'random' )
-                    // InternalEduTest.g:1676:4: enumLiteral_1= 'random'
+                    // InternalEduTest.g:1790:3: (enumLiteral_1= 'random' )
+                    // InternalEduTest.g:1791:4: enumLiteral_1= 'random'
                     {
-                    enumLiteral_1=(Token)match(input,42,FOLLOW_2); 
+                    enumLiteral_1=(Token)match(input,44,FOLLOW_2); 
 
                     				current = grammarAccess.getOrderAccess().getRandomEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_1, grammarAccess.getOrderAccess().getRandomEnumLiteralDeclaration_1());
@@ -4232,12 +4457,12 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalEduTest.g:1683:3: (enumLiteral_2= 'options-ascending' )
+                    // InternalEduTest.g:1798:3: (enumLiteral_2= 'options-ascending' )
                     {
-                    // InternalEduTest.g:1683:3: (enumLiteral_2= 'options-ascending' )
-                    // InternalEduTest.g:1684:4: enumLiteral_2= 'options-ascending'
+                    // InternalEduTest.g:1798:3: (enumLiteral_2= 'options-ascending' )
+                    // InternalEduTest.g:1799:4: enumLiteral_2= 'options-ascending'
                     {
-                    enumLiteral_2=(Token)match(input,43,FOLLOW_2); 
+                    enumLiteral_2=(Token)match(input,45,FOLLOW_2); 
 
                     				current = grammarAccess.getOrderAccess().getAscendingEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_2, grammarAccess.getOrderAccess().getAscendingEnumLiteralDeclaration_2());
@@ -4249,12 +4474,12 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalEduTest.g:1691:3: (enumLiteral_3= 'options-descending' )
+                    // InternalEduTest.g:1806:3: (enumLiteral_3= 'options-descending' )
                     {
-                    // InternalEduTest.g:1691:3: (enumLiteral_3= 'options-descending' )
-                    // InternalEduTest.g:1692:4: enumLiteral_3= 'options-descending'
+                    // InternalEduTest.g:1806:3: (enumLiteral_3= 'options-descending' )
+                    // InternalEduTest.g:1807:4: enumLiteral_3= 'options-descending'
                     {
-                    enumLiteral_3=(Token)match(input,44,FOLLOW_2); 
+                    enumLiteral_3=(Token)match(input,46,FOLLOW_2); 
 
                     				current = grammarAccess.getOrderAccess().getDescendingEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_3, grammarAccess.getOrderAccess().getDescendingEnumLiteralDeclaration_3());
@@ -4288,7 +4513,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMode"
-    // InternalEduTest.g:1702:1: ruleMode returns [Enumerator current=null] : ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) ) ;
+    // InternalEduTest.g:1817:1: ruleMode returns [Enumerator current=null] : ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) ) ;
     public final Enumerator ruleMode() throws RecognitionException {
         Enumerator current = null;
 
@@ -4299,33 +4524,33 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1708:2: ( ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) ) )
-            // InternalEduTest.g:1709:2: ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) )
+            // InternalEduTest.g:1823:2: ( ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) ) )
+            // InternalEduTest.g:1824:2: ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) )
             {
-            // InternalEduTest.g:1709:2: ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) )
-            int alt41=2;
-            int LA41_0 = input.LA(1);
+            // InternalEduTest.g:1824:2: ( (enumLiteral_0= 'radiobutton' ) | (enumLiteral_1= 'checkbox' ) )
+            int alt44=2;
+            int LA44_0 = input.LA(1);
 
-            if ( (LA41_0==45) ) {
-                alt41=1;
+            if ( (LA44_0==47) ) {
+                alt44=1;
             }
-            else if ( (LA41_0==46) ) {
-                alt41=2;
+            else if ( (LA44_0==48) ) {
+                alt44=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 41, 0, input);
+                    new NoViableAltException("", 44, 0, input);
 
                 throw nvae;
             }
-            switch (alt41) {
+            switch (alt44) {
                 case 1 :
-                    // InternalEduTest.g:1710:3: (enumLiteral_0= 'radiobutton' )
+                    // InternalEduTest.g:1825:3: (enumLiteral_0= 'radiobutton' )
                     {
-                    // InternalEduTest.g:1710:3: (enumLiteral_0= 'radiobutton' )
-                    // InternalEduTest.g:1711:4: enumLiteral_0= 'radiobutton'
+                    // InternalEduTest.g:1825:3: (enumLiteral_0= 'radiobutton' )
+                    // InternalEduTest.g:1826:4: enumLiteral_0= 'radiobutton'
                     {
-                    enumLiteral_0=(Token)match(input,45,FOLLOW_2); 
+                    enumLiteral_0=(Token)match(input,47,FOLLOW_2); 
 
                     				current = grammarAccess.getModeAccess().getRadiobuttonEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_0, grammarAccess.getModeAccess().getRadiobuttonEnumLiteralDeclaration_0());
@@ -4337,12 +4562,12 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1718:3: (enumLiteral_1= 'checkbox' )
+                    // InternalEduTest.g:1833:3: (enumLiteral_1= 'checkbox' )
                     {
-                    // InternalEduTest.g:1718:3: (enumLiteral_1= 'checkbox' )
-                    // InternalEduTest.g:1719:4: enumLiteral_1= 'checkbox'
+                    // InternalEduTest.g:1833:3: (enumLiteral_1= 'checkbox' )
+                    // InternalEduTest.g:1834:4: enumLiteral_1= 'checkbox'
                     {
-                    enumLiteral_1=(Token)match(input,46,FOLLOW_2); 
+                    enumLiteral_1=(Token)match(input,48,FOLLOW_2); 
 
                     				current = grammarAccess.getModeAccess().getCheckboxEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_1, grammarAccess.getModeAccess().getCheckboxEnumLiteralDeclaration_1());
@@ -4376,7 +4601,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNavigation"
-    // InternalEduTest.g:1729:1: ruleNavigation returns [Enumerator current=null] : ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) ) ;
+    // InternalEduTest.g:1844:1: ruleNavigation returns [Enumerator current=null] : ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) ) ;
     public final Enumerator ruleNavigation() throws RecognitionException {
         Enumerator current = null;
 
@@ -4387,33 +4612,33 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalEduTest.g:1735:2: ( ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) ) )
-            // InternalEduTest.g:1736:2: ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) )
+            // InternalEduTest.g:1850:2: ( ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) ) )
+            // InternalEduTest.g:1851:2: ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) )
             {
-            // InternalEduTest.g:1736:2: ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) )
-            int alt42=2;
-            int LA42_0 = input.LA(1);
+            // InternalEduTest.g:1851:2: ( (enumLiteral_0= 'free' ) | (enumLiteral_1= 'locked' ) )
+            int alt45=2;
+            int LA45_0 = input.LA(1);
 
-            if ( (LA42_0==47) ) {
-                alt42=1;
+            if ( (LA45_0==49) ) {
+                alt45=1;
             }
-            else if ( (LA42_0==48) ) {
-                alt42=2;
+            else if ( (LA45_0==50) ) {
+                alt45=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 42, 0, input);
+                    new NoViableAltException("", 45, 0, input);
 
                 throw nvae;
             }
-            switch (alt42) {
+            switch (alt45) {
                 case 1 :
-                    // InternalEduTest.g:1737:3: (enumLiteral_0= 'free' )
+                    // InternalEduTest.g:1852:3: (enumLiteral_0= 'free' )
                     {
-                    // InternalEduTest.g:1737:3: (enumLiteral_0= 'free' )
-                    // InternalEduTest.g:1738:4: enumLiteral_0= 'free'
+                    // InternalEduTest.g:1852:3: (enumLiteral_0= 'free' )
+                    // InternalEduTest.g:1853:4: enumLiteral_0= 'free'
                     {
-                    enumLiteral_0=(Token)match(input,47,FOLLOW_2); 
+                    enumLiteral_0=(Token)match(input,49,FOLLOW_2); 
 
                     				current = grammarAccess.getNavigationAccess().getFreeEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_0, grammarAccess.getNavigationAccess().getFreeEnumLiteralDeclaration_0());
@@ -4425,12 +4650,12 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:1745:3: (enumLiteral_1= 'locked' )
+                    // InternalEduTest.g:1860:3: (enumLiteral_1= 'locked' )
                     {
-                    // InternalEduTest.g:1745:3: (enumLiteral_1= 'locked' )
-                    // InternalEduTest.g:1746:4: enumLiteral_1= 'locked'
+                    // InternalEduTest.g:1860:3: (enumLiteral_1= 'locked' )
+                    // InternalEduTest.g:1861:4: enumLiteral_1= 'locked'
                     {
-                    enumLiteral_1=(Token)match(input,48,FOLLOW_2); 
+                    enumLiteral_1=(Token)match(input,50,FOLLOW_2); 
 
                     				current = grammarAccess.getNavigationAccess().getLockedEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_1, grammarAccess.getNavigationAccess().getLockedEnumLiteralDeclaration_1());
@@ -4475,28 +4700,32 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000003000L});
     public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000100004000L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000001000004000L});
     public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0001800000000000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0006000000000000L});
     public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000006000000L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000001002L});
     public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000008000000L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000010000000L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000006000000040L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0001800000000000L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000010000000L});
     public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x00001E0000000000L});
+    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000000000030L});
     public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000040000000L});
-    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000600000000000L});
-    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000080000000L});
-    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000000100000000L});
     public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000000400000002L});
-    public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000800000002L});
-    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000001000000000L});
-    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x0000004000000040L});
-    public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000018000000002L});
-    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0000002000000040L});
+    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000018000000040L});
+    public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000780000000000L});
+    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000002000000000L});
+    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000004000000002L});
+    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000020000002L});
+    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0000010000000040L});
+    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0000010000000000L});
+    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0000060000000002L});
+    public static final BitSet FOLLOW_35 = new BitSet(new long[]{0x0000008000000040L});
 
 }

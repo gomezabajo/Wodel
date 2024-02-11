@@ -29,6 +29,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="TestConfiguration" eSuperTypes="#//Configuration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="retry" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="#//Mode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="answers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceEmConfig" eSuperTypes="#//TestConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weighted" lowerBound="1"
@@ -36,7 +39,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="penalty" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" lowerBound="1" eType="#//Order"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="#//Mode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TextConfiguration" eSuperTypes="#//TestConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"

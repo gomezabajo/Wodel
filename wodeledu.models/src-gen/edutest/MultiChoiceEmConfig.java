@@ -14,7 +14,6 @@ package edutest;
  *   <li>{@link edutest.MultiChoiceEmConfig#isWeighted <em>Weighted</em>}</li>
  *   <li>{@link edutest.MultiChoiceEmConfig#getPenalty <em>Penalty</em>}</li>
  *   <li>{@link edutest.MultiChoiceEmConfig#getOrder <em>Order</em>}</li>
- *   <li>{@link edutest.MultiChoiceEmConfig#getMode <em>Mode</em>}</li>
  * </ul>
  *
  * @see edutest.EdutestPackage#getMultiChoiceEmConfig()
@@ -91,30 +90,5 @@ public interface MultiChoiceEmConfig extends TestConfiguration {
 	 * @generated
 	 */
 	void setOrder(Order value);
-
-	/**
-	 * Returns the value of the '<em><b>Mode</b></em>' attribute.
-	 * The literals are from the enumeration {@link edutest.Mode}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mode</em>' attribute.
-	 * @see edutest.Mode
-	 * @see #setMode(Mode)
-	 * @see edutest.EdutestPackage#getMultiChoiceEmConfig_Mode()
-	 * @model required="true"
-	 * @generated
-	 */
-	Mode getMode();
-
-	/**
-	 * Sets the value of the '{@link edutest.MultiChoiceEmConfig#getMode <em>Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Mode</em>' attribute.
-	 * @see edutest.Mode
-	 * @see #getMode()
-	 * @generated
-	 */
-	void setMode(Mode value);
 
 } // MultiChoiceEmConfig

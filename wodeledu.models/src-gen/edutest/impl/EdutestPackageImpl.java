@@ -345,6 +345,33 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTestConfiguration_Mode() {
+		return (EAttribute) testConfigurationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestConfiguration_Statement() {
+		return (EAttribute) testConfigurationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestConfiguration_Answers() {
+		return (EAttribute) testConfigurationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMultiChoiceEmConfig() {
 		return multiChoiceEmConfigEClass;
 	}
@@ -374,15 +401,6 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 */
 	public EAttribute getMultiChoiceEmConfig_Order() {
 		return (EAttribute) multiChoiceEmConfigEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMultiChoiceEmConfig_Mode() {
-		return (EAttribute) multiChoiceEmConfigEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -663,12 +681,14 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		testConfigurationEClass = createEClass(TEST_CONFIGURATION);
 		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__RETRY);
+		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__MODE);
+		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__STATEMENT);
+		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__ANSWERS);
 
 		multiChoiceEmConfigEClass = createEClass(MULTI_CHOICE_EM_CONFIG);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__WEIGHTED);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__PENALTY);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__ORDER);
-		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__MODE);
 
 		textConfigurationEClass = createEClass(TEXT_CONFIGURATION);
 		createEAttribute(textConfigurationEClass, TEXT_CONFIGURATION__IDENTIFIER);
@@ -787,6 +807,14 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEAttribute(getTestConfiguration_Retry(), ecorePackage.getEBoolean(), "retry", "false", 1, 1,
 				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTestConfiguration_Mode(), this.getMode(), "mode", null, 0, 1, TestConfiguration.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTestConfiguration_Statement(), ecorePackage.getEString(), "statement", null, 0, 1,
+				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTestConfiguration_Answers(), ecorePackage.getEString(), "answers", null, 0, 1,
+				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiChoiceEmConfigEClass, MultiChoiceEmConfig.class, "MultiChoiceEmConfig", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -797,8 +825,6 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 				MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMultiChoiceEmConfig_Order(), this.getOrder(), "order", null, 1, 1, MultiChoiceEmConfig.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMultiChoiceEmConfig_Mode(), this.getMode(), "mode", null, 1, 1, MultiChoiceEmConfig.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(textConfigurationEClass, TextConfiguration.class, "TextConfiguration", !IS_ABSTRACT, !IS_INTERFACE,

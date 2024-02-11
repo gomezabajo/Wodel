@@ -2846,6 +2846,37 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return EObject
 	 */
+	public static EObject getEObject(List<EObject> objs, EObject eobj) {
+		EObject ob = null;
+		if (eobj != null && objs != null && objs.size() > 0) {
+
+			for (EObject obj : objs) {
+				if (EcoreUtil.equals(obj, eobj)) {
+					ob = obj;
+					break;
+				}
+			}
+			if (ob == null) {
+				ob = getObjectByURI(objs, EcoreUtil.getURI(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByURIEnding(objs, EcoreUtil.getURI(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByID(objs, EcoreUtil.getIdentification(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByPartialID(objs, EcoreUtil.getIdentification(eobj));
+			}
+		}
+		return ob;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
 	public static EObject getObject(Resource model, EObject eobj) {
 		EObject ob = null;
 		if (eobj != null) {
@@ -2915,6 +2946,21 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return EObject
 	 */
+	public static EObject getObjectByID(List<EObject> objs, String identification) {
+		if (objs != null && objs.size() > 0) {
+			for (EObject obj : objs) {
+				if (EcoreUtil.getIdentification(obj).equals(identification)) {
+					return obj;
+				}
+			}
+		}
+		return null;
+	}
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
 	public static EObject getObjectByID(Resource model, String identification) {
 		List<EObject> objs = getAllObjects(model);
 
@@ -2968,6 +3014,32 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return EObject
 	 */
+	public static EObject getObjectByPartialID(List<EObject> objs, String identification) {
+		if (objs != null && objs.size() > 0) {
+			String objectType = identification.substring(identification.indexOf("#"), identification.indexOf("@"));
+			String objectURI = identification.substring(identification.lastIndexOf("#/") + 2, identification.indexOf("}"));
+			String uriToFind = getURIToFind(objectURI);
+			//String partialID = identification.substring(identification.indexOf("#"), identification.indexOf("{"));
+			for (EObject obj : objs) {
+				String objID = EcoreUtil.getIdentification(obj);
+				String objType = objID.substring(objID.indexOf("#"), objID.indexOf("@"));
+				String objURI = objID.substring(objID.lastIndexOf("#/") + 2, objID.indexOf("}"));
+				if (objURI.equals(uriToFind) && objType.equals(objectType)) {
+					return obj;
+				}
+				//partialObjID = partialObjID.substring(partialObjID.indexOf("#"), partialObjID.indexOf("{"));
+				//if (partialID.equals(partialObjID)) {
+				//	return obj;
+				//}
+			}
+		}
+		return null;
+	}
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
 	public static EObject getObjectByPartialID(Resource model, String identification) {
 		List<EObject> objs = getAllObjects(model);
 
@@ -3006,6 +3078,41 @@ public class ModelManager {
 		return null;
 	}
 	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EObject getObjectByURI(List<EObject> objs, URI uri) {
+		if (objs != null && objs.size() > 0) {
+			for (EObject obj : objs) {
+				if (EcoreUtil.getURI(obj).equals(uri)) {
+					return obj;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EObject getObjectByURIEnding(List<EObject> objs, URI uri) {
+		if (objs != null && objs.size() > 0) {
+			String partialURI = uri.toString();
+			partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+			for (EObject obj : objs) {
+				String partialObjURI = EcoreUtil.getURI(obj).toString();
+				partialObjURI = partialObjURI.substring(partialObjURI.indexOf("#"), partialObjURI.length());
+				if (partialURI.equals(partialObjURI)) {
+					return obj;
+				}
+			}
+		}
+		return null;
+	}
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -3436,56 +3543,29 @@ public class ModelManager {
 			EObject newObject) throws WrongAttributeTypeException,
 			ReferenceNonExistingException {
 
+		if (newObject == null) {
+			return;
+		}
 		EClass tipo = object.eClass();
-		EObject tarObj = newObject;
 
 		for (EStructuralFeature sf : tipo.getEAllReferences()) {
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
-					if (tarObj != null) {
-						boolean b = false;
-						for (EStructuralFeature sfTar : tarObj.eClass()
-								.getEAllReferences()) {
-							if (sfTar != null) {
-								Object ob = tarObj.eGet(sfTar);
-								if (ob instanceof EObject) {
-									EObject value = (EObject) ob;
-									if (EcoreUtil.getURI(value.eClass()).equals(EcoreUtil.getURI(sf.getEType())) && sf.isChangeable()) {
-										object.eSet(sf, value);
-										b = true;
-										break;
-									}
-								}
-//								if (sfTar.getName().equals(ref) && sf.isChangeable()) {
-//								}
-							}
+					if (newObject != null) {
+						if (!sf.isMany() && (((EClass) sf.getEType()).isSuperTypeOf(newObject.eClass()) && sf.isChangeable())) {
+							object.eSet(sf, newObject);
+							break;
 						}
-						if (b == false) {
-							try {
-								if (((EClass) sf.getEType()).isSuperTypeOf(tarObj.eClass()) && sf.isChangeable()) {
-									if (object.eGet(sf) instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) object.eGet(sf);
-										objects.add(tarObj);
-									}
-									else {
-										object.eSet(sf, tarObj);
-									}
-								}
-							} catch (ClassCastException ex) {
-								throw new WrongAttributeTypeException(
-										"The reference '"
-												+ ref
-												+ "' is not of the type '"
-												+ tarObj.eClass().getName() + "'");
-							}
+						if (sf.isMany() && ((EClass) sf.getEType()).isSuperTypeOf(newObject.eClass()) && sf.isChangeable()) {
+							List<EObject> objects = (List<EObject>) object.eGet(sf);
+							objects.add(newObject);
+							break;
 						}
 					} else {
 						throw new ReferenceNonExistingException(
 								"There is no object for the reference '" + ref
 										+ "'");
-
 					}
-					// object.eSet(sf, tarObj);
 				}
 			}
 		}

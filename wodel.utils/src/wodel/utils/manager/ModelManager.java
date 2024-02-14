@@ -3141,13 +3141,7 @@ public class ModelManager {
 	public static EObject getObjectByName(Resource model, EObject object) {
 		List<EObject> objs = getAllObjects(model);
 		
-		EStructuralFeature nameFeature = null;
-		for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures()) {
-			if (feature.getName().toLowerCase().equals("name")) {
-				nameFeature = feature;
-				break;
-			}
-		}
+		EStructuralFeature nameFeature = object.eClass().getEStructuralFeature("name");
 		if (nameFeature == null) {
 			return null;
 		}
@@ -3164,7 +3158,12 @@ public class ModelManager {
 		}
 		for (EObject obj : objs) {
 			if (EcoreUtil.equals(obj.eClass(), object.eClass())) {
-				ob = obj.eGet(nameFeature);
+				EClass eClass = obj.eClass();
+				EStructuralFeature feature = eClass.getEStructuralFeature("name");
+				if (feature == null) {
+					continue;
+				}
+				ob = obj.eGet(feature);
 				if (ob == null) {
 					continue;
 				}

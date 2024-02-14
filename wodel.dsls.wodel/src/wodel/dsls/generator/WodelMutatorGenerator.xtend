@@ -2858,14 +2858,14 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 							resources.add(model);
 					«ENDIF»
 							for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_«(mut.container as SpecificClosureSelection).objSel.name») {
-								EObject obj = ModelManager.getObject(resources, entry.getKey());
+								EObject obj = ModelManager.getObject(resources, ent.getKey());
 								if (obj == null) {
 									obj = ent.getKey();
 								}
 								objs.add(obj);
 							}
-							SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(resourcePackages, resources, "«mut.container.refType.name»", recovered);
-							referenceSelectionList.add(referenceSelection);
+							ObSelectionStrategy containerSelection = new SpecificClosureSelection(resourcePackages, resources, objs, "«(mut.container as SpecificClosureSelection).refType.name»");
+							containerSelectionList.add(containerSelection);
 						}
 						else {
 							return numMutantsGenerated;
@@ -2929,12 +2929,13 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			«ENDIF»
 			«IF mut.container !== null»
-				«IF ((mut.object.expression === null) && (mut.container.expression === null))»
+				«IF ((mut.object.expression === null) && (mut.container.expression === null) && !(mut.object instanceof CompleteTypeSelection))»
 					List<EObject> objects = rts.getObjects();
 				«ENDIF»
-			«ENDIF»
-			«IF ((mut.object.expression === null) && (mut.container === null))»
+			«ELSE»
+			«IF ((mut.object.expression === null) && (mut.container === null) && !(mut.object instanceof CompleteTypeSelection))»
 				List<EObject> objects = rts.getObjects();
+			«ENDIF»
 			«ENDIF»
 			«IF mut.object.resource !== null»
 			List<EPackage> savedPackages = new ArrayList<EPackage>();

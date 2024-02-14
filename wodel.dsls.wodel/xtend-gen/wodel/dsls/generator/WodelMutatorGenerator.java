@@ -10824,7 +10824,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
                       _builder.append("\t\t\t");
-                      _builder.append("EObject obj = ModelManager.getObject(resources, entry.getKey());");
+                      _builder.append("EObject obj = ModelManager.getObject(resources, ent.getKey());");
                       _builder.newLine();
                       _builder.append("\t");
                       _builder.append("\t\t\t");
@@ -10848,14 +10848,15 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLine();
                       _builder.append("\t");
                       _builder.append("\t\t");
-                      _builder.append("SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(resourcePackages, resources, \"");
-                      String _name_50 = mut.getContainer().getRefType().getName();
+                      _builder.append("ObSelectionStrategy containerSelection = new SpecificClosureSelection(resourcePackages, resources, objs, \"");
+                      ObSelectionStrategy _container_39 = mut.getContainer();
+                      String _name_50 = ((SpecificClosureSelection) _container_39).getRefType().getName();
                       _builder.append(_name_50, "\t\t\t");
-                      _builder.append("\", recovered);");
+                      _builder.append("\");");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
                       _builder.append("\t\t");
-                      _builder.append("referenceSelectionList.add(referenceSelection);");
+                      _builder.append("containerSelectionList.add(containerSelection);");
                       _builder.newLine();
                       _builder.append("\t");
                       _builder.append("\t");
@@ -10882,8 +10883,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         if (_tripleNotEquals_12) {
                           _builder.append("\t");
                           _builder.append("if (entry_");
-                          ObSelectionStrategy _container_39 = mut.getContainer();
-                          String _name_51 = ((SpecificClosureSelection) _container_39).getObjSel().getName();
+                          ObSelectionStrategy _container_40 = mut.getContainer();
+                          String _name_51 = ((SpecificClosureSelection) _container_40).getObjSel().getName();
                           _builder.append(_name_51, "\t");
                           _builder.append(" != null) {");
                           _builder.newLineIfNotEmpty();
@@ -10893,16 +10894,16 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                             if (_tripleEquals_25) {
                               _builder.append("\t\t\t\t\t");
                               _builder.append("EObject recovered = ModelManager.getObject(model, entry_");
-                              ObSelectionStrategy _container_40 = mut.getContainer();
-                              String _name_52 = ((SpecificClosureSelection) _container_40).getObjSel().getName();
+                              ObSelectionStrategy _container_41 = mut.getContainer();
+                              String _name_52 = ((SpecificClosureSelection) _container_41).getObjSel().getName();
                               _builder.append(_name_52, "\t\t\t\t\t");
                               _builder.append(".getKey());");
                               _builder.newLineIfNotEmpty();
                             } else {
                               _builder.append("\t\t\t\t\t");
                               _builder.append("EObject recovered = ModelManager.getObject(resources, entry_");
-                              ObSelectionStrategy _container_41 = mut.getContainer();
-                              String _name_53 = ((SpecificClosureSelection) _container_41).getObjSel().getName();
+                              ObSelectionStrategy _container_42 = mut.getContainer();
+                              String _name_53 = ((SpecificClosureSelection) _container_42).getObjSel().getName();
                               _builder.append(_name_53, "\t\t\t\t\t");
                               _builder.append(".getKey());");
                               _builder.newLineIfNotEmpty();
@@ -10915,8 +10916,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                           _builder.append("\t");
                           _builder.append("\t\t");
                           _builder.append("recovered = entry_");
-                          ObSelectionStrategy _container_42 = mut.getContainer();
-                          String _name_54 = ((SpecificClosureSelection) _container_42).getObjSel().getName();
+                          ObSelectionStrategy _container_43 = mut.getContainer();
+                          String _name_54 = ((SpecificClosureSelection) _container_43).getObjSel().getName();
                           _builder.append(_name_54, "\t\t\t");
                           _builder.append(".getKey();");
                           _builder.newLineIfNotEmpty();
@@ -10990,8 +10991,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         {
           if (((mut.getObject() instanceof RandomTypeSelection) || (mut.getObject() instanceof CompleteTypeSelection))) {
             {
-              ObSelectionStrategy _container_43 = mut.getContainer();
-              boolean _tripleNotEquals_13 = (_container_43 != null);
+              ObSelectionStrategy _container_44 = mut.getContainer();
+              boolean _tripleNotEquals_13 = (_container_44 != null);
               if (_tripleNotEquals_13) {
                 _builder.append("\t");
                 _builder.append("for (int j = 0; j < containerSelectionList.size(); j++) {");
@@ -11001,8 +11002,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((rts == true)) {
                 {
-                  ObSelectionStrategy _container_44 = mut.getContainer();
-                  boolean _tripleNotEquals_14 = (_container_44 != null);
+                  ObSelectionStrategy _container_45 = mut.getContainer();
+                  boolean _tripleNotEquals_14 = (_container_45 != null);
                   if (_tripleNotEquals_14) {
                     _builder.append("\t");
                     _builder.append("\t");
@@ -11037,8 +11038,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
               } else {
                 {
-                  ObSelectionStrategy _container_45 = mut.getContainer();
-                  boolean _tripleNotEquals_15 = (_container_45 != null);
+                  ObSelectionStrategy _container_46 = mut.getContainer();
+                  boolean _tripleNotEquals_15 = (_container_46 != null);
                   if (_tripleNotEquals_15) {
                     _builder.append("\t");
                     _builder.append("\t");
@@ -11084,25 +11085,26 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _container_46 = mut.getContainer();
-              boolean _tripleNotEquals_16 = (_container_46 != null);
+              ObSelectionStrategy _container_47 = mut.getContainer();
+              boolean _tripleNotEquals_16 = (_container_47 != null);
               if (_tripleNotEquals_16) {
                 {
-                  if (((mut.getObject().getExpression() == null) && (mut.getContainer().getExpression() == null))) {
+                  if ((((mut.getObject().getExpression() == null) && (mut.getContainer().getExpression() == null)) && (!(mut.getObject() instanceof CompleteTypeSelection)))) {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("List<EObject> objects = rts.getObjects();");
                     _builder.newLine();
                   }
                 }
-              }
-            }
-            {
-              if (((mut.getObject().getExpression() == null) && (mut.getContainer() == null))) {
-                _builder.append("\t");
-                _builder.append("\t");
-                _builder.append("List<EObject> objects = rts.getObjects();");
-                _builder.newLine();
+              } else {
+                {
+                  if ((((mut.getObject().getExpression() == null) && (mut.getContainer() == null)) && (!(mut.getObject() instanceof CompleteTypeSelection)))) {
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("List<EObject> objects = rts.getObjects();");
+                    _builder.newLine();
+                  }
+                }
               }
             }
             {
@@ -11132,8 +11134,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               boolean _tripleNotEquals_18 = (_expression != null);
               if (_tripleNotEquals_18) {
                 {
-                  ObSelectionStrategy _container_47 = mut.getContainer();
-                  boolean _tripleEquals_30 = (_container_47 == null);
+                  ObSelectionStrategy _container_48 = mut.getContainer();
+                  boolean _tripleEquals_30 = (_container_48 == null);
                   if (_tripleEquals_30) {
                     _builder.append("\t");
                     _builder.append("\t");
@@ -11416,8 +11418,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _container_48 = mut.getContainer();
-              boolean _tripleNotEquals_20 = (_container_48 != null);
+              ObSelectionStrategy _container_49 = mut.getContainer();
+              boolean _tripleNotEquals_20 = (_container_49 != null);
               if (_tripleNotEquals_20) {
                 _builder.append("\t");
                 _builder.append("\t\t\t");
@@ -12792,8 +12794,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.newLine();
     {
-      ObSelectionStrategy _container_49 = mut.getContainer();
-      boolean _tripleNotEquals_30 = (_container_49 != null);
+      ObSelectionStrategy _container_50 = mut.getContainer();
+      boolean _tripleNotEquals_30 = (_container_50 != null);
       if (_tripleNotEquals_30) {
         _builder.append("}");
         _builder.newLine();

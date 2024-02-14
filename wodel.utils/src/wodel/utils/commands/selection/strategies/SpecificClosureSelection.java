@@ -28,6 +28,8 @@ public class SpecificClosureSelection extends SpecificSelection{
 	 */
 	private EObject obj;
 	
+	private List<EObject> objs;
+	
 	private ObjectEmitter oe;
 	
 	private String refType;
@@ -48,8 +50,28 @@ public class SpecificClosureSelection extends SpecificSelection{
 		this.obj = obj;
 	}
 	
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, EObject obj){
+		super(metaModel, models);
+		this.obj = obj;
+	}
+
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, List<EObject> objs){
+		super(metaModel, model);
+		this.objs = objs;
+	}
+	
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs){
+		super(metaModel, models);
+		this.objs = objs;
+	}
+
 	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe){
 		super(metaModel, model);
+		this.oe = oe;
+	}
+
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, ObjectEmitter oe){
+		super(metaModel, models);
 		this.oe = oe;
 	}
 
@@ -59,12 +81,36 @@ public class SpecificClosureSelection extends SpecificSelection{
 		this.refType = refType;
 	}
 	
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, EObject obj, String refType){
+		super(metaModel, models);
+		this.obj = obj;
+		this.refType = refType;
+	}
+
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, String refType){
+		super(metaModel, model);
+		this.objs = objs;
+		this.refType = refType;
+	}
+	
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs, String refType){
+		super(metaModel, models);
+		this.objs = objs;
+		this.refType = refType;
+	}
+
 	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
 		super(metaModel, model);
 		this.oe = oe;
 		this.refType = refType;
 	}
 	
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, ObjectEmitter oe, String refType){
+		super(metaModel, models);
+		this.oe = oe;
+		this.refType = refType;
+	}
+
 	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.obj = obj;
@@ -77,6 +123,42 @@ public class SpecificClosureSelection extends SpecificSelection{
 		}
 	}
 	
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+		super(metaModel, model);
+		this.objs = objs;
+		try {
+			this.container = containerSelection.getObject();
+			this.reference = (EReference) referenceSelection.getObject();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+		super(metaModel, models);
+		this.obj = obj;
+		try {
+			this.container = containerSelection.getObject();
+			this.reference = (EReference) referenceSelection.getObject();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public SpecificClosureSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+		super(metaModel, models);
+		this.objs = objs;
+		try {
+			this.container = containerSelection.getObject();
+			this.reference = (EReference) referenceSelection.getObject();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private List<EObject> getChildren(EObject object, EReference ref) {
 		List<EObject> ret = new ArrayList<EObject>();
 		if (ref.getEType().getName().equals(object.eClass().getName())) {
@@ -136,19 +218,65 @@ public class SpecificClosureSelection extends SpecificSelection{
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject o : objects) {
-						if (EcoreUtil.getURI(o).equals(EcoreUtil.getURI(obj))) {
+						if (EcoreUtil.equals(o, obj)) {
 							return o;
 						}
 					}
 				}
 				if (container.eGet(reference) instanceof EObject) {
 					EObject object = (EObject) container.eGet(reference);
-					if (EcoreUtil.getURI(object).equals(EcoreUtil.getURI(obj))) {
+					if (EcoreUtil.equals(object, obj)) {
 						return object;
 					}
 				}
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public List<EObject> getObjects() throws ReferenceNonExistingException {
+		List<EObject> objects = new ArrayList<EObject>();
+		if ((container == null) && (reference == null)) {
+			if(objs!=null) {
+				if (this.refType != null) {
+					for (EObject obj : objs) {
+						for (EReference ref : obj.eClass().getEAllReferences()) {
+							if (ref.getName().equals(this.refType)) {
+								if (obj.eGet(ref) != null) {
+									if (obj.eGet(ref) instanceof List<?>) {
+										List<EObject> children = getChildren(obj, ref);
+										objects.addAll(children);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if ((container != null) && (reference != null)) {
+			if(objs!=null) {
+				if (container.eGet(reference) instanceof List<?>) {
+					for (EObject obj : objs) {
+						List<EObject> lo = (List<EObject>) container.eGet(reference);
+						for (EObject o : lo) {
+							if (EcoreUtil.equals(o, obj)) {
+								objects.add(o);
+							}
+						}
+					}
+				}
+				if (container.eGet(reference) instanceof EObject) {
+					EObject object = (EObject) container.eGet(reference);
+					for (EObject obj : objs) {
+						if (EcoreUtil.equals(object, obj)) {
+							objects.add(object);
+						}
+					}
+				}
+			}
+		}
+		return objects;
 	}
 }

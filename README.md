@@ -14,14 +14,41 @@ You can access the following links to learn more about this DSL and the tool sup
 ## Wodel plugins
 
 - [wodel.core](https://github.com/gomezabajo/Wodel/tree/master/wodel.core)
+    - [wodel.dsls.wodel](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.wodel)
+    - [wodel.dsls.wodel.ide](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.wodel.ide)
+    - [wodel.dsls.wodel.ui](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.wodel.ui)
+    - [wodel.extension](https://github.com/gomezabajo/Wodel/tree/master/wodel.extension)
+    - [wodel.models](https://github.com/gomezabajo/Wodel/tree/master/wodel.models)
+    - [wodel.postprocessor](https://github.com/gomezabajo/Wodel/tree/master/wodel.postprocessor)
+    - [wodel.project](https://github.com/gomezabajo/Wodel/tree/master/wodel.project)
+    - [wodel.registry](https://github.com/gomezabajo/Wodel/tree/master/wodel.registry)
+    - [wodel.registry.reduce](https://github.com/gomezabajo/Wodel/tree/master/wodel.registry.reduce)
+    - [wodel.run](https://github.com/gomezabajo/Wodel/tree/master/wodel.run)
+    - [wodel.semantic.comparison](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison)
+    - [wodel.semantic.validation](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.validation)
+    - [wodel.syntactic.comparison](https://github.com/gomezabajo/Wodel/tree/master/wodel.syntactic.comparison)
+    - [wodel.syntactic.validation](https://github.com/gomezabajo/Wodel/tree/master/wodel.syntactic.validation)
+    - [wodel.utils](https://github.com/gomezabajo/Wodel/tree/master/wodel.utils)
 - [wodel.footprints](https://github.com/gomezabajo/Wodel/tree/master/wodel.footprints)
+    - [wodel.metrics.command](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.command)
+    - [wodel.metrics.data](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.data)
+    - [wodel.metrics.debug](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.debug)
+    - [wodel.metrics.dynamic](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.dynamic)
+    - [wodel.metrics.fixed](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.fixed)
 - [wodel.additions](https://github.com/gomezabajo/Wodel/tree/master/wodel.additions)
+    - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
 - [wodel.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.examples)
+    - [wodel.project.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.project.examples)
 - [wodel.json](https://github.com/gomezabajo/Wodel/tree/master/wodel.json)
+    - [wodel.postprocessor.json](https://github.com/gomezabajo/Wodel/tree/master/wodel.postprocessor.json)
 - [wodel.asple](https://github.com/gomezabajo/Wodel/tree/master/wodel.asple)
+    - [wodel.dsls.asple](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.asple)
 - [wodel.seed.synthesis](https://github.com/gomezabajo/Wodel/tree/master/wodel.seed.synthesis)
+    - [wodel.synthesizer](https://github.com/gomezabajo/Wodel/tree/master/wodel.synthesizer)
 - [wodel.emf.comparison](https://github.com/gomezabajo/Wodel/tree/master/wodel.emf.comparison)
+    - [wodel.syntactic.comparison.emf](https://github.com/gomezabajo/Wodel/tree/master/wodel.syntactic.comparison.emf)
 - [wodel.emf.validation](https://github.com/gomezabajo/Wodel/tree/master/wodel.emf.validation)
+    - [wodel.syntactic.validation.emf](https://github.com/gomezabajo/Wodel/tree/master/wodel.syntactic.validation.emf)
 
 # Wodel-Edu
 
@@ -43,39 +70,40 @@ You can access the following links to learn more about this solution and the too
 ## Wodel-Edu plugins
 
 - [wodel.wodeledu](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeledu)
-- [wodeledu.models](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.models)
-- [wodeledu.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension)
-- [wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)
-- [wodeledu.run](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.run)
-- [wodeledu.utils](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.utils)
+    - [wodeledu.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension)
+    - [wodeledu.model2text](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text)
+    - [wodeledu.models](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.models)
+    - [wodeledu.run](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.run)
+    - [wodeledu.utils](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.utils)
+
+    ### eduTest DSL plugins
+
+    - [wodeledu.dsls.edutest](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest)
+    - [wodeledu.dsls.edutest.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ide)
+    - [wodeledu.dsls.edutest.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ui)
+
+    ### modelDraw DSL plugins
+
+    - [wodeledu.dsls.modeldraw](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw)
+    - [wodeledu.dsls.modeldraw.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ide)
+    - [wodeledu.dsls.modeldraw.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ui)
+
+    ### modelText DSL plugins
+
+    - [wodeledu.dsls.modeltext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext)
+    - [wodeledu.dsls.modeltext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ide)
+    - [wodeledu.dsls.modeltext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ui)
+
+    ### mutaText DSL plugins
+
+    - [wodeledu.dsls.mutatext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext)
+    - [wodeledu.dsls.mutatext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ide)
+    - [wodeledu.dsls.mutatext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ui)
 - [wodeledu.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.additions)
-- [wodeledu.model2text](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text)
-- [wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)
-- [wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)
-
-### modelDraw DSL plugins
-
-- [wodeledu.dsls.modeldraw.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ide)
-- [wodeledu.dsls.modeldraw.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw.ui)
-- [wodeledu.dsls.modeldraw](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeldraw)
-
-### modelText DSL plugins
-
-- [wodeledu.dsls.modeltext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ide)
-- [wodeledu.dsls.modeltext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext.ui)
-- [wodeledu.dsls.modeltext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.modeltext)
-
-### mutaText DSL plugins
-
-- [wodeledu.dsls.mutatext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ide)
-- [wodeledu.dsls.mutatext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ui)
-- [wodeledu.dsls.mutatext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext)
-
-### eduTest DSL plugins
-
-- [wodeledu.dsls.edutest.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ide)
-- [wodeledu.dsls.edutest.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest.ui)
-- [wodeledu.dsls.edutest](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.edutest)
+    - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
+    - [wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)
+    - [wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)
+    - [wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)
 
 # Wodel-Test
 
@@ -94,12 +122,12 @@ You can access the following link to learn more about this solution and the tool
 ## Wodel-Test plugins
 
 - [wodel.wodeltest](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest)
-- [wodeltest.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension)
-- [wodeltest.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension.examples)
-- [wodeltest.run](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.run)
+    - [wodeltest.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension)
+    - [wodeltest.optimiser](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser)
+    - [wodeltest.run](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.run)
 - [wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.additions)
-- [wodeltest.optimiser](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser)
-- [wodeltest.optimiser.subsumption](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser.subsumption)
+    - [wodeltest.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension.examples)
+    - [wodeltest.optimiser.subsumption](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser.subsumption)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]

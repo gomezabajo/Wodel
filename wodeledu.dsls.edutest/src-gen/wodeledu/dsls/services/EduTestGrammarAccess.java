@@ -30,19 +30,24 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.Program");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cProgramAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cConfigAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cConfigProgramConfigurationParserRuleCall_1_0 = (RuleCall)cConfigAssignment_1.eContents().get(0);
-		private final Assignment cExercisesAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cExercisesMutatorTestsParserRuleCall_2_0 = (RuleCall)cExercisesAssignment_2.eContents().get(0);
+		private final Keyword cMetamodelKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cMetamodelAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cMetamodelEStringParserRuleCall_2_0 = (RuleCall)cMetamodelAssignment_2.eContents().get(0);
+		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cConfigProgramConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
+		private final Assignment cExercisesAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cExercisesMutatorTestsParserRuleCall_4_0 = (RuleCall)cExercisesAssignment_4.eContents().get(0);
 		
 		//Program returns Program:
 		//    {Program}
+		//    'metamodel' metamodel=EString
 		//    (config = ProgramConfiguration)?
 		//    (exercises+=MutatorTests)+
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{Program}
+		//'metamodel' metamodel=EString
 		//(config = ProgramConfiguration)?
 		//(exercises+=MutatorTests)+
 		public Group getGroup() { return cGroup; }
@@ -50,17 +55,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//{Program}
 		public Action getProgramAction_0() { return cProgramAction_0; }
 		
+		//'metamodel'
+		public Keyword getMetamodelKeyword_1() { return cMetamodelKeyword_1; }
+		
+		//metamodel=EString
+		public Assignment getMetamodelAssignment_2() { return cMetamodelAssignment_2; }
+		
+		//EString
+		public RuleCall getMetamodelEStringParserRuleCall_2_0() { return cMetamodelEStringParserRuleCall_2_0; }
+		
 		//(config = ProgramConfiguration)?
-		public Assignment getConfigAssignment_1() { return cConfigAssignment_1; }
+		public Assignment getConfigAssignment_3() { return cConfigAssignment_3; }
 		
 		//ProgramConfiguration
-		public RuleCall getConfigProgramConfigurationParserRuleCall_1_0() { return cConfigProgramConfigurationParserRuleCall_1_0; }
+		public RuleCall getConfigProgramConfigurationParserRuleCall_3_0() { return cConfigProgramConfigurationParserRuleCall_3_0; }
 		
 		//(exercises+=MutatorTests)+
-		public Assignment getExercisesAssignment_2() { return cExercisesAssignment_2; }
+		public Assignment getExercisesAssignment_4() { return cExercisesAssignment_4; }
 		
 		//MutatorTests
-		public RuleCall getExercisesMutatorTestsParserRuleCall_2_0() { return cExercisesMutatorTestsParserRuleCall_2_0; }
+		public RuleCall getExercisesMutatorTestsParserRuleCall_4_0() { return cExercisesMutatorTestsParserRuleCall_4_0; }
 	}
 	public class MutatorTestsElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MutatorTests");
@@ -106,19 +120,63 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//DragAndDropText
 		public RuleCall getDragAndDropTextParserRuleCall_7() { return cDragAndDropTextParserRuleCall_7; }
 	}
+	public class MarkedBlockElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MarkedBlock");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cMarkedBlockAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cBlockAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cBlockBlockCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
+		private final RuleCall cBlockBlockIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockBlockCrossReference_1_0.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Assignment cSolutionAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
+		private final Keyword cSolutionEqualsSignKeyword_2_0_0 = (Keyword)cSolutionAssignment_2_0.eContents().get(0);
+		private final Keyword cSolutionKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		
+		//MarkedBlock returns MarkedBlock:
+		//    {MarkedBlock}
+		//    block=[mutatorenvironment::Block|ID] (solution?='=' 'solution')?
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{MarkedBlock}
+		//block=[mutatorenvironment::Block|ID] (solution?='=' 'solution')?
+		public Group getGroup() { return cGroup; }
+		
+		//{MarkedBlock}
+		public Action getMarkedBlockAction_0() { return cMarkedBlockAction_0; }
+		
+		//block=[mutatorenvironment::Block|ID]
+		public Assignment getBlockAssignment_1() { return cBlockAssignment_1; }
+		
+		//[mutatorenvironment::Block|ID]
+		public CrossReference getBlockBlockCrossReference_1_0() { return cBlockBlockCrossReference_1_0; }
+		
+		//ID
+		public RuleCall getBlockBlockIDTerminalRuleCall_1_0_1() { return cBlockBlockIDTerminalRuleCall_1_0_1; }
+		
+		//(solution?='=' 'solution')?
+		public Group getGroup_2() { return cGroup_2; }
+		
+		//solution?='='
+		public Assignment getSolutionAssignment_2_0() { return cSolutionAssignment_2_0; }
+		
+		//'='
+		public Keyword getSolutionEqualsSignKeyword_2_0_0() { return cSolutionEqualsSignKeyword_2_0_0; }
+		
+		//'solution'
+		public Keyword getSolutionKeyword_2_1() { return cSolutionKeyword_2_1; }
+	}
 	public class AlternativeResponseElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.AlternativeResponse");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cAlternativeResponseKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -127,14 +185,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//AlternativeResponse returns AlternativeResponse:
-		//    'AlternativeResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'AlternativeResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TestConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'AlternativeResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'AlternativeResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TestConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -143,32 +201,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'AlternativeResponse'
 		public Keyword getAlternativeResponseKeyword_0() { return cAlternativeResponseKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -193,14 +245,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMultiChoiceDiagramKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -209,14 +259,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultiChoiceDiagram returns MultiChoiceDiagram:
-		//    'MultiChoiceDiagram' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'MultiChoiceDiagram' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TestConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'MultiChoiceDiagram' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'MultiChoiceDiagram' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TestConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -225,32 +275,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'MultiChoiceDiagram'
 		public Keyword getMultiChoiceDiagramKeyword_0() { return cMultiChoiceDiagramKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -275,14 +319,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMultiChoiceEmendationKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigMultiChoiceEmConfigParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -291,14 +333,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultiChoiceEmendation returns MultiChoiceEmendation:
-		//    'MultiChoiceEmendation' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'MultiChoiceEmendation' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = MultiChoiceEmConfig
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'MultiChoiceEmendation' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'MultiChoiceEmendation' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = MultiChoiceEmConfig
 		//    (tests += Test)*
 		//'}'
@@ -307,32 +349,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'MultiChoiceEmendation'
 		public Keyword getMultiChoiceEmendationKeyword_0() { return cMultiChoiceEmendationKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -357,14 +393,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMatchPairsKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTextConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -373,14 +407,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MatchPairs returns MatchPairs:
-		//    'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'MatchPairs' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TextConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'MatchPairs' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TextConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -389,32 +423,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'MatchPairs'
 		public Keyword getMatchPairsKeyword_0() { return cMatchPairsKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -439,14 +467,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMissingWordsKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -455,14 +481,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MissingWords returns MissingWords:
-		//    'MissingWords' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'MissingWords' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TestConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'MissingWords' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'MissingWords' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TestConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -471,32 +497,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'MissingWords'
 		public Keyword getMissingWordsKeyword_0() { return cMissingWordsKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -521,14 +541,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMultiChoiceTextKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTextConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -537,14 +555,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultiChoiceText returns MultiChoiceText:
-		//    'MultiChoiceText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'MultiChoiceText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TextConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'MultiChoiceText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'MultiChoiceText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TextConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -553,32 +571,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'MultiChoiceText'
 		public Keyword getMultiChoiceTextKeyword_0() { return cMultiChoiceTextKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -603,14 +615,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cAlternativeTextResponseKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTextConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -619,14 +629,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//AlternativeText returns AlternativeText:
-		//    'AlternativeTextResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'AlternativeTextResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TextConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'AlternativeTextResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'AlternativeTextResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TextConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -635,32 +645,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'AlternativeTextResponse'
 		public Keyword getAlternativeTextResponseKeyword_0() { return cAlternativeTextResponseKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -685,14 +689,12 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cDragAndDropTextKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final CrossReference cBlocksBlockCrossReference_1_0_0 = (CrossReference)cBlocksAssignment_1_0.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_0_0_1 = (RuleCall)cBlocksBlockCrossReference_1_0_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_0_0 = (RuleCall)cMarkedBlocksAssignment_1_0.eContents().get(0);
 		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
 		private final Keyword cCommaKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
-		private final Assignment cBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final CrossReference cBlocksBlockCrossReference_1_1_1_0 = (CrossReference)cBlocksAssignment_1_1_1.eContents().get(0);
-		private final RuleCall cBlocksBlockIDTerminalRuleCall_1_1_1_0_1 = (RuleCall)cBlocksBlockCrossReference_1_1_1_0.eContents().get(1);
+		private final Assignment cMarkedBlocksAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0 = (RuleCall)cMarkedBlocksAssignment_1_1_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -701,14 +703,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//DragAndDropText returns DragAndDropText:
-		//    'DragAndDropText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//    'DragAndDropText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//        config = TestConfiguration
 		//        (tests += Test)*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'DragAndDropText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		//'DragAndDropText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		//    config = TestConfiguration
 		//    (tests += Test)*
 		//'}'
@@ -717,32 +719,26 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'DragAndDropText'
 		public Keyword getDragAndDropTextKeyword_0() { return cDragAndDropTextKeyword_0; }
 		
-		//(blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)?
+		//(markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)?
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_0() { return cBlocksAssignment_1_0; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_0() { return cMarkedBlocksAssignment_1_0; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_0_0() { return cBlocksBlockCrossReference_1_0_0; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_0_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_0_0; }
 		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_0_0_1() { return cBlocksBlockIDTerminalRuleCall_1_0_0_1; }
-		
-		//(',' blocks+=[mutatorenvironment::Block|ID])*
+		//(',' markedBlocks+=MarkedBlock)*
 		public Group getGroup_1_1() { return cGroup_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_1_1_0() { return cCommaKeyword_1_1_0; }
 		
-		//blocks+=[mutatorenvironment::Block|ID]
-		public Assignment getBlocksAssignment_1_1_1() { return cBlocksAssignment_1_1_1; }
+		//markedBlocks+=MarkedBlock
+		public Assignment getMarkedBlocksAssignment_1_1_1() { return cMarkedBlocksAssignment_1_1_1; }
 		
-		//[mutatorenvironment::Block|ID]
-		public CrossReference getBlocksBlockCrossReference_1_1_1_0() { return cBlocksBlockCrossReference_1_1_1_0; }
-		
-		//ID
-		public RuleCall getBlocksBlockIDTerminalRuleCall_1_1_1_0_1() { return cBlocksBlockIDTerminalRuleCall_1_1_1_0_1; }
+		//MarkedBlock
+		public RuleCall getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0() { return cMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -810,27 +806,25 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cCommaKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
 		private final Keyword cStatementKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
-		private final Keyword cLeftParenthesisKeyword_5_3 = (Keyword)cGroup_5.eContents().get(3);
-		private final Assignment cStatementAssignment_5_4 = (Assignment)cGroup_5.eContents().get(4);
-		private final RuleCall cStatementEStringParserRuleCall_5_4_0 = (RuleCall)cStatementAssignment_5_4.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_5_5 = (Keyword)cGroup_5.eContents().get(5);
+		private final Assignment cStatementAssignment_5_3 = (Assignment)cGroup_5.eContents().get(3);
+		private final CrossReference cStatementEClassCrossReference_5_3_0 = (CrossReference)cStatementAssignment_5_3.eContents().get(0);
+		private final RuleCall cStatementEClassIDTerminalRuleCall_5_3_0_1 = (RuleCall)cStatementEClassCrossReference_5_3_0.eContents().get(1);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Keyword cCommaKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
 		private final Keyword cAnswersKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_2 = (Keyword)cGroup_6.eContents().get(2);
-		private final Keyword cLeftParenthesisKeyword_6_3 = (Keyword)cGroup_6.eContents().get(3);
-		private final Assignment cAnswersAssignment_6_4 = (Assignment)cGroup_6.eContents().get(4);
-		private final RuleCall cAnswersEStringParserRuleCall_6_4_0 = (RuleCall)cAnswersAssignment_6_4.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_6_5 = (Keyword)cGroup_6.eContents().get(5);
+		private final Assignment cAnswersAssignment_6_3 = (Assignment)cGroup_6.eContents().get(3);
+		private final CrossReference cAnswersEClassCrossReference_6_3_0 = (CrossReference)cAnswersAssignment_6_3.eContents().get(0);
+		private final RuleCall cAnswersEClassIDTerminalRuleCall_6_3_0_1 = (RuleCall)cAnswersEClassCrossReference_6_3_0.eContents().get(1);
 		
 		//TestConfiguration returns TestConfiguration:
 		//    {TestConfiguration}
-		//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
+		//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{TestConfiguration}
-		//'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
+		//'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
 		public Group getGroup() { return cGroup; }
 		
 		//{TestConfiguration}
@@ -872,7 +866,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//Mode
 		public RuleCall getModeModeEnumRuleCall_4_3_0() { return cModeModeEnumRuleCall_4_3_0; }
 		
-		//(',' 'statement' '=' '(' statement = EString ')')?
+		//(',' 'statement' '=' statement = [ecore::EClass|ID] )?
 		public Group getGroup_5() { return cGroup_5; }
 		
 		//','
@@ -884,19 +878,16 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'='
 		public Keyword getEqualsSignKeyword_5_2() { return cEqualsSignKeyword_5_2; }
 		
-		//'('
-		public Keyword getLeftParenthesisKeyword_5_3() { return cLeftParenthesisKeyword_5_3; }
+		//statement = [ecore::EClass|ID]
+		public Assignment getStatementAssignment_5_3() { return cStatementAssignment_5_3; }
 		
-		//statement = EString
-		public Assignment getStatementAssignment_5_4() { return cStatementAssignment_5_4; }
+		//[ecore::EClass|ID]
+		public CrossReference getStatementEClassCrossReference_5_3_0() { return cStatementEClassCrossReference_5_3_0; }
 		
-		//EString
-		public RuleCall getStatementEStringParserRuleCall_5_4_0() { return cStatementEStringParserRuleCall_5_4_0; }
+		//ID
+		public RuleCall getStatementEClassIDTerminalRuleCall_5_3_0_1() { return cStatementEClassIDTerminalRuleCall_5_3_0_1; }
 		
-		//')'
-		public Keyword getRightParenthesisKeyword_5_5() { return cRightParenthesisKeyword_5_5; }
-		
-		//(',' 'answers' '=' '(' answers = EString ')')?
+		//(',' 'answers' '=' answers = [ecore::EClass|ID] )?
 		public Group getGroup_6() { return cGroup_6; }
 		
 		//','
@@ -908,17 +899,14 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'='
 		public Keyword getEqualsSignKeyword_6_2() { return cEqualsSignKeyword_6_2; }
 		
-		//'('
-		public Keyword getLeftParenthesisKeyword_6_3() { return cLeftParenthesisKeyword_6_3; }
+		//answers = [ecore::EClass|ID]
+		public Assignment getAnswersAssignment_6_3() { return cAnswersAssignment_6_3; }
 		
-		//answers = EString
-		public Assignment getAnswersAssignment_6_4() { return cAnswersAssignment_6_4; }
+		//[ecore::EClass|ID]
+		public CrossReference getAnswersEClassCrossReference_6_3_0() { return cAnswersEClassCrossReference_6_3_0; }
 		
-		//EString
-		public RuleCall getAnswersEStringParserRuleCall_6_4_0() { return cAnswersEStringParserRuleCall_6_4_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_6_5() { return cRightParenthesisKeyword_6_5; }
+		//ID
+		public RuleCall getAnswersEClassIDTerminalRuleCall_6_3_0_1() { return cAnswersEClassIDTerminalRuleCall_6_3_0_1; }
 	}
 	public class MultiChoiceEmConfigElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.MultiChoiceEmConfig");
@@ -1060,20 +1048,27 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Alternatives cRetryAlternatives_3_0 = (Alternatives)cRetryAssignment_3.eContents().get(0);
 		private final Keyword cRetryYesKeyword_3_0_0 = (Keyword)cRetryAlternatives_3_0.eContents().get(0);
 		private final Keyword cRetryNoKeyword_3_0_1 = (Keyword)cRetryAlternatives_3_0.eContents().get(1);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cTextKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cIdentifierAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cIdentifierEStringParserRuleCall_7_0 = (RuleCall)cIdentifierAssignment_7.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cModeKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_4_2 = (Keyword)cGroup_4.eContents().get(2);
+		private final Assignment cModeAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
+		private final RuleCall cModeModeEnumRuleCall_4_3_0 = (RuleCall)cModeAssignment_4_3.eContents().get(0);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cCommaKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Keyword cTextKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
+		private final Assignment cIdentifierAssignment_5_3 = (Assignment)cGroup_5.eContents().get(3);
+		private final RuleCall cIdentifierEStringParserRuleCall_5_3_0 = (RuleCall)cIdentifierAssignment_5_3.eContents().get(0);
 		
 		//TextConfiguration returns TextConfiguration:
 		//    {TextConfiguration}
-		//    'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
+		//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'text' '=' identifier=EString)?
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{TextConfiguration}
-		//'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
+		//'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'text' '=' identifier=EString)?
 		public Group getGroup() { return cGroup; }
 		
 		//{TextConfiguration}
@@ -1097,20 +1092,41 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//'no'
 		public Keyword getRetryNoKeyword_3_0_1() { return cRetryNoKeyword_3_0_1; }
 		
-		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		//(',' 'mode' '=' mode=Mode)?
+		public Group getGroup_4() { return cGroup_4; }
 		
-		//'text'
-		public Keyword getTextKeyword_5() { return cTextKeyword_5; }
+		//','
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
+		
+		//'mode'
+		public Keyword getModeKeyword_4_1() { return cModeKeyword_4_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_4_2() { return cEqualsSignKeyword_4_2; }
+		
+		//mode=Mode
+		public Assignment getModeAssignment_4_3() { return cModeAssignment_4_3; }
+		
+		//Mode
+		public RuleCall getModeModeEnumRuleCall_4_3_0() { return cModeModeEnumRuleCall_4_3_0; }
+		
+		//(',' 'text' '=' identifier=EString)?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//','
+		public Keyword getCommaKeyword_5_0() { return cCommaKeyword_5_0; }
+		
+		//'text'
+		public Keyword getTextKeyword_5_1() { return cTextKeyword_5_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_5_2() { return cEqualsSignKeyword_5_2; }
 		
 		//identifier=EString
-		public Assignment getIdentifierAssignment_7() { return cIdentifierAssignment_7; }
+		public Assignment getIdentifierAssignment_5_3() { return cIdentifierAssignment_5_3; }
 		
 		//EString
-		public RuleCall getIdentifierEStringParserRuleCall_7_0() { return cIdentifierEStringParserRuleCall_7_0; }
+		public RuleCall getIdentifierEStringParserRuleCall_5_3_0() { return cIdentifierEStringParserRuleCall_5_3_0; }
 	}
 	public class TestElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodeledu.dsls.EduTest.Test");
@@ -1358,6 +1374,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	private final ProgramElements pProgram;
 	private final MutatorTestsElements pMutatorTests;
+	private final MarkedBlockElements pMarkedBlock;
 	private final AlternativeResponseElements pAlternativeResponse;
 	private final MultiChoiceDiagramElements pMultiChoiceDiagram;
 	private final MultiChoiceEmendationElements pMultiChoiceEmendation;
@@ -1388,6 +1405,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		this.gaTerminals = gaTerminals;
 		this.pProgram = new ProgramElements();
 		this.pMutatorTests = new MutatorTestsElements();
+		this.pMarkedBlock = new MarkedBlockElements();
 		this.pAlternativeResponse = new AlternativeResponseElements();
 		this.pMultiChoiceDiagram = new MultiChoiceDiagramElements();
 		this.pMultiChoiceEmendation = new MultiChoiceEmendationElements();
@@ -1437,6 +1455,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	//Program returns Program:
 	//    {Program}
+	//    'metamodel' metamodel=EString
 	//    (config = ProgramConfiguration)?
 	//    (exercises+=MutatorTests)+
 	//;
@@ -1459,8 +1478,20 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getMutatorTestsAccess().getRule();
 	}
 	
+	//MarkedBlock returns MarkedBlock:
+	//    {MarkedBlock}
+	//    block=[mutatorenvironment::Block|ID] (solution?='=' 'solution')?
+	//;
+	public MarkedBlockElements getMarkedBlockAccess() {
+		return pMarkedBlock;
+	}
+	
+	public ParserRule getMarkedBlockRule() {
+		return getMarkedBlockAccess().getRule();
+	}
+	
 	//AlternativeResponse returns AlternativeResponse:
-	//    'AlternativeResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'AlternativeResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TestConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1474,7 +1505,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//MultiChoiceDiagram returns MultiChoiceDiagram:
-	//    'MultiChoiceDiagram' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'MultiChoiceDiagram' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TestConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1488,7 +1519,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//MultiChoiceEmendation returns MultiChoiceEmendation:
-	//    'MultiChoiceEmendation' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'MultiChoiceEmendation' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = MultiChoiceEmConfig
 	//        (tests += Test)*
 	//    '}'
@@ -1502,7 +1533,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//MatchPairs returns MatchPairs:
-	//    'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'MatchPairs' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TextConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1516,7 +1547,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//MissingWords returns MissingWords:
-	//    'MissingWords' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'MissingWords' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TestConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1530,7 +1561,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//MultiChoiceText returns MultiChoiceText:
-	//    'MultiChoiceText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'MultiChoiceText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TextConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1544,7 +1575,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//AlternativeText returns AlternativeText:
-	//    'AlternativeTextResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'AlternativeTextResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TextConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1558,7 +1589,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//DragAndDropText returns DragAndDropText:
-	//    'DragAndDropText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	//    'DragAndDropText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 	//        config = TestConfiguration
 	//        (tests += Test)*
 	//    '}'
@@ -1584,7 +1615,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	//TestConfiguration returns TestConfiguration:
 	//    {TestConfiguration}
-	//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
+	//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
 	//;
 	public TestConfigurationElements getTestConfigurationAccess() {
 		return pTestConfiguration;
@@ -1608,7 +1639,7 @@ public class EduTestGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	//TextConfiguration returns TextConfiguration:
 	//    {TextConfiguration}
-	//    'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
+	//    'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'text' '=' identifier=EString)?
 	//;
 	public TextConfigurationElements getTextConfigurationAccess() {
 		return pTextConfiguration;

@@ -59,6 +59,8 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 		switch (eClass.getClassifierID()) {
 		case EdutestPackage.PROGRAM:
 			return createProgram();
+		case EdutestPackage.MARKED_BLOCK:
+			return createMarkedBlock();
 		case EdutestPackage.PROGRAM_CONFIGURATION:
 			return createProgramConfiguration();
 		case EdutestPackage.TEST_CONFIGURATION:
@@ -136,6 +138,16 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	public Program createProgram() {
 		ProgramImpl program = new ProgramImpl();
 		return program;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MarkedBlock createMarkedBlock() {
+		MarkedBlockImpl markedBlock = new MarkedBlockImpl();
+		return markedBlock;
 	}
 
 	/**

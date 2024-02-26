@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link edutest.impl.ProgramImpl#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link edutest.impl.ProgramImpl#getConfig <em>Config</em>}</li>
  *   <li>{@link edutest.impl.ProgramImpl#getExercises <em>Exercises</em>}</li>
  * </ul>
@@ -38,6 +39,26 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class ProgramImpl extends MinimalEObjectImpl.Container implements Program {
+	/**
+	 * The default value of the '{@link #getMetamodel() <em>Metamodel</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetamodel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String METAMODEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getMetamodel() <em>Metamodel</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetamodel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String metamodel = METAMODEL_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getConfig() <em>Config</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -75,6 +96,28 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	@Override
 	protected EClass eStaticClass() {
 		return EdutestPackage.Literals.PROGRAM;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getMetamodel() {
+		return metamodel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMetamodel(String newMetamodel) {
+		String oldMetamodel = metamodel;
+		metamodel = newMetamodel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.PROGRAM__METAMODEL, oldMetamodel,
+					metamodel));
 	}
 
 	/**
@@ -164,6 +207,8 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+		case EdutestPackage.PROGRAM__METAMODEL:
+			return getMetamodel();
 		case EdutestPackage.PROGRAM__CONFIG:
 			return getConfig();
 		case EdutestPackage.PROGRAM__EXERCISES:
@@ -181,6 +226,9 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+		case EdutestPackage.PROGRAM__METAMODEL:
+			setMetamodel((String) newValue);
+			return;
 		case EdutestPackage.PROGRAM__CONFIG:
 			setConfig((ProgramConfiguration) newValue);
 			return;
@@ -200,6 +248,9 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+		case EdutestPackage.PROGRAM__METAMODEL:
+			setMetamodel(METAMODEL_EDEFAULT);
+			return;
 		case EdutestPackage.PROGRAM__CONFIG:
 			setConfig((ProgramConfiguration) null);
 			return;
@@ -218,12 +269,31 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+		case EdutestPackage.PROGRAM__METAMODEL:
+			return METAMODEL_EDEFAULT == null ? metamodel != null : !METAMODEL_EDEFAULT.equals(metamodel);
 		case EdutestPackage.PROGRAM__CONFIG:
 			return config != null;
 		case EdutestPackage.PROGRAM__EXERCISES:
 			return exercises != null && !exercises.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (metamodel: ");
+		result.append(metamodel);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ProgramImpl

@@ -8,6 +8,7 @@ import edutest.Configuration;
 import edutest.DragAndDropText;
 import edutest.EdutestFactory;
 import edutest.EdutestPackage;
+import edutest.MarkedBlock;
 import edutest.MatchPairs;
 import edutest.MissingWords;
 import edutest.Mode;
@@ -54,6 +55,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	private EClass mutatorTestsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass markedBlockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -255,8 +263,17 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProgram_Metamodel() {
+		return (EAttribute) programEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getProgram_Config() {
-		return (EReference) programEClass.getEStructuralFeatures().get(0);
+		return (EReference) programEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -265,7 +282,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	public EReference getProgram_Exercises() {
-		return (EReference) programEClass.getEStructuralFeatures().get(1);
+		return (EReference) programEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -282,7 +299,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorTests_Blocks() {
+	public EReference getMutatorTests_MarkedBlocks() {
 		return (EReference) mutatorTestsEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -293,6 +310,33 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 */
 	public EReference getMutatorTests_Tests() {
 		return (EReference) mutatorTestsEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMarkedBlock() {
+		return markedBlockEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarkedBlock_Block() {
+		return (EReference) markedBlockEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMarkedBlock_Solution() {
+		return (EAttribute) markedBlockEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -354,8 +398,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTestConfiguration_Statement() {
-		return (EAttribute) testConfigurationEClass.getEStructuralFeatures().get(2);
+	public EReference getTestConfiguration_Statement() {
+		return (EReference) testConfigurationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -363,8 +407,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTestConfiguration_Answers() {
-		return (EAttribute) testConfigurationEClass.getEStructuralFeatures().get(3);
+	public EReference getTestConfiguration_Answers() {
+		return (EReference) testConfigurationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -667,12 +711,17 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		// Create classes and their features
 		programEClass = createEClass(PROGRAM);
+		createEAttribute(programEClass, PROGRAM__METAMODEL);
 		createEReference(programEClass, PROGRAM__CONFIG);
 		createEReference(programEClass, PROGRAM__EXERCISES);
 
 		mutatorTestsEClass = createEClass(MUTATOR_TESTS);
-		createEReference(mutatorTestsEClass, MUTATOR_TESTS__BLOCKS);
+		createEReference(mutatorTestsEClass, MUTATOR_TESTS__MARKED_BLOCKS);
 		createEReference(mutatorTestsEClass, MUTATOR_TESTS__TESTS);
+
+		markedBlockEClass = createEClass(MARKED_BLOCK);
+		createEReference(markedBlockEClass, MARKED_BLOCK__BLOCK);
+		createEAttribute(markedBlockEClass, MARKED_BLOCK__SOLUTION);
 
 		configurationEClass = createEClass(CONFIGURATION);
 
@@ -682,8 +731,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		testConfigurationEClass = createEClass(TEST_CONFIGURATION);
 		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__RETRY);
 		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__MODE);
-		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__STATEMENT);
-		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__ANSWERS);
+		createEReference(testConfigurationEClass, TEST_CONFIGURATION__STATEMENT);
+		createEReference(testConfigurationEClass, TEST_CONFIGURATION__ANSWERS);
 
 		multiChoiceEmConfigEClass = createEClass(MULTI_CHOICE_EM_CONFIG);
 		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__WEIGHTED);
@@ -777,6 +826,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(programEClass, Program.class, "Program", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProgram_Metamodel(), ecorePackage.getEString(), "metamodel", null, 0, 1, Program.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProgram_Config(), this.getProgramConfiguration(), null, "config", null, 0, 1, Program.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -786,12 +837,20 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 		initEClass(mutatorTestsEClass, MutatorTests.class, "MutatorTests", IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMutatorTests_Blocks(), theMutatorenvironmentPackage.getBlock(), null, "blocks", null, 0, -1,
-				MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+		initEReference(getMutatorTests_MarkedBlocks(), this.getMarkedBlock(), null, "markedBlocks", null, 0, -1,
+				MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorTests_Tests(), this.getTest(), null, "tests", null, 0, -1, MutatorTests.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(markedBlockEClass, MarkedBlock.class, "MarkedBlock", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMarkedBlock_Block(), theMutatorenvironmentPackage.getBlock(), null, "block", null, 0, 1,
+				MarkedBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMarkedBlock_Solution(), ecorePackage.getEBoolean(), "solution", null, 0, 1, MarkedBlock.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(configurationEClass, Configuration.class, "Configuration", IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
@@ -809,12 +868,12 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTestConfiguration_Mode(), this.getMode(), "mode", null, 0, 1, TestConfiguration.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTestConfiguration_Statement(), ecorePackage.getEString(), "statement", null, 0, 1,
-				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTestConfiguration_Answers(), ecorePackage.getEString(), "answers", null, 0, 1,
-				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTestConfiguration_Statement(), ecorePackage.getEClass(), null, "statement", null, 0, 1,
+				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTestConfiguration_Answers(), ecorePackage.getEClass(), null, "answers", null, 0, 1,
+				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiChoiceEmConfigEClass, MultiChoiceEmConfig.class, "MultiChoiceEmConfig", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -936,7 +995,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 */
 	protected void createCollectionAnnotations() {
 		String source = "http://www.eclipse.org/OCL/Collection";
-		addAnnotation(getMutatorTests_Blocks(), source, new String[] { "nullFree", "false" });
+		addAnnotation(getMutatorTests_MarkedBlocks(), source, new String[] { "nullFree", "false" });
+		addAnnotation(getMarkedBlock_Block(), source, new String[] { "nullFree", "false" });
 	}
 
 } //EdutestPackageImpl

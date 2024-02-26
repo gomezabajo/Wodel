@@ -44,6 +44,9 @@ import java.util.Set
 import java.util.HashSet
 import edutest.Mode
 import java.io.File
+import java.util.Arrays
+import edutest.MutatorTests
+import java.util.LinkedHashMap
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -57,6 +60,8 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 	private String fileName
 	private String pageName
 	private List<EObject> blocks
+	private List<EPackage> metamodel
+	private List<EClass> roots
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		try {
@@ -82,6 +87,10 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 					fileName = 'xml/' + resource.URI.lastSegment.replaceAll(".test", "") + i + '.xml'
 					pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.xml'
 				}
+				metamodel = new ArrayList<EPackage>()
+				metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
+				roots = new ArrayList<EClass>()
+				roots.addAll(ModelManager.getRootEClasses(metamodel))
 				fsa.generateFile(fileName, p.compile(resource))
 				i++
 			}
@@ -110,16 +119,19 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		
 		
     	«var int i = 0»
-		«FOR exercise : program.exercises»
+		«FOR MutatorTests exercise : program.exercises»
     	«IF exercise instanceof AlternativeResponse»
-		«FOR test : exercise.tests»
-	    «IF rand.get(exercise).get(test).size() > 0»
+		«FOR Test test : exercise.tests»
+	    «IF rand.get(exercise).get(test).keySet().size() > 0»
+		«var List<String> keys = Arrays.asList(rand.get(exercise).get(test).keySet())»
+	    <!-- «var String diagram = keys.get(0)»-->
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+        «IF file.isFile && file.exists()»
           <question type="truefalse">
 		    <name>
 		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
 		    </name>
 		    <questiontext format="html">
-		      <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
 		      <!-- «var UUID uuid = UUID.randomUUID()»-->
 		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
 		<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
@@ -160,6 +172,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		      «ENDIF»
 		  </question>
 		«ENDIF»
+		«ENDIF»
     	«ENDFOR»
 		«ENDIF»
     	«IF exercise instanceof MultiChoiceDiagram»
@@ -167,43 +180,57 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		«FOR test : exercise.tests»
            «FOR String key : diagrams.get(exercise).get(test).keySet()»
            «var int counter = diagrams.get(exercise).get(test).get(key).size()»
-           «IF min > diagrams.get(exercise).get(test).size()»
+           «IF min > counter»
            «{min = counter; ""}»
            «ENDIF»
            «ENDFOR»
          «ENDFOR»
         «var String statement = null»
-        «var String solution = null»
+        «var Map<String, String> solution = new LinkedHashMap<String, String>()»
+        «IF roots.size() > 1»
 		«FOR test : exercise.tests»
            «FOR String key : diagrams.get(exercise).get(test).keySet()»
            «IF statement !== null»
-           «{solution = key; ""}»
+           «{solution.put(test.source, key); ""}»
            «ENDIF»
            «IF statement === null»
            «{statement = key; ""}»
            «ENDIF»
            «ENDFOR»
         «ENDFOR»
+        «ENDIF»
+        «IF roots.size() == 1»
+		«FOR test : exercise.tests»
+           «FOR String key : diagrams.get(exercise).get(test).keySet()»
+           «{solution.put(test.source, key); ""}»
+           «ENDFOR»
+        «ENDFOR»
+        «ENDIF»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new HashSet<String>()»
 		«FOR test : exercise.tests»
-           «FOR String key : diagrams.get(exercise).get(test).keySet()»
-           «{answersSet.addAll(diagrams.get(exercise).get(test).get(key)); ""}»
-           «ENDFOR»
-        «ENDFOR»
-        <!-- «var String ending = "1.png"»-->
+        «FOR String key : diagrams.get(exercise).get(test).keySet()»
+        «{answersSet.addAll(diagrams.get(exercise).get(test).get(key)); ""}»
+        <!-- «var String ending = ".png"»-->
 	    «IF exercise.config.answers !== null»
-        «IF exercise.config.answers.equals('ClassDiagram')»
-        «{ending = "0.png"; ""}»
+	    <!-- «var int rootIndex = 0»-->
+	    <!-- «var int forIndex = 0»-->
+	    «FOR EClass root : roots»
+	    «IF exercise.config.answers.name.equals(root.name)»
+	    «{rootIndex = forIndex; ""}»
+	    «ENDIF»
+	    «{forIndex ++; ""}»
+	    «ENDFOR»
+	    «IF rootIndex > 0»
+        «{ending = (rootIndex - 1) + ".png"; ""}»
+        «ENDIF»
         «{answersSet.add(statement); ""}»
         «ENDIF»
-        «ENDIF»
-        «IF solution !== null»
-        «{answersSet.add(solution); ""}»
+        «IF solution.get(test.source) !== null»
+        «{answersSet.add(solution.get(test.source)); ""}»
         «ENDIF»
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
-		«FOR test : exercise.tests»
            <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
            «IF file.isFile && file.exists()»
          <question type="multichoice">
@@ -213,7 +240,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <!-- «var UUID uuid = UUID.randomUUID()»-->
            <questiontext format="html">
            «IF exercise.config.statement !== null»
-           «IF exercise.config.statement.equals('ClassDiagram')»
+           «IF roots.size() > 1 && exercise.config.statement.name.equals(roots.get(1).name)»
            <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="30%" height="30%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + statement)»</file>
            «ELSE»
@@ -253,12 +280,16 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <!--«var int counter = 0»-->
            <!--«var int solutions = 1»-->
            «FOR String diagram : answers»
-		   «IF !diagram.endsWith("1.png")»
-           «IF diagram.contains("solution")»
+           <!--«var boolean s = false»-->
+           «FOR String sol : solutionsMap.get(exercise)»
+           «IF diagram.startsWith(sol + "/") || diagram.startsWith(sol + "\\")»
+           «{s = true; ""}»
+           «ENDIF»
+           «ENDFOR»
+           «IF s == true»
            «IF counter < min - 1»
            «{counter++; ""}»
            «{solutions++; ""}»
-           «ENDIF»
            «ENDIF»
            «ENDIF»
            «ENDFOR»
@@ -270,9 +301,15 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		   <!-- «uuid = UUID.randomUUID()»-->
 		   «IF diagram.endsWith(ending)»
            «IF diagram.equals(test.source.replace('.model', '.png')) || diagram.startsWith(test.source.replace('.model', ''))»
-           <answer fraction="«fraction»" format="html">
+          «IF 100 % solutions == 0»
+          <answer fraction="«fraction»" format="html">
+          «ELSE»
+          <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
+          «{formatter.applyPattern("###.#####"); ""}»
+          <answer fraction="«formatter.format(fraction)»" format="html">
+          «ENDIF»
            <!--«var String size = "15"»-->
-           «IF diagram.endsWith("0.png")»
+           «IF roots.size() > 1 && exercise.config.answers.name.equals(roots.get(1).name)»
            «{size = "30"; ""}»
            «ENDIF»
            <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
@@ -284,13 +321,25 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «ELSE»
            «IF counter < min - 1»
            «{counter++; ""}»
-           «IF diagram.contains("solution")»
-           <answer fraction="«fraction»" format="html">
+           <!--«var boolean s = false»-->
+           «FOR String sol : solutionsMap.get(exercise)»
+           «IF diagram.startsWith(sol + "/") || diagram.startsWith(sol + "\\")»
+           «{s = true; ""}»
+           «ENDIF»
+           «ENDFOR»
+           «IF s || diagram.equals(test.source.replace('.model', '.png'))»
+          «IF 100 % solutions == 0»
+          <answer fraction="«fraction»" format="html">
+          «ELSE»
+          <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
+          «{formatter.applyPattern("###.#####"); ""}»
+          <answer fraction="«formatter.format(fraction)»" format="html">
+          «ENDIF»
            «ELSE»
            <answer fraction="0" format="html">
            «ENDIF»
            <!--«var String size = "15"»-->
-           «IF diagram.endsWith("0.png")»
+           «IF roots.size() > 2 && exercise.config.answers.name.equals(roots.get(2).name)»
            «{size = "30"; ""}»
            «ENDIF»
            <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
@@ -306,6 +355,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «ENDFOR»
          </question>
          «ENDIF»
+    	«ENDFOR»
     	«ENDFOR»
 		«ENDIF»
 		«var Map<Test, List<SimpleEntry<String, Boolean>>> mapTextOptions = new HashMap<Test, List<SimpleEntry<String, Boolean>>>()»
@@ -350,6 +400,8 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 			«ENDFOR»
 			«ENDIF»
 			«IF !diagram.equals('')»
+           <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+           «IF file.isFile && file.exists()»
         <question type="multichoice">
           <name>
              <text>Question «i++»</text>
@@ -472,6 +524,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         </question>
           «ENDIF»
           «ENDIF»
+		  «ENDIF»
 		«ENDFOR»
 		«ENDIF»
 		«IF exercise instanceof MatchPairs»
@@ -537,6 +590,8 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «IF opt !== null»
         <!--«var String seed = ''»-->
         <!--«seed = opt.path»-->
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + seed)»-->
+        «IF file.isFile && file.exists()»
         <question type="matching">
           <name>
              <text>Question «i++»</text>
@@ -603,21 +658,17 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           «ENDIF»
         </question>
         «{k++; ""}»
+          «ENDIF»
           «ENDFOR»
         «ENDIF»
         «IF exercise instanceof MissingWords»
         «FOR test : exercise.tests»
-        <question type="gapselect">
-          <name>
-             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
-          </name>
-          <questiontext format="html">
         <!-- «var int k = 0»-->
         <!-- «var int solution = 0»-->
         <!-- «var String textWithGaps = ""»-->
         <!-- «var TestOption op = null»-->
         «FOR TestOption opt : options.get(exercise).get(test)»
-        «IF opt.path.contains(exercise.blocks.get(0).name)»
+        «IF opt.path.contains(exercise.markedBlocks.get(0).block.name)»
         <!--«op = opt»-->
         «ENDIF»
         «ENDFOR»
@@ -644,6 +695,13 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
 		<!-- «textWithGaps += opWithGaps.trim() + ".<br>"»-->
         «ENDFOR»
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+        «IF file.isFile && file.exists()»
+        <question type="gapselect">
+          <name>
+             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
+          </name>
+          <questiontext format="html">
           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="20%" height="20%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
     </questiontext>
@@ -677,8 +735,9 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         </selectoption>
         «ENDFOR»
         «ENDFOR»
-        «ENDIF»
         </question>
+        «ENDIF»
+        «ENDIF»
 	    «ENDFOR»
         «ENDIF»
     	«IF exercise instanceof MultiChoiceText»
@@ -686,34 +745,59 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		«FOR test : exercise.tests»
            «FOR String key : diagrams.get(exercise).get(test).keySet()»
            «var int counter = diagrams.get(exercise).get(test).get(key).size()»
-           «IF min > diagrams.get(exercise).get(test).size()»
+           «IF min > counter»
            «{min = counter; ""}»
            «ENDIF»
            «ENDFOR»
          «ENDFOR»
         «var String statement = null»
-        «var String solution = null»
+        «var Map<String, String> solution = new LinkedHashMap<String, String>()»
+        «IF roots.size() > 1»
 		«FOR test : exercise.tests»
            «FOR String key : diagrams.get(exercise).get(test).keySet()»
            «IF statement !== null»
-           «{solution = key; ""}»
+           «{solution.put(test.source, key); ""}»
            «ENDIF»
            «IF statement === null»
            «{statement = key; ""}»
            «ENDIF»
            «ENDFOR»
         «ENDFOR»
+        «ENDIF»
+        «IF roots.size() == 1»
+		«FOR test : exercise.tests»
+           «FOR String key : diagrams.get(exercise).get(test).keySet()»
+           «{solution.put(test.source, key); ""}»
+           «ENDFOR»
+        «ENDFOR»
+        «ENDIF»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new HashSet<String>()»
 		«FOR test : exercise.tests»
-           «FOR String key : diagrams.get(exercise).get(test).keySet()»
-           «{answersSet.addAll(diagrams.get(exercise).get(test).get(key)); ""}»
-           «ENDFOR»
-        «ENDFOR»
+        «FOR String key : diagrams.get(exercise).get(test).keySet()»
+        «{answersSet.addAll(diagrams.get(exercise).get(test).get(key)); ""}»
+        <!-- «var String ending = ".png"»-->
+	    «IF exercise.config.answers !== null»
+	    <!-- «var int rootIndex = 0»-->
+	    <!-- «var int forIndex = 0»-->
+	    «FOR EClass root : roots»
+	    «IF exercise.config.answers.name.equals(root.name)»
+	    «{rootIndex = forIndex; ""}»
+	    «ENDIF»
+	    «{forIndex ++; ""}»
+	    «ENDFOR»
+	    «IF rootIndex > 0»
+        «{ending = (rootIndex - 1) + ".png"; ""}»
+        «ENDIF»
+        «{answersSet.add(statement); ""}»
+        «ENDIF»
+        «IF solution.get(test.source) !== null»
+        «{answersSet.add(solution.get(test.source)); ""}»
+        «ENDIF»
         «{answers.addAll(answersSet); ""}»
-        «{answers.add(solution); ""}»
         «{Collections.shuffle(answers); ""}»
-		«FOR Test test : exercise.tests»
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + test.source.replace('.model', '.png'))»-->
+        «IF file.isFile && file.exists()»
          <question type="multichoice">
            <name>
              <text>Question «i++»</text>
@@ -730,7 +814,11 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <penalty>1.0000000</penalty>
            <hidden>0</hidden>
            <idnumber></idnumber>
+           «IF exercise.config.mode === Mode.RADIOBUTTON»
            <single>true</single>
+           «ELSEIF exercise.config.mode === Mode.CHECKBOX»
+           <single>false</single>
+           «ENDIF»
            <shuffleanswers>true</shuffleanswers>
            <answernumbering>abc</answernumbering>
            <correctfeedback format="html">
@@ -746,12 +834,35 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <text>Wrong answer.</text>
            </incorrectfeedback>
            <shownumcorrect/>
-           «var counter = 0»
+           <!--«var int counter = 0»-->
+           <!--«var int solutions = 1»-->
+           «FOR String diagram : answers»
+           <!--«var boolean s = false»-->
+           «FOR String sol : solutionsMap.get(exercise)»
+           «IF diagram.startsWith(sol + "/") || diagram.startsWith(sol + "\\")»
+           «{s = true; ""}»
+           «ENDIF»
+           «ENDFOR»
+           «IF s == true»
+           «IF counter < min - 1»
+           «{counter++; ""}»
+           «{solutions++; ""}»
+           «ENDIF»
+           «ENDIF»
+           «ENDFOR»
+           <!--«var int fraction = 100 / solutions»-->
+           «{counter = 0; ""}»
            «FOR String diagram : answers»
 		   <!-- «uuid = UUID.randomUUID()»-->
            «IF diagram.equals(test.source.replace('.model', '.png')) || diagram.startsWith(test.source.replace('.model', ''))»
            «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getMetaModelPath() + "/" + test.source, resource)»
-           <answer fraction="100" format="html">
+          «IF 100 % solutions == 0»
+          <answer fraction="«fraction»" format="html">
+          «ELSE»
+          <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
+          «{formatter.applyPattern("###.#####"); ""}»
+          <answer fraction="«formatter.format(fraction)»" format="html">
+          «ENDIF»
            <text><![CDATA[<p>«text»<br></p>]]></text>
            <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="15%" height="15%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
@@ -773,19 +884,23 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            </answer>
            «ENDIF»
            «ENDIF»
-           «ENDFOR»
+        «ENDFOR»
+        «ENDIF»
          </question>
+    	«ENDFOR»
     	«ENDFOR»
 		«ENDIF»
     	«IF exercise instanceof AlternativeText»
 		«FOR test : exercise.tests»
 	    «IF rand.get(exercise).get(test).size() > 0»
+        <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+        «IF file.isFile && file.exists()»
           <question type="truefalse">
 		    <name>
 		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
 		    </name>
 		    <questiontext format="html">
-		      <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
 		      <!-- «var UUID uuid = UUID.randomUUID()»-->
 		      <!-- «var String text = ""»-->
 		      «/*IF diagram.equals(test.source.replace('.model', '.png'))*/»
@@ -832,23 +947,19 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		      «ENDIF»
 		  </question>
 		«ENDIF»
+		«ENDIF»
     	«ENDFOR»
 		«ENDIF»
         «IF exercise instanceof DragAndDropText»
         <!-- «var Map<Test, Map<String, Map<String, Map<String, Integer>>>> groups = new HashMap<Test, Map<String, Map<String, Map<String, Integer>>>>()»-->
         <!-- «var Map<String, Integer> indexes = new TreeMap<String, Integer>()»-->
         «FOR Test test : exercise.tests»
-        <question type="ddwtos">
-          <name>
-             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
-          </name>
-          <questiontext format="html">
         <!-- «var int k = 0»-->
         <!-- «var String textWithGaps = ""»-->
         <!-- «var Map<String, Map<String, Map<String, Integer>>> group = new TreeMap<String, Map<String, Map<String, Integer>>>()» -->
         <!-- «var TestOption op = null»-->
         «FOR TestOption opt : options.get(exercise).get(test)»
-        «IF opt.path.contains(exercise.blocks.get(0).name)»
+        «IF opt.path.contains(exercise.markedBlocks.get(0).block.name)»
         <!--«op = opt»-->
         «ENDIF»
         «ENDFOR»
@@ -925,6 +1036,13 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!-- «k++»-->
         <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
 		<!-- «textWithGaps += opWithGaps.trim()»-->
+        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+        «IF file.isFile && file.exists()»
+        <question type="ddwtos">
+          <name>
+             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
+          </name>
+          <questiontext format="html">
           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="20%" height="20%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
     </questiontext>
@@ -964,6 +1082,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «ENDFOR»
         «ENDIF»
         </question>
+        «ENDIF»
 	    «ENDFOR»
         «ENDIF»
 		«ENDFOR»

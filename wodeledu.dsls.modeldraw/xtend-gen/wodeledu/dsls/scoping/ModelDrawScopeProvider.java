@@ -31,7 +31,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Item_name(final MutatorDraw draw, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       scope.addAll(this.getEClasses(draw.getMetamodel()));
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -41,7 +41,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Item_name(final MutatorInstance instance, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = instance.eContainer();
       scope.addAll(this.getEClasses(((MutatorDraw) _eContainer).getMetamodel()));
       _xblockexpression = Scopes.scopeFor(scope);
@@ -52,7 +52,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Item_name(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = node.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEClasses(((MutatorDraw) _eContainer_1).getMetamodel()));
@@ -64,7 +64,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Item_name(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEClasses(((MutatorDraw) _eContainer_1).getMetamodel()));
@@ -76,7 +76,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Node_reference(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = node.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), node.getName().getName()));
@@ -88,7 +88,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Node_targetNode(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = node.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEClasses(((MutatorDraw) _eContainer_1).getMetamodel()));
@@ -100,7 +100,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_ValuedFeature_feat(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       EObject _eContainer = node.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), node.getName().getName()));
@@ -119,7 +119,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_ValuedFeature_refFeature(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       final List<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
       if (((node.getFeature() != null) && (node.getFeature().size() > 0))) {
         EList<ValuedFeature> _feature = node.getFeature();
@@ -146,7 +146,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_NamedItem_attName(final Node node, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = node.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), node.getName().getName()));
@@ -158,7 +158,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_NamedItem_attName(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -170,7 +170,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_NamedItem_attName(final Content content, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = content.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), content.getName().getName()));
@@ -182,7 +182,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_NamedItem_attName(final Level level, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = level.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), level.getName().getName()));
@@ -194,7 +194,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Edge_source(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -206,7 +206,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Edge_target(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -218,7 +218,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_reference(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -230,7 +230,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_refType(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       if (((edge.getReference() != null) && (edge.getReference().size() > 0))) {
         EList<EReference> _reference = edge.getReference();
         for (final EReference reference : _reference) {
@@ -247,7 +247,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_label(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       if (((edge.getReference() != null) && (edge.getReference().size() > 0))) {
         EList<EReference> _reference = edge.getReference();
         for (final EReference reference : _reference) {
@@ -268,7 +268,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_src_label(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -280,7 +280,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_tar_label(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -292,7 +292,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Relation_targetNode(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEClasses(((MutatorDraw) _eContainer_1).getMetamodel()));
@@ -304,7 +304,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_ValuedFeature_feat(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       EObject _eContainer = edge.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEStructuralFeatures(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -323,7 +323,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_ValuedFeature_refFeature(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
+      final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       final List<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
       if (((edge.getFeature() != null) && (edge.getFeature().size() > 0))) {
         EList<ValuedFeature> _feature = edge.getFeature();
@@ -350,7 +350,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Level_upper(final Level level, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = level.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), level.getName().getName()));
@@ -362,7 +362,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Content_attName(final Content content, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = content.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), content.getName().getName()));
@@ -374,7 +374,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_NodeEnumerator_att(final Content content, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = content.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), content.getName().getName()));
@@ -386,7 +386,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Enumerator_literal(final NodeEnumerator nodenum, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EEnumLiteral> scope = new ArrayList<EEnumLiteral>();
+      final List<EEnumLiteral> scope = new ArrayList<EEnumLiteral>();
       EObject _eContainer = nodenum.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getELiterals(((MutatorDraw) _eContainer_1).getMetamodel(), nodenum.getAtt().getEType().getName()));
@@ -398,7 +398,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Information_type(final Content content, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      final List<EReference> scope = new ArrayList<EReference>();
       EObject _eContainer = content.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEReferences(((MutatorDraw) _eContainer_1).getMetamodel(), content.getName().getName()));
@@ -410,7 +410,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
   public IScope scope_Information_att(final Information info, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      final List<EAttribute> scope = new ArrayList<EAttribute>();
       EObject _eContainer = info.eContainer();
       EObject _eContainer_1 = ((MutatorInstance) _eContainer).eContainer();
       scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), info.getType().getEType().getName()));

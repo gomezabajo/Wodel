@@ -67,7 +67,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 
   public CharSequence generate(final MutatorDraw draw, final String folder, final int index) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("List<String> umlcode = new ArrayList<String>();");
+    _builder.append("Set<String> umlcode = new LinkedHashSet<String>();");
     _builder.newLine();
     {
       EList<Node> _nodes = draw.getInstances().get(index).getNodes();
@@ -85,7 +85,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     }
     _builder.append("umlcode.add(\"@startuml\");");
     _builder.newLine();
-    _builder.append("Set<String> rels = new HashSet<String>();");
+    _builder.append("umlcode.add(\"skinparam classAttributeIconSize 0\");");
+    _builder.newLine();
+    _builder.append("Set<String> rels = new LinkedHashSet<String>();");
     _builder.newLine();
     _builder.append("for (EObject umlnode : umlnodes.get(");
     _builder.append(index);
@@ -97,12 +99,16 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append(").get(umlnode) != null) {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("umlcode.add((umlnodes.get(");
+    _builder.append("for (LabelStyle label : umlnodes.get(");
     _builder.append(index, "\t\t");
-    _builder.append(").get(umlnode).label.replaceAll(\"\'\", \"\") + \" \" + umlnodes.get(");
-    _builder.append(index, "\t\t");
-    _builder.append(").get(umlnode).name.replaceAll(\"\'\", \"\")).trim());");
+    _builder.append(").get(umlnode)) {");
     _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
+    _builder.append("umlcode.add((label.label.replaceAll(\"\'\", \"\") + \" \" + label.name.replaceAll(\"\'\", \"\")).trim());");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
@@ -202,8 +208,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import java.util.Set;");
     _builder.newLine();
-    _builder.append("import java.util.HashSet;");
+    _builder.append("import java.util.LinkedHashSet;");
     _builder.newLine();
+    _builder.append("\t");
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EObject;");
     _builder.newLine();
@@ -289,6 +296,61 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("private static Set<EObject> getSuperClasses(EObject cl) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Set<EObject> superclasses = new LinkedHashSet<EObject>();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("Object ob = ModelManager.getReferences(\"superclass\", cl);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("if (ob instanceof List<?>) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("superclasses.addAll((List<EObject>) ob);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("for (EObject supercl : superclasses) {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("Set<EObject> supsuperclasses = getSuperClasses(supercl);");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("superclasses.addAll(supsuperclasses);");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("} catch (ReferenceNonExistingException e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("// TODO Auto-generated catch block");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("e.printStackTrace();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return superclasses;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
     _builder.append("   \t\t");
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
@@ -296,14 +358,14 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     String folder = (_plus + _name);
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
+    _builder.append("private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("// COUNTER: ");
     int counter = 0;
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("Map<EObject, LabelStyle> localnodes = null;");
+    _builder.append("Map<EObject, List<LabelStyle>> localnodes = null;");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("Map<EObject, Map<String, List<LabelStyle>>> localrels = null;");
@@ -312,6 +374,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("int i = 0;");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("int j = 0;");
     _builder.newLine();
     {
       EList<MutatorInstance> _instances = draw.getInstances();
@@ -322,7 +387,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append(") == null) {\t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
-        _builder.append("localnodes = new LinkedHashMap<EObject, LabelStyle>();");
+        _builder.append("localnodes = new LinkedHashMap<EObject, List<LabelStyle>>();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("}");
@@ -331,7 +396,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.append("else {");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("localnodes = new LinkedHashMap<EObject, LabelStyle>(umlnodes.get(");
+        _builder.append("localnodes = new LinkedHashMap<EObject, List<LabelStyle>>(umlnodes.get(");
         _builder.append(counter, "\t\t");
         _builder.append("));");
         _builder.newLineIfNotEmpty();
@@ -392,6 +457,9 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                   EList<Node> _nodes_1 = draw.getInstances().get(counter).getNodes();
                   for(final Node node : _nodes_1) {
                     _builder.append("\t");
+                    _builder.append("i = 0;");
+                    _builder.newLine();
+                    _builder.append("\t");
                     _builder.append("List<EObject> lnode_");
                     _builder.append(counter, "\t");
                     _builder.append("_");
@@ -401,9 +469,6 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                     _builder.append(_name_1, "\t");
                     _builder.append("\", model);");
                     _builder.newLineIfNotEmpty();
-                    _builder.append("\t");
-                    _builder.append("i = 0;");
-                    _builder.newLine();
                     _builder.append("\t");
                     _builder.append("for (EObject node : lnode_");
                     _builder.append(counter, "\t");
@@ -476,6 +541,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                           _builder.append("\t");
                           _builder.append("id.put(node, i);");
                           _builder.newLine();
+                          _builder.append("\t");
+                          _builder.append("\t");
+                          _builder.append("i++;");
+                          _builder.newLine();
                         }
                       }
                     }
@@ -530,7 +599,27 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                     }
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("localnodes.put(node, label);");
+                    _builder.append("List<LabelStyle> labelList = new ArrayList<LabelStyle>();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("if (localnodes.get(node) != null) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("labelList = localnodes.get(node);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("labelList.add(label);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("localnodes.put(node, labelList);");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
@@ -597,9 +686,441 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t");
-                    _builder.append("\t");
-                    _builder.append("i++;");
+                    _builder.append("}");
                     _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("j = 0;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("for (EObject node : lnode_");
+                    _builder.append(counter, "\t");
+                    _builder.append("_");
+                    _builder.append(counter2, "\t");
+                    _builder.append(") {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("String name = ModelManager.getStringAttribute(\"name\", node);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("String typeName = node.eClass().getName();");
+                    _builder.newLine();
+                    {
+                      boolean _equals_4 = node.getName().getName().equals("Class");
+                      if (_equals_4) {
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object obj = ModelManager.getReferences(\"ownedAttributes\", node);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("List<EObject> attributes = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (obj instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("attributes = (List<EObject>) obj;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("for (EObject att : attributes) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String attName = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (att != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("attName = ModelManager.getStringAttribute(\"name\", att);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object obj2 = ModelManager.getReferences(\"type\", att);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("EObject type = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (obj2 instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("type = ((List<EObject>) obj2).get(0);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("typeName = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (type != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("typeName = ModelManager.getStringAttribute(\"name\", type);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (attName.length() > 0 && typeName.length() > 0) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("LabelStyle label = new LabelStyle();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("label.label = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("label.name = name + \" : -\" + attName + \" : \" + typeName;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("List<LabelStyle> labelList = new ArrayList<LabelStyle>();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("if (localnodes.get(node) != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t\t");
+                        _builder.append("labelList = localnodes.get(node);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("labelList.add(label);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("localnodes.put(node, labelList);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                      }
+                    }
+                    {
+                      boolean _equals_5 = node.getName().getName().equals("Object");
+                      if (_equals_5) {
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object o = ModelManager.getReferences(\"class\", node);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("EObject cl = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (o instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("cl = ((List<EObject>) o).get(0);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object obj = ModelManager.getListStringAttribute(\"ownedAttributeValues\", node);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("List<String> attValues = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (obj instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("attValues = (List<String>) obj;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object ob = ModelManager.getReferences(\"ownedAttributes\", cl);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Set<EObject> attributes = new LinkedHashSet<EObject>();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (ob instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("attributes.addAll((List<EObject>) ob);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Set<EObject> superclasses = getSuperClasses(cl);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("for (EObject supercl : superclasses) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("ob = ModelManager.getReferences(\"ownedAttributes\", supercl);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (ob instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("attributes.addAll((List<EObject>) ob);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("int k = 0;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("for (EObject att : attributes) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String attName = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (att != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("attName = ModelManager.getStringAttribute(\"name\", att);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("Object obj2 = ModelManager.getReferences(\"type\", att);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("EObject type = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (obj2 instanceof List<?>) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("type = ((List<EObject>) obj2).get(0);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("typeName = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (type != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("typeName = ModelManager.getStringAttribute(\"name\", type);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("String quote = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (typeName.equals(\"String\")) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("quote = \"\\\"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("if (attName.length() > 0 && typeName.length() > 0) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("LabelStyle label = new LabelStyle();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("label.label = \"\";");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("label.name = getOrdinalFor(j) + \" : -\" + attName + \" = \" + quote + attValues.get(k) + quote;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("List<LabelStyle> labelList = new ArrayList<LabelStyle>();");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("if (localnodes.get(node) != null) {");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t\t");
+                        _builder.append("labelList = localnodes.get(node);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("labelList.add(label);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t\t");
+                        _builder.append("localnodes.put(node, labelList);");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("k++;");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("}");
+                        _builder.newLine();
+                        _builder.append("\t");
+                        _builder.append("\t");
+                        _builder.append("j++;");
+                        _builder.newLine();
+                      }
+                    }
                     _builder.append("\t");
                     _builder.append("}");
                     _builder.newLine();
@@ -640,7 +1161,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
+    _builder.append("private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("// COUNTER: ");
@@ -770,22 +1291,22 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                             {
                               if (((edge.getSource() != null) && (edge.getTarget() != null))) {
                                 {
-                                  boolean _equals_4 = edge.getName().getName().equals("ClassAssociation");
-                                  if (_equals_4) {
+                                  boolean _equals_6 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_6) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("String ref = \"source\";");
                                     _builder.newLine();
                                   } else {
-                                    boolean _equals_5 = edge.getName().getName().equals("ClassAggregation");
-                                    if (_equals_5) {
+                                    boolean _equals_7 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_7) {
                                       _builder.append("\t");
                                       _builder.append("\t");
                                       _builder.append("String ref = \"source\";");
                                       _builder.newLine();
                                     } else {
-                                      boolean _equals_6 = edge.getName().getName().equals("ClassComposition");
-                                      if (_equals_6) {
+                                      boolean _equals_8 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_8) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("String ref = \"constituent\";");
@@ -816,22 +1337,22 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                                 _builder.append("}");
                                 _builder.newLine();
                                 {
-                                  boolean _equals_7 = edge.getName().getName().equals("ClassAssociation");
-                                  if (_equals_7) {
+                                  boolean _equals_9 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_9) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("ref = \"target\";");
                                     _builder.newLine();
                                   } else {
-                                    boolean _equals_8 = edge.getName().getName().equals("ClassAggregation");
-                                    if (_equals_8) {
+                                    boolean _equals_10 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_10) {
                                       _builder.append("\t");
                                       _builder.append("\t");
                                       _builder.append("ref = \"target\";");
                                       _builder.newLine();
                                     } else {
-                                      boolean _equals_9 = edge.getName().getName().equals("ClassComposition");
-                                      if (_equals_9) {
+                                      boolean _equals_11 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_11) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("ref = \"composite\";");
@@ -906,22 +1427,22 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                                 _builder.append("tar_lbl.name = tar_label;");
                                 _builder.newLine();
                                 {
-                                  boolean _equals_10 = edge.getName().getName().equals("ClassAssociation");
-                                  if (_equals_10) {
+                                  boolean _equals_12 = edge.getName().getName().equals("ClassAssociation");
+                                  if (_equals_12) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("tar_lbl.style = \"<-->\";");
                                     _builder.newLine();
                                   } else {
-                                    boolean _equals_11 = edge.getName().getName().equals("ClassAggregation");
-                                    if (_equals_11) {
+                                    boolean _equals_13 = edge.getName().getName().equals("ClassAggregation");
+                                    if (_equals_13) {
                                       _builder.append("\t");
                                       _builder.append("\t");
                                       _builder.append("tar_lbl.style = \"o-->\";");
                                       _builder.newLine();
                                     } else {
-                                      boolean _equals_12 = edge.getName().getName().equals("ClassComposition");
-                                      if (_equals_12) {
+                                      boolean _equals_14 = edge.getName().getName().equals("ClassComposition");
+                                      if (_equals_14) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("tar_lbl.style = \"*-->\";");
@@ -953,22 +1474,22 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                             {
                               if (((edge.getSource() != null) && (edge.getTarget() != null))) {
                                 {
-                                  boolean _equals_13 = edge.getName().getName().equals("ObjectAssociation");
-                                  if (_equals_13) {
+                                  boolean _equals_15 = edge.getName().getName().equals("ObjectAssociation");
+                                  if (_equals_15) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("String ref = \"source\";");
                                     _builder.newLine();
                                   } else {
-                                    boolean _equals_14 = edge.getName().getName().equals("ObjectAggregation");
-                                    if (_equals_14) {
+                                    boolean _equals_16 = edge.getName().getName().equals("ObjectAggregation");
+                                    if (_equals_16) {
                                       _builder.append("\t");
                                       _builder.append("\t");
                                       _builder.append("String ref = \"source\";");
                                       _builder.newLine();
                                     } else {
-                                      boolean _equals_15 = edge.getName().getName().equals("ObjectComposition");
-                                      if (_equals_15) {
+                                      boolean _equals_17 = edge.getName().getName().equals("ObjectComposition");
+                                      if (_equals_17) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("String ref = \"constituent\";");
@@ -999,22 +1520,22 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                                 _builder.append("}");
                                 _builder.newLine();
                                 {
-                                  boolean _equals_16 = edge.getName().getName().equals("ObjectAssociation");
-                                  if (_equals_16) {
+                                  boolean _equals_18 = edge.getName().getName().equals("ObjectAssociation");
+                                  if (_equals_18) {
                                     _builder.append("\t");
                                     _builder.append("\t");
                                     _builder.append("ref = \"target\";");
                                     _builder.newLine();
                                   } else {
-                                    boolean _equals_17 = edge.getName().getName().equals("ObjectAggregation");
-                                    if (_equals_17) {
+                                    boolean _equals_19 = edge.getName().getName().equals("ObjectAggregation");
+                                    if (_equals_19) {
                                       _builder.append("\t");
                                       _builder.append("\t");
                                       _builder.append("ref = \"target\";");
                                       _builder.newLine();
                                     } else {
-                                      boolean _equals_18 = edge.getName().getName().equals("ObjectComposition");
-                                      if (_equals_18) {
+                                      boolean _equals_20 = edge.getName().getName().equals("ObjectComposition");
+                                      if (_equals_20) {
                                         _builder.append("\t");
                                         _builder.append("\t");
                                         _builder.append("ref = \"composite\";");
@@ -1201,7 +1722,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t");
-        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.append("Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t");
@@ -1442,7 +1963,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t\t");
-        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.append("Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t");
@@ -1679,7 +2200,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");
-        _builder.append("Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();");
+        _builder.append("Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();");
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");

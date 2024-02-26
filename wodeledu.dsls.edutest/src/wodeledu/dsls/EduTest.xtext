@@ -8,6 +8,7 @@ import "platform:/resource/wodel.models/model/MutatorEnvironment.ecore" as mutat
 
 Program returns Program:
 	{Program}
+	'metamodel' metamodel=EString
 	(config = ProgramConfiguration)?
 	(exercises+=MutatorTests)+
 ;
@@ -16,57 +17,62 @@ MutatorTests returns MutatorTests:
 	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords | MultiChoiceText | AlternativeText | DragAndDropText
 ;
 
+MarkedBlock returns MarkedBlock:
+	{MarkedBlock}
+	block=[mutatorenvironment::Block|ID] (solution?='=' 'solution')?
+;
+
 AlternativeResponse returns AlternativeResponse:
-	'AlternativeResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'AlternativeResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MultiChoiceDiagram returns MultiChoiceDiagram:
-	'MultiChoiceDiagram' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'MultiChoiceDiagram' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MultiChoiceEmendation returns MultiChoiceEmendation:
-	'MultiChoiceEmendation' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'MultiChoiceEmendation' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = MultiChoiceEmConfig
 		(tests += Test)*
 	'}'
 ;
 
 MatchPairs returns MatchPairs:
-	'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'MatchPairs' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TextConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MissingWords returns MissingWords:
-	'MissingWords' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'MissingWords' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MultiChoiceText returns MultiChoiceText:
-	'MultiChoiceText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'MultiChoiceText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TextConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 AlternativeText returns AlternativeText:
-	'AlternativeTextResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'AlternativeTextResponse' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TextConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 DragAndDropText returns DragAndDropText:
-	'DragAndDropText' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+	'DragAndDropText' (markedBlocks+=MarkedBlock (',' markedBlocks+=MarkedBlock)*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
@@ -78,7 +84,7 @@ ProgramConfiguration returns ProgramConfiguration:
 
 TestConfiguration returns TestConfiguration:
 	{TestConfiguration}
-	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' '(' statement = EString ')')? (',' 'answers' '=' '(' answers = EString ')')?
+	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
 ;
 
 MultiChoiceEmConfig returns MultiChoiceEmConfig:
@@ -88,7 +94,7 @@ MultiChoiceEmConfig returns MultiChoiceEmConfig:
 
 TextConfiguration returns TextConfiguration:
 	{TextConfiguration}
-	'retry' '=' retry?=('yes' | 'no') ',' 'text' '=' identifier=EString
+	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'text' '=' identifier=EString)?
 ;
 
 Test returns Test:
@@ -112,4 +118,3 @@ enum Mode returns Mode:
 enum Navigation returns Navigation:
 	free = 'free' | locked = 'locked'
 ;
-

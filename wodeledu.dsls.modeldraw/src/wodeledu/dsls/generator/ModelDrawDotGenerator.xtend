@@ -1523,23 +1523,9 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 					String dotfile = "«folder»/src-gen/html/diagrams/" + path + file.getName().replace(".model", ".dot");
 					String pngfile = "«folder»/src-gen/html/diagrams/" + path + file.getName().replace(".model", ".png");
 					«draw.generate(folder)»
-					File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
-					if (diagramsfolder.exists() != true) {
-						diagramsfolder.mkdir();
-					}
-					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + exercise.getName() + "/");
+					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
 					if (exercisefolder.exists() != true) {
-						exercisefolder.mkdir();
-					}
-					folders = Arrays.asList(folder.split("/"));
-					if (folders.size() > 0) {
-						for (String folderName : folders) {
-							path += folderName + "/";
-							exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
-							if (exercisefolder.exists() != true) {
-								exercisefolder.mkdir();
-							}
-						}
+						exercisefolder.mkdirs();
 					}
 					PrintWriter dotwriter = new PrintWriter(dotfile, "UTF-8");
 					for (String dotline : dotcode) {

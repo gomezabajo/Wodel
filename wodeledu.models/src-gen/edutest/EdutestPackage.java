@@ -69,13 +69,22 @@ public interface EdutestPackage extends EPackage {
 	int PROGRAM = 0;
 
 	/**
+	 * The feature id for the '<em><b>Metamodel</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROGRAM__METAMODEL = 0;
+
+	/**
 	 * The feature id for the '<em><b>Config</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROGRAM__CONFIG = 0;
+	int PROGRAM__CONFIG = 1;
 
 	/**
 	 * The feature id for the '<em><b>Exercises</b></em>' containment reference list.
@@ -84,7 +93,7 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROGRAM__EXERCISES = 1;
+	int PROGRAM__EXERCISES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Program</em>' class.
@@ -93,7 +102,7 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROGRAM_FEATURE_COUNT = 2;
+	int PROGRAM_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Program</em>' class.
@@ -115,13 +124,13 @@ public interface EdutestPackage extends EPackage {
 	int MUTATOR_TESTS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MUTATOR_TESTS__BLOCKS = 0;
+	int MUTATOR_TESTS__MARKED_BLOCKS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -151,6 +160,52 @@ public interface EdutestPackage extends EPackage {
 	int MUTATOR_TESTS_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link edutest.impl.MarkedBlockImpl <em>Marked Block</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edutest.impl.MarkedBlockImpl
+	 * @see edutest.impl.EdutestPackageImpl#getMarkedBlock()
+	 * @generated
+	 */
+	int MARKED_BLOCK = 2;
+
+	/**
+	 * The feature id for the '<em><b>Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKED_BLOCK__BLOCK = 0;
+
+	/**
+	 * The feature id for the '<em><b>Solution</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKED_BLOCK__SOLUTION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Marked Block</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKED_BLOCK_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Marked Block</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKED_BLOCK_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link edutest.impl.ConfigurationImpl <em>Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,7 +213,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getConfiguration()
 	 * @generated
 	 */
-	int CONFIGURATION = 2;
+	int CONFIGURATION = 3;
 
 	/**
 	 * The number of structural features of the '<em>Configuration</em>' class.
@@ -186,7 +241,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getProgramConfiguration()
 	 * @generated
 	 */
-	int PROGRAM_CONFIGURATION = 3;
+	int PROGRAM_CONFIGURATION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Navigation</b></em>' attribute.
@@ -223,7 +278,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getTestConfiguration()
 	 * @generated
 	 */
-	int TEST_CONFIGURATION = 4;
+	int TEST_CONFIGURATION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Retry</b></em>' attribute.
@@ -244,7 +299,7 @@ public interface EdutestPackage extends EPackage {
 	int TEST_CONFIGURATION__MODE = CONFIGURATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * The feature id for the '<em><b>Statement</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -253,7 +308,7 @@ public interface EdutestPackage extends EPackage {
 	int TEST_CONFIGURATION__STATEMENT = CONFIGURATION_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * The feature id for the '<em><b>Answers</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -287,7 +342,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceEmConfig()
 	 * @generated
 	 */
-	int MULTI_CHOICE_EM_CONFIG = 5;
+	int MULTI_CHOICE_EM_CONFIG = 6;
 
 	/**
 	 * The feature id for the '<em><b>Retry</b></em>' attribute.
@@ -308,7 +363,7 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__MODE = TEST_CONFIGURATION__MODE;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * The feature id for the '<em><b>Statement</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -317,7 +372,7 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__STATEMENT = TEST_CONFIGURATION__STATEMENT;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * The feature id for the '<em><b>Answers</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -378,7 +433,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getTextConfiguration()
 	 * @generated
 	 */
-	int TEXT_CONFIGURATION = 6;
+	int TEXT_CONFIGURATION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Retry</b></em>' attribute.
@@ -399,7 +454,7 @@ public interface EdutestPackage extends EPackage {
 	int TEXT_CONFIGURATION__MODE = TEST_CONFIGURATION__MODE;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * The feature id for the '<em><b>Statement</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -408,7 +463,7 @@ public interface EdutestPackage extends EPackage {
 	int TEXT_CONFIGURATION__STATEMENT = TEST_CONFIGURATION__STATEMENT;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' attribute.
+	 * The feature id for the '<em><b>Answers</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -451,16 +506,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getAlternativeResponse()
 	 * @generated
 	 */
-	int ALTERNATIVE_RESPONSE = 7;
+	int ALTERNATIVE_RESPONSE = 8;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ALTERNATIVE_RESPONSE__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int ALTERNATIVE_RESPONSE__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -506,16 +561,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceDiagram()
 	 * @generated
 	 */
-	int MULTI_CHOICE_DIAGRAM = 8;
+	int MULTI_CHOICE_DIAGRAM = 9;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_DIAGRAM__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int MULTI_CHOICE_DIAGRAM__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -561,16 +616,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceEmendation()
 	 * @generated
 	 */
-	int MULTI_CHOICE_EMENDATION = 9;
+	int MULTI_CHOICE_EMENDATION = 10;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_EMENDATION__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int MULTI_CHOICE_EMENDATION__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -616,16 +671,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMatchPairs()
 	 * @generated
 	 */
-	int MATCH_PAIRS = 10;
+	int MATCH_PAIRS = 11;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MATCH_PAIRS__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int MATCH_PAIRS__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -671,16 +726,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMissingWords()
 	 * @generated
 	 */
-	int MISSING_WORDS = 11;
+	int MISSING_WORDS = 12;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MISSING_WORDS__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int MISSING_WORDS__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -726,16 +781,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMultiChoiceText()
 	 * @generated
 	 */
-	int MULTI_CHOICE_TEXT = 12;
+	int MULTI_CHOICE_TEXT = 13;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_CHOICE_TEXT__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int MULTI_CHOICE_TEXT__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -781,16 +836,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getAlternativeText()
 	 * @generated
 	 */
-	int ALTERNATIVE_TEXT = 13;
+	int ALTERNATIVE_TEXT = 14;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ALTERNATIVE_TEXT__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int ALTERNATIVE_TEXT__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -836,16 +891,16 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getDragAndDropText()
 	 * @generated
 	 */
-	int DRAG_AND_DROP_TEXT = 14;
+	int DRAG_AND_DROP_TEXT = 15;
 
 	/**
-	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * The feature id for the '<em><b>Marked Blocks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DRAG_AND_DROP_TEXT__BLOCKS = MUTATOR_TESTS__BLOCKS;
+	int DRAG_AND_DROP_TEXT__MARKED_BLOCKS = MUTATOR_TESTS__MARKED_BLOCKS;
 
 	/**
 	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
@@ -891,7 +946,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getTest()
 	 * @generated
 	 */
-	int TEST = 15;
+	int TEST = 16;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -955,7 +1010,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getOrder()
 	 * @generated
 	 */
-	int ORDER = 16;
+	int ORDER = 17;
 
 	/**
 	 * The meta object id for the '{@link edutest.Navigation <em>Navigation</em>}' enum.
@@ -965,7 +1020,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getNavigation()
 	 * @generated
 	 */
-	int NAVIGATION = 17;
+	int NAVIGATION = 18;
 
 	/**
 	 * The meta object id for the '{@link edutest.Mode <em>Mode</em>}' enum.
@@ -975,7 +1030,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMode()
 	 * @generated
 	 */
-	int MODE = 18;
+	int MODE = 19;
 
 	/**
 	 * Returns the meta object for class '{@link edutest.Program <em>Program</em>}'.
@@ -986,6 +1041,17 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getProgram();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edutest.Program#getMetamodel <em>Metamodel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Metamodel</em>'.
+	 * @see edutest.Program#getMetamodel()
+	 * @see #getProgram()
+	 * @generated
+	 */
+	EAttribute getProgram_Metamodel();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link edutest.Program#getConfig <em>Config</em>}'.
@@ -1020,15 +1086,15 @@ public interface EdutestPackage extends EPackage {
 	EClass getMutatorTests();
 
 	/**
-	 * Returns the meta object for the reference list '{@link edutest.MutatorTests#getBlocks <em>Blocks</em>}'.
+	 * Returns the meta object for the containment reference list '{@link edutest.MutatorTests#getMarkedBlocks <em>Marked Blocks</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Blocks</em>'.
-	 * @see edutest.MutatorTests#getBlocks()
+	 * @return the meta object for the containment reference list '<em>Marked Blocks</em>'.
+	 * @see edutest.MutatorTests#getMarkedBlocks()
 	 * @see #getMutatorTests()
 	 * @generated
 	 */
-	EReference getMutatorTests_Blocks();
+	EReference getMutatorTests_MarkedBlocks();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link edutest.MutatorTests#getTests <em>Tests</em>}'.
@@ -1040,6 +1106,38 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMutatorTests_Tests();
+
+	/**
+	 * Returns the meta object for class '{@link edutest.MarkedBlock <em>Marked Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Marked Block</em>'.
+	 * @see edutest.MarkedBlock
+	 * @generated
+	 */
+	EClass getMarkedBlock();
+
+	/**
+	 * Returns the meta object for the reference '{@link edutest.MarkedBlock#getBlock <em>Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Block</em>'.
+	 * @see edutest.MarkedBlock#getBlock()
+	 * @see #getMarkedBlock()
+	 * @generated
+	 */
+	EReference getMarkedBlock_Block();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edutest.MarkedBlock#isSolution <em>Solution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Solution</em>'.
+	 * @see edutest.MarkedBlock#isSolution()
+	 * @see #getMarkedBlock()
+	 * @generated
+	 */
+	EAttribute getMarkedBlock_Solution();
 
 	/**
 	 * Returns the meta object for class '{@link edutest.Configuration <em>Configuration</em>}'.
@@ -1105,26 +1203,26 @@ public interface EdutestPackage extends EPackage {
 	EAttribute getTestConfiguration_Mode();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}'.
+	 * Returns the meta object for the reference '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Statement</em>'.
+	 * @return the meta object for the reference '<em>Statement</em>'.
 	 * @see edutest.TestConfiguration#getStatement()
 	 * @see #getTestConfiguration()
 	 * @generated
 	 */
-	EAttribute getTestConfiguration_Statement();
+	EReference getTestConfiguration_Statement();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}'.
+	 * Returns the meta object for the reference '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Answers</em>'.
+	 * @return the meta object for the reference '<em>Answers</em>'.
 	 * @see edutest.TestConfiguration#getAnswers()
 	 * @see #getTestConfiguration()
 	 * @generated
 	 */
-	EAttribute getTestConfiguration_Answers();
+	EReference getTestConfiguration_Answers();
 
 	/**
 	 * Returns the meta object for class '{@link edutest.MultiChoiceEmConfig <em>Multi Choice Em Config</em>}'.
@@ -1476,6 +1574,14 @@ public interface EdutestPackage extends EPackage {
 		EClass PROGRAM = eINSTANCE.getProgram();
 
 		/**
+		 * The meta object literal for the '<em><b>Metamodel</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROGRAM__METAMODEL = eINSTANCE.getProgram_Metamodel();
+
+		/**
 		 * The meta object literal for the '<em><b>Config</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1502,12 +1608,12 @@ public interface EdutestPackage extends EPackage {
 		EClass MUTATOR_TESTS = eINSTANCE.getMutatorTests();
 
 		/**
-		 * The meta object literal for the '<em><b>Blocks</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Marked Blocks</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MUTATOR_TESTS__BLOCKS = eINSTANCE.getMutatorTests_Blocks();
+		EReference MUTATOR_TESTS__MARKED_BLOCKS = eINSTANCE.getMutatorTests_MarkedBlocks();
 
 		/**
 		 * The meta object literal for the '<em><b>Tests</b></em>' containment reference list feature.
@@ -1516,6 +1622,32 @@ public interface EdutestPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MUTATOR_TESTS__TESTS = eINSTANCE.getMutatorTests_Tests();
+
+		/**
+		 * The meta object literal for the '{@link edutest.impl.MarkedBlockImpl <em>Marked Block</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edutest.impl.MarkedBlockImpl
+		 * @see edutest.impl.EdutestPackageImpl#getMarkedBlock()
+		 * @generated
+		 */
+		EClass MARKED_BLOCK = eINSTANCE.getMarkedBlock();
+
+		/**
+		 * The meta object literal for the '<em><b>Block</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKED_BLOCK__BLOCK = eINSTANCE.getMarkedBlock_Block();
+
+		/**
+		 * The meta object literal for the '<em><b>Solution</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MARKED_BLOCK__SOLUTION = eINSTANCE.getMarkedBlock_Solution();
 
 		/**
 		 * The meta object literal for the '{@link edutest.impl.ConfigurationImpl <em>Configuration</em>}' class.
@@ -1572,20 +1704,20 @@ public interface EdutestPackage extends EPackage {
 		EAttribute TEST_CONFIGURATION__MODE = eINSTANCE.getTestConfiguration_Mode();
 
 		/**
-		 * The meta object literal for the '<em><b>Statement</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Statement</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TEST_CONFIGURATION__STATEMENT = eINSTANCE.getTestConfiguration_Statement();
+		EReference TEST_CONFIGURATION__STATEMENT = eINSTANCE.getTestConfiguration_Statement();
 
 		/**
-		 * The meta object literal for the '<em><b>Answers</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Answers</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TEST_CONFIGURATION__ANSWERS = eINSTANCE.getTestConfiguration_Answers();
+		EReference TEST_CONFIGURATION__ANSWERS = eINSTANCE.getTestConfiguration_Answers();
 
 		/**
 		 * The meta object literal for the '{@link edutest.impl.MultiChoiceEmConfigImpl <em>Multi Choice Em Config</em>}' class.

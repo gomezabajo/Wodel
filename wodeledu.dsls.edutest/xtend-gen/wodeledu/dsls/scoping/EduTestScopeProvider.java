@@ -4,13 +4,18 @@
 package wodeledu.dsls.scoping;
 
 import edutest.MutatorTests;
+import edutest.Program;
+import edutest.TestConfiguration;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import mutatorenvironment.Block;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -53,13 +58,104 @@ public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
         final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
         final List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
-        ArrayList<Block> blocks = null;
+        List<Block> blocks = new ArrayList<Block>();
         for (final EObject eobject : eobjects) {
           blocks.add(((Block) eobject));
         }
         _xblockexpression = Scopes.scopeFor(blocks);
       }
       return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  public IScope scope_TestConfiguration_statement(final TestConfiguration test, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final List<EClass> scope = new ArrayList<EClass>();
+      EObject _eContainer = test.eContainer();
+      EObject _eContainer_1 = ((MutatorTests) _eContainer).eContainer();
+      scope.addAll(this.getEClasses(((Program) _eContainer_1).getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+
+  public IScope scope_TestConfiguration_answers(final TestConfiguration test, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final List<EClass> scope = new ArrayList<EClass>();
+      EObject _eContainer = test.eContainer();
+      EObject _eContainer_1 = ((MutatorTests) _eContainer).eContainer();
+      scope.addAll(this.getEClasses(((Program) _eContainer_1).getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+
+  /**
+   * It returns the list of classes defined in a meta-model.
+   * @param String file containing the metamodel
+   * @return List<EClass>
+   */
+  private List<EClass> getEClassesSubpackages(final EPackage pck) {
+    final List<EClass> classes = new ArrayList<EClass>();
+    EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+    for (final EClassifier cl : _eClassifiers) {
+      if ((cl instanceof EClass)) {
+        classes.add(((EClass) cl));
+      }
+    }
+    EList<EPackage> _eSubpackages = pck.getESubpackages();
+    for (final EPackage spck : _eSubpackages) {
+      {
+        final List<EClass> classesSubpackage = this.getEClassesSubpackages(spck);
+        for (final EClass cl_1 : classesSubpackage) {
+          boolean _contains = classes.contains(cl_1);
+          boolean _not = (!_contains);
+          if (_not) {
+            classes.add(cl_1);
+          }
+        }
+      }
+    }
+    return classes;
+  }
+
+  /**
+   * It returns the list of classes defined in a meta-model.
+   * @param String file containing the metamodel
+   * @return List<EClass>
+   */
+  private List<EClass> getEClasses(final String metamodelFile) {
+    try {
+      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      final List<EClass> classes = new ArrayList<EClass>();
+      for (final EPackage pck : metamodel) {
+        {
+          EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+          for (final EClassifier cl : _eClassifiers) {
+            if ((cl instanceof EClass)) {
+              classes.add(((EClass) cl));
+            }
+          }
+          EList<EPackage> _eSubpackages = pck.getESubpackages();
+          for (final EPackage spck : _eSubpackages) {
+            {
+              final List<EClass> classesSubpackage = this.getEClassesSubpackages(spck);
+              for (final EClass cl_1 : classesSubpackage) {
+                boolean _contains = classes.contains(cl_1);
+                boolean _not = (!_contains);
+                if (_not) {
+                  classes.add(cl_1);
+                }
+              }
+            }
+          }
+        }
+      }
+      return classes;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

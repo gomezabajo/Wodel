@@ -77,6 +77,11 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseMarkedBlock(MarkedBlock object) {
+			return createMarkedBlockAdapter();
+		}
+
+		@Override
 		public Adapter caseConfiguration(Configuration object) {
 			return createConfigurationAdapter();
 		}
@@ -190,6 +195,20 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMutatorTestsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.MarkedBlock <em>Marked Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.MarkedBlock
+	 * @generated
+	 */
+	public Adapter createMarkedBlockAdapter() {
 		return null;
 	}
 

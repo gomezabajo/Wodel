@@ -3,13 +3,11 @@
 package edutest.impl;
 
 import edutest.EdutestPackage;
+import edutest.MarkedBlock;
 import edutest.MutatorTests;
 import edutest.Test;
 
 import java.util.Collection;
-
-import mutatorenvironment.Block;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -20,7 +18,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -31,7 +28,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link edutest.impl.MutatorTestsImpl#getBlocks <em>Blocks</em>}</li>
+ *   <li>{@link edutest.impl.MutatorTestsImpl#getMarkedBlocks <em>Marked Blocks</em>}</li>
  *   <li>{@link edutest.impl.MutatorTestsImpl#getTests <em>Tests</em>}</li>
  * </ul>
  *
@@ -39,14 +36,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container implements MutatorTests {
 	/**
-	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' reference list.
+	 * The cached value of the '{@link #getMarkedBlocks() <em>Marked Blocks</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBlocks()
+	 * @see #getMarkedBlocks()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Block> blocks;
+	protected EList<MarkedBlock> markedBlocks;
 
 	/**
 	 * The cached value of the '{@link #getTests() <em>Tests</em>}' containment reference list.
@@ -82,11 +79,12 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Block> getBlocks() {
-		if (blocks == null) {
-			blocks = new EObjectResolvingEList<Block>(Block.class, this, EdutestPackage.MUTATOR_TESTS__BLOCKS);
+	public EList<MarkedBlock> getMarkedBlocks() {
+		if (markedBlocks == null) {
+			markedBlocks = new EObjectContainmentEList<MarkedBlock>(MarkedBlock.class, this,
+					EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS);
 		}
-		return blocks;
+		return markedBlocks;
 	}
 
 	/**
@@ -109,6 +107,8 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+		case EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS:
+			return ((InternalEList<?>) getMarkedBlocks()).basicRemove(otherEnd, msgs);
 		case EdutestPackage.MUTATOR_TESTS__TESTS:
 			return ((InternalEList<?>) getTests()).basicRemove(otherEnd, msgs);
 		}
@@ -123,8 +123,8 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case EdutestPackage.MUTATOR_TESTS__BLOCKS:
-			return getBlocks();
+		case EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS:
+			return getMarkedBlocks();
 		case EdutestPackage.MUTATOR_TESTS__TESTS:
 			return getTests();
 		}
@@ -140,9 +140,9 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case EdutestPackage.MUTATOR_TESTS__BLOCKS:
-			getBlocks().clear();
-			getBlocks().addAll((Collection<? extends Block>) newValue);
+		case EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS:
+			getMarkedBlocks().clear();
+			getMarkedBlocks().addAll((Collection<? extends MarkedBlock>) newValue);
 			return;
 		case EdutestPackage.MUTATOR_TESTS__TESTS:
 			getTests().clear();
@@ -160,8 +160,8 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case EdutestPackage.MUTATOR_TESTS__BLOCKS:
-			getBlocks().clear();
+		case EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS:
+			getMarkedBlocks().clear();
 			return;
 		case EdutestPackage.MUTATOR_TESTS__TESTS:
 			getTests().clear();
@@ -178,8 +178,8 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case EdutestPackage.MUTATOR_TESTS__BLOCKS:
-			return blocks != null && !blocks.isEmpty();
+		case EdutestPackage.MUTATOR_TESTS__MARKED_BLOCKS:
+			return markedBlocks != null && !markedBlocks.isEmpty();
 		case EdutestPackage.MUTATOR_TESTS__TESTS:
 			return tests != null && !tests.isEmpty();
 		}

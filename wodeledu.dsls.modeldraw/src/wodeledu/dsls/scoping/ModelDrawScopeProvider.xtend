@@ -27,43 +27,43 @@ import modeldraw.MutatorInstance
 
 class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	def IScope scope_Item_name(MutatorDraw draw, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(draw.metamodel))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Item_name(MutatorInstance instance, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses((instance.eContainer as MutatorDraw).metamodel))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Item_name(Node node, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Item_name(Edge edge, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Node_reference(Node node, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, node.name.name))
 		Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Node_targetNode(Node node, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel))
 		Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_ValuedFeature_feat(Node node, EReference ref) {
-		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
 		scope.addAll(getEStructuralFeatures(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, node.name.name))
 		if (node.targetNode !== null) {
 			scope.addAll(getEStructuralFeatures(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, node.targetNode.name))
@@ -72,7 +72,7 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 	
 	def IScope scope_ValuedFeature_refFeature(Node node, EReference ref) {
-		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
 		val List<EStructuralFeature> features = new ArrayList<EStructuralFeature>()
 		if (node.feature !== null && node.feature.size > 0) {
 			for (ValuedFeature feature : node.feature) {
@@ -89,49 +89,49 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 
 	def IScope scope_NamedItem_attName(Node node, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((node.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, node.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_NamedItem_attName(Edge edge, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_NamedItem_attName(Content content, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((content.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, content.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_NamedItem_attName(Level level, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((level.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, level.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Edge_source(Edge edge, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Edge_target(Edge edge, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Relation_reference(Edge edge, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
 		Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Relation_refType(Edge edge, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		if (edge.reference !== null && edge.reference.size > 0) {
 			for (EReference reference : edge.reference) {
 				scope.addAll(getEReferences(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, reference.EType.name))
@@ -141,7 +141,7 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 
 	def IScope scope_Relation_label(Edge edge, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		if (edge.reference !== null && edge.reference.size > 0) {
 			for (EReference reference : edge.reference) {
 				scope.addAll(getEAttributes(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, reference.EType.name))
@@ -154,25 +154,25 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 	
 	def IScope scope_Relation_src_label(Edge edge, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Relation_tar_label(Edge edge, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Relation_targetNode(Edge edge, EReference ref) {
-		val scope = new ArrayList<EClass>()
+		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel))
 		Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_ValuedFeature_feat(Edge edge, EReference ref) {
-		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
 		scope.addAll(getEStructuralFeatures(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.name.name))
 		if (edge.targetNode !== null) {
 			scope.addAll(getEStructuralFeatures(((edge.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, edge.targetNode.name))
@@ -181,7 +181,7 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 	
 	def IScope scope_ValuedFeature_refFeature(Edge edge, EReference ref) {
-		val scope = new ArrayList<EStructuralFeature>()
+		val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
 		val List<EStructuralFeature> features = new ArrayList<EStructuralFeature>()
 		if (edge.feature !== null && edge.feature.size > 0) {
 			for (ValuedFeature feature : edge.feature) {
@@ -198,37 +198,37 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	}
 
 	def IScope scope_Level_upper(Level level, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((level.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, level.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Content_attName(Content content, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((content.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, content.name.name))
 		Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_NodeEnumerator_att(Content content, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((content.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, content.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Enumerator_literal(NodeEnumerator nodenum, EReference ref) {
-		val scope = new ArrayList<EEnumLiteral>()
+		val List<EEnumLiteral> scope = new ArrayList<EEnumLiteral>()
 		scope.addAll(getELiterals(((nodenum.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, nodenum.att.EType.name))
 		Scopes.scopeFor(scope)
 	}
 
 	def IScope scope_Information_type(Content content, EReference ref) {
-		val scope = new ArrayList<EReference>()
+		val List<EReference> scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences(((content.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, content.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
 	def IScope scope_Information_att(Information info, EReference ref) {
-		val scope = new ArrayList<EAttribute>()
+		val List<EAttribute> scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes(((info.eContainer as MutatorInstance).eContainer as MutatorDraw).metamodel, info.type.EType.name))
        	Scopes.scopeFor(scope)
 	}

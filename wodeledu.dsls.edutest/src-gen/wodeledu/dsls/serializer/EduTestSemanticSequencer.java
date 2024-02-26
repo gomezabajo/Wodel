@@ -8,6 +8,7 @@ import edutest.AlternativeResponse;
 import edutest.AlternativeText;
 import edutest.DragAndDropText;
 import edutest.EdutestPackage;
+import edutest.MarkedBlock;
 import edutest.MatchPairs;
 import edutest.MissingWords;
 import edutest.MultiChoiceDiagram;
@@ -54,6 +55,9 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 			case EdutestPackage.DRAG_AND_DROP_TEXT:
 				sequence_DragAndDropText(context, (DragAndDropText) semanticObject); 
 				return; 
+			case EdutestPackage.MARKED_BLOCK:
+				sequence_MarkedBlock(context, (MarkedBlock) semanticObject); 
+				return; 
 			case EdutestPackage.MATCH_PAIRS:
 				sequence_MatchPairs(context, (MatchPairs) semanticObject); 
 				return; 
@@ -99,7 +103,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     AlternativeResponse returns AlternativeResponse
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TestConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_AlternativeResponse(ISerializationContext context, AlternativeResponse semanticObject) {
@@ -114,7 +118,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     AlternativeText returns AlternativeText
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TextConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_AlternativeText(ISerializationContext context, AlternativeText semanticObject) {
@@ -129,10 +133,24 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     DragAndDropText returns DragAndDropText
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TestConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_DragAndDropText(ISerializationContext context, DragAndDropText semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     MarkedBlock returns MarkedBlock
+	 *
+	 * Constraint:
+	 *     (block=[Block|ID] solution?='='?)
+	 * </pre>
+	 */
+	protected void sequence_MarkedBlock(ISerializationContext context, MarkedBlock semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -144,7 +162,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     MatchPairs returns MatchPairs
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TextConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_MatchPairs(ISerializationContext context, MatchPairs semanticObject) {
@@ -159,7 +177,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     MissingWords returns MissingWords
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TestConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_MissingWords(ISerializationContext context, MissingWords semanticObject) {
@@ -174,7 +192,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     MultiChoiceDiagram returns MultiChoiceDiagram
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TestConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_MultiChoiceDiagram(ISerializationContext context, MultiChoiceDiagram semanticObject) {
@@ -203,7 +221,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     MultiChoiceEmendation returns MultiChoiceEmendation
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=MultiChoiceEmConfig tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=MultiChoiceEmConfig tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_MultiChoiceEmendation(ISerializationContext context, MultiChoiceEmendation semanticObject) {
@@ -218,7 +236,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     MultiChoiceText returns MultiChoiceText
 	 *
 	 * Constraint:
-	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TextConfiguration tests+=Test*)
+	 *     ((markedBlocks+=MarkedBlock markedBlocks+=MarkedBlock*)? config=TextConfiguration tests+=Test*)
 	 * </pre>
 	 */
 	protected void sequence_MultiChoiceText(ISerializationContext context, MultiChoiceText semanticObject) {
@@ -252,7 +270,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     Program returns Program
 	 *
 	 * Constraint:
-	 *     (config=ProgramConfiguration? exercises+=MutatorTests+)
+	 *     (metamodel=EString config=ProgramConfiguration? exercises+=MutatorTests+)
 	 * </pre>
 	 */
 	protected void sequence_Program(ISerializationContext context, Program semanticObject) {
@@ -266,7 +284,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     TestConfiguration returns TestConfiguration
 	 *
 	 * Constraint:
-	 *     ((retry?='yes' | retry?='no') mode=Mode? statement=EString? answers=EString?)
+	 *     ((retry?='yes' | retry?='no') mode=Mode? statement=[EClass|ID]? answers=[EClass|ID]?)
 	 * </pre>
 	 */
 	protected void sequence_TestConfiguration(ISerializationContext context, TestConfiguration semanticObject) {
@@ -294,7 +312,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     TextConfiguration returns TextConfiguration
 	 *
 	 * Constraint:
-	 *     ((retry?='yes' | retry?='no') identifier=EString)
+	 *     ((retry?='yes' | retry?='no') mode=Mode? identifier=EString?)
 	 * </pre>
 	 */
 	protected void sequence_TextConfiguration(ISerializationContext context, TextConfiguration semanticObject) {

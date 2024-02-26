@@ -6,20 +6,29 @@
     <details key="mutatorenvironment" value="platform:/resource/wodel.models/model/MutatorEnvironment.ecore#/"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Program">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" eType="#//ProgramConfiguration"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exercises" upperBound="-1"
         eType="#//MutatorTests" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MutatorTests" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="blocks" upperBound="-1"
-        eType="ecore:EClass ../../wodel.models/model/MutatorEnvironment.ecore#//Block">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markedBlocks" upperBound="-1"
+        eType="#//MarkedBlock" containment="true">
       <eAnnotations source="http://www.eclipse.org/OCL/Collection">
         <details key="nullFree" value="false"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
         eType="#//Test" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MarkedBlock">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass ../../wodel.models/model/MutatorEnvironment.ecore#//Block">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="solution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Configuration" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ProgramConfiguration" eSuperTypes="#//Configuration">
@@ -30,8 +39,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="retry" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="#//Mode"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="answers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="answers" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceEmConfig" eSuperTypes="#//TestConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weighted" lowerBound="1"

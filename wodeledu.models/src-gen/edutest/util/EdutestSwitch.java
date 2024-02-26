@@ -80,6 +80,13 @@ public class EdutestSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
+		case EdutestPackage.MARKED_BLOCK: {
+			MarkedBlock markedBlock = (MarkedBlock) theEObject;
+			T result = caseMarkedBlock(markedBlock);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
 		case EdutestPackage.CONFIGURATION: {
 			Configuration configuration = (Configuration) theEObject;
 			T result = caseConfiguration(configuration);
@@ -238,6 +245,21 @@ public class EdutestSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMutatorTests(MutatorTests object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Marked Block</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Marked Block</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMarkedBlock(MarkedBlock object) {
 		return null;
 	}
 

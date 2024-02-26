@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'yes'", "'no'", "'E'", "'e'", "'fixed'", "'random'", "'options-ascending'", "'options-descending'", "'radiobutton'", "'checkbox'", "'free'", "'locked'", "'AlternativeResponse'", "'{'", "'}'", "','", "'MultiChoiceDiagram'", "'MultiChoiceEmendation'", "'MatchPairs'", "'MissingWords'", "'MultiChoiceText'", "'AlternativeTextResponse'", "'DragAndDropText'", "'navigation'", "'='", "'retry'", "'mode'", "'statement'", "'('", "')'", "'answers'", "'weighted'", "'penalty'", "'order'", "'text'", "'description'", "'for'", "'-'", "'.'", "'%text'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'yes'", "'no'", "'E'", "'e'", "'fixed'", "'random'", "'options-ascending'", "'options-descending'", "'radiobutton'", "'checkbox'", "'free'", "'locked'", "'metamodel'", "'solution'", "'AlternativeResponse'", "'{'", "'}'", "','", "'MultiChoiceDiagram'", "'MultiChoiceEmendation'", "'MatchPairs'", "'MissingWords'", "'MultiChoiceText'", "'AlternativeTextResponse'", "'DragAndDropText'", "'navigation'", "'='", "'retry'", "'mode'", "'statement'", "'answers'", "'weighted'", "'penalty'", "'order'", "'text'", "'description'", "'for'", "'('", "')'", "'-'", "'.'", "'%text'"
     };
     public static final int T__50=50;
     public static final int T__19=19;
@@ -34,6 +34,8 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     public static final int T__12=12;
     public static final int T__13=13;
     public static final int T__14=14;
+    public static final int T__51=51;
+    public static final int T__52=52;
     public static final int RULE_ID=5;
     public static final int T__26=26;
     public static final int T__27=27;
@@ -262,12 +264,89 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "ruleMutatorTests"
 
 
+    // $ANTLR start "entryRuleMarkedBlock"
+    // InternalEduTest.g:103:1: entryRuleMarkedBlock : ruleMarkedBlock EOF ;
+    public final void entryRuleMarkedBlock() throws RecognitionException {
+        try {
+            // InternalEduTest.g:104:1: ( ruleMarkedBlock EOF )
+            // InternalEduTest.g:105:1: ruleMarkedBlock EOF
+            {
+             before(grammarAccess.getMarkedBlockRule()); 
+            pushFollow(FOLLOW_1);
+            ruleMarkedBlock();
+
+            state._fsp--;
+
+             after(grammarAccess.getMarkedBlockRule()); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+        }
+        return ;
+    }
+    // $ANTLR end "entryRuleMarkedBlock"
+
+
+    // $ANTLR start "ruleMarkedBlock"
+    // InternalEduTest.g:112:1: ruleMarkedBlock : ( ( rule__MarkedBlock__Group__0 ) ) ;
+    public final void ruleMarkedBlock() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:116:2: ( ( ( rule__MarkedBlock__Group__0 ) ) )
+            // InternalEduTest.g:117:2: ( ( rule__MarkedBlock__Group__0 ) )
+            {
+            // InternalEduTest.g:117:2: ( ( rule__MarkedBlock__Group__0 ) )
+            // InternalEduTest.g:118:3: ( rule__MarkedBlock__Group__0 )
+            {
+             before(grammarAccess.getMarkedBlockAccess().getGroup()); 
+            // InternalEduTest.g:119:3: ( rule__MarkedBlock__Group__0 )
+            // InternalEduTest.g:119:4: rule__MarkedBlock__Group__0
+            {
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group__0();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getMarkedBlockAccess().getGroup()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "ruleMarkedBlock"
+
+
     // $ANTLR start "entryRuleAlternativeResponse"
-    // InternalEduTest.g:103:1: entryRuleAlternativeResponse : ruleAlternativeResponse EOF ;
+    // InternalEduTest.g:128:1: entryRuleAlternativeResponse : ruleAlternativeResponse EOF ;
     public final void entryRuleAlternativeResponse() throws RecognitionException {
         try {
-            // InternalEduTest.g:104:1: ( ruleAlternativeResponse EOF )
-            // InternalEduTest.g:105:1: ruleAlternativeResponse EOF
+            // InternalEduTest.g:129:1: ( ruleAlternativeResponse EOF )
+            // InternalEduTest.g:130:1: ruleAlternativeResponse EOF
             {
              before(grammarAccess.getAlternativeResponseRule()); 
             pushFollow(FOLLOW_1);
@@ -293,21 +372,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleAlternativeResponse"
-    // InternalEduTest.g:112:1: ruleAlternativeResponse : ( ( rule__AlternativeResponse__Group__0 ) ) ;
+    // InternalEduTest.g:137:1: ruleAlternativeResponse : ( ( rule__AlternativeResponse__Group__0 ) ) ;
     public final void ruleAlternativeResponse() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:116:2: ( ( ( rule__AlternativeResponse__Group__0 ) ) )
-            // InternalEduTest.g:117:2: ( ( rule__AlternativeResponse__Group__0 ) )
+            // InternalEduTest.g:141:2: ( ( ( rule__AlternativeResponse__Group__0 ) ) )
+            // InternalEduTest.g:142:2: ( ( rule__AlternativeResponse__Group__0 ) )
             {
-            // InternalEduTest.g:117:2: ( ( rule__AlternativeResponse__Group__0 ) )
-            // InternalEduTest.g:118:3: ( rule__AlternativeResponse__Group__0 )
+            // InternalEduTest.g:142:2: ( ( rule__AlternativeResponse__Group__0 ) )
+            // InternalEduTest.g:143:3: ( rule__AlternativeResponse__Group__0 )
             {
              before(grammarAccess.getAlternativeResponseAccess().getGroup()); 
-            // InternalEduTest.g:119:3: ( rule__AlternativeResponse__Group__0 )
-            // InternalEduTest.g:119:4: rule__AlternativeResponse__Group__0
+            // InternalEduTest.g:144:3: ( rule__AlternativeResponse__Group__0 )
+            // InternalEduTest.g:144:4: rule__AlternativeResponse__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeResponse__Group__0();
@@ -340,11 +419,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMultiChoiceDiagram"
-    // InternalEduTest.g:128:1: entryRuleMultiChoiceDiagram : ruleMultiChoiceDiagram EOF ;
+    // InternalEduTest.g:153:1: entryRuleMultiChoiceDiagram : ruleMultiChoiceDiagram EOF ;
     public final void entryRuleMultiChoiceDiagram() throws RecognitionException {
         try {
-            // InternalEduTest.g:129:1: ( ruleMultiChoiceDiagram EOF )
-            // InternalEduTest.g:130:1: ruleMultiChoiceDiagram EOF
+            // InternalEduTest.g:154:1: ( ruleMultiChoiceDiagram EOF )
+            // InternalEduTest.g:155:1: ruleMultiChoiceDiagram EOF
             {
              before(grammarAccess.getMultiChoiceDiagramRule()); 
             pushFollow(FOLLOW_1);
@@ -370,21 +449,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMultiChoiceDiagram"
-    // InternalEduTest.g:137:1: ruleMultiChoiceDiagram : ( ( rule__MultiChoiceDiagram__Group__0 ) ) ;
+    // InternalEduTest.g:162:1: ruleMultiChoiceDiagram : ( ( rule__MultiChoiceDiagram__Group__0 ) ) ;
     public final void ruleMultiChoiceDiagram() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:141:2: ( ( ( rule__MultiChoiceDiagram__Group__0 ) ) )
-            // InternalEduTest.g:142:2: ( ( rule__MultiChoiceDiagram__Group__0 ) )
+            // InternalEduTest.g:166:2: ( ( ( rule__MultiChoiceDiagram__Group__0 ) ) )
+            // InternalEduTest.g:167:2: ( ( rule__MultiChoiceDiagram__Group__0 ) )
             {
-            // InternalEduTest.g:142:2: ( ( rule__MultiChoiceDiagram__Group__0 ) )
-            // InternalEduTest.g:143:3: ( rule__MultiChoiceDiagram__Group__0 )
+            // InternalEduTest.g:167:2: ( ( rule__MultiChoiceDiagram__Group__0 ) )
+            // InternalEduTest.g:168:3: ( rule__MultiChoiceDiagram__Group__0 )
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getGroup()); 
-            // InternalEduTest.g:144:3: ( rule__MultiChoiceDiagram__Group__0 )
-            // InternalEduTest.g:144:4: rule__MultiChoiceDiagram__Group__0
+            // InternalEduTest.g:169:3: ( rule__MultiChoiceDiagram__Group__0 )
+            // InternalEduTest.g:169:4: rule__MultiChoiceDiagram__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceDiagram__Group__0();
@@ -417,11 +496,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMultiChoiceEmendation"
-    // InternalEduTest.g:153:1: entryRuleMultiChoiceEmendation : ruleMultiChoiceEmendation EOF ;
+    // InternalEduTest.g:178:1: entryRuleMultiChoiceEmendation : ruleMultiChoiceEmendation EOF ;
     public final void entryRuleMultiChoiceEmendation() throws RecognitionException {
         try {
-            // InternalEduTest.g:154:1: ( ruleMultiChoiceEmendation EOF )
-            // InternalEduTest.g:155:1: ruleMultiChoiceEmendation EOF
+            // InternalEduTest.g:179:1: ( ruleMultiChoiceEmendation EOF )
+            // InternalEduTest.g:180:1: ruleMultiChoiceEmendation EOF
             {
              before(grammarAccess.getMultiChoiceEmendationRule()); 
             pushFollow(FOLLOW_1);
@@ -447,21 +526,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMultiChoiceEmendation"
-    // InternalEduTest.g:162:1: ruleMultiChoiceEmendation : ( ( rule__MultiChoiceEmendation__Group__0 ) ) ;
+    // InternalEduTest.g:187:1: ruleMultiChoiceEmendation : ( ( rule__MultiChoiceEmendation__Group__0 ) ) ;
     public final void ruleMultiChoiceEmendation() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:166:2: ( ( ( rule__MultiChoiceEmendation__Group__0 ) ) )
-            // InternalEduTest.g:167:2: ( ( rule__MultiChoiceEmendation__Group__0 ) )
+            // InternalEduTest.g:191:2: ( ( ( rule__MultiChoiceEmendation__Group__0 ) ) )
+            // InternalEduTest.g:192:2: ( ( rule__MultiChoiceEmendation__Group__0 ) )
             {
-            // InternalEduTest.g:167:2: ( ( rule__MultiChoiceEmendation__Group__0 ) )
-            // InternalEduTest.g:168:3: ( rule__MultiChoiceEmendation__Group__0 )
+            // InternalEduTest.g:192:2: ( ( rule__MultiChoiceEmendation__Group__0 ) )
+            // InternalEduTest.g:193:3: ( rule__MultiChoiceEmendation__Group__0 )
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getGroup()); 
-            // InternalEduTest.g:169:3: ( rule__MultiChoiceEmendation__Group__0 )
-            // InternalEduTest.g:169:4: rule__MultiChoiceEmendation__Group__0
+            // InternalEduTest.g:194:3: ( rule__MultiChoiceEmendation__Group__0 )
+            // InternalEduTest.g:194:4: rule__MultiChoiceEmendation__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmendation__Group__0();
@@ -494,11 +573,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMatchPairs"
-    // InternalEduTest.g:178:1: entryRuleMatchPairs : ruleMatchPairs EOF ;
+    // InternalEduTest.g:203:1: entryRuleMatchPairs : ruleMatchPairs EOF ;
     public final void entryRuleMatchPairs() throws RecognitionException {
         try {
-            // InternalEduTest.g:179:1: ( ruleMatchPairs EOF )
-            // InternalEduTest.g:180:1: ruleMatchPairs EOF
+            // InternalEduTest.g:204:1: ( ruleMatchPairs EOF )
+            // InternalEduTest.g:205:1: ruleMatchPairs EOF
             {
              before(grammarAccess.getMatchPairsRule()); 
             pushFollow(FOLLOW_1);
@@ -524,21 +603,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMatchPairs"
-    // InternalEduTest.g:187:1: ruleMatchPairs : ( ( rule__MatchPairs__Group__0 ) ) ;
+    // InternalEduTest.g:212:1: ruleMatchPairs : ( ( rule__MatchPairs__Group__0 ) ) ;
     public final void ruleMatchPairs() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:191:2: ( ( ( rule__MatchPairs__Group__0 ) ) )
-            // InternalEduTest.g:192:2: ( ( rule__MatchPairs__Group__0 ) )
+            // InternalEduTest.g:216:2: ( ( ( rule__MatchPairs__Group__0 ) ) )
+            // InternalEduTest.g:217:2: ( ( rule__MatchPairs__Group__0 ) )
             {
-            // InternalEduTest.g:192:2: ( ( rule__MatchPairs__Group__0 ) )
-            // InternalEduTest.g:193:3: ( rule__MatchPairs__Group__0 )
+            // InternalEduTest.g:217:2: ( ( rule__MatchPairs__Group__0 ) )
+            // InternalEduTest.g:218:3: ( rule__MatchPairs__Group__0 )
             {
              before(grammarAccess.getMatchPairsAccess().getGroup()); 
-            // InternalEduTest.g:194:3: ( rule__MatchPairs__Group__0 )
-            // InternalEduTest.g:194:4: rule__MatchPairs__Group__0
+            // InternalEduTest.g:219:3: ( rule__MatchPairs__Group__0 )
+            // InternalEduTest.g:219:4: rule__MatchPairs__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MatchPairs__Group__0();
@@ -571,11 +650,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMissingWords"
-    // InternalEduTest.g:203:1: entryRuleMissingWords : ruleMissingWords EOF ;
+    // InternalEduTest.g:228:1: entryRuleMissingWords : ruleMissingWords EOF ;
     public final void entryRuleMissingWords() throws RecognitionException {
         try {
-            // InternalEduTest.g:204:1: ( ruleMissingWords EOF )
-            // InternalEduTest.g:205:1: ruleMissingWords EOF
+            // InternalEduTest.g:229:1: ( ruleMissingWords EOF )
+            // InternalEduTest.g:230:1: ruleMissingWords EOF
             {
              before(grammarAccess.getMissingWordsRule()); 
             pushFollow(FOLLOW_1);
@@ -601,21 +680,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMissingWords"
-    // InternalEduTest.g:212:1: ruleMissingWords : ( ( rule__MissingWords__Group__0 ) ) ;
+    // InternalEduTest.g:237:1: ruleMissingWords : ( ( rule__MissingWords__Group__0 ) ) ;
     public final void ruleMissingWords() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:216:2: ( ( ( rule__MissingWords__Group__0 ) ) )
-            // InternalEduTest.g:217:2: ( ( rule__MissingWords__Group__0 ) )
+            // InternalEduTest.g:241:2: ( ( ( rule__MissingWords__Group__0 ) ) )
+            // InternalEduTest.g:242:2: ( ( rule__MissingWords__Group__0 ) )
             {
-            // InternalEduTest.g:217:2: ( ( rule__MissingWords__Group__0 ) )
-            // InternalEduTest.g:218:3: ( rule__MissingWords__Group__0 )
+            // InternalEduTest.g:242:2: ( ( rule__MissingWords__Group__0 ) )
+            // InternalEduTest.g:243:3: ( rule__MissingWords__Group__0 )
             {
              before(grammarAccess.getMissingWordsAccess().getGroup()); 
-            // InternalEduTest.g:219:3: ( rule__MissingWords__Group__0 )
-            // InternalEduTest.g:219:4: rule__MissingWords__Group__0
+            // InternalEduTest.g:244:3: ( rule__MissingWords__Group__0 )
+            // InternalEduTest.g:244:4: rule__MissingWords__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MissingWords__Group__0();
@@ -648,11 +727,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMultiChoiceText"
-    // InternalEduTest.g:228:1: entryRuleMultiChoiceText : ruleMultiChoiceText EOF ;
+    // InternalEduTest.g:253:1: entryRuleMultiChoiceText : ruleMultiChoiceText EOF ;
     public final void entryRuleMultiChoiceText() throws RecognitionException {
         try {
-            // InternalEduTest.g:229:1: ( ruleMultiChoiceText EOF )
-            // InternalEduTest.g:230:1: ruleMultiChoiceText EOF
+            // InternalEduTest.g:254:1: ( ruleMultiChoiceText EOF )
+            // InternalEduTest.g:255:1: ruleMultiChoiceText EOF
             {
              before(grammarAccess.getMultiChoiceTextRule()); 
             pushFollow(FOLLOW_1);
@@ -678,21 +757,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMultiChoiceText"
-    // InternalEduTest.g:237:1: ruleMultiChoiceText : ( ( rule__MultiChoiceText__Group__0 ) ) ;
+    // InternalEduTest.g:262:1: ruleMultiChoiceText : ( ( rule__MultiChoiceText__Group__0 ) ) ;
     public final void ruleMultiChoiceText() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:241:2: ( ( ( rule__MultiChoiceText__Group__0 ) ) )
-            // InternalEduTest.g:242:2: ( ( rule__MultiChoiceText__Group__0 ) )
+            // InternalEduTest.g:266:2: ( ( ( rule__MultiChoiceText__Group__0 ) ) )
+            // InternalEduTest.g:267:2: ( ( rule__MultiChoiceText__Group__0 ) )
             {
-            // InternalEduTest.g:242:2: ( ( rule__MultiChoiceText__Group__0 ) )
-            // InternalEduTest.g:243:3: ( rule__MultiChoiceText__Group__0 )
+            // InternalEduTest.g:267:2: ( ( rule__MultiChoiceText__Group__0 ) )
+            // InternalEduTest.g:268:3: ( rule__MultiChoiceText__Group__0 )
             {
              before(grammarAccess.getMultiChoiceTextAccess().getGroup()); 
-            // InternalEduTest.g:244:3: ( rule__MultiChoiceText__Group__0 )
-            // InternalEduTest.g:244:4: rule__MultiChoiceText__Group__0
+            // InternalEduTest.g:269:3: ( rule__MultiChoiceText__Group__0 )
+            // InternalEduTest.g:269:4: rule__MultiChoiceText__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceText__Group__0();
@@ -725,11 +804,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleAlternativeText"
-    // InternalEduTest.g:253:1: entryRuleAlternativeText : ruleAlternativeText EOF ;
+    // InternalEduTest.g:278:1: entryRuleAlternativeText : ruleAlternativeText EOF ;
     public final void entryRuleAlternativeText() throws RecognitionException {
         try {
-            // InternalEduTest.g:254:1: ( ruleAlternativeText EOF )
-            // InternalEduTest.g:255:1: ruleAlternativeText EOF
+            // InternalEduTest.g:279:1: ( ruleAlternativeText EOF )
+            // InternalEduTest.g:280:1: ruleAlternativeText EOF
             {
              before(grammarAccess.getAlternativeTextRule()); 
             pushFollow(FOLLOW_1);
@@ -755,21 +834,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleAlternativeText"
-    // InternalEduTest.g:262:1: ruleAlternativeText : ( ( rule__AlternativeText__Group__0 ) ) ;
+    // InternalEduTest.g:287:1: ruleAlternativeText : ( ( rule__AlternativeText__Group__0 ) ) ;
     public final void ruleAlternativeText() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:266:2: ( ( ( rule__AlternativeText__Group__0 ) ) )
-            // InternalEduTest.g:267:2: ( ( rule__AlternativeText__Group__0 ) )
+            // InternalEduTest.g:291:2: ( ( ( rule__AlternativeText__Group__0 ) ) )
+            // InternalEduTest.g:292:2: ( ( rule__AlternativeText__Group__0 ) )
             {
-            // InternalEduTest.g:267:2: ( ( rule__AlternativeText__Group__0 ) )
-            // InternalEduTest.g:268:3: ( rule__AlternativeText__Group__0 )
+            // InternalEduTest.g:292:2: ( ( rule__AlternativeText__Group__0 ) )
+            // InternalEduTest.g:293:3: ( rule__AlternativeText__Group__0 )
             {
              before(grammarAccess.getAlternativeTextAccess().getGroup()); 
-            // InternalEduTest.g:269:3: ( rule__AlternativeText__Group__0 )
-            // InternalEduTest.g:269:4: rule__AlternativeText__Group__0
+            // InternalEduTest.g:294:3: ( rule__AlternativeText__Group__0 )
+            // InternalEduTest.g:294:4: rule__AlternativeText__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeText__Group__0();
@@ -802,11 +881,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleDragAndDropText"
-    // InternalEduTest.g:278:1: entryRuleDragAndDropText : ruleDragAndDropText EOF ;
+    // InternalEduTest.g:303:1: entryRuleDragAndDropText : ruleDragAndDropText EOF ;
     public final void entryRuleDragAndDropText() throws RecognitionException {
         try {
-            // InternalEduTest.g:279:1: ( ruleDragAndDropText EOF )
-            // InternalEduTest.g:280:1: ruleDragAndDropText EOF
+            // InternalEduTest.g:304:1: ( ruleDragAndDropText EOF )
+            // InternalEduTest.g:305:1: ruleDragAndDropText EOF
             {
              before(grammarAccess.getDragAndDropTextRule()); 
             pushFollow(FOLLOW_1);
@@ -832,21 +911,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleDragAndDropText"
-    // InternalEduTest.g:287:1: ruleDragAndDropText : ( ( rule__DragAndDropText__Group__0 ) ) ;
+    // InternalEduTest.g:312:1: ruleDragAndDropText : ( ( rule__DragAndDropText__Group__0 ) ) ;
     public final void ruleDragAndDropText() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:291:2: ( ( ( rule__DragAndDropText__Group__0 ) ) )
-            // InternalEduTest.g:292:2: ( ( rule__DragAndDropText__Group__0 ) )
+            // InternalEduTest.g:316:2: ( ( ( rule__DragAndDropText__Group__0 ) ) )
+            // InternalEduTest.g:317:2: ( ( rule__DragAndDropText__Group__0 ) )
             {
-            // InternalEduTest.g:292:2: ( ( rule__DragAndDropText__Group__0 ) )
-            // InternalEduTest.g:293:3: ( rule__DragAndDropText__Group__0 )
+            // InternalEduTest.g:317:2: ( ( rule__DragAndDropText__Group__0 ) )
+            // InternalEduTest.g:318:3: ( rule__DragAndDropText__Group__0 )
             {
              before(grammarAccess.getDragAndDropTextAccess().getGroup()); 
-            // InternalEduTest.g:294:3: ( rule__DragAndDropText__Group__0 )
-            // InternalEduTest.g:294:4: rule__DragAndDropText__Group__0
+            // InternalEduTest.g:319:3: ( rule__DragAndDropText__Group__0 )
+            // InternalEduTest.g:319:4: rule__DragAndDropText__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__DragAndDropText__Group__0();
@@ -879,11 +958,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleProgramConfiguration"
-    // InternalEduTest.g:303:1: entryRuleProgramConfiguration : ruleProgramConfiguration EOF ;
+    // InternalEduTest.g:328:1: entryRuleProgramConfiguration : ruleProgramConfiguration EOF ;
     public final void entryRuleProgramConfiguration() throws RecognitionException {
         try {
-            // InternalEduTest.g:304:1: ( ruleProgramConfiguration EOF )
-            // InternalEduTest.g:305:1: ruleProgramConfiguration EOF
+            // InternalEduTest.g:329:1: ( ruleProgramConfiguration EOF )
+            // InternalEduTest.g:330:1: ruleProgramConfiguration EOF
             {
              before(grammarAccess.getProgramConfigurationRule()); 
             pushFollow(FOLLOW_1);
@@ -909,21 +988,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleProgramConfiguration"
-    // InternalEduTest.g:312:1: ruleProgramConfiguration : ( ( rule__ProgramConfiguration__Group__0 ) ) ;
+    // InternalEduTest.g:337:1: ruleProgramConfiguration : ( ( rule__ProgramConfiguration__Group__0 ) ) ;
     public final void ruleProgramConfiguration() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:316:2: ( ( ( rule__ProgramConfiguration__Group__0 ) ) )
-            // InternalEduTest.g:317:2: ( ( rule__ProgramConfiguration__Group__0 ) )
+            // InternalEduTest.g:341:2: ( ( ( rule__ProgramConfiguration__Group__0 ) ) )
+            // InternalEduTest.g:342:2: ( ( rule__ProgramConfiguration__Group__0 ) )
             {
-            // InternalEduTest.g:317:2: ( ( rule__ProgramConfiguration__Group__0 ) )
-            // InternalEduTest.g:318:3: ( rule__ProgramConfiguration__Group__0 )
+            // InternalEduTest.g:342:2: ( ( rule__ProgramConfiguration__Group__0 ) )
+            // InternalEduTest.g:343:3: ( rule__ProgramConfiguration__Group__0 )
             {
              before(grammarAccess.getProgramConfigurationAccess().getGroup()); 
-            // InternalEduTest.g:319:3: ( rule__ProgramConfiguration__Group__0 )
-            // InternalEduTest.g:319:4: rule__ProgramConfiguration__Group__0
+            // InternalEduTest.g:344:3: ( rule__ProgramConfiguration__Group__0 )
+            // InternalEduTest.g:344:4: rule__ProgramConfiguration__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__ProgramConfiguration__Group__0();
@@ -956,11 +1035,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleTestConfiguration"
-    // InternalEduTest.g:328:1: entryRuleTestConfiguration : ruleTestConfiguration EOF ;
+    // InternalEduTest.g:353:1: entryRuleTestConfiguration : ruleTestConfiguration EOF ;
     public final void entryRuleTestConfiguration() throws RecognitionException {
         try {
-            // InternalEduTest.g:329:1: ( ruleTestConfiguration EOF )
-            // InternalEduTest.g:330:1: ruleTestConfiguration EOF
+            // InternalEduTest.g:354:1: ( ruleTestConfiguration EOF )
+            // InternalEduTest.g:355:1: ruleTestConfiguration EOF
             {
              before(grammarAccess.getTestConfigurationRule()); 
             pushFollow(FOLLOW_1);
@@ -986,21 +1065,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleTestConfiguration"
-    // InternalEduTest.g:337:1: ruleTestConfiguration : ( ( rule__TestConfiguration__Group__0 ) ) ;
+    // InternalEduTest.g:362:1: ruleTestConfiguration : ( ( rule__TestConfiguration__Group__0 ) ) ;
     public final void ruleTestConfiguration() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:341:2: ( ( ( rule__TestConfiguration__Group__0 ) ) )
-            // InternalEduTest.g:342:2: ( ( rule__TestConfiguration__Group__0 ) )
+            // InternalEduTest.g:366:2: ( ( ( rule__TestConfiguration__Group__0 ) ) )
+            // InternalEduTest.g:367:2: ( ( rule__TestConfiguration__Group__0 ) )
             {
-            // InternalEduTest.g:342:2: ( ( rule__TestConfiguration__Group__0 ) )
-            // InternalEduTest.g:343:3: ( rule__TestConfiguration__Group__0 )
+            // InternalEduTest.g:367:2: ( ( rule__TestConfiguration__Group__0 ) )
+            // InternalEduTest.g:368:3: ( rule__TestConfiguration__Group__0 )
             {
              before(grammarAccess.getTestConfigurationAccess().getGroup()); 
-            // InternalEduTest.g:344:3: ( rule__TestConfiguration__Group__0 )
-            // InternalEduTest.g:344:4: rule__TestConfiguration__Group__0
+            // InternalEduTest.g:369:3: ( rule__TestConfiguration__Group__0 )
+            // InternalEduTest.g:369:4: rule__TestConfiguration__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__Group__0();
@@ -1033,11 +1112,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleMultiChoiceEmConfig"
-    // InternalEduTest.g:353:1: entryRuleMultiChoiceEmConfig : ruleMultiChoiceEmConfig EOF ;
+    // InternalEduTest.g:378:1: entryRuleMultiChoiceEmConfig : ruleMultiChoiceEmConfig EOF ;
     public final void entryRuleMultiChoiceEmConfig() throws RecognitionException {
         try {
-            // InternalEduTest.g:354:1: ( ruleMultiChoiceEmConfig EOF )
-            // InternalEduTest.g:355:1: ruleMultiChoiceEmConfig EOF
+            // InternalEduTest.g:379:1: ( ruleMultiChoiceEmConfig EOF )
+            // InternalEduTest.g:380:1: ruleMultiChoiceEmConfig EOF
             {
              before(grammarAccess.getMultiChoiceEmConfigRule()); 
             pushFollow(FOLLOW_1);
@@ -1063,21 +1142,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMultiChoiceEmConfig"
-    // InternalEduTest.g:362:1: ruleMultiChoiceEmConfig : ( ( rule__MultiChoiceEmConfig__Group__0 ) ) ;
+    // InternalEduTest.g:387:1: ruleMultiChoiceEmConfig : ( ( rule__MultiChoiceEmConfig__Group__0 ) ) ;
     public final void ruleMultiChoiceEmConfig() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:366:2: ( ( ( rule__MultiChoiceEmConfig__Group__0 ) ) )
-            // InternalEduTest.g:367:2: ( ( rule__MultiChoiceEmConfig__Group__0 ) )
+            // InternalEduTest.g:391:2: ( ( ( rule__MultiChoiceEmConfig__Group__0 ) ) )
+            // InternalEduTest.g:392:2: ( ( rule__MultiChoiceEmConfig__Group__0 ) )
             {
-            // InternalEduTest.g:367:2: ( ( rule__MultiChoiceEmConfig__Group__0 ) )
-            // InternalEduTest.g:368:3: ( rule__MultiChoiceEmConfig__Group__0 )
+            // InternalEduTest.g:392:2: ( ( rule__MultiChoiceEmConfig__Group__0 ) )
+            // InternalEduTest.g:393:3: ( rule__MultiChoiceEmConfig__Group__0 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getGroup()); 
-            // InternalEduTest.g:369:3: ( rule__MultiChoiceEmConfig__Group__0 )
-            // InternalEduTest.g:369:4: rule__MultiChoiceEmConfig__Group__0
+            // InternalEduTest.g:394:3: ( rule__MultiChoiceEmConfig__Group__0 )
+            // InternalEduTest.g:394:4: rule__MultiChoiceEmConfig__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__Group__0();
@@ -1110,11 +1189,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleTextConfiguration"
-    // InternalEduTest.g:378:1: entryRuleTextConfiguration : ruleTextConfiguration EOF ;
+    // InternalEduTest.g:403:1: entryRuleTextConfiguration : ruleTextConfiguration EOF ;
     public final void entryRuleTextConfiguration() throws RecognitionException {
         try {
-            // InternalEduTest.g:379:1: ( ruleTextConfiguration EOF )
-            // InternalEduTest.g:380:1: ruleTextConfiguration EOF
+            // InternalEduTest.g:404:1: ( ruleTextConfiguration EOF )
+            // InternalEduTest.g:405:1: ruleTextConfiguration EOF
             {
              before(grammarAccess.getTextConfigurationRule()); 
             pushFollow(FOLLOW_1);
@@ -1140,21 +1219,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleTextConfiguration"
-    // InternalEduTest.g:387:1: ruleTextConfiguration : ( ( rule__TextConfiguration__Group__0 ) ) ;
+    // InternalEduTest.g:412:1: ruleTextConfiguration : ( ( rule__TextConfiguration__Group__0 ) ) ;
     public final void ruleTextConfiguration() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:391:2: ( ( ( rule__TextConfiguration__Group__0 ) ) )
-            // InternalEduTest.g:392:2: ( ( rule__TextConfiguration__Group__0 ) )
+            // InternalEduTest.g:416:2: ( ( ( rule__TextConfiguration__Group__0 ) ) )
+            // InternalEduTest.g:417:2: ( ( rule__TextConfiguration__Group__0 ) )
             {
-            // InternalEduTest.g:392:2: ( ( rule__TextConfiguration__Group__0 ) )
-            // InternalEduTest.g:393:3: ( rule__TextConfiguration__Group__0 )
+            // InternalEduTest.g:417:2: ( ( rule__TextConfiguration__Group__0 ) )
+            // InternalEduTest.g:418:3: ( rule__TextConfiguration__Group__0 )
             {
              before(grammarAccess.getTextConfigurationAccess().getGroup()); 
-            // InternalEduTest.g:394:3: ( rule__TextConfiguration__Group__0 )
-            // InternalEduTest.g:394:4: rule__TextConfiguration__Group__0
+            // InternalEduTest.g:419:3: ( rule__TextConfiguration__Group__0 )
+            // InternalEduTest.g:419:4: rule__TextConfiguration__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__TextConfiguration__Group__0();
@@ -1187,11 +1266,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleTest"
-    // InternalEduTest.g:403:1: entryRuleTest : ruleTest EOF ;
+    // InternalEduTest.g:428:1: entryRuleTest : ruleTest EOF ;
     public final void entryRuleTest() throws RecognitionException {
         try {
-            // InternalEduTest.g:404:1: ( ruleTest EOF )
-            // InternalEduTest.g:405:1: ruleTest EOF
+            // InternalEduTest.g:429:1: ( ruleTest EOF )
+            // InternalEduTest.g:430:1: ruleTest EOF
             {
              before(grammarAccess.getTestRule()); 
             pushFollow(FOLLOW_1);
@@ -1217,21 +1296,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleTest"
-    // InternalEduTest.g:412:1: ruleTest : ( ( rule__Test__Group__0 ) ) ;
+    // InternalEduTest.g:437:1: ruleTest : ( ( rule__Test__Group__0 ) ) ;
     public final void ruleTest() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:416:2: ( ( ( rule__Test__Group__0 ) ) )
-            // InternalEduTest.g:417:2: ( ( rule__Test__Group__0 ) )
+            // InternalEduTest.g:441:2: ( ( ( rule__Test__Group__0 ) ) )
+            // InternalEduTest.g:442:2: ( ( rule__Test__Group__0 ) )
             {
-            // InternalEduTest.g:417:2: ( ( rule__Test__Group__0 ) )
-            // InternalEduTest.g:418:3: ( rule__Test__Group__0 )
+            // InternalEduTest.g:442:2: ( ( rule__Test__Group__0 ) )
+            // InternalEduTest.g:443:3: ( rule__Test__Group__0 )
             {
              before(grammarAccess.getTestAccess().getGroup()); 
-            // InternalEduTest.g:419:3: ( rule__Test__Group__0 )
-            // InternalEduTest.g:419:4: rule__Test__Group__0
+            // InternalEduTest.g:444:3: ( rule__Test__Group__0 )
+            // InternalEduTest.g:444:4: rule__Test__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__Test__Group__0();
@@ -1264,11 +1343,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // InternalEduTest.g:428:1: entryRuleEString : ruleEString EOF ;
+    // InternalEduTest.g:453:1: entryRuleEString : ruleEString EOF ;
     public final void entryRuleEString() throws RecognitionException {
         try {
-            // InternalEduTest.g:429:1: ( ruleEString EOF )
-            // InternalEduTest.g:430:1: ruleEString EOF
+            // InternalEduTest.g:454:1: ( ruleEString EOF )
+            // InternalEduTest.g:455:1: ruleEString EOF
             {
              before(grammarAccess.getEStringRule()); 
             pushFollow(FOLLOW_1);
@@ -1294,21 +1373,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleEString"
-    // InternalEduTest.g:437:1: ruleEString : ( ( rule__EString__Alternatives ) ) ;
+    // InternalEduTest.g:462:1: ruleEString : ( ( rule__EString__Alternatives ) ) ;
     public final void ruleEString() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:441:2: ( ( ( rule__EString__Alternatives ) ) )
-            // InternalEduTest.g:442:2: ( ( rule__EString__Alternatives ) )
+            // InternalEduTest.g:466:2: ( ( ( rule__EString__Alternatives ) ) )
+            // InternalEduTest.g:467:2: ( ( rule__EString__Alternatives ) )
             {
-            // InternalEduTest.g:442:2: ( ( rule__EString__Alternatives ) )
-            // InternalEduTest.g:443:3: ( rule__EString__Alternatives )
+            // InternalEduTest.g:467:2: ( ( rule__EString__Alternatives ) )
+            // InternalEduTest.g:468:3: ( rule__EString__Alternatives )
             {
              before(grammarAccess.getEStringAccess().getAlternatives()); 
-            // InternalEduTest.g:444:3: ( rule__EString__Alternatives )
-            // InternalEduTest.g:444:4: rule__EString__Alternatives
+            // InternalEduTest.g:469:3: ( rule__EString__Alternatives )
+            // InternalEduTest.g:469:4: rule__EString__Alternatives
             {
             pushFollow(FOLLOW_2);
             rule__EString__Alternatives();
@@ -1341,11 +1420,11 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "entryRuleEDouble"
-    // InternalEduTest.g:453:1: entryRuleEDouble : ruleEDouble EOF ;
+    // InternalEduTest.g:478:1: entryRuleEDouble : ruleEDouble EOF ;
     public final void entryRuleEDouble() throws RecognitionException {
         try {
-            // InternalEduTest.g:454:1: ( ruleEDouble EOF )
-            // InternalEduTest.g:455:1: ruleEDouble EOF
+            // InternalEduTest.g:479:1: ( ruleEDouble EOF )
+            // InternalEduTest.g:480:1: ruleEDouble EOF
             {
              before(grammarAccess.getEDoubleRule()); 
             pushFollow(FOLLOW_1);
@@ -1371,21 +1450,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleEDouble"
-    // InternalEduTest.g:462:1: ruleEDouble : ( ( rule__EDouble__Group__0 ) ) ;
+    // InternalEduTest.g:487:1: ruleEDouble : ( ( rule__EDouble__Group__0 ) ) ;
     public final void ruleEDouble() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:466:2: ( ( ( rule__EDouble__Group__0 ) ) )
-            // InternalEduTest.g:467:2: ( ( rule__EDouble__Group__0 ) )
+            // InternalEduTest.g:491:2: ( ( ( rule__EDouble__Group__0 ) ) )
+            // InternalEduTest.g:492:2: ( ( rule__EDouble__Group__0 ) )
             {
-            // InternalEduTest.g:467:2: ( ( rule__EDouble__Group__0 ) )
-            // InternalEduTest.g:468:3: ( rule__EDouble__Group__0 )
+            // InternalEduTest.g:492:2: ( ( rule__EDouble__Group__0 ) )
+            // InternalEduTest.g:493:3: ( rule__EDouble__Group__0 )
             {
              before(grammarAccess.getEDoubleAccess().getGroup()); 
-            // InternalEduTest.g:469:3: ( rule__EDouble__Group__0 )
-            // InternalEduTest.g:469:4: rule__EDouble__Group__0
+            // InternalEduTest.g:494:3: ( rule__EDouble__Group__0 )
+            // InternalEduTest.g:494:4: rule__EDouble__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__EDouble__Group__0();
@@ -1418,21 +1497,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleOrder"
-    // InternalEduTest.g:478:1: ruleOrder : ( ( rule__Order__Alternatives ) ) ;
+    // InternalEduTest.g:503:1: ruleOrder : ( ( rule__Order__Alternatives ) ) ;
     public final void ruleOrder() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:482:1: ( ( ( rule__Order__Alternatives ) ) )
-            // InternalEduTest.g:483:2: ( ( rule__Order__Alternatives ) )
+            // InternalEduTest.g:507:1: ( ( ( rule__Order__Alternatives ) ) )
+            // InternalEduTest.g:508:2: ( ( rule__Order__Alternatives ) )
             {
-            // InternalEduTest.g:483:2: ( ( rule__Order__Alternatives ) )
-            // InternalEduTest.g:484:3: ( rule__Order__Alternatives )
+            // InternalEduTest.g:508:2: ( ( rule__Order__Alternatives ) )
+            // InternalEduTest.g:509:3: ( rule__Order__Alternatives )
             {
              before(grammarAccess.getOrderAccess().getAlternatives()); 
-            // InternalEduTest.g:485:3: ( rule__Order__Alternatives )
-            // InternalEduTest.g:485:4: rule__Order__Alternatives
+            // InternalEduTest.g:510:3: ( rule__Order__Alternatives )
+            // InternalEduTest.g:510:4: rule__Order__Alternatives
             {
             pushFollow(FOLLOW_2);
             rule__Order__Alternatives();
@@ -1465,21 +1544,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleMode"
-    // InternalEduTest.g:494:1: ruleMode : ( ( rule__Mode__Alternatives ) ) ;
+    // InternalEduTest.g:519:1: ruleMode : ( ( rule__Mode__Alternatives ) ) ;
     public final void ruleMode() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:498:1: ( ( ( rule__Mode__Alternatives ) ) )
-            // InternalEduTest.g:499:2: ( ( rule__Mode__Alternatives ) )
+            // InternalEduTest.g:523:1: ( ( ( rule__Mode__Alternatives ) ) )
+            // InternalEduTest.g:524:2: ( ( rule__Mode__Alternatives ) )
             {
-            // InternalEduTest.g:499:2: ( ( rule__Mode__Alternatives ) )
-            // InternalEduTest.g:500:3: ( rule__Mode__Alternatives )
+            // InternalEduTest.g:524:2: ( ( rule__Mode__Alternatives ) )
+            // InternalEduTest.g:525:3: ( rule__Mode__Alternatives )
             {
              before(grammarAccess.getModeAccess().getAlternatives()); 
-            // InternalEduTest.g:501:3: ( rule__Mode__Alternatives )
-            // InternalEduTest.g:501:4: rule__Mode__Alternatives
+            // InternalEduTest.g:526:3: ( rule__Mode__Alternatives )
+            // InternalEduTest.g:526:4: rule__Mode__Alternatives
             {
             pushFollow(FOLLOW_2);
             rule__Mode__Alternatives();
@@ -1512,21 +1591,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "ruleNavigation"
-    // InternalEduTest.g:510:1: ruleNavigation : ( ( rule__Navigation__Alternatives ) ) ;
+    // InternalEduTest.g:535:1: ruleNavigation : ( ( rule__Navigation__Alternatives ) ) ;
     public final void ruleNavigation() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:514:1: ( ( ( rule__Navigation__Alternatives ) ) )
-            // InternalEduTest.g:515:2: ( ( rule__Navigation__Alternatives ) )
+            // InternalEduTest.g:539:1: ( ( ( rule__Navigation__Alternatives ) ) )
+            // InternalEduTest.g:540:2: ( ( rule__Navigation__Alternatives ) )
             {
-            // InternalEduTest.g:515:2: ( ( rule__Navigation__Alternatives ) )
-            // InternalEduTest.g:516:3: ( rule__Navigation__Alternatives )
+            // InternalEduTest.g:540:2: ( ( rule__Navigation__Alternatives ) )
+            // InternalEduTest.g:541:3: ( rule__Navigation__Alternatives )
             {
              before(grammarAccess.getNavigationAccess().getAlternatives()); 
-            // InternalEduTest.g:517:3: ( rule__Navigation__Alternatives )
-            // InternalEduTest.g:517:4: rule__Navigation__Alternatives
+            // InternalEduTest.g:542:3: ( rule__Navigation__Alternatives )
+            // InternalEduTest.g:542:4: rule__Navigation__Alternatives
             {
             pushFollow(FOLLOW_2);
             rule__Navigation__Alternatives();
@@ -1559,51 +1638,51 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MutatorTests__Alternatives"
-    // InternalEduTest.g:525:1: rule__MutatorTests__Alternatives : ( ( ruleAlternativeResponse ) | ( ruleMultiChoiceDiagram ) | ( ruleMultiChoiceEmendation ) | ( ruleMatchPairs ) | ( ruleMissingWords ) | ( ruleMultiChoiceText ) | ( ruleAlternativeText ) | ( ruleDragAndDropText ) );
+    // InternalEduTest.g:550:1: rule__MutatorTests__Alternatives : ( ( ruleAlternativeResponse ) | ( ruleMultiChoiceDiagram ) | ( ruleMultiChoiceEmendation ) | ( ruleMatchPairs ) | ( ruleMissingWords ) | ( ruleMultiChoiceText ) | ( ruleAlternativeText ) | ( ruleDragAndDropText ) );
     public final void rule__MutatorTests__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:529:1: ( ( ruleAlternativeResponse ) | ( ruleMultiChoiceDiagram ) | ( ruleMultiChoiceEmendation ) | ( ruleMatchPairs ) | ( ruleMissingWords ) | ( ruleMultiChoiceText ) | ( ruleAlternativeText ) | ( ruleDragAndDropText ) )
+            // InternalEduTest.g:554:1: ( ( ruleAlternativeResponse ) | ( ruleMultiChoiceDiagram ) | ( ruleMultiChoiceEmendation ) | ( ruleMatchPairs ) | ( ruleMissingWords ) | ( ruleMultiChoiceText ) | ( ruleAlternativeText ) | ( ruleDragAndDropText ) )
             int alt1=8;
             switch ( input.LA(1) ) {
-            case 23:
+            case 25:
                 {
                 alt1=1;
                 }
                 break;
-            case 27:
+            case 29:
                 {
                 alt1=2;
                 }
                 break;
-            case 28:
+            case 30:
                 {
                 alt1=3;
                 }
                 break;
-            case 29:
+            case 31:
                 {
                 alt1=4;
                 }
                 break;
-            case 30:
+            case 32:
                 {
                 alt1=5;
                 }
                 break;
-            case 31:
+            case 33:
                 {
                 alt1=6;
                 }
                 break;
-            case 32:
+            case 34:
                 {
                 alt1=7;
                 }
                 break;
-            case 33:
+            case 35:
                 {
                 alt1=8;
                 }
@@ -1617,10 +1696,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
             switch (alt1) {
                 case 1 :
-                    // InternalEduTest.g:530:2: ( ruleAlternativeResponse )
+                    // InternalEduTest.g:555:2: ( ruleAlternativeResponse )
                     {
-                    // InternalEduTest.g:530:2: ( ruleAlternativeResponse )
-                    // InternalEduTest.g:531:3: ruleAlternativeResponse
+                    // InternalEduTest.g:555:2: ( ruleAlternativeResponse )
+                    // InternalEduTest.g:556:3: ruleAlternativeResponse
                     {
                      before(grammarAccess.getMutatorTestsAccess().getAlternativeResponseParserRuleCall_0()); 
                     pushFollow(FOLLOW_2);
@@ -1636,10 +1715,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:536:2: ( ruleMultiChoiceDiagram )
+                    // InternalEduTest.g:561:2: ( ruleMultiChoiceDiagram )
                     {
-                    // InternalEduTest.g:536:2: ( ruleMultiChoiceDiagram )
-                    // InternalEduTest.g:537:3: ruleMultiChoiceDiagram
+                    // InternalEduTest.g:561:2: ( ruleMultiChoiceDiagram )
+                    // InternalEduTest.g:562:3: ruleMultiChoiceDiagram
                     {
                      before(grammarAccess.getMutatorTestsAccess().getMultiChoiceDiagramParserRuleCall_1()); 
                     pushFollow(FOLLOW_2);
@@ -1655,10 +1734,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 3 :
-                    // InternalEduTest.g:542:2: ( ruleMultiChoiceEmendation )
+                    // InternalEduTest.g:567:2: ( ruleMultiChoiceEmendation )
                     {
-                    // InternalEduTest.g:542:2: ( ruleMultiChoiceEmendation )
-                    // InternalEduTest.g:543:3: ruleMultiChoiceEmendation
+                    // InternalEduTest.g:567:2: ( ruleMultiChoiceEmendation )
+                    // InternalEduTest.g:568:3: ruleMultiChoiceEmendation
                     {
                      before(grammarAccess.getMutatorTestsAccess().getMultiChoiceEmendationParserRuleCall_2()); 
                     pushFollow(FOLLOW_2);
@@ -1674,10 +1753,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 4 :
-                    // InternalEduTest.g:548:2: ( ruleMatchPairs )
+                    // InternalEduTest.g:573:2: ( ruleMatchPairs )
                     {
-                    // InternalEduTest.g:548:2: ( ruleMatchPairs )
-                    // InternalEduTest.g:549:3: ruleMatchPairs
+                    // InternalEduTest.g:573:2: ( ruleMatchPairs )
+                    // InternalEduTest.g:574:3: ruleMatchPairs
                     {
                      before(grammarAccess.getMutatorTestsAccess().getMatchPairsParserRuleCall_3()); 
                     pushFollow(FOLLOW_2);
@@ -1693,10 +1772,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 5 :
-                    // InternalEduTest.g:554:2: ( ruleMissingWords )
+                    // InternalEduTest.g:579:2: ( ruleMissingWords )
                     {
-                    // InternalEduTest.g:554:2: ( ruleMissingWords )
-                    // InternalEduTest.g:555:3: ruleMissingWords
+                    // InternalEduTest.g:579:2: ( ruleMissingWords )
+                    // InternalEduTest.g:580:3: ruleMissingWords
                     {
                      before(grammarAccess.getMutatorTestsAccess().getMissingWordsParserRuleCall_4()); 
                     pushFollow(FOLLOW_2);
@@ -1712,10 +1791,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 6 :
-                    // InternalEduTest.g:560:2: ( ruleMultiChoiceText )
+                    // InternalEduTest.g:585:2: ( ruleMultiChoiceText )
                     {
-                    // InternalEduTest.g:560:2: ( ruleMultiChoiceText )
-                    // InternalEduTest.g:561:3: ruleMultiChoiceText
+                    // InternalEduTest.g:585:2: ( ruleMultiChoiceText )
+                    // InternalEduTest.g:586:3: ruleMultiChoiceText
                     {
                      before(grammarAccess.getMutatorTestsAccess().getMultiChoiceTextParserRuleCall_5()); 
                     pushFollow(FOLLOW_2);
@@ -1731,10 +1810,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 7 :
-                    // InternalEduTest.g:566:2: ( ruleAlternativeText )
+                    // InternalEduTest.g:591:2: ( ruleAlternativeText )
                     {
-                    // InternalEduTest.g:566:2: ( ruleAlternativeText )
-                    // InternalEduTest.g:567:3: ruleAlternativeText
+                    // InternalEduTest.g:591:2: ( ruleAlternativeText )
+                    // InternalEduTest.g:592:3: ruleAlternativeText
                     {
                      before(grammarAccess.getMutatorTestsAccess().getAlternativeTextParserRuleCall_6()); 
                     pushFollow(FOLLOW_2);
@@ -1750,10 +1829,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 8 :
-                    // InternalEduTest.g:572:2: ( ruleDragAndDropText )
+                    // InternalEduTest.g:597:2: ( ruleDragAndDropText )
                     {
-                    // InternalEduTest.g:572:2: ( ruleDragAndDropText )
-                    // InternalEduTest.g:573:3: ruleDragAndDropText
+                    // InternalEduTest.g:597:2: ( ruleDragAndDropText )
+                    // InternalEduTest.g:598:3: ruleDragAndDropText
                     {
                      before(grammarAccess.getMutatorTestsAccess().getDragAndDropTextParserRuleCall_7()); 
                     pushFollow(FOLLOW_2);
@@ -1786,13 +1865,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__RetryAlternatives_3_0"
-    // InternalEduTest.g:582:1: rule__TestConfiguration__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
+    // InternalEduTest.g:607:1: rule__TestConfiguration__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
     public final void rule__TestConfiguration__RetryAlternatives_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:586:1: ( ( 'yes' ) | ( 'no' ) )
+            // InternalEduTest.g:611:1: ( ( 'yes' ) | ( 'no' ) )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -1810,10 +1889,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt2) {
                 case 1 :
-                    // InternalEduTest.g:587:2: ( 'yes' )
+                    // InternalEduTest.g:612:2: ( 'yes' )
                     {
-                    // InternalEduTest.g:587:2: ( 'yes' )
-                    // InternalEduTest.g:588:3: 'yes'
+                    // InternalEduTest.g:612:2: ( 'yes' )
+                    // InternalEduTest.g:613:3: 'yes'
                     {
                      before(grammarAccess.getTestConfigurationAccess().getRetryYesKeyword_3_0_0()); 
                     match(input,11,FOLLOW_2); 
@@ -1825,10 +1904,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:593:2: ( 'no' )
+                    // InternalEduTest.g:618:2: ( 'no' )
                     {
-                    // InternalEduTest.g:593:2: ( 'no' )
-                    // InternalEduTest.g:594:3: 'no'
+                    // InternalEduTest.g:618:2: ( 'no' )
+                    // InternalEduTest.g:619:3: 'no'
                     {
                      before(grammarAccess.getTestConfigurationAccess().getRetryNoKeyword_3_0_1()); 
                     match(input,12,FOLLOW_2); 
@@ -1857,13 +1936,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__RetryAlternatives_3_0"
-    // InternalEduTest.g:603:1: rule__MultiChoiceEmConfig__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
+    // InternalEduTest.g:628:1: rule__MultiChoiceEmConfig__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
     public final void rule__MultiChoiceEmConfig__RetryAlternatives_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:607:1: ( ( 'yes' ) | ( 'no' ) )
+            // InternalEduTest.g:632:1: ( ( 'yes' ) | ( 'no' ) )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1881,10 +1960,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt3) {
                 case 1 :
-                    // InternalEduTest.g:608:2: ( 'yes' )
+                    // InternalEduTest.g:633:2: ( 'yes' )
                     {
-                    // InternalEduTest.g:608:2: ( 'yes' )
-                    // InternalEduTest.g:609:3: 'yes'
+                    // InternalEduTest.g:633:2: ( 'yes' )
+                    // InternalEduTest.g:634:3: 'yes'
                     {
                      before(grammarAccess.getMultiChoiceEmConfigAccess().getRetryYesKeyword_3_0_0()); 
                     match(input,11,FOLLOW_2); 
@@ -1896,10 +1975,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:614:2: ( 'no' )
+                    // InternalEduTest.g:639:2: ( 'no' )
                     {
-                    // InternalEduTest.g:614:2: ( 'no' )
-                    // InternalEduTest.g:615:3: 'no'
+                    // InternalEduTest.g:639:2: ( 'no' )
+                    // InternalEduTest.g:640:3: 'no'
                     {
                      before(grammarAccess.getMultiChoiceEmConfigAccess().getRetryNoKeyword_3_0_1()); 
                     match(input,12,FOLLOW_2); 
@@ -1928,13 +2007,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__WeightedAlternatives_7_0"
-    // InternalEduTest.g:624:1: rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 : ( ( 'yes' ) | ( 'no' ) );
+    // InternalEduTest.g:649:1: rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 : ( ( 'yes' ) | ( 'no' ) );
     public final void rule__MultiChoiceEmConfig__WeightedAlternatives_7_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:628:1: ( ( 'yes' ) | ( 'no' ) )
+            // InternalEduTest.g:653:1: ( ( 'yes' ) | ( 'no' ) )
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -1952,10 +2031,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt4) {
                 case 1 :
-                    // InternalEduTest.g:629:2: ( 'yes' )
+                    // InternalEduTest.g:654:2: ( 'yes' )
                     {
-                    // InternalEduTest.g:629:2: ( 'yes' )
-                    // InternalEduTest.g:630:3: 'yes'
+                    // InternalEduTest.g:654:2: ( 'yes' )
+                    // InternalEduTest.g:655:3: 'yes'
                     {
                      before(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedYesKeyword_7_0_0()); 
                     match(input,11,FOLLOW_2); 
@@ -1967,10 +2046,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:635:2: ( 'no' )
+                    // InternalEduTest.g:660:2: ( 'no' )
                     {
-                    // InternalEduTest.g:635:2: ( 'no' )
-                    // InternalEduTest.g:636:3: 'no'
+                    // InternalEduTest.g:660:2: ( 'no' )
+                    // InternalEduTest.g:661:3: 'no'
                     {
                      before(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedNoKeyword_7_0_1()); 
                     match(input,12,FOLLOW_2); 
@@ -1999,13 +2078,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__RetryAlternatives_3_0"
-    // InternalEduTest.g:645:1: rule__TextConfiguration__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
+    // InternalEduTest.g:670:1: rule__TextConfiguration__RetryAlternatives_3_0 : ( ( 'yes' ) | ( 'no' ) );
     public final void rule__TextConfiguration__RetryAlternatives_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:649:1: ( ( 'yes' ) | ( 'no' ) )
+            // InternalEduTest.g:674:1: ( ( 'yes' ) | ( 'no' ) )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -2023,10 +2102,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt5) {
                 case 1 :
-                    // InternalEduTest.g:650:2: ( 'yes' )
+                    // InternalEduTest.g:675:2: ( 'yes' )
                     {
-                    // InternalEduTest.g:650:2: ( 'yes' )
-                    // InternalEduTest.g:651:3: 'yes'
+                    // InternalEduTest.g:675:2: ( 'yes' )
+                    // InternalEduTest.g:676:3: 'yes'
                     {
                      before(grammarAccess.getTextConfigurationAccess().getRetryYesKeyword_3_0_0()); 
                     match(input,11,FOLLOW_2); 
@@ -2038,10 +2117,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:656:2: ( 'no' )
+                    // InternalEduTest.g:681:2: ( 'no' )
                     {
-                    // InternalEduTest.g:656:2: ( 'no' )
-                    // InternalEduTest.g:657:3: 'no'
+                    // InternalEduTest.g:681:2: ( 'no' )
+                    // InternalEduTest.g:682:3: 'no'
                     {
                      before(grammarAccess.getTextConfigurationAccess().getRetryNoKeyword_3_0_1()); 
                     match(input,12,FOLLOW_2); 
@@ -2070,13 +2149,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EString__Alternatives"
-    // InternalEduTest.g:666:1: rule__EString__Alternatives : ( ( RULE_STRING ) | ( RULE_ID ) );
+    // InternalEduTest.g:691:1: rule__EString__Alternatives : ( ( RULE_STRING ) | ( RULE_ID ) );
     public final void rule__EString__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:670:1: ( ( RULE_STRING ) | ( RULE_ID ) )
+            // InternalEduTest.g:695:1: ( ( RULE_STRING ) | ( RULE_ID ) )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -2094,10 +2173,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt6) {
                 case 1 :
-                    // InternalEduTest.g:671:2: ( RULE_STRING )
+                    // InternalEduTest.g:696:2: ( RULE_STRING )
                     {
-                    // InternalEduTest.g:671:2: ( RULE_STRING )
-                    // InternalEduTest.g:672:3: RULE_STRING
+                    // InternalEduTest.g:696:2: ( RULE_STRING )
+                    // InternalEduTest.g:697:3: RULE_STRING
                     {
                      before(grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0()); 
                     match(input,RULE_STRING,FOLLOW_2); 
@@ -2109,10 +2188,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:677:2: ( RULE_ID )
+                    // InternalEduTest.g:702:2: ( RULE_ID )
                     {
-                    // InternalEduTest.g:677:2: ( RULE_ID )
-                    // InternalEduTest.g:678:3: RULE_ID
+                    // InternalEduTest.g:702:2: ( RULE_ID )
+                    // InternalEduTest.g:703:3: RULE_ID
                     {
                      before(grammarAccess.getEStringAccess().getIDTerminalRuleCall_1()); 
                     match(input,RULE_ID,FOLLOW_2); 
@@ -2141,13 +2220,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Alternatives_4_0"
-    // InternalEduTest.g:687:1: rule__EDouble__Alternatives_4_0 : ( ( 'E' ) | ( 'e' ) );
+    // InternalEduTest.g:712:1: rule__EDouble__Alternatives_4_0 : ( ( 'E' ) | ( 'e' ) );
     public final void rule__EDouble__Alternatives_4_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:691:1: ( ( 'E' ) | ( 'e' ) )
+            // InternalEduTest.g:716:1: ( ( 'E' ) | ( 'e' ) )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -2165,10 +2244,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt7) {
                 case 1 :
-                    // InternalEduTest.g:692:2: ( 'E' )
+                    // InternalEduTest.g:717:2: ( 'E' )
                     {
-                    // InternalEduTest.g:692:2: ( 'E' )
-                    // InternalEduTest.g:693:3: 'E'
+                    // InternalEduTest.g:717:2: ( 'E' )
+                    // InternalEduTest.g:718:3: 'E'
                     {
                      before(grammarAccess.getEDoubleAccess().getEKeyword_4_0_0()); 
                     match(input,13,FOLLOW_2); 
@@ -2180,10 +2259,10 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:698:2: ( 'e' )
+                    // InternalEduTest.g:723:2: ( 'e' )
                     {
-                    // InternalEduTest.g:698:2: ( 'e' )
-                    // InternalEduTest.g:699:3: 'e'
+                    // InternalEduTest.g:723:2: ( 'e' )
+                    // InternalEduTest.g:724:3: 'e'
                     {
                      before(grammarAccess.getEDoubleAccess().getEKeyword_4_0_1()); 
                     match(input,14,FOLLOW_2); 
@@ -2212,13 +2291,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Order__Alternatives"
-    // InternalEduTest.g:708:1: rule__Order__Alternatives : ( ( ( 'fixed' ) ) | ( ( 'random' ) ) | ( ( 'options-ascending' ) ) | ( ( 'options-descending' ) ) );
+    // InternalEduTest.g:733:1: rule__Order__Alternatives : ( ( ( 'fixed' ) ) | ( ( 'random' ) ) | ( ( 'options-ascending' ) ) | ( ( 'options-descending' ) ) );
     public final void rule__Order__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:712:1: ( ( ( 'fixed' ) ) | ( ( 'random' ) ) | ( ( 'options-ascending' ) ) | ( ( 'options-descending' ) ) )
+            // InternalEduTest.g:737:1: ( ( ( 'fixed' ) ) | ( ( 'random' ) ) | ( ( 'options-ascending' ) ) | ( ( 'options-descending' ) ) )
             int alt8=4;
             switch ( input.LA(1) ) {
             case 15:
@@ -2250,14 +2329,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
             switch (alt8) {
                 case 1 :
-                    // InternalEduTest.g:713:2: ( ( 'fixed' ) )
+                    // InternalEduTest.g:738:2: ( ( 'fixed' ) )
                     {
-                    // InternalEduTest.g:713:2: ( ( 'fixed' ) )
-                    // InternalEduTest.g:714:3: ( 'fixed' )
+                    // InternalEduTest.g:738:2: ( ( 'fixed' ) )
+                    // InternalEduTest.g:739:3: ( 'fixed' )
                     {
                      before(grammarAccess.getOrderAccess().getFixedEnumLiteralDeclaration_0()); 
-                    // InternalEduTest.g:715:3: ( 'fixed' )
-                    // InternalEduTest.g:715:4: 'fixed'
+                    // InternalEduTest.g:740:3: ( 'fixed' )
+                    // InternalEduTest.g:740:4: 'fixed'
                     {
                     match(input,15,FOLLOW_2); 
 
@@ -2271,14 +2350,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:719:2: ( ( 'random' ) )
+                    // InternalEduTest.g:744:2: ( ( 'random' ) )
                     {
-                    // InternalEduTest.g:719:2: ( ( 'random' ) )
-                    // InternalEduTest.g:720:3: ( 'random' )
+                    // InternalEduTest.g:744:2: ( ( 'random' ) )
+                    // InternalEduTest.g:745:3: ( 'random' )
                     {
                      before(grammarAccess.getOrderAccess().getRandomEnumLiteralDeclaration_1()); 
-                    // InternalEduTest.g:721:3: ( 'random' )
-                    // InternalEduTest.g:721:4: 'random'
+                    // InternalEduTest.g:746:3: ( 'random' )
+                    // InternalEduTest.g:746:4: 'random'
                     {
                     match(input,16,FOLLOW_2); 
 
@@ -2292,14 +2371,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 3 :
-                    // InternalEduTest.g:725:2: ( ( 'options-ascending' ) )
+                    // InternalEduTest.g:750:2: ( ( 'options-ascending' ) )
                     {
-                    // InternalEduTest.g:725:2: ( ( 'options-ascending' ) )
-                    // InternalEduTest.g:726:3: ( 'options-ascending' )
+                    // InternalEduTest.g:750:2: ( ( 'options-ascending' ) )
+                    // InternalEduTest.g:751:3: ( 'options-ascending' )
                     {
                      before(grammarAccess.getOrderAccess().getAscendingEnumLiteralDeclaration_2()); 
-                    // InternalEduTest.g:727:3: ( 'options-ascending' )
-                    // InternalEduTest.g:727:4: 'options-ascending'
+                    // InternalEduTest.g:752:3: ( 'options-ascending' )
+                    // InternalEduTest.g:752:4: 'options-ascending'
                     {
                     match(input,17,FOLLOW_2); 
 
@@ -2313,14 +2392,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 4 :
-                    // InternalEduTest.g:731:2: ( ( 'options-descending' ) )
+                    // InternalEduTest.g:756:2: ( ( 'options-descending' ) )
                     {
-                    // InternalEduTest.g:731:2: ( ( 'options-descending' ) )
-                    // InternalEduTest.g:732:3: ( 'options-descending' )
+                    // InternalEduTest.g:756:2: ( ( 'options-descending' ) )
+                    // InternalEduTest.g:757:3: ( 'options-descending' )
                     {
                      before(grammarAccess.getOrderAccess().getDescendingEnumLiteralDeclaration_3()); 
-                    // InternalEduTest.g:733:3: ( 'options-descending' )
-                    // InternalEduTest.g:733:4: 'options-descending'
+                    // InternalEduTest.g:758:3: ( 'options-descending' )
+                    // InternalEduTest.g:758:4: 'options-descending'
                     {
                     match(input,18,FOLLOW_2); 
 
@@ -2351,13 +2430,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Mode__Alternatives"
-    // InternalEduTest.g:741:1: rule__Mode__Alternatives : ( ( ( 'radiobutton' ) ) | ( ( 'checkbox' ) ) );
+    // InternalEduTest.g:766:1: rule__Mode__Alternatives : ( ( ( 'radiobutton' ) ) | ( ( 'checkbox' ) ) );
     public final void rule__Mode__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:745:1: ( ( ( 'radiobutton' ) ) | ( ( 'checkbox' ) ) )
+            // InternalEduTest.g:770:1: ( ( ( 'radiobutton' ) ) | ( ( 'checkbox' ) ) )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -2375,14 +2454,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt9) {
                 case 1 :
-                    // InternalEduTest.g:746:2: ( ( 'radiobutton' ) )
+                    // InternalEduTest.g:771:2: ( ( 'radiobutton' ) )
                     {
-                    // InternalEduTest.g:746:2: ( ( 'radiobutton' ) )
-                    // InternalEduTest.g:747:3: ( 'radiobutton' )
+                    // InternalEduTest.g:771:2: ( ( 'radiobutton' ) )
+                    // InternalEduTest.g:772:3: ( 'radiobutton' )
                     {
                      before(grammarAccess.getModeAccess().getRadiobuttonEnumLiteralDeclaration_0()); 
-                    // InternalEduTest.g:748:3: ( 'radiobutton' )
-                    // InternalEduTest.g:748:4: 'radiobutton'
+                    // InternalEduTest.g:773:3: ( 'radiobutton' )
+                    // InternalEduTest.g:773:4: 'radiobutton'
                     {
                     match(input,19,FOLLOW_2); 
 
@@ -2396,14 +2475,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:752:2: ( ( 'checkbox' ) )
+                    // InternalEduTest.g:777:2: ( ( 'checkbox' ) )
                     {
-                    // InternalEduTest.g:752:2: ( ( 'checkbox' ) )
-                    // InternalEduTest.g:753:3: ( 'checkbox' )
+                    // InternalEduTest.g:777:2: ( ( 'checkbox' ) )
+                    // InternalEduTest.g:778:3: ( 'checkbox' )
                     {
                      before(grammarAccess.getModeAccess().getCheckboxEnumLiteralDeclaration_1()); 
-                    // InternalEduTest.g:754:3: ( 'checkbox' )
-                    // InternalEduTest.g:754:4: 'checkbox'
+                    // InternalEduTest.g:779:3: ( 'checkbox' )
+                    // InternalEduTest.g:779:4: 'checkbox'
                     {
                     match(input,20,FOLLOW_2); 
 
@@ -2434,13 +2513,13 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Navigation__Alternatives"
-    // InternalEduTest.g:762:1: rule__Navigation__Alternatives : ( ( ( 'free' ) ) | ( ( 'locked' ) ) );
+    // InternalEduTest.g:787:1: rule__Navigation__Alternatives : ( ( ( 'free' ) ) | ( ( 'locked' ) ) );
     public final void rule__Navigation__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:766:1: ( ( ( 'free' ) ) | ( ( 'locked' ) ) )
+            // InternalEduTest.g:791:1: ( ( ( 'free' ) ) | ( ( 'locked' ) ) )
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -2458,14 +2537,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             }
             switch (alt10) {
                 case 1 :
-                    // InternalEduTest.g:767:2: ( ( 'free' ) )
+                    // InternalEduTest.g:792:2: ( ( 'free' ) )
                     {
-                    // InternalEduTest.g:767:2: ( ( 'free' ) )
-                    // InternalEduTest.g:768:3: ( 'free' )
+                    // InternalEduTest.g:792:2: ( ( 'free' ) )
+                    // InternalEduTest.g:793:3: ( 'free' )
                     {
                      before(grammarAccess.getNavigationAccess().getFreeEnumLiteralDeclaration_0()); 
-                    // InternalEduTest.g:769:3: ( 'free' )
-                    // InternalEduTest.g:769:4: 'free'
+                    // InternalEduTest.g:794:3: ( 'free' )
+                    // InternalEduTest.g:794:4: 'free'
                     {
                     match(input,21,FOLLOW_2); 
 
@@ -2479,14 +2558,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalEduTest.g:773:2: ( ( 'locked' ) )
+                    // InternalEduTest.g:798:2: ( ( 'locked' ) )
                     {
-                    // InternalEduTest.g:773:2: ( ( 'locked' ) )
-                    // InternalEduTest.g:774:3: ( 'locked' )
+                    // InternalEduTest.g:798:2: ( ( 'locked' ) )
+                    // InternalEduTest.g:799:3: ( 'locked' )
                     {
                      before(grammarAccess.getNavigationAccess().getLockedEnumLiteralDeclaration_1()); 
-                    // InternalEduTest.g:775:3: ( 'locked' )
-                    // InternalEduTest.g:775:4: 'locked'
+                    // InternalEduTest.g:800:3: ( 'locked' )
+                    // InternalEduTest.g:800:4: 'locked'
                     {
                     match(input,22,FOLLOW_2); 
 
@@ -2517,14 +2596,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__0"
-    // InternalEduTest.g:783:1: rule__Program__Group__0 : rule__Program__Group__0__Impl rule__Program__Group__1 ;
+    // InternalEduTest.g:808:1: rule__Program__Group__0 : rule__Program__Group__0__Impl rule__Program__Group__1 ;
     public final void rule__Program__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:787:1: ( rule__Program__Group__0__Impl rule__Program__Group__1 )
-            // InternalEduTest.g:788:2: rule__Program__Group__0__Impl rule__Program__Group__1
+            // InternalEduTest.g:812:1: ( rule__Program__Group__0__Impl rule__Program__Group__1 )
+            // InternalEduTest.g:813:2: rule__Program__Group__0__Impl rule__Program__Group__1
             {
             pushFollow(FOLLOW_3);
             rule__Program__Group__0__Impl();
@@ -2555,21 +2634,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__0__Impl"
-    // InternalEduTest.g:795:1: rule__Program__Group__0__Impl : ( () ) ;
+    // InternalEduTest.g:820:1: rule__Program__Group__0__Impl : ( () ) ;
     public final void rule__Program__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:799:1: ( ( () ) )
-            // InternalEduTest.g:800:1: ( () )
+            // InternalEduTest.g:824:1: ( ( () ) )
+            // InternalEduTest.g:825:1: ( () )
             {
-            // InternalEduTest.g:800:1: ( () )
-            // InternalEduTest.g:801:2: ()
+            // InternalEduTest.g:825:1: ( () )
+            // InternalEduTest.g:826:2: ()
             {
              before(grammarAccess.getProgramAccess().getProgramAction_0()); 
-            // InternalEduTest.g:802:2: ()
-            // InternalEduTest.g:802:3: 
+            // InternalEduTest.g:827:2: ()
+            // InternalEduTest.g:827:3: 
             {
             }
 
@@ -2592,16 +2671,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__1"
-    // InternalEduTest.g:810:1: rule__Program__Group__1 : rule__Program__Group__1__Impl rule__Program__Group__2 ;
+    // InternalEduTest.g:835:1: rule__Program__Group__1 : rule__Program__Group__1__Impl rule__Program__Group__2 ;
     public final void rule__Program__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:814:1: ( rule__Program__Group__1__Impl rule__Program__Group__2 )
-            // InternalEduTest.g:815:2: rule__Program__Group__1__Impl rule__Program__Group__2
+            // InternalEduTest.g:839:1: ( rule__Program__Group__1__Impl rule__Program__Group__2 )
+            // InternalEduTest.g:840:2: rule__Program__Group__1__Impl rule__Program__Group__2
             {
-            pushFollow(FOLLOW_3);
+            pushFollow(FOLLOW_4);
             rule__Program__Group__1__Impl();
 
             state._fsp--;
@@ -2630,42 +2709,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__1__Impl"
-    // InternalEduTest.g:822:1: rule__Program__Group__1__Impl : ( ( rule__Program__ConfigAssignment_1 )? ) ;
+    // InternalEduTest.g:847:1: rule__Program__Group__1__Impl : ( 'metamodel' ) ;
     public final void rule__Program__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:826:1: ( ( ( rule__Program__ConfigAssignment_1 )? ) )
-            // InternalEduTest.g:827:1: ( ( rule__Program__ConfigAssignment_1 )? )
+            // InternalEduTest.g:851:1: ( ( 'metamodel' ) )
+            // InternalEduTest.g:852:1: ( 'metamodel' )
             {
-            // InternalEduTest.g:827:1: ( ( rule__Program__ConfigAssignment_1 )? )
-            // InternalEduTest.g:828:2: ( rule__Program__ConfigAssignment_1 )?
+            // InternalEduTest.g:852:1: ( 'metamodel' )
+            // InternalEduTest.g:853:2: 'metamodel'
             {
-             before(grammarAccess.getProgramAccess().getConfigAssignment_1()); 
-            // InternalEduTest.g:829:2: ( rule__Program__ConfigAssignment_1 )?
-            int alt11=2;
-            int LA11_0 = input.LA(1);
-
-            if ( (LA11_0==34) ) {
-                alt11=1;
-            }
-            switch (alt11) {
-                case 1 :
-                    // InternalEduTest.g:829:3: rule__Program__ConfigAssignment_1
-                    {
-                    pushFollow(FOLLOW_2);
-                    rule__Program__ConfigAssignment_1();
-
-                    state._fsp--;
-
-
-                    }
-                    break;
-
-            }
-
-             after(grammarAccess.getProgramAccess().getConfigAssignment_1()); 
+             before(grammarAccess.getProgramAccess().getMetamodelKeyword_1()); 
+            match(input,23,FOLLOW_2); 
+             after(grammarAccess.getProgramAccess().getMetamodelKeyword_1()); 
 
             }
 
@@ -2688,17 +2746,22 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__2"
-    // InternalEduTest.g:837:1: rule__Program__Group__2 : rule__Program__Group__2__Impl ;
+    // InternalEduTest.g:862:1: rule__Program__Group__2 : rule__Program__Group__2__Impl rule__Program__Group__3 ;
     public final void rule__Program__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:841:1: ( rule__Program__Group__2__Impl )
-            // InternalEduTest.g:842:2: rule__Program__Group__2__Impl
+            // InternalEduTest.g:866:1: ( rule__Program__Group__2__Impl rule__Program__Group__3 )
+            // InternalEduTest.g:867:2: rule__Program__Group__2__Impl rule__Program__Group__3
             {
-            pushFollow(FOLLOW_2);
+            pushFollow(FOLLOW_5);
             rule__Program__Group__2__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__Program__Group__3();
 
             state._fsp--;
 
@@ -2721,74 +2784,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Program__Group__2__Impl"
-    // InternalEduTest.g:848:1: rule__Program__Group__2__Impl : ( ( ( rule__Program__ExercisesAssignment_2 ) ) ( ( rule__Program__ExercisesAssignment_2 )* ) ) ;
+    // InternalEduTest.g:874:1: rule__Program__Group__2__Impl : ( ( rule__Program__MetamodelAssignment_2 ) ) ;
     public final void rule__Program__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:852:1: ( ( ( ( rule__Program__ExercisesAssignment_2 ) ) ( ( rule__Program__ExercisesAssignment_2 )* ) ) )
-            // InternalEduTest.g:853:1: ( ( ( rule__Program__ExercisesAssignment_2 ) ) ( ( rule__Program__ExercisesAssignment_2 )* ) )
+            // InternalEduTest.g:878:1: ( ( ( rule__Program__MetamodelAssignment_2 ) ) )
+            // InternalEduTest.g:879:1: ( ( rule__Program__MetamodelAssignment_2 ) )
             {
-            // InternalEduTest.g:853:1: ( ( ( rule__Program__ExercisesAssignment_2 ) ) ( ( rule__Program__ExercisesAssignment_2 )* ) )
-            // InternalEduTest.g:854:2: ( ( rule__Program__ExercisesAssignment_2 ) ) ( ( rule__Program__ExercisesAssignment_2 )* )
+            // InternalEduTest.g:879:1: ( ( rule__Program__MetamodelAssignment_2 ) )
+            // InternalEduTest.g:880:2: ( rule__Program__MetamodelAssignment_2 )
             {
-            // InternalEduTest.g:854:2: ( ( rule__Program__ExercisesAssignment_2 ) )
-            // InternalEduTest.g:855:3: ( rule__Program__ExercisesAssignment_2 )
+             before(grammarAccess.getProgramAccess().getMetamodelAssignment_2()); 
+            // InternalEduTest.g:881:2: ( rule__Program__MetamodelAssignment_2 )
+            // InternalEduTest.g:881:3: rule__Program__MetamodelAssignment_2
             {
-             before(grammarAccess.getProgramAccess().getExercisesAssignment_2()); 
-            // InternalEduTest.g:856:3: ( rule__Program__ExercisesAssignment_2 )
-            // InternalEduTest.g:856:4: rule__Program__ExercisesAssignment_2
-            {
-            pushFollow(FOLLOW_4);
-            rule__Program__ExercisesAssignment_2();
+            pushFollow(FOLLOW_2);
+            rule__Program__MetamodelAssignment_2();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getProgramAccess().getExercisesAssignment_2()); 
-
-            }
-
-            // InternalEduTest.g:859:2: ( ( rule__Program__ExercisesAssignment_2 )* )
-            // InternalEduTest.g:860:3: ( rule__Program__ExercisesAssignment_2 )*
-            {
-             before(grammarAccess.getProgramAccess().getExercisesAssignment_2()); 
-            // InternalEduTest.g:861:3: ( rule__Program__ExercisesAssignment_2 )*
-            loop12:
-            do {
-                int alt12=2;
-                int LA12_0 = input.LA(1);
-
-                if ( (LA12_0==23||(LA12_0>=27 && LA12_0<=33)) ) {
-                    alt12=1;
-                }
-
-
-                switch (alt12) {
-            	case 1 :
-            	    // InternalEduTest.g:861:4: rule__Program__ExercisesAssignment_2
-            	    {
-            	    pushFollow(FOLLOW_4);
-            	    rule__Program__ExercisesAssignment_2();
-
-            	    state._fsp--;
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop12;
-                }
-            } while (true);
-
-             after(grammarAccess.getProgramAccess().getExercisesAssignment_2()); 
-
-            }
-
+             after(grammarAccess.getProgramAccess().getMetamodelAssignment_2()); 
 
             }
 
@@ -2810,17 +2830,642 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__Program__Group__2__Impl"
 
 
+    // $ANTLR start "rule__Program__Group__3"
+    // InternalEduTest.g:889:1: rule__Program__Group__3 : rule__Program__Group__3__Impl rule__Program__Group__4 ;
+    public final void rule__Program__Group__3() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:893:1: ( rule__Program__Group__3__Impl rule__Program__Group__4 )
+            // InternalEduTest.g:894:2: rule__Program__Group__3__Impl rule__Program__Group__4
+            {
+            pushFollow(FOLLOW_5);
+            rule__Program__Group__3__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__Program__Group__4();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Program__Group__3"
+
+
+    // $ANTLR start "rule__Program__Group__3__Impl"
+    // InternalEduTest.g:901:1: rule__Program__Group__3__Impl : ( ( rule__Program__ConfigAssignment_3 )? ) ;
+    public final void rule__Program__Group__3__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:905:1: ( ( ( rule__Program__ConfigAssignment_3 )? ) )
+            // InternalEduTest.g:906:1: ( ( rule__Program__ConfigAssignment_3 )? )
+            {
+            // InternalEduTest.g:906:1: ( ( rule__Program__ConfigAssignment_3 )? )
+            // InternalEduTest.g:907:2: ( rule__Program__ConfigAssignment_3 )?
+            {
+             before(grammarAccess.getProgramAccess().getConfigAssignment_3()); 
+            // InternalEduTest.g:908:2: ( rule__Program__ConfigAssignment_3 )?
+            int alt11=2;
+            int LA11_0 = input.LA(1);
+
+            if ( (LA11_0==36) ) {
+                alt11=1;
+            }
+            switch (alt11) {
+                case 1 :
+                    // InternalEduTest.g:908:3: rule__Program__ConfigAssignment_3
+                    {
+                    pushFollow(FOLLOW_2);
+                    rule__Program__ConfigAssignment_3();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
+             after(grammarAccess.getProgramAccess().getConfigAssignment_3()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Program__Group__3__Impl"
+
+
+    // $ANTLR start "rule__Program__Group__4"
+    // InternalEduTest.g:916:1: rule__Program__Group__4 : rule__Program__Group__4__Impl ;
+    public final void rule__Program__Group__4() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:920:1: ( rule__Program__Group__4__Impl )
+            // InternalEduTest.g:921:2: rule__Program__Group__4__Impl
+            {
+            pushFollow(FOLLOW_2);
+            rule__Program__Group__4__Impl();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Program__Group__4"
+
+
+    // $ANTLR start "rule__Program__Group__4__Impl"
+    // InternalEduTest.g:927:1: rule__Program__Group__4__Impl : ( ( ( rule__Program__ExercisesAssignment_4 ) ) ( ( rule__Program__ExercisesAssignment_4 )* ) ) ;
+    public final void rule__Program__Group__4__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:931:1: ( ( ( ( rule__Program__ExercisesAssignment_4 ) ) ( ( rule__Program__ExercisesAssignment_4 )* ) ) )
+            // InternalEduTest.g:932:1: ( ( ( rule__Program__ExercisesAssignment_4 ) ) ( ( rule__Program__ExercisesAssignment_4 )* ) )
+            {
+            // InternalEduTest.g:932:1: ( ( ( rule__Program__ExercisesAssignment_4 ) ) ( ( rule__Program__ExercisesAssignment_4 )* ) )
+            // InternalEduTest.g:933:2: ( ( rule__Program__ExercisesAssignment_4 ) ) ( ( rule__Program__ExercisesAssignment_4 )* )
+            {
+            // InternalEduTest.g:933:2: ( ( rule__Program__ExercisesAssignment_4 ) )
+            // InternalEduTest.g:934:3: ( rule__Program__ExercisesAssignment_4 )
+            {
+             before(grammarAccess.getProgramAccess().getExercisesAssignment_4()); 
+            // InternalEduTest.g:935:3: ( rule__Program__ExercisesAssignment_4 )
+            // InternalEduTest.g:935:4: rule__Program__ExercisesAssignment_4
+            {
+            pushFollow(FOLLOW_6);
+            rule__Program__ExercisesAssignment_4();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getProgramAccess().getExercisesAssignment_4()); 
+
+            }
+
+            // InternalEduTest.g:938:2: ( ( rule__Program__ExercisesAssignment_4 )* )
+            // InternalEduTest.g:939:3: ( rule__Program__ExercisesAssignment_4 )*
+            {
+             before(grammarAccess.getProgramAccess().getExercisesAssignment_4()); 
+            // InternalEduTest.g:940:3: ( rule__Program__ExercisesAssignment_4 )*
+            loop12:
+            do {
+                int alt12=2;
+                int LA12_0 = input.LA(1);
+
+                if ( (LA12_0==25||(LA12_0>=29 && LA12_0<=35)) ) {
+                    alt12=1;
+                }
+
+
+                switch (alt12) {
+            	case 1 :
+            	    // InternalEduTest.g:940:4: rule__Program__ExercisesAssignment_4
+            	    {
+            	    pushFollow(FOLLOW_6);
+            	    rule__Program__ExercisesAssignment_4();
+
+            	    state._fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop12;
+                }
+            } while (true);
+
+             after(grammarAccess.getProgramAccess().getExercisesAssignment_4()); 
+
+            }
+
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Program__Group__4__Impl"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__0"
+    // InternalEduTest.g:950:1: rule__MarkedBlock__Group__0 : rule__MarkedBlock__Group__0__Impl rule__MarkedBlock__Group__1 ;
+    public final void rule__MarkedBlock__Group__0() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:954:1: ( rule__MarkedBlock__Group__0__Impl rule__MarkedBlock__Group__1 )
+            // InternalEduTest.g:955:2: rule__MarkedBlock__Group__0__Impl rule__MarkedBlock__Group__1
+            {
+            pushFollow(FOLLOW_7);
+            rule__MarkedBlock__Group__0__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group__1();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__0"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__0__Impl"
+    // InternalEduTest.g:962:1: rule__MarkedBlock__Group__0__Impl : ( () ) ;
+    public final void rule__MarkedBlock__Group__0__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:966:1: ( ( () ) )
+            // InternalEduTest.g:967:1: ( () )
+            {
+            // InternalEduTest.g:967:1: ( () )
+            // InternalEduTest.g:968:2: ()
+            {
+             before(grammarAccess.getMarkedBlockAccess().getMarkedBlockAction_0()); 
+            // InternalEduTest.g:969:2: ()
+            // InternalEduTest.g:969:3: 
+            {
+            }
+
+             after(grammarAccess.getMarkedBlockAccess().getMarkedBlockAction_0()); 
+
+            }
+
+
+            }
+
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__0__Impl"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__1"
+    // InternalEduTest.g:977:1: rule__MarkedBlock__Group__1 : rule__MarkedBlock__Group__1__Impl rule__MarkedBlock__Group__2 ;
+    public final void rule__MarkedBlock__Group__1() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:981:1: ( rule__MarkedBlock__Group__1__Impl rule__MarkedBlock__Group__2 )
+            // InternalEduTest.g:982:2: rule__MarkedBlock__Group__1__Impl rule__MarkedBlock__Group__2
+            {
+            pushFollow(FOLLOW_8);
+            rule__MarkedBlock__Group__1__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group__2();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__1"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__1__Impl"
+    // InternalEduTest.g:989:1: rule__MarkedBlock__Group__1__Impl : ( ( rule__MarkedBlock__BlockAssignment_1 ) ) ;
+    public final void rule__MarkedBlock__Group__1__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:993:1: ( ( ( rule__MarkedBlock__BlockAssignment_1 ) ) )
+            // InternalEduTest.g:994:1: ( ( rule__MarkedBlock__BlockAssignment_1 ) )
+            {
+            // InternalEduTest.g:994:1: ( ( rule__MarkedBlock__BlockAssignment_1 ) )
+            // InternalEduTest.g:995:2: ( rule__MarkedBlock__BlockAssignment_1 )
+            {
+             before(grammarAccess.getMarkedBlockAccess().getBlockAssignment_1()); 
+            // InternalEduTest.g:996:2: ( rule__MarkedBlock__BlockAssignment_1 )
+            // InternalEduTest.g:996:3: rule__MarkedBlock__BlockAssignment_1
+            {
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__BlockAssignment_1();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getMarkedBlockAccess().getBlockAssignment_1()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__1__Impl"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__2"
+    // InternalEduTest.g:1004:1: rule__MarkedBlock__Group__2 : rule__MarkedBlock__Group__2__Impl ;
+    public final void rule__MarkedBlock__Group__2() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1008:1: ( rule__MarkedBlock__Group__2__Impl )
+            // InternalEduTest.g:1009:2: rule__MarkedBlock__Group__2__Impl
+            {
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group__2__Impl();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__2"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group__2__Impl"
+    // InternalEduTest.g:1015:1: rule__MarkedBlock__Group__2__Impl : ( ( rule__MarkedBlock__Group_2__0 )? ) ;
+    public final void rule__MarkedBlock__Group__2__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1019:1: ( ( ( rule__MarkedBlock__Group_2__0 )? ) )
+            // InternalEduTest.g:1020:1: ( ( rule__MarkedBlock__Group_2__0 )? )
+            {
+            // InternalEduTest.g:1020:1: ( ( rule__MarkedBlock__Group_2__0 )? )
+            // InternalEduTest.g:1021:2: ( rule__MarkedBlock__Group_2__0 )?
+            {
+             before(grammarAccess.getMarkedBlockAccess().getGroup_2()); 
+            // InternalEduTest.g:1022:2: ( rule__MarkedBlock__Group_2__0 )?
+            int alt13=2;
+            int LA13_0 = input.LA(1);
+
+            if ( (LA13_0==37) ) {
+                alt13=1;
+            }
+            switch (alt13) {
+                case 1 :
+                    // InternalEduTest.g:1022:3: rule__MarkedBlock__Group_2__0
+                    {
+                    pushFollow(FOLLOW_2);
+                    rule__MarkedBlock__Group_2__0();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
+             after(grammarAccess.getMarkedBlockAccess().getGroup_2()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group__2__Impl"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group_2__0"
+    // InternalEduTest.g:1031:1: rule__MarkedBlock__Group_2__0 : rule__MarkedBlock__Group_2__0__Impl rule__MarkedBlock__Group_2__1 ;
+    public final void rule__MarkedBlock__Group_2__0() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1035:1: ( rule__MarkedBlock__Group_2__0__Impl rule__MarkedBlock__Group_2__1 )
+            // InternalEduTest.g:1036:2: rule__MarkedBlock__Group_2__0__Impl rule__MarkedBlock__Group_2__1
+            {
+            pushFollow(FOLLOW_9);
+            rule__MarkedBlock__Group_2__0__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group_2__1();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group_2__0"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group_2__0__Impl"
+    // InternalEduTest.g:1043:1: rule__MarkedBlock__Group_2__0__Impl : ( ( rule__MarkedBlock__SolutionAssignment_2_0 ) ) ;
+    public final void rule__MarkedBlock__Group_2__0__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1047:1: ( ( ( rule__MarkedBlock__SolutionAssignment_2_0 ) ) )
+            // InternalEduTest.g:1048:1: ( ( rule__MarkedBlock__SolutionAssignment_2_0 ) )
+            {
+            // InternalEduTest.g:1048:1: ( ( rule__MarkedBlock__SolutionAssignment_2_0 ) )
+            // InternalEduTest.g:1049:2: ( rule__MarkedBlock__SolutionAssignment_2_0 )
+            {
+             before(grammarAccess.getMarkedBlockAccess().getSolutionAssignment_2_0()); 
+            // InternalEduTest.g:1050:2: ( rule__MarkedBlock__SolutionAssignment_2_0 )
+            // InternalEduTest.g:1050:3: rule__MarkedBlock__SolutionAssignment_2_0
+            {
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__SolutionAssignment_2_0();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getMarkedBlockAccess().getSolutionAssignment_2_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group_2__0__Impl"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group_2__1"
+    // InternalEduTest.g:1058:1: rule__MarkedBlock__Group_2__1 : rule__MarkedBlock__Group_2__1__Impl ;
+    public final void rule__MarkedBlock__Group_2__1() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1062:1: ( rule__MarkedBlock__Group_2__1__Impl )
+            // InternalEduTest.g:1063:2: rule__MarkedBlock__Group_2__1__Impl
+            {
+            pushFollow(FOLLOW_2);
+            rule__MarkedBlock__Group_2__1__Impl();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group_2__1"
+
+
+    // $ANTLR start "rule__MarkedBlock__Group_2__1__Impl"
+    // InternalEduTest.g:1069:1: rule__MarkedBlock__Group_2__1__Impl : ( 'solution' ) ;
+    public final void rule__MarkedBlock__Group_2__1__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:1073:1: ( ( 'solution' ) )
+            // InternalEduTest.g:1074:1: ( 'solution' )
+            {
+            // InternalEduTest.g:1074:1: ( 'solution' )
+            // InternalEduTest.g:1075:2: 'solution'
+            {
+             before(grammarAccess.getMarkedBlockAccess().getSolutionKeyword_2_1()); 
+            match(input,24,FOLLOW_2); 
+             after(grammarAccess.getMarkedBlockAccess().getSolutionKeyword_2_1()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__MarkedBlock__Group_2__1__Impl"
+
+
     // $ANTLR start "rule__AlternativeResponse__Group__0"
-    // InternalEduTest.g:871:1: rule__AlternativeResponse__Group__0 : rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1 ;
+    // InternalEduTest.g:1085:1: rule__AlternativeResponse__Group__0 : rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1 ;
     public final void rule__AlternativeResponse__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:875:1: ( rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1 )
-            // InternalEduTest.g:876:2: rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1
+            // InternalEduTest.g:1089:1: ( rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1 )
+            // InternalEduTest.g:1090:2: rule__AlternativeResponse__Group__0__Impl rule__AlternativeResponse__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__AlternativeResponse__Group__0__Impl();
 
             state._fsp--;
@@ -2849,20 +3494,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__0__Impl"
-    // InternalEduTest.g:883:1: rule__AlternativeResponse__Group__0__Impl : ( 'AlternativeResponse' ) ;
+    // InternalEduTest.g:1097:1: rule__AlternativeResponse__Group__0__Impl : ( 'AlternativeResponse' ) ;
     public final void rule__AlternativeResponse__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:887:1: ( ( 'AlternativeResponse' ) )
-            // InternalEduTest.g:888:1: ( 'AlternativeResponse' )
+            // InternalEduTest.g:1101:1: ( ( 'AlternativeResponse' ) )
+            // InternalEduTest.g:1102:1: ( 'AlternativeResponse' )
             {
-            // InternalEduTest.g:888:1: ( 'AlternativeResponse' )
-            // InternalEduTest.g:889:2: 'AlternativeResponse'
+            // InternalEduTest.g:1102:1: ( 'AlternativeResponse' )
+            // InternalEduTest.g:1103:2: 'AlternativeResponse'
             {
              before(grammarAccess.getAlternativeResponseAccess().getAlternativeResponseKeyword_0()); 
-            match(input,23,FOLLOW_2); 
+            match(input,25,FOLLOW_2); 
              after(grammarAccess.getAlternativeResponseAccess().getAlternativeResponseKeyword_0()); 
 
             }
@@ -2886,16 +3531,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__1"
-    // InternalEduTest.g:898:1: rule__AlternativeResponse__Group__1 : rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2 ;
+    // InternalEduTest.g:1112:1: rule__AlternativeResponse__Group__1 : rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2 ;
     public final void rule__AlternativeResponse__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:902:1: ( rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2 )
-            // InternalEduTest.g:903:2: rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2
+            // InternalEduTest.g:1116:1: ( rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2 )
+            // InternalEduTest.g:1117:2: rule__AlternativeResponse__Group__1__Impl rule__AlternativeResponse__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__AlternativeResponse__Group__1__Impl();
 
             state._fsp--;
@@ -2924,29 +3569,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__1__Impl"
-    // InternalEduTest.g:910:1: rule__AlternativeResponse__Group__1__Impl : ( ( rule__AlternativeResponse__Group_1__0 )? ) ;
+    // InternalEduTest.g:1124:1: rule__AlternativeResponse__Group__1__Impl : ( ( rule__AlternativeResponse__Group_1__0 )? ) ;
     public final void rule__AlternativeResponse__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:914:1: ( ( ( rule__AlternativeResponse__Group_1__0 )? ) )
-            // InternalEduTest.g:915:1: ( ( rule__AlternativeResponse__Group_1__0 )? )
+            // InternalEduTest.g:1128:1: ( ( ( rule__AlternativeResponse__Group_1__0 )? ) )
+            // InternalEduTest.g:1129:1: ( ( rule__AlternativeResponse__Group_1__0 )? )
             {
-            // InternalEduTest.g:915:1: ( ( rule__AlternativeResponse__Group_1__0 )? )
-            // InternalEduTest.g:916:2: ( rule__AlternativeResponse__Group_1__0 )?
+            // InternalEduTest.g:1129:1: ( ( rule__AlternativeResponse__Group_1__0 )? )
+            // InternalEduTest.g:1130:2: ( rule__AlternativeResponse__Group_1__0 )?
             {
              before(grammarAccess.getAlternativeResponseAccess().getGroup_1()); 
-            // InternalEduTest.g:917:2: ( rule__AlternativeResponse__Group_1__0 )?
-            int alt13=2;
-            int LA13_0 = input.LA(1);
+            // InternalEduTest.g:1131:2: ( rule__AlternativeResponse__Group_1__0 )?
+            int alt14=2;
+            int LA14_0 = input.LA(1);
 
-            if ( (LA13_0==RULE_ID) ) {
-                alt13=1;
+            if ( (LA14_0==RULE_ID) ) {
+                alt14=1;
             }
-            switch (alt13) {
+            switch (alt14) {
                 case 1 :
-                    // InternalEduTest.g:917:3: rule__AlternativeResponse__Group_1__0
+                    // InternalEduTest.g:1131:3: rule__AlternativeResponse__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__AlternativeResponse__Group_1__0();
@@ -2982,16 +3627,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__2"
-    // InternalEduTest.g:925:1: rule__AlternativeResponse__Group__2 : rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3 ;
+    // InternalEduTest.g:1139:1: rule__AlternativeResponse__Group__2 : rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3 ;
     public final void rule__AlternativeResponse__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:929:1: ( rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3 )
-            // InternalEduTest.g:930:2: rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3
+            // InternalEduTest.g:1143:1: ( rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3 )
+            // InternalEduTest.g:1144:2: rule__AlternativeResponse__Group__2__Impl rule__AlternativeResponse__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__AlternativeResponse__Group__2__Impl();
 
             state._fsp--;
@@ -3020,20 +3665,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__2__Impl"
-    // InternalEduTest.g:937:1: rule__AlternativeResponse__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:1151:1: rule__AlternativeResponse__Group__2__Impl : ( '{' ) ;
     public final void rule__AlternativeResponse__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:941:1: ( ( '{' ) )
-            // InternalEduTest.g:942:1: ( '{' )
+            // InternalEduTest.g:1155:1: ( ( '{' ) )
+            // InternalEduTest.g:1156:1: ( '{' )
             {
-            // InternalEduTest.g:942:1: ( '{' )
-            // InternalEduTest.g:943:2: '{'
+            // InternalEduTest.g:1156:1: ( '{' )
+            // InternalEduTest.g:1157:2: '{'
             {
              before(grammarAccess.getAlternativeResponseAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getAlternativeResponseAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -3057,16 +3702,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__3"
-    // InternalEduTest.g:952:1: rule__AlternativeResponse__Group__3 : rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4 ;
+    // InternalEduTest.g:1166:1: rule__AlternativeResponse__Group__3 : rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4 ;
     public final void rule__AlternativeResponse__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:956:1: ( rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4 )
-            // InternalEduTest.g:957:2: rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4
+            // InternalEduTest.g:1170:1: ( rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4 )
+            // InternalEduTest.g:1171:2: rule__AlternativeResponse__Group__3__Impl rule__AlternativeResponse__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__AlternativeResponse__Group__3__Impl();
 
             state._fsp--;
@@ -3095,21 +3740,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__3__Impl"
-    // InternalEduTest.g:964:1: rule__AlternativeResponse__Group__3__Impl : ( ( rule__AlternativeResponse__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:1178:1: rule__AlternativeResponse__Group__3__Impl : ( ( rule__AlternativeResponse__ConfigAssignment_3 ) ) ;
     public final void rule__AlternativeResponse__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:968:1: ( ( ( rule__AlternativeResponse__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:969:1: ( ( rule__AlternativeResponse__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1182:1: ( ( ( rule__AlternativeResponse__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:1183:1: ( ( rule__AlternativeResponse__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:969:1: ( ( rule__AlternativeResponse__ConfigAssignment_3 ) )
-            // InternalEduTest.g:970:2: ( rule__AlternativeResponse__ConfigAssignment_3 )
+            // InternalEduTest.g:1183:1: ( ( rule__AlternativeResponse__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1184:2: ( rule__AlternativeResponse__ConfigAssignment_3 )
             {
              before(grammarAccess.getAlternativeResponseAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:971:2: ( rule__AlternativeResponse__ConfigAssignment_3 )
-            // InternalEduTest.g:971:3: rule__AlternativeResponse__ConfigAssignment_3
+            // InternalEduTest.g:1185:2: ( rule__AlternativeResponse__ConfigAssignment_3 )
+            // InternalEduTest.g:1185:3: rule__AlternativeResponse__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeResponse__ConfigAssignment_3();
@@ -3142,16 +3787,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__4"
-    // InternalEduTest.g:979:1: rule__AlternativeResponse__Group__4 : rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5 ;
+    // InternalEduTest.g:1193:1: rule__AlternativeResponse__Group__4 : rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5 ;
     public final void rule__AlternativeResponse__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:983:1: ( rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5 )
-            // InternalEduTest.g:984:2: rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5
+            // InternalEduTest.g:1197:1: ( rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5 )
+            // InternalEduTest.g:1198:2: rule__AlternativeResponse__Group__4__Impl rule__AlternativeResponse__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__AlternativeResponse__Group__4__Impl();
 
             state._fsp--;
@@ -3180,35 +3825,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__4__Impl"
-    // InternalEduTest.g:991:1: rule__AlternativeResponse__Group__4__Impl : ( ( rule__AlternativeResponse__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:1205:1: rule__AlternativeResponse__Group__4__Impl : ( ( rule__AlternativeResponse__TestsAssignment_4 )* ) ;
     public final void rule__AlternativeResponse__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:995:1: ( ( ( rule__AlternativeResponse__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:996:1: ( ( rule__AlternativeResponse__TestsAssignment_4 )* )
+            // InternalEduTest.g:1209:1: ( ( ( rule__AlternativeResponse__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:1210:1: ( ( rule__AlternativeResponse__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:996:1: ( ( rule__AlternativeResponse__TestsAssignment_4 )* )
-            // InternalEduTest.g:997:2: ( rule__AlternativeResponse__TestsAssignment_4 )*
+            // InternalEduTest.g:1210:1: ( ( rule__AlternativeResponse__TestsAssignment_4 )* )
+            // InternalEduTest.g:1211:2: ( rule__AlternativeResponse__TestsAssignment_4 )*
             {
              before(grammarAccess.getAlternativeResponseAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:998:2: ( rule__AlternativeResponse__TestsAssignment_4 )*
-            loop14:
+            // InternalEduTest.g:1212:2: ( rule__AlternativeResponse__TestsAssignment_4 )*
+            loop15:
             do {
-                int alt14=2;
-                int LA14_0 = input.LA(1);
+                int alt15=2;
+                int LA15_0 = input.LA(1);
 
-                if ( (LA14_0==46) ) {
-                    alt14=1;
+                if ( (LA15_0==46) ) {
+                    alt15=1;
                 }
 
 
-                switch (alt14) {
+                switch (alt15) {
             	case 1 :
-            	    // InternalEduTest.g:998:3: rule__AlternativeResponse__TestsAssignment_4
+            	    // InternalEduTest.g:1212:3: rule__AlternativeResponse__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__AlternativeResponse__TestsAssignment_4();
 
             	    state._fsp--;
@@ -3218,7 +3863,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop14;
+            	    break loop15;
                 }
             } while (true);
 
@@ -3245,14 +3890,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__5"
-    // InternalEduTest.g:1006:1: rule__AlternativeResponse__Group__5 : rule__AlternativeResponse__Group__5__Impl ;
+    // InternalEduTest.g:1220:1: rule__AlternativeResponse__Group__5 : rule__AlternativeResponse__Group__5__Impl ;
     public final void rule__AlternativeResponse__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1010:1: ( rule__AlternativeResponse__Group__5__Impl )
-            // InternalEduTest.g:1011:2: rule__AlternativeResponse__Group__5__Impl
+            // InternalEduTest.g:1224:1: ( rule__AlternativeResponse__Group__5__Impl )
+            // InternalEduTest.g:1225:2: rule__AlternativeResponse__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeResponse__Group__5__Impl();
@@ -3278,20 +3923,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group__5__Impl"
-    // InternalEduTest.g:1017:1: rule__AlternativeResponse__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:1231:1: rule__AlternativeResponse__Group__5__Impl : ( '}' ) ;
     public final void rule__AlternativeResponse__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1021:1: ( ( '}' ) )
-            // InternalEduTest.g:1022:1: ( '}' )
+            // InternalEduTest.g:1235:1: ( ( '}' ) )
+            // InternalEduTest.g:1236:1: ( '}' )
             {
-            // InternalEduTest.g:1022:1: ( '}' )
-            // InternalEduTest.g:1023:2: '}'
+            // InternalEduTest.g:1236:1: ( '}' )
+            // InternalEduTest.g:1237:2: '}'
             {
              before(grammarAccess.getAlternativeResponseAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getAlternativeResponseAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -3315,16 +3960,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1__0"
-    // InternalEduTest.g:1033:1: rule__AlternativeResponse__Group_1__0 : rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1 ;
+    // InternalEduTest.g:1247:1: rule__AlternativeResponse__Group_1__0 : rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1 ;
     public final void rule__AlternativeResponse__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1037:1: ( rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1 )
-            // InternalEduTest.g:1038:2: rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1
+            // InternalEduTest.g:1251:1: ( rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1 )
+            // InternalEduTest.g:1252:2: rule__AlternativeResponse__Group_1__0__Impl rule__AlternativeResponse__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__AlternativeResponse__Group_1__0__Impl();
 
             state._fsp--;
@@ -3353,31 +3998,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1__0__Impl"
-    // InternalEduTest.g:1045:1: rule__AlternativeResponse__Group_1__0__Impl : ( ( rule__AlternativeResponse__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:1259:1: rule__AlternativeResponse__Group_1__0__Impl : ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__AlternativeResponse__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1049:1: ( ( ( rule__AlternativeResponse__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:1050:1: ( ( rule__AlternativeResponse__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1263:1: ( ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:1264:1: ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:1050:1: ( ( rule__AlternativeResponse__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:1051:2: ( rule__AlternativeResponse__BlocksAssignment_1_0 )
+            // InternalEduTest.g:1264:1: ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1265:2: ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:1052:2: ( rule__AlternativeResponse__BlocksAssignment_1_0 )
-            // InternalEduTest.g:1052:3: rule__AlternativeResponse__BlocksAssignment_1_0
+             before(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:1266:2: ( rule__AlternativeResponse__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:1266:3: rule__AlternativeResponse__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__AlternativeResponse__BlocksAssignment_1_0();
+            rule__AlternativeResponse__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -3400,14 +4045,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1__1"
-    // InternalEduTest.g:1060:1: rule__AlternativeResponse__Group_1__1 : rule__AlternativeResponse__Group_1__1__Impl ;
+    // InternalEduTest.g:1274:1: rule__AlternativeResponse__Group_1__1 : rule__AlternativeResponse__Group_1__1__Impl ;
     public final void rule__AlternativeResponse__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1064:1: ( rule__AlternativeResponse__Group_1__1__Impl )
-            // InternalEduTest.g:1065:2: rule__AlternativeResponse__Group_1__1__Impl
+            // InternalEduTest.g:1278:1: ( rule__AlternativeResponse__Group_1__1__Impl )
+            // InternalEduTest.g:1279:2: rule__AlternativeResponse__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeResponse__Group_1__1__Impl();
@@ -3433,35 +4078,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1__1__Impl"
-    // InternalEduTest.g:1071:1: rule__AlternativeResponse__Group_1__1__Impl : ( ( rule__AlternativeResponse__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:1285:1: rule__AlternativeResponse__Group_1__1__Impl : ( ( rule__AlternativeResponse__Group_1_1__0 )* ) ;
     public final void rule__AlternativeResponse__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1075:1: ( ( ( rule__AlternativeResponse__Group_1_1__0 )* ) )
-            // InternalEduTest.g:1076:1: ( ( rule__AlternativeResponse__Group_1_1__0 )* )
+            // InternalEduTest.g:1289:1: ( ( ( rule__AlternativeResponse__Group_1_1__0 )* ) )
+            // InternalEduTest.g:1290:1: ( ( rule__AlternativeResponse__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:1076:1: ( ( rule__AlternativeResponse__Group_1_1__0 )* )
-            // InternalEduTest.g:1077:2: ( rule__AlternativeResponse__Group_1_1__0 )*
+            // InternalEduTest.g:1290:1: ( ( rule__AlternativeResponse__Group_1_1__0 )* )
+            // InternalEduTest.g:1291:2: ( rule__AlternativeResponse__Group_1_1__0 )*
             {
              before(grammarAccess.getAlternativeResponseAccess().getGroup_1_1()); 
-            // InternalEduTest.g:1078:2: ( rule__AlternativeResponse__Group_1_1__0 )*
-            loop15:
+            // InternalEduTest.g:1292:2: ( rule__AlternativeResponse__Group_1_1__0 )*
+            loop16:
             do {
-                int alt15=2;
-                int LA15_0 = input.LA(1);
+                int alt16=2;
+                int LA16_0 = input.LA(1);
 
-                if ( (LA15_0==26) ) {
-                    alt15=1;
+                if ( (LA16_0==28) ) {
+                    alt16=1;
                 }
 
 
-                switch (alt15) {
+                switch (alt16) {
             	case 1 :
-            	    // InternalEduTest.g:1078:3: rule__AlternativeResponse__Group_1_1__0
+            	    // InternalEduTest.g:1292:3: rule__AlternativeResponse__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__AlternativeResponse__Group_1_1__0();
 
             	    state._fsp--;
@@ -3471,7 +4116,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop15;
+            	    break loop16;
                 }
             } while (true);
 
@@ -3498,16 +4143,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1_1__0"
-    // InternalEduTest.g:1087:1: rule__AlternativeResponse__Group_1_1__0 : rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1 ;
+    // InternalEduTest.g:1301:1: rule__AlternativeResponse__Group_1_1__0 : rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1 ;
     public final void rule__AlternativeResponse__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1091:1: ( rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1 )
-            // InternalEduTest.g:1092:2: rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1
+            // InternalEduTest.g:1305:1: ( rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1 )
+            // InternalEduTest.g:1306:2: rule__AlternativeResponse__Group_1_1__0__Impl rule__AlternativeResponse__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__AlternativeResponse__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -3536,20 +4181,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1_1__0__Impl"
-    // InternalEduTest.g:1099:1: rule__AlternativeResponse__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:1313:1: rule__AlternativeResponse__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__AlternativeResponse__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1103:1: ( ( ',' ) )
-            // InternalEduTest.g:1104:1: ( ',' )
+            // InternalEduTest.g:1317:1: ( ( ',' ) )
+            // InternalEduTest.g:1318:1: ( ',' )
             {
-            // InternalEduTest.g:1104:1: ( ',' )
-            // InternalEduTest.g:1105:2: ','
+            // InternalEduTest.g:1318:1: ( ',' )
+            // InternalEduTest.g:1319:2: ','
             {
              before(grammarAccess.getAlternativeResponseAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getAlternativeResponseAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -3573,14 +4218,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1_1__1"
-    // InternalEduTest.g:1114:1: rule__AlternativeResponse__Group_1_1__1 : rule__AlternativeResponse__Group_1_1__1__Impl ;
+    // InternalEduTest.g:1328:1: rule__AlternativeResponse__Group_1_1__1 : rule__AlternativeResponse__Group_1_1__1__Impl ;
     public final void rule__AlternativeResponse__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1118:1: ( rule__AlternativeResponse__Group_1_1__1__Impl )
-            // InternalEduTest.g:1119:2: rule__AlternativeResponse__Group_1_1__1__Impl
+            // InternalEduTest.g:1332:1: ( rule__AlternativeResponse__Group_1_1__1__Impl )
+            // InternalEduTest.g:1333:2: rule__AlternativeResponse__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeResponse__Group_1_1__1__Impl();
@@ -3606,31 +4251,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__Group_1_1__1__Impl"
-    // InternalEduTest.g:1125:1: rule__AlternativeResponse__Group_1_1__1__Impl : ( ( rule__AlternativeResponse__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:1339:1: rule__AlternativeResponse__Group_1_1__1__Impl : ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__AlternativeResponse__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1129:1: ( ( ( rule__AlternativeResponse__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:1130:1: ( ( rule__AlternativeResponse__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1343:1: ( ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:1344:1: ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:1130:1: ( ( rule__AlternativeResponse__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:1131:2: ( rule__AlternativeResponse__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1344:1: ( ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1345:2: ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:1132:2: ( rule__AlternativeResponse__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:1132:3: rule__AlternativeResponse__BlocksAssignment_1_1_1
+             before(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:1346:2: ( rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1346:3: rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__AlternativeResponse__BlocksAssignment_1_1_1();
+            rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -3653,16 +4298,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__0"
-    // InternalEduTest.g:1141:1: rule__MultiChoiceDiagram__Group__0 : rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1 ;
+    // InternalEduTest.g:1355:1: rule__MultiChoiceDiagram__Group__0 : rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1 ;
     public final void rule__MultiChoiceDiagram__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1145:1: ( rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1 )
-            // InternalEduTest.g:1146:2: rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1
+            // InternalEduTest.g:1359:1: ( rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1 )
+            // InternalEduTest.g:1360:2: rule__MultiChoiceDiagram__Group__0__Impl rule__MultiChoiceDiagram__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceDiagram__Group__0__Impl();
 
             state._fsp--;
@@ -3691,20 +4336,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__0__Impl"
-    // InternalEduTest.g:1153:1: rule__MultiChoiceDiagram__Group__0__Impl : ( 'MultiChoiceDiagram' ) ;
+    // InternalEduTest.g:1367:1: rule__MultiChoiceDiagram__Group__0__Impl : ( 'MultiChoiceDiagram' ) ;
     public final void rule__MultiChoiceDiagram__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1157:1: ( ( 'MultiChoiceDiagram' ) )
-            // InternalEduTest.g:1158:1: ( 'MultiChoiceDiagram' )
+            // InternalEduTest.g:1371:1: ( ( 'MultiChoiceDiagram' ) )
+            // InternalEduTest.g:1372:1: ( 'MultiChoiceDiagram' )
             {
-            // InternalEduTest.g:1158:1: ( 'MultiChoiceDiagram' )
-            // InternalEduTest.g:1159:2: 'MultiChoiceDiagram'
+            // InternalEduTest.g:1372:1: ( 'MultiChoiceDiagram' )
+            // InternalEduTest.g:1373:2: 'MultiChoiceDiagram'
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getMultiChoiceDiagramKeyword_0()); 
-            match(input,27,FOLLOW_2); 
+            match(input,29,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceDiagramAccess().getMultiChoiceDiagramKeyword_0()); 
 
             }
@@ -3728,16 +4373,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__1"
-    // InternalEduTest.g:1168:1: rule__MultiChoiceDiagram__Group__1 : rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2 ;
+    // InternalEduTest.g:1382:1: rule__MultiChoiceDiagram__Group__1 : rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2 ;
     public final void rule__MultiChoiceDiagram__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1172:1: ( rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2 )
-            // InternalEduTest.g:1173:2: rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2
+            // InternalEduTest.g:1386:1: ( rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2 )
+            // InternalEduTest.g:1387:2: rule__MultiChoiceDiagram__Group__1__Impl rule__MultiChoiceDiagram__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceDiagram__Group__1__Impl();
 
             state._fsp--;
@@ -3766,29 +4411,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__1__Impl"
-    // InternalEduTest.g:1180:1: rule__MultiChoiceDiagram__Group__1__Impl : ( ( rule__MultiChoiceDiagram__Group_1__0 )? ) ;
+    // InternalEduTest.g:1394:1: rule__MultiChoiceDiagram__Group__1__Impl : ( ( rule__MultiChoiceDiagram__Group_1__0 )? ) ;
     public final void rule__MultiChoiceDiagram__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1184:1: ( ( ( rule__MultiChoiceDiagram__Group_1__0 )? ) )
-            // InternalEduTest.g:1185:1: ( ( rule__MultiChoiceDiagram__Group_1__0 )? )
+            // InternalEduTest.g:1398:1: ( ( ( rule__MultiChoiceDiagram__Group_1__0 )? ) )
+            // InternalEduTest.g:1399:1: ( ( rule__MultiChoiceDiagram__Group_1__0 )? )
             {
-            // InternalEduTest.g:1185:1: ( ( rule__MultiChoiceDiagram__Group_1__0 )? )
-            // InternalEduTest.g:1186:2: ( rule__MultiChoiceDiagram__Group_1__0 )?
+            // InternalEduTest.g:1399:1: ( ( rule__MultiChoiceDiagram__Group_1__0 )? )
+            // InternalEduTest.g:1400:2: ( rule__MultiChoiceDiagram__Group_1__0 )?
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getGroup_1()); 
-            // InternalEduTest.g:1187:2: ( rule__MultiChoiceDiagram__Group_1__0 )?
-            int alt16=2;
-            int LA16_0 = input.LA(1);
+            // InternalEduTest.g:1401:2: ( rule__MultiChoiceDiagram__Group_1__0 )?
+            int alt17=2;
+            int LA17_0 = input.LA(1);
 
-            if ( (LA16_0==RULE_ID) ) {
-                alt16=1;
+            if ( (LA17_0==RULE_ID) ) {
+                alt17=1;
             }
-            switch (alt16) {
+            switch (alt17) {
                 case 1 :
-                    // InternalEduTest.g:1187:3: rule__MultiChoiceDiagram__Group_1__0
+                    // InternalEduTest.g:1401:3: rule__MultiChoiceDiagram__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__MultiChoiceDiagram__Group_1__0();
@@ -3824,16 +4469,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__2"
-    // InternalEduTest.g:1195:1: rule__MultiChoiceDiagram__Group__2 : rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3 ;
+    // InternalEduTest.g:1409:1: rule__MultiChoiceDiagram__Group__2 : rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3 ;
     public final void rule__MultiChoiceDiagram__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1199:1: ( rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3 )
-            // InternalEduTest.g:1200:2: rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3
+            // InternalEduTest.g:1413:1: ( rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3 )
+            // InternalEduTest.g:1414:2: rule__MultiChoiceDiagram__Group__2__Impl rule__MultiChoiceDiagram__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MultiChoiceDiagram__Group__2__Impl();
 
             state._fsp--;
@@ -3862,20 +4507,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__2__Impl"
-    // InternalEduTest.g:1207:1: rule__MultiChoiceDiagram__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:1421:1: rule__MultiChoiceDiagram__Group__2__Impl : ( '{' ) ;
     public final void rule__MultiChoiceDiagram__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1211:1: ( ( '{' ) )
-            // InternalEduTest.g:1212:1: ( '{' )
+            // InternalEduTest.g:1425:1: ( ( '{' ) )
+            // InternalEduTest.g:1426:1: ( '{' )
             {
-            // InternalEduTest.g:1212:1: ( '{' )
-            // InternalEduTest.g:1213:2: '{'
+            // InternalEduTest.g:1426:1: ( '{' )
+            // InternalEduTest.g:1427:2: '{'
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceDiagramAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -3899,16 +4544,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__3"
-    // InternalEduTest.g:1222:1: rule__MultiChoiceDiagram__Group__3 : rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4 ;
+    // InternalEduTest.g:1436:1: rule__MultiChoiceDiagram__Group__3 : rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4 ;
     public final void rule__MultiChoiceDiagram__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1226:1: ( rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4 )
-            // InternalEduTest.g:1227:2: rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4
+            // InternalEduTest.g:1440:1: ( rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4 )
+            // InternalEduTest.g:1441:2: rule__MultiChoiceDiagram__Group__3__Impl rule__MultiChoiceDiagram__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceDiagram__Group__3__Impl();
 
             state._fsp--;
@@ -3937,21 +4582,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__3__Impl"
-    // InternalEduTest.g:1234:1: rule__MultiChoiceDiagram__Group__3__Impl : ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:1448:1: rule__MultiChoiceDiagram__Group__3__Impl : ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) ) ;
     public final void rule__MultiChoiceDiagram__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1238:1: ( ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:1239:1: ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1452:1: ( ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:1453:1: ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:1239:1: ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) )
-            // InternalEduTest.g:1240:2: ( rule__MultiChoiceDiagram__ConfigAssignment_3 )
+            // InternalEduTest.g:1453:1: ( ( rule__MultiChoiceDiagram__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1454:2: ( rule__MultiChoiceDiagram__ConfigAssignment_3 )
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:1241:2: ( rule__MultiChoiceDiagram__ConfigAssignment_3 )
-            // InternalEduTest.g:1241:3: rule__MultiChoiceDiagram__ConfigAssignment_3
+            // InternalEduTest.g:1455:2: ( rule__MultiChoiceDiagram__ConfigAssignment_3 )
+            // InternalEduTest.g:1455:3: rule__MultiChoiceDiagram__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceDiagram__ConfigAssignment_3();
@@ -3984,16 +4629,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__4"
-    // InternalEduTest.g:1249:1: rule__MultiChoiceDiagram__Group__4 : rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5 ;
+    // InternalEduTest.g:1463:1: rule__MultiChoiceDiagram__Group__4 : rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5 ;
     public final void rule__MultiChoiceDiagram__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1253:1: ( rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5 )
-            // InternalEduTest.g:1254:2: rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5
+            // InternalEduTest.g:1467:1: ( rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5 )
+            // InternalEduTest.g:1468:2: rule__MultiChoiceDiagram__Group__4__Impl rule__MultiChoiceDiagram__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceDiagram__Group__4__Impl();
 
             state._fsp--;
@@ -4022,35 +4667,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__4__Impl"
-    // InternalEduTest.g:1261:1: rule__MultiChoiceDiagram__Group__4__Impl : ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:1475:1: rule__MultiChoiceDiagram__Group__4__Impl : ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* ) ;
     public final void rule__MultiChoiceDiagram__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1265:1: ( ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:1266:1: ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* )
+            // InternalEduTest.g:1479:1: ( ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:1480:1: ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:1266:1: ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* )
-            // InternalEduTest.g:1267:2: ( rule__MultiChoiceDiagram__TestsAssignment_4 )*
+            // InternalEduTest.g:1480:1: ( ( rule__MultiChoiceDiagram__TestsAssignment_4 )* )
+            // InternalEduTest.g:1481:2: ( rule__MultiChoiceDiagram__TestsAssignment_4 )*
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:1268:2: ( rule__MultiChoiceDiagram__TestsAssignment_4 )*
-            loop17:
+            // InternalEduTest.g:1482:2: ( rule__MultiChoiceDiagram__TestsAssignment_4 )*
+            loop18:
             do {
-                int alt17=2;
-                int LA17_0 = input.LA(1);
+                int alt18=2;
+                int LA18_0 = input.LA(1);
 
-                if ( (LA17_0==46) ) {
-                    alt17=1;
+                if ( (LA18_0==46) ) {
+                    alt18=1;
                 }
 
 
-                switch (alt17) {
+                switch (alt18) {
             	case 1 :
-            	    // InternalEduTest.g:1268:3: rule__MultiChoiceDiagram__TestsAssignment_4
+            	    // InternalEduTest.g:1482:3: rule__MultiChoiceDiagram__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__MultiChoiceDiagram__TestsAssignment_4();
 
             	    state._fsp--;
@@ -4060,7 +4705,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop17;
+            	    break loop18;
                 }
             } while (true);
 
@@ -4087,14 +4732,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__5"
-    // InternalEduTest.g:1276:1: rule__MultiChoiceDiagram__Group__5 : rule__MultiChoiceDiagram__Group__5__Impl ;
+    // InternalEduTest.g:1490:1: rule__MultiChoiceDiagram__Group__5 : rule__MultiChoiceDiagram__Group__5__Impl ;
     public final void rule__MultiChoiceDiagram__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1280:1: ( rule__MultiChoiceDiagram__Group__5__Impl )
-            // InternalEduTest.g:1281:2: rule__MultiChoiceDiagram__Group__5__Impl
+            // InternalEduTest.g:1494:1: ( rule__MultiChoiceDiagram__Group__5__Impl )
+            // InternalEduTest.g:1495:2: rule__MultiChoiceDiagram__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceDiagram__Group__5__Impl();
@@ -4120,20 +4765,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group__5__Impl"
-    // InternalEduTest.g:1287:1: rule__MultiChoiceDiagram__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:1501:1: rule__MultiChoiceDiagram__Group__5__Impl : ( '}' ) ;
     public final void rule__MultiChoiceDiagram__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1291:1: ( ( '}' ) )
-            // InternalEduTest.g:1292:1: ( '}' )
+            // InternalEduTest.g:1505:1: ( ( '}' ) )
+            // InternalEduTest.g:1506:1: ( '}' )
             {
-            // InternalEduTest.g:1292:1: ( '}' )
-            // InternalEduTest.g:1293:2: '}'
+            // InternalEduTest.g:1506:1: ( '}' )
+            // InternalEduTest.g:1507:2: '}'
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceDiagramAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -4157,16 +4802,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1__0"
-    // InternalEduTest.g:1303:1: rule__MultiChoiceDiagram__Group_1__0 : rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1 ;
+    // InternalEduTest.g:1517:1: rule__MultiChoiceDiagram__Group_1__0 : rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1 ;
     public final void rule__MultiChoiceDiagram__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1307:1: ( rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1 )
-            // InternalEduTest.g:1308:2: rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1
+            // InternalEduTest.g:1521:1: ( rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1 )
+            // InternalEduTest.g:1522:2: rule__MultiChoiceDiagram__Group_1__0__Impl rule__MultiChoiceDiagram__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceDiagram__Group_1__0__Impl();
 
             state._fsp--;
@@ -4195,31 +4840,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1__0__Impl"
-    // InternalEduTest.g:1315:1: rule__MultiChoiceDiagram__Group_1__0__Impl : ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:1529:1: rule__MultiChoiceDiagram__Group_1__0__Impl : ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__MultiChoiceDiagram__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1319:1: ( ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:1320:1: ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1533:1: ( ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:1534:1: ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:1320:1: ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:1321:2: ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 )
+            // InternalEduTest.g:1534:1: ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1535:2: ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:1322:2: ( rule__MultiChoiceDiagram__BlocksAssignment_1_0 )
-            // InternalEduTest.g:1322:3: rule__MultiChoiceDiagram__BlocksAssignment_1_0
+             before(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:1536:2: ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:1536:3: rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceDiagram__BlocksAssignment_1_0();
+            rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -4242,14 +4887,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1__1"
-    // InternalEduTest.g:1330:1: rule__MultiChoiceDiagram__Group_1__1 : rule__MultiChoiceDiagram__Group_1__1__Impl ;
+    // InternalEduTest.g:1544:1: rule__MultiChoiceDiagram__Group_1__1 : rule__MultiChoiceDiagram__Group_1__1__Impl ;
     public final void rule__MultiChoiceDiagram__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1334:1: ( rule__MultiChoiceDiagram__Group_1__1__Impl )
-            // InternalEduTest.g:1335:2: rule__MultiChoiceDiagram__Group_1__1__Impl
+            // InternalEduTest.g:1548:1: ( rule__MultiChoiceDiagram__Group_1__1__Impl )
+            // InternalEduTest.g:1549:2: rule__MultiChoiceDiagram__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceDiagram__Group_1__1__Impl();
@@ -4275,35 +4920,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1__1__Impl"
-    // InternalEduTest.g:1341:1: rule__MultiChoiceDiagram__Group_1__1__Impl : ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:1555:1: rule__MultiChoiceDiagram__Group_1__1__Impl : ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* ) ;
     public final void rule__MultiChoiceDiagram__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1345:1: ( ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* ) )
-            // InternalEduTest.g:1346:1: ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* )
+            // InternalEduTest.g:1559:1: ( ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* ) )
+            // InternalEduTest.g:1560:1: ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:1346:1: ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* )
-            // InternalEduTest.g:1347:2: ( rule__MultiChoiceDiagram__Group_1_1__0 )*
+            // InternalEduTest.g:1560:1: ( ( rule__MultiChoiceDiagram__Group_1_1__0 )* )
+            // InternalEduTest.g:1561:2: ( rule__MultiChoiceDiagram__Group_1_1__0 )*
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getGroup_1_1()); 
-            // InternalEduTest.g:1348:2: ( rule__MultiChoiceDiagram__Group_1_1__0 )*
-            loop18:
+            // InternalEduTest.g:1562:2: ( rule__MultiChoiceDiagram__Group_1_1__0 )*
+            loop19:
             do {
-                int alt18=2;
-                int LA18_0 = input.LA(1);
+                int alt19=2;
+                int LA19_0 = input.LA(1);
 
-                if ( (LA18_0==26) ) {
-                    alt18=1;
+                if ( (LA19_0==28) ) {
+                    alt19=1;
                 }
 
 
-                switch (alt18) {
+                switch (alt19) {
             	case 1 :
-            	    // InternalEduTest.g:1348:3: rule__MultiChoiceDiagram__Group_1_1__0
+            	    // InternalEduTest.g:1562:3: rule__MultiChoiceDiagram__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__MultiChoiceDiagram__Group_1_1__0();
 
             	    state._fsp--;
@@ -4313,7 +4958,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop18;
+            	    break loop19;
                 }
             } while (true);
 
@@ -4340,16 +4985,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1_1__0"
-    // InternalEduTest.g:1357:1: rule__MultiChoiceDiagram__Group_1_1__0 : rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1 ;
+    // InternalEduTest.g:1571:1: rule__MultiChoiceDiagram__Group_1_1__0 : rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1 ;
     public final void rule__MultiChoiceDiagram__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1361:1: ( rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1 )
-            // InternalEduTest.g:1362:2: rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1
+            // InternalEduTest.g:1575:1: ( rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1 )
+            // InternalEduTest.g:1576:2: rule__MultiChoiceDiagram__Group_1_1__0__Impl rule__MultiChoiceDiagram__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__MultiChoiceDiagram__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -4378,20 +5023,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1_1__0__Impl"
-    // InternalEduTest.g:1369:1: rule__MultiChoiceDiagram__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:1583:1: rule__MultiChoiceDiagram__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__MultiChoiceDiagram__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1373:1: ( ( ',' ) )
-            // InternalEduTest.g:1374:1: ( ',' )
+            // InternalEduTest.g:1587:1: ( ( ',' ) )
+            // InternalEduTest.g:1588:1: ( ',' )
             {
-            // InternalEduTest.g:1374:1: ( ',' )
-            // InternalEduTest.g:1375:2: ','
+            // InternalEduTest.g:1588:1: ( ',' )
+            // InternalEduTest.g:1589:2: ','
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceDiagramAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -4415,14 +5060,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1_1__1"
-    // InternalEduTest.g:1384:1: rule__MultiChoiceDiagram__Group_1_1__1 : rule__MultiChoiceDiagram__Group_1_1__1__Impl ;
+    // InternalEduTest.g:1598:1: rule__MultiChoiceDiagram__Group_1_1__1 : rule__MultiChoiceDiagram__Group_1_1__1__Impl ;
     public final void rule__MultiChoiceDiagram__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1388:1: ( rule__MultiChoiceDiagram__Group_1_1__1__Impl )
-            // InternalEduTest.g:1389:2: rule__MultiChoiceDiagram__Group_1_1__1__Impl
+            // InternalEduTest.g:1602:1: ( rule__MultiChoiceDiagram__Group_1_1__1__Impl )
+            // InternalEduTest.g:1603:2: rule__MultiChoiceDiagram__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceDiagram__Group_1_1__1__Impl();
@@ -4448,31 +5093,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__Group_1_1__1__Impl"
-    // InternalEduTest.g:1395:1: rule__MultiChoiceDiagram__Group_1_1__1__Impl : ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:1609:1: rule__MultiChoiceDiagram__Group_1_1__1__Impl : ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__MultiChoiceDiagram__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1399:1: ( ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:1400:1: ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1613:1: ( ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:1614:1: ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:1400:1: ( ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:1401:2: ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1614:1: ( ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1615:2: ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:1402:2: ( rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:1402:3: rule__MultiChoiceDiagram__BlocksAssignment_1_1_1
+             before(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:1616:2: ( rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1616:3: rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceDiagram__BlocksAssignment_1_1_1();
+            rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -4495,16 +5140,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__0"
-    // InternalEduTest.g:1411:1: rule__MultiChoiceEmendation__Group__0 : rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1 ;
+    // InternalEduTest.g:1625:1: rule__MultiChoiceEmendation__Group__0 : rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1 ;
     public final void rule__MultiChoiceEmendation__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1415:1: ( rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1 )
-            // InternalEduTest.g:1416:2: rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1
+            // InternalEduTest.g:1629:1: ( rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1 )
+            // InternalEduTest.g:1630:2: rule__MultiChoiceEmendation__Group__0__Impl rule__MultiChoiceEmendation__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceEmendation__Group__0__Impl();
 
             state._fsp--;
@@ -4533,20 +5178,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__0__Impl"
-    // InternalEduTest.g:1423:1: rule__MultiChoiceEmendation__Group__0__Impl : ( 'MultiChoiceEmendation' ) ;
+    // InternalEduTest.g:1637:1: rule__MultiChoiceEmendation__Group__0__Impl : ( 'MultiChoiceEmendation' ) ;
     public final void rule__MultiChoiceEmendation__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1427:1: ( ( 'MultiChoiceEmendation' ) )
-            // InternalEduTest.g:1428:1: ( 'MultiChoiceEmendation' )
+            // InternalEduTest.g:1641:1: ( ( 'MultiChoiceEmendation' ) )
+            // InternalEduTest.g:1642:1: ( 'MultiChoiceEmendation' )
             {
-            // InternalEduTest.g:1428:1: ( 'MultiChoiceEmendation' )
-            // InternalEduTest.g:1429:2: 'MultiChoiceEmendation'
+            // InternalEduTest.g:1642:1: ( 'MultiChoiceEmendation' )
+            // InternalEduTest.g:1643:2: 'MultiChoiceEmendation'
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getMultiChoiceEmendationKeyword_0()); 
-            match(input,28,FOLLOW_2); 
+            match(input,30,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmendationAccess().getMultiChoiceEmendationKeyword_0()); 
 
             }
@@ -4570,16 +5215,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__1"
-    // InternalEduTest.g:1438:1: rule__MultiChoiceEmendation__Group__1 : rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2 ;
+    // InternalEduTest.g:1652:1: rule__MultiChoiceEmendation__Group__1 : rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2 ;
     public final void rule__MultiChoiceEmendation__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1442:1: ( rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2 )
-            // InternalEduTest.g:1443:2: rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2
+            // InternalEduTest.g:1656:1: ( rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2 )
+            // InternalEduTest.g:1657:2: rule__MultiChoiceEmendation__Group__1__Impl rule__MultiChoiceEmendation__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceEmendation__Group__1__Impl();
 
             state._fsp--;
@@ -4608,29 +5253,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__1__Impl"
-    // InternalEduTest.g:1450:1: rule__MultiChoiceEmendation__Group__1__Impl : ( ( rule__MultiChoiceEmendation__Group_1__0 )? ) ;
+    // InternalEduTest.g:1664:1: rule__MultiChoiceEmendation__Group__1__Impl : ( ( rule__MultiChoiceEmendation__Group_1__0 )? ) ;
     public final void rule__MultiChoiceEmendation__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1454:1: ( ( ( rule__MultiChoiceEmendation__Group_1__0 )? ) )
-            // InternalEduTest.g:1455:1: ( ( rule__MultiChoiceEmendation__Group_1__0 )? )
+            // InternalEduTest.g:1668:1: ( ( ( rule__MultiChoiceEmendation__Group_1__0 )? ) )
+            // InternalEduTest.g:1669:1: ( ( rule__MultiChoiceEmendation__Group_1__0 )? )
             {
-            // InternalEduTest.g:1455:1: ( ( rule__MultiChoiceEmendation__Group_1__0 )? )
-            // InternalEduTest.g:1456:2: ( rule__MultiChoiceEmendation__Group_1__0 )?
+            // InternalEduTest.g:1669:1: ( ( rule__MultiChoiceEmendation__Group_1__0 )? )
+            // InternalEduTest.g:1670:2: ( rule__MultiChoiceEmendation__Group_1__0 )?
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getGroup_1()); 
-            // InternalEduTest.g:1457:2: ( rule__MultiChoiceEmendation__Group_1__0 )?
-            int alt19=2;
-            int LA19_0 = input.LA(1);
+            // InternalEduTest.g:1671:2: ( rule__MultiChoiceEmendation__Group_1__0 )?
+            int alt20=2;
+            int LA20_0 = input.LA(1);
 
-            if ( (LA19_0==RULE_ID) ) {
-                alt19=1;
+            if ( (LA20_0==RULE_ID) ) {
+                alt20=1;
             }
-            switch (alt19) {
+            switch (alt20) {
                 case 1 :
-                    // InternalEduTest.g:1457:3: rule__MultiChoiceEmendation__Group_1__0
+                    // InternalEduTest.g:1671:3: rule__MultiChoiceEmendation__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__MultiChoiceEmendation__Group_1__0();
@@ -4666,16 +5311,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__2"
-    // InternalEduTest.g:1465:1: rule__MultiChoiceEmendation__Group__2 : rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3 ;
+    // InternalEduTest.g:1679:1: rule__MultiChoiceEmendation__Group__2 : rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3 ;
     public final void rule__MultiChoiceEmendation__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1469:1: ( rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3 )
-            // InternalEduTest.g:1470:2: rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3
+            // InternalEduTest.g:1683:1: ( rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3 )
+            // InternalEduTest.g:1684:2: rule__MultiChoiceEmendation__Group__2__Impl rule__MultiChoiceEmendation__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MultiChoiceEmendation__Group__2__Impl();
 
             state._fsp--;
@@ -4704,20 +5349,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__2__Impl"
-    // InternalEduTest.g:1477:1: rule__MultiChoiceEmendation__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:1691:1: rule__MultiChoiceEmendation__Group__2__Impl : ( '{' ) ;
     public final void rule__MultiChoiceEmendation__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1481:1: ( ( '{' ) )
-            // InternalEduTest.g:1482:1: ( '{' )
+            // InternalEduTest.g:1695:1: ( ( '{' ) )
+            // InternalEduTest.g:1696:1: ( '{' )
             {
-            // InternalEduTest.g:1482:1: ( '{' )
-            // InternalEduTest.g:1483:2: '{'
+            // InternalEduTest.g:1696:1: ( '{' )
+            // InternalEduTest.g:1697:2: '{'
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmendationAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -4741,16 +5386,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__3"
-    // InternalEduTest.g:1492:1: rule__MultiChoiceEmendation__Group__3 : rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4 ;
+    // InternalEduTest.g:1706:1: rule__MultiChoiceEmendation__Group__3 : rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4 ;
     public final void rule__MultiChoiceEmendation__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1496:1: ( rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4 )
-            // InternalEduTest.g:1497:2: rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4
+            // InternalEduTest.g:1710:1: ( rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4 )
+            // InternalEduTest.g:1711:2: rule__MultiChoiceEmendation__Group__3__Impl rule__MultiChoiceEmendation__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceEmendation__Group__3__Impl();
 
             state._fsp--;
@@ -4779,21 +5424,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__3__Impl"
-    // InternalEduTest.g:1504:1: rule__MultiChoiceEmendation__Group__3__Impl : ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:1718:1: rule__MultiChoiceEmendation__Group__3__Impl : ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) ) ;
     public final void rule__MultiChoiceEmendation__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1508:1: ( ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:1509:1: ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1722:1: ( ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:1723:1: ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:1509:1: ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) )
-            // InternalEduTest.g:1510:2: ( rule__MultiChoiceEmendation__ConfigAssignment_3 )
+            // InternalEduTest.g:1723:1: ( ( rule__MultiChoiceEmendation__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1724:2: ( rule__MultiChoiceEmendation__ConfigAssignment_3 )
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:1511:2: ( rule__MultiChoiceEmendation__ConfigAssignment_3 )
-            // InternalEduTest.g:1511:3: rule__MultiChoiceEmendation__ConfigAssignment_3
+            // InternalEduTest.g:1725:2: ( rule__MultiChoiceEmendation__ConfigAssignment_3 )
+            // InternalEduTest.g:1725:3: rule__MultiChoiceEmendation__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmendation__ConfigAssignment_3();
@@ -4826,16 +5471,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__4"
-    // InternalEduTest.g:1519:1: rule__MultiChoiceEmendation__Group__4 : rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5 ;
+    // InternalEduTest.g:1733:1: rule__MultiChoiceEmendation__Group__4 : rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5 ;
     public final void rule__MultiChoiceEmendation__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1523:1: ( rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5 )
-            // InternalEduTest.g:1524:2: rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5
+            // InternalEduTest.g:1737:1: ( rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5 )
+            // InternalEduTest.g:1738:2: rule__MultiChoiceEmendation__Group__4__Impl rule__MultiChoiceEmendation__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceEmendation__Group__4__Impl();
 
             state._fsp--;
@@ -4864,35 +5509,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__4__Impl"
-    // InternalEduTest.g:1531:1: rule__MultiChoiceEmendation__Group__4__Impl : ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:1745:1: rule__MultiChoiceEmendation__Group__4__Impl : ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* ) ;
     public final void rule__MultiChoiceEmendation__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1535:1: ( ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:1536:1: ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* )
+            // InternalEduTest.g:1749:1: ( ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:1750:1: ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:1536:1: ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* )
-            // InternalEduTest.g:1537:2: ( rule__MultiChoiceEmendation__TestsAssignment_4 )*
+            // InternalEduTest.g:1750:1: ( ( rule__MultiChoiceEmendation__TestsAssignment_4 )* )
+            // InternalEduTest.g:1751:2: ( rule__MultiChoiceEmendation__TestsAssignment_4 )*
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:1538:2: ( rule__MultiChoiceEmendation__TestsAssignment_4 )*
-            loop20:
+            // InternalEduTest.g:1752:2: ( rule__MultiChoiceEmendation__TestsAssignment_4 )*
+            loop21:
             do {
-                int alt20=2;
-                int LA20_0 = input.LA(1);
+                int alt21=2;
+                int LA21_0 = input.LA(1);
 
-                if ( (LA20_0==46) ) {
-                    alt20=1;
+                if ( (LA21_0==46) ) {
+                    alt21=1;
                 }
 
 
-                switch (alt20) {
+                switch (alt21) {
             	case 1 :
-            	    // InternalEduTest.g:1538:3: rule__MultiChoiceEmendation__TestsAssignment_4
+            	    // InternalEduTest.g:1752:3: rule__MultiChoiceEmendation__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__MultiChoiceEmendation__TestsAssignment_4();
 
             	    state._fsp--;
@@ -4902,7 +5547,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop20;
+            	    break loop21;
                 }
             } while (true);
 
@@ -4929,14 +5574,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__5"
-    // InternalEduTest.g:1546:1: rule__MultiChoiceEmendation__Group__5 : rule__MultiChoiceEmendation__Group__5__Impl ;
+    // InternalEduTest.g:1760:1: rule__MultiChoiceEmendation__Group__5 : rule__MultiChoiceEmendation__Group__5__Impl ;
     public final void rule__MultiChoiceEmendation__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1550:1: ( rule__MultiChoiceEmendation__Group__5__Impl )
-            // InternalEduTest.g:1551:2: rule__MultiChoiceEmendation__Group__5__Impl
+            // InternalEduTest.g:1764:1: ( rule__MultiChoiceEmendation__Group__5__Impl )
+            // InternalEduTest.g:1765:2: rule__MultiChoiceEmendation__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmendation__Group__5__Impl();
@@ -4962,20 +5607,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group__5__Impl"
-    // InternalEduTest.g:1557:1: rule__MultiChoiceEmendation__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:1771:1: rule__MultiChoiceEmendation__Group__5__Impl : ( '}' ) ;
     public final void rule__MultiChoiceEmendation__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1561:1: ( ( '}' ) )
-            // InternalEduTest.g:1562:1: ( '}' )
+            // InternalEduTest.g:1775:1: ( ( '}' ) )
+            // InternalEduTest.g:1776:1: ( '}' )
             {
-            // InternalEduTest.g:1562:1: ( '}' )
-            // InternalEduTest.g:1563:2: '}'
+            // InternalEduTest.g:1776:1: ( '}' )
+            // InternalEduTest.g:1777:2: '}'
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmendationAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -4999,16 +5644,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1__0"
-    // InternalEduTest.g:1573:1: rule__MultiChoiceEmendation__Group_1__0 : rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1 ;
+    // InternalEduTest.g:1787:1: rule__MultiChoiceEmendation__Group_1__0 : rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1 ;
     public final void rule__MultiChoiceEmendation__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1577:1: ( rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1 )
-            // InternalEduTest.g:1578:2: rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1
+            // InternalEduTest.g:1791:1: ( rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1 )
+            // InternalEduTest.g:1792:2: rule__MultiChoiceEmendation__Group_1__0__Impl rule__MultiChoiceEmendation__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceEmendation__Group_1__0__Impl();
 
             state._fsp--;
@@ -5037,31 +5682,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1__0__Impl"
-    // InternalEduTest.g:1585:1: rule__MultiChoiceEmendation__Group_1__0__Impl : ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:1799:1: rule__MultiChoiceEmendation__Group_1__0__Impl : ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__MultiChoiceEmendation__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1589:1: ( ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:1590:1: ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1803:1: ( ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:1804:1: ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:1590:1: ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:1591:2: ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 )
+            // InternalEduTest.g:1804:1: ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:1805:2: ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:1592:2: ( rule__MultiChoiceEmendation__BlocksAssignment_1_0 )
-            // InternalEduTest.g:1592:3: rule__MultiChoiceEmendation__BlocksAssignment_1_0
+             before(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:1806:2: ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:1806:3: rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceEmendation__BlocksAssignment_1_0();
+            rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -5084,14 +5729,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1__1"
-    // InternalEduTest.g:1600:1: rule__MultiChoiceEmendation__Group_1__1 : rule__MultiChoiceEmendation__Group_1__1__Impl ;
+    // InternalEduTest.g:1814:1: rule__MultiChoiceEmendation__Group_1__1 : rule__MultiChoiceEmendation__Group_1__1__Impl ;
     public final void rule__MultiChoiceEmendation__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1604:1: ( rule__MultiChoiceEmendation__Group_1__1__Impl )
-            // InternalEduTest.g:1605:2: rule__MultiChoiceEmendation__Group_1__1__Impl
+            // InternalEduTest.g:1818:1: ( rule__MultiChoiceEmendation__Group_1__1__Impl )
+            // InternalEduTest.g:1819:2: rule__MultiChoiceEmendation__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmendation__Group_1__1__Impl();
@@ -5117,35 +5762,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1__1__Impl"
-    // InternalEduTest.g:1611:1: rule__MultiChoiceEmendation__Group_1__1__Impl : ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:1825:1: rule__MultiChoiceEmendation__Group_1__1__Impl : ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* ) ;
     public final void rule__MultiChoiceEmendation__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1615:1: ( ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* ) )
-            // InternalEduTest.g:1616:1: ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* )
+            // InternalEduTest.g:1829:1: ( ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* ) )
+            // InternalEduTest.g:1830:1: ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:1616:1: ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* )
-            // InternalEduTest.g:1617:2: ( rule__MultiChoiceEmendation__Group_1_1__0 )*
+            // InternalEduTest.g:1830:1: ( ( rule__MultiChoiceEmendation__Group_1_1__0 )* )
+            // InternalEduTest.g:1831:2: ( rule__MultiChoiceEmendation__Group_1_1__0 )*
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getGroup_1_1()); 
-            // InternalEduTest.g:1618:2: ( rule__MultiChoiceEmendation__Group_1_1__0 )*
-            loop21:
+            // InternalEduTest.g:1832:2: ( rule__MultiChoiceEmendation__Group_1_1__0 )*
+            loop22:
             do {
-                int alt21=2;
-                int LA21_0 = input.LA(1);
+                int alt22=2;
+                int LA22_0 = input.LA(1);
 
-                if ( (LA21_0==26) ) {
-                    alt21=1;
+                if ( (LA22_0==28) ) {
+                    alt22=1;
                 }
 
 
-                switch (alt21) {
+                switch (alt22) {
             	case 1 :
-            	    // InternalEduTest.g:1618:3: rule__MultiChoiceEmendation__Group_1_1__0
+            	    // InternalEduTest.g:1832:3: rule__MultiChoiceEmendation__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__MultiChoiceEmendation__Group_1_1__0();
 
             	    state._fsp--;
@@ -5155,7 +5800,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop21;
+            	    break loop22;
                 }
             } while (true);
 
@@ -5182,16 +5827,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1_1__0"
-    // InternalEduTest.g:1627:1: rule__MultiChoiceEmendation__Group_1_1__0 : rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1 ;
+    // InternalEduTest.g:1841:1: rule__MultiChoiceEmendation__Group_1_1__0 : rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1 ;
     public final void rule__MultiChoiceEmendation__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1631:1: ( rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1 )
-            // InternalEduTest.g:1632:2: rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1
+            // InternalEduTest.g:1845:1: ( rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1 )
+            // InternalEduTest.g:1846:2: rule__MultiChoiceEmendation__Group_1_1__0__Impl rule__MultiChoiceEmendation__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__MultiChoiceEmendation__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -5220,20 +5865,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1_1__0__Impl"
-    // InternalEduTest.g:1639:1: rule__MultiChoiceEmendation__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:1853:1: rule__MultiChoiceEmendation__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__MultiChoiceEmendation__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1643:1: ( ( ',' ) )
-            // InternalEduTest.g:1644:1: ( ',' )
+            // InternalEduTest.g:1857:1: ( ( ',' ) )
+            // InternalEduTest.g:1858:1: ( ',' )
             {
-            // InternalEduTest.g:1644:1: ( ',' )
-            // InternalEduTest.g:1645:2: ','
+            // InternalEduTest.g:1858:1: ( ',' )
+            // InternalEduTest.g:1859:2: ','
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmendationAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -5257,14 +5902,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1_1__1"
-    // InternalEduTest.g:1654:1: rule__MultiChoiceEmendation__Group_1_1__1 : rule__MultiChoiceEmendation__Group_1_1__1__Impl ;
+    // InternalEduTest.g:1868:1: rule__MultiChoiceEmendation__Group_1_1__1 : rule__MultiChoiceEmendation__Group_1_1__1__Impl ;
     public final void rule__MultiChoiceEmendation__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1658:1: ( rule__MultiChoiceEmendation__Group_1_1__1__Impl )
-            // InternalEduTest.g:1659:2: rule__MultiChoiceEmendation__Group_1_1__1__Impl
+            // InternalEduTest.g:1872:1: ( rule__MultiChoiceEmendation__Group_1_1__1__Impl )
+            // InternalEduTest.g:1873:2: rule__MultiChoiceEmendation__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmendation__Group_1_1__1__Impl();
@@ -5290,31 +5935,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__Group_1_1__1__Impl"
-    // InternalEduTest.g:1665:1: rule__MultiChoiceEmendation__Group_1_1__1__Impl : ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:1879:1: rule__MultiChoiceEmendation__Group_1_1__1__Impl : ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__MultiChoiceEmendation__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1669:1: ( ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:1670:1: ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1883:1: ( ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:1884:1: ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:1670:1: ( ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:1671:2: ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1884:1: ( ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:1885:2: ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:1672:2: ( rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:1672:3: rule__MultiChoiceEmendation__BlocksAssignment_1_1_1
+             before(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:1886:2: ( rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:1886:3: rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceEmendation__BlocksAssignment_1_1_1();
+            rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -5337,16 +5982,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__0"
-    // InternalEduTest.g:1681:1: rule__MatchPairs__Group__0 : rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1 ;
+    // InternalEduTest.g:1895:1: rule__MatchPairs__Group__0 : rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1 ;
     public final void rule__MatchPairs__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1685:1: ( rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1 )
-            // InternalEduTest.g:1686:2: rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1
+            // InternalEduTest.g:1899:1: ( rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1 )
+            // InternalEduTest.g:1900:2: rule__MatchPairs__Group__0__Impl rule__MatchPairs__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MatchPairs__Group__0__Impl();
 
             state._fsp--;
@@ -5375,20 +6020,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__0__Impl"
-    // InternalEduTest.g:1693:1: rule__MatchPairs__Group__0__Impl : ( 'MatchPairs' ) ;
+    // InternalEduTest.g:1907:1: rule__MatchPairs__Group__0__Impl : ( 'MatchPairs' ) ;
     public final void rule__MatchPairs__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1697:1: ( ( 'MatchPairs' ) )
-            // InternalEduTest.g:1698:1: ( 'MatchPairs' )
+            // InternalEduTest.g:1911:1: ( ( 'MatchPairs' ) )
+            // InternalEduTest.g:1912:1: ( 'MatchPairs' )
             {
-            // InternalEduTest.g:1698:1: ( 'MatchPairs' )
-            // InternalEduTest.g:1699:2: 'MatchPairs'
+            // InternalEduTest.g:1912:1: ( 'MatchPairs' )
+            // InternalEduTest.g:1913:2: 'MatchPairs'
             {
              before(grammarAccess.getMatchPairsAccess().getMatchPairsKeyword_0()); 
-            match(input,29,FOLLOW_2); 
+            match(input,31,FOLLOW_2); 
              after(grammarAccess.getMatchPairsAccess().getMatchPairsKeyword_0()); 
 
             }
@@ -5412,16 +6057,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__1"
-    // InternalEduTest.g:1708:1: rule__MatchPairs__Group__1 : rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2 ;
+    // InternalEduTest.g:1922:1: rule__MatchPairs__Group__1 : rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2 ;
     public final void rule__MatchPairs__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1712:1: ( rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2 )
-            // InternalEduTest.g:1713:2: rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2
+            // InternalEduTest.g:1926:1: ( rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2 )
+            // InternalEduTest.g:1927:2: rule__MatchPairs__Group__1__Impl rule__MatchPairs__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MatchPairs__Group__1__Impl();
 
             state._fsp--;
@@ -5450,29 +6095,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__1__Impl"
-    // InternalEduTest.g:1720:1: rule__MatchPairs__Group__1__Impl : ( ( rule__MatchPairs__Group_1__0 )? ) ;
+    // InternalEduTest.g:1934:1: rule__MatchPairs__Group__1__Impl : ( ( rule__MatchPairs__Group_1__0 )? ) ;
     public final void rule__MatchPairs__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1724:1: ( ( ( rule__MatchPairs__Group_1__0 )? ) )
-            // InternalEduTest.g:1725:1: ( ( rule__MatchPairs__Group_1__0 )? )
+            // InternalEduTest.g:1938:1: ( ( ( rule__MatchPairs__Group_1__0 )? ) )
+            // InternalEduTest.g:1939:1: ( ( rule__MatchPairs__Group_1__0 )? )
             {
-            // InternalEduTest.g:1725:1: ( ( rule__MatchPairs__Group_1__0 )? )
-            // InternalEduTest.g:1726:2: ( rule__MatchPairs__Group_1__0 )?
+            // InternalEduTest.g:1939:1: ( ( rule__MatchPairs__Group_1__0 )? )
+            // InternalEduTest.g:1940:2: ( rule__MatchPairs__Group_1__0 )?
             {
              before(grammarAccess.getMatchPairsAccess().getGroup_1()); 
-            // InternalEduTest.g:1727:2: ( rule__MatchPairs__Group_1__0 )?
-            int alt22=2;
-            int LA22_0 = input.LA(1);
+            // InternalEduTest.g:1941:2: ( rule__MatchPairs__Group_1__0 )?
+            int alt23=2;
+            int LA23_0 = input.LA(1);
 
-            if ( (LA22_0==RULE_ID) ) {
-                alt22=1;
+            if ( (LA23_0==RULE_ID) ) {
+                alt23=1;
             }
-            switch (alt22) {
+            switch (alt23) {
                 case 1 :
-                    // InternalEduTest.g:1727:3: rule__MatchPairs__Group_1__0
+                    // InternalEduTest.g:1941:3: rule__MatchPairs__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__MatchPairs__Group_1__0();
@@ -5508,16 +6153,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__2"
-    // InternalEduTest.g:1735:1: rule__MatchPairs__Group__2 : rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3 ;
+    // InternalEduTest.g:1949:1: rule__MatchPairs__Group__2 : rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3 ;
     public final void rule__MatchPairs__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1739:1: ( rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3 )
-            // InternalEduTest.g:1740:2: rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3
+            // InternalEduTest.g:1953:1: ( rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3 )
+            // InternalEduTest.g:1954:2: rule__MatchPairs__Group__2__Impl rule__MatchPairs__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MatchPairs__Group__2__Impl();
 
             state._fsp--;
@@ -5546,20 +6191,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__2__Impl"
-    // InternalEduTest.g:1747:1: rule__MatchPairs__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:1961:1: rule__MatchPairs__Group__2__Impl : ( '{' ) ;
     public final void rule__MatchPairs__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1751:1: ( ( '{' ) )
-            // InternalEduTest.g:1752:1: ( '{' )
+            // InternalEduTest.g:1965:1: ( ( '{' ) )
+            // InternalEduTest.g:1966:1: ( '{' )
             {
-            // InternalEduTest.g:1752:1: ( '{' )
-            // InternalEduTest.g:1753:2: '{'
+            // InternalEduTest.g:1966:1: ( '{' )
+            // InternalEduTest.g:1967:2: '{'
             {
              before(grammarAccess.getMatchPairsAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getMatchPairsAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -5583,16 +6228,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__3"
-    // InternalEduTest.g:1762:1: rule__MatchPairs__Group__3 : rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4 ;
+    // InternalEduTest.g:1976:1: rule__MatchPairs__Group__3 : rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4 ;
     public final void rule__MatchPairs__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1766:1: ( rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4 )
-            // InternalEduTest.g:1767:2: rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4
+            // InternalEduTest.g:1980:1: ( rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4 )
+            // InternalEduTest.g:1981:2: rule__MatchPairs__Group__3__Impl rule__MatchPairs__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MatchPairs__Group__3__Impl();
 
             state._fsp--;
@@ -5621,21 +6266,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__3__Impl"
-    // InternalEduTest.g:1774:1: rule__MatchPairs__Group__3__Impl : ( ( rule__MatchPairs__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:1988:1: rule__MatchPairs__Group__3__Impl : ( ( rule__MatchPairs__ConfigAssignment_3 ) ) ;
     public final void rule__MatchPairs__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1778:1: ( ( ( rule__MatchPairs__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:1779:1: ( ( rule__MatchPairs__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1992:1: ( ( ( rule__MatchPairs__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:1993:1: ( ( rule__MatchPairs__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:1779:1: ( ( rule__MatchPairs__ConfigAssignment_3 ) )
-            // InternalEduTest.g:1780:2: ( rule__MatchPairs__ConfigAssignment_3 )
+            // InternalEduTest.g:1993:1: ( ( rule__MatchPairs__ConfigAssignment_3 ) )
+            // InternalEduTest.g:1994:2: ( rule__MatchPairs__ConfigAssignment_3 )
             {
              before(grammarAccess.getMatchPairsAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:1781:2: ( rule__MatchPairs__ConfigAssignment_3 )
-            // InternalEduTest.g:1781:3: rule__MatchPairs__ConfigAssignment_3
+            // InternalEduTest.g:1995:2: ( rule__MatchPairs__ConfigAssignment_3 )
+            // InternalEduTest.g:1995:3: rule__MatchPairs__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MatchPairs__ConfigAssignment_3();
@@ -5668,16 +6313,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__4"
-    // InternalEduTest.g:1789:1: rule__MatchPairs__Group__4 : rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5 ;
+    // InternalEduTest.g:2003:1: rule__MatchPairs__Group__4 : rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5 ;
     public final void rule__MatchPairs__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1793:1: ( rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5 )
-            // InternalEduTest.g:1794:2: rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5
+            // InternalEduTest.g:2007:1: ( rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5 )
+            // InternalEduTest.g:2008:2: rule__MatchPairs__Group__4__Impl rule__MatchPairs__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MatchPairs__Group__4__Impl();
 
             state._fsp--;
@@ -5706,35 +6351,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__4__Impl"
-    // InternalEduTest.g:1801:1: rule__MatchPairs__Group__4__Impl : ( ( rule__MatchPairs__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:2015:1: rule__MatchPairs__Group__4__Impl : ( ( rule__MatchPairs__TestsAssignment_4 )* ) ;
     public final void rule__MatchPairs__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1805:1: ( ( ( rule__MatchPairs__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:1806:1: ( ( rule__MatchPairs__TestsAssignment_4 )* )
+            // InternalEduTest.g:2019:1: ( ( ( rule__MatchPairs__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:2020:1: ( ( rule__MatchPairs__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:1806:1: ( ( rule__MatchPairs__TestsAssignment_4 )* )
-            // InternalEduTest.g:1807:2: ( rule__MatchPairs__TestsAssignment_4 )*
+            // InternalEduTest.g:2020:1: ( ( rule__MatchPairs__TestsAssignment_4 )* )
+            // InternalEduTest.g:2021:2: ( rule__MatchPairs__TestsAssignment_4 )*
             {
              before(grammarAccess.getMatchPairsAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:1808:2: ( rule__MatchPairs__TestsAssignment_4 )*
-            loop23:
+            // InternalEduTest.g:2022:2: ( rule__MatchPairs__TestsAssignment_4 )*
+            loop24:
             do {
-                int alt23=2;
-                int LA23_0 = input.LA(1);
+                int alt24=2;
+                int LA24_0 = input.LA(1);
 
-                if ( (LA23_0==46) ) {
-                    alt23=1;
+                if ( (LA24_0==46) ) {
+                    alt24=1;
                 }
 
 
-                switch (alt23) {
+                switch (alt24) {
             	case 1 :
-            	    // InternalEduTest.g:1808:3: rule__MatchPairs__TestsAssignment_4
+            	    // InternalEduTest.g:2022:3: rule__MatchPairs__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__MatchPairs__TestsAssignment_4();
 
             	    state._fsp--;
@@ -5744,7 +6389,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop23;
+            	    break loop24;
                 }
             } while (true);
 
@@ -5771,14 +6416,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__5"
-    // InternalEduTest.g:1816:1: rule__MatchPairs__Group__5 : rule__MatchPairs__Group__5__Impl ;
+    // InternalEduTest.g:2030:1: rule__MatchPairs__Group__5 : rule__MatchPairs__Group__5__Impl ;
     public final void rule__MatchPairs__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1820:1: ( rule__MatchPairs__Group__5__Impl )
-            // InternalEduTest.g:1821:2: rule__MatchPairs__Group__5__Impl
+            // InternalEduTest.g:2034:1: ( rule__MatchPairs__Group__5__Impl )
+            // InternalEduTest.g:2035:2: rule__MatchPairs__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MatchPairs__Group__5__Impl();
@@ -5804,20 +6449,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group__5__Impl"
-    // InternalEduTest.g:1827:1: rule__MatchPairs__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:2041:1: rule__MatchPairs__Group__5__Impl : ( '}' ) ;
     public final void rule__MatchPairs__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1831:1: ( ( '}' ) )
-            // InternalEduTest.g:1832:1: ( '}' )
+            // InternalEduTest.g:2045:1: ( ( '}' ) )
+            // InternalEduTest.g:2046:1: ( '}' )
             {
-            // InternalEduTest.g:1832:1: ( '}' )
-            // InternalEduTest.g:1833:2: '}'
+            // InternalEduTest.g:2046:1: ( '}' )
+            // InternalEduTest.g:2047:2: '}'
             {
              before(grammarAccess.getMatchPairsAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getMatchPairsAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -5841,16 +6486,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1__0"
-    // InternalEduTest.g:1843:1: rule__MatchPairs__Group_1__0 : rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1 ;
+    // InternalEduTest.g:2057:1: rule__MatchPairs__Group_1__0 : rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1 ;
     public final void rule__MatchPairs__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1847:1: ( rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1 )
-            // InternalEduTest.g:1848:2: rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1
+            // InternalEduTest.g:2061:1: ( rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1 )
+            // InternalEduTest.g:2062:2: rule__MatchPairs__Group_1__0__Impl rule__MatchPairs__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MatchPairs__Group_1__0__Impl();
 
             state._fsp--;
@@ -5879,31 +6524,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1__0__Impl"
-    // InternalEduTest.g:1855:1: rule__MatchPairs__Group_1__0__Impl : ( ( rule__MatchPairs__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:2069:1: rule__MatchPairs__Group_1__0__Impl : ( ( rule__MatchPairs__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__MatchPairs__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1859:1: ( ( ( rule__MatchPairs__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:1860:1: ( ( rule__MatchPairs__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2073:1: ( ( ( rule__MatchPairs__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:2074:1: ( ( rule__MatchPairs__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:1860:1: ( ( rule__MatchPairs__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:1861:2: ( rule__MatchPairs__BlocksAssignment_1_0 )
+            // InternalEduTest.g:2074:1: ( ( rule__MatchPairs__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2075:2: ( rule__MatchPairs__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getMatchPairsAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:1862:2: ( rule__MatchPairs__BlocksAssignment_1_0 )
-            // InternalEduTest.g:1862:3: rule__MatchPairs__BlocksAssignment_1_0
+             before(grammarAccess.getMatchPairsAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:2076:2: ( rule__MatchPairs__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:2076:3: rule__MatchPairs__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MatchPairs__BlocksAssignment_1_0();
+            rule__MatchPairs__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMatchPairsAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getMatchPairsAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -5926,14 +6571,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1__1"
-    // InternalEduTest.g:1870:1: rule__MatchPairs__Group_1__1 : rule__MatchPairs__Group_1__1__Impl ;
+    // InternalEduTest.g:2084:1: rule__MatchPairs__Group_1__1 : rule__MatchPairs__Group_1__1__Impl ;
     public final void rule__MatchPairs__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1874:1: ( rule__MatchPairs__Group_1__1__Impl )
-            // InternalEduTest.g:1875:2: rule__MatchPairs__Group_1__1__Impl
+            // InternalEduTest.g:2088:1: ( rule__MatchPairs__Group_1__1__Impl )
+            // InternalEduTest.g:2089:2: rule__MatchPairs__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MatchPairs__Group_1__1__Impl();
@@ -5959,35 +6604,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1__1__Impl"
-    // InternalEduTest.g:1881:1: rule__MatchPairs__Group_1__1__Impl : ( ( rule__MatchPairs__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:2095:1: rule__MatchPairs__Group_1__1__Impl : ( ( rule__MatchPairs__Group_1_1__0 )* ) ;
     public final void rule__MatchPairs__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1885:1: ( ( ( rule__MatchPairs__Group_1_1__0 )* ) )
-            // InternalEduTest.g:1886:1: ( ( rule__MatchPairs__Group_1_1__0 )* )
+            // InternalEduTest.g:2099:1: ( ( ( rule__MatchPairs__Group_1_1__0 )* ) )
+            // InternalEduTest.g:2100:1: ( ( rule__MatchPairs__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:1886:1: ( ( rule__MatchPairs__Group_1_1__0 )* )
-            // InternalEduTest.g:1887:2: ( rule__MatchPairs__Group_1_1__0 )*
+            // InternalEduTest.g:2100:1: ( ( rule__MatchPairs__Group_1_1__0 )* )
+            // InternalEduTest.g:2101:2: ( rule__MatchPairs__Group_1_1__0 )*
             {
              before(grammarAccess.getMatchPairsAccess().getGroup_1_1()); 
-            // InternalEduTest.g:1888:2: ( rule__MatchPairs__Group_1_1__0 )*
-            loop24:
+            // InternalEduTest.g:2102:2: ( rule__MatchPairs__Group_1_1__0 )*
+            loop25:
             do {
-                int alt24=2;
-                int LA24_0 = input.LA(1);
+                int alt25=2;
+                int LA25_0 = input.LA(1);
 
-                if ( (LA24_0==26) ) {
-                    alt24=1;
+                if ( (LA25_0==28) ) {
+                    alt25=1;
                 }
 
 
-                switch (alt24) {
+                switch (alt25) {
             	case 1 :
-            	    // InternalEduTest.g:1888:3: rule__MatchPairs__Group_1_1__0
+            	    // InternalEduTest.g:2102:3: rule__MatchPairs__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__MatchPairs__Group_1_1__0();
 
             	    state._fsp--;
@@ -5997,7 +6642,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop24;
+            	    break loop25;
                 }
             } while (true);
 
@@ -6024,16 +6669,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1_1__0"
-    // InternalEduTest.g:1897:1: rule__MatchPairs__Group_1_1__0 : rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1 ;
+    // InternalEduTest.g:2111:1: rule__MatchPairs__Group_1_1__0 : rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1 ;
     public final void rule__MatchPairs__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1901:1: ( rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1 )
-            // InternalEduTest.g:1902:2: rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1
+            // InternalEduTest.g:2115:1: ( rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1 )
+            // InternalEduTest.g:2116:2: rule__MatchPairs__Group_1_1__0__Impl rule__MatchPairs__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__MatchPairs__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -6062,20 +6707,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1_1__0__Impl"
-    // InternalEduTest.g:1909:1: rule__MatchPairs__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:2123:1: rule__MatchPairs__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__MatchPairs__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1913:1: ( ( ',' ) )
-            // InternalEduTest.g:1914:1: ( ',' )
+            // InternalEduTest.g:2127:1: ( ( ',' ) )
+            // InternalEduTest.g:2128:1: ( ',' )
             {
-            // InternalEduTest.g:1914:1: ( ',' )
-            // InternalEduTest.g:1915:2: ','
+            // InternalEduTest.g:2128:1: ( ',' )
+            // InternalEduTest.g:2129:2: ','
             {
              before(grammarAccess.getMatchPairsAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMatchPairsAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -6099,14 +6744,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1_1__1"
-    // InternalEduTest.g:1924:1: rule__MatchPairs__Group_1_1__1 : rule__MatchPairs__Group_1_1__1__Impl ;
+    // InternalEduTest.g:2138:1: rule__MatchPairs__Group_1_1__1 : rule__MatchPairs__Group_1_1__1__Impl ;
     public final void rule__MatchPairs__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1928:1: ( rule__MatchPairs__Group_1_1__1__Impl )
-            // InternalEduTest.g:1929:2: rule__MatchPairs__Group_1_1__1__Impl
+            // InternalEduTest.g:2142:1: ( rule__MatchPairs__Group_1_1__1__Impl )
+            // InternalEduTest.g:2143:2: rule__MatchPairs__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MatchPairs__Group_1_1__1__Impl();
@@ -6132,31 +6777,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__Group_1_1__1__Impl"
-    // InternalEduTest.g:1935:1: rule__MatchPairs__Group_1_1__1__Impl : ( ( rule__MatchPairs__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:2149:1: rule__MatchPairs__Group_1_1__1__Impl : ( ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__MatchPairs__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1939:1: ( ( ( rule__MatchPairs__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:1940:1: ( ( rule__MatchPairs__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2153:1: ( ( ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:2154:1: ( ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:1940:1: ( ( rule__MatchPairs__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:1941:2: ( rule__MatchPairs__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2154:1: ( ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2155:2: ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getMatchPairsAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:1942:2: ( rule__MatchPairs__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:1942:3: rule__MatchPairs__BlocksAssignment_1_1_1
+             before(grammarAccess.getMatchPairsAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:2156:2: ( rule__MatchPairs__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2156:3: rule__MatchPairs__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__MatchPairs__BlocksAssignment_1_1_1();
+            rule__MatchPairs__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMatchPairsAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getMatchPairsAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -6179,16 +6824,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__0"
-    // InternalEduTest.g:1951:1: rule__MissingWords__Group__0 : rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1 ;
+    // InternalEduTest.g:2165:1: rule__MissingWords__Group__0 : rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1 ;
     public final void rule__MissingWords__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1955:1: ( rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1 )
-            // InternalEduTest.g:1956:2: rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1
+            // InternalEduTest.g:2169:1: ( rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1 )
+            // InternalEduTest.g:2170:2: rule__MissingWords__Group__0__Impl rule__MissingWords__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MissingWords__Group__0__Impl();
 
             state._fsp--;
@@ -6217,20 +6862,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__0__Impl"
-    // InternalEduTest.g:1963:1: rule__MissingWords__Group__0__Impl : ( 'MissingWords' ) ;
+    // InternalEduTest.g:2177:1: rule__MissingWords__Group__0__Impl : ( 'MissingWords' ) ;
     public final void rule__MissingWords__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1967:1: ( ( 'MissingWords' ) )
-            // InternalEduTest.g:1968:1: ( 'MissingWords' )
+            // InternalEduTest.g:2181:1: ( ( 'MissingWords' ) )
+            // InternalEduTest.g:2182:1: ( 'MissingWords' )
             {
-            // InternalEduTest.g:1968:1: ( 'MissingWords' )
-            // InternalEduTest.g:1969:2: 'MissingWords'
+            // InternalEduTest.g:2182:1: ( 'MissingWords' )
+            // InternalEduTest.g:2183:2: 'MissingWords'
             {
              before(grammarAccess.getMissingWordsAccess().getMissingWordsKeyword_0()); 
-            match(input,30,FOLLOW_2); 
+            match(input,32,FOLLOW_2); 
              after(grammarAccess.getMissingWordsAccess().getMissingWordsKeyword_0()); 
 
             }
@@ -6254,16 +6899,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__1"
-    // InternalEduTest.g:1978:1: rule__MissingWords__Group__1 : rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2 ;
+    // InternalEduTest.g:2192:1: rule__MissingWords__Group__1 : rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2 ;
     public final void rule__MissingWords__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1982:1: ( rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2 )
-            // InternalEduTest.g:1983:2: rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2
+            // InternalEduTest.g:2196:1: ( rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2 )
+            // InternalEduTest.g:2197:2: rule__MissingWords__Group__1__Impl rule__MissingWords__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MissingWords__Group__1__Impl();
 
             state._fsp--;
@@ -6292,29 +6937,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__1__Impl"
-    // InternalEduTest.g:1990:1: rule__MissingWords__Group__1__Impl : ( ( rule__MissingWords__Group_1__0 )? ) ;
+    // InternalEduTest.g:2204:1: rule__MissingWords__Group__1__Impl : ( ( rule__MissingWords__Group_1__0 )? ) ;
     public final void rule__MissingWords__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:1994:1: ( ( ( rule__MissingWords__Group_1__0 )? ) )
-            // InternalEduTest.g:1995:1: ( ( rule__MissingWords__Group_1__0 )? )
+            // InternalEduTest.g:2208:1: ( ( ( rule__MissingWords__Group_1__0 )? ) )
+            // InternalEduTest.g:2209:1: ( ( rule__MissingWords__Group_1__0 )? )
             {
-            // InternalEduTest.g:1995:1: ( ( rule__MissingWords__Group_1__0 )? )
-            // InternalEduTest.g:1996:2: ( rule__MissingWords__Group_1__0 )?
+            // InternalEduTest.g:2209:1: ( ( rule__MissingWords__Group_1__0 )? )
+            // InternalEduTest.g:2210:2: ( rule__MissingWords__Group_1__0 )?
             {
              before(grammarAccess.getMissingWordsAccess().getGroup_1()); 
-            // InternalEduTest.g:1997:2: ( rule__MissingWords__Group_1__0 )?
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            // InternalEduTest.g:2211:2: ( rule__MissingWords__Group_1__0 )?
+            int alt26=2;
+            int LA26_0 = input.LA(1);
 
-            if ( (LA25_0==RULE_ID) ) {
-                alt25=1;
+            if ( (LA26_0==RULE_ID) ) {
+                alt26=1;
             }
-            switch (alt25) {
+            switch (alt26) {
                 case 1 :
-                    // InternalEduTest.g:1997:3: rule__MissingWords__Group_1__0
+                    // InternalEduTest.g:2211:3: rule__MissingWords__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__MissingWords__Group_1__0();
@@ -6350,16 +6995,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__2"
-    // InternalEduTest.g:2005:1: rule__MissingWords__Group__2 : rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3 ;
+    // InternalEduTest.g:2219:1: rule__MissingWords__Group__2 : rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3 ;
     public final void rule__MissingWords__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2009:1: ( rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3 )
-            // InternalEduTest.g:2010:2: rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3
+            // InternalEduTest.g:2223:1: ( rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3 )
+            // InternalEduTest.g:2224:2: rule__MissingWords__Group__2__Impl rule__MissingWords__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MissingWords__Group__2__Impl();
 
             state._fsp--;
@@ -6388,20 +7033,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__2__Impl"
-    // InternalEduTest.g:2017:1: rule__MissingWords__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:2231:1: rule__MissingWords__Group__2__Impl : ( '{' ) ;
     public final void rule__MissingWords__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2021:1: ( ( '{' ) )
-            // InternalEduTest.g:2022:1: ( '{' )
+            // InternalEduTest.g:2235:1: ( ( '{' ) )
+            // InternalEduTest.g:2236:1: ( '{' )
             {
-            // InternalEduTest.g:2022:1: ( '{' )
-            // InternalEduTest.g:2023:2: '{'
+            // InternalEduTest.g:2236:1: ( '{' )
+            // InternalEduTest.g:2237:2: '{'
             {
              before(grammarAccess.getMissingWordsAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getMissingWordsAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -6425,16 +7070,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__3"
-    // InternalEduTest.g:2032:1: rule__MissingWords__Group__3 : rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4 ;
+    // InternalEduTest.g:2246:1: rule__MissingWords__Group__3 : rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4 ;
     public final void rule__MissingWords__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2036:1: ( rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4 )
-            // InternalEduTest.g:2037:2: rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4
+            // InternalEduTest.g:2250:1: ( rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4 )
+            // InternalEduTest.g:2251:2: rule__MissingWords__Group__3__Impl rule__MissingWords__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MissingWords__Group__3__Impl();
 
             state._fsp--;
@@ -6463,21 +7108,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__3__Impl"
-    // InternalEduTest.g:2044:1: rule__MissingWords__Group__3__Impl : ( ( rule__MissingWords__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:2258:1: rule__MissingWords__Group__3__Impl : ( ( rule__MissingWords__ConfigAssignment_3 ) ) ;
     public final void rule__MissingWords__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2048:1: ( ( ( rule__MissingWords__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:2049:1: ( ( rule__MissingWords__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2262:1: ( ( ( rule__MissingWords__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:2263:1: ( ( rule__MissingWords__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:2049:1: ( ( rule__MissingWords__ConfigAssignment_3 ) )
-            // InternalEduTest.g:2050:2: ( rule__MissingWords__ConfigAssignment_3 )
+            // InternalEduTest.g:2263:1: ( ( rule__MissingWords__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2264:2: ( rule__MissingWords__ConfigAssignment_3 )
             {
              before(grammarAccess.getMissingWordsAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:2051:2: ( rule__MissingWords__ConfigAssignment_3 )
-            // InternalEduTest.g:2051:3: rule__MissingWords__ConfigAssignment_3
+            // InternalEduTest.g:2265:2: ( rule__MissingWords__ConfigAssignment_3 )
+            // InternalEduTest.g:2265:3: rule__MissingWords__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MissingWords__ConfigAssignment_3();
@@ -6510,16 +7155,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__4"
-    // InternalEduTest.g:2059:1: rule__MissingWords__Group__4 : rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5 ;
+    // InternalEduTest.g:2273:1: rule__MissingWords__Group__4 : rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5 ;
     public final void rule__MissingWords__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2063:1: ( rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5 )
-            // InternalEduTest.g:2064:2: rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5
+            // InternalEduTest.g:2277:1: ( rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5 )
+            // InternalEduTest.g:2278:2: rule__MissingWords__Group__4__Impl rule__MissingWords__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MissingWords__Group__4__Impl();
 
             state._fsp--;
@@ -6548,35 +7193,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__4__Impl"
-    // InternalEduTest.g:2071:1: rule__MissingWords__Group__4__Impl : ( ( rule__MissingWords__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:2285:1: rule__MissingWords__Group__4__Impl : ( ( rule__MissingWords__TestsAssignment_4 )* ) ;
     public final void rule__MissingWords__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2075:1: ( ( ( rule__MissingWords__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:2076:1: ( ( rule__MissingWords__TestsAssignment_4 )* )
+            // InternalEduTest.g:2289:1: ( ( ( rule__MissingWords__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:2290:1: ( ( rule__MissingWords__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:2076:1: ( ( rule__MissingWords__TestsAssignment_4 )* )
-            // InternalEduTest.g:2077:2: ( rule__MissingWords__TestsAssignment_4 )*
+            // InternalEduTest.g:2290:1: ( ( rule__MissingWords__TestsAssignment_4 )* )
+            // InternalEduTest.g:2291:2: ( rule__MissingWords__TestsAssignment_4 )*
             {
              before(grammarAccess.getMissingWordsAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:2078:2: ( rule__MissingWords__TestsAssignment_4 )*
-            loop26:
+            // InternalEduTest.g:2292:2: ( rule__MissingWords__TestsAssignment_4 )*
+            loop27:
             do {
-                int alt26=2;
-                int LA26_0 = input.LA(1);
+                int alt27=2;
+                int LA27_0 = input.LA(1);
 
-                if ( (LA26_0==46) ) {
-                    alt26=1;
+                if ( (LA27_0==46) ) {
+                    alt27=1;
                 }
 
 
-                switch (alt26) {
+                switch (alt27) {
             	case 1 :
-            	    // InternalEduTest.g:2078:3: rule__MissingWords__TestsAssignment_4
+            	    // InternalEduTest.g:2292:3: rule__MissingWords__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__MissingWords__TestsAssignment_4();
 
             	    state._fsp--;
@@ -6586,7 +7231,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop26;
+            	    break loop27;
                 }
             } while (true);
 
@@ -6613,14 +7258,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__5"
-    // InternalEduTest.g:2086:1: rule__MissingWords__Group__5 : rule__MissingWords__Group__5__Impl ;
+    // InternalEduTest.g:2300:1: rule__MissingWords__Group__5 : rule__MissingWords__Group__5__Impl ;
     public final void rule__MissingWords__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2090:1: ( rule__MissingWords__Group__5__Impl )
-            // InternalEduTest.g:2091:2: rule__MissingWords__Group__5__Impl
+            // InternalEduTest.g:2304:1: ( rule__MissingWords__Group__5__Impl )
+            // InternalEduTest.g:2305:2: rule__MissingWords__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MissingWords__Group__5__Impl();
@@ -6646,20 +7291,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group__5__Impl"
-    // InternalEduTest.g:2097:1: rule__MissingWords__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:2311:1: rule__MissingWords__Group__5__Impl : ( '}' ) ;
     public final void rule__MissingWords__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2101:1: ( ( '}' ) )
-            // InternalEduTest.g:2102:1: ( '}' )
+            // InternalEduTest.g:2315:1: ( ( '}' ) )
+            // InternalEduTest.g:2316:1: ( '}' )
             {
-            // InternalEduTest.g:2102:1: ( '}' )
-            // InternalEduTest.g:2103:2: '}'
+            // InternalEduTest.g:2316:1: ( '}' )
+            // InternalEduTest.g:2317:2: '}'
             {
              before(grammarAccess.getMissingWordsAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getMissingWordsAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -6683,16 +7328,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1__0"
-    // InternalEduTest.g:2113:1: rule__MissingWords__Group_1__0 : rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1 ;
+    // InternalEduTest.g:2327:1: rule__MissingWords__Group_1__0 : rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1 ;
     public final void rule__MissingWords__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2117:1: ( rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1 )
-            // InternalEduTest.g:2118:2: rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1
+            // InternalEduTest.g:2331:1: ( rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1 )
+            // InternalEduTest.g:2332:2: rule__MissingWords__Group_1__0__Impl rule__MissingWords__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MissingWords__Group_1__0__Impl();
 
             state._fsp--;
@@ -6721,31 +7366,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1__0__Impl"
-    // InternalEduTest.g:2125:1: rule__MissingWords__Group_1__0__Impl : ( ( rule__MissingWords__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:2339:1: rule__MissingWords__Group_1__0__Impl : ( ( rule__MissingWords__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__MissingWords__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2129:1: ( ( ( rule__MissingWords__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:2130:1: ( ( rule__MissingWords__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2343:1: ( ( ( rule__MissingWords__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:2344:1: ( ( rule__MissingWords__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:2130:1: ( ( rule__MissingWords__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:2131:2: ( rule__MissingWords__BlocksAssignment_1_0 )
+            // InternalEduTest.g:2344:1: ( ( rule__MissingWords__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2345:2: ( rule__MissingWords__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:2132:2: ( rule__MissingWords__BlocksAssignment_1_0 )
-            // InternalEduTest.g:2132:3: rule__MissingWords__BlocksAssignment_1_0
+             before(grammarAccess.getMissingWordsAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:2346:2: ( rule__MissingWords__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:2346:3: rule__MissingWords__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MissingWords__BlocksAssignment_1_0();
+            rule__MissingWords__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getMissingWordsAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -6768,14 +7413,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1__1"
-    // InternalEduTest.g:2140:1: rule__MissingWords__Group_1__1 : rule__MissingWords__Group_1__1__Impl ;
+    // InternalEduTest.g:2354:1: rule__MissingWords__Group_1__1 : rule__MissingWords__Group_1__1__Impl ;
     public final void rule__MissingWords__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2144:1: ( rule__MissingWords__Group_1__1__Impl )
-            // InternalEduTest.g:2145:2: rule__MissingWords__Group_1__1__Impl
+            // InternalEduTest.g:2358:1: ( rule__MissingWords__Group_1__1__Impl )
+            // InternalEduTest.g:2359:2: rule__MissingWords__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MissingWords__Group_1__1__Impl();
@@ -6801,35 +7446,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1__1__Impl"
-    // InternalEduTest.g:2151:1: rule__MissingWords__Group_1__1__Impl : ( ( rule__MissingWords__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:2365:1: rule__MissingWords__Group_1__1__Impl : ( ( rule__MissingWords__Group_1_1__0 )* ) ;
     public final void rule__MissingWords__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2155:1: ( ( ( rule__MissingWords__Group_1_1__0 )* ) )
-            // InternalEduTest.g:2156:1: ( ( rule__MissingWords__Group_1_1__0 )* )
+            // InternalEduTest.g:2369:1: ( ( ( rule__MissingWords__Group_1_1__0 )* ) )
+            // InternalEduTest.g:2370:1: ( ( rule__MissingWords__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:2156:1: ( ( rule__MissingWords__Group_1_1__0 )* )
-            // InternalEduTest.g:2157:2: ( rule__MissingWords__Group_1_1__0 )*
+            // InternalEduTest.g:2370:1: ( ( rule__MissingWords__Group_1_1__0 )* )
+            // InternalEduTest.g:2371:2: ( rule__MissingWords__Group_1_1__0 )*
             {
              before(grammarAccess.getMissingWordsAccess().getGroup_1_1()); 
-            // InternalEduTest.g:2158:2: ( rule__MissingWords__Group_1_1__0 )*
-            loop27:
+            // InternalEduTest.g:2372:2: ( rule__MissingWords__Group_1_1__0 )*
+            loop28:
             do {
-                int alt27=2;
-                int LA27_0 = input.LA(1);
+                int alt28=2;
+                int LA28_0 = input.LA(1);
 
-                if ( (LA27_0==26) ) {
-                    alt27=1;
+                if ( (LA28_0==28) ) {
+                    alt28=1;
                 }
 
 
-                switch (alt27) {
+                switch (alt28) {
             	case 1 :
-            	    // InternalEduTest.g:2158:3: rule__MissingWords__Group_1_1__0
+            	    // InternalEduTest.g:2372:3: rule__MissingWords__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__MissingWords__Group_1_1__0();
 
             	    state._fsp--;
@@ -6839,7 +7484,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop27;
+            	    break loop28;
                 }
             } while (true);
 
@@ -6866,16 +7511,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1_1__0"
-    // InternalEduTest.g:2167:1: rule__MissingWords__Group_1_1__0 : rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1 ;
+    // InternalEduTest.g:2381:1: rule__MissingWords__Group_1_1__0 : rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1 ;
     public final void rule__MissingWords__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2171:1: ( rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1 )
-            // InternalEduTest.g:2172:2: rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1
+            // InternalEduTest.g:2385:1: ( rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1 )
+            // InternalEduTest.g:2386:2: rule__MissingWords__Group_1_1__0__Impl rule__MissingWords__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__MissingWords__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -6904,20 +7549,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1_1__0__Impl"
-    // InternalEduTest.g:2179:1: rule__MissingWords__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:2393:1: rule__MissingWords__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__MissingWords__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2183:1: ( ( ',' ) )
-            // InternalEduTest.g:2184:1: ( ',' )
+            // InternalEduTest.g:2397:1: ( ( ',' ) )
+            // InternalEduTest.g:2398:1: ( ',' )
             {
-            // InternalEduTest.g:2184:1: ( ',' )
-            // InternalEduTest.g:2185:2: ','
+            // InternalEduTest.g:2398:1: ( ',' )
+            // InternalEduTest.g:2399:2: ','
             {
              before(grammarAccess.getMissingWordsAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMissingWordsAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -6941,14 +7586,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1_1__1"
-    // InternalEduTest.g:2194:1: rule__MissingWords__Group_1_1__1 : rule__MissingWords__Group_1_1__1__Impl ;
+    // InternalEduTest.g:2408:1: rule__MissingWords__Group_1_1__1 : rule__MissingWords__Group_1_1__1__Impl ;
     public final void rule__MissingWords__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2198:1: ( rule__MissingWords__Group_1_1__1__Impl )
-            // InternalEduTest.g:2199:2: rule__MissingWords__Group_1_1__1__Impl
+            // InternalEduTest.g:2412:1: ( rule__MissingWords__Group_1_1__1__Impl )
+            // InternalEduTest.g:2413:2: rule__MissingWords__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MissingWords__Group_1_1__1__Impl();
@@ -6974,31 +7619,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__Group_1_1__1__Impl"
-    // InternalEduTest.g:2205:1: rule__MissingWords__Group_1_1__1__Impl : ( ( rule__MissingWords__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:2419:1: rule__MissingWords__Group_1_1__1__Impl : ( ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__MissingWords__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2209:1: ( ( ( rule__MissingWords__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:2210:1: ( ( rule__MissingWords__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2423:1: ( ( ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:2424:1: ( ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:2210:1: ( ( rule__MissingWords__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:2211:2: ( rule__MissingWords__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2424:1: ( ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2425:2: ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:2212:2: ( rule__MissingWords__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:2212:3: rule__MissingWords__BlocksAssignment_1_1_1
+             before(grammarAccess.getMissingWordsAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:2426:2: ( rule__MissingWords__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2426:3: rule__MissingWords__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__MissingWords__BlocksAssignment_1_1_1();
+            rule__MissingWords__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getMissingWordsAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -7021,16 +7666,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__0"
-    // InternalEduTest.g:2221:1: rule__MultiChoiceText__Group__0 : rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1 ;
+    // InternalEduTest.g:2435:1: rule__MultiChoiceText__Group__0 : rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1 ;
     public final void rule__MultiChoiceText__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2225:1: ( rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1 )
-            // InternalEduTest.g:2226:2: rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1
+            // InternalEduTest.g:2439:1: ( rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1 )
+            // InternalEduTest.g:2440:2: rule__MultiChoiceText__Group__0__Impl rule__MultiChoiceText__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceText__Group__0__Impl();
 
             state._fsp--;
@@ -7059,20 +7704,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__0__Impl"
-    // InternalEduTest.g:2233:1: rule__MultiChoiceText__Group__0__Impl : ( 'MultiChoiceText' ) ;
+    // InternalEduTest.g:2447:1: rule__MultiChoiceText__Group__0__Impl : ( 'MultiChoiceText' ) ;
     public final void rule__MultiChoiceText__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2237:1: ( ( 'MultiChoiceText' ) )
-            // InternalEduTest.g:2238:1: ( 'MultiChoiceText' )
+            // InternalEduTest.g:2451:1: ( ( 'MultiChoiceText' ) )
+            // InternalEduTest.g:2452:1: ( 'MultiChoiceText' )
             {
-            // InternalEduTest.g:2238:1: ( 'MultiChoiceText' )
-            // InternalEduTest.g:2239:2: 'MultiChoiceText'
+            // InternalEduTest.g:2452:1: ( 'MultiChoiceText' )
+            // InternalEduTest.g:2453:2: 'MultiChoiceText'
             {
              before(grammarAccess.getMultiChoiceTextAccess().getMultiChoiceTextKeyword_0()); 
-            match(input,31,FOLLOW_2); 
+            match(input,33,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceTextAccess().getMultiChoiceTextKeyword_0()); 
 
             }
@@ -7096,16 +7741,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__1"
-    // InternalEduTest.g:2248:1: rule__MultiChoiceText__Group__1 : rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2 ;
+    // InternalEduTest.g:2462:1: rule__MultiChoiceText__Group__1 : rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2 ;
     public final void rule__MultiChoiceText__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2252:1: ( rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2 )
-            // InternalEduTest.g:2253:2: rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2
+            // InternalEduTest.g:2466:1: ( rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2 )
+            // InternalEduTest.g:2467:2: rule__MultiChoiceText__Group__1__Impl rule__MultiChoiceText__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__MultiChoiceText__Group__1__Impl();
 
             state._fsp--;
@@ -7134,29 +7779,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__1__Impl"
-    // InternalEduTest.g:2260:1: rule__MultiChoiceText__Group__1__Impl : ( ( rule__MultiChoiceText__Group_1__0 )? ) ;
+    // InternalEduTest.g:2474:1: rule__MultiChoiceText__Group__1__Impl : ( ( rule__MultiChoiceText__Group_1__0 )? ) ;
     public final void rule__MultiChoiceText__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2264:1: ( ( ( rule__MultiChoiceText__Group_1__0 )? ) )
-            // InternalEduTest.g:2265:1: ( ( rule__MultiChoiceText__Group_1__0 )? )
+            // InternalEduTest.g:2478:1: ( ( ( rule__MultiChoiceText__Group_1__0 )? ) )
+            // InternalEduTest.g:2479:1: ( ( rule__MultiChoiceText__Group_1__0 )? )
             {
-            // InternalEduTest.g:2265:1: ( ( rule__MultiChoiceText__Group_1__0 )? )
-            // InternalEduTest.g:2266:2: ( rule__MultiChoiceText__Group_1__0 )?
+            // InternalEduTest.g:2479:1: ( ( rule__MultiChoiceText__Group_1__0 )? )
+            // InternalEduTest.g:2480:2: ( rule__MultiChoiceText__Group_1__0 )?
             {
              before(grammarAccess.getMultiChoiceTextAccess().getGroup_1()); 
-            // InternalEduTest.g:2267:2: ( rule__MultiChoiceText__Group_1__0 )?
-            int alt28=2;
-            int LA28_0 = input.LA(1);
+            // InternalEduTest.g:2481:2: ( rule__MultiChoiceText__Group_1__0 )?
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            if ( (LA28_0==RULE_ID) ) {
-                alt28=1;
+            if ( (LA29_0==RULE_ID) ) {
+                alt29=1;
             }
-            switch (alt28) {
+            switch (alt29) {
                 case 1 :
-                    // InternalEduTest.g:2267:3: rule__MultiChoiceText__Group_1__0
+                    // InternalEduTest.g:2481:3: rule__MultiChoiceText__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__MultiChoiceText__Group_1__0();
@@ -7192,16 +7837,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__2"
-    // InternalEduTest.g:2275:1: rule__MultiChoiceText__Group__2 : rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3 ;
+    // InternalEduTest.g:2489:1: rule__MultiChoiceText__Group__2 : rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3 ;
     public final void rule__MultiChoiceText__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2279:1: ( rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3 )
-            // InternalEduTest.g:2280:2: rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3
+            // InternalEduTest.g:2493:1: ( rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3 )
+            // InternalEduTest.g:2494:2: rule__MultiChoiceText__Group__2__Impl rule__MultiChoiceText__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MultiChoiceText__Group__2__Impl();
 
             state._fsp--;
@@ -7230,20 +7875,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__2__Impl"
-    // InternalEduTest.g:2287:1: rule__MultiChoiceText__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:2501:1: rule__MultiChoiceText__Group__2__Impl : ( '{' ) ;
     public final void rule__MultiChoiceText__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2291:1: ( ( '{' ) )
-            // InternalEduTest.g:2292:1: ( '{' )
+            // InternalEduTest.g:2505:1: ( ( '{' ) )
+            // InternalEduTest.g:2506:1: ( '{' )
             {
-            // InternalEduTest.g:2292:1: ( '{' )
-            // InternalEduTest.g:2293:2: '{'
+            // InternalEduTest.g:2506:1: ( '{' )
+            // InternalEduTest.g:2507:2: '{'
             {
              before(grammarAccess.getMultiChoiceTextAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceTextAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -7267,16 +7912,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__3"
-    // InternalEduTest.g:2302:1: rule__MultiChoiceText__Group__3 : rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4 ;
+    // InternalEduTest.g:2516:1: rule__MultiChoiceText__Group__3 : rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4 ;
     public final void rule__MultiChoiceText__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2306:1: ( rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4 )
-            // InternalEduTest.g:2307:2: rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4
+            // InternalEduTest.g:2520:1: ( rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4 )
+            // InternalEduTest.g:2521:2: rule__MultiChoiceText__Group__3__Impl rule__MultiChoiceText__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceText__Group__3__Impl();
 
             state._fsp--;
@@ -7305,21 +7950,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__3__Impl"
-    // InternalEduTest.g:2314:1: rule__MultiChoiceText__Group__3__Impl : ( ( rule__MultiChoiceText__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:2528:1: rule__MultiChoiceText__Group__3__Impl : ( ( rule__MultiChoiceText__ConfigAssignment_3 ) ) ;
     public final void rule__MultiChoiceText__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2318:1: ( ( ( rule__MultiChoiceText__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:2319:1: ( ( rule__MultiChoiceText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2532:1: ( ( ( rule__MultiChoiceText__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:2533:1: ( ( rule__MultiChoiceText__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:2319:1: ( ( rule__MultiChoiceText__ConfigAssignment_3 ) )
-            // InternalEduTest.g:2320:2: ( rule__MultiChoiceText__ConfigAssignment_3 )
+            // InternalEduTest.g:2533:1: ( ( rule__MultiChoiceText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2534:2: ( rule__MultiChoiceText__ConfigAssignment_3 )
             {
              before(grammarAccess.getMultiChoiceTextAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:2321:2: ( rule__MultiChoiceText__ConfigAssignment_3 )
-            // InternalEduTest.g:2321:3: rule__MultiChoiceText__ConfigAssignment_3
+            // InternalEduTest.g:2535:2: ( rule__MultiChoiceText__ConfigAssignment_3 )
+            // InternalEduTest.g:2535:3: rule__MultiChoiceText__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceText__ConfigAssignment_3();
@@ -7352,16 +7997,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__4"
-    // InternalEduTest.g:2329:1: rule__MultiChoiceText__Group__4 : rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5 ;
+    // InternalEduTest.g:2543:1: rule__MultiChoiceText__Group__4 : rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5 ;
     public final void rule__MultiChoiceText__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2333:1: ( rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5 )
-            // InternalEduTest.g:2334:2: rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5
+            // InternalEduTest.g:2547:1: ( rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5 )
+            // InternalEduTest.g:2548:2: rule__MultiChoiceText__Group__4__Impl rule__MultiChoiceText__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__MultiChoiceText__Group__4__Impl();
 
             state._fsp--;
@@ -7390,35 +8035,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__4__Impl"
-    // InternalEduTest.g:2341:1: rule__MultiChoiceText__Group__4__Impl : ( ( rule__MultiChoiceText__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:2555:1: rule__MultiChoiceText__Group__4__Impl : ( ( rule__MultiChoiceText__TestsAssignment_4 )* ) ;
     public final void rule__MultiChoiceText__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2345:1: ( ( ( rule__MultiChoiceText__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:2346:1: ( ( rule__MultiChoiceText__TestsAssignment_4 )* )
+            // InternalEduTest.g:2559:1: ( ( ( rule__MultiChoiceText__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:2560:1: ( ( rule__MultiChoiceText__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:2346:1: ( ( rule__MultiChoiceText__TestsAssignment_4 )* )
-            // InternalEduTest.g:2347:2: ( rule__MultiChoiceText__TestsAssignment_4 )*
+            // InternalEduTest.g:2560:1: ( ( rule__MultiChoiceText__TestsAssignment_4 )* )
+            // InternalEduTest.g:2561:2: ( rule__MultiChoiceText__TestsAssignment_4 )*
             {
              before(grammarAccess.getMultiChoiceTextAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:2348:2: ( rule__MultiChoiceText__TestsAssignment_4 )*
-            loop29:
+            // InternalEduTest.g:2562:2: ( rule__MultiChoiceText__TestsAssignment_4 )*
+            loop30:
             do {
-                int alt29=2;
-                int LA29_0 = input.LA(1);
+                int alt30=2;
+                int LA30_0 = input.LA(1);
 
-                if ( (LA29_0==46) ) {
-                    alt29=1;
+                if ( (LA30_0==46) ) {
+                    alt30=1;
                 }
 
 
-                switch (alt29) {
+                switch (alt30) {
             	case 1 :
-            	    // InternalEduTest.g:2348:3: rule__MultiChoiceText__TestsAssignment_4
+            	    // InternalEduTest.g:2562:3: rule__MultiChoiceText__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__MultiChoiceText__TestsAssignment_4();
 
             	    state._fsp--;
@@ -7428,7 +8073,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop29;
+            	    break loop30;
                 }
             } while (true);
 
@@ -7455,14 +8100,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__5"
-    // InternalEduTest.g:2356:1: rule__MultiChoiceText__Group__5 : rule__MultiChoiceText__Group__5__Impl ;
+    // InternalEduTest.g:2570:1: rule__MultiChoiceText__Group__5 : rule__MultiChoiceText__Group__5__Impl ;
     public final void rule__MultiChoiceText__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2360:1: ( rule__MultiChoiceText__Group__5__Impl )
-            // InternalEduTest.g:2361:2: rule__MultiChoiceText__Group__5__Impl
+            // InternalEduTest.g:2574:1: ( rule__MultiChoiceText__Group__5__Impl )
+            // InternalEduTest.g:2575:2: rule__MultiChoiceText__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceText__Group__5__Impl();
@@ -7488,20 +8133,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group__5__Impl"
-    // InternalEduTest.g:2367:1: rule__MultiChoiceText__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:2581:1: rule__MultiChoiceText__Group__5__Impl : ( '}' ) ;
     public final void rule__MultiChoiceText__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2371:1: ( ( '}' ) )
-            // InternalEduTest.g:2372:1: ( '}' )
+            // InternalEduTest.g:2585:1: ( ( '}' ) )
+            // InternalEduTest.g:2586:1: ( '}' )
             {
-            // InternalEduTest.g:2372:1: ( '}' )
-            // InternalEduTest.g:2373:2: '}'
+            // InternalEduTest.g:2586:1: ( '}' )
+            // InternalEduTest.g:2587:2: '}'
             {
              before(grammarAccess.getMultiChoiceTextAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceTextAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -7525,16 +8170,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1__0"
-    // InternalEduTest.g:2383:1: rule__MultiChoiceText__Group_1__0 : rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1 ;
+    // InternalEduTest.g:2597:1: rule__MultiChoiceText__Group_1__0 : rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1 ;
     public final void rule__MultiChoiceText__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2387:1: ( rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1 )
-            // InternalEduTest.g:2388:2: rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1
+            // InternalEduTest.g:2601:1: ( rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1 )
+            // InternalEduTest.g:2602:2: rule__MultiChoiceText__Group_1__0__Impl rule__MultiChoiceText__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceText__Group_1__0__Impl();
 
             state._fsp--;
@@ -7563,31 +8208,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1__0__Impl"
-    // InternalEduTest.g:2395:1: rule__MultiChoiceText__Group_1__0__Impl : ( ( rule__MultiChoiceText__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:2609:1: rule__MultiChoiceText__Group_1__0__Impl : ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__MultiChoiceText__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2399:1: ( ( ( rule__MultiChoiceText__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:2400:1: ( ( rule__MultiChoiceText__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2613:1: ( ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:2614:1: ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:2400:1: ( ( rule__MultiChoiceText__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:2401:2: ( rule__MultiChoiceText__BlocksAssignment_1_0 )
+            // InternalEduTest.g:2614:1: ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2615:2: ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:2402:2: ( rule__MultiChoiceText__BlocksAssignment_1_0 )
-            // InternalEduTest.g:2402:3: rule__MultiChoiceText__BlocksAssignment_1_0
+             before(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:2616:2: ( rule__MultiChoiceText__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:2616:3: rule__MultiChoiceText__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceText__BlocksAssignment_1_0();
+            rule__MultiChoiceText__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -7610,14 +8255,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1__1"
-    // InternalEduTest.g:2410:1: rule__MultiChoiceText__Group_1__1 : rule__MultiChoiceText__Group_1__1__Impl ;
+    // InternalEduTest.g:2624:1: rule__MultiChoiceText__Group_1__1 : rule__MultiChoiceText__Group_1__1__Impl ;
     public final void rule__MultiChoiceText__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2414:1: ( rule__MultiChoiceText__Group_1__1__Impl )
-            // InternalEduTest.g:2415:2: rule__MultiChoiceText__Group_1__1__Impl
+            // InternalEduTest.g:2628:1: ( rule__MultiChoiceText__Group_1__1__Impl )
+            // InternalEduTest.g:2629:2: rule__MultiChoiceText__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceText__Group_1__1__Impl();
@@ -7643,35 +8288,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1__1__Impl"
-    // InternalEduTest.g:2421:1: rule__MultiChoiceText__Group_1__1__Impl : ( ( rule__MultiChoiceText__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:2635:1: rule__MultiChoiceText__Group_1__1__Impl : ( ( rule__MultiChoiceText__Group_1_1__0 )* ) ;
     public final void rule__MultiChoiceText__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2425:1: ( ( ( rule__MultiChoiceText__Group_1_1__0 )* ) )
-            // InternalEduTest.g:2426:1: ( ( rule__MultiChoiceText__Group_1_1__0 )* )
+            // InternalEduTest.g:2639:1: ( ( ( rule__MultiChoiceText__Group_1_1__0 )* ) )
+            // InternalEduTest.g:2640:1: ( ( rule__MultiChoiceText__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:2426:1: ( ( rule__MultiChoiceText__Group_1_1__0 )* )
-            // InternalEduTest.g:2427:2: ( rule__MultiChoiceText__Group_1_1__0 )*
+            // InternalEduTest.g:2640:1: ( ( rule__MultiChoiceText__Group_1_1__0 )* )
+            // InternalEduTest.g:2641:2: ( rule__MultiChoiceText__Group_1_1__0 )*
             {
              before(grammarAccess.getMultiChoiceTextAccess().getGroup_1_1()); 
-            // InternalEduTest.g:2428:2: ( rule__MultiChoiceText__Group_1_1__0 )*
-            loop30:
+            // InternalEduTest.g:2642:2: ( rule__MultiChoiceText__Group_1_1__0 )*
+            loop31:
             do {
-                int alt30=2;
-                int LA30_0 = input.LA(1);
+                int alt31=2;
+                int LA31_0 = input.LA(1);
 
-                if ( (LA30_0==26) ) {
-                    alt30=1;
+                if ( (LA31_0==28) ) {
+                    alt31=1;
                 }
 
 
-                switch (alt30) {
+                switch (alt31) {
             	case 1 :
-            	    // InternalEduTest.g:2428:3: rule__MultiChoiceText__Group_1_1__0
+            	    // InternalEduTest.g:2642:3: rule__MultiChoiceText__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__MultiChoiceText__Group_1_1__0();
 
             	    state._fsp--;
@@ -7681,7 +8326,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop30;
+            	    break loop31;
                 }
             } while (true);
 
@@ -7708,16 +8353,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1_1__0"
-    // InternalEduTest.g:2437:1: rule__MultiChoiceText__Group_1_1__0 : rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1 ;
+    // InternalEduTest.g:2651:1: rule__MultiChoiceText__Group_1_1__0 : rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1 ;
     public final void rule__MultiChoiceText__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2441:1: ( rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1 )
-            // InternalEduTest.g:2442:2: rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1
+            // InternalEduTest.g:2655:1: ( rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1 )
+            // InternalEduTest.g:2656:2: rule__MultiChoiceText__Group_1_1__0__Impl rule__MultiChoiceText__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__MultiChoiceText__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -7746,20 +8391,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1_1__0__Impl"
-    // InternalEduTest.g:2449:1: rule__MultiChoiceText__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:2663:1: rule__MultiChoiceText__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__MultiChoiceText__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2453:1: ( ( ',' ) )
-            // InternalEduTest.g:2454:1: ( ',' )
+            // InternalEduTest.g:2667:1: ( ( ',' ) )
+            // InternalEduTest.g:2668:1: ( ',' )
             {
-            // InternalEduTest.g:2454:1: ( ',' )
-            // InternalEduTest.g:2455:2: ','
+            // InternalEduTest.g:2668:1: ( ',' )
+            // InternalEduTest.g:2669:2: ','
             {
              before(grammarAccess.getMultiChoiceTextAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceTextAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -7783,14 +8428,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1_1__1"
-    // InternalEduTest.g:2464:1: rule__MultiChoiceText__Group_1_1__1 : rule__MultiChoiceText__Group_1_1__1__Impl ;
+    // InternalEduTest.g:2678:1: rule__MultiChoiceText__Group_1_1__1 : rule__MultiChoiceText__Group_1_1__1__Impl ;
     public final void rule__MultiChoiceText__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2468:1: ( rule__MultiChoiceText__Group_1_1__1__Impl )
-            // InternalEduTest.g:2469:2: rule__MultiChoiceText__Group_1_1__1__Impl
+            // InternalEduTest.g:2682:1: ( rule__MultiChoiceText__Group_1_1__1__Impl )
+            // InternalEduTest.g:2683:2: rule__MultiChoiceText__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceText__Group_1_1__1__Impl();
@@ -7816,31 +8461,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__Group_1_1__1__Impl"
-    // InternalEduTest.g:2475:1: rule__MultiChoiceText__Group_1_1__1__Impl : ( ( rule__MultiChoiceText__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:2689:1: rule__MultiChoiceText__Group_1_1__1__Impl : ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__MultiChoiceText__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2479:1: ( ( ( rule__MultiChoiceText__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:2480:1: ( ( rule__MultiChoiceText__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2693:1: ( ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:2694:1: ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:2480:1: ( ( rule__MultiChoiceText__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:2481:2: ( rule__MultiChoiceText__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2694:1: ( ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2695:2: ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:2482:2: ( rule__MultiChoiceText__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:2482:3: rule__MultiChoiceText__BlocksAssignment_1_1_1
+             before(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:2696:2: ( rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2696:3: rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__MultiChoiceText__BlocksAssignment_1_1_1();
+            rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -7863,16 +8508,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__0"
-    // InternalEduTest.g:2491:1: rule__AlternativeText__Group__0 : rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1 ;
+    // InternalEduTest.g:2705:1: rule__AlternativeText__Group__0 : rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1 ;
     public final void rule__AlternativeText__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2495:1: ( rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1 )
-            // InternalEduTest.g:2496:2: rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1
+            // InternalEduTest.g:2709:1: ( rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1 )
+            // InternalEduTest.g:2710:2: rule__AlternativeText__Group__0__Impl rule__AlternativeText__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__AlternativeText__Group__0__Impl();
 
             state._fsp--;
@@ -7901,20 +8546,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__0__Impl"
-    // InternalEduTest.g:2503:1: rule__AlternativeText__Group__0__Impl : ( 'AlternativeTextResponse' ) ;
+    // InternalEduTest.g:2717:1: rule__AlternativeText__Group__0__Impl : ( 'AlternativeTextResponse' ) ;
     public final void rule__AlternativeText__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2507:1: ( ( 'AlternativeTextResponse' ) )
-            // InternalEduTest.g:2508:1: ( 'AlternativeTextResponse' )
+            // InternalEduTest.g:2721:1: ( ( 'AlternativeTextResponse' ) )
+            // InternalEduTest.g:2722:1: ( 'AlternativeTextResponse' )
             {
-            // InternalEduTest.g:2508:1: ( 'AlternativeTextResponse' )
-            // InternalEduTest.g:2509:2: 'AlternativeTextResponse'
+            // InternalEduTest.g:2722:1: ( 'AlternativeTextResponse' )
+            // InternalEduTest.g:2723:2: 'AlternativeTextResponse'
             {
              before(grammarAccess.getAlternativeTextAccess().getAlternativeTextResponseKeyword_0()); 
-            match(input,32,FOLLOW_2); 
+            match(input,34,FOLLOW_2); 
              after(grammarAccess.getAlternativeTextAccess().getAlternativeTextResponseKeyword_0()); 
 
             }
@@ -7938,16 +8583,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__1"
-    // InternalEduTest.g:2518:1: rule__AlternativeText__Group__1 : rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2 ;
+    // InternalEduTest.g:2732:1: rule__AlternativeText__Group__1 : rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2 ;
     public final void rule__AlternativeText__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2522:1: ( rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2 )
-            // InternalEduTest.g:2523:2: rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2
+            // InternalEduTest.g:2736:1: ( rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2 )
+            // InternalEduTest.g:2737:2: rule__AlternativeText__Group__1__Impl rule__AlternativeText__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__AlternativeText__Group__1__Impl();
 
             state._fsp--;
@@ -7976,29 +8621,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__1__Impl"
-    // InternalEduTest.g:2530:1: rule__AlternativeText__Group__1__Impl : ( ( rule__AlternativeText__Group_1__0 )? ) ;
+    // InternalEduTest.g:2744:1: rule__AlternativeText__Group__1__Impl : ( ( rule__AlternativeText__Group_1__0 )? ) ;
     public final void rule__AlternativeText__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2534:1: ( ( ( rule__AlternativeText__Group_1__0 )? ) )
-            // InternalEduTest.g:2535:1: ( ( rule__AlternativeText__Group_1__0 )? )
+            // InternalEduTest.g:2748:1: ( ( ( rule__AlternativeText__Group_1__0 )? ) )
+            // InternalEduTest.g:2749:1: ( ( rule__AlternativeText__Group_1__0 )? )
             {
-            // InternalEduTest.g:2535:1: ( ( rule__AlternativeText__Group_1__0 )? )
-            // InternalEduTest.g:2536:2: ( rule__AlternativeText__Group_1__0 )?
+            // InternalEduTest.g:2749:1: ( ( rule__AlternativeText__Group_1__0 )? )
+            // InternalEduTest.g:2750:2: ( rule__AlternativeText__Group_1__0 )?
             {
              before(grammarAccess.getAlternativeTextAccess().getGroup_1()); 
-            // InternalEduTest.g:2537:2: ( rule__AlternativeText__Group_1__0 )?
-            int alt31=2;
-            int LA31_0 = input.LA(1);
+            // InternalEduTest.g:2751:2: ( rule__AlternativeText__Group_1__0 )?
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            if ( (LA31_0==RULE_ID) ) {
-                alt31=1;
+            if ( (LA32_0==RULE_ID) ) {
+                alt32=1;
             }
-            switch (alt31) {
+            switch (alt32) {
                 case 1 :
-                    // InternalEduTest.g:2537:3: rule__AlternativeText__Group_1__0
+                    // InternalEduTest.g:2751:3: rule__AlternativeText__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__AlternativeText__Group_1__0();
@@ -8034,16 +8679,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__2"
-    // InternalEduTest.g:2545:1: rule__AlternativeText__Group__2 : rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3 ;
+    // InternalEduTest.g:2759:1: rule__AlternativeText__Group__2 : rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3 ;
     public final void rule__AlternativeText__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2549:1: ( rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3 )
-            // InternalEduTest.g:2550:2: rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3
+            // InternalEduTest.g:2763:1: ( rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3 )
+            // InternalEduTest.g:2764:2: rule__AlternativeText__Group__2__Impl rule__AlternativeText__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__AlternativeText__Group__2__Impl();
 
             state._fsp--;
@@ -8072,20 +8717,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__2__Impl"
-    // InternalEduTest.g:2557:1: rule__AlternativeText__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:2771:1: rule__AlternativeText__Group__2__Impl : ( '{' ) ;
     public final void rule__AlternativeText__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2561:1: ( ( '{' ) )
-            // InternalEduTest.g:2562:1: ( '{' )
+            // InternalEduTest.g:2775:1: ( ( '{' ) )
+            // InternalEduTest.g:2776:1: ( '{' )
             {
-            // InternalEduTest.g:2562:1: ( '{' )
-            // InternalEduTest.g:2563:2: '{'
+            // InternalEduTest.g:2776:1: ( '{' )
+            // InternalEduTest.g:2777:2: '{'
             {
              before(grammarAccess.getAlternativeTextAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getAlternativeTextAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -8109,16 +8754,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__3"
-    // InternalEduTest.g:2572:1: rule__AlternativeText__Group__3 : rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4 ;
+    // InternalEduTest.g:2786:1: rule__AlternativeText__Group__3 : rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4 ;
     public final void rule__AlternativeText__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2576:1: ( rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4 )
-            // InternalEduTest.g:2577:2: rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4
+            // InternalEduTest.g:2790:1: ( rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4 )
+            // InternalEduTest.g:2791:2: rule__AlternativeText__Group__3__Impl rule__AlternativeText__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__AlternativeText__Group__3__Impl();
 
             state._fsp--;
@@ -8147,21 +8792,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__3__Impl"
-    // InternalEduTest.g:2584:1: rule__AlternativeText__Group__3__Impl : ( ( rule__AlternativeText__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:2798:1: rule__AlternativeText__Group__3__Impl : ( ( rule__AlternativeText__ConfigAssignment_3 ) ) ;
     public final void rule__AlternativeText__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2588:1: ( ( ( rule__AlternativeText__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:2589:1: ( ( rule__AlternativeText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2802:1: ( ( ( rule__AlternativeText__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:2803:1: ( ( rule__AlternativeText__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:2589:1: ( ( rule__AlternativeText__ConfigAssignment_3 ) )
-            // InternalEduTest.g:2590:2: ( rule__AlternativeText__ConfigAssignment_3 )
+            // InternalEduTest.g:2803:1: ( ( rule__AlternativeText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:2804:2: ( rule__AlternativeText__ConfigAssignment_3 )
             {
              before(grammarAccess.getAlternativeTextAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:2591:2: ( rule__AlternativeText__ConfigAssignment_3 )
-            // InternalEduTest.g:2591:3: rule__AlternativeText__ConfigAssignment_3
+            // InternalEduTest.g:2805:2: ( rule__AlternativeText__ConfigAssignment_3 )
+            // InternalEduTest.g:2805:3: rule__AlternativeText__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeText__ConfigAssignment_3();
@@ -8194,16 +8839,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__4"
-    // InternalEduTest.g:2599:1: rule__AlternativeText__Group__4 : rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5 ;
+    // InternalEduTest.g:2813:1: rule__AlternativeText__Group__4 : rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5 ;
     public final void rule__AlternativeText__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2603:1: ( rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5 )
-            // InternalEduTest.g:2604:2: rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5
+            // InternalEduTest.g:2817:1: ( rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5 )
+            // InternalEduTest.g:2818:2: rule__AlternativeText__Group__4__Impl rule__AlternativeText__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__AlternativeText__Group__4__Impl();
 
             state._fsp--;
@@ -8232,35 +8877,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__4__Impl"
-    // InternalEduTest.g:2611:1: rule__AlternativeText__Group__4__Impl : ( ( rule__AlternativeText__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:2825:1: rule__AlternativeText__Group__4__Impl : ( ( rule__AlternativeText__TestsAssignment_4 )* ) ;
     public final void rule__AlternativeText__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2615:1: ( ( ( rule__AlternativeText__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:2616:1: ( ( rule__AlternativeText__TestsAssignment_4 )* )
+            // InternalEduTest.g:2829:1: ( ( ( rule__AlternativeText__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:2830:1: ( ( rule__AlternativeText__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:2616:1: ( ( rule__AlternativeText__TestsAssignment_4 )* )
-            // InternalEduTest.g:2617:2: ( rule__AlternativeText__TestsAssignment_4 )*
+            // InternalEduTest.g:2830:1: ( ( rule__AlternativeText__TestsAssignment_4 )* )
+            // InternalEduTest.g:2831:2: ( rule__AlternativeText__TestsAssignment_4 )*
             {
              before(grammarAccess.getAlternativeTextAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:2618:2: ( rule__AlternativeText__TestsAssignment_4 )*
-            loop32:
+            // InternalEduTest.g:2832:2: ( rule__AlternativeText__TestsAssignment_4 )*
+            loop33:
             do {
-                int alt32=2;
-                int LA32_0 = input.LA(1);
+                int alt33=2;
+                int LA33_0 = input.LA(1);
 
-                if ( (LA32_0==46) ) {
-                    alt32=1;
+                if ( (LA33_0==46) ) {
+                    alt33=1;
                 }
 
 
-                switch (alt32) {
+                switch (alt33) {
             	case 1 :
-            	    // InternalEduTest.g:2618:3: rule__AlternativeText__TestsAssignment_4
+            	    // InternalEduTest.g:2832:3: rule__AlternativeText__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__AlternativeText__TestsAssignment_4();
 
             	    state._fsp--;
@@ -8270,7 +8915,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop32;
+            	    break loop33;
                 }
             } while (true);
 
@@ -8297,14 +8942,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__5"
-    // InternalEduTest.g:2626:1: rule__AlternativeText__Group__5 : rule__AlternativeText__Group__5__Impl ;
+    // InternalEduTest.g:2840:1: rule__AlternativeText__Group__5 : rule__AlternativeText__Group__5__Impl ;
     public final void rule__AlternativeText__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2630:1: ( rule__AlternativeText__Group__5__Impl )
-            // InternalEduTest.g:2631:2: rule__AlternativeText__Group__5__Impl
+            // InternalEduTest.g:2844:1: ( rule__AlternativeText__Group__5__Impl )
+            // InternalEduTest.g:2845:2: rule__AlternativeText__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeText__Group__5__Impl();
@@ -8330,20 +8975,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group__5__Impl"
-    // InternalEduTest.g:2637:1: rule__AlternativeText__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:2851:1: rule__AlternativeText__Group__5__Impl : ( '}' ) ;
     public final void rule__AlternativeText__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2641:1: ( ( '}' ) )
-            // InternalEduTest.g:2642:1: ( '}' )
+            // InternalEduTest.g:2855:1: ( ( '}' ) )
+            // InternalEduTest.g:2856:1: ( '}' )
             {
-            // InternalEduTest.g:2642:1: ( '}' )
-            // InternalEduTest.g:2643:2: '}'
+            // InternalEduTest.g:2856:1: ( '}' )
+            // InternalEduTest.g:2857:2: '}'
             {
              before(grammarAccess.getAlternativeTextAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getAlternativeTextAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -8367,16 +9012,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1__0"
-    // InternalEduTest.g:2653:1: rule__AlternativeText__Group_1__0 : rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1 ;
+    // InternalEduTest.g:2867:1: rule__AlternativeText__Group_1__0 : rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1 ;
     public final void rule__AlternativeText__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2657:1: ( rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1 )
-            // InternalEduTest.g:2658:2: rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1
+            // InternalEduTest.g:2871:1: ( rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1 )
+            // InternalEduTest.g:2872:2: rule__AlternativeText__Group_1__0__Impl rule__AlternativeText__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__AlternativeText__Group_1__0__Impl();
 
             state._fsp--;
@@ -8405,31 +9050,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1__0__Impl"
-    // InternalEduTest.g:2665:1: rule__AlternativeText__Group_1__0__Impl : ( ( rule__AlternativeText__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:2879:1: rule__AlternativeText__Group_1__0__Impl : ( ( rule__AlternativeText__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__AlternativeText__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2669:1: ( ( ( rule__AlternativeText__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:2670:1: ( ( rule__AlternativeText__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2883:1: ( ( ( rule__AlternativeText__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:2884:1: ( ( rule__AlternativeText__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:2670:1: ( ( rule__AlternativeText__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:2671:2: ( rule__AlternativeText__BlocksAssignment_1_0 )
+            // InternalEduTest.g:2884:1: ( ( rule__AlternativeText__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:2885:2: ( rule__AlternativeText__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:2672:2: ( rule__AlternativeText__BlocksAssignment_1_0 )
-            // InternalEduTest.g:2672:3: rule__AlternativeText__BlocksAssignment_1_0
+             before(grammarAccess.getAlternativeTextAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:2886:2: ( rule__AlternativeText__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:2886:3: rule__AlternativeText__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__AlternativeText__BlocksAssignment_1_0();
+            rule__AlternativeText__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getAlternativeTextAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -8452,14 +9097,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1__1"
-    // InternalEduTest.g:2680:1: rule__AlternativeText__Group_1__1 : rule__AlternativeText__Group_1__1__Impl ;
+    // InternalEduTest.g:2894:1: rule__AlternativeText__Group_1__1 : rule__AlternativeText__Group_1__1__Impl ;
     public final void rule__AlternativeText__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2684:1: ( rule__AlternativeText__Group_1__1__Impl )
-            // InternalEduTest.g:2685:2: rule__AlternativeText__Group_1__1__Impl
+            // InternalEduTest.g:2898:1: ( rule__AlternativeText__Group_1__1__Impl )
+            // InternalEduTest.g:2899:2: rule__AlternativeText__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeText__Group_1__1__Impl();
@@ -8485,35 +9130,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1__1__Impl"
-    // InternalEduTest.g:2691:1: rule__AlternativeText__Group_1__1__Impl : ( ( rule__AlternativeText__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:2905:1: rule__AlternativeText__Group_1__1__Impl : ( ( rule__AlternativeText__Group_1_1__0 )* ) ;
     public final void rule__AlternativeText__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2695:1: ( ( ( rule__AlternativeText__Group_1_1__0 )* ) )
-            // InternalEduTest.g:2696:1: ( ( rule__AlternativeText__Group_1_1__0 )* )
+            // InternalEduTest.g:2909:1: ( ( ( rule__AlternativeText__Group_1_1__0 )* ) )
+            // InternalEduTest.g:2910:1: ( ( rule__AlternativeText__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:2696:1: ( ( rule__AlternativeText__Group_1_1__0 )* )
-            // InternalEduTest.g:2697:2: ( rule__AlternativeText__Group_1_1__0 )*
+            // InternalEduTest.g:2910:1: ( ( rule__AlternativeText__Group_1_1__0 )* )
+            // InternalEduTest.g:2911:2: ( rule__AlternativeText__Group_1_1__0 )*
             {
              before(grammarAccess.getAlternativeTextAccess().getGroup_1_1()); 
-            // InternalEduTest.g:2698:2: ( rule__AlternativeText__Group_1_1__0 )*
-            loop33:
+            // InternalEduTest.g:2912:2: ( rule__AlternativeText__Group_1_1__0 )*
+            loop34:
             do {
-                int alt33=2;
-                int LA33_0 = input.LA(1);
+                int alt34=2;
+                int LA34_0 = input.LA(1);
 
-                if ( (LA33_0==26) ) {
-                    alt33=1;
+                if ( (LA34_0==28) ) {
+                    alt34=1;
                 }
 
 
-                switch (alt33) {
+                switch (alt34) {
             	case 1 :
-            	    // InternalEduTest.g:2698:3: rule__AlternativeText__Group_1_1__0
+            	    // InternalEduTest.g:2912:3: rule__AlternativeText__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__AlternativeText__Group_1_1__0();
 
             	    state._fsp--;
@@ -8523,7 +9168,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop33;
+            	    break loop34;
                 }
             } while (true);
 
@@ -8550,16 +9195,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1_1__0"
-    // InternalEduTest.g:2707:1: rule__AlternativeText__Group_1_1__0 : rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1 ;
+    // InternalEduTest.g:2921:1: rule__AlternativeText__Group_1_1__0 : rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1 ;
     public final void rule__AlternativeText__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2711:1: ( rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1 )
-            // InternalEduTest.g:2712:2: rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1
+            // InternalEduTest.g:2925:1: ( rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1 )
+            // InternalEduTest.g:2926:2: rule__AlternativeText__Group_1_1__0__Impl rule__AlternativeText__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__AlternativeText__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -8588,20 +9233,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1_1__0__Impl"
-    // InternalEduTest.g:2719:1: rule__AlternativeText__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:2933:1: rule__AlternativeText__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__AlternativeText__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2723:1: ( ( ',' ) )
-            // InternalEduTest.g:2724:1: ( ',' )
+            // InternalEduTest.g:2937:1: ( ( ',' ) )
+            // InternalEduTest.g:2938:1: ( ',' )
             {
-            // InternalEduTest.g:2724:1: ( ',' )
-            // InternalEduTest.g:2725:2: ','
+            // InternalEduTest.g:2938:1: ( ',' )
+            // InternalEduTest.g:2939:2: ','
             {
              before(grammarAccess.getAlternativeTextAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getAlternativeTextAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -8625,14 +9270,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1_1__1"
-    // InternalEduTest.g:2734:1: rule__AlternativeText__Group_1_1__1 : rule__AlternativeText__Group_1_1__1__Impl ;
+    // InternalEduTest.g:2948:1: rule__AlternativeText__Group_1_1__1 : rule__AlternativeText__Group_1_1__1__Impl ;
     public final void rule__AlternativeText__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2738:1: ( rule__AlternativeText__Group_1_1__1__Impl )
-            // InternalEduTest.g:2739:2: rule__AlternativeText__Group_1_1__1__Impl
+            // InternalEduTest.g:2952:1: ( rule__AlternativeText__Group_1_1__1__Impl )
+            // InternalEduTest.g:2953:2: rule__AlternativeText__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__AlternativeText__Group_1_1__1__Impl();
@@ -8658,31 +9303,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__Group_1_1__1__Impl"
-    // InternalEduTest.g:2745:1: rule__AlternativeText__Group_1_1__1__Impl : ( ( rule__AlternativeText__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:2959:1: rule__AlternativeText__Group_1_1__1__Impl : ( ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__AlternativeText__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2749:1: ( ( ( rule__AlternativeText__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:2750:1: ( ( rule__AlternativeText__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2963:1: ( ( ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:2964:1: ( ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:2750:1: ( ( rule__AlternativeText__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:2751:2: ( rule__AlternativeText__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2964:1: ( ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:2965:2: ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:2752:2: ( rule__AlternativeText__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:2752:3: rule__AlternativeText__BlocksAssignment_1_1_1
+             before(grammarAccess.getAlternativeTextAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:2966:2: ( rule__AlternativeText__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:2966:3: rule__AlternativeText__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__AlternativeText__BlocksAssignment_1_1_1();
+            rule__AlternativeText__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getAlternativeTextAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -8705,16 +9350,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__0"
-    // InternalEduTest.g:2761:1: rule__DragAndDropText__Group__0 : rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1 ;
+    // InternalEduTest.g:2975:1: rule__DragAndDropText__Group__0 : rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1 ;
     public final void rule__DragAndDropText__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2765:1: ( rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1 )
-            // InternalEduTest.g:2766:2: rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1
+            // InternalEduTest.g:2979:1: ( rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1 )
+            // InternalEduTest.g:2980:2: rule__DragAndDropText__Group__0__Impl rule__DragAndDropText__Group__1
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__DragAndDropText__Group__0__Impl();
 
             state._fsp--;
@@ -8743,20 +9388,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__0__Impl"
-    // InternalEduTest.g:2773:1: rule__DragAndDropText__Group__0__Impl : ( 'DragAndDropText' ) ;
+    // InternalEduTest.g:2987:1: rule__DragAndDropText__Group__0__Impl : ( 'DragAndDropText' ) ;
     public final void rule__DragAndDropText__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2777:1: ( ( 'DragAndDropText' ) )
-            // InternalEduTest.g:2778:1: ( 'DragAndDropText' )
+            // InternalEduTest.g:2991:1: ( ( 'DragAndDropText' ) )
+            // InternalEduTest.g:2992:1: ( 'DragAndDropText' )
             {
-            // InternalEduTest.g:2778:1: ( 'DragAndDropText' )
-            // InternalEduTest.g:2779:2: 'DragAndDropText'
+            // InternalEduTest.g:2992:1: ( 'DragAndDropText' )
+            // InternalEduTest.g:2993:2: 'DragAndDropText'
             {
              before(grammarAccess.getDragAndDropTextAccess().getDragAndDropTextKeyword_0()); 
-            match(input,33,FOLLOW_2); 
+            match(input,35,FOLLOW_2); 
              after(grammarAccess.getDragAndDropTextAccess().getDragAndDropTextKeyword_0()); 
 
             }
@@ -8780,16 +9425,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__1"
-    // InternalEduTest.g:2788:1: rule__DragAndDropText__Group__1 : rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2 ;
+    // InternalEduTest.g:3002:1: rule__DragAndDropText__Group__1 : rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2 ;
     public final void rule__DragAndDropText__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2792:1: ( rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2 )
-            // InternalEduTest.g:2793:2: rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2
+            // InternalEduTest.g:3006:1: ( rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2 )
+            // InternalEduTest.g:3007:2: rule__DragAndDropText__Group__1__Impl rule__DragAndDropText__Group__2
             {
-            pushFollow(FOLLOW_5);
+            pushFollow(FOLLOW_10);
             rule__DragAndDropText__Group__1__Impl();
 
             state._fsp--;
@@ -8818,29 +9463,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__1__Impl"
-    // InternalEduTest.g:2800:1: rule__DragAndDropText__Group__1__Impl : ( ( rule__DragAndDropText__Group_1__0 )? ) ;
+    // InternalEduTest.g:3014:1: rule__DragAndDropText__Group__1__Impl : ( ( rule__DragAndDropText__Group_1__0 )? ) ;
     public final void rule__DragAndDropText__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2804:1: ( ( ( rule__DragAndDropText__Group_1__0 )? ) )
-            // InternalEduTest.g:2805:1: ( ( rule__DragAndDropText__Group_1__0 )? )
+            // InternalEduTest.g:3018:1: ( ( ( rule__DragAndDropText__Group_1__0 )? ) )
+            // InternalEduTest.g:3019:1: ( ( rule__DragAndDropText__Group_1__0 )? )
             {
-            // InternalEduTest.g:2805:1: ( ( rule__DragAndDropText__Group_1__0 )? )
-            // InternalEduTest.g:2806:2: ( rule__DragAndDropText__Group_1__0 )?
+            // InternalEduTest.g:3019:1: ( ( rule__DragAndDropText__Group_1__0 )? )
+            // InternalEduTest.g:3020:2: ( rule__DragAndDropText__Group_1__0 )?
             {
              before(grammarAccess.getDragAndDropTextAccess().getGroup_1()); 
-            // InternalEduTest.g:2807:2: ( rule__DragAndDropText__Group_1__0 )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // InternalEduTest.g:3021:2: ( rule__DragAndDropText__Group_1__0 )?
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA34_0==RULE_ID) ) {
-                alt34=1;
+            if ( (LA35_0==RULE_ID) ) {
+                alt35=1;
             }
-            switch (alt34) {
+            switch (alt35) {
                 case 1 :
-                    // InternalEduTest.g:2807:3: rule__DragAndDropText__Group_1__0
+                    // InternalEduTest.g:3021:3: rule__DragAndDropText__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__DragAndDropText__Group_1__0();
@@ -8876,16 +9521,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__2"
-    // InternalEduTest.g:2815:1: rule__DragAndDropText__Group__2 : rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3 ;
+    // InternalEduTest.g:3029:1: rule__DragAndDropText__Group__2 : rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3 ;
     public final void rule__DragAndDropText__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2819:1: ( rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3 )
-            // InternalEduTest.g:2820:2: rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3
+            // InternalEduTest.g:3033:1: ( rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3 )
+            // InternalEduTest.g:3034:2: rule__DragAndDropText__Group__2__Impl rule__DragAndDropText__Group__3
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__DragAndDropText__Group__2__Impl();
 
             state._fsp--;
@@ -8914,20 +9559,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__2__Impl"
-    // InternalEduTest.g:2827:1: rule__DragAndDropText__Group__2__Impl : ( '{' ) ;
+    // InternalEduTest.g:3041:1: rule__DragAndDropText__Group__2__Impl : ( '{' ) ;
     public final void rule__DragAndDropText__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2831:1: ( ( '{' ) )
-            // InternalEduTest.g:2832:1: ( '{' )
+            // InternalEduTest.g:3045:1: ( ( '{' ) )
+            // InternalEduTest.g:3046:1: ( '{' )
             {
-            // InternalEduTest.g:2832:1: ( '{' )
-            // InternalEduTest.g:2833:2: '{'
+            // InternalEduTest.g:3046:1: ( '{' )
+            // InternalEduTest.g:3047:2: '{'
             {
              before(grammarAccess.getDragAndDropTextAccess().getLeftCurlyBracketKeyword_2()); 
-            match(input,24,FOLLOW_2); 
+            match(input,26,FOLLOW_2); 
              after(grammarAccess.getDragAndDropTextAccess().getLeftCurlyBracketKeyword_2()); 
 
             }
@@ -8951,16 +9596,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__3"
-    // InternalEduTest.g:2842:1: rule__DragAndDropText__Group__3 : rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4 ;
+    // InternalEduTest.g:3056:1: rule__DragAndDropText__Group__3 : rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4 ;
     public final void rule__DragAndDropText__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2846:1: ( rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4 )
-            // InternalEduTest.g:2847:2: rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4
+            // InternalEduTest.g:3060:1: ( rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4 )
+            // InternalEduTest.g:3061:2: rule__DragAndDropText__Group__3__Impl rule__DragAndDropText__Group__4
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__DragAndDropText__Group__3__Impl();
 
             state._fsp--;
@@ -8989,21 +9634,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__3__Impl"
-    // InternalEduTest.g:2854:1: rule__DragAndDropText__Group__3__Impl : ( ( rule__DragAndDropText__ConfigAssignment_3 ) ) ;
+    // InternalEduTest.g:3068:1: rule__DragAndDropText__Group__3__Impl : ( ( rule__DragAndDropText__ConfigAssignment_3 ) ) ;
     public final void rule__DragAndDropText__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2858:1: ( ( ( rule__DragAndDropText__ConfigAssignment_3 ) ) )
-            // InternalEduTest.g:2859:1: ( ( rule__DragAndDropText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:3072:1: ( ( ( rule__DragAndDropText__ConfigAssignment_3 ) ) )
+            // InternalEduTest.g:3073:1: ( ( rule__DragAndDropText__ConfigAssignment_3 ) )
             {
-            // InternalEduTest.g:2859:1: ( ( rule__DragAndDropText__ConfigAssignment_3 ) )
-            // InternalEduTest.g:2860:2: ( rule__DragAndDropText__ConfigAssignment_3 )
+            // InternalEduTest.g:3073:1: ( ( rule__DragAndDropText__ConfigAssignment_3 ) )
+            // InternalEduTest.g:3074:2: ( rule__DragAndDropText__ConfigAssignment_3 )
             {
              before(grammarAccess.getDragAndDropTextAccess().getConfigAssignment_3()); 
-            // InternalEduTest.g:2861:2: ( rule__DragAndDropText__ConfigAssignment_3 )
-            // InternalEduTest.g:2861:3: rule__DragAndDropText__ConfigAssignment_3
+            // InternalEduTest.g:3075:2: ( rule__DragAndDropText__ConfigAssignment_3 )
+            // InternalEduTest.g:3075:3: rule__DragAndDropText__ConfigAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__DragAndDropText__ConfigAssignment_3();
@@ -9036,16 +9681,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__4"
-    // InternalEduTest.g:2869:1: rule__DragAndDropText__Group__4 : rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5 ;
+    // InternalEduTest.g:3083:1: rule__DragAndDropText__Group__4 : rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5 ;
     public final void rule__DragAndDropText__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2873:1: ( rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5 )
-            // InternalEduTest.g:2874:2: rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5
+            // InternalEduTest.g:3087:1: ( rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5 )
+            // InternalEduTest.g:3088:2: rule__DragAndDropText__Group__4__Impl rule__DragAndDropText__Group__5
             {
-            pushFollow(FOLLOW_7);
+            pushFollow(FOLLOW_12);
             rule__DragAndDropText__Group__4__Impl();
 
             state._fsp--;
@@ -9074,35 +9719,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__4__Impl"
-    // InternalEduTest.g:2881:1: rule__DragAndDropText__Group__4__Impl : ( ( rule__DragAndDropText__TestsAssignment_4 )* ) ;
+    // InternalEduTest.g:3095:1: rule__DragAndDropText__Group__4__Impl : ( ( rule__DragAndDropText__TestsAssignment_4 )* ) ;
     public final void rule__DragAndDropText__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2885:1: ( ( ( rule__DragAndDropText__TestsAssignment_4 )* ) )
-            // InternalEduTest.g:2886:1: ( ( rule__DragAndDropText__TestsAssignment_4 )* )
+            // InternalEduTest.g:3099:1: ( ( ( rule__DragAndDropText__TestsAssignment_4 )* ) )
+            // InternalEduTest.g:3100:1: ( ( rule__DragAndDropText__TestsAssignment_4 )* )
             {
-            // InternalEduTest.g:2886:1: ( ( rule__DragAndDropText__TestsAssignment_4 )* )
-            // InternalEduTest.g:2887:2: ( rule__DragAndDropText__TestsAssignment_4 )*
+            // InternalEduTest.g:3100:1: ( ( rule__DragAndDropText__TestsAssignment_4 )* )
+            // InternalEduTest.g:3101:2: ( rule__DragAndDropText__TestsAssignment_4 )*
             {
              before(grammarAccess.getDragAndDropTextAccess().getTestsAssignment_4()); 
-            // InternalEduTest.g:2888:2: ( rule__DragAndDropText__TestsAssignment_4 )*
-            loop35:
+            // InternalEduTest.g:3102:2: ( rule__DragAndDropText__TestsAssignment_4 )*
+            loop36:
             do {
-                int alt35=2;
-                int LA35_0 = input.LA(1);
+                int alt36=2;
+                int LA36_0 = input.LA(1);
 
-                if ( (LA35_0==46) ) {
-                    alt35=1;
+                if ( (LA36_0==46) ) {
+                    alt36=1;
                 }
 
 
-                switch (alt35) {
+                switch (alt36) {
             	case 1 :
-            	    // InternalEduTest.g:2888:3: rule__DragAndDropText__TestsAssignment_4
+            	    // InternalEduTest.g:3102:3: rule__DragAndDropText__TestsAssignment_4
             	    {
-            	    pushFollow(FOLLOW_8);
+            	    pushFollow(FOLLOW_13);
             	    rule__DragAndDropText__TestsAssignment_4();
 
             	    state._fsp--;
@@ -9112,7 +9757,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop35;
+            	    break loop36;
                 }
             } while (true);
 
@@ -9139,14 +9784,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__5"
-    // InternalEduTest.g:2896:1: rule__DragAndDropText__Group__5 : rule__DragAndDropText__Group__5__Impl ;
+    // InternalEduTest.g:3110:1: rule__DragAndDropText__Group__5 : rule__DragAndDropText__Group__5__Impl ;
     public final void rule__DragAndDropText__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2900:1: ( rule__DragAndDropText__Group__5__Impl )
-            // InternalEduTest.g:2901:2: rule__DragAndDropText__Group__5__Impl
+            // InternalEduTest.g:3114:1: ( rule__DragAndDropText__Group__5__Impl )
+            // InternalEduTest.g:3115:2: rule__DragAndDropText__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__DragAndDropText__Group__5__Impl();
@@ -9172,20 +9817,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group__5__Impl"
-    // InternalEduTest.g:2907:1: rule__DragAndDropText__Group__5__Impl : ( '}' ) ;
+    // InternalEduTest.g:3121:1: rule__DragAndDropText__Group__5__Impl : ( '}' ) ;
     public final void rule__DragAndDropText__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2911:1: ( ( '}' ) )
-            // InternalEduTest.g:2912:1: ( '}' )
+            // InternalEduTest.g:3125:1: ( ( '}' ) )
+            // InternalEduTest.g:3126:1: ( '}' )
             {
-            // InternalEduTest.g:2912:1: ( '}' )
-            // InternalEduTest.g:2913:2: '}'
+            // InternalEduTest.g:3126:1: ( '}' )
+            // InternalEduTest.g:3127:2: '}'
             {
              before(grammarAccess.getDragAndDropTextAccess().getRightCurlyBracketKeyword_5()); 
-            match(input,25,FOLLOW_2); 
+            match(input,27,FOLLOW_2); 
              after(grammarAccess.getDragAndDropTextAccess().getRightCurlyBracketKeyword_5()); 
 
             }
@@ -9209,16 +9854,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1__0"
-    // InternalEduTest.g:2923:1: rule__DragAndDropText__Group_1__0 : rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1 ;
+    // InternalEduTest.g:3137:1: rule__DragAndDropText__Group_1__0 : rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1 ;
     public final void rule__DragAndDropText__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2927:1: ( rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1 )
-            // InternalEduTest.g:2928:2: rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1
+            // InternalEduTest.g:3141:1: ( rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1 )
+            // InternalEduTest.g:3142:2: rule__DragAndDropText__Group_1__0__Impl rule__DragAndDropText__Group_1__1
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__DragAndDropText__Group_1__0__Impl();
 
             state._fsp--;
@@ -9247,31 +9892,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1__0__Impl"
-    // InternalEduTest.g:2935:1: rule__DragAndDropText__Group_1__0__Impl : ( ( rule__DragAndDropText__BlocksAssignment_1_0 ) ) ;
+    // InternalEduTest.g:3149:1: rule__DragAndDropText__Group_1__0__Impl : ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 ) ) ;
     public final void rule__DragAndDropText__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2939:1: ( ( ( rule__DragAndDropText__BlocksAssignment_1_0 ) ) )
-            // InternalEduTest.g:2940:1: ( ( rule__DragAndDropText__BlocksAssignment_1_0 ) )
+            // InternalEduTest.g:3153:1: ( ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 ) ) )
+            // InternalEduTest.g:3154:1: ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 ) )
             {
-            // InternalEduTest.g:2940:1: ( ( rule__DragAndDropText__BlocksAssignment_1_0 ) )
-            // InternalEduTest.g:2941:2: ( rule__DragAndDropText__BlocksAssignment_1_0 )
+            // InternalEduTest.g:3154:1: ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 ) )
+            // InternalEduTest.g:3155:2: ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 )
             {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksAssignment_1_0()); 
-            // InternalEduTest.g:2942:2: ( rule__DragAndDropText__BlocksAssignment_1_0 )
-            // InternalEduTest.g:2942:3: rule__DragAndDropText__BlocksAssignment_1_0
+             before(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksAssignment_1_0()); 
+            // InternalEduTest.g:3156:2: ( rule__DragAndDropText__MarkedBlocksAssignment_1_0 )
+            // InternalEduTest.g:3156:3: rule__DragAndDropText__MarkedBlocksAssignment_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__DragAndDropText__BlocksAssignment_1_0();
+            rule__DragAndDropText__MarkedBlocksAssignment_1_0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksAssignment_1_0()); 
+             after(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksAssignment_1_0()); 
 
             }
 
@@ -9294,14 +9939,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1__1"
-    // InternalEduTest.g:2950:1: rule__DragAndDropText__Group_1__1 : rule__DragAndDropText__Group_1__1__Impl ;
+    // InternalEduTest.g:3164:1: rule__DragAndDropText__Group_1__1 : rule__DragAndDropText__Group_1__1__Impl ;
     public final void rule__DragAndDropText__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2954:1: ( rule__DragAndDropText__Group_1__1__Impl )
-            // InternalEduTest.g:2955:2: rule__DragAndDropText__Group_1__1__Impl
+            // InternalEduTest.g:3168:1: ( rule__DragAndDropText__Group_1__1__Impl )
+            // InternalEduTest.g:3169:2: rule__DragAndDropText__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__DragAndDropText__Group_1__1__Impl();
@@ -9327,35 +9972,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1__1__Impl"
-    // InternalEduTest.g:2961:1: rule__DragAndDropText__Group_1__1__Impl : ( ( rule__DragAndDropText__Group_1_1__0 )* ) ;
+    // InternalEduTest.g:3175:1: rule__DragAndDropText__Group_1__1__Impl : ( ( rule__DragAndDropText__Group_1_1__0 )* ) ;
     public final void rule__DragAndDropText__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2965:1: ( ( ( rule__DragAndDropText__Group_1_1__0 )* ) )
-            // InternalEduTest.g:2966:1: ( ( rule__DragAndDropText__Group_1_1__0 )* )
+            // InternalEduTest.g:3179:1: ( ( ( rule__DragAndDropText__Group_1_1__0 )* ) )
+            // InternalEduTest.g:3180:1: ( ( rule__DragAndDropText__Group_1_1__0 )* )
             {
-            // InternalEduTest.g:2966:1: ( ( rule__DragAndDropText__Group_1_1__0 )* )
-            // InternalEduTest.g:2967:2: ( rule__DragAndDropText__Group_1_1__0 )*
+            // InternalEduTest.g:3180:1: ( ( rule__DragAndDropText__Group_1_1__0 )* )
+            // InternalEduTest.g:3181:2: ( rule__DragAndDropText__Group_1_1__0 )*
             {
              before(grammarAccess.getDragAndDropTextAccess().getGroup_1_1()); 
-            // InternalEduTest.g:2968:2: ( rule__DragAndDropText__Group_1_1__0 )*
-            loop36:
+            // InternalEduTest.g:3182:2: ( rule__DragAndDropText__Group_1_1__0 )*
+            loop37:
             do {
-                int alt36=2;
-                int LA36_0 = input.LA(1);
+                int alt37=2;
+                int LA37_0 = input.LA(1);
 
-                if ( (LA36_0==26) ) {
-                    alt36=1;
+                if ( (LA37_0==28) ) {
+                    alt37=1;
                 }
 
 
-                switch (alt36) {
+                switch (alt37) {
             	case 1 :
-            	    // InternalEduTest.g:2968:3: rule__DragAndDropText__Group_1_1__0
+            	    // InternalEduTest.g:3182:3: rule__DragAndDropText__Group_1_1__0
             	    {
-            	    pushFollow(FOLLOW_10);
+            	    pushFollow(FOLLOW_15);
             	    rule__DragAndDropText__Group_1_1__0();
 
             	    state._fsp--;
@@ -9365,7 +10010,7 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop36;
+            	    break loop37;
                 }
             } while (true);
 
@@ -9392,16 +10037,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1_1__0"
-    // InternalEduTest.g:2977:1: rule__DragAndDropText__Group_1_1__0 : rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1 ;
+    // InternalEduTest.g:3191:1: rule__DragAndDropText__Group_1_1__0 : rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1 ;
     public final void rule__DragAndDropText__Group_1_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2981:1: ( rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1 )
-            // InternalEduTest.g:2982:2: rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1
+            // InternalEduTest.g:3195:1: ( rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1 )
+            // InternalEduTest.g:3196:2: rule__DragAndDropText__Group_1_1__0__Impl rule__DragAndDropText__Group_1_1__1
             {
-            pushFollow(FOLLOW_11);
+            pushFollow(FOLLOW_7);
             rule__DragAndDropText__Group_1_1__0__Impl();
 
             state._fsp--;
@@ -9430,20 +10075,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1_1__0__Impl"
-    // InternalEduTest.g:2989:1: rule__DragAndDropText__Group_1_1__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:3203:1: rule__DragAndDropText__Group_1_1__0__Impl : ( ',' ) ;
     public final void rule__DragAndDropText__Group_1_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:2993:1: ( ( ',' ) )
-            // InternalEduTest.g:2994:1: ( ',' )
+            // InternalEduTest.g:3207:1: ( ( ',' ) )
+            // InternalEduTest.g:3208:1: ( ',' )
             {
-            // InternalEduTest.g:2994:1: ( ',' )
-            // InternalEduTest.g:2995:2: ','
+            // InternalEduTest.g:3208:1: ( ',' )
+            // InternalEduTest.g:3209:2: ','
             {
              before(grammarAccess.getDragAndDropTextAccess().getCommaKeyword_1_1_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getDragAndDropTextAccess().getCommaKeyword_1_1_0()); 
 
             }
@@ -9467,14 +10112,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1_1__1"
-    // InternalEduTest.g:3004:1: rule__DragAndDropText__Group_1_1__1 : rule__DragAndDropText__Group_1_1__1__Impl ;
+    // InternalEduTest.g:3218:1: rule__DragAndDropText__Group_1_1__1 : rule__DragAndDropText__Group_1_1__1__Impl ;
     public final void rule__DragAndDropText__Group_1_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3008:1: ( rule__DragAndDropText__Group_1_1__1__Impl )
-            // InternalEduTest.g:3009:2: rule__DragAndDropText__Group_1_1__1__Impl
+            // InternalEduTest.g:3222:1: ( rule__DragAndDropText__Group_1_1__1__Impl )
+            // InternalEduTest.g:3223:2: rule__DragAndDropText__Group_1_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__DragAndDropText__Group_1_1__1__Impl();
@@ -9500,31 +10145,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__Group_1_1__1__Impl"
-    // InternalEduTest.g:3015:1: rule__DragAndDropText__Group_1_1__1__Impl : ( ( rule__DragAndDropText__BlocksAssignment_1_1_1 ) ) ;
+    // InternalEduTest.g:3229:1: rule__DragAndDropText__Group_1_1__1__Impl : ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 ) ) ;
     public final void rule__DragAndDropText__Group_1_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3019:1: ( ( ( rule__DragAndDropText__BlocksAssignment_1_1_1 ) ) )
-            // InternalEduTest.g:3020:1: ( ( rule__DragAndDropText__BlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:3233:1: ( ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 ) ) )
+            // InternalEduTest.g:3234:1: ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 ) )
             {
-            // InternalEduTest.g:3020:1: ( ( rule__DragAndDropText__BlocksAssignment_1_1_1 ) )
-            // InternalEduTest.g:3021:2: ( rule__DragAndDropText__BlocksAssignment_1_1_1 )
+            // InternalEduTest.g:3234:1: ( ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 ) )
+            // InternalEduTest.g:3235:2: ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 )
             {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksAssignment_1_1_1()); 
-            // InternalEduTest.g:3022:2: ( rule__DragAndDropText__BlocksAssignment_1_1_1 )
-            // InternalEduTest.g:3022:3: rule__DragAndDropText__BlocksAssignment_1_1_1
+             before(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksAssignment_1_1_1()); 
+            // InternalEduTest.g:3236:2: ( rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 )
+            // InternalEduTest.g:3236:3: rule__DragAndDropText__MarkedBlocksAssignment_1_1_1
             {
             pushFollow(FOLLOW_2);
-            rule__DragAndDropText__BlocksAssignment_1_1_1();
+            rule__DragAndDropText__MarkedBlocksAssignment_1_1_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksAssignment_1_1_1()); 
+             after(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksAssignment_1_1_1()); 
 
             }
 
@@ -9547,16 +10192,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__0"
-    // InternalEduTest.g:3031:1: rule__ProgramConfiguration__Group__0 : rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1 ;
+    // InternalEduTest.g:3245:1: rule__ProgramConfiguration__Group__0 : rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1 ;
     public final void rule__ProgramConfiguration__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3035:1: ( rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1 )
-            // InternalEduTest.g:3036:2: rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1
+            // InternalEduTest.g:3249:1: ( rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1 )
+            // InternalEduTest.g:3250:2: rule__ProgramConfiguration__Group__0__Impl rule__ProgramConfiguration__Group__1
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__ProgramConfiguration__Group__0__Impl();
 
             state._fsp--;
@@ -9585,20 +10230,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__0__Impl"
-    // InternalEduTest.g:3043:1: rule__ProgramConfiguration__Group__0__Impl : ( 'navigation' ) ;
+    // InternalEduTest.g:3257:1: rule__ProgramConfiguration__Group__0__Impl : ( 'navigation' ) ;
     public final void rule__ProgramConfiguration__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3047:1: ( ( 'navigation' ) )
-            // InternalEduTest.g:3048:1: ( 'navigation' )
+            // InternalEduTest.g:3261:1: ( ( 'navigation' ) )
+            // InternalEduTest.g:3262:1: ( 'navigation' )
             {
-            // InternalEduTest.g:3048:1: ( 'navigation' )
-            // InternalEduTest.g:3049:2: 'navigation'
+            // InternalEduTest.g:3262:1: ( 'navigation' )
+            // InternalEduTest.g:3263:2: 'navigation'
             {
              before(grammarAccess.getProgramConfigurationAccess().getNavigationKeyword_0()); 
-            match(input,34,FOLLOW_2); 
+            match(input,36,FOLLOW_2); 
              after(grammarAccess.getProgramConfigurationAccess().getNavigationKeyword_0()); 
 
             }
@@ -9622,16 +10267,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__1"
-    // InternalEduTest.g:3058:1: rule__ProgramConfiguration__Group__1 : rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2 ;
+    // InternalEduTest.g:3272:1: rule__ProgramConfiguration__Group__1 : rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2 ;
     public final void rule__ProgramConfiguration__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3062:1: ( rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2 )
-            // InternalEduTest.g:3063:2: rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2
+            // InternalEduTest.g:3276:1: ( rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2 )
+            // InternalEduTest.g:3277:2: rule__ProgramConfiguration__Group__1__Impl rule__ProgramConfiguration__Group__2
             {
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_16);
             rule__ProgramConfiguration__Group__1__Impl();
 
             state._fsp--;
@@ -9660,20 +10305,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__1__Impl"
-    // InternalEduTest.g:3070:1: rule__ProgramConfiguration__Group__1__Impl : ( '=' ) ;
+    // InternalEduTest.g:3284:1: rule__ProgramConfiguration__Group__1__Impl : ( '=' ) ;
     public final void rule__ProgramConfiguration__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3074:1: ( ( '=' ) )
-            // InternalEduTest.g:3075:1: ( '=' )
+            // InternalEduTest.g:3288:1: ( ( '=' ) )
+            // InternalEduTest.g:3289:1: ( '=' )
             {
-            // InternalEduTest.g:3075:1: ( '=' )
-            // InternalEduTest.g:3076:2: '='
+            // InternalEduTest.g:3289:1: ( '=' )
+            // InternalEduTest.g:3290:2: '='
             {
              before(grammarAccess.getProgramConfigurationAccess().getEqualsSignKeyword_1()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getProgramConfigurationAccess().getEqualsSignKeyword_1()); 
 
             }
@@ -9697,14 +10342,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__2"
-    // InternalEduTest.g:3085:1: rule__ProgramConfiguration__Group__2 : rule__ProgramConfiguration__Group__2__Impl ;
+    // InternalEduTest.g:3299:1: rule__ProgramConfiguration__Group__2 : rule__ProgramConfiguration__Group__2__Impl ;
     public final void rule__ProgramConfiguration__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3089:1: ( rule__ProgramConfiguration__Group__2__Impl )
-            // InternalEduTest.g:3090:2: rule__ProgramConfiguration__Group__2__Impl
+            // InternalEduTest.g:3303:1: ( rule__ProgramConfiguration__Group__2__Impl )
+            // InternalEduTest.g:3304:2: rule__ProgramConfiguration__Group__2__Impl
             {
             pushFollow(FOLLOW_2);
             rule__ProgramConfiguration__Group__2__Impl();
@@ -9730,21 +10375,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__Group__2__Impl"
-    // InternalEduTest.g:3096:1: rule__ProgramConfiguration__Group__2__Impl : ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) ) ;
+    // InternalEduTest.g:3310:1: rule__ProgramConfiguration__Group__2__Impl : ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) ) ;
     public final void rule__ProgramConfiguration__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3100:1: ( ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) ) )
-            // InternalEduTest.g:3101:1: ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) )
+            // InternalEduTest.g:3314:1: ( ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) ) )
+            // InternalEduTest.g:3315:1: ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) )
             {
-            // InternalEduTest.g:3101:1: ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) )
-            // InternalEduTest.g:3102:2: ( rule__ProgramConfiguration__NavigationAssignment_2 )
+            // InternalEduTest.g:3315:1: ( ( rule__ProgramConfiguration__NavigationAssignment_2 ) )
+            // InternalEduTest.g:3316:2: ( rule__ProgramConfiguration__NavigationAssignment_2 )
             {
              before(grammarAccess.getProgramConfigurationAccess().getNavigationAssignment_2()); 
-            // InternalEduTest.g:3103:2: ( rule__ProgramConfiguration__NavigationAssignment_2 )
-            // InternalEduTest.g:3103:3: rule__ProgramConfiguration__NavigationAssignment_2
+            // InternalEduTest.g:3317:2: ( rule__ProgramConfiguration__NavigationAssignment_2 )
+            // InternalEduTest.g:3317:3: rule__ProgramConfiguration__NavigationAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__ProgramConfiguration__NavigationAssignment_2();
@@ -9777,16 +10422,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__0"
-    // InternalEduTest.g:3112:1: rule__TestConfiguration__Group__0 : rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1 ;
+    // InternalEduTest.g:3326:1: rule__TestConfiguration__Group__0 : rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1 ;
     public final void rule__TestConfiguration__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3116:1: ( rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1 )
-            // InternalEduTest.g:3117:2: rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1
+            // InternalEduTest.g:3330:1: ( rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1 )
+            // InternalEduTest.g:3331:2: rule__TestConfiguration__Group__0__Impl rule__TestConfiguration__Group__1
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__TestConfiguration__Group__0__Impl();
 
             state._fsp--;
@@ -9815,21 +10460,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__0__Impl"
-    // InternalEduTest.g:3124:1: rule__TestConfiguration__Group__0__Impl : ( () ) ;
+    // InternalEduTest.g:3338:1: rule__TestConfiguration__Group__0__Impl : ( () ) ;
     public final void rule__TestConfiguration__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3128:1: ( ( () ) )
-            // InternalEduTest.g:3129:1: ( () )
+            // InternalEduTest.g:3342:1: ( ( () ) )
+            // InternalEduTest.g:3343:1: ( () )
             {
-            // InternalEduTest.g:3129:1: ( () )
-            // InternalEduTest.g:3130:2: ()
+            // InternalEduTest.g:3343:1: ( () )
+            // InternalEduTest.g:3344:2: ()
             {
              before(grammarAccess.getTestConfigurationAccess().getTestConfigurationAction_0()); 
-            // InternalEduTest.g:3131:2: ()
-            // InternalEduTest.g:3131:3: 
+            // InternalEduTest.g:3345:2: ()
+            // InternalEduTest.g:3345:3: 
             {
             }
 
@@ -9852,16 +10497,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__1"
-    // InternalEduTest.g:3139:1: rule__TestConfiguration__Group__1 : rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2 ;
+    // InternalEduTest.g:3353:1: rule__TestConfiguration__Group__1 : rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2 ;
     public final void rule__TestConfiguration__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3143:1: ( rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2 )
-            // InternalEduTest.g:3144:2: rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2
+            // InternalEduTest.g:3357:1: ( rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2 )
+            // InternalEduTest.g:3358:2: rule__TestConfiguration__Group__1__Impl rule__TestConfiguration__Group__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__TestConfiguration__Group__1__Impl();
 
             state._fsp--;
@@ -9890,20 +10535,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__1__Impl"
-    // InternalEduTest.g:3151:1: rule__TestConfiguration__Group__1__Impl : ( 'retry' ) ;
+    // InternalEduTest.g:3365:1: rule__TestConfiguration__Group__1__Impl : ( 'retry' ) ;
     public final void rule__TestConfiguration__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3155:1: ( ( 'retry' ) )
-            // InternalEduTest.g:3156:1: ( 'retry' )
+            // InternalEduTest.g:3369:1: ( ( 'retry' ) )
+            // InternalEduTest.g:3370:1: ( 'retry' )
             {
-            // InternalEduTest.g:3156:1: ( 'retry' )
-            // InternalEduTest.g:3157:2: 'retry'
+            // InternalEduTest.g:3370:1: ( 'retry' )
+            // InternalEduTest.g:3371:2: 'retry'
             {
              before(grammarAccess.getTestConfigurationAccess().getRetryKeyword_1()); 
-            match(input,36,FOLLOW_2); 
+            match(input,38,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getRetryKeyword_1()); 
 
             }
@@ -9927,16 +10572,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__2"
-    // InternalEduTest.g:3166:1: rule__TestConfiguration__Group__2 : rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3 ;
+    // InternalEduTest.g:3380:1: rule__TestConfiguration__Group__2 : rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3 ;
     public final void rule__TestConfiguration__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3170:1: ( rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3 )
-            // InternalEduTest.g:3171:2: rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3
+            // InternalEduTest.g:3384:1: ( rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3 )
+            // InternalEduTest.g:3385:2: rule__TestConfiguration__Group__2__Impl rule__TestConfiguration__Group__3
             {
-            pushFollow(FOLLOW_14);
+            pushFollow(FOLLOW_17);
             rule__TestConfiguration__Group__2__Impl();
 
             state._fsp--;
@@ -9965,20 +10610,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__2__Impl"
-    // InternalEduTest.g:3178:1: rule__TestConfiguration__Group__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:3392:1: rule__TestConfiguration__Group__2__Impl : ( '=' ) ;
     public final void rule__TestConfiguration__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3182:1: ( ( '=' ) )
-            // InternalEduTest.g:3183:1: ( '=' )
+            // InternalEduTest.g:3396:1: ( ( '=' ) )
+            // InternalEduTest.g:3397:1: ( '=' )
             {
-            // InternalEduTest.g:3183:1: ( '=' )
-            // InternalEduTest.g:3184:2: '='
+            // InternalEduTest.g:3397:1: ( '=' )
+            // InternalEduTest.g:3398:2: '='
             {
              before(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_2()); 
 
             }
@@ -10002,16 +10647,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__3"
-    // InternalEduTest.g:3193:1: rule__TestConfiguration__Group__3 : rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4 ;
+    // InternalEduTest.g:3407:1: rule__TestConfiguration__Group__3 : rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4 ;
     public final void rule__TestConfiguration__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3197:1: ( rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4 )
-            // InternalEduTest.g:3198:2: rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4
+            // InternalEduTest.g:3411:1: ( rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4 )
+            // InternalEduTest.g:3412:2: rule__TestConfiguration__Group__3__Impl rule__TestConfiguration__Group__4
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__TestConfiguration__Group__3__Impl();
 
             state._fsp--;
@@ -10040,21 +10685,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__3__Impl"
-    // InternalEduTest.g:3205:1: rule__TestConfiguration__Group__3__Impl : ( ( rule__TestConfiguration__RetryAssignment_3 ) ) ;
+    // InternalEduTest.g:3419:1: rule__TestConfiguration__Group__3__Impl : ( ( rule__TestConfiguration__RetryAssignment_3 ) ) ;
     public final void rule__TestConfiguration__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3209:1: ( ( ( rule__TestConfiguration__RetryAssignment_3 ) ) )
-            // InternalEduTest.g:3210:1: ( ( rule__TestConfiguration__RetryAssignment_3 ) )
+            // InternalEduTest.g:3423:1: ( ( ( rule__TestConfiguration__RetryAssignment_3 ) ) )
+            // InternalEduTest.g:3424:1: ( ( rule__TestConfiguration__RetryAssignment_3 ) )
             {
-            // InternalEduTest.g:3210:1: ( ( rule__TestConfiguration__RetryAssignment_3 ) )
-            // InternalEduTest.g:3211:2: ( rule__TestConfiguration__RetryAssignment_3 )
+            // InternalEduTest.g:3424:1: ( ( rule__TestConfiguration__RetryAssignment_3 ) )
+            // InternalEduTest.g:3425:2: ( rule__TestConfiguration__RetryAssignment_3 )
             {
              before(grammarAccess.getTestConfigurationAccess().getRetryAssignment_3()); 
-            // InternalEduTest.g:3212:2: ( rule__TestConfiguration__RetryAssignment_3 )
-            // InternalEduTest.g:3212:3: rule__TestConfiguration__RetryAssignment_3
+            // InternalEduTest.g:3426:2: ( rule__TestConfiguration__RetryAssignment_3 )
+            // InternalEduTest.g:3426:3: rule__TestConfiguration__RetryAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__RetryAssignment_3();
@@ -10087,16 +10732,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__4"
-    // InternalEduTest.g:3220:1: rule__TestConfiguration__Group__4 : rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5 ;
+    // InternalEduTest.g:3434:1: rule__TestConfiguration__Group__4 : rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5 ;
     public final void rule__TestConfiguration__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3224:1: ( rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5 )
-            // InternalEduTest.g:3225:2: rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5
+            // InternalEduTest.g:3438:1: ( rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5 )
+            // InternalEduTest.g:3439:2: rule__TestConfiguration__Group__4__Impl rule__TestConfiguration__Group__5
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__TestConfiguration__Group__4__Impl();
 
             state._fsp--;
@@ -10125,33 +10770,33 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__4__Impl"
-    // InternalEduTest.g:3232:1: rule__TestConfiguration__Group__4__Impl : ( ( rule__TestConfiguration__Group_4__0 )? ) ;
+    // InternalEduTest.g:3446:1: rule__TestConfiguration__Group__4__Impl : ( ( rule__TestConfiguration__Group_4__0 )? ) ;
     public final void rule__TestConfiguration__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3236:1: ( ( ( rule__TestConfiguration__Group_4__0 )? ) )
-            // InternalEduTest.g:3237:1: ( ( rule__TestConfiguration__Group_4__0 )? )
+            // InternalEduTest.g:3450:1: ( ( ( rule__TestConfiguration__Group_4__0 )? ) )
+            // InternalEduTest.g:3451:1: ( ( rule__TestConfiguration__Group_4__0 )? )
             {
-            // InternalEduTest.g:3237:1: ( ( rule__TestConfiguration__Group_4__0 )? )
-            // InternalEduTest.g:3238:2: ( rule__TestConfiguration__Group_4__0 )?
+            // InternalEduTest.g:3451:1: ( ( rule__TestConfiguration__Group_4__0 )? )
+            // InternalEduTest.g:3452:2: ( rule__TestConfiguration__Group_4__0 )?
             {
              before(grammarAccess.getTestConfigurationAccess().getGroup_4()); 
-            // InternalEduTest.g:3239:2: ( rule__TestConfiguration__Group_4__0 )?
-            int alt37=2;
-            int LA37_0 = input.LA(1);
+            // InternalEduTest.g:3453:2: ( rule__TestConfiguration__Group_4__0 )?
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA37_0==26) ) {
-                int LA37_1 = input.LA(2);
+            if ( (LA38_0==28) ) {
+                int LA38_1 = input.LA(2);
 
-                if ( (LA37_1==37) ) {
-                    alt37=1;
+                if ( (LA38_1==39) ) {
+                    alt38=1;
                 }
             }
-            switch (alt37) {
+            switch (alt38) {
                 case 1 :
-                    // InternalEduTest.g:3239:3: rule__TestConfiguration__Group_4__0
+                    // InternalEduTest.g:3453:3: rule__TestConfiguration__Group_4__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__TestConfiguration__Group_4__0();
@@ -10187,16 +10832,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__5"
-    // InternalEduTest.g:3247:1: rule__TestConfiguration__Group__5 : rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6 ;
+    // InternalEduTest.g:3461:1: rule__TestConfiguration__Group__5 : rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6 ;
     public final void rule__TestConfiguration__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3251:1: ( rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6 )
-            // InternalEduTest.g:3252:2: rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6
+            // InternalEduTest.g:3465:1: ( rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6 )
+            // InternalEduTest.g:3466:2: rule__TestConfiguration__Group__5__Impl rule__TestConfiguration__Group__6
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__TestConfiguration__Group__5__Impl();
 
             state._fsp--;
@@ -10225,33 +10870,33 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__5__Impl"
-    // InternalEduTest.g:3259:1: rule__TestConfiguration__Group__5__Impl : ( ( rule__TestConfiguration__Group_5__0 )? ) ;
+    // InternalEduTest.g:3473:1: rule__TestConfiguration__Group__5__Impl : ( ( rule__TestConfiguration__Group_5__0 )? ) ;
     public final void rule__TestConfiguration__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3263:1: ( ( ( rule__TestConfiguration__Group_5__0 )? ) )
-            // InternalEduTest.g:3264:1: ( ( rule__TestConfiguration__Group_5__0 )? )
+            // InternalEduTest.g:3477:1: ( ( ( rule__TestConfiguration__Group_5__0 )? ) )
+            // InternalEduTest.g:3478:1: ( ( rule__TestConfiguration__Group_5__0 )? )
             {
-            // InternalEduTest.g:3264:1: ( ( rule__TestConfiguration__Group_5__0 )? )
-            // InternalEduTest.g:3265:2: ( rule__TestConfiguration__Group_5__0 )?
+            // InternalEduTest.g:3478:1: ( ( rule__TestConfiguration__Group_5__0 )? )
+            // InternalEduTest.g:3479:2: ( rule__TestConfiguration__Group_5__0 )?
             {
              before(grammarAccess.getTestConfigurationAccess().getGroup_5()); 
-            // InternalEduTest.g:3266:2: ( rule__TestConfiguration__Group_5__0 )?
-            int alt38=2;
-            int LA38_0 = input.LA(1);
+            // InternalEduTest.g:3480:2: ( rule__TestConfiguration__Group_5__0 )?
+            int alt39=2;
+            int LA39_0 = input.LA(1);
 
-            if ( (LA38_0==26) ) {
-                int LA38_1 = input.LA(2);
+            if ( (LA39_0==28) ) {
+                int LA39_1 = input.LA(2);
 
-                if ( (LA38_1==38) ) {
-                    alt38=1;
+                if ( (LA39_1==40) ) {
+                    alt39=1;
                 }
             }
-            switch (alt38) {
+            switch (alt39) {
                 case 1 :
-                    // InternalEduTest.g:3266:3: rule__TestConfiguration__Group_5__0
+                    // InternalEduTest.g:3480:3: rule__TestConfiguration__Group_5__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__TestConfiguration__Group_5__0();
@@ -10287,14 +10932,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__6"
-    // InternalEduTest.g:3274:1: rule__TestConfiguration__Group__6 : rule__TestConfiguration__Group__6__Impl ;
+    // InternalEduTest.g:3488:1: rule__TestConfiguration__Group__6 : rule__TestConfiguration__Group__6__Impl ;
     public final void rule__TestConfiguration__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3278:1: ( rule__TestConfiguration__Group__6__Impl )
-            // InternalEduTest.g:3279:2: rule__TestConfiguration__Group__6__Impl
+            // InternalEduTest.g:3492:1: ( rule__TestConfiguration__Group__6__Impl )
+            // InternalEduTest.g:3493:2: rule__TestConfiguration__Group__6__Impl
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__Group__6__Impl();
@@ -10320,29 +10965,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group__6__Impl"
-    // InternalEduTest.g:3285:1: rule__TestConfiguration__Group__6__Impl : ( ( rule__TestConfiguration__Group_6__0 )? ) ;
+    // InternalEduTest.g:3499:1: rule__TestConfiguration__Group__6__Impl : ( ( rule__TestConfiguration__Group_6__0 )? ) ;
     public final void rule__TestConfiguration__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3289:1: ( ( ( rule__TestConfiguration__Group_6__0 )? ) )
-            // InternalEduTest.g:3290:1: ( ( rule__TestConfiguration__Group_6__0 )? )
+            // InternalEduTest.g:3503:1: ( ( ( rule__TestConfiguration__Group_6__0 )? ) )
+            // InternalEduTest.g:3504:1: ( ( rule__TestConfiguration__Group_6__0 )? )
             {
-            // InternalEduTest.g:3290:1: ( ( rule__TestConfiguration__Group_6__0 )? )
-            // InternalEduTest.g:3291:2: ( rule__TestConfiguration__Group_6__0 )?
+            // InternalEduTest.g:3504:1: ( ( rule__TestConfiguration__Group_6__0 )? )
+            // InternalEduTest.g:3505:2: ( rule__TestConfiguration__Group_6__0 )?
             {
              before(grammarAccess.getTestConfigurationAccess().getGroup_6()); 
-            // InternalEduTest.g:3292:2: ( rule__TestConfiguration__Group_6__0 )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // InternalEduTest.g:3506:2: ( rule__TestConfiguration__Group_6__0 )?
+            int alt40=2;
+            int LA40_0 = input.LA(1);
 
-            if ( (LA39_0==26) ) {
-                alt39=1;
+            if ( (LA40_0==28) ) {
+                alt40=1;
             }
-            switch (alt39) {
+            switch (alt40) {
                 case 1 :
-                    // InternalEduTest.g:3292:3: rule__TestConfiguration__Group_6__0
+                    // InternalEduTest.g:3506:3: rule__TestConfiguration__Group_6__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__TestConfiguration__Group_6__0();
@@ -10378,16 +11023,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__0"
-    // InternalEduTest.g:3301:1: rule__TestConfiguration__Group_4__0 : rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1 ;
+    // InternalEduTest.g:3515:1: rule__TestConfiguration__Group_4__0 : rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1 ;
     public final void rule__TestConfiguration__Group_4__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3305:1: ( rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1 )
-            // InternalEduTest.g:3306:2: rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1
+            // InternalEduTest.g:3519:1: ( rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1 )
+            // InternalEduTest.g:3520:2: rule__TestConfiguration__Group_4__0__Impl rule__TestConfiguration__Group_4__1
             {
-            pushFollow(FOLLOW_15);
+            pushFollow(FOLLOW_18);
             rule__TestConfiguration__Group_4__0__Impl();
 
             state._fsp--;
@@ -10416,20 +11061,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__0__Impl"
-    // InternalEduTest.g:3313:1: rule__TestConfiguration__Group_4__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:3527:1: rule__TestConfiguration__Group_4__0__Impl : ( ',' ) ;
     public final void rule__TestConfiguration__Group_4__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3317:1: ( ( ',' ) )
-            // InternalEduTest.g:3318:1: ( ',' )
+            // InternalEduTest.g:3531:1: ( ( ',' ) )
+            // InternalEduTest.g:3532:1: ( ',' )
             {
-            // InternalEduTest.g:3318:1: ( ',' )
-            // InternalEduTest.g:3319:2: ','
+            // InternalEduTest.g:3532:1: ( ',' )
+            // InternalEduTest.g:3533:2: ','
             {
              before(grammarAccess.getTestConfigurationAccess().getCommaKeyword_4_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getCommaKeyword_4_0()); 
 
             }
@@ -10453,16 +11098,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__1"
-    // InternalEduTest.g:3328:1: rule__TestConfiguration__Group_4__1 : rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2 ;
+    // InternalEduTest.g:3542:1: rule__TestConfiguration__Group_4__1 : rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2 ;
     public final void rule__TestConfiguration__Group_4__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3332:1: ( rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2 )
-            // InternalEduTest.g:3333:2: rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2
+            // InternalEduTest.g:3546:1: ( rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2 )
+            // InternalEduTest.g:3547:2: rule__TestConfiguration__Group_4__1__Impl rule__TestConfiguration__Group_4__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__TestConfiguration__Group_4__1__Impl();
 
             state._fsp--;
@@ -10491,20 +11136,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__1__Impl"
-    // InternalEduTest.g:3340:1: rule__TestConfiguration__Group_4__1__Impl : ( 'mode' ) ;
+    // InternalEduTest.g:3554:1: rule__TestConfiguration__Group_4__1__Impl : ( 'mode' ) ;
     public final void rule__TestConfiguration__Group_4__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3344:1: ( ( 'mode' ) )
-            // InternalEduTest.g:3345:1: ( 'mode' )
+            // InternalEduTest.g:3558:1: ( ( 'mode' ) )
+            // InternalEduTest.g:3559:1: ( 'mode' )
             {
-            // InternalEduTest.g:3345:1: ( 'mode' )
-            // InternalEduTest.g:3346:2: 'mode'
+            // InternalEduTest.g:3559:1: ( 'mode' )
+            // InternalEduTest.g:3560:2: 'mode'
             {
              before(grammarAccess.getTestConfigurationAccess().getModeKeyword_4_1()); 
-            match(input,37,FOLLOW_2); 
+            match(input,39,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getModeKeyword_4_1()); 
 
             }
@@ -10528,16 +11173,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__2"
-    // InternalEduTest.g:3355:1: rule__TestConfiguration__Group_4__2 : rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3 ;
+    // InternalEduTest.g:3569:1: rule__TestConfiguration__Group_4__2 : rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3 ;
     public final void rule__TestConfiguration__Group_4__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3359:1: ( rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3 )
-            // InternalEduTest.g:3360:2: rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3
+            // InternalEduTest.g:3573:1: ( rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3 )
+            // InternalEduTest.g:3574:2: rule__TestConfiguration__Group_4__2__Impl rule__TestConfiguration__Group_4__3
             {
-            pushFollow(FOLLOW_16);
+            pushFollow(FOLLOW_19);
             rule__TestConfiguration__Group_4__2__Impl();
 
             state._fsp--;
@@ -10566,20 +11211,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__2__Impl"
-    // InternalEduTest.g:3367:1: rule__TestConfiguration__Group_4__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:3581:1: rule__TestConfiguration__Group_4__2__Impl : ( '=' ) ;
     public final void rule__TestConfiguration__Group_4__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3371:1: ( ( '=' ) )
-            // InternalEduTest.g:3372:1: ( '=' )
+            // InternalEduTest.g:3585:1: ( ( '=' ) )
+            // InternalEduTest.g:3586:1: ( '=' )
             {
-            // InternalEduTest.g:3372:1: ( '=' )
-            // InternalEduTest.g:3373:2: '='
+            // InternalEduTest.g:3586:1: ( '=' )
+            // InternalEduTest.g:3587:2: '='
             {
              before(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_4_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_4_2()); 
 
             }
@@ -10603,14 +11248,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__3"
-    // InternalEduTest.g:3382:1: rule__TestConfiguration__Group_4__3 : rule__TestConfiguration__Group_4__3__Impl ;
+    // InternalEduTest.g:3596:1: rule__TestConfiguration__Group_4__3 : rule__TestConfiguration__Group_4__3__Impl ;
     public final void rule__TestConfiguration__Group_4__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3386:1: ( rule__TestConfiguration__Group_4__3__Impl )
-            // InternalEduTest.g:3387:2: rule__TestConfiguration__Group_4__3__Impl
+            // InternalEduTest.g:3600:1: ( rule__TestConfiguration__Group_4__3__Impl )
+            // InternalEduTest.g:3601:2: rule__TestConfiguration__Group_4__3__Impl
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__Group_4__3__Impl();
@@ -10636,21 +11281,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_4__3__Impl"
-    // InternalEduTest.g:3393:1: rule__TestConfiguration__Group_4__3__Impl : ( ( rule__TestConfiguration__ModeAssignment_4_3 ) ) ;
+    // InternalEduTest.g:3607:1: rule__TestConfiguration__Group_4__3__Impl : ( ( rule__TestConfiguration__ModeAssignment_4_3 ) ) ;
     public final void rule__TestConfiguration__Group_4__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3397:1: ( ( ( rule__TestConfiguration__ModeAssignment_4_3 ) ) )
-            // InternalEduTest.g:3398:1: ( ( rule__TestConfiguration__ModeAssignment_4_3 ) )
+            // InternalEduTest.g:3611:1: ( ( ( rule__TestConfiguration__ModeAssignment_4_3 ) ) )
+            // InternalEduTest.g:3612:1: ( ( rule__TestConfiguration__ModeAssignment_4_3 ) )
             {
-            // InternalEduTest.g:3398:1: ( ( rule__TestConfiguration__ModeAssignment_4_3 ) )
-            // InternalEduTest.g:3399:2: ( rule__TestConfiguration__ModeAssignment_4_3 )
+            // InternalEduTest.g:3612:1: ( ( rule__TestConfiguration__ModeAssignment_4_3 ) )
+            // InternalEduTest.g:3613:2: ( rule__TestConfiguration__ModeAssignment_4_3 )
             {
              before(grammarAccess.getTestConfigurationAccess().getModeAssignment_4_3()); 
-            // InternalEduTest.g:3400:2: ( rule__TestConfiguration__ModeAssignment_4_3 )
-            // InternalEduTest.g:3400:3: rule__TestConfiguration__ModeAssignment_4_3
+            // InternalEduTest.g:3614:2: ( rule__TestConfiguration__ModeAssignment_4_3 )
+            // InternalEduTest.g:3614:3: rule__TestConfiguration__ModeAssignment_4_3
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__ModeAssignment_4_3();
@@ -10683,16 +11328,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__0"
-    // InternalEduTest.g:3409:1: rule__TestConfiguration__Group_5__0 : rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1 ;
+    // InternalEduTest.g:3623:1: rule__TestConfiguration__Group_5__0 : rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1 ;
     public final void rule__TestConfiguration__Group_5__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3413:1: ( rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1 )
-            // InternalEduTest.g:3414:2: rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1
+            // InternalEduTest.g:3627:1: ( rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1 )
+            // InternalEduTest.g:3628:2: rule__TestConfiguration__Group_5__0__Impl rule__TestConfiguration__Group_5__1
             {
-            pushFollow(FOLLOW_17);
+            pushFollow(FOLLOW_20);
             rule__TestConfiguration__Group_5__0__Impl();
 
             state._fsp--;
@@ -10721,20 +11366,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__0__Impl"
-    // InternalEduTest.g:3421:1: rule__TestConfiguration__Group_5__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:3635:1: rule__TestConfiguration__Group_5__0__Impl : ( ',' ) ;
     public final void rule__TestConfiguration__Group_5__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3425:1: ( ( ',' ) )
-            // InternalEduTest.g:3426:1: ( ',' )
+            // InternalEduTest.g:3639:1: ( ( ',' ) )
+            // InternalEduTest.g:3640:1: ( ',' )
             {
-            // InternalEduTest.g:3426:1: ( ',' )
-            // InternalEduTest.g:3427:2: ','
+            // InternalEduTest.g:3640:1: ( ',' )
+            // InternalEduTest.g:3641:2: ','
             {
              before(grammarAccess.getTestConfigurationAccess().getCommaKeyword_5_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getCommaKeyword_5_0()); 
 
             }
@@ -10758,16 +11403,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__1"
-    // InternalEduTest.g:3436:1: rule__TestConfiguration__Group_5__1 : rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2 ;
+    // InternalEduTest.g:3650:1: rule__TestConfiguration__Group_5__1 : rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2 ;
     public final void rule__TestConfiguration__Group_5__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3440:1: ( rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2 )
-            // InternalEduTest.g:3441:2: rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2
+            // InternalEduTest.g:3654:1: ( rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2 )
+            // InternalEduTest.g:3655:2: rule__TestConfiguration__Group_5__1__Impl rule__TestConfiguration__Group_5__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__TestConfiguration__Group_5__1__Impl();
 
             state._fsp--;
@@ -10796,20 +11441,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__1__Impl"
-    // InternalEduTest.g:3448:1: rule__TestConfiguration__Group_5__1__Impl : ( 'statement' ) ;
+    // InternalEduTest.g:3662:1: rule__TestConfiguration__Group_5__1__Impl : ( 'statement' ) ;
     public final void rule__TestConfiguration__Group_5__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3452:1: ( ( 'statement' ) )
-            // InternalEduTest.g:3453:1: ( 'statement' )
+            // InternalEduTest.g:3666:1: ( ( 'statement' ) )
+            // InternalEduTest.g:3667:1: ( 'statement' )
             {
-            // InternalEduTest.g:3453:1: ( 'statement' )
-            // InternalEduTest.g:3454:2: 'statement'
+            // InternalEduTest.g:3667:1: ( 'statement' )
+            // InternalEduTest.g:3668:2: 'statement'
             {
              before(grammarAccess.getTestConfigurationAccess().getStatementKeyword_5_1()); 
-            match(input,38,FOLLOW_2); 
+            match(input,40,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getStatementKeyword_5_1()); 
 
             }
@@ -10833,16 +11478,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__2"
-    // InternalEduTest.g:3463:1: rule__TestConfiguration__Group_5__2 : rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3 ;
+    // InternalEduTest.g:3677:1: rule__TestConfiguration__Group_5__2 : rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3 ;
     public final void rule__TestConfiguration__Group_5__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3467:1: ( rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3 )
-            // InternalEduTest.g:3468:2: rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3
+            // InternalEduTest.g:3681:1: ( rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3 )
+            // InternalEduTest.g:3682:2: rule__TestConfiguration__Group_5__2__Impl rule__TestConfiguration__Group_5__3
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_7);
             rule__TestConfiguration__Group_5__2__Impl();
 
             state._fsp--;
@@ -10871,20 +11516,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__2__Impl"
-    // InternalEduTest.g:3475:1: rule__TestConfiguration__Group_5__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:3689:1: rule__TestConfiguration__Group_5__2__Impl : ( '=' ) ;
     public final void rule__TestConfiguration__Group_5__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3479:1: ( ( '=' ) )
-            // InternalEduTest.g:3480:1: ( '=' )
+            // InternalEduTest.g:3693:1: ( ( '=' ) )
+            // InternalEduTest.g:3694:1: ( '=' )
             {
-            // InternalEduTest.g:3480:1: ( '=' )
-            // InternalEduTest.g:3481:2: '='
+            // InternalEduTest.g:3694:1: ( '=' )
+            // InternalEduTest.g:3695:2: '='
             {
              before(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_5_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_5_2()); 
 
             }
@@ -10908,22 +11553,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__3"
-    // InternalEduTest.g:3490:1: rule__TestConfiguration__Group_5__3 : rule__TestConfiguration__Group_5__3__Impl rule__TestConfiguration__Group_5__4 ;
+    // InternalEduTest.g:3704:1: rule__TestConfiguration__Group_5__3 : rule__TestConfiguration__Group_5__3__Impl ;
     public final void rule__TestConfiguration__Group_5__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3494:1: ( rule__TestConfiguration__Group_5__3__Impl rule__TestConfiguration__Group_5__4 )
-            // InternalEduTest.g:3495:2: rule__TestConfiguration__Group_5__3__Impl rule__TestConfiguration__Group_5__4
+            // InternalEduTest.g:3708:1: ( rule__TestConfiguration__Group_5__3__Impl )
+            // InternalEduTest.g:3709:2: rule__TestConfiguration__Group_5__3__Impl
             {
-            pushFollow(FOLLOW_19);
-            rule__TestConfiguration__Group_5__3__Impl();
-
-            state._fsp--;
-
             pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_5__4();
+            rule__TestConfiguration__Group_5__3__Impl();
 
             state._fsp--;
 
@@ -10946,21 +11586,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_5__3__Impl"
-    // InternalEduTest.g:3502:1: rule__TestConfiguration__Group_5__3__Impl : ( '(' ) ;
+    // InternalEduTest.g:3715:1: rule__TestConfiguration__Group_5__3__Impl : ( ( rule__TestConfiguration__StatementAssignment_5_3 ) ) ;
     public final void rule__TestConfiguration__Group_5__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3506:1: ( ( '(' ) )
-            // InternalEduTest.g:3507:1: ( '(' )
+            // InternalEduTest.g:3719:1: ( ( ( rule__TestConfiguration__StatementAssignment_5_3 ) ) )
+            // InternalEduTest.g:3720:1: ( ( rule__TestConfiguration__StatementAssignment_5_3 ) )
             {
-            // InternalEduTest.g:3507:1: ( '(' )
-            // InternalEduTest.g:3508:2: '('
+            // InternalEduTest.g:3720:1: ( ( rule__TestConfiguration__StatementAssignment_5_3 ) )
+            // InternalEduTest.g:3721:2: ( rule__TestConfiguration__StatementAssignment_5_3 )
             {
-             before(grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_5_3()); 
-            match(input,39,FOLLOW_2); 
-             after(grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_5_3()); 
+             before(grammarAccess.getTestConfigurationAccess().getStatementAssignment_5_3()); 
+            // InternalEduTest.g:3722:2: ( rule__TestConfiguration__StatementAssignment_5_3 )
+            // InternalEduTest.g:3722:3: rule__TestConfiguration__StatementAssignment_5_3
+            {
+            pushFollow(FOLLOW_2);
+            rule__TestConfiguration__StatementAssignment_5_3();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getTestConfigurationAccess().getStatementAssignment_5_3()); 
 
             }
 
@@ -10982,170 +11632,15 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TestConfiguration__Group_5__3__Impl"
 
 
-    // $ANTLR start "rule__TestConfiguration__Group_5__4"
-    // InternalEduTest.g:3517:1: rule__TestConfiguration__Group_5__4 : rule__TestConfiguration__Group_5__4__Impl rule__TestConfiguration__Group_5__5 ;
-    public final void rule__TestConfiguration__Group_5__4() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3521:1: ( rule__TestConfiguration__Group_5__4__Impl rule__TestConfiguration__Group_5__5 )
-            // InternalEduTest.g:3522:2: rule__TestConfiguration__Group_5__4__Impl rule__TestConfiguration__Group_5__5
-            {
-            pushFollow(FOLLOW_20);
-            rule__TestConfiguration__Group_5__4__Impl();
-
-            state._fsp--;
-
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_5__5();
-
-            state._fsp--;
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_5__4"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_5__4__Impl"
-    // InternalEduTest.g:3529:1: rule__TestConfiguration__Group_5__4__Impl : ( ( rule__TestConfiguration__StatementAssignment_5_4 ) ) ;
-    public final void rule__TestConfiguration__Group_5__4__Impl() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3533:1: ( ( ( rule__TestConfiguration__StatementAssignment_5_4 ) ) )
-            // InternalEduTest.g:3534:1: ( ( rule__TestConfiguration__StatementAssignment_5_4 ) )
-            {
-            // InternalEduTest.g:3534:1: ( ( rule__TestConfiguration__StatementAssignment_5_4 ) )
-            // InternalEduTest.g:3535:2: ( rule__TestConfiguration__StatementAssignment_5_4 )
-            {
-             before(grammarAccess.getTestConfigurationAccess().getStatementAssignment_5_4()); 
-            // InternalEduTest.g:3536:2: ( rule__TestConfiguration__StatementAssignment_5_4 )
-            // InternalEduTest.g:3536:3: rule__TestConfiguration__StatementAssignment_5_4
-            {
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__StatementAssignment_5_4();
-
-            state._fsp--;
-
-
-            }
-
-             after(grammarAccess.getTestConfigurationAccess().getStatementAssignment_5_4()); 
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_5__4__Impl"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_5__5"
-    // InternalEduTest.g:3544:1: rule__TestConfiguration__Group_5__5 : rule__TestConfiguration__Group_5__5__Impl ;
-    public final void rule__TestConfiguration__Group_5__5() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3548:1: ( rule__TestConfiguration__Group_5__5__Impl )
-            // InternalEduTest.g:3549:2: rule__TestConfiguration__Group_5__5__Impl
-            {
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_5__5__Impl();
-
-            state._fsp--;
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_5__5"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_5__5__Impl"
-    // InternalEduTest.g:3555:1: rule__TestConfiguration__Group_5__5__Impl : ( ')' ) ;
-    public final void rule__TestConfiguration__Group_5__5__Impl() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3559:1: ( ( ')' ) )
-            // InternalEduTest.g:3560:1: ( ')' )
-            {
-            // InternalEduTest.g:3560:1: ( ')' )
-            // InternalEduTest.g:3561:2: ')'
-            {
-             before(grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_5_5()); 
-            match(input,40,FOLLOW_2); 
-             after(grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_5_5()); 
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_5__5__Impl"
-
-
     // $ANTLR start "rule__TestConfiguration__Group_6__0"
-    // InternalEduTest.g:3571:1: rule__TestConfiguration__Group_6__0 : rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1 ;
+    // InternalEduTest.g:3731:1: rule__TestConfiguration__Group_6__0 : rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1 ;
     public final void rule__TestConfiguration__Group_6__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3575:1: ( rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1 )
-            // InternalEduTest.g:3576:2: rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1
+            // InternalEduTest.g:3735:1: ( rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1 )
+            // InternalEduTest.g:3736:2: rule__TestConfiguration__Group_6__0__Impl rule__TestConfiguration__Group_6__1
             {
             pushFollow(FOLLOW_21);
             rule__TestConfiguration__Group_6__0__Impl();
@@ -11176,20 +11671,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__0__Impl"
-    // InternalEduTest.g:3583:1: rule__TestConfiguration__Group_6__0__Impl : ( ',' ) ;
+    // InternalEduTest.g:3743:1: rule__TestConfiguration__Group_6__0__Impl : ( ',' ) ;
     public final void rule__TestConfiguration__Group_6__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3587:1: ( ( ',' ) )
-            // InternalEduTest.g:3588:1: ( ',' )
+            // InternalEduTest.g:3747:1: ( ( ',' ) )
+            // InternalEduTest.g:3748:1: ( ',' )
             {
-            // InternalEduTest.g:3588:1: ( ',' )
-            // InternalEduTest.g:3589:2: ','
+            // InternalEduTest.g:3748:1: ( ',' )
+            // InternalEduTest.g:3749:2: ','
             {
              before(grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0()); 
 
             }
@@ -11213,16 +11708,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__1"
-    // InternalEduTest.g:3598:1: rule__TestConfiguration__Group_6__1 : rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2 ;
+    // InternalEduTest.g:3758:1: rule__TestConfiguration__Group_6__1 : rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2 ;
     public final void rule__TestConfiguration__Group_6__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3602:1: ( rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2 )
-            // InternalEduTest.g:3603:2: rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2
+            // InternalEduTest.g:3762:1: ( rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2 )
+            // InternalEduTest.g:3763:2: rule__TestConfiguration__Group_6__1__Impl rule__TestConfiguration__Group_6__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__TestConfiguration__Group_6__1__Impl();
 
             state._fsp--;
@@ -11251,17 +11746,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__1__Impl"
-    // InternalEduTest.g:3610:1: rule__TestConfiguration__Group_6__1__Impl : ( 'answers' ) ;
+    // InternalEduTest.g:3770:1: rule__TestConfiguration__Group_6__1__Impl : ( 'answers' ) ;
     public final void rule__TestConfiguration__Group_6__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3614:1: ( ( 'answers' ) )
-            // InternalEduTest.g:3615:1: ( 'answers' )
+            // InternalEduTest.g:3774:1: ( ( 'answers' ) )
+            // InternalEduTest.g:3775:1: ( 'answers' )
             {
-            // InternalEduTest.g:3615:1: ( 'answers' )
-            // InternalEduTest.g:3616:2: 'answers'
+            // InternalEduTest.g:3775:1: ( 'answers' )
+            // InternalEduTest.g:3776:2: 'answers'
             {
              before(grammarAccess.getTestConfigurationAccess().getAnswersKeyword_6_1()); 
             match(input,41,FOLLOW_2); 
@@ -11288,16 +11783,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__2"
-    // InternalEduTest.g:3625:1: rule__TestConfiguration__Group_6__2 : rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3 ;
+    // InternalEduTest.g:3785:1: rule__TestConfiguration__Group_6__2 : rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3 ;
     public final void rule__TestConfiguration__Group_6__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3629:1: ( rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3 )
-            // InternalEduTest.g:3630:2: rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3
+            // InternalEduTest.g:3789:1: ( rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3 )
+            // InternalEduTest.g:3790:2: rule__TestConfiguration__Group_6__2__Impl rule__TestConfiguration__Group_6__3
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_7);
             rule__TestConfiguration__Group_6__2__Impl();
 
             state._fsp--;
@@ -11326,20 +11821,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__2__Impl"
-    // InternalEduTest.g:3637:1: rule__TestConfiguration__Group_6__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:3797:1: rule__TestConfiguration__Group_6__2__Impl : ( '=' ) ;
     public final void rule__TestConfiguration__Group_6__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3641:1: ( ( '=' ) )
-            // InternalEduTest.g:3642:1: ( '=' )
+            // InternalEduTest.g:3801:1: ( ( '=' ) )
+            // InternalEduTest.g:3802:1: ( '=' )
             {
-            // InternalEduTest.g:3642:1: ( '=' )
-            // InternalEduTest.g:3643:2: '='
+            // InternalEduTest.g:3802:1: ( '=' )
+            // InternalEduTest.g:3803:2: '='
             {
              before(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2()); 
 
             }
@@ -11363,22 +11858,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__3"
-    // InternalEduTest.g:3652:1: rule__TestConfiguration__Group_6__3 : rule__TestConfiguration__Group_6__3__Impl rule__TestConfiguration__Group_6__4 ;
+    // InternalEduTest.g:3812:1: rule__TestConfiguration__Group_6__3 : rule__TestConfiguration__Group_6__3__Impl ;
     public final void rule__TestConfiguration__Group_6__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3656:1: ( rule__TestConfiguration__Group_6__3__Impl rule__TestConfiguration__Group_6__4 )
-            // InternalEduTest.g:3657:2: rule__TestConfiguration__Group_6__3__Impl rule__TestConfiguration__Group_6__4
+            // InternalEduTest.g:3816:1: ( rule__TestConfiguration__Group_6__3__Impl )
+            // InternalEduTest.g:3817:2: rule__TestConfiguration__Group_6__3__Impl
             {
-            pushFollow(FOLLOW_19);
-            rule__TestConfiguration__Group_6__3__Impl();
-
-            state._fsp--;
-
             pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_6__4();
+            rule__TestConfiguration__Group_6__3__Impl();
 
             state._fsp--;
 
@@ -11401,21 +11891,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__Group_6__3__Impl"
-    // InternalEduTest.g:3664:1: rule__TestConfiguration__Group_6__3__Impl : ( '(' ) ;
+    // InternalEduTest.g:3823:1: rule__TestConfiguration__Group_6__3__Impl : ( ( rule__TestConfiguration__AnswersAssignment_6_3 ) ) ;
     public final void rule__TestConfiguration__Group_6__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3668:1: ( ( '(' ) )
-            // InternalEduTest.g:3669:1: ( '(' )
+            // InternalEduTest.g:3827:1: ( ( ( rule__TestConfiguration__AnswersAssignment_6_3 ) ) )
+            // InternalEduTest.g:3828:1: ( ( rule__TestConfiguration__AnswersAssignment_6_3 ) )
             {
-            // InternalEduTest.g:3669:1: ( '(' )
-            // InternalEduTest.g:3670:2: '('
+            // InternalEduTest.g:3828:1: ( ( rule__TestConfiguration__AnswersAssignment_6_3 ) )
+            // InternalEduTest.g:3829:2: ( rule__TestConfiguration__AnswersAssignment_6_3 )
             {
-             before(grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_6_3()); 
-            match(input,39,FOLLOW_2); 
-             after(grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_6_3()); 
+             before(grammarAccess.getTestConfigurationAccess().getAnswersAssignment_6_3()); 
+            // InternalEduTest.g:3830:2: ( rule__TestConfiguration__AnswersAssignment_6_3 )
+            // InternalEduTest.g:3830:3: rule__TestConfiguration__AnswersAssignment_6_3
+            {
+            pushFollow(FOLLOW_2);
+            rule__TestConfiguration__AnswersAssignment_6_3();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getTestConfigurationAccess().getAnswersAssignment_6_3()); 
 
             }
 
@@ -11437,172 +11937,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TestConfiguration__Group_6__3__Impl"
 
 
-    // $ANTLR start "rule__TestConfiguration__Group_6__4"
-    // InternalEduTest.g:3679:1: rule__TestConfiguration__Group_6__4 : rule__TestConfiguration__Group_6__4__Impl rule__TestConfiguration__Group_6__5 ;
-    public final void rule__TestConfiguration__Group_6__4() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3683:1: ( rule__TestConfiguration__Group_6__4__Impl rule__TestConfiguration__Group_6__5 )
-            // InternalEduTest.g:3684:2: rule__TestConfiguration__Group_6__4__Impl rule__TestConfiguration__Group_6__5
-            {
-            pushFollow(FOLLOW_20);
-            rule__TestConfiguration__Group_6__4__Impl();
-
-            state._fsp--;
-
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_6__5();
-
-            state._fsp--;
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_6__4"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_6__4__Impl"
-    // InternalEduTest.g:3691:1: rule__TestConfiguration__Group_6__4__Impl : ( ( rule__TestConfiguration__AnswersAssignment_6_4 ) ) ;
-    public final void rule__TestConfiguration__Group_6__4__Impl() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3695:1: ( ( ( rule__TestConfiguration__AnswersAssignment_6_4 ) ) )
-            // InternalEduTest.g:3696:1: ( ( rule__TestConfiguration__AnswersAssignment_6_4 ) )
-            {
-            // InternalEduTest.g:3696:1: ( ( rule__TestConfiguration__AnswersAssignment_6_4 ) )
-            // InternalEduTest.g:3697:2: ( rule__TestConfiguration__AnswersAssignment_6_4 )
-            {
-             before(grammarAccess.getTestConfigurationAccess().getAnswersAssignment_6_4()); 
-            // InternalEduTest.g:3698:2: ( rule__TestConfiguration__AnswersAssignment_6_4 )
-            // InternalEduTest.g:3698:3: rule__TestConfiguration__AnswersAssignment_6_4
-            {
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__AnswersAssignment_6_4();
-
-            state._fsp--;
-
-
-            }
-
-             after(grammarAccess.getTestConfigurationAccess().getAnswersAssignment_6_4()); 
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_6__4__Impl"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_6__5"
-    // InternalEduTest.g:3706:1: rule__TestConfiguration__Group_6__5 : rule__TestConfiguration__Group_6__5__Impl ;
-    public final void rule__TestConfiguration__Group_6__5() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3710:1: ( rule__TestConfiguration__Group_6__5__Impl )
-            // InternalEduTest.g:3711:2: rule__TestConfiguration__Group_6__5__Impl
-            {
-            pushFollow(FOLLOW_2);
-            rule__TestConfiguration__Group_6__5__Impl();
-
-            state._fsp--;
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_6__5"
-
-
-    // $ANTLR start "rule__TestConfiguration__Group_6__5__Impl"
-    // InternalEduTest.g:3717:1: rule__TestConfiguration__Group_6__5__Impl : ( ')' ) ;
-    public final void rule__TestConfiguration__Group_6__5__Impl() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-        	
-        try {
-            // InternalEduTest.g:3721:1: ( ( ')' ) )
-            // InternalEduTest.g:3722:1: ( ')' )
-            {
-            // InternalEduTest.g:3722:1: ( ')' )
-            // InternalEduTest.g:3723:2: ')'
-            {
-             before(grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_6_5()); 
-            match(input,40,FOLLOW_2); 
-             after(grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_6_5()); 
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__TestConfiguration__Group_6__5__Impl"
-
-
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__0"
-    // InternalEduTest.g:3733:1: rule__MultiChoiceEmConfig__Group__0 : rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1 ;
+    // InternalEduTest.g:3839:1: rule__MultiChoiceEmConfig__Group__0 : rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1 ;
     public final void rule__MultiChoiceEmConfig__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3737:1: ( rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1 )
-            // InternalEduTest.g:3738:2: rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1
+            // InternalEduTest.g:3843:1: ( rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1 )
+            // InternalEduTest.g:3844:2: rule__MultiChoiceEmConfig__Group__0__Impl rule__MultiChoiceEmConfig__Group__1
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__MultiChoiceEmConfig__Group__0__Impl();
 
             state._fsp--;
@@ -11631,21 +11976,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__0__Impl"
-    // InternalEduTest.g:3745:1: rule__MultiChoiceEmConfig__Group__0__Impl : ( () ) ;
+    // InternalEduTest.g:3851:1: rule__MultiChoiceEmConfig__Group__0__Impl : ( () ) ;
     public final void rule__MultiChoiceEmConfig__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3749:1: ( ( () ) )
-            // InternalEduTest.g:3750:1: ( () )
+            // InternalEduTest.g:3855:1: ( ( () ) )
+            // InternalEduTest.g:3856:1: ( () )
             {
-            // InternalEduTest.g:3750:1: ( () )
-            // InternalEduTest.g:3751:2: ()
+            // InternalEduTest.g:3856:1: ( () )
+            // InternalEduTest.g:3857:2: ()
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getMultiChoiceEmConfigAction_0()); 
-            // InternalEduTest.g:3752:2: ()
-            // InternalEduTest.g:3752:3: 
+            // InternalEduTest.g:3858:2: ()
+            // InternalEduTest.g:3858:3: 
             {
             }
 
@@ -11668,16 +12013,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__1"
-    // InternalEduTest.g:3760:1: rule__MultiChoiceEmConfig__Group__1 : rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2 ;
+    // InternalEduTest.g:3866:1: rule__MultiChoiceEmConfig__Group__1 : rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2 ;
     public final void rule__MultiChoiceEmConfig__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3764:1: ( rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2 )
-            // InternalEduTest.g:3765:2: rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2
+            // InternalEduTest.g:3870:1: ( rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2 )
+            // InternalEduTest.g:3871:2: rule__MultiChoiceEmConfig__Group__1__Impl rule__MultiChoiceEmConfig__Group__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__MultiChoiceEmConfig__Group__1__Impl();
 
             state._fsp--;
@@ -11706,20 +12051,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__1__Impl"
-    // InternalEduTest.g:3772:1: rule__MultiChoiceEmConfig__Group__1__Impl : ( 'retry' ) ;
+    // InternalEduTest.g:3878:1: rule__MultiChoiceEmConfig__Group__1__Impl : ( 'retry' ) ;
     public final void rule__MultiChoiceEmConfig__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3776:1: ( ( 'retry' ) )
-            // InternalEduTest.g:3777:1: ( 'retry' )
+            // InternalEduTest.g:3882:1: ( ( 'retry' ) )
+            // InternalEduTest.g:3883:1: ( 'retry' )
             {
-            // InternalEduTest.g:3777:1: ( 'retry' )
-            // InternalEduTest.g:3778:2: 'retry'
+            // InternalEduTest.g:3883:1: ( 'retry' )
+            // InternalEduTest.g:3884:2: 'retry'
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getRetryKeyword_1()); 
-            match(input,36,FOLLOW_2); 
+            match(input,38,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getRetryKeyword_1()); 
 
             }
@@ -11743,16 +12088,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__2"
-    // InternalEduTest.g:3787:1: rule__MultiChoiceEmConfig__Group__2 : rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3 ;
+    // InternalEduTest.g:3893:1: rule__MultiChoiceEmConfig__Group__2 : rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3 ;
     public final void rule__MultiChoiceEmConfig__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3791:1: ( rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3 )
-            // InternalEduTest.g:3792:2: rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3
+            // InternalEduTest.g:3897:1: ( rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3 )
+            // InternalEduTest.g:3898:2: rule__MultiChoiceEmConfig__Group__2__Impl rule__MultiChoiceEmConfig__Group__3
             {
-            pushFollow(FOLLOW_14);
+            pushFollow(FOLLOW_17);
             rule__MultiChoiceEmConfig__Group__2__Impl();
 
             state._fsp--;
@@ -11781,20 +12126,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__2__Impl"
-    // InternalEduTest.g:3799:1: rule__MultiChoiceEmConfig__Group__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:3905:1: rule__MultiChoiceEmConfig__Group__2__Impl : ( '=' ) ;
     public final void rule__MultiChoiceEmConfig__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3803:1: ( ( '=' ) )
-            // InternalEduTest.g:3804:1: ( '=' )
+            // InternalEduTest.g:3909:1: ( ( '=' ) )
+            // InternalEduTest.g:3910:1: ( '=' )
             {
-            // InternalEduTest.g:3804:1: ( '=' )
-            // InternalEduTest.g:3805:2: '='
+            // InternalEduTest.g:3910:1: ( '=' )
+            // InternalEduTest.g:3911:2: '='
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_2()); 
 
             }
@@ -11818,16 +12163,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__3"
-    // InternalEduTest.g:3814:1: rule__MultiChoiceEmConfig__Group__3 : rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4 ;
+    // InternalEduTest.g:3920:1: rule__MultiChoiceEmConfig__Group__3 : rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4 ;
     public final void rule__MultiChoiceEmConfig__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3818:1: ( rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4 )
-            // InternalEduTest.g:3819:2: rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4
+            // InternalEduTest.g:3924:1: ( rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4 )
+            // InternalEduTest.g:3925:2: rule__MultiChoiceEmConfig__Group__3__Impl rule__MultiChoiceEmConfig__Group__4
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceEmConfig__Group__3__Impl();
 
             state._fsp--;
@@ -11856,21 +12201,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__3__Impl"
-    // InternalEduTest.g:3826:1: rule__MultiChoiceEmConfig__Group__3__Impl : ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) ) ;
+    // InternalEduTest.g:3932:1: rule__MultiChoiceEmConfig__Group__3__Impl : ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) ) ;
     public final void rule__MultiChoiceEmConfig__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3830:1: ( ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) ) )
-            // InternalEduTest.g:3831:1: ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) )
+            // InternalEduTest.g:3936:1: ( ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) ) )
+            // InternalEduTest.g:3937:1: ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) )
             {
-            // InternalEduTest.g:3831:1: ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) )
-            // InternalEduTest.g:3832:2: ( rule__MultiChoiceEmConfig__RetryAssignment_3 )
+            // InternalEduTest.g:3937:1: ( ( rule__MultiChoiceEmConfig__RetryAssignment_3 ) )
+            // InternalEduTest.g:3938:2: ( rule__MultiChoiceEmConfig__RetryAssignment_3 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAssignment_3()); 
-            // InternalEduTest.g:3833:2: ( rule__MultiChoiceEmConfig__RetryAssignment_3 )
-            // InternalEduTest.g:3833:3: rule__MultiChoiceEmConfig__RetryAssignment_3
+            // InternalEduTest.g:3939:2: ( rule__MultiChoiceEmConfig__RetryAssignment_3 )
+            // InternalEduTest.g:3939:3: rule__MultiChoiceEmConfig__RetryAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__RetryAssignment_3();
@@ -11903,14 +12248,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__4"
-    // InternalEduTest.g:3841:1: rule__MultiChoiceEmConfig__Group__4 : rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5 ;
+    // InternalEduTest.g:3947:1: rule__MultiChoiceEmConfig__Group__4 : rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5 ;
     public final void rule__MultiChoiceEmConfig__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3845:1: ( rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5 )
-            // InternalEduTest.g:3846:2: rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5
+            // InternalEduTest.g:3951:1: ( rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5 )
+            // InternalEduTest.g:3952:2: rule__MultiChoiceEmConfig__Group__4__Impl rule__MultiChoiceEmConfig__Group__5
             {
             pushFollow(FOLLOW_22);
             rule__MultiChoiceEmConfig__Group__4__Impl();
@@ -11941,20 +12286,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__4__Impl"
-    // InternalEduTest.g:3853:1: rule__MultiChoiceEmConfig__Group__4__Impl : ( ',' ) ;
+    // InternalEduTest.g:3959:1: rule__MultiChoiceEmConfig__Group__4__Impl : ( ',' ) ;
     public final void rule__MultiChoiceEmConfig__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3857:1: ( ( ',' ) )
-            // InternalEduTest.g:3858:1: ( ',' )
+            // InternalEduTest.g:3963:1: ( ( ',' ) )
+            // InternalEduTest.g:3964:1: ( ',' )
             {
-            // InternalEduTest.g:3858:1: ( ',' )
-            // InternalEduTest.g:3859:2: ','
+            // InternalEduTest.g:3964:1: ( ',' )
+            // InternalEduTest.g:3965:2: ','
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_4()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_4()); 
 
             }
@@ -11978,16 +12323,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__5"
-    // InternalEduTest.g:3868:1: rule__MultiChoiceEmConfig__Group__5 : rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6 ;
+    // InternalEduTest.g:3974:1: rule__MultiChoiceEmConfig__Group__5 : rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6 ;
     public final void rule__MultiChoiceEmConfig__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3872:1: ( rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6 )
-            // InternalEduTest.g:3873:2: rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6
+            // InternalEduTest.g:3978:1: ( rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6 )
+            // InternalEduTest.g:3979:2: rule__MultiChoiceEmConfig__Group__5__Impl rule__MultiChoiceEmConfig__Group__6
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__MultiChoiceEmConfig__Group__5__Impl();
 
             state._fsp--;
@@ -12016,17 +12361,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__5__Impl"
-    // InternalEduTest.g:3880:1: rule__MultiChoiceEmConfig__Group__5__Impl : ( 'weighted' ) ;
+    // InternalEduTest.g:3986:1: rule__MultiChoiceEmConfig__Group__5__Impl : ( 'weighted' ) ;
     public final void rule__MultiChoiceEmConfig__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3884:1: ( ( 'weighted' ) )
-            // InternalEduTest.g:3885:1: ( 'weighted' )
+            // InternalEduTest.g:3990:1: ( ( 'weighted' ) )
+            // InternalEduTest.g:3991:1: ( 'weighted' )
             {
-            // InternalEduTest.g:3885:1: ( 'weighted' )
-            // InternalEduTest.g:3886:2: 'weighted'
+            // InternalEduTest.g:3991:1: ( 'weighted' )
+            // InternalEduTest.g:3992:2: 'weighted'
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedKeyword_5()); 
             match(input,42,FOLLOW_2); 
@@ -12053,16 +12398,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__6"
-    // InternalEduTest.g:3895:1: rule__MultiChoiceEmConfig__Group__6 : rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7 ;
+    // InternalEduTest.g:4001:1: rule__MultiChoiceEmConfig__Group__6 : rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7 ;
     public final void rule__MultiChoiceEmConfig__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3899:1: ( rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7 )
-            // InternalEduTest.g:3900:2: rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7
+            // InternalEduTest.g:4005:1: ( rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7 )
+            // InternalEduTest.g:4006:2: rule__MultiChoiceEmConfig__Group__6__Impl rule__MultiChoiceEmConfig__Group__7
             {
-            pushFollow(FOLLOW_14);
+            pushFollow(FOLLOW_17);
             rule__MultiChoiceEmConfig__Group__6__Impl();
 
             state._fsp--;
@@ -12091,20 +12436,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__6__Impl"
-    // InternalEduTest.g:3907:1: rule__MultiChoiceEmConfig__Group__6__Impl : ( '=' ) ;
+    // InternalEduTest.g:4013:1: rule__MultiChoiceEmConfig__Group__6__Impl : ( '=' ) ;
     public final void rule__MultiChoiceEmConfig__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3911:1: ( ( '=' ) )
-            // InternalEduTest.g:3912:1: ( '=' )
+            // InternalEduTest.g:4017:1: ( ( '=' ) )
+            // InternalEduTest.g:4018:1: ( '=' )
             {
-            // InternalEduTest.g:3912:1: ( '=' )
-            // InternalEduTest.g:3913:2: '='
+            // InternalEduTest.g:4018:1: ( '=' )
+            // InternalEduTest.g:4019:2: '='
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_6()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_6()); 
 
             }
@@ -12128,16 +12473,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__7"
-    // InternalEduTest.g:3922:1: rule__MultiChoiceEmConfig__Group__7 : rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8 ;
+    // InternalEduTest.g:4028:1: rule__MultiChoiceEmConfig__Group__7 : rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8 ;
     public final void rule__MultiChoiceEmConfig__Group__7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3926:1: ( rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8 )
-            // InternalEduTest.g:3927:2: rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8
+            // InternalEduTest.g:4032:1: ( rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8 )
+            // InternalEduTest.g:4033:2: rule__MultiChoiceEmConfig__Group__7__Impl rule__MultiChoiceEmConfig__Group__8
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceEmConfig__Group__7__Impl();
 
             state._fsp--;
@@ -12166,21 +12511,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__7__Impl"
-    // InternalEduTest.g:3934:1: rule__MultiChoiceEmConfig__Group__7__Impl : ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) ) ;
+    // InternalEduTest.g:4040:1: rule__MultiChoiceEmConfig__Group__7__Impl : ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) ) ;
     public final void rule__MultiChoiceEmConfig__Group__7__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3938:1: ( ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) ) )
-            // InternalEduTest.g:3939:1: ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) )
+            // InternalEduTest.g:4044:1: ( ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) ) )
+            // InternalEduTest.g:4045:1: ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) )
             {
-            // InternalEduTest.g:3939:1: ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) )
-            // InternalEduTest.g:3940:2: ( rule__MultiChoiceEmConfig__WeightedAssignment_7 )
+            // InternalEduTest.g:4045:1: ( ( rule__MultiChoiceEmConfig__WeightedAssignment_7 ) )
+            // InternalEduTest.g:4046:2: ( rule__MultiChoiceEmConfig__WeightedAssignment_7 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAssignment_7()); 
-            // InternalEduTest.g:3941:2: ( rule__MultiChoiceEmConfig__WeightedAssignment_7 )
-            // InternalEduTest.g:3941:3: rule__MultiChoiceEmConfig__WeightedAssignment_7
+            // InternalEduTest.g:4047:2: ( rule__MultiChoiceEmConfig__WeightedAssignment_7 )
+            // InternalEduTest.g:4047:3: rule__MultiChoiceEmConfig__WeightedAssignment_7
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__WeightedAssignment_7();
@@ -12213,14 +12558,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__8"
-    // InternalEduTest.g:3949:1: rule__MultiChoiceEmConfig__Group__8 : rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9 ;
+    // InternalEduTest.g:4055:1: rule__MultiChoiceEmConfig__Group__8 : rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9 ;
     public final void rule__MultiChoiceEmConfig__Group__8() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3953:1: ( rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9 )
-            // InternalEduTest.g:3954:2: rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9
+            // InternalEduTest.g:4059:1: ( rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9 )
+            // InternalEduTest.g:4060:2: rule__MultiChoiceEmConfig__Group__8__Impl rule__MultiChoiceEmConfig__Group__9
             {
             pushFollow(FOLLOW_23);
             rule__MultiChoiceEmConfig__Group__8__Impl();
@@ -12251,20 +12596,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__8__Impl"
-    // InternalEduTest.g:3961:1: rule__MultiChoiceEmConfig__Group__8__Impl : ( ',' ) ;
+    // InternalEduTest.g:4067:1: rule__MultiChoiceEmConfig__Group__8__Impl : ( ',' ) ;
     public final void rule__MultiChoiceEmConfig__Group__8__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3965:1: ( ( ',' ) )
-            // InternalEduTest.g:3966:1: ( ',' )
+            // InternalEduTest.g:4071:1: ( ( ',' ) )
+            // InternalEduTest.g:4072:1: ( ',' )
             {
-            // InternalEduTest.g:3966:1: ( ',' )
-            // InternalEduTest.g:3967:2: ','
+            // InternalEduTest.g:4072:1: ( ',' )
+            // InternalEduTest.g:4073:2: ','
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_8()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_8()); 
 
             }
@@ -12288,16 +12633,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__9"
-    // InternalEduTest.g:3976:1: rule__MultiChoiceEmConfig__Group__9 : rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10 ;
+    // InternalEduTest.g:4082:1: rule__MultiChoiceEmConfig__Group__9 : rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10 ;
     public final void rule__MultiChoiceEmConfig__Group__9() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3980:1: ( rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10 )
-            // InternalEduTest.g:3981:2: rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10
+            // InternalEduTest.g:4086:1: ( rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10 )
+            // InternalEduTest.g:4087:2: rule__MultiChoiceEmConfig__Group__9__Impl rule__MultiChoiceEmConfig__Group__10
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__MultiChoiceEmConfig__Group__9__Impl();
 
             state._fsp--;
@@ -12326,17 +12671,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__9__Impl"
-    // InternalEduTest.g:3988:1: rule__MultiChoiceEmConfig__Group__9__Impl : ( 'penalty' ) ;
+    // InternalEduTest.g:4094:1: rule__MultiChoiceEmConfig__Group__9__Impl : ( 'penalty' ) ;
     public final void rule__MultiChoiceEmConfig__Group__9__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:3992:1: ( ( 'penalty' ) )
-            // InternalEduTest.g:3993:1: ( 'penalty' )
+            // InternalEduTest.g:4098:1: ( ( 'penalty' ) )
+            // InternalEduTest.g:4099:1: ( 'penalty' )
             {
-            // InternalEduTest.g:3993:1: ( 'penalty' )
-            // InternalEduTest.g:3994:2: 'penalty'
+            // InternalEduTest.g:4099:1: ( 'penalty' )
+            // InternalEduTest.g:4100:2: 'penalty'
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyKeyword_9()); 
             match(input,43,FOLLOW_2); 
@@ -12363,14 +12708,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__10"
-    // InternalEduTest.g:4003:1: rule__MultiChoiceEmConfig__Group__10 : rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11 ;
+    // InternalEduTest.g:4109:1: rule__MultiChoiceEmConfig__Group__10 : rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11 ;
     public final void rule__MultiChoiceEmConfig__Group__10() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4007:1: ( rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11 )
-            // InternalEduTest.g:4008:2: rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11
+            // InternalEduTest.g:4113:1: ( rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11 )
+            // InternalEduTest.g:4114:2: rule__MultiChoiceEmConfig__Group__10__Impl rule__MultiChoiceEmConfig__Group__11
             {
             pushFollow(FOLLOW_24);
             rule__MultiChoiceEmConfig__Group__10__Impl();
@@ -12401,20 +12746,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__10__Impl"
-    // InternalEduTest.g:4015:1: rule__MultiChoiceEmConfig__Group__10__Impl : ( '=' ) ;
+    // InternalEduTest.g:4121:1: rule__MultiChoiceEmConfig__Group__10__Impl : ( '=' ) ;
     public final void rule__MultiChoiceEmConfig__Group__10__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4019:1: ( ( '=' ) )
-            // InternalEduTest.g:4020:1: ( '=' )
+            // InternalEduTest.g:4125:1: ( ( '=' ) )
+            // InternalEduTest.g:4126:1: ( '=' )
             {
-            // InternalEduTest.g:4020:1: ( '=' )
-            // InternalEduTest.g:4021:2: '='
+            // InternalEduTest.g:4126:1: ( '=' )
+            // InternalEduTest.g:4127:2: '='
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_10()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_10()); 
 
             }
@@ -12438,16 +12783,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__11"
-    // InternalEduTest.g:4030:1: rule__MultiChoiceEmConfig__Group__11 : rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12 ;
+    // InternalEduTest.g:4136:1: rule__MultiChoiceEmConfig__Group__11 : rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12 ;
     public final void rule__MultiChoiceEmConfig__Group__11() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4034:1: ( rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12 )
-            // InternalEduTest.g:4035:2: rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12
+            // InternalEduTest.g:4140:1: ( rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12 )
+            // InternalEduTest.g:4141:2: rule__MultiChoiceEmConfig__Group__11__Impl rule__MultiChoiceEmConfig__Group__12
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceEmConfig__Group__11__Impl();
 
             state._fsp--;
@@ -12476,21 +12821,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__11__Impl"
-    // InternalEduTest.g:4042:1: rule__MultiChoiceEmConfig__Group__11__Impl : ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) ) ;
+    // InternalEduTest.g:4148:1: rule__MultiChoiceEmConfig__Group__11__Impl : ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) ) ;
     public final void rule__MultiChoiceEmConfig__Group__11__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4046:1: ( ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) ) )
-            // InternalEduTest.g:4047:1: ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) )
+            // InternalEduTest.g:4152:1: ( ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) ) )
+            // InternalEduTest.g:4153:1: ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) )
             {
-            // InternalEduTest.g:4047:1: ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) )
-            // InternalEduTest.g:4048:2: ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 )
+            // InternalEduTest.g:4153:1: ( ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 ) )
+            // InternalEduTest.g:4154:2: ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyAssignment_11()); 
-            // InternalEduTest.g:4049:2: ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 )
-            // InternalEduTest.g:4049:3: rule__MultiChoiceEmConfig__PenaltyAssignment_11
+            // InternalEduTest.g:4155:2: ( rule__MultiChoiceEmConfig__PenaltyAssignment_11 )
+            // InternalEduTest.g:4155:3: rule__MultiChoiceEmConfig__PenaltyAssignment_11
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__PenaltyAssignment_11();
@@ -12523,14 +12868,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__12"
-    // InternalEduTest.g:4057:1: rule__MultiChoiceEmConfig__Group__12 : rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13 ;
+    // InternalEduTest.g:4163:1: rule__MultiChoiceEmConfig__Group__12 : rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13 ;
     public final void rule__MultiChoiceEmConfig__Group__12() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4061:1: ( rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13 )
-            // InternalEduTest.g:4062:2: rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13
+            // InternalEduTest.g:4167:1: ( rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13 )
+            // InternalEduTest.g:4168:2: rule__MultiChoiceEmConfig__Group__12__Impl rule__MultiChoiceEmConfig__Group__13
             {
             pushFollow(FOLLOW_25);
             rule__MultiChoiceEmConfig__Group__12__Impl();
@@ -12561,20 +12906,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__12__Impl"
-    // InternalEduTest.g:4069:1: rule__MultiChoiceEmConfig__Group__12__Impl : ( ',' ) ;
+    // InternalEduTest.g:4175:1: rule__MultiChoiceEmConfig__Group__12__Impl : ( ',' ) ;
     public final void rule__MultiChoiceEmConfig__Group__12__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4073:1: ( ( ',' ) )
-            // InternalEduTest.g:4074:1: ( ',' )
+            // InternalEduTest.g:4179:1: ( ( ',' ) )
+            // InternalEduTest.g:4180:1: ( ',' )
             {
-            // InternalEduTest.g:4074:1: ( ',' )
-            // InternalEduTest.g:4075:2: ','
+            // InternalEduTest.g:4180:1: ( ',' )
+            // InternalEduTest.g:4181:2: ','
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_12()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_12()); 
 
             }
@@ -12598,16 +12943,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__13"
-    // InternalEduTest.g:4084:1: rule__MultiChoiceEmConfig__Group__13 : rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14 ;
+    // InternalEduTest.g:4190:1: rule__MultiChoiceEmConfig__Group__13 : rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14 ;
     public final void rule__MultiChoiceEmConfig__Group__13() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4088:1: ( rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14 )
-            // InternalEduTest.g:4089:2: rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14
+            // InternalEduTest.g:4194:1: ( rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14 )
+            // InternalEduTest.g:4195:2: rule__MultiChoiceEmConfig__Group__13__Impl rule__MultiChoiceEmConfig__Group__14
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__MultiChoiceEmConfig__Group__13__Impl();
 
             state._fsp--;
@@ -12636,17 +12981,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__13__Impl"
-    // InternalEduTest.g:4096:1: rule__MultiChoiceEmConfig__Group__13__Impl : ( 'order' ) ;
+    // InternalEduTest.g:4202:1: rule__MultiChoiceEmConfig__Group__13__Impl : ( 'order' ) ;
     public final void rule__MultiChoiceEmConfig__Group__13__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4100:1: ( ( 'order' ) )
-            // InternalEduTest.g:4101:1: ( 'order' )
+            // InternalEduTest.g:4206:1: ( ( 'order' ) )
+            // InternalEduTest.g:4207:1: ( 'order' )
             {
-            // InternalEduTest.g:4101:1: ( 'order' )
-            // InternalEduTest.g:4102:2: 'order'
+            // InternalEduTest.g:4207:1: ( 'order' )
+            // InternalEduTest.g:4208:2: 'order'
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getOrderKeyword_13()); 
             match(input,44,FOLLOW_2); 
@@ -12673,14 +13018,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__14"
-    // InternalEduTest.g:4111:1: rule__MultiChoiceEmConfig__Group__14 : rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15 ;
+    // InternalEduTest.g:4217:1: rule__MultiChoiceEmConfig__Group__14 : rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15 ;
     public final void rule__MultiChoiceEmConfig__Group__14() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4115:1: ( rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15 )
-            // InternalEduTest.g:4116:2: rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15
+            // InternalEduTest.g:4221:1: ( rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15 )
+            // InternalEduTest.g:4222:2: rule__MultiChoiceEmConfig__Group__14__Impl rule__MultiChoiceEmConfig__Group__15
             {
             pushFollow(FOLLOW_26);
             rule__MultiChoiceEmConfig__Group__14__Impl();
@@ -12711,20 +13056,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__14__Impl"
-    // InternalEduTest.g:4123:1: rule__MultiChoiceEmConfig__Group__14__Impl : ( '=' ) ;
+    // InternalEduTest.g:4229:1: rule__MultiChoiceEmConfig__Group__14__Impl : ( '=' ) ;
     public final void rule__MultiChoiceEmConfig__Group__14__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4127:1: ( ( '=' ) )
-            // InternalEduTest.g:4128:1: ( '=' )
+            // InternalEduTest.g:4233:1: ( ( '=' ) )
+            // InternalEduTest.g:4234:1: ( '=' )
             {
-            // InternalEduTest.g:4128:1: ( '=' )
-            // InternalEduTest.g:4129:2: '='
+            // InternalEduTest.g:4234:1: ( '=' )
+            // InternalEduTest.g:4235:2: '='
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_14()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_14()); 
 
             }
@@ -12748,16 +13093,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__15"
-    // InternalEduTest.g:4138:1: rule__MultiChoiceEmConfig__Group__15 : rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16 ;
+    // InternalEduTest.g:4244:1: rule__MultiChoiceEmConfig__Group__15 : rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16 ;
     public final void rule__MultiChoiceEmConfig__Group__15() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4142:1: ( rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16 )
-            // InternalEduTest.g:4143:2: rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16
+            // InternalEduTest.g:4248:1: ( rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16 )
+            // InternalEduTest.g:4249:2: rule__MultiChoiceEmConfig__Group__15__Impl rule__MultiChoiceEmConfig__Group__16
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__MultiChoiceEmConfig__Group__15__Impl();
 
             state._fsp--;
@@ -12786,21 +13131,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__15__Impl"
-    // InternalEduTest.g:4150:1: rule__MultiChoiceEmConfig__Group__15__Impl : ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) ) ;
+    // InternalEduTest.g:4256:1: rule__MultiChoiceEmConfig__Group__15__Impl : ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) ) ;
     public final void rule__MultiChoiceEmConfig__Group__15__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4154:1: ( ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) ) )
-            // InternalEduTest.g:4155:1: ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) )
+            // InternalEduTest.g:4260:1: ( ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) ) )
+            // InternalEduTest.g:4261:1: ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) )
             {
-            // InternalEduTest.g:4155:1: ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) )
-            // InternalEduTest.g:4156:2: ( rule__MultiChoiceEmConfig__OrderAssignment_15 )
+            // InternalEduTest.g:4261:1: ( ( rule__MultiChoiceEmConfig__OrderAssignment_15 ) )
+            // InternalEduTest.g:4262:2: ( rule__MultiChoiceEmConfig__OrderAssignment_15 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getOrderAssignment_15()); 
-            // InternalEduTest.g:4157:2: ( rule__MultiChoiceEmConfig__OrderAssignment_15 )
-            // InternalEduTest.g:4157:3: rule__MultiChoiceEmConfig__OrderAssignment_15
+            // InternalEduTest.g:4263:2: ( rule__MultiChoiceEmConfig__OrderAssignment_15 )
+            // InternalEduTest.g:4263:3: rule__MultiChoiceEmConfig__OrderAssignment_15
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__OrderAssignment_15();
@@ -12833,16 +13178,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__16"
-    // InternalEduTest.g:4165:1: rule__MultiChoiceEmConfig__Group__16 : rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17 ;
+    // InternalEduTest.g:4271:1: rule__MultiChoiceEmConfig__Group__16 : rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17 ;
     public final void rule__MultiChoiceEmConfig__Group__16() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4169:1: ( rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17 )
-            // InternalEduTest.g:4170:2: rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17
+            // InternalEduTest.g:4275:1: ( rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17 )
+            // InternalEduTest.g:4276:2: rule__MultiChoiceEmConfig__Group__16__Impl rule__MultiChoiceEmConfig__Group__17
             {
-            pushFollow(FOLLOW_15);
+            pushFollow(FOLLOW_18);
             rule__MultiChoiceEmConfig__Group__16__Impl();
 
             state._fsp--;
@@ -12871,20 +13216,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__16__Impl"
-    // InternalEduTest.g:4177:1: rule__MultiChoiceEmConfig__Group__16__Impl : ( ',' ) ;
+    // InternalEduTest.g:4283:1: rule__MultiChoiceEmConfig__Group__16__Impl : ( ',' ) ;
     public final void rule__MultiChoiceEmConfig__Group__16__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4181:1: ( ( ',' ) )
-            // InternalEduTest.g:4182:1: ( ',' )
+            // InternalEduTest.g:4287:1: ( ( ',' ) )
+            // InternalEduTest.g:4288:1: ( ',' )
             {
-            // InternalEduTest.g:4182:1: ( ',' )
-            // InternalEduTest.g:4183:2: ','
+            // InternalEduTest.g:4288:1: ( ',' )
+            // InternalEduTest.g:4289:2: ','
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_16()); 
-            match(input,26,FOLLOW_2); 
+            match(input,28,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_16()); 
 
             }
@@ -12908,16 +13253,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__17"
-    // InternalEduTest.g:4192:1: rule__MultiChoiceEmConfig__Group__17 : rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18 ;
+    // InternalEduTest.g:4298:1: rule__MultiChoiceEmConfig__Group__17 : rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18 ;
     public final void rule__MultiChoiceEmConfig__Group__17() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4196:1: ( rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18 )
-            // InternalEduTest.g:4197:2: rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18
+            // InternalEduTest.g:4302:1: ( rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18 )
+            // InternalEduTest.g:4303:2: rule__MultiChoiceEmConfig__Group__17__Impl rule__MultiChoiceEmConfig__Group__18
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__MultiChoiceEmConfig__Group__17__Impl();
 
             state._fsp--;
@@ -12946,20 +13291,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__17__Impl"
-    // InternalEduTest.g:4204:1: rule__MultiChoiceEmConfig__Group__17__Impl : ( 'mode' ) ;
+    // InternalEduTest.g:4310:1: rule__MultiChoiceEmConfig__Group__17__Impl : ( 'mode' ) ;
     public final void rule__MultiChoiceEmConfig__Group__17__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4208:1: ( ( 'mode' ) )
-            // InternalEduTest.g:4209:1: ( 'mode' )
+            // InternalEduTest.g:4314:1: ( ( 'mode' ) )
+            // InternalEduTest.g:4315:1: ( 'mode' )
             {
-            // InternalEduTest.g:4209:1: ( 'mode' )
-            // InternalEduTest.g:4210:2: 'mode'
+            // InternalEduTest.g:4315:1: ( 'mode' )
+            // InternalEduTest.g:4316:2: 'mode'
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getModeKeyword_17()); 
-            match(input,37,FOLLOW_2); 
+            match(input,39,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getModeKeyword_17()); 
 
             }
@@ -12983,16 +13328,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__18"
-    // InternalEduTest.g:4219:1: rule__MultiChoiceEmConfig__Group__18 : rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19 ;
+    // InternalEduTest.g:4325:1: rule__MultiChoiceEmConfig__Group__18 : rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19 ;
     public final void rule__MultiChoiceEmConfig__Group__18() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4223:1: ( rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19 )
-            // InternalEduTest.g:4224:2: rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19
+            // InternalEduTest.g:4329:1: ( rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19 )
+            // InternalEduTest.g:4330:2: rule__MultiChoiceEmConfig__Group__18__Impl rule__MultiChoiceEmConfig__Group__19
             {
-            pushFollow(FOLLOW_16);
+            pushFollow(FOLLOW_19);
             rule__MultiChoiceEmConfig__Group__18__Impl();
 
             state._fsp--;
@@ -13021,20 +13366,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__18__Impl"
-    // InternalEduTest.g:4231:1: rule__MultiChoiceEmConfig__Group__18__Impl : ( '=' ) ;
+    // InternalEduTest.g:4337:1: rule__MultiChoiceEmConfig__Group__18__Impl : ( '=' ) ;
     public final void rule__MultiChoiceEmConfig__Group__18__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4235:1: ( ( '=' ) )
-            // InternalEduTest.g:4236:1: ( '=' )
+            // InternalEduTest.g:4341:1: ( ( '=' ) )
+            // InternalEduTest.g:4342:1: ( '=' )
             {
-            // InternalEduTest.g:4236:1: ( '=' )
-            // InternalEduTest.g:4237:2: '='
+            // InternalEduTest.g:4342:1: ( '=' )
+            // InternalEduTest.g:4343:2: '='
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_18()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_18()); 
 
             }
@@ -13058,14 +13403,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__19"
-    // InternalEduTest.g:4246:1: rule__MultiChoiceEmConfig__Group__19 : rule__MultiChoiceEmConfig__Group__19__Impl ;
+    // InternalEduTest.g:4352:1: rule__MultiChoiceEmConfig__Group__19 : rule__MultiChoiceEmConfig__Group__19__Impl ;
     public final void rule__MultiChoiceEmConfig__Group__19() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4250:1: ( rule__MultiChoiceEmConfig__Group__19__Impl )
-            // InternalEduTest.g:4251:2: rule__MultiChoiceEmConfig__Group__19__Impl
+            // InternalEduTest.g:4356:1: ( rule__MultiChoiceEmConfig__Group__19__Impl )
+            // InternalEduTest.g:4357:2: rule__MultiChoiceEmConfig__Group__19__Impl
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__Group__19__Impl();
@@ -13091,21 +13436,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__Group__19__Impl"
-    // InternalEduTest.g:4257:1: rule__MultiChoiceEmConfig__Group__19__Impl : ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) ) ;
+    // InternalEduTest.g:4363:1: rule__MultiChoiceEmConfig__Group__19__Impl : ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) ) ;
     public final void rule__MultiChoiceEmConfig__Group__19__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4261:1: ( ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) ) )
-            // InternalEduTest.g:4262:1: ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) )
+            // InternalEduTest.g:4367:1: ( ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) ) )
+            // InternalEduTest.g:4368:1: ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) )
             {
-            // InternalEduTest.g:4262:1: ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) )
-            // InternalEduTest.g:4263:2: ( rule__MultiChoiceEmConfig__ModeAssignment_19 )
+            // InternalEduTest.g:4368:1: ( ( rule__MultiChoiceEmConfig__ModeAssignment_19 ) )
+            // InternalEduTest.g:4369:2: ( rule__MultiChoiceEmConfig__ModeAssignment_19 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getModeAssignment_19()); 
-            // InternalEduTest.g:4264:2: ( rule__MultiChoiceEmConfig__ModeAssignment_19 )
-            // InternalEduTest.g:4264:3: rule__MultiChoiceEmConfig__ModeAssignment_19
+            // InternalEduTest.g:4370:2: ( rule__MultiChoiceEmConfig__ModeAssignment_19 )
+            // InternalEduTest.g:4370:3: rule__MultiChoiceEmConfig__ModeAssignment_19
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__ModeAssignment_19();
@@ -13138,16 +13483,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__0"
-    // InternalEduTest.g:4273:1: rule__TextConfiguration__Group__0 : rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1 ;
+    // InternalEduTest.g:4379:1: rule__TextConfiguration__Group__0 : rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1 ;
     public final void rule__TextConfiguration__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4277:1: ( rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1 )
-            // InternalEduTest.g:4278:2: rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1
+            // InternalEduTest.g:4383:1: ( rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1 )
+            // InternalEduTest.g:4384:2: rule__TextConfiguration__Group__0__Impl rule__TextConfiguration__Group__1
             {
-            pushFollow(FOLLOW_6);
+            pushFollow(FOLLOW_11);
             rule__TextConfiguration__Group__0__Impl();
 
             state._fsp--;
@@ -13176,21 +13521,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__0__Impl"
-    // InternalEduTest.g:4285:1: rule__TextConfiguration__Group__0__Impl : ( () ) ;
+    // InternalEduTest.g:4391:1: rule__TextConfiguration__Group__0__Impl : ( () ) ;
     public final void rule__TextConfiguration__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4289:1: ( ( () ) )
-            // InternalEduTest.g:4290:1: ( () )
+            // InternalEduTest.g:4395:1: ( ( () ) )
+            // InternalEduTest.g:4396:1: ( () )
             {
-            // InternalEduTest.g:4290:1: ( () )
-            // InternalEduTest.g:4291:2: ()
+            // InternalEduTest.g:4396:1: ( () )
+            // InternalEduTest.g:4397:2: ()
             {
              before(grammarAccess.getTextConfigurationAccess().getTextConfigurationAction_0()); 
-            // InternalEduTest.g:4292:2: ()
-            // InternalEduTest.g:4292:3: 
+            // InternalEduTest.g:4398:2: ()
+            // InternalEduTest.g:4398:3: 
             {
             }
 
@@ -13213,16 +13558,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__1"
-    // InternalEduTest.g:4300:1: rule__TextConfiguration__Group__1 : rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2 ;
+    // InternalEduTest.g:4406:1: rule__TextConfiguration__Group__1 : rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2 ;
     public final void rule__TextConfiguration__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4304:1: ( rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2 )
-            // InternalEduTest.g:4305:2: rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2
+            // InternalEduTest.g:4410:1: ( rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2 )
+            // InternalEduTest.g:4411:2: rule__TextConfiguration__Group__1__Impl rule__TextConfiguration__Group__2
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__TextConfiguration__Group__1__Impl();
 
             state._fsp--;
@@ -13251,20 +13596,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__1__Impl"
-    // InternalEduTest.g:4312:1: rule__TextConfiguration__Group__1__Impl : ( 'retry' ) ;
+    // InternalEduTest.g:4418:1: rule__TextConfiguration__Group__1__Impl : ( 'retry' ) ;
     public final void rule__TextConfiguration__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4316:1: ( ( 'retry' ) )
-            // InternalEduTest.g:4317:1: ( 'retry' )
+            // InternalEduTest.g:4422:1: ( ( 'retry' ) )
+            // InternalEduTest.g:4423:1: ( 'retry' )
             {
-            // InternalEduTest.g:4317:1: ( 'retry' )
-            // InternalEduTest.g:4318:2: 'retry'
+            // InternalEduTest.g:4423:1: ( 'retry' )
+            // InternalEduTest.g:4424:2: 'retry'
             {
              before(grammarAccess.getTextConfigurationAccess().getRetryKeyword_1()); 
-            match(input,36,FOLLOW_2); 
+            match(input,38,FOLLOW_2); 
              after(grammarAccess.getTextConfigurationAccess().getRetryKeyword_1()); 
 
             }
@@ -13288,16 +13633,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__2"
-    // InternalEduTest.g:4327:1: rule__TextConfiguration__Group__2 : rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3 ;
+    // InternalEduTest.g:4433:1: rule__TextConfiguration__Group__2 : rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3 ;
     public final void rule__TextConfiguration__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4331:1: ( rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3 )
-            // InternalEduTest.g:4332:2: rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3
+            // InternalEduTest.g:4437:1: ( rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3 )
+            // InternalEduTest.g:4438:2: rule__TextConfiguration__Group__2__Impl rule__TextConfiguration__Group__3
             {
-            pushFollow(FOLLOW_14);
+            pushFollow(FOLLOW_17);
             rule__TextConfiguration__Group__2__Impl();
 
             state._fsp--;
@@ -13326,20 +13671,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__2__Impl"
-    // InternalEduTest.g:4339:1: rule__TextConfiguration__Group__2__Impl : ( '=' ) ;
+    // InternalEduTest.g:4445:1: rule__TextConfiguration__Group__2__Impl : ( '=' ) ;
     public final void rule__TextConfiguration__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4343:1: ( ( '=' ) )
-            // InternalEduTest.g:4344:1: ( '=' )
+            // InternalEduTest.g:4449:1: ( ( '=' ) )
+            // InternalEduTest.g:4450:1: ( '=' )
             {
-            // InternalEduTest.g:4344:1: ( '=' )
-            // InternalEduTest.g:4345:2: '='
+            // InternalEduTest.g:4450:1: ( '=' )
+            // InternalEduTest.g:4451:2: '='
             {
              before(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_2()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_2()); 
 
             }
@@ -13363,16 +13708,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__3"
-    // InternalEduTest.g:4354:1: rule__TextConfiguration__Group__3 : rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4 ;
+    // InternalEduTest.g:4460:1: rule__TextConfiguration__Group__3 : rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4 ;
     public final void rule__TextConfiguration__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4358:1: ( rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4 )
-            // InternalEduTest.g:4359:2: rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4
+            // InternalEduTest.g:4464:1: ( rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4 )
+            // InternalEduTest.g:4465:2: rule__TextConfiguration__Group__3__Impl rule__TextConfiguration__Group__4
             {
-            pushFollow(FOLLOW_9);
+            pushFollow(FOLLOW_14);
             rule__TextConfiguration__Group__3__Impl();
 
             state._fsp--;
@@ -13401,21 +13746,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__3__Impl"
-    // InternalEduTest.g:4366:1: rule__TextConfiguration__Group__3__Impl : ( ( rule__TextConfiguration__RetryAssignment_3 ) ) ;
+    // InternalEduTest.g:4472:1: rule__TextConfiguration__Group__3__Impl : ( ( rule__TextConfiguration__RetryAssignment_3 ) ) ;
     public final void rule__TextConfiguration__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4370:1: ( ( ( rule__TextConfiguration__RetryAssignment_3 ) ) )
-            // InternalEduTest.g:4371:1: ( ( rule__TextConfiguration__RetryAssignment_3 ) )
+            // InternalEduTest.g:4476:1: ( ( ( rule__TextConfiguration__RetryAssignment_3 ) ) )
+            // InternalEduTest.g:4477:1: ( ( rule__TextConfiguration__RetryAssignment_3 ) )
             {
-            // InternalEduTest.g:4371:1: ( ( rule__TextConfiguration__RetryAssignment_3 ) )
-            // InternalEduTest.g:4372:2: ( rule__TextConfiguration__RetryAssignment_3 )
+            // InternalEduTest.g:4477:1: ( ( rule__TextConfiguration__RetryAssignment_3 ) )
+            // InternalEduTest.g:4478:2: ( rule__TextConfiguration__RetryAssignment_3 )
             {
              before(grammarAccess.getTextConfigurationAccess().getRetryAssignment_3()); 
-            // InternalEduTest.g:4373:2: ( rule__TextConfiguration__RetryAssignment_3 )
-            // InternalEduTest.g:4373:3: rule__TextConfiguration__RetryAssignment_3
+            // InternalEduTest.g:4479:2: ( rule__TextConfiguration__RetryAssignment_3 )
+            // InternalEduTest.g:4479:3: rule__TextConfiguration__RetryAssignment_3
             {
             pushFollow(FOLLOW_2);
             rule__TextConfiguration__RetryAssignment_3();
@@ -13448,16 +13793,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__4"
-    // InternalEduTest.g:4381:1: rule__TextConfiguration__Group__4 : rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5 ;
+    // InternalEduTest.g:4487:1: rule__TextConfiguration__Group__4 : rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5 ;
     public final void rule__TextConfiguration__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4385:1: ( rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5 )
-            // InternalEduTest.g:4386:2: rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5
+            // InternalEduTest.g:4491:1: ( rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5 )
+            // InternalEduTest.g:4492:2: rule__TextConfiguration__Group__4__Impl rule__TextConfiguration__Group__5
             {
-            pushFollow(FOLLOW_27);
+            pushFollow(FOLLOW_14);
             rule__TextConfiguration__Group__4__Impl();
 
             state._fsp--;
@@ -13486,21 +13831,46 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__4__Impl"
-    // InternalEduTest.g:4393:1: rule__TextConfiguration__Group__4__Impl : ( ',' ) ;
+    // InternalEduTest.g:4499:1: rule__TextConfiguration__Group__4__Impl : ( ( rule__TextConfiguration__Group_4__0 )? ) ;
     public final void rule__TextConfiguration__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4397:1: ( ( ',' ) )
-            // InternalEduTest.g:4398:1: ( ',' )
+            // InternalEduTest.g:4503:1: ( ( ( rule__TextConfiguration__Group_4__0 )? ) )
+            // InternalEduTest.g:4504:1: ( ( rule__TextConfiguration__Group_4__0 )? )
             {
-            // InternalEduTest.g:4398:1: ( ',' )
-            // InternalEduTest.g:4399:2: ','
+            // InternalEduTest.g:4504:1: ( ( rule__TextConfiguration__Group_4__0 )? )
+            // InternalEduTest.g:4505:2: ( rule__TextConfiguration__Group_4__0 )?
             {
-             before(grammarAccess.getTextConfigurationAccess().getCommaKeyword_4()); 
-            match(input,26,FOLLOW_2); 
-             after(grammarAccess.getTextConfigurationAccess().getCommaKeyword_4()); 
+             before(grammarAccess.getTextConfigurationAccess().getGroup_4()); 
+            // InternalEduTest.g:4506:2: ( rule__TextConfiguration__Group_4__0 )?
+            int alt41=2;
+            int LA41_0 = input.LA(1);
+
+            if ( (LA41_0==28) ) {
+                int LA41_1 = input.LA(2);
+
+                if ( (LA41_1==39) ) {
+                    alt41=1;
+                }
+            }
+            switch (alt41) {
+                case 1 :
+                    // InternalEduTest.g:4506:3: rule__TextConfiguration__Group_4__0
+                    {
+                    pushFollow(FOLLOW_2);
+                    rule__TextConfiguration__Group_4__0();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
+             after(grammarAccess.getTextConfigurationAccess().getGroup_4()); 
 
             }
 
@@ -13523,22 +13893,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__5"
-    // InternalEduTest.g:4408:1: rule__TextConfiguration__Group__5 : rule__TextConfiguration__Group__5__Impl rule__TextConfiguration__Group__6 ;
+    // InternalEduTest.g:4514:1: rule__TextConfiguration__Group__5 : rule__TextConfiguration__Group__5__Impl ;
     public final void rule__TextConfiguration__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4412:1: ( rule__TextConfiguration__Group__5__Impl rule__TextConfiguration__Group__6 )
-            // InternalEduTest.g:4413:2: rule__TextConfiguration__Group__5__Impl rule__TextConfiguration__Group__6
+            // InternalEduTest.g:4518:1: ( rule__TextConfiguration__Group__5__Impl )
+            // InternalEduTest.g:4519:2: rule__TextConfiguration__Group__5__Impl
             {
-            pushFollow(FOLLOW_12);
-            rule__TextConfiguration__Group__5__Impl();
-
-            state._fsp--;
-
             pushFollow(FOLLOW_2);
-            rule__TextConfiguration__Group__6();
+            rule__TextConfiguration__Group__5__Impl();
 
             state._fsp--;
 
@@ -13561,21 +13926,42 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__Group__5__Impl"
-    // InternalEduTest.g:4420:1: rule__TextConfiguration__Group__5__Impl : ( 'text' ) ;
+    // InternalEduTest.g:4525:1: rule__TextConfiguration__Group__5__Impl : ( ( rule__TextConfiguration__Group_5__0 )? ) ;
     public final void rule__TextConfiguration__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4424:1: ( ( 'text' ) )
-            // InternalEduTest.g:4425:1: ( 'text' )
+            // InternalEduTest.g:4529:1: ( ( ( rule__TextConfiguration__Group_5__0 )? ) )
+            // InternalEduTest.g:4530:1: ( ( rule__TextConfiguration__Group_5__0 )? )
             {
-            // InternalEduTest.g:4425:1: ( 'text' )
-            // InternalEduTest.g:4426:2: 'text'
+            // InternalEduTest.g:4530:1: ( ( rule__TextConfiguration__Group_5__0 )? )
+            // InternalEduTest.g:4531:2: ( rule__TextConfiguration__Group_5__0 )?
             {
-             before(grammarAccess.getTextConfigurationAccess().getTextKeyword_5()); 
-            match(input,45,FOLLOW_2); 
-             after(grammarAccess.getTextConfigurationAccess().getTextKeyword_5()); 
+             before(grammarAccess.getTextConfigurationAccess().getGroup_5()); 
+            // InternalEduTest.g:4532:2: ( rule__TextConfiguration__Group_5__0 )?
+            int alt42=2;
+            int LA42_0 = input.LA(1);
+
+            if ( (LA42_0==28) ) {
+                alt42=1;
+            }
+            switch (alt42) {
+                case 1 :
+                    // InternalEduTest.g:4532:3: rule__TextConfiguration__Group_5__0
+                    {
+                    pushFollow(FOLLOW_2);
+                    rule__TextConfiguration__Group_5__0();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
+             after(grammarAccess.getTextConfigurationAccess().getGroup_5()); 
 
             }
 
@@ -13597,23 +13983,173 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TextConfiguration__Group__5__Impl"
 
 
-    // $ANTLR start "rule__TextConfiguration__Group__6"
-    // InternalEduTest.g:4435:1: rule__TextConfiguration__Group__6 : rule__TextConfiguration__Group__6__Impl rule__TextConfiguration__Group__7 ;
-    public final void rule__TextConfiguration__Group__6() throws RecognitionException {
+    // $ANTLR start "rule__TextConfiguration__Group_4__0"
+    // InternalEduTest.g:4541:1: rule__TextConfiguration__Group_4__0 : rule__TextConfiguration__Group_4__0__Impl rule__TextConfiguration__Group_4__1 ;
+    public final void rule__TextConfiguration__Group_4__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4439:1: ( rule__TextConfiguration__Group__6__Impl rule__TextConfiguration__Group__7 )
-            // InternalEduTest.g:4440:2: rule__TextConfiguration__Group__6__Impl rule__TextConfiguration__Group__7
+            // InternalEduTest.g:4545:1: ( rule__TextConfiguration__Group_4__0__Impl rule__TextConfiguration__Group_4__1 )
+            // InternalEduTest.g:4546:2: rule__TextConfiguration__Group_4__0__Impl rule__TextConfiguration__Group_4__1
+            {
+            pushFollow(FOLLOW_18);
+            rule__TextConfiguration__Group_4__0__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_4__1();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_4__0"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_4__0__Impl"
+    // InternalEduTest.g:4553:1: rule__TextConfiguration__Group_4__0__Impl : ( ',' ) ;
+    public final void rule__TextConfiguration__Group_4__0__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4557:1: ( ( ',' ) )
+            // InternalEduTest.g:4558:1: ( ',' )
+            {
+            // InternalEduTest.g:4558:1: ( ',' )
+            // InternalEduTest.g:4559:2: ','
+            {
+             before(grammarAccess.getTextConfigurationAccess().getCommaKeyword_4_0()); 
+            match(input,28,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getCommaKeyword_4_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_4__0__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_4__1"
+    // InternalEduTest.g:4568:1: rule__TextConfiguration__Group_4__1 : rule__TextConfiguration__Group_4__1__Impl rule__TextConfiguration__Group_4__2 ;
+    public final void rule__TextConfiguration__Group_4__1() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4572:1: ( rule__TextConfiguration__Group_4__1__Impl rule__TextConfiguration__Group_4__2 )
+            // InternalEduTest.g:4573:2: rule__TextConfiguration__Group_4__1__Impl rule__TextConfiguration__Group_4__2
+            {
+            pushFollow(FOLLOW_8);
+            rule__TextConfiguration__Group_4__1__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_4__2();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_4__1"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_4__1__Impl"
+    // InternalEduTest.g:4580:1: rule__TextConfiguration__Group_4__1__Impl : ( 'mode' ) ;
+    public final void rule__TextConfiguration__Group_4__1__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4584:1: ( ( 'mode' ) )
+            // InternalEduTest.g:4585:1: ( 'mode' )
+            {
+            // InternalEduTest.g:4585:1: ( 'mode' )
+            // InternalEduTest.g:4586:2: 'mode'
+            {
+             before(grammarAccess.getTextConfigurationAccess().getModeKeyword_4_1()); 
+            match(input,39,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getModeKeyword_4_1()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_4__1__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_4__2"
+    // InternalEduTest.g:4595:1: rule__TextConfiguration__Group_4__2 : rule__TextConfiguration__Group_4__2__Impl rule__TextConfiguration__Group_4__3 ;
+    public final void rule__TextConfiguration__Group_4__2() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4599:1: ( rule__TextConfiguration__Group_4__2__Impl rule__TextConfiguration__Group_4__3 )
+            // InternalEduTest.g:4600:2: rule__TextConfiguration__Group_4__2__Impl rule__TextConfiguration__Group_4__3
             {
             pushFollow(FOLLOW_19);
-            rule__TextConfiguration__Group__6__Impl();
+            rule__TextConfiguration__Group_4__2__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__TextConfiguration__Group__7();
+            rule__TextConfiguration__Group_4__3();
 
             state._fsp--;
 
@@ -13632,25 +14168,25 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TextConfiguration__Group__6"
+    // $ANTLR end "rule__TextConfiguration__Group_4__2"
 
 
-    // $ANTLR start "rule__TextConfiguration__Group__6__Impl"
-    // InternalEduTest.g:4447:1: rule__TextConfiguration__Group__6__Impl : ( '=' ) ;
-    public final void rule__TextConfiguration__Group__6__Impl() throws RecognitionException {
+    // $ANTLR start "rule__TextConfiguration__Group_4__2__Impl"
+    // InternalEduTest.g:4607:1: rule__TextConfiguration__Group_4__2__Impl : ( '=' ) ;
+    public final void rule__TextConfiguration__Group_4__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4451:1: ( ( '=' ) )
-            // InternalEduTest.g:4452:1: ( '=' )
+            // InternalEduTest.g:4611:1: ( ( '=' ) )
+            // InternalEduTest.g:4612:1: ( '=' )
             {
-            // InternalEduTest.g:4452:1: ( '=' )
-            // InternalEduTest.g:4453:2: '='
+            // InternalEduTest.g:4612:1: ( '=' )
+            // InternalEduTest.g:4613:2: '='
             {
-             before(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_6()); 
-            match(input,35,FOLLOW_2); 
-             after(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_6()); 
+             before(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_4_2()); 
+            match(input,37,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_4_2()); 
 
             }
 
@@ -13669,21 +14205,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TextConfiguration__Group__6__Impl"
+    // $ANTLR end "rule__TextConfiguration__Group_4__2__Impl"
 
 
-    // $ANTLR start "rule__TextConfiguration__Group__7"
-    // InternalEduTest.g:4462:1: rule__TextConfiguration__Group__7 : rule__TextConfiguration__Group__7__Impl ;
-    public final void rule__TextConfiguration__Group__7() throws RecognitionException {
+    // $ANTLR start "rule__TextConfiguration__Group_4__3"
+    // InternalEduTest.g:4622:1: rule__TextConfiguration__Group_4__3 : rule__TextConfiguration__Group_4__3__Impl ;
+    public final void rule__TextConfiguration__Group_4__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4466:1: ( rule__TextConfiguration__Group__7__Impl )
-            // InternalEduTest.g:4467:2: rule__TextConfiguration__Group__7__Impl
+            // InternalEduTest.g:4626:1: ( rule__TextConfiguration__Group_4__3__Impl )
+            // InternalEduTest.g:4627:2: rule__TextConfiguration__Group_4__3__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__TextConfiguration__Group__7__Impl();
+            rule__TextConfiguration__Group_4__3__Impl();
 
             state._fsp--;
 
@@ -13702,35 +14238,35 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TextConfiguration__Group__7"
+    // $ANTLR end "rule__TextConfiguration__Group_4__3"
 
 
-    // $ANTLR start "rule__TextConfiguration__Group__7__Impl"
-    // InternalEduTest.g:4473:1: rule__TextConfiguration__Group__7__Impl : ( ( rule__TextConfiguration__IdentifierAssignment_7 ) ) ;
-    public final void rule__TextConfiguration__Group__7__Impl() throws RecognitionException {
+    // $ANTLR start "rule__TextConfiguration__Group_4__3__Impl"
+    // InternalEduTest.g:4633:1: rule__TextConfiguration__Group_4__3__Impl : ( ( rule__TextConfiguration__ModeAssignment_4_3 ) ) ;
+    public final void rule__TextConfiguration__Group_4__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4477:1: ( ( ( rule__TextConfiguration__IdentifierAssignment_7 ) ) )
-            // InternalEduTest.g:4478:1: ( ( rule__TextConfiguration__IdentifierAssignment_7 ) )
+            // InternalEduTest.g:4637:1: ( ( ( rule__TextConfiguration__ModeAssignment_4_3 ) ) )
+            // InternalEduTest.g:4638:1: ( ( rule__TextConfiguration__ModeAssignment_4_3 ) )
             {
-            // InternalEduTest.g:4478:1: ( ( rule__TextConfiguration__IdentifierAssignment_7 ) )
-            // InternalEduTest.g:4479:2: ( rule__TextConfiguration__IdentifierAssignment_7 )
+            // InternalEduTest.g:4638:1: ( ( rule__TextConfiguration__ModeAssignment_4_3 ) )
+            // InternalEduTest.g:4639:2: ( rule__TextConfiguration__ModeAssignment_4_3 )
             {
-             before(grammarAccess.getTextConfigurationAccess().getIdentifierAssignment_7()); 
-            // InternalEduTest.g:4480:2: ( rule__TextConfiguration__IdentifierAssignment_7 )
-            // InternalEduTest.g:4480:3: rule__TextConfiguration__IdentifierAssignment_7
+             before(grammarAccess.getTextConfigurationAccess().getModeAssignment_4_3()); 
+            // InternalEduTest.g:4640:2: ( rule__TextConfiguration__ModeAssignment_4_3 )
+            // InternalEduTest.g:4640:3: rule__TextConfiguration__ModeAssignment_4_3
             {
             pushFollow(FOLLOW_2);
-            rule__TextConfiguration__IdentifierAssignment_7();
+            rule__TextConfiguration__ModeAssignment_4_3();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getTextConfigurationAccess().getIdentifierAssignment_7()); 
+             after(grammarAccess.getTextConfigurationAccess().getModeAssignment_4_3()); 
 
             }
 
@@ -13749,18 +14285,323 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TextConfiguration__Group__7__Impl"
+    // $ANTLR end "rule__TextConfiguration__Group_4__3__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__0"
+    // InternalEduTest.g:4649:1: rule__TextConfiguration__Group_5__0 : rule__TextConfiguration__Group_5__0__Impl rule__TextConfiguration__Group_5__1 ;
+    public final void rule__TextConfiguration__Group_5__0() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4653:1: ( rule__TextConfiguration__Group_5__0__Impl rule__TextConfiguration__Group_5__1 )
+            // InternalEduTest.g:4654:2: rule__TextConfiguration__Group_5__0__Impl rule__TextConfiguration__Group_5__1
+            {
+            pushFollow(FOLLOW_27);
+            rule__TextConfiguration__Group_5__0__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_5__1();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__0"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__0__Impl"
+    // InternalEduTest.g:4661:1: rule__TextConfiguration__Group_5__0__Impl : ( ',' ) ;
+    public final void rule__TextConfiguration__Group_5__0__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4665:1: ( ( ',' ) )
+            // InternalEduTest.g:4666:1: ( ',' )
+            {
+            // InternalEduTest.g:4666:1: ( ',' )
+            // InternalEduTest.g:4667:2: ','
+            {
+             before(grammarAccess.getTextConfigurationAccess().getCommaKeyword_5_0()); 
+            match(input,28,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getCommaKeyword_5_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__0__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__1"
+    // InternalEduTest.g:4676:1: rule__TextConfiguration__Group_5__1 : rule__TextConfiguration__Group_5__1__Impl rule__TextConfiguration__Group_5__2 ;
+    public final void rule__TextConfiguration__Group_5__1() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4680:1: ( rule__TextConfiguration__Group_5__1__Impl rule__TextConfiguration__Group_5__2 )
+            // InternalEduTest.g:4681:2: rule__TextConfiguration__Group_5__1__Impl rule__TextConfiguration__Group_5__2
+            {
+            pushFollow(FOLLOW_8);
+            rule__TextConfiguration__Group_5__1__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_5__2();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__1"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__1__Impl"
+    // InternalEduTest.g:4688:1: rule__TextConfiguration__Group_5__1__Impl : ( 'text' ) ;
+    public final void rule__TextConfiguration__Group_5__1__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4692:1: ( ( 'text' ) )
+            // InternalEduTest.g:4693:1: ( 'text' )
+            {
+            // InternalEduTest.g:4693:1: ( 'text' )
+            // InternalEduTest.g:4694:2: 'text'
+            {
+             before(grammarAccess.getTextConfigurationAccess().getTextKeyword_5_1()); 
+            match(input,45,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getTextKeyword_5_1()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__1__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__2"
+    // InternalEduTest.g:4703:1: rule__TextConfiguration__Group_5__2 : rule__TextConfiguration__Group_5__2__Impl rule__TextConfiguration__Group_5__3 ;
+    public final void rule__TextConfiguration__Group_5__2() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4707:1: ( rule__TextConfiguration__Group_5__2__Impl rule__TextConfiguration__Group_5__3 )
+            // InternalEduTest.g:4708:2: rule__TextConfiguration__Group_5__2__Impl rule__TextConfiguration__Group_5__3
+            {
+            pushFollow(FOLLOW_4);
+            rule__TextConfiguration__Group_5__2__Impl();
+
+            state._fsp--;
+
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_5__3();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__2"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__2__Impl"
+    // InternalEduTest.g:4715:1: rule__TextConfiguration__Group_5__2__Impl : ( '=' ) ;
+    public final void rule__TextConfiguration__Group_5__2__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4719:1: ( ( '=' ) )
+            // InternalEduTest.g:4720:1: ( '=' )
+            {
+            // InternalEduTest.g:4720:1: ( '=' )
+            // InternalEduTest.g:4721:2: '='
+            {
+             before(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_5_2()); 
+            match(input,37,FOLLOW_2); 
+             after(grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_5_2()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__2__Impl"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__3"
+    // InternalEduTest.g:4730:1: rule__TextConfiguration__Group_5__3 : rule__TextConfiguration__Group_5__3__Impl ;
+    public final void rule__TextConfiguration__Group_5__3() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4734:1: ( rule__TextConfiguration__Group_5__3__Impl )
+            // InternalEduTest.g:4735:2: rule__TextConfiguration__Group_5__3__Impl
+            {
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__Group_5__3__Impl();
+
+            state._fsp--;
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__3"
+
+
+    // $ANTLR start "rule__TextConfiguration__Group_5__3__Impl"
+    // InternalEduTest.g:4741:1: rule__TextConfiguration__Group_5__3__Impl : ( ( rule__TextConfiguration__IdentifierAssignment_5_3 ) ) ;
+    public final void rule__TextConfiguration__Group_5__3__Impl() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:4745:1: ( ( ( rule__TextConfiguration__IdentifierAssignment_5_3 ) ) )
+            // InternalEduTest.g:4746:1: ( ( rule__TextConfiguration__IdentifierAssignment_5_3 ) )
+            {
+            // InternalEduTest.g:4746:1: ( ( rule__TextConfiguration__IdentifierAssignment_5_3 ) )
+            // InternalEduTest.g:4747:2: ( rule__TextConfiguration__IdentifierAssignment_5_3 )
+            {
+             before(grammarAccess.getTextConfigurationAccess().getIdentifierAssignment_5_3()); 
+            // InternalEduTest.g:4748:2: ( rule__TextConfiguration__IdentifierAssignment_5_3 )
+            // InternalEduTest.g:4748:3: rule__TextConfiguration__IdentifierAssignment_5_3
+            {
+            pushFollow(FOLLOW_2);
+            rule__TextConfiguration__IdentifierAssignment_5_3();
+
+            state._fsp--;
+
+
+            }
+
+             after(grammarAccess.getTextConfigurationAccess().getIdentifierAssignment_5_3()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__Group_5__3__Impl"
 
 
     // $ANTLR start "rule__Test__Group__0"
-    // InternalEduTest.g:4489:1: rule__Test__Group__0 : rule__Test__Group__0__Impl rule__Test__Group__1 ;
+    // InternalEduTest.g:4757:1: rule__Test__Group__0 : rule__Test__Group__0__Impl rule__Test__Group__1 ;
     public final void rule__Test__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4493:1: ( rule__Test__Group__0__Impl rule__Test__Group__1 )
-            // InternalEduTest.g:4494:2: rule__Test__Group__0__Impl rule__Test__Group__1
+            // InternalEduTest.g:4761:1: ( rule__Test__Group__0__Impl rule__Test__Group__1 )
+            // InternalEduTest.g:4762:2: rule__Test__Group__0__Impl rule__Test__Group__1
             {
             pushFollow(FOLLOW_28);
             rule__Test__Group__0__Impl();
@@ -13791,17 +14632,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__0__Impl"
-    // InternalEduTest.g:4501:1: rule__Test__Group__0__Impl : ( 'description' ) ;
+    // InternalEduTest.g:4769:1: rule__Test__Group__0__Impl : ( 'description' ) ;
     public final void rule__Test__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4505:1: ( ( 'description' ) )
-            // InternalEduTest.g:4506:1: ( 'description' )
+            // InternalEduTest.g:4773:1: ( ( 'description' ) )
+            // InternalEduTest.g:4774:1: ( 'description' )
             {
-            // InternalEduTest.g:4506:1: ( 'description' )
-            // InternalEduTest.g:4507:2: 'description'
+            // InternalEduTest.g:4774:1: ( 'description' )
+            // InternalEduTest.g:4775:2: 'description'
             {
              before(grammarAccess.getTestAccess().getDescriptionKeyword_0()); 
             match(input,46,FOLLOW_2); 
@@ -13828,16 +14669,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__1"
-    // InternalEduTest.g:4516:1: rule__Test__Group__1 : rule__Test__Group__1__Impl rule__Test__Group__2 ;
+    // InternalEduTest.g:4784:1: rule__Test__Group__1 : rule__Test__Group__1__Impl rule__Test__Group__2 ;
     public final void rule__Test__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4520:1: ( rule__Test__Group__1__Impl rule__Test__Group__2 )
-            // InternalEduTest.g:4521:2: rule__Test__Group__1__Impl rule__Test__Group__2
+            // InternalEduTest.g:4788:1: ( rule__Test__Group__1__Impl rule__Test__Group__2 )
+            // InternalEduTest.g:4789:2: rule__Test__Group__1__Impl rule__Test__Group__2
             {
-            pushFollow(FOLLOW_19);
+            pushFollow(FOLLOW_4);
             rule__Test__Group__1__Impl();
 
             state._fsp--;
@@ -13866,17 +14707,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__1__Impl"
-    // InternalEduTest.g:4528:1: rule__Test__Group__1__Impl : ( 'for' ) ;
+    // InternalEduTest.g:4796:1: rule__Test__Group__1__Impl : ( 'for' ) ;
     public final void rule__Test__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4532:1: ( ( 'for' ) )
-            // InternalEduTest.g:4533:1: ( 'for' )
+            // InternalEduTest.g:4800:1: ( ( 'for' ) )
+            // InternalEduTest.g:4801:1: ( 'for' )
             {
-            // InternalEduTest.g:4533:1: ( 'for' )
-            // InternalEduTest.g:4534:2: 'for'
+            // InternalEduTest.g:4801:1: ( 'for' )
+            // InternalEduTest.g:4802:2: 'for'
             {
              before(grammarAccess.getTestAccess().getForKeyword_1()); 
             match(input,47,FOLLOW_2); 
@@ -13903,16 +14744,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__2"
-    // InternalEduTest.g:4543:1: rule__Test__Group__2 : rule__Test__Group__2__Impl rule__Test__Group__3 ;
+    // InternalEduTest.g:4811:1: rule__Test__Group__2 : rule__Test__Group__2__Impl rule__Test__Group__3 ;
     public final void rule__Test__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4547:1: ( rule__Test__Group__2__Impl rule__Test__Group__3 )
-            // InternalEduTest.g:4548:2: rule__Test__Group__2__Impl rule__Test__Group__3
+            // InternalEduTest.g:4815:1: ( rule__Test__Group__2__Impl rule__Test__Group__3 )
+            // InternalEduTest.g:4816:2: rule__Test__Group__2__Impl rule__Test__Group__3
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_8);
             rule__Test__Group__2__Impl();
 
             state._fsp--;
@@ -13941,21 +14782,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__2__Impl"
-    // InternalEduTest.g:4555:1: rule__Test__Group__2__Impl : ( ( rule__Test__SourceAssignment_2 ) ) ;
+    // InternalEduTest.g:4823:1: rule__Test__Group__2__Impl : ( ( rule__Test__SourceAssignment_2 ) ) ;
     public final void rule__Test__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4559:1: ( ( ( rule__Test__SourceAssignment_2 ) ) )
-            // InternalEduTest.g:4560:1: ( ( rule__Test__SourceAssignment_2 ) )
+            // InternalEduTest.g:4827:1: ( ( ( rule__Test__SourceAssignment_2 ) ) )
+            // InternalEduTest.g:4828:1: ( ( rule__Test__SourceAssignment_2 ) )
             {
-            // InternalEduTest.g:4560:1: ( ( rule__Test__SourceAssignment_2 ) )
-            // InternalEduTest.g:4561:2: ( rule__Test__SourceAssignment_2 )
+            // InternalEduTest.g:4828:1: ( ( rule__Test__SourceAssignment_2 ) )
+            // InternalEduTest.g:4829:2: ( rule__Test__SourceAssignment_2 )
             {
              before(grammarAccess.getTestAccess().getSourceAssignment_2()); 
-            // InternalEduTest.g:4562:2: ( rule__Test__SourceAssignment_2 )
-            // InternalEduTest.g:4562:3: rule__Test__SourceAssignment_2
+            // InternalEduTest.g:4830:2: ( rule__Test__SourceAssignment_2 )
+            // InternalEduTest.g:4830:3: rule__Test__SourceAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__Test__SourceAssignment_2();
@@ -13988,16 +14829,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__3"
-    // InternalEduTest.g:4570:1: rule__Test__Group__3 : rule__Test__Group__3__Impl rule__Test__Group__4 ;
+    // InternalEduTest.g:4838:1: rule__Test__Group__3 : rule__Test__Group__3__Impl rule__Test__Group__4 ;
     public final void rule__Test__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4574:1: ( rule__Test__Group__3__Impl rule__Test__Group__4 )
-            // InternalEduTest.g:4575:2: rule__Test__Group__3__Impl rule__Test__Group__4
+            // InternalEduTest.g:4842:1: ( rule__Test__Group__3__Impl rule__Test__Group__4 )
+            // InternalEduTest.g:4843:2: rule__Test__Group__3__Impl rule__Test__Group__4
             {
-            pushFollow(FOLLOW_19);
+            pushFollow(FOLLOW_4);
             rule__Test__Group__3__Impl();
 
             state._fsp--;
@@ -14026,20 +14867,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__3__Impl"
-    // InternalEduTest.g:4582:1: rule__Test__Group__3__Impl : ( '=' ) ;
+    // InternalEduTest.g:4850:1: rule__Test__Group__3__Impl : ( '=' ) ;
     public final void rule__Test__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4586:1: ( ( '=' ) )
-            // InternalEduTest.g:4587:1: ( '=' )
+            // InternalEduTest.g:4854:1: ( ( '=' ) )
+            // InternalEduTest.g:4855:1: ( '=' )
             {
-            // InternalEduTest.g:4587:1: ( '=' )
-            // InternalEduTest.g:4588:2: '='
+            // InternalEduTest.g:4855:1: ( '=' )
+            // InternalEduTest.g:4856:2: '='
             {
              before(grammarAccess.getTestAccess().getEqualsSignKeyword_3()); 
-            match(input,35,FOLLOW_2); 
+            match(input,37,FOLLOW_2); 
              after(grammarAccess.getTestAccess().getEqualsSignKeyword_3()); 
 
             }
@@ -14063,14 +14904,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__4"
-    // InternalEduTest.g:4597:1: rule__Test__Group__4 : rule__Test__Group__4__Impl rule__Test__Group__5 ;
+    // InternalEduTest.g:4865:1: rule__Test__Group__4 : rule__Test__Group__4__Impl rule__Test__Group__5 ;
     public final void rule__Test__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4601:1: ( rule__Test__Group__4__Impl rule__Test__Group__5 )
-            // InternalEduTest.g:4602:2: rule__Test__Group__4__Impl rule__Test__Group__5
+            // InternalEduTest.g:4869:1: ( rule__Test__Group__4__Impl rule__Test__Group__5 )
+            // InternalEduTest.g:4870:2: rule__Test__Group__4__Impl rule__Test__Group__5
             {
             pushFollow(FOLLOW_29);
             rule__Test__Group__4__Impl();
@@ -14101,21 +14942,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__4__Impl"
-    // InternalEduTest.g:4609:1: rule__Test__Group__4__Impl : ( ( rule__Test__QuestionAssignment_4 ) ) ;
+    // InternalEduTest.g:4877:1: rule__Test__Group__4__Impl : ( ( rule__Test__QuestionAssignment_4 ) ) ;
     public final void rule__Test__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4613:1: ( ( ( rule__Test__QuestionAssignment_4 ) ) )
-            // InternalEduTest.g:4614:1: ( ( rule__Test__QuestionAssignment_4 ) )
+            // InternalEduTest.g:4881:1: ( ( ( rule__Test__QuestionAssignment_4 ) ) )
+            // InternalEduTest.g:4882:1: ( ( rule__Test__QuestionAssignment_4 ) )
             {
-            // InternalEduTest.g:4614:1: ( ( rule__Test__QuestionAssignment_4 ) )
-            // InternalEduTest.g:4615:2: ( rule__Test__QuestionAssignment_4 )
+            // InternalEduTest.g:4882:1: ( ( rule__Test__QuestionAssignment_4 ) )
+            // InternalEduTest.g:4883:2: ( rule__Test__QuestionAssignment_4 )
             {
              before(grammarAccess.getTestAccess().getQuestionAssignment_4()); 
-            // InternalEduTest.g:4616:2: ( rule__Test__QuestionAssignment_4 )
-            // InternalEduTest.g:4616:3: rule__Test__QuestionAssignment_4
+            // InternalEduTest.g:4884:2: ( rule__Test__QuestionAssignment_4 )
+            // InternalEduTest.g:4884:3: rule__Test__QuestionAssignment_4
             {
             pushFollow(FOLLOW_2);
             rule__Test__QuestionAssignment_4();
@@ -14148,14 +14989,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__5"
-    // InternalEduTest.g:4624:1: rule__Test__Group__5 : rule__Test__Group__5__Impl ;
+    // InternalEduTest.g:4892:1: rule__Test__Group__5 : rule__Test__Group__5__Impl ;
     public final void rule__Test__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4628:1: ( rule__Test__Group__5__Impl )
-            // InternalEduTest.g:4629:2: rule__Test__Group__5__Impl
+            // InternalEduTest.g:4896:1: ( rule__Test__Group__5__Impl )
+            // InternalEduTest.g:4897:2: rule__Test__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Test__Group__5__Impl();
@@ -14181,29 +15022,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group__5__Impl"
-    // InternalEduTest.g:4635:1: rule__Test__Group__5__Impl : ( ( rule__Test__Group_5__0 )? ) ;
+    // InternalEduTest.g:4903:1: rule__Test__Group__5__Impl : ( ( rule__Test__Group_5__0 )? ) ;
     public final void rule__Test__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4639:1: ( ( ( rule__Test__Group_5__0 )? ) )
-            // InternalEduTest.g:4640:1: ( ( rule__Test__Group_5__0 )? )
+            // InternalEduTest.g:4907:1: ( ( ( rule__Test__Group_5__0 )? ) )
+            // InternalEduTest.g:4908:1: ( ( rule__Test__Group_5__0 )? )
             {
-            // InternalEduTest.g:4640:1: ( ( rule__Test__Group_5__0 )? )
-            // InternalEduTest.g:4641:2: ( rule__Test__Group_5__0 )?
+            // InternalEduTest.g:4908:1: ( ( rule__Test__Group_5__0 )? )
+            // InternalEduTest.g:4909:2: ( rule__Test__Group_5__0 )?
             {
              before(grammarAccess.getTestAccess().getGroup_5()); 
-            // InternalEduTest.g:4642:2: ( rule__Test__Group_5__0 )?
-            int alt40=2;
-            int LA40_0 = input.LA(1);
+            // InternalEduTest.g:4910:2: ( rule__Test__Group_5__0 )?
+            int alt43=2;
+            int LA43_0 = input.LA(1);
 
-            if ( (LA40_0==50) ) {
-                alt40=1;
+            if ( (LA43_0==52) ) {
+                alt43=1;
             }
-            switch (alt40) {
+            switch (alt43) {
                 case 1 :
-                    // InternalEduTest.g:4642:3: rule__Test__Group_5__0
+                    // InternalEduTest.g:4910:3: rule__Test__Group_5__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Test__Group_5__0();
@@ -14239,16 +15080,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5__0"
-    // InternalEduTest.g:4651:1: rule__Test__Group_5__0 : rule__Test__Group_5__0__Impl rule__Test__Group_5__1 ;
+    // InternalEduTest.g:4919:1: rule__Test__Group_5__0 : rule__Test__Group_5__0__Impl rule__Test__Group_5__1 ;
     public final void rule__Test__Group_5__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4655:1: ( rule__Test__Group_5__0__Impl rule__Test__Group_5__1 )
-            // InternalEduTest.g:4656:2: rule__Test__Group_5__0__Impl rule__Test__Group_5__1
+            // InternalEduTest.g:4923:1: ( rule__Test__Group_5__0__Impl rule__Test__Group_5__1 )
+            // InternalEduTest.g:4924:2: rule__Test__Group_5__0__Impl rule__Test__Group_5__1
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_30);
             rule__Test__Group_5__0__Impl();
 
             state._fsp--;
@@ -14277,21 +15118,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5__0__Impl"
-    // InternalEduTest.g:4663:1: rule__Test__Group_5__0__Impl : ( ( rule__Test__ExpressionAssignment_5_0 ) ) ;
+    // InternalEduTest.g:4931:1: rule__Test__Group_5__0__Impl : ( ( rule__Test__ExpressionAssignment_5_0 ) ) ;
     public final void rule__Test__Group_5__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4667:1: ( ( ( rule__Test__ExpressionAssignment_5_0 ) ) )
-            // InternalEduTest.g:4668:1: ( ( rule__Test__ExpressionAssignment_5_0 ) )
+            // InternalEduTest.g:4935:1: ( ( ( rule__Test__ExpressionAssignment_5_0 ) ) )
+            // InternalEduTest.g:4936:1: ( ( rule__Test__ExpressionAssignment_5_0 ) )
             {
-            // InternalEduTest.g:4668:1: ( ( rule__Test__ExpressionAssignment_5_0 ) )
-            // InternalEduTest.g:4669:2: ( rule__Test__ExpressionAssignment_5_0 )
+            // InternalEduTest.g:4936:1: ( ( rule__Test__ExpressionAssignment_5_0 ) )
+            // InternalEduTest.g:4937:2: ( rule__Test__ExpressionAssignment_5_0 )
             {
              before(grammarAccess.getTestAccess().getExpressionAssignment_5_0()); 
-            // InternalEduTest.g:4670:2: ( rule__Test__ExpressionAssignment_5_0 )
-            // InternalEduTest.g:4670:3: rule__Test__ExpressionAssignment_5_0
+            // InternalEduTest.g:4938:2: ( rule__Test__ExpressionAssignment_5_0 )
+            // InternalEduTest.g:4938:3: rule__Test__ExpressionAssignment_5_0
             {
             pushFollow(FOLLOW_2);
             rule__Test__ExpressionAssignment_5_0();
@@ -14324,14 +15165,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5__1"
-    // InternalEduTest.g:4678:1: rule__Test__Group_5__1 : rule__Test__Group_5__1__Impl ;
+    // InternalEduTest.g:4946:1: rule__Test__Group_5__1 : rule__Test__Group_5__1__Impl ;
     public final void rule__Test__Group_5__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4682:1: ( rule__Test__Group_5__1__Impl )
-            // InternalEduTest.g:4683:2: rule__Test__Group_5__1__Impl
+            // InternalEduTest.g:4950:1: ( rule__Test__Group_5__1__Impl )
+            // InternalEduTest.g:4951:2: rule__Test__Group_5__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Test__Group_5__1__Impl();
@@ -14357,29 +15198,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5__1__Impl"
-    // InternalEduTest.g:4689:1: rule__Test__Group_5__1__Impl : ( ( rule__Test__Group_5_1__0 )? ) ;
+    // InternalEduTest.g:4957:1: rule__Test__Group_5__1__Impl : ( ( rule__Test__Group_5_1__0 )? ) ;
     public final void rule__Test__Group_5__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4693:1: ( ( ( rule__Test__Group_5_1__0 )? ) )
-            // InternalEduTest.g:4694:1: ( ( rule__Test__Group_5_1__0 )? )
+            // InternalEduTest.g:4961:1: ( ( ( rule__Test__Group_5_1__0 )? ) )
+            // InternalEduTest.g:4962:1: ( ( rule__Test__Group_5_1__0 )? )
             {
-            // InternalEduTest.g:4694:1: ( ( rule__Test__Group_5_1__0 )? )
-            // InternalEduTest.g:4695:2: ( rule__Test__Group_5_1__0 )?
+            // InternalEduTest.g:4962:1: ( ( rule__Test__Group_5_1__0 )? )
+            // InternalEduTest.g:4963:2: ( rule__Test__Group_5_1__0 )?
             {
              before(grammarAccess.getTestAccess().getGroup_5_1()); 
-            // InternalEduTest.g:4696:2: ( rule__Test__Group_5_1__0 )?
-            int alt41=2;
-            int LA41_0 = input.LA(1);
+            // InternalEduTest.g:4964:2: ( rule__Test__Group_5_1__0 )?
+            int alt44=2;
+            int LA44_0 = input.LA(1);
 
-            if ( (LA41_0==39) ) {
-                alt41=1;
+            if ( (LA44_0==48) ) {
+                alt44=1;
             }
-            switch (alt41) {
+            switch (alt44) {
                 case 1 :
-                    // InternalEduTest.g:4696:3: rule__Test__Group_5_1__0
+                    // InternalEduTest.g:4964:3: rule__Test__Group_5_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Test__Group_5_1__0();
@@ -14415,16 +15256,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__0"
-    // InternalEduTest.g:4705:1: rule__Test__Group_5_1__0 : rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1 ;
+    // InternalEduTest.g:4973:1: rule__Test__Group_5_1__0 : rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1 ;
     public final void rule__Test__Group_5_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4709:1: ( rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1 )
-            // InternalEduTest.g:4710:2: rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1
+            // InternalEduTest.g:4977:1: ( rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1 )
+            // InternalEduTest.g:4978:2: rule__Test__Group_5_1__0__Impl rule__Test__Group_5_1__1
             {
-            pushFollow(FOLLOW_19);
+            pushFollow(FOLLOW_4);
             rule__Test__Group_5_1__0__Impl();
 
             state._fsp--;
@@ -14453,20 +15294,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__0__Impl"
-    // InternalEduTest.g:4717:1: rule__Test__Group_5_1__0__Impl : ( '(' ) ;
+    // InternalEduTest.g:4985:1: rule__Test__Group_5_1__0__Impl : ( '(' ) ;
     public final void rule__Test__Group_5_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4721:1: ( ( '(' ) )
-            // InternalEduTest.g:4722:1: ( '(' )
+            // InternalEduTest.g:4989:1: ( ( '(' ) )
+            // InternalEduTest.g:4990:1: ( '(' )
             {
-            // InternalEduTest.g:4722:1: ( '(' )
-            // InternalEduTest.g:4723:2: '('
+            // InternalEduTest.g:4990:1: ( '(' )
+            // InternalEduTest.g:4991:2: '('
             {
              before(grammarAccess.getTestAccess().getLeftParenthesisKeyword_5_1_0()); 
-            match(input,39,FOLLOW_2); 
+            match(input,48,FOLLOW_2); 
              after(grammarAccess.getTestAccess().getLeftParenthesisKeyword_5_1_0()); 
 
             }
@@ -14490,16 +15331,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__1"
-    // InternalEduTest.g:4732:1: rule__Test__Group_5_1__1 : rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2 ;
+    // InternalEduTest.g:5000:1: rule__Test__Group_5_1__1 : rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2 ;
     public final void rule__Test__Group_5_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4736:1: ( rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2 )
-            // InternalEduTest.g:4737:2: rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2
+            // InternalEduTest.g:5004:1: ( rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2 )
+            // InternalEduTest.g:5005:2: rule__Test__Group_5_1__1__Impl rule__Test__Group_5_1__2
             {
-            pushFollow(FOLLOW_20);
+            pushFollow(FOLLOW_31);
             rule__Test__Group_5_1__1__Impl();
 
             state._fsp--;
@@ -14528,21 +15369,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__1__Impl"
-    // InternalEduTest.g:4744:1: rule__Test__Group_5_1__1__Impl : ( ( rule__Test__IdentifierAssignment_5_1_1 ) ) ;
+    // InternalEduTest.g:5012:1: rule__Test__Group_5_1__1__Impl : ( ( rule__Test__IdentifierAssignment_5_1_1 ) ) ;
     public final void rule__Test__Group_5_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4748:1: ( ( ( rule__Test__IdentifierAssignment_5_1_1 ) ) )
-            // InternalEduTest.g:4749:1: ( ( rule__Test__IdentifierAssignment_5_1_1 ) )
+            // InternalEduTest.g:5016:1: ( ( ( rule__Test__IdentifierAssignment_5_1_1 ) ) )
+            // InternalEduTest.g:5017:1: ( ( rule__Test__IdentifierAssignment_5_1_1 ) )
             {
-            // InternalEduTest.g:4749:1: ( ( rule__Test__IdentifierAssignment_5_1_1 ) )
-            // InternalEduTest.g:4750:2: ( rule__Test__IdentifierAssignment_5_1_1 )
+            // InternalEduTest.g:5017:1: ( ( rule__Test__IdentifierAssignment_5_1_1 ) )
+            // InternalEduTest.g:5018:2: ( rule__Test__IdentifierAssignment_5_1_1 )
             {
              before(grammarAccess.getTestAccess().getIdentifierAssignment_5_1_1()); 
-            // InternalEduTest.g:4751:2: ( rule__Test__IdentifierAssignment_5_1_1 )
-            // InternalEduTest.g:4751:3: rule__Test__IdentifierAssignment_5_1_1
+            // InternalEduTest.g:5019:2: ( rule__Test__IdentifierAssignment_5_1_1 )
+            // InternalEduTest.g:5019:3: rule__Test__IdentifierAssignment_5_1_1
             {
             pushFollow(FOLLOW_2);
             rule__Test__IdentifierAssignment_5_1_1();
@@ -14575,14 +15416,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__2"
-    // InternalEduTest.g:4759:1: rule__Test__Group_5_1__2 : rule__Test__Group_5_1__2__Impl ;
+    // InternalEduTest.g:5027:1: rule__Test__Group_5_1__2 : rule__Test__Group_5_1__2__Impl ;
     public final void rule__Test__Group_5_1__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4763:1: ( rule__Test__Group_5_1__2__Impl )
-            // InternalEduTest.g:4764:2: rule__Test__Group_5_1__2__Impl
+            // InternalEduTest.g:5031:1: ( rule__Test__Group_5_1__2__Impl )
+            // InternalEduTest.g:5032:2: rule__Test__Group_5_1__2__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Test__Group_5_1__2__Impl();
@@ -14608,20 +15449,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__Group_5_1__2__Impl"
-    // InternalEduTest.g:4770:1: rule__Test__Group_5_1__2__Impl : ( ')' ) ;
+    // InternalEduTest.g:5038:1: rule__Test__Group_5_1__2__Impl : ( ')' ) ;
     public final void rule__Test__Group_5_1__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4774:1: ( ( ')' ) )
-            // InternalEduTest.g:4775:1: ( ')' )
+            // InternalEduTest.g:5042:1: ( ( ')' ) )
+            // InternalEduTest.g:5043:1: ( ')' )
             {
-            // InternalEduTest.g:4775:1: ( ')' )
-            // InternalEduTest.g:4776:2: ')'
+            // InternalEduTest.g:5043:1: ( ')' )
+            // InternalEduTest.g:5044:2: ')'
             {
              before(grammarAccess.getTestAccess().getRightParenthesisKeyword_5_1_2()); 
-            match(input,40,FOLLOW_2); 
+            match(input,49,FOLLOW_2); 
              after(grammarAccess.getTestAccess().getRightParenthesisKeyword_5_1_2()); 
 
             }
@@ -14645,14 +15486,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__0"
-    // InternalEduTest.g:4786:1: rule__EDouble__Group__0 : rule__EDouble__Group__0__Impl rule__EDouble__Group__1 ;
+    // InternalEduTest.g:5054:1: rule__EDouble__Group__0 : rule__EDouble__Group__0__Impl rule__EDouble__Group__1 ;
     public final void rule__EDouble__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4790:1: ( rule__EDouble__Group__0__Impl rule__EDouble__Group__1 )
-            // InternalEduTest.g:4791:2: rule__EDouble__Group__0__Impl rule__EDouble__Group__1
+            // InternalEduTest.g:5058:1: ( rule__EDouble__Group__0__Impl rule__EDouble__Group__1 )
+            // InternalEduTest.g:5059:2: rule__EDouble__Group__0__Impl rule__EDouble__Group__1
             {
             pushFollow(FOLLOW_24);
             rule__EDouble__Group__0__Impl();
@@ -14683,31 +15524,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__0__Impl"
-    // InternalEduTest.g:4798:1: rule__EDouble__Group__0__Impl : ( ( '-' )? ) ;
+    // InternalEduTest.g:5066:1: rule__EDouble__Group__0__Impl : ( ( '-' )? ) ;
     public final void rule__EDouble__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4802:1: ( ( ( '-' )? ) )
-            // InternalEduTest.g:4803:1: ( ( '-' )? )
+            // InternalEduTest.g:5070:1: ( ( ( '-' )? ) )
+            // InternalEduTest.g:5071:1: ( ( '-' )? )
             {
-            // InternalEduTest.g:4803:1: ( ( '-' )? )
-            // InternalEduTest.g:4804:2: ( '-' )?
+            // InternalEduTest.g:5071:1: ( ( '-' )? )
+            // InternalEduTest.g:5072:2: ( '-' )?
             {
              before(grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_0()); 
-            // InternalEduTest.g:4805:2: ( '-' )?
-            int alt42=2;
-            int LA42_0 = input.LA(1);
+            // InternalEduTest.g:5073:2: ( '-' )?
+            int alt45=2;
+            int LA45_0 = input.LA(1);
 
-            if ( (LA42_0==48) ) {
-                alt42=1;
+            if ( (LA45_0==50) ) {
+                alt45=1;
             }
-            switch (alt42) {
+            switch (alt45) {
                 case 1 :
-                    // InternalEduTest.g:4805:3: '-'
+                    // InternalEduTest.g:5073:3: '-'
                     {
-                    match(input,48,FOLLOW_2); 
+                    match(input,50,FOLLOW_2); 
 
                     }
                     break;
@@ -14737,14 +15578,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__1"
-    // InternalEduTest.g:4813:1: rule__EDouble__Group__1 : rule__EDouble__Group__1__Impl rule__EDouble__Group__2 ;
+    // InternalEduTest.g:5081:1: rule__EDouble__Group__1 : rule__EDouble__Group__1__Impl rule__EDouble__Group__2 ;
     public final void rule__EDouble__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4817:1: ( rule__EDouble__Group__1__Impl rule__EDouble__Group__2 )
-            // InternalEduTest.g:4818:2: rule__EDouble__Group__1__Impl rule__EDouble__Group__2
+            // InternalEduTest.g:5085:1: ( rule__EDouble__Group__1__Impl rule__EDouble__Group__2 )
+            // InternalEduTest.g:5086:2: rule__EDouble__Group__1__Impl rule__EDouble__Group__2
             {
             pushFollow(FOLLOW_24);
             rule__EDouble__Group__1__Impl();
@@ -14775,29 +15616,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__1__Impl"
-    // InternalEduTest.g:4825:1: rule__EDouble__Group__1__Impl : ( ( RULE_INT )? ) ;
+    // InternalEduTest.g:5093:1: rule__EDouble__Group__1__Impl : ( ( RULE_INT )? ) ;
     public final void rule__EDouble__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4829:1: ( ( ( RULE_INT )? ) )
-            // InternalEduTest.g:4830:1: ( ( RULE_INT )? )
+            // InternalEduTest.g:5097:1: ( ( ( RULE_INT )? ) )
+            // InternalEduTest.g:5098:1: ( ( RULE_INT )? )
             {
-            // InternalEduTest.g:4830:1: ( ( RULE_INT )? )
-            // InternalEduTest.g:4831:2: ( RULE_INT )?
+            // InternalEduTest.g:5098:1: ( ( RULE_INT )? )
+            // InternalEduTest.g:5099:2: ( RULE_INT )?
             {
              before(grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_1()); 
-            // InternalEduTest.g:4832:2: ( RULE_INT )?
-            int alt43=2;
-            int LA43_0 = input.LA(1);
+            // InternalEduTest.g:5100:2: ( RULE_INT )?
+            int alt46=2;
+            int LA46_0 = input.LA(1);
 
-            if ( (LA43_0==RULE_INT) ) {
-                alt43=1;
+            if ( (LA46_0==RULE_INT) ) {
+                alt46=1;
             }
-            switch (alt43) {
+            switch (alt46) {
                 case 1 :
-                    // InternalEduTest.g:4832:3: RULE_INT
+                    // InternalEduTest.g:5100:3: RULE_INT
                     {
                     match(input,RULE_INT,FOLLOW_2); 
 
@@ -14829,16 +15670,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__2"
-    // InternalEduTest.g:4840:1: rule__EDouble__Group__2 : rule__EDouble__Group__2__Impl rule__EDouble__Group__3 ;
+    // InternalEduTest.g:5108:1: rule__EDouble__Group__2 : rule__EDouble__Group__2__Impl rule__EDouble__Group__3 ;
     public final void rule__EDouble__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4844:1: ( rule__EDouble__Group__2__Impl rule__EDouble__Group__3 )
-            // InternalEduTest.g:4845:2: rule__EDouble__Group__2__Impl rule__EDouble__Group__3
+            // InternalEduTest.g:5112:1: ( rule__EDouble__Group__2__Impl rule__EDouble__Group__3 )
+            // InternalEduTest.g:5113:2: rule__EDouble__Group__2__Impl rule__EDouble__Group__3
             {
-            pushFollow(FOLLOW_30);
+            pushFollow(FOLLOW_32);
             rule__EDouble__Group__2__Impl();
 
             state._fsp--;
@@ -14867,20 +15708,20 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__2__Impl"
-    // InternalEduTest.g:4852:1: rule__EDouble__Group__2__Impl : ( '.' ) ;
+    // InternalEduTest.g:5120:1: rule__EDouble__Group__2__Impl : ( '.' ) ;
     public final void rule__EDouble__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4856:1: ( ( '.' ) )
-            // InternalEduTest.g:4857:1: ( '.' )
+            // InternalEduTest.g:5124:1: ( ( '.' ) )
+            // InternalEduTest.g:5125:1: ( '.' )
             {
-            // InternalEduTest.g:4857:1: ( '.' )
-            // InternalEduTest.g:4858:2: '.'
+            // InternalEduTest.g:5125:1: ( '.' )
+            // InternalEduTest.g:5126:2: '.'
             {
              before(grammarAccess.getEDoubleAccess().getFullStopKeyword_2()); 
-            match(input,49,FOLLOW_2); 
+            match(input,51,FOLLOW_2); 
              after(grammarAccess.getEDoubleAccess().getFullStopKeyword_2()); 
 
             }
@@ -14904,16 +15745,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__3"
-    // InternalEduTest.g:4867:1: rule__EDouble__Group__3 : rule__EDouble__Group__3__Impl rule__EDouble__Group__4 ;
+    // InternalEduTest.g:5135:1: rule__EDouble__Group__3 : rule__EDouble__Group__3__Impl rule__EDouble__Group__4 ;
     public final void rule__EDouble__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4871:1: ( rule__EDouble__Group__3__Impl rule__EDouble__Group__4 )
-            // InternalEduTest.g:4872:2: rule__EDouble__Group__3__Impl rule__EDouble__Group__4
+            // InternalEduTest.g:5139:1: ( rule__EDouble__Group__3__Impl rule__EDouble__Group__4 )
+            // InternalEduTest.g:5140:2: rule__EDouble__Group__3__Impl rule__EDouble__Group__4
             {
-            pushFollow(FOLLOW_31);
+            pushFollow(FOLLOW_33);
             rule__EDouble__Group__3__Impl();
 
             state._fsp--;
@@ -14942,17 +15783,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__3__Impl"
-    // InternalEduTest.g:4879:1: rule__EDouble__Group__3__Impl : ( RULE_INT ) ;
+    // InternalEduTest.g:5147:1: rule__EDouble__Group__3__Impl : ( RULE_INT ) ;
     public final void rule__EDouble__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4883:1: ( ( RULE_INT ) )
-            // InternalEduTest.g:4884:1: ( RULE_INT )
+            // InternalEduTest.g:5151:1: ( ( RULE_INT ) )
+            // InternalEduTest.g:5152:1: ( RULE_INT )
             {
-            // InternalEduTest.g:4884:1: ( RULE_INT )
-            // InternalEduTest.g:4885:2: RULE_INT
+            // InternalEduTest.g:5152:1: ( RULE_INT )
+            // InternalEduTest.g:5153:2: RULE_INT
             {
              before(grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_3()); 
             match(input,RULE_INT,FOLLOW_2); 
@@ -14979,14 +15820,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__4"
-    // InternalEduTest.g:4894:1: rule__EDouble__Group__4 : rule__EDouble__Group__4__Impl ;
+    // InternalEduTest.g:5162:1: rule__EDouble__Group__4 : rule__EDouble__Group__4__Impl ;
     public final void rule__EDouble__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4898:1: ( rule__EDouble__Group__4__Impl )
-            // InternalEduTest.g:4899:2: rule__EDouble__Group__4__Impl
+            // InternalEduTest.g:5166:1: ( rule__EDouble__Group__4__Impl )
+            // InternalEduTest.g:5167:2: rule__EDouble__Group__4__Impl
             {
             pushFollow(FOLLOW_2);
             rule__EDouble__Group__4__Impl();
@@ -15012,29 +15853,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group__4__Impl"
-    // InternalEduTest.g:4905:1: rule__EDouble__Group__4__Impl : ( ( rule__EDouble__Group_4__0 )? ) ;
+    // InternalEduTest.g:5173:1: rule__EDouble__Group__4__Impl : ( ( rule__EDouble__Group_4__0 )? ) ;
     public final void rule__EDouble__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4909:1: ( ( ( rule__EDouble__Group_4__0 )? ) )
-            // InternalEduTest.g:4910:1: ( ( rule__EDouble__Group_4__0 )? )
+            // InternalEduTest.g:5177:1: ( ( ( rule__EDouble__Group_4__0 )? ) )
+            // InternalEduTest.g:5178:1: ( ( rule__EDouble__Group_4__0 )? )
             {
-            // InternalEduTest.g:4910:1: ( ( rule__EDouble__Group_4__0 )? )
-            // InternalEduTest.g:4911:2: ( rule__EDouble__Group_4__0 )?
+            // InternalEduTest.g:5178:1: ( ( rule__EDouble__Group_4__0 )? )
+            // InternalEduTest.g:5179:2: ( rule__EDouble__Group_4__0 )?
             {
              before(grammarAccess.getEDoubleAccess().getGroup_4()); 
-            // InternalEduTest.g:4912:2: ( rule__EDouble__Group_4__0 )?
-            int alt44=2;
-            int LA44_0 = input.LA(1);
+            // InternalEduTest.g:5180:2: ( rule__EDouble__Group_4__0 )?
+            int alt47=2;
+            int LA47_0 = input.LA(1);
 
-            if ( ((LA44_0>=13 && LA44_0<=14)) ) {
-                alt44=1;
+            if ( ((LA47_0>=13 && LA47_0<=14)) ) {
+                alt47=1;
             }
-            switch (alt44) {
+            switch (alt47) {
                 case 1 :
-                    // InternalEduTest.g:4912:3: rule__EDouble__Group_4__0
+                    // InternalEduTest.g:5180:3: rule__EDouble__Group_4__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__EDouble__Group_4__0();
@@ -15070,16 +15911,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__0"
-    // InternalEduTest.g:4921:1: rule__EDouble__Group_4__0 : rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1 ;
+    // InternalEduTest.g:5189:1: rule__EDouble__Group_4__0 : rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1 ;
     public final void rule__EDouble__Group_4__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4925:1: ( rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1 )
-            // InternalEduTest.g:4926:2: rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1
+            // InternalEduTest.g:5193:1: ( rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1 )
+            // InternalEduTest.g:5194:2: rule__EDouble__Group_4__0__Impl rule__EDouble__Group_4__1
             {
-            pushFollow(FOLLOW_32);
+            pushFollow(FOLLOW_34);
             rule__EDouble__Group_4__0__Impl();
 
             state._fsp--;
@@ -15108,21 +15949,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__0__Impl"
-    // InternalEduTest.g:4933:1: rule__EDouble__Group_4__0__Impl : ( ( rule__EDouble__Alternatives_4_0 ) ) ;
+    // InternalEduTest.g:5201:1: rule__EDouble__Group_4__0__Impl : ( ( rule__EDouble__Alternatives_4_0 ) ) ;
     public final void rule__EDouble__Group_4__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4937:1: ( ( ( rule__EDouble__Alternatives_4_0 ) ) )
-            // InternalEduTest.g:4938:1: ( ( rule__EDouble__Alternatives_4_0 ) )
+            // InternalEduTest.g:5205:1: ( ( ( rule__EDouble__Alternatives_4_0 ) ) )
+            // InternalEduTest.g:5206:1: ( ( rule__EDouble__Alternatives_4_0 ) )
             {
-            // InternalEduTest.g:4938:1: ( ( rule__EDouble__Alternatives_4_0 ) )
-            // InternalEduTest.g:4939:2: ( rule__EDouble__Alternatives_4_0 )
+            // InternalEduTest.g:5206:1: ( ( rule__EDouble__Alternatives_4_0 ) )
+            // InternalEduTest.g:5207:2: ( rule__EDouble__Alternatives_4_0 )
             {
              before(grammarAccess.getEDoubleAccess().getAlternatives_4_0()); 
-            // InternalEduTest.g:4940:2: ( rule__EDouble__Alternatives_4_0 )
-            // InternalEduTest.g:4940:3: rule__EDouble__Alternatives_4_0
+            // InternalEduTest.g:5208:2: ( rule__EDouble__Alternatives_4_0 )
+            // InternalEduTest.g:5208:3: rule__EDouble__Alternatives_4_0
             {
             pushFollow(FOLLOW_2);
             rule__EDouble__Alternatives_4_0();
@@ -15155,16 +15996,16 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__1"
-    // InternalEduTest.g:4948:1: rule__EDouble__Group_4__1 : rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2 ;
+    // InternalEduTest.g:5216:1: rule__EDouble__Group_4__1 : rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2 ;
     public final void rule__EDouble__Group_4__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4952:1: ( rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2 )
-            // InternalEduTest.g:4953:2: rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2
+            // InternalEduTest.g:5220:1: ( rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2 )
+            // InternalEduTest.g:5221:2: rule__EDouble__Group_4__1__Impl rule__EDouble__Group_4__2
             {
-            pushFollow(FOLLOW_32);
+            pushFollow(FOLLOW_34);
             rule__EDouble__Group_4__1__Impl();
 
             state._fsp--;
@@ -15193,31 +16034,31 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__1__Impl"
-    // InternalEduTest.g:4960:1: rule__EDouble__Group_4__1__Impl : ( ( '-' )? ) ;
+    // InternalEduTest.g:5228:1: rule__EDouble__Group_4__1__Impl : ( ( '-' )? ) ;
     public final void rule__EDouble__Group_4__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4964:1: ( ( ( '-' )? ) )
-            // InternalEduTest.g:4965:1: ( ( '-' )? )
+            // InternalEduTest.g:5232:1: ( ( ( '-' )? ) )
+            // InternalEduTest.g:5233:1: ( ( '-' )? )
             {
-            // InternalEduTest.g:4965:1: ( ( '-' )? )
-            // InternalEduTest.g:4966:2: ( '-' )?
+            // InternalEduTest.g:5233:1: ( ( '-' )? )
+            // InternalEduTest.g:5234:2: ( '-' )?
             {
              before(grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_4_1()); 
-            // InternalEduTest.g:4967:2: ( '-' )?
-            int alt45=2;
-            int LA45_0 = input.LA(1);
+            // InternalEduTest.g:5235:2: ( '-' )?
+            int alt48=2;
+            int LA48_0 = input.LA(1);
 
-            if ( (LA45_0==48) ) {
-                alt45=1;
+            if ( (LA48_0==50) ) {
+                alt48=1;
             }
-            switch (alt45) {
+            switch (alt48) {
                 case 1 :
-                    // InternalEduTest.g:4967:3: '-'
+                    // InternalEduTest.g:5235:3: '-'
                     {
-                    match(input,48,FOLLOW_2); 
+                    match(input,50,FOLLOW_2); 
 
                     }
                     break;
@@ -15247,14 +16088,14 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__2"
-    // InternalEduTest.g:4975:1: rule__EDouble__Group_4__2 : rule__EDouble__Group_4__2__Impl ;
+    // InternalEduTest.g:5243:1: rule__EDouble__Group_4__2 : rule__EDouble__Group_4__2__Impl ;
     public final void rule__EDouble__Group_4__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4979:1: ( rule__EDouble__Group_4__2__Impl )
-            // InternalEduTest.g:4980:2: rule__EDouble__Group_4__2__Impl
+            // InternalEduTest.g:5247:1: ( rule__EDouble__Group_4__2__Impl )
+            // InternalEduTest.g:5248:2: rule__EDouble__Group_4__2__Impl
             {
             pushFollow(FOLLOW_2);
             rule__EDouble__Group_4__2__Impl();
@@ -15280,17 +16121,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__EDouble__Group_4__2__Impl"
-    // InternalEduTest.g:4986:1: rule__EDouble__Group_4__2__Impl : ( RULE_INT ) ;
+    // InternalEduTest.g:5254:1: rule__EDouble__Group_4__2__Impl : ( RULE_INT ) ;
     public final void rule__EDouble__Group_4__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:4990:1: ( ( RULE_INT ) )
-            // InternalEduTest.g:4991:1: ( RULE_INT )
+            // InternalEduTest.g:5258:1: ( ( RULE_INT ) )
+            // InternalEduTest.g:5259:1: ( RULE_INT )
             {
-            // InternalEduTest.g:4991:1: ( RULE_INT )
-            // InternalEduTest.g:4992:2: RULE_INT
+            // InternalEduTest.g:5259:1: ( RULE_INT )
+            // InternalEduTest.g:5260:2: RULE_INT
             {
              before(grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_4_2()); 
             match(input,RULE_INT,FOLLOW_2); 
@@ -15316,26 +16157,67 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__EDouble__Group_4__2__Impl"
 
 
-    // $ANTLR start "rule__Program__ConfigAssignment_1"
-    // InternalEduTest.g:5002:1: rule__Program__ConfigAssignment_1 : ( ruleProgramConfiguration ) ;
-    public final void rule__Program__ConfigAssignment_1() throws RecognitionException {
+    // $ANTLR start "rule__Program__MetamodelAssignment_2"
+    // InternalEduTest.g:5270:1: rule__Program__MetamodelAssignment_2 : ( ruleEString ) ;
+    public final void rule__Program__MetamodelAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5006:1: ( ( ruleProgramConfiguration ) )
-            // InternalEduTest.g:5007:2: ( ruleProgramConfiguration )
+            // InternalEduTest.g:5274:1: ( ( ruleEString ) )
+            // InternalEduTest.g:5275:2: ( ruleEString )
             {
-            // InternalEduTest.g:5007:2: ( ruleProgramConfiguration )
-            // InternalEduTest.g:5008:3: ruleProgramConfiguration
+            // InternalEduTest.g:5275:2: ( ruleEString )
+            // InternalEduTest.g:5276:3: ruleEString
             {
-             before(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_1_0()); 
+             before(grammarAccess.getProgramAccess().getMetamodelEStringParserRuleCall_2_0()); 
+            pushFollow(FOLLOW_2);
+            ruleEString();
+
+            state._fsp--;
+
+             after(grammarAccess.getProgramAccess().getMetamodelEStringParserRuleCall_2_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Program__MetamodelAssignment_2"
+
+
+    // $ANTLR start "rule__Program__ConfigAssignment_3"
+    // InternalEduTest.g:5285:1: rule__Program__ConfigAssignment_3 : ( ruleProgramConfiguration ) ;
+    public final void rule__Program__ConfigAssignment_3() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:5289:1: ( ( ruleProgramConfiguration ) )
+            // InternalEduTest.g:5290:2: ( ruleProgramConfiguration )
+            {
+            // InternalEduTest.g:5290:2: ( ruleProgramConfiguration )
+            // InternalEduTest.g:5291:3: ruleProgramConfiguration
+            {
+             before(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
             ruleProgramConfiguration();
 
             state._fsp--;
 
-             after(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_1_0()); 
+             after(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_3_0()); 
 
             }
 
@@ -15354,29 +16236,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Program__ConfigAssignment_1"
+    // $ANTLR end "rule__Program__ConfigAssignment_3"
 
 
-    // $ANTLR start "rule__Program__ExercisesAssignment_2"
-    // InternalEduTest.g:5017:1: rule__Program__ExercisesAssignment_2 : ( ruleMutatorTests ) ;
-    public final void rule__Program__ExercisesAssignment_2() throws RecognitionException {
+    // $ANTLR start "rule__Program__ExercisesAssignment_4"
+    // InternalEduTest.g:5300:1: rule__Program__ExercisesAssignment_4 : ( ruleMutatorTests ) ;
+    public final void rule__Program__ExercisesAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5021:1: ( ( ruleMutatorTests ) )
-            // InternalEduTest.g:5022:2: ( ruleMutatorTests )
+            // InternalEduTest.g:5304:1: ( ( ruleMutatorTests ) )
+            // InternalEduTest.g:5305:2: ( ruleMutatorTests )
             {
-            // InternalEduTest.g:5022:2: ( ruleMutatorTests )
-            // InternalEduTest.g:5023:3: ruleMutatorTests
+            // InternalEduTest.g:5305:2: ( ruleMutatorTests )
+            // InternalEduTest.g:5306:3: ruleMutatorTests
             {
-             before(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_2_0()); 
+             before(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
             ruleMutatorTests();
 
             state._fsp--;
 
-             after(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_2_0()); 
+             after(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_4_0()); 
 
             }
 
@@ -15395,33 +16277,33 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Program__ExercisesAssignment_2"
+    // $ANTLR end "rule__Program__ExercisesAssignment_4"
 
 
-    // $ANTLR start "rule__AlternativeResponse__BlocksAssignment_1_0"
-    // InternalEduTest.g:5032:1: rule__AlternativeResponse__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__AlternativeResponse__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MarkedBlock__BlockAssignment_1"
+    // InternalEduTest.g:5315:1: rule__MarkedBlock__BlockAssignment_1 : ( ( RULE_ID ) ) ;
+    public final void rule__MarkedBlock__BlockAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5036:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5037:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5319:1: ( ( ( RULE_ID ) ) )
+            // InternalEduTest.g:5320:2: ( ( RULE_ID ) )
             {
-            // InternalEduTest.g:5037:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5038:3: ( RULE_ID )
+            // InternalEduTest.g:5320:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5321:3: ( RULE_ID )
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5039:3: ( RULE_ID )
-            // InternalEduTest.g:5040:4: RULE_ID
+             before(grammarAccess.getMarkedBlockAccess().getBlockBlockCrossReference_1_0()); 
+            // InternalEduTest.g:5322:3: ( RULE_ID )
+            // InternalEduTest.g:5323:4: RULE_ID
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMarkedBlockAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
             match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             after(grammarAccess.getMarkedBlockAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
 
             }
 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMarkedBlockAccess().getBlockBlockCrossReference_1_0()); 
 
             }
 
@@ -15440,33 +16322,33 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__AlternativeResponse__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MarkedBlock__BlockAssignment_1"
 
 
-    // $ANTLR start "rule__AlternativeResponse__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5051:1: rule__AlternativeResponse__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__AlternativeResponse__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MarkedBlock__SolutionAssignment_2_0"
+    // InternalEduTest.g:5334:1: rule__MarkedBlock__SolutionAssignment_2_0 : ( ( '=' ) ) ;
+    public final void rule__MarkedBlock__SolutionAssignment_2_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5055:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5056:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5338:1: ( ( ( '=' ) ) )
+            // InternalEduTest.g:5339:2: ( ( '=' ) )
             {
-            // InternalEduTest.g:5056:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5057:3: ( RULE_ID )
+            // InternalEduTest.g:5339:2: ( ( '=' ) )
+            // InternalEduTest.g:5340:3: ( '=' )
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5058:3: ( RULE_ID )
-            // InternalEduTest.g:5059:4: RULE_ID
+             before(grammarAccess.getMarkedBlockAccess().getSolutionEqualsSignKeyword_2_0_0()); 
+            // InternalEduTest.g:5341:3: ( '=' )
+            // InternalEduTest.g:5342:4: '='
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMarkedBlockAccess().getSolutionEqualsSignKeyword_2_0_0()); 
+            match(input,37,FOLLOW_2); 
+             after(grammarAccess.getMarkedBlockAccess().getSolutionEqualsSignKeyword_2_0_0()); 
 
             }
 
-             after(grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMarkedBlockAccess().getSolutionEqualsSignKeyword_2_0_0()); 
 
             }
 
@@ -15485,21 +16367,103 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__AlternativeResponse__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MarkedBlock__SolutionAssignment_2_0"
+
+
+    // $ANTLR start "rule__AlternativeResponse__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5353:1: rule__AlternativeResponse__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__AlternativeResponse__MarkedBlocksAssignment_1_0() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:5357:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5358:2: ( ruleMarkedBlock )
+            {
+            // InternalEduTest.g:5358:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5359:3: ruleMarkedBlock
+            {
+             before(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
+
+            state._fsp--;
+
+             after(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__AlternativeResponse__MarkedBlocksAssignment_1_0"
+
+
+    // $ANTLR start "rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5368:1: rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:5372:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5373:2: ( ruleMarkedBlock )
+            {
+            // InternalEduTest.g:5373:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5374:3: ruleMarkedBlock
+            {
+             before(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
+
+            state._fsp--;
+
+             after(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__AlternativeResponse__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__AlternativeResponse__ConfigAssignment_3"
-    // InternalEduTest.g:5070:1: rule__AlternativeResponse__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
+    // InternalEduTest.g:5383:1: rule__AlternativeResponse__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
     public final void rule__AlternativeResponse__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5074:1: ( ( ruleTestConfiguration ) )
-            // InternalEduTest.g:5075:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5387:1: ( ( ruleTestConfiguration ) )
+            // InternalEduTest.g:5388:2: ( ruleTestConfiguration )
             {
-            // InternalEduTest.g:5075:2: ( ruleTestConfiguration )
-            // InternalEduTest.g:5076:3: ruleTestConfiguration
+            // InternalEduTest.g:5388:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5389:3: ruleTestConfiguration
             {
              before(grammarAccess.getAlternativeResponseAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -15530,17 +16494,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeResponse__TestsAssignment_4"
-    // InternalEduTest.g:5085:1: rule__AlternativeResponse__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5398:1: rule__AlternativeResponse__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__AlternativeResponse__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5089:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5090:2: ( ruleTest )
+            // InternalEduTest.g:5402:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5403:2: ( ruleTest )
             {
-            // InternalEduTest.g:5090:2: ( ruleTest )
-            // InternalEduTest.g:5091:3: ruleTest
+            // InternalEduTest.g:5403:2: ( ruleTest )
+            // InternalEduTest.g:5404:3: ruleTest
             {
              before(grammarAccess.getAlternativeResponseAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -15570,30 +16534,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__AlternativeResponse__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__MultiChoiceDiagram__BlocksAssignment_1_0"
-    // InternalEduTest.g:5100:1: rule__MultiChoiceDiagram__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceDiagram__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5413:1: rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5104:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5105:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5417:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5418:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5105:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5106:3: ( RULE_ID )
+            // InternalEduTest.g:5418:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5419:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5107:3: ( RULE_ID )
-            // InternalEduTest.g:5108:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -15612,33 +16572,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceDiagram__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__MultiChoiceDiagram__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5119:1: rule__MultiChoiceDiagram__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceDiagram__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5428:1: rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5123:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5124:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5432:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5433:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5124:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5125:3: ( RULE_ID )
+            // InternalEduTest.g:5433:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5434:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5126:3: ( RULE_ID )
-            // InternalEduTest.g:5127:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -15657,21 +16613,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceDiagram__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MultiChoiceDiagram__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__ConfigAssignment_3"
-    // InternalEduTest.g:5138:1: rule__MultiChoiceDiagram__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
+    // InternalEduTest.g:5443:1: rule__MultiChoiceDiagram__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
     public final void rule__MultiChoiceDiagram__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5142:1: ( ( ruleTestConfiguration ) )
-            // InternalEduTest.g:5143:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5447:1: ( ( ruleTestConfiguration ) )
+            // InternalEduTest.g:5448:2: ( ruleTestConfiguration )
             {
-            // InternalEduTest.g:5143:2: ( ruleTestConfiguration )
-            // InternalEduTest.g:5144:3: ruleTestConfiguration
+            // InternalEduTest.g:5448:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5449:3: ruleTestConfiguration
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -15702,17 +16658,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceDiagram__TestsAssignment_4"
-    // InternalEduTest.g:5153:1: rule__MultiChoiceDiagram__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5458:1: rule__MultiChoiceDiagram__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__MultiChoiceDiagram__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5157:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5158:2: ( ruleTest )
+            // InternalEduTest.g:5462:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5463:2: ( ruleTest )
             {
-            // InternalEduTest.g:5158:2: ( ruleTest )
-            // InternalEduTest.g:5159:3: ruleTest
+            // InternalEduTest.g:5463:2: ( ruleTest )
+            // InternalEduTest.g:5464:3: ruleTest
             {
              before(grammarAccess.getMultiChoiceDiagramAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -15742,30 +16698,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__MultiChoiceDiagram__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__MultiChoiceEmendation__BlocksAssignment_1_0"
-    // InternalEduTest.g:5168:1: rule__MultiChoiceEmendation__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceEmendation__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5473:1: rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5172:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5173:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5477:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5478:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5173:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5174:3: ( RULE_ID )
+            // InternalEduTest.g:5478:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5479:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5175:3: ( RULE_ID )
-            // InternalEduTest.g:5176:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -15784,33 +16736,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceEmendation__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__MultiChoiceEmendation__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5187:1: rule__MultiChoiceEmendation__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceEmendation__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5488:1: rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5191:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5192:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5492:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5493:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5192:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5193:3: ( RULE_ID )
+            // InternalEduTest.g:5493:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5494:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5194:3: ( RULE_ID )
-            // InternalEduTest.g:5195:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -15829,21 +16777,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceEmendation__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MultiChoiceEmendation__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__ConfigAssignment_3"
-    // InternalEduTest.g:5206:1: rule__MultiChoiceEmendation__ConfigAssignment_3 : ( ruleMultiChoiceEmConfig ) ;
+    // InternalEduTest.g:5503:1: rule__MultiChoiceEmendation__ConfigAssignment_3 : ( ruleMultiChoiceEmConfig ) ;
     public final void rule__MultiChoiceEmendation__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5210:1: ( ( ruleMultiChoiceEmConfig ) )
-            // InternalEduTest.g:5211:2: ( ruleMultiChoiceEmConfig )
+            // InternalEduTest.g:5507:1: ( ( ruleMultiChoiceEmConfig ) )
+            // InternalEduTest.g:5508:2: ( ruleMultiChoiceEmConfig )
             {
-            // InternalEduTest.g:5211:2: ( ruleMultiChoiceEmConfig )
-            // InternalEduTest.g:5212:3: ruleMultiChoiceEmConfig
+            // InternalEduTest.g:5508:2: ( ruleMultiChoiceEmConfig )
+            // InternalEduTest.g:5509:3: ruleMultiChoiceEmConfig
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getConfigMultiChoiceEmConfigParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -15874,17 +16822,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmendation__TestsAssignment_4"
-    // InternalEduTest.g:5221:1: rule__MultiChoiceEmendation__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5518:1: rule__MultiChoiceEmendation__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__MultiChoiceEmendation__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5225:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5226:2: ( ruleTest )
+            // InternalEduTest.g:5522:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5523:2: ( ruleTest )
             {
-            // InternalEduTest.g:5226:2: ( ruleTest )
-            // InternalEduTest.g:5227:3: ruleTest
+            // InternalEduTest.g:5523:2: ( ruleTest )
+            // InternalEduTest.g:5524:3: ruleTest
             {
              before(grammarAccess.getMultiChoiceEmendationAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -15914,30 +16862,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__MultiChoiceEmendation__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__MatchPairs__BlocksAssignment_1_0"
-    // InternalEduTest.g:5236:1: rule__MatchPairs__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__MatchPairs__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MatchPairs__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5533:1: rule__MatchPairs__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__MatchPairs__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5240:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5241:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5537:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5538:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5241:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5242:3: ( RULE_ID )
+            // InternalEduTest.g:5538:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5539:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5243:3: ( RULE_ID )
-            // InternalEduTest.g:5244:4: RULE_ID
-            {
-             before(grammarAccess.getMatchPairsAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMatchPairsAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -15956,33 +16900,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MatchPairs__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MatchPairs__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__MatchPairs__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5255:1: rule__MatchPairs__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__MatchPairs__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MatchPairs__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5548:1: rule__MatchPairs__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__MatchPairs__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5259:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5260:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5552:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5553:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5260:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5261:3: ( RULE_ID )
+            // InternalEduTest.g:5553:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5554:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5262:3: ( RULE_ID )
-            // InternalEduTest.g:5263:4: RULE_ID
-            {
-             before(grammarAccess.getMatchPairsAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMatchPairsAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -16001,21 +16941,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MatchPairs__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MatchPairs__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__MatchPairs__ConfigAssignment_3"
-    // InternalEduTest.g:5274:1: rule__MatchPairs__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
+    // InternalEduTest.g:5563:1: rule__MatchPairs__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
     public final void rule__MatchPairs__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5278:1: ( ( ruleTextConfiguration ) )
-            // InternalEduTest.g:5279:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5567:1: ( ( ruleTextConfiguration ) )
+            // InternalEduTest.g:5568:2: ( ruleTextConfiguration )
             {
-            // InternalEduTest.g:5279:2: ( ruleTextConfiguration )
-            // InternalEduTest.g:5280:3: ruleTextConfiguration
+            // InternalEduTest.g:5568:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5569:3: ruleTextConfiguration
             {
              before(grammarAccess.getMatchPairsAccess().getConfigTextConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16046,17 +16986,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MatchPairs__TestsAssignment_4"
-    // InternalEduTest.g:5289:1: rule__MatchPairs__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5578:1: rule__MatchPairs__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__MatchPairs__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5293:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5294:2: ( ruleTest )
+            // InternalEduTest.g:5582:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5583:2: ( ruleTest )
             {
-            // InternalEduTest.g:5294:2: ( ruleTest )
-            // InternalEduTest.g:5295:3: ruleTest
+            // InternalEduTest.g:5583:2: ( ruleTest )
+            // InternalEduTest.g:5584:3: ruleTest
             {
              before(grammarAccess.getMatchPairsAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -16086,30 +17026,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__MatchPairs__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__MissingWords__BlocksAssignment_1_0"
-    // InternalEduTest.g:5304:1: rule__MissingWords__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__MissingWords__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MissingWords__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5593:1: rule__MissingWords__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__MissingWords__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5308:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5309:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5597:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5598:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5309:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5310:3: ( RULE_ID )
+            // InternalEduTest.g:5598:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5599:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5311:3: ( RULE_ID )
-            // InternalEduTest.g:5312:4: RULE_ID
-            {
-             before(grammarAccess.getMissingWordsAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMissingWordsAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -16128,33 +17064,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MissingWords__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MissingWords__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__MissingWords__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5323:1: rule__MissingWords__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__MissingWords__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MissingWords__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5608:1: rule__MissingWords__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__MissingWords__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5327:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5328:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5612:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5613:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5328:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5329:3: ( RULE_ID )
+            // InternalEduTest.g:5613:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5614:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5330:3: ( RULE_ID )
-            // InternalEduTest.g:5331:4: RULE_ID
-            {
-             before(grammarAccess.getMissingWordsAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMissingWordsAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -16173,21 +17105,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MissingWords__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MissingWords__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__MissingWords__ConfigAssignment_3"
-    // InternalEduTest.g:5342:1: rule__MissingWords__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
+    // InternalEduTest.g:5623:1: rule__MissingWords__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
     public final void rule__MissingWords__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5346:1: ( ( ruleTestConfiguration ) )
-            // InternalEduTest.g:5347:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5627:1: ( ( ruleTestConfiguration ) )
+            // InternalEduTest.g:5628:2: ( ruleTestConfiguration )
             {
-            // InternalEduTest.g:5347:2: ( ruleTestConfiguration )
-            // InternalEduTest.g:5348:3: ruleTestConfiguration
+            // InternalEduTest.g:5628:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5629:3: ruleTestConfiguration
             {
              before(grammarAccess.getMissingWordsAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16218,17 +17150,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MissingWords__TestsAssignment_4"
-    // InternalEduTest.g:5357:1: rule__MissingWords__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5638:1: rule__MissingWords__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__MissingWords__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5361:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5362:2: ( ruleTest )
+            // InternalEduTest.g:5642:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5643:2: ( ruleTest )
             {
-            // InternalEduTest.g:5362:2: ( ruleTest )
-            // InternalEduTest.g:5363:3: ruleTest
+            // InternalEduTest.g:5643:2: ( ruleTest )
+            // InternalEduTest.g:5644:3: ruleTest
             {
              before(grammarAccess.getMissingWordsAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -16258,30 +17190,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__MissingWords__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__MultiChoiceText__BlocksAssignment_1_0"
-    // InternalEduTest.g:5372:1: rule__MultiChoiceText__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceText__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceText__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5653:1: rule__MultiChoiceText__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceText__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5376:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5377:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5657:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5658:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5377:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5378:3: ( RULE_ID )
+            // InternalEduTest.g:5658:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5659:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5379:3: ( RULE_ID )
-            // InternalEduTest.g:5380:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -16300,33 +17228,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceText__BlocksAssignment_1_0"
+    // $ANTLR end "rule__MultiChoiceText__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__MultiChoiceText__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5391:1: rule__MultiChoiceText__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__MultiChoiceText__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5668:1: rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5395:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5396:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5672:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5673:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5396:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5397:3: ( RULE_ID )
+            // InternalEduTest.g:5673:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5674:3: ruleMarkedBlock
             {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5398:3: ( RULE_ID )
-            // InternalEduTest.g:5399:4: RULE_ID
-            {
-             before(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -16345,21 +17269,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MultiChoiceText__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__MultiChoiceText__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__MultiChoiceText__ConfigAssignment_3"
-    // InternalEduTest.g:5410:1: rule__MultiChoiceText__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
+    // InternalEduTest.g:5683:1: rule__MultiChoiceText__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
     public final void rule__MultiChoiceText__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5414:1: ( ( ruleTextConfiguration ) )
-            // InternalEduTest.g:5415:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5687:1: ( ( ruleTextConfiguration ) )
+            // InternalEduTest.g:5688:2: ( ruleTextConfiguration )
             {
-            // InternalEduTest.g:5415:2: ( ruleTextConfiguration )
-            // InternalEduTest.g:5416:3: ruleTextConfiguration
+            // InternalEduTest.g:5688:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5689:3: ruleTextConfiguration
             {
              before(grammarAccess.getMultiChoiceTextAccess().getConfigTextConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16390,17 +17314,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceText__TestsAssignment_4"
-    // InternalEduTest.g:5425:1: rule__MultiChoiceText__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5698:1: rule__MultiChoiceText__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__MultiChoiceText__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5429:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5430:2: ( ruleTest )
+            // InternalEduTest.g:5702:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5703:2: ( ruleTest )
             {
-            // InternalEduTest.g:5430:2: ( ruleTest )
-            // InternalEduTest.g:5431:3: ruleTest
+            // InternalEduTest.g:5703:2: ( ruleTest )
+            // InternalEduTest.g:5704:3: ruleTest
             {
              before(grammarAccess.getMultiChoiceTextAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -16430,30 +17354,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__MultiChoiceText__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__AlternativeText__BlocksAssignment_1_0"
-    // InternalEduTest.g:5440:1: rule__AlternativeText__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__AlternativeText__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__AlternativeText__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5713:1: rule__AlternativeText__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__AlternativeText__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5444:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5445:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5717:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5718:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5445:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5446:3: ( RULE_ID )
+            // InternalEduTest.g:5718:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5719:3: ruleMarkedBlock
             {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5447:3: ( RULE_ID )
-            // InternalEduTest.g:5448:4: RULE_ID
-            {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -16472,33 +17392,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__AlternativeText__BlocksAssignment_1_0"
+    // $ANTLR end "rule__AlternativeText__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__AlternativeText__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5459:1: rule__AlternativeText__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__AlternativeText__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__AlternativeText__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5728:1: rule__AlternativeText__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__AlternativeText__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5463:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5464:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5732:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5733:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5464:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5465:3: ( RULE_ID )
+            // InternalEduTest.g:5733:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5734:3: ruleMarkedBlock
             {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5466:3: ( RULE_ID )
-            // InternalEduTest.g:5467:4: RULE_ID
-            {
-             before(grammarAccess.getAlternativeTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -16517,21 +17433,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__AlternativeText__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__AlternativeText__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__AlternativeText__ConfigAssignment_3"
-    // InternalEduTest.g:5478:1: rule__AlternativeText__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
+    // InternalEduTest.g:5743:1: rule__AlternativeText__ConfigAssignment_3 : ( ruleTextConfiguration ) ;
     public final void rule__AlternativeText__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5482:1: ( ( ruleTextConfiguration ) )
-            // InternalEduTest.g:5483:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5747:1: ( ( ruleTextConfiguration ) )
+            // InternalEduTest.g:5748:2: ( ruleTextConfiguration )
             {
-            // InternalEduTest.g:5483:2: ( ruleTextConfiguration )
-            // InternalEduTest.g:5484:3: ruleTextConfiguration
+            // InternalEduTest.g:5748:2: ( ruleTextConfiguration )
+            // InternalEduTest.g:5749:3: ruleTextConfiguration
             {
              before(grammarAccess.getAlternativeTextAccess().getConfigTextConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16562,17 +17478,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__AlternativeText__TestsAssignment_4"
-    // InternalEduTest.g:5493:1: rule__AlternativeText__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5758:1: rule__AlternativeText__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__AlternativeText__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5497:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5498:2: ( ruleTest )
+            // InternalEduTest.g:5762:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5763:2: ( ruleTest )
             {
-            // InternalEduTest.g:5498:2: ( ruleTest )
-            // InternalEduTest.g:5499:3: ruleTest
+            // InternalEduTest.g:5763:2: ( ruleTest )
+            // InternalEduTest.g:5764:3: ruleTest
             {
              before(grammarAccess.getAlternativeTextAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -16602,30 +17518,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__AlternativeText__TestsAssignment_4"
 
 
-    // $ANTLR start "rule__DragAndDropText__BlocksAssignment_1_0"
-    // InternalEduTest.g:5508:1: rule__DragAndDropText__BlocksAssignment_1_0 : ( ( RULE_ID ) ) ;
-    public final void rule__DragAndDropText__BlocksAssignment_1_0() throws RecognitionException {
+    // $ANTLR start "rule__DragAndDropText__MarkedBlocksAssignment_1_0"
+    // InternalEduTest.g:5773:1: rule__DragAndDropText__MarkedBlocksAssignment_1_0 : ( ruleMarkedBlock ) ;
+    public final void rule__DragAndDropText__MarkedBlocksAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5512:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5513:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5777:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5778:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5513:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5514:3: ( RULE_ID )
+            // InternalEduTest.g:5778:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5779:3: ruleMarkedBlock
             {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_0_0()); 
-            // InternalEduTest.g:5515:3: ( RULE_ID )
-            // InternalEduTest.g:5516:4: RULE_ID
-            {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksBlockIDTerminalRuleCall_1_0_0_1()); 
+             before(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_0_0()); 
+             after(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0()); 
 
             }
 
@@ -16644,33 +17556,29 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__DragAndDropText__BlocksAssignment_1_0"
+    // $ANTLR end "rule__DragAndDropText__MarkedBlocksAssignment_1_0"
 
 
-    // $ANTLR start "rule__DragAndDropText__BlocksAssignment_1_1_1"
-    // InternalEduTest.g:5527:1: rule__DragAndDropText__BlocksAssignment_1_1_1 : ( ( RULE_ID ) ) ;
-    public final void rule__DragAndDropText__BlocksAssignment_1_1_1() throws RecognitionException {
+    // $ANTLR start "rule__DragAndDropText__MarkedBlocksAssignment_1_1_1"
+    // InternalEduTest.g:5788:1: rule__DragAndDropText__MarkedBlocksAssignment_1_1_1 : ( ruleMarkedBlock ) ;
+    public final void rule__DragAndDropText__MarkedBlocksAssignment_1_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5531:1: ( ( ( RULE_ID ) ) )
-            // InternalEduTest.g:5532:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5792:1: ( ( ruleMarkedBlock ) )
+            // InternalEduTest.g:5793:2: ( ruleMarkedBlock )
             {
-            // InternalEduTest.g:5532:2: ( ( RULE_ID ) )
-            // InternalEduTest.g:5533:3: ( RULE_ID )
+            // InternalEduTest.g:5793:2: ( ruleMarkedBlock )
+            // InternalEduTest.g:5794:3: ruleMarkedBlock
             {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
-            // InternalEduTest.g:5534:3: ( RULE_ID )
-            // InternalEduTest.g:5535:4: RULE_ID
-            {
-             before(grammarAccess.getDragAndDropTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_2); 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksBlockIDTerminalRuleCall_1_1_1_0_1()); 
+             before(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
+            pushFollow(FOLLOW_2);
+            ruleMarkedBlock();
 
-            }
+            state._fsp--;
 
-             after(grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_1_1_0()); 
+             after(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0()); 
 
             }
 
@@ -16689,21 +17597,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__DragAndDropText__BlocksAssignment_1_1_1"
+    // $ANTLR end "rule__DragAndDropText__MarkedBlocksAssignment_1_1_1"
 
 
     // $ANTLR start "rule__DragAndDropText__ConfigAssignment_3"
-    // InternalEduTest.g:5546:1: rule__DragAndDropText__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
+    // InternalEduTest.g:5803:1: rule__DragAndDropText__ConfigAssignment_3 : ( ruleTestConfiguration ) ;
     public final void rule__DragAndDropText__ConfigAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5550:1: ( ( ruleTestConfiguration ) )
-            // InternalEduTest.g:5551:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5807:1: ( ( ruleTestConfiguration ) )
+            // InternalEduTest.g:5808:2: ( ruleTestConfiguration )
             {
-            // InternalEduTest.g:5551:2: ( ruleTestConfiguration )
-            // InternalEduTest.g:5552:3: ruleTestConfiguration
+            // InternalEduTest.g:5808:2: ( ruleTestConfiguration )
+            // InternalEduTest.g:5809:3: ruleTestConfiguration
             {
              before(grammarAccess.getDragAndDropTextAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16734,17 +17642,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__DragAndDropText__TestsAssignment_4"
-    // InternalEduTest.g:5561:1: rule__DragAndDropText__TestsAssignment_4 : ( ruleTest ) ;
+    // InternalEduTest.g:5818:1: rule__DragAndDropText__TestsAssignment_4 : ( ruleTest ) ;
     public final void rule__DragAndDropText__TestsAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5565:1: ( ( ruleTest ) )
-            // InternalEduTest.g:5566:2: ( ruleTest )
+            // InternalEduTest.g:5822:1: ( ( ruleTest ) )
+            // InternalEduTest.g:5823:2: ( ruleTest )
             {
-            // InternalEduTest.g:5566:2: ( ruleTest )
-            // InternalEduTest.g:5567:3: ruleTest
+            // InternalEduTest.g:5823:2: ( ruleTest )
+            // InternalEduTest.g:5824:3: ruleTest
             {
              before(grammarAccess.getDragAndDropTextAccess().getTestsTestParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -16775,17 +17683,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ProgramConfiguration__NavigationAssignment_2"
-    // InternalEduTest.g:5576:1: rule__ProgramConfiguration__NavigationAssignment_2 : ( ruleNavigation ) ;
+    // InternalEduTest.g:5833:1: rule__ProgramConfiguration__NavigationAssignment_2 : ( ruleNavigation ) ;
     public final void rule__ProgramConfiguration__NavigationAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5580:1: ( ( ruleNavigation ) )
-            // InternalEduTest.g:5581:2: ( ruleNavigation )
+            // InternalEduTest.g:5837:1: ( ( ruleNavigation ) )
+            // InternalEduTest.g:5838:2: ( ruleNavigation )
             {
-            // InternalEduTest.g:5581:2: ( ruleNavigation )
-            // InternalEduTest.g:5582:3: ruleNavigation
+            // InternalEduTest.g:5838:2: ( ruleNavigation )
+            // InternalEduTest.g:5839:3: ruleNavigation
             {
              before(grammarAccess.getProgramConfigurationAccess().getNavigationNavigationEnumRuleCall_2_0()); 
             pushFollow(FOLLOW_2);
@@ -16816,21 +17724,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__RetryAssignment_3"
-    // InternalEduTest.g:5591:1: rule__TestConfiguration__RetryAssignment_3 : ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) ) ;
+    // InternalEduTest.g:5848:1: rule__TestConfiguration__RetryAssignment_3 : ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) ) ;
     public final void rule__TestConfiguration__RetryAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5595:1: ( ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) ) )
-            // InternalEduTest.g:5596:2: ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5852:1: ( ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) ) )
+            // InternalEduTest.g:5853:2: ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) )
             {
-            // InternalEduTest.g:5596:2: ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) )
-            // InternalEduTest.g:5597:3: ( rule__TestConfiguration__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5853:2: ( ( rule__TestConfiguration__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5854:3: ( rule__TestConfiguration__RetryAlternatives_3_0 )
             {
              before(grammarAccess.getTestConfigurationAccess().getRetryAlternatives_3_0()); 
-            // InternalEduTest.g:5598:3: ( rule__TestConfiguration__RetryAlternatives_3_0 )
-            // InternalEduTest.g:5598:4: rule__TestConfiguration__RetryAlternatives_3_0
+            // InternalEduTest.g:5855:3: ( rule__TestConfiguration__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5855:4: rule__TestConfiguration__RetryAlternatives_3_0
             {
             pushFollow(FOLLOW_2);
             rule__TestConfiguration__RetryAlternatives_3_0();
@@ -16863,17 +17771,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TestConfiguration__ModeAssignment_4_3"
-    // InternalEduTest.g:5606:1: rule__TestConfiguration__ModeAssignment_4_3 : ( ruleMode ) ;
+    // InternalEduTest.g:5863:1: rule__TestConfiguration__ModeAssignment_4_3 : ( ruleMode ) ;
     public final void rule__TestConfiguration__ModeAssignment_4_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5610:1: ( ( ruleMode ) )
-            // InternalEduTest.g:5611:2: ( ruleMode )
+            // InternalEduTest.g:5867:1: ( ( ruleMode ) )
+            // InternalEduTest.g:5868:2: ( ruleMode )
             {
-            // InternalEduTest.g:5611:2: ( ruleMode )
-            // InternalEduTest.g:5612:3: ruleMode
+            // InternalEduTest.g:5868:2: ( ruleMode )
+            // InternalEduTest.g:5869:3: ruleMode
             {
              before(grammarAccess.getTestConfigurationAccess().getModeModeEnumRuleCall_4_3_0()); 
             pushFollow(FOLLOW_2);
@@ -16903,26 +17811,30 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TestConfiguration__ModeAssignment_4_3"
 
 
-    // $ANTLR start "rule__TestConfiguration__StatementAssignment_5_4"
-    // InternalEduTest.g:5621:1: rule__TestConfiguration__StatementAssignment_5_4 : ( ruleEString ) ;
-    public final void rule__TestConfiguration__StatementAssignment_5_4() throws RecognitionException {
+    // $ANTLR start "rule__TestConfiguration__StatementAssignment_5_3"
+    // InternalEduTest.g:5878:1: rule__TestConfiguration__StatementAssignment_5_3 : ( ( RULE_ID ) ) ;
+    public final void rule__TestConfiguration__StatementAssignment_5_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5625:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5626:2: ( ruleEString )
+            // InternalEduTest.g:5882:1: ( ( ( RULE_ID ) ) )
+            // InternalEduTest.g:5883:2: ( ( RULE_ID ) )
             {
-            // InternalEduTest.g:5626:2: ( ruleEString )
-            // InternalEduTest.g:5627:3: ruleEString
+            // InternalEduTest.g:5883:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5884:3: ( RULE_ID )
             {
-             before(grammarAccess.getTestConfigurationAccess().getStatementEStringParserRuleCall_5_4_0()); 
-            pushFollow(FOLLOW_2);
-            ruleEString();
+             before(grammarAccess.getTestConfigurationAccess().getStatementEClassCrossReference_5_3_0()); 
+            // InternalEduTest.g:5885:3: ( RULE_ID )
+            // InternalEduTest.g:5886:4: RULE_ID
+            {
+             before(grammarAccess.getTestConfigurationAccess().getStatementEClassIDTerminalRuleCall_5_3_0_1()); 
+            match(input,RULE_ID,FOLLOW_2); 
+             after(grammarAccess.getTestConfigurationAccess().getStatementEClassIDTerminalRuleCall_5_3_0_1()); 
 
-            state._fsp--;
+            }
 
-             after(grammarAccess.getTestConfigurationAccess().getStatementEStringParserRuleCall_5_4_0()); 
+             after(grammarAccess.getTestConfigurationAccess().getStatementEClassCrossReference_5_3_0()); 
 
             }
 
@@ -16941,29 +17853,33 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TestConfiguration__StatementAssignment_5_4"
+    // $ANTLR end "rule__TestConfiguration__StatementAssignment_5_3"
 
 
-    // $ANTLR start "rule__TestConfiguration__AnswersAssignment_6_4"
-    // InternalEduTest.g:5636:1: rule__TestConfiguration__AnswersAssignment_6_4 : ( ruleEString ) ;
-    public final void rule__TestConfiguration__AnswersAssignment_6_4() throws RecognitionException {
+    // $ANTLR start "rule__TestConfiguration__AnswersAssignment_6_3"
+    // InternalEduTest.g:5897:1: rule__TestConfiguration__AnswersAssignment_6_3 : ( ( RULE_ID ) ) ;
+    public final void rule__TestConfiguration__AnswersAssignment_6_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5640:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5641:2: ( ruleEString )
+            // InternalEduTest.g:5901:1: ( ( ( RULE_ID ) ) )
+            // InternalEduTest.g:5902:2: ( ( RULE_ID ) )
             {
-            // InternalEduTest.g:5641:2: ( ruleEString )
-            // InternalEduTest.g:5642:3: ruleEString
+            // InternalEduTest.g:5902:2: ( ( RULE_ID ) )
+            // InternalEduTest.g:5903:3: ( RULE_ID )
             {
-             before(grammarAccess.getTestConfigurationAccess().getAnswersEStringParserRuleCall_6_4_0()); 
-            pushFollow(FOLLOW_2);
-            ruleEString();
+             before(grammarAccess.getTestConfigurationAccess().getAnswersEClassCrossReference_6_3_0()); 
+            // InternalEduTest.g:5904:3: ( RULE_ID )
+            // InternalEduTest.g:5905:4: RULE_ID
+            {
+             before(grammarAccess.getTestConfigurationAccess().getAnswersEClassIDTerminalRuleCall_6_3_0_1()); 
+            match(input,RULE_ID,FOLLOW_2); 
+             after(grammarAccess.getTestConfigurationAccess().getAnswersEClassIDTerminalRuleCall_6_3_0_1()); 
 
-            state._fsp--;
+            }
 
-             after(grammarAccess.getTestConfigurationAccess().getAnswersEStringParserRuleCall_6_4_0()); 
+             after(grammarAccess.getTestConfigurationAccess().getAnswersEClassCrossReference_6_3_0()); 
 
             }
 
@@ -16982,25 +17898,25 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TestConfiguration__AnswersAssignment_6_4"
+    // $ANTLR end "rule__TestConfiguration__AnswersAssignment_6_3"
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__RetryAssignment_3"
-    // InternalEduTest.g:5651:1: rule__MultiChoiceEmConfig__RetryAssignment_3 : ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) ) ;
+    // InternalEduTest.g:5916:1: rule__MultiChoiceEmConfig__RetryAssignment_3 : ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) ) ;
     public final void rule__MultiChoiceEmConfig__RetryAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5655:1: ( ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) ) )
-            // InternalEduTest.g:5656:2: ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5920:1: ( ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) ) )
+            // InternalEduTest.g:5921:2: ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) )
             {
-            // InternalEduTest.g:5656:2: ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) )
-            // InternalEduTest.g:5657:3: ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5921:2: ( ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5922:3: ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAlternatives_3_0()); 
-            // InternalEduTest.g:5658:3: ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 )
-            // InternalEduTest.g:5658:4: rule__MultiChoiceEmConfig__RetryAlternatives_3_0
+            // InternalEduTest.g:5923:3: ( rule__MultiChoiceEmConfig__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5923:4: rule__MultiChoiceEmConfig__RetryAlternatives_3_0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__RetryAlternatives_3_0();
@@ -17033,21 +17949,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__WeightedAssignment_7"
-    // InternalEduTest.g:5666:1: rule__MultiChoiceEmConfig__WeightedAssignment_7 : ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) ) ;
+    // InternalEduTest.g:5931:1: rule__MultiChoiceEmConfig__WeightedAssignment_7 : ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) ) ;
     public final void rule__MultiChoiceEmConfig__WeightedAssignment_7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5670:1: ( ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) ) )
-            // InternalEduTest.g:5671:2: ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) )
+            // InternalEduTest.g:5935:1: ( ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) ) )
+            // InternalEduTest.g:5936:2: ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) )
             {
-            // InternalEduTest.g:5671:2: ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) )
-            // InternalEduTest.g:5672:3: ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 )
+            // InternalEduTest.g:5936:2: ( ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 ) )
+            // InternalEduTest.g:5937:3: ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 )
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAlternatives_7_0()); 
-            // InternalEduTest.g:5673:3: ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 )
-            // InternalEduTest.g:5673:4: rule__MultiChoiceEmConfig__WeightedAlternatives_7_0
+            // InternalEduTest.g:5938:3: ( rule__MultiChoiceEmConfig__WeightedAlternatives_7_0 )
+            // InternalEduTest.g:5938:4: rule__MultiChoiceEmConfig__WeightedAlternatives_7_0
             {
             pushFollow(FOLLOW_2);
             rule__MultiChoiceEmConfig__WeightedAlternatives_7_0();
@@ -17080,17 +17996,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__PenaltyAssignment_11"
-    // InternalEduTest.g:5681:1: rule__MultiChoiceEmConfig__PenaltyAssignment_11 : ( ruleEDouble ) ;
+    // InternalEduTest.g:5946:1: rule__MultiChoiceEmConfig__PenaltyAssignment_11 : ( ruleEDouble ) ;
     public final void rule__MultiChoiceEmConfig__PenaltyAssignment_11() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5685:1: ( ( ruleEDouble ) )
-            // InternalEduTest.g:5686:2: ( ruleEDouble )
+            // InternalEduTest.g:5950:1: ( ( ruleEDouble ) )
+            // InternalEduTest.g:5951:2: ( ruleEDouble )
             {
-            // InternalEduTest.g:5686:2: ( ruleEDouble )
-            // InternalEduTest.g:5687:3: ruleEDouble
+            // InternalEduTest.g:5951:2: ( ruleEDouble )
+            // InternalEduTest.g:5952:3: ruleEDouble
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyEDoubleParserRuleCall_11_0()); 
             pushFollow(FOLLOW_2);
@@ -17121,17 +18037,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__OrderAssignment_15"
-    // InternalEduTest.g:5696:1: rule__MultiChoiceEmConfig__OrderAssignment_15 : ( ruleOrder ) ;
+    // InternalEduTest.g:5961:1: rule__MultiChoiceEmConfig__OrderAssignment_15 : ( ruleOrder ) ;
     public final void rule__MultiChoiceEmConfig__OrderAssignment_15() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5700:1: ( ( ruleOrder ) )
-            // InternalEduTest.g:5701:2: ( ruleOrder )
+            // InternalEduTest.g:5965:1: ( ( ruleOrder ) )
+            // InternalEduTest.g:5966:2: ( ruleOrder )
             {
-            // InternalEduTest.g:5701:2: ( ruleOrder )
-            // InternalEduTest.g:5702:3: ruleOrder
+            // InternalEduTest.g:5966:2: ( ruleOrder )
+            // InternalEduTest.g:5967:3: ruleOrder
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getOrderOrderEnumRuleCall_15_0()); 
             pushFollow(FOLLOW_2);
@@ -17162,17 +18078,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__MultiChoiceEmConfig__ModeAssignment_19"
-    // InternalEduTest.g:5711:1: rule__MultiChoiceEmConfig__ModeAssignment_19 : ( ruleMode ) ;
+    // InternalEduTest.g:5976:1: rule__MultiChoiceEmConfig__ModeAssignment_19 : ( ruleMode ) ;
     public final void rule__MultiChoiceEmConfig__ModeAssignment_19() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5715:1: ( ( ruleMode ) )
-            // InternalEduTest.g:5716:2: ( ruleMode )
+            // InternalEduTest.g:5980:1: ( ( ruleMode ) )
+            // InternalEduTest.g:5981:2: ( ruleMode )
             {
-            // InternalEduTest.g:5716:2: ( ruleMode )
-            // InternalEduTest.g:5717:3: ruleMode
+            // InternalEduTest.g:5981:2: ( ruleMode )
+            // InternalEduTest.g:5982:3: ruleMode
             {
              before(grammarAccess.getMultiChoiceEmConfigAccess().getModeModeEnumRuleCall_19_0()); 
             pushFollow(FOLLOW_2);
@@ -17203,21 +18119,21 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__TextConfiguration__RetryAssignment_3"
-    // InternalEduTest.g:5726:1: rule__TextConfiguration__RetryAssignment_3 : ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) ) ;
+    // InternalEduTest.g:5991:1: rule__TextConfiguration__RetryAssignment_3 : ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) ) ;
     public final void rule__TextConfiguration__RetryAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5730:1: ( ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) ) )
-            // InternalEduTest.g:5731:2: ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5995:1: ( ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) ) )
+            // InternalEduTest.g:5996:2: ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) )
             {
-            // InternalEduTest.g:5731:2: ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) )
-            // InternalEduTest.g:5732:3: ( rule__TextConfiguration__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5996:2: ( ( rule__TextConfiguration__RetryAlternatives_3_0 ) )
+            // InternalEduTest.g:5997:3: ( rule__TextConfiguration__RetryAlternatives_3_0 )
             {
              before(grammarAccess.getTextConfigurationAccess().getRetryAlternatives_3_0()); 
-            // InternalEduTest.g:5733:3: ( rule__TextConfiguration__RetryAlternatives_3_0 )
-            // InternalEduTest.g:5733:4: rule__TextConfiguration__RetryAlternatives_3_0
+            // InternalEduTest.g:5998:3: ( rule__TextConfiguration__RetryAlternatives_3_0 )
+            // InternalEduTest.g:5998:4: rule__TextConfiguration__RetryAlternatives_3_0
             {
             pushFollow(FOLLOW_2);
             rule__TextConfiguration__RetryAlternatives_3_0();
@@ -17249,26 +18165,26 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TextConfiguration__RetryAssignment_3"
 
 
-    // $ANTLR start "rule__TextConfiguration__IdentifierAssignment_7"
-    // InternalEduTest.g:5741:1: rule__TextConfiguration__IdentifierAssignment_7 : ( ruleEString ) ;
-    public final void rule__TextConfiguration__IdentifierAssignment_7() throws RecognitionException {
+    // $ANTLR start "rule__TextConfiguration__ModeAssignment_4_3"
+    // InternalEduTest.g:6006:1: rule__TextConfiguration__ModeAssignment_4_3 : ( ruleMode ) ;
+    public final void rule__TextConfiguration__ModeAssignment_4_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5745:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5746:2: ( ruleEString )
+            // InternalEduTest.g:6010:1: ( ( ruleMode ) )
+            // InternalEduTest.g:6011:2: ( ruleMode )
             {
-            // InternalEduTest.g:5746:2: ( ruleEString )
-            // InternalEduTest.g:5747:3: ruleEString
+            // InternalEduTest.g:6011:2: ( ruleMode )
+            // InternalEduTest.g:6012:3: ruleMode
             {
-             before(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_7_0()); 
+             before(grammarAccess.getTextConfigurationAccess().getModeModeEnumRuleCall_4_3_0()); 
             pushFollow(FOLLOW_2);
-            ruleEString();
+            ruleMode();
 
             state._fsp--;
 
-             after(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_7_0()); 
+             after(grammarAccess.getTextConfigurationAccess().getModeModeEnumRuleCall_4_3_0()); 
 
             }
 
@@ -17287,21 +18203,62 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__TextConfiguration__IdentifierAssignment_7"
+    // $ANTLR end "rule__TextConfiguration__ModeAssignment_4_3"
+
+
+    // $ANTLR start "rule__TextConfiguration__IdentifierAssignment_5_3"
+    // InternalEduTest.g:6021:1: rule__TextConfiguration__IdentifierAssignment_5_3 : ( ruleEString ) ;
+    public final void rule__TextConfiguration__IdentifierAssignment_5_3() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalEduTest.g:6025:1: ( ( ruleEString ) )
+            // InternalEduTest.g:6026:2: ( ruleEString )
+            {
+            // InternalEduTest.g:6026:2: ( ruleEString )
+            // InternalEduTest.g:6027:3: ruleEString
+            {
+             before(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_5_3_0()); 
+            pushFollow(FOLLOW_2);
+            ruleEString();
+
+            state._fsp--;
+
+             after(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_5_3_0()); 
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__TextConfiguration__IdentifierAssignment_5_3"
 
 
     // $ANTLR start "rule__Test__SourceAssignment_2"
-    // InternalEduTest.g:5756:1: rule__Test__SourceAssignment_2 : ( ruleEString ) ;
+    // InternalEduTest.g:6036:1: rule__Test__SourceAssignment_2 : ( ruleEString ) ;
     public final void rule__Test__SourceAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5760:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5761:2: ( ruleEString )
+            // InternalEduTest.g:6040:1: ( ( ruleEString ) )
+            // InternalEduTest.g:6041:2: ( ruleEString )
             {
-            // InternalEduTest.g:5761:2: ( ruleEString )
-            // InternalEduTest.g:5762:3: ruleEString
+            // InternalEduTest.g:6041:2: ( ruleEString )
+            // InternalEduTest.g:6042:3: ruleEString
             {
              before(grammarAccess.getTestAccess().getSourceEStringParserRuleCall_2_0()); 
             pushFollow(FOLLOW_2);
@@ -17332,17 +18289,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__QuestionAssignment_4"
-    // InternalEduTest.g:5771:1: rule__Test__QuestionAssignment_4 : ( ruleEString ) ;
+    // InternalEduTest.g:6051:1: rule__Test__QuestionAssignment_4 : ( ruleEString ) ;
     public final void rule__Test__QuestionAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5775:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5776:2: ( ruleEString )
+            // InternalEduTest.g:6055:1: ( ( ruleEString ) )
+            // InternalEduTest.g:6056:2: ( ruleEString )
             {
-            // InternalEduTest.g:5776:2: ( ruleEString )
-            // InternalEduTest.g:5777:3: ruleEString
+            // InternalEduTest.g:6056:2: ( ruleEString )
+            // InternalEduTest.g:6057:3: ruleEString
             {
              before(grammarAccess.getTestAccess().getQuestionEStringParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
@@ -17373,24 +18330,24 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__ExpressionAssignment_5_0"
-    // InternalEduTest.g:5786:1: rule__Test__ExpressionAssignment_5_0 : ( ( '%text' ) ) ;
+    // InternalEduTest.g:6066:1: rule__Test__ExpressionAssignment_5_0 : ( ( '%text' ) ) ;
     public final void rule__Test__ExpressionAssignment_5_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5790:1: ( ( ( '%text' ) ) )
-            // InternalEduTest.g:5791:2: ( ( '%text' ) )
+            // InternalEduTest.g:6070:1: ( ( ( '%text' ) ) )
+            // InternalEduTest.g:6071:2: ( ( '%text' ) )
             {
-            // InternalEduTest.g:5791:2: ( ( '%text' ) )
-            // InternalEduTest.g:5792:3: ( '%text' )
-            {
-             before(grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0()); 
-            // InternalEduTest.g:5793:3: ( '%text' )
-            // InternalEduTest.g:5794:4: '%text'
+            // InternalEduTest.g:6071:2: ( ( '%text' ) )
+            // InternalEduTest.g:6072:3: ( '%text' )
             {
              before(grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0()); 
-            match(input,50,FOLLOW_2); 
+            // InternalEduTest.g:6073:3: ( '%text' )
+            // InternalEduTest.g:6074:4: '%text'
+            {
+             before(grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0()); 
+            match(input,52,FOLLOW_2); 
              after(grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0()); 
 
             }
@@ -17418,17 +18375,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Test__IdentifierAssignment_5_1_1"
-    // InternalEduTest.g:5805:1: rule__Test__IdentifierAssignment_5_1_1 : ( ruleEString ) ;
+    // InternalEduTest.g:6085:1: rule__Test__IdentifierAssignment_5_1_1 : ( ruleEString ) ;
     public final void rule__Test__IdentifierAssignment_5_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalEduTest.g:5809:1: ( ( ruleEString ) )
-            // InternalEduTest.g:5810:2: ( ruleEString )
+            // InternalEduTest.g:6089:1: ( ( ruleEString ) )
+            // InternalEduTest.g:6090:2: ( ruleEString )
             {
-            // InternalEduTest.g:5810:2: ( ruleEString )
-            // InternalEduTest.g:5811:3: ruleEString
+            // InternalEduTest.g:6090:2: ( ruleEString )
+            // InternalEduTest.g:6091:3: ruleEString
             {
              before(grammarAccess.getTestAccess().getIdentifierEStringParserRuleCall_5_1_1_0()); 
             pushFollow(FOLLOW_2);
@@ -17464,35 +18421,37 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
 
     public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x00000007F8800000L});
-    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x00000007F8800002L});
-    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000001000020L});
-    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000001000000000L});
-    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000400002000000L});
-    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000400000000002L});
-    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000004000002L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000800000000L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000600000L});
-    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000000001800L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000002000000000L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000180000L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000001FE2000000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000001FE2000002L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000002000000000L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000004000020L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000400008000000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000400000000002L});
+    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000010000002L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000600000L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000000001800L});
     public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000000180000L});
     public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000010000000000L});
     public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000020000000000L});
     public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000040000000000L});
     public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0003000000000040L});
+    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x000C000000000040L});
     public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000000000078000L});
     public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x0000200000000000L});
     public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0000000000006000L});
-    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0001000000000040L});
+    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0001000000000000L});
+    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0002000000000000L});
+    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000000000006000L});
+    public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0004000000000040L});
 
 }

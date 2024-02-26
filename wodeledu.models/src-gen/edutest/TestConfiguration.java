@@ -2,6 +2,8 @@
  */
 package edutest;
 
+import org.eclipse.emf.ecore.EClass;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Test Configuration</b></em>'.
@@ -71,47 +73,47 @@ public interface TestConfiguration extends Configuration {
 	void setMode(Mode value);
 
 	/**
-	 * Returns the value of the '<em><b>Statement</b></em>' attribute.
+	 * Returns the value of the '<em><b>Statement</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Statement</em>' attribute.
-	 * @see #setStatement(String)
+	 * @return the value of the '<em>Statement</em>' reference.
+	 * @see #setStatement(EClass)
 	 * @see edutest.EdutestPackage#getTestConfiguration_Statement()
 	 * @model
 	 * @generated
 	 */
-	String getStatement();
+	EClass getStatement();
 
 	/**
-	 * Sets the value of the '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}' attribute.
+	 * Sets the value of the '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Statement</em>' attribute.
+	 * @param value the new value of the '<em>Statement</em>' reference.
 	 * @see #getStatement()
 	 * @generated
 	 */
-	void setStatement(String value);
+	void setStatement(EClass value);
 
 	/**
-	 * Returns the value of the '<em><b>Answers</b></em>' attribute.
+	 * Returns the value of the '<em><b>Answers</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Answers</em>' attribute.
-	 * @see #setAnswers(String)
+	 * @return the value of the '<em>Answers</em>' reference.
+	 * @see #setAnswers(EClass)
 	 * @see edutest.EdutestPackage#getTestConfiguration_Answers()
 	 * @model
 	 * @generated
 	 */
-	String getAnswers();
+	EClass getAnswers();
 
 	/**
-	 * Sets the value of the '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}' attribute.
+	 * Sets the value of the '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Answers</em>' attribute.
+	 * @param value the new value of the '<em>Answers</em>' reference.
 	 * @see #getAnswers()
 	 * @generated
 	 */
-	void setAnswers(String value);
+	void setAnswers(EClass value);
 
 } // TestConfiguration

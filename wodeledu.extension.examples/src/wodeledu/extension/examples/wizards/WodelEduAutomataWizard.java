@@ -392,14 +392,15 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		final IFile testsFile = srcFolder.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "navigation=free\n"
+			String def = "metamodel \"/"+ projectName + "/" + modelName + "/" + metamodel + "\"\n\n" 
+					+ "navigation=free\n"
 					+ "AlternativeResponse mts2nf {\n"
 					+ "\tretry=no\n"
 					+ "\tdescription for 'exercise1.model' = 'Does this automaton accept only the language of the even binary numbers?'\n"
 					+ "\tdescription for 'exercise2.model' = 'Does this automaton accept only the language defined by \"a<sup>*</sup>b<sup>*</sup>\"?'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram mts1 {\n"
-					+ "\tretry=no\n"
+					+ "\tretry=no, mode=radiobutton\n"
 					+ "\tdescription for 'exercise3.model' = 'Select which of these automata accepts only the language defined by \"aa<sup>+</sup>b<sup>*</sup>|ab<sup>+</sup>\"'\n"
 					+ "\tdescription for 'exercise4.model' = 'Select which of these automata accepts only the language defined by \"a<sup>*</sup>b\"'\n"
 					+ "}\n"

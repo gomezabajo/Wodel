@@ -31,6 +31,15 @@ public interface EdutestFactory extends EFactory {
 	Program createProgram();
 
 	/**
+	 * Returns a new object of class '<em>Marked Block</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Marked Block</em>'.
+	 * @generated
+	 */
+	MarkedBlock createMarkedBlock();
+
+	/**
 	 * Returns a new object of class '<em>Program Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

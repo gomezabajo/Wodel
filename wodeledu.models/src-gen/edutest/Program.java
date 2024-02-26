@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link edutest.Program#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link edutest.Program#getConfig <em>Config</em>}</li>
  *   <li>{@link edutest.Program#getExercises <em>Exercises</em>}</li>
  * </ul>
@@ -24,6 +25,28 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Program extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Metamodel</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Metamodel</em>' attribute.
+	 * @see #setMetamodel(String)
+	 * @see edutest.EdutestPackage#getProgram_Metamodel()
+	 * @model
+	 * @generated
+	 */
+	String getMetamodel();
+
+	/**
+	 * Sets the value of the '{@link edutest.Program#getMetamodel <em>Metamodel</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Metamodel</em>' attribute.
+	 * @see #getMetamodel()
+	 * @generated
+	 */
+	void setMetamodel(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Config</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

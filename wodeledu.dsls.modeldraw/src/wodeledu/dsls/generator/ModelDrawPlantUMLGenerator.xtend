@@ -50,17 +50,20 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	}
 
 	def generate(MutatorDraw draw, String folder, int index) '''
-		List<String> umlcode = new ArrayList<String>();
+		Set<String> umlcode = new LinkedHashSet<String>();
 		«IF draw.instances.get(index).nodes !== null»
 		«IF draw.instances.get(index).nodes.size() > 0»
 		generateUMLNodes(packages, model, umlnodes, umlrels, id);
 		«ENDIF»
 		«ENDIF»
 		umlcode.add("@startuml");
-		Set<String> rels = new HashSet<String>();
+		umlcode.add("skinparam classAttributeIconSize 0");
+		Set<String> rels = new LinkedHashSet<String>();
 		for (EObject umlnode : umlnodes.get(«index»).keySet()) {
 			if (umlnodes.get(«index»).get(umlnode) != null) {
-				umlcode.add((umlnodes.get(«index»).get(umlnode).label.replaceAll("'", "") + " " + umlnodes.get(«index»).get(umlnode).name.replaceAll("'", "")).trim());
+				for (LabelStyle label : umlnodes.get(«index»).get(umlnode)) {
+					umlcode.add((label.label.replaceAll("'", "") + " " + label.name.replaceAll("'", "")).trim());
+				}
 			}
 		}
 		«IF draw.instances.get(index).relations !== null»
@@ -100,8 +103,8 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	import java.util.HashMap;
 	import java.util.LinkedHashMap;
 	import java.util.Set;
-	import java.util.HashSet;
-	
+	import java.util.LinkedHashSet;
+		
 	import org.eclipse.emf.ecore.EObject;
 	import org.eclipse.emf.ecore.EPackage;
 	import org.eclipse.emf.ecore.resource.Resource;
@@ -136,20 +139,40 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					return value + "th";
 			}
 		}
+		
+		private static Set<EObject> getSuperClasses(EObject cl) {
+			Set<EObject> superclasses = new LinkedHashSet<EObject>();
+			try {
+				Object ob = ModelManager.getReferences("superclass", cl);
+				if (ob instanceof List<?>) {
+					superclasses.addAll((List<EObject>) ob);
+				}
+				for (EObject supercl : superclasses) {
+					Set<EObject> supsuperclasses = getSuperClasses(supercl);
+					superclasses.addAll(supsuperclasses);
+				}
+			} catch (ReferenceNonExistingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return superclasses;
+		}
+			
    		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
 	   			+ project.name»
-		private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
+		private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
 			// COUNTER: «var int counter = 0»
-			Map<EObject, LabelStyle> localnodes = null;
+			Map<EObject, List<LabelStyle>> localnodes = null;
 			Map<EObject, Map<String, List<LabelStyle>>> localrels = null;
 			
 			int i = 0;
+			int j = 0;
 			«FOR MutatorInstance instance : draw.instances»
 			if (umlnodes.get(«counter») == null) {			
-				localnodes = new LinkedHashMap<EObject, LabelStyle>();
+				localnodes = new LinkedHashMap<EObject, List<LabelStyle>>();
 			}
 			else {
-				localnodes = new LinkedHashMap<EObject, LabelStyle>(umlnodes.get(«counter»));
+				localnodes = new LinkedHashMap<EObject, List<LabelStyle>>(umlnodes.get(«counter»));
 			}
 			umlnodes.put(«counter», localnodes);
 			if (umlrels.get(«counter») == null) {
@@ -165,8 +188,8 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			«IF draw.instances.get(counter).nodes.size() > 0»
 			// COUNTER: «var int counter2 = 0»
 			«FOR Node node : draw.instances.get(counter).nodes»
-			List<EObject> lnode_«counter»_«counter2» = ModelManager.getObjectsOfType("«node.name.name»", model);
 			i = 0;
+			List<EObject> lnode_«counter»_«counter2» = ModelManager.getObjectsOfType("«node.name.name»", model);
 			for (EObject node : lnode_«counter»_«counter2») {
 				String name = ModelManager.getStringAttribute("name", node);
 				String typeName = node.eClass().getName();
@@ -183,6 +206,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				label.label = "«node.name.name.toLowerCase()»";
 				label.name = "\"" + name + " :<u>" + ModelManager.getStringAttribute("name", cl) + "</u>\" as " + getOrdinalFor(i);
 				id.put(node, i);
+				i++;
 				«ENDIF»
 				«IF node.feature !== null»
 				boolean value = false;
@@ -197,7 +221,12 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				«ENDIF»
 				«ENDFOR»
 				«ENDIF»
-				localnodes.put(node, label);
+				List<LabelStyle> labelList = new ArrayList<LabelStyle>();
+				if (localnodes.get(node) != null) {
+					labelList = localnodes.get(node);
+				}
+				labelList.add(label);
+				localnodes.put(node, labelList);
 				Object noderels = ModelManager.getReferences("superclass", node);
 				if (noderels instanceof List<?>) {
 					for (EObject nnode : (List<EObject>) noderels) {
@@ -214,7 +243,101 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					}
 					localrels.put(node, rels);
 				}
-				i++;
+			}
+			j = 0;
+			for (EObject node : lnode_«counter»_«counter2») {
+				String name = ModelManager.getStringAttribute("name", node);
+				String typeName = node.eClass().getName();
+				«IF node.name.name.equals("Class")»
+				Object obj = ModelManager.getReferences("ownedAttributes", node);
+				List<EObject> attributes = null;
+				if (obj instanceof List<?>) {
+					attributes = (List<EObject>) obj;
+				}
+				for (EObject att : attributes) {
+					String attName = "";
+					if (att != null) {
+						attName = ModelManager.getStringAttribute("name", att);
+					}
+					Object obj2 = ModelManager.getReferences("type", att);
+					EObject type = null;
+					if (obj2 instanceof List<?>) {
+						type = ((List<EObject>) obj2).get(0);
+					}
+					typeName = "";
+					if (type != null) {
+						typeName = ModelManager.getStringAttribute("name", type);
+					}
+					if (attName.length() > 0 && typeName.length() > 0) {
+						LabelStyle label = new LabelStyle();
+						label.label = "";
+						label.name = name + " : -" + attName + " : " + typeName;
+						List<LabelStyle> labelList = new ArrayList<LabelStyle>();
+						if (localnodes.get(node) != null) {
+							labelList = localnodes.get(node);
+						}
+						labelList.add(label);
+						localnodes.put(node, labelList);
+					}
+				}
+				«ENDIF»
+				«IF node.name.name.equals("Object")»
+				Object o = ModelManager.getReferences("class", node);
+				EObject cl = null;
+				if (o instanceof List<?>) {
+					cl = ((List<EObject>) o).get(0);
+				}
+				Object obj = ModelManager.getListStringAttribute("ownedAttributeValues", node);
+				List<String> attValues = null;
+				if (obj instanceof List<?>) {
+					attValues = (List<String>) obj;
+				}
+				Object ob = ModelManager.getReferences("ownedAttributes", cl);
+				Set<EObject> attributes = new LinkedHashSet<EObject>();
+				if (ob instanceof List<?>) {
+					attributes.addAll((List<EObject>) ob);
+				}
+				Set<EObject> superclasses = getSuperClasses(cl);
+				for (EObject supercl : superclasses) {
+					ob = ModelManager.getReferences("ownedAttributes", supercl);
+					if (ob instanceof List<?>) {
+						attributes.addAll((List<EObject>) ob);
+					}
+				}
+				int k = 0;
+				for (EObject att : attributes) {
+					String attName = "";
+					if (att != null) {
+						attName = ModelManager.getStringAttribute("name", att);
+					}
+					Object obj2 = ModelManager.getReferences("type", att);
+					EObject type = null;
+					if (obj2 instanceof List<?>) {
+						type = ((List<EObject>) obj2).get(0);
+					}
+					typeName = "";
+					if (type != null) {
+						typeName = ModelManager.getStringAttribute("name", type);
+					}
+					String quote = "";
+					if (typeName.equals("String")) {
+						quote = "\"";
+					}
+					if (attName.length() > 0 && typeName.length() > 0) {
+						LabelStyle label = new LabelStyle();
+						label.label = "";
+						label.name = getOrdinalFor(j) + " : -" + attName + " = " + quote + attValues.get(k) + quote;
+						List<LabelStyle> labelList = new ArrayList<LabelStyle>();
+						if (localnodes.get(node) != null) {
+							labelList = localnodes.get(node);
+						}
+						labelList.add(label);
+						localnodes.put(node, labelList);
+					}
+					k++;
+				}
+				j++;
+				«ENDIF»
 			}
 			// INC COUNTER: «counter2++»
 			«ENDFOR»
@@ -228,7 +351,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 		«ENDFOR»
 		}
 		
-		private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, LabelStyle>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
+		private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
 			// COUNTER: «counter = 0»
 			Map<EObject, Map<String, List<LabelStyle>>> localrels = null;
 			int i = 0;
@@ -374,7 +497,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					String path = exercise.getName() + "/" + folder;
 					String umlfile = "«folder»/src-gen/html/diagrams/" + 
 						path + "/" + file.getName().replace(".model", "_«counter».txt");
-					Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();
+					Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 					Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 					Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
 					«draw.generate(folder, counter)»
@@ -435,7 +558,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 						String umlfile = "«folder»/src-gen/html/diagrams/" + 
 							file.getName().replace(".model", "") + "/" +
 							file.getName().replace(".model", "_«counter».txt");
-						Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();
+						Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 						Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 						Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
 						«draw.generate(folder, counter)»
@@ -495,7 +618,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 								Resource model = ModelManager.loadModel(packages, pathfile);
 								String umlfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
 									file.getName().replace(".model", "_«counter».txt");
-								Map<Integer, Map<EObject, LabelStyle>> umlnodes = new LinkedHashMap<Integer, Map<EObject, LabelStyle>>();
+								Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 								Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 								Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
 								«draw.generate(folder, counter)»

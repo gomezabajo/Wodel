@@ -20,6 +20,10 @@ import org.eclipse.core.runtime.Platform
 import java.net.URL
 import org.eclipse.core.runtime.FileLocator
 import java.util.List
+import edutest.TestConfiguration
+import org.eclipse.emf.ecore.EClass
+import edutest.Program
+import org.eclipse.emf.ecore.EClassifier
 
 /**
  * @author Pablo Gomez-Abajo
@@ -39,12 +43,69 @@ class EduTestScopeProvider extends AbstractEduTestScopeProvider {
 		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
 		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
 		val List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
-		var ArrayList<Block> blocks = null;
+		var List<Block> blocks = new ArrayList<Block>()
 		for (EObject eobject : eobjects) {
 			blocks.add(eobject as Block)
 		}
        	Scopes.scopeFor(blocks)   
-	}			
+	}	
+	
+	def IScope scope_TestConfiguration_statement(TestConfiguration test, EReference ref) {
+		val List<EClass> scope = new ArrayList<EClass>()
+		scope.addAll(getEClasses(((test.eContainer as MutatorTests).eContainer as Program).metamodel))
+       	Scopes.scopeFor(scope)
+	}		
 
+	def IScope scope_TestConfiguration_answers(TestConfiguration test, EReference ref) {
+		val List<EClass> scope = new ArrayList<EClass>()
+		scope.addAll(getEClasses(((test.eContainer as MutatorTests).eContainer as Program).metamodel))
+       	Scopes.scopeFor(scope)
+	}		
+
+	/** 
+	 * It returns the list of classes defined in a meta-model.
+	 * @param String file containing the metamodel
+	 * @return List<EClass>
+	 */
+	 def private List<EClass> getEClassesSubpackages (EPackage pck) {
+        val List<EClass>   classes   = new ArrayList<EClass>()
+        for (EClassifier cl : pck.EClassifiers) {
+          if (cl instanceof EClass)
+      	    classes.add(cl as EClass)
+   	    }
+        for (EPackage spck : pck.ESubpackages) {
+      	  val List<EClass> classesSubpackage = getEClassesSubpackages(spck)
+      	  for (EClass cl : classesSubpackage) {
+      	    if (!classes.contains(cl)) {
+      	  	     classes.add(cl)
+      	  	}
+      	  }
+      	}
+        return classes
+	 }
+
+	/** 
+	 * It returns the list of classes defined in a meta-model.
+	 * @param String file containing the metamodel
+	 * @return List<EClass>
+	 */
+	 def private List<EClass> getEClasses (String metamodelFile) {
+        val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
+        val List<EClass>   classes   = new ArrayList<EClass>()
+   	    for (EPackage pck : metamodel) {
+       	  for (EClassifier cl : pck.EClassifiers)
+           	if (cl instanceof EClass)
+      			classes.add(cl as EClass)
+      	  for (EPackage spck : pck.ESubpackages) {
+      	  	val List<EClass> classesSubpackage = getEClassesSubpackages(spck)
+      	  	for (EClass cl : classesSubpackage) {
+      	  		if (!classes.contains(cl)) {
+      	  			classes.add(cl)
+      	  		}
+      	  	}
+      	  }
+		}
+        return classes
+	 }
 }
 

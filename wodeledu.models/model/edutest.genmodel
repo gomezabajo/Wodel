@@ -25,12 +25,17 @@
       <genEnumLiterals ecoreEnumLiteral="EduTest.ecore#//Mode/checkbox"/>
     </genEnums>
     <genClasses ecoreClass="EduTest.ecore#//Program">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//Program/metamodel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//Program/config"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//Program/exercises"/>
     </genClasses>
     <genClasses image="false" ecoreClass="EduTest.ecore#//MutatorTests">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference EduTest.ecore#//MutatorTests/blocks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//MutatorTests/markedBlocks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference EduTest.ecore#//MutatorTests/tests"/>
+    </genClasses>
+    <genClasses ecoreClass="EduTest.ecore#//MarkedBlock">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference EduTest.ecore#//MarkedBlock/block"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MarkedBlock/solution"/>
     </genClasses>
     <genClasses image="false" ecoreClass="EduTest.ecore#//Configuration"/>
     <genClasses ecoreClass="EduTest.ecore#//ProgramConfiguration">
@@ -39,8 +44,8 @@
     <genClasses ecoreClass="EduTest.ecore#//TestConfiguration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/retry"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/mode"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/statement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//TestConfiguration/answers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference EduTest.ecore#//TestConfiguration/statement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference EduTest.ecore#//TestConfiguration/answers"/>
     </genClasses>
     <genClasses ecoreClass="EduTest.ecore#//MultiChoiceEmConfig">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute EduTest.ecore#//MultiChoiceEmConfig/weighted"/>

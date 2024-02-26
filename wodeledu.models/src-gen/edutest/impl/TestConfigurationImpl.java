@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -70,44 +71,24 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	protected Mode mode = MODE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getStatement() <em>Statement</em>}' attribute.
+	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getStatement()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String STATEMENT_EDEFAULT = null;
+	protected EClass statement;
 
 	/**
-	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStatement()
-	 * @generated
-	 * @ordered
-	 */
-	protected String statement = STATEMENT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getAnswers() <em>Answers</em>}' attribute.
+	 * The cached value of the '{@link #getAnswers() <em>Answers</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAnswers()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String ANSWERS_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getAnswers() <em>Answers</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAnswers()
-	 * @generated
-	 * @ordered
-	 */
-	protected String answers = ANSWERS_EDEFAULT;
+	protected EClass answers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -177,7 +158,16 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getStatement() {
+	public EClass getStatement() {
+		if (statement != null && statement.eIsProxy()) {
+			InternalEObject oldStatement = (InternalEObject) statement;
+			statement = (EClass) eResolveProxy(oldStatement);
+			if (statement != oldStatement) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							EdutestPackage.TEST_CONFIGURATION__STATEMENT, oldStatement, statement));
+			}
+		}
 		return statement;
 	}
 
@@ -186,8 +176,17 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStatement(String newStatement) {
-		String oldStatement = statement;
+	public EClass basicGetStatement() {
+		return statement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStatement(EClass newStatement) {
+		EClass oldStatement = statement;
 		statement = newStatement;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST_CONFIGURATION__STATEMENT,
@@ -199,7 +198,16 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAnswers() {
+	public EClass getAnswers() {
+		if (answers != null && answers.eIsProxy()) {
+			InternalEObject oldAnswers = (InternalEObject) answers;
+			answers = (EClass) eResolveProxy(oldAnswers);
+			if (answers != oldAnswers) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							EdutestPackage.TEST_CONFIGURATION__ANSWERS, oldAnswers, answers));
+			}
+		}
 		return answers;
 	}
 
@@ -208,8 +216,17 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAnswers(String newAnswers) {
-		String oldAnswers = answers;
+	public EClass basicGetAnswers() {
+		return answers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAnswers(EClass newAnswers) {
+		EClass oldAnswers = answers;
 		answers = newAnswers;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST_CONFIGURATION__ANSWERS,
@@ -229,9 +246,13 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 		case EdutestPackage.TEST_CONFIGURATION__MODE:
 			return getMode();
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			return getStatement();
+			if (resolve)
+				return getStatement();
+			return basicGetStatement();
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			return getAnswers();
+			if (resolve)
+				return getAnswers();
+			return basicGetAnswers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -251,10 +272,10 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 			setMode((Mode) newValue);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			setStatement((String) newValue);
+			setStatement((EClass) newValue);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			setAnswers((String) newValue);
+			setAnswers((EClass) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -275,10 +296,10 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 			setMode(MODE_EDEFAULT);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			setStatement(STATEMENT_EDEFAULT);
+			setStatement((EClass) null);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			setAnswers(ANSWERS_EDEFAULT);
+			setAnswers((EClass) null);
 			return;
 		}
 		super.eUnset(featureID);
@@ -297,9 +318,9 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 		case EdutestPackage.TEST_CONFIGURATION__MODE:
 			return mode != MODE_EDEFAULT;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			return STATEMENT_EDEFAULT == null ? statement != null : !STATEMENT_EDEFAULT.equals(statement);
+			return statement != null;
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			return ANSWERS_EDEFAULT == null ? answers != null : !ANSWERS_EDEFAULT.equals(answers);
+			return answers != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -319,10 +340,6 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 		result.append(retry);
 		result.append(", mode: ");
 		result.append(mode);
-		result.append(", statement: ");
-		result.append(statement);
-		result.append(", answers: ");
-		result.append(answers);
 		result.append(')');
 		return result.toString();
 	}

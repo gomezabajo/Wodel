@@ -84,12 +84,35 @@ ruleProgram returns [EObject current=null]
 					$current);
 			}
 		)
+		otherlv_1='metamodel'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getProgramAccess().getMetamodelKeyword_1());
+		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getProgramAccess().getMetamodelEStringParserRuleCall_2_0());
 				}
-				lv_config_1_0=ruleProgramConfiguration
+				lv_metamodel_2_0=ruleEString
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getProgramRule());
+					}
+					set(
+						$current,
+						"metamodel",
+						lv_metamodel_2_0,
+						"wodeledu.dsls.EduTest.EString");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_3_0());
+				}
+				lv_config_3_0=ruleProgramConfiguration
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getProgramRule());
@@ -97,7 +120,7 @@ ruleProgram returns [EObject current=null]
 					set(
 						$current,
 						"config",
-						lv_config_1_0,
+						lv_config_3_0,
 						"wodeledu.dsls.EduTest.ProgramConfiguration");
 					afterParserOrEnumRuleCall();
 				}
@@ -106,9 +129,9 @@ ruleProgram returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_2_0());
+					newCompositeNode(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_4_0());
 				}
-				lv_exercises_2_0=ruleMutatorTests
+				lv_exercises_4_0=ruleMutatorTests
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getProgramRule());
@@ -116,7 +139,7 @@ ruleProgram returns [EObject current=null]
 					add(
 						$current,
 						"exercises",
-						lv_exercises_2_0,
+						lv_exercises_4_0,
 						"wodeledu.dsls.EduTest.MutatorTests");
 					afterParserOrEnumRuleCall();
 				}
@@ -215,6 +238,65 @@ ruleMutatorTests returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleMarkedBlock
+entryRuleMarkedBlock returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMarkedBlockRule()); }
+	iv_ruleMarkedBlock=ruleMarkedBlock
+	{ $current=$iv_ruleMarkedBlock.current; }
+	EOF;
+
+// Rule MarkedBlock
+ruleMarkedBlock returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getMarkedBlockAccess().getMarkedBlockAction_0(),
+					$current);
+			}
+		)
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getMarkedBlockRule());
+					}
+				}
+				otherlv_1=RULE_ID
+				{
+					newLeafNode(otherlv_1, grammarAccess.getMarkedBlockAccess().getBlockBlockCrossReference_1_0());
+				}
+			)
+		)
+		(
+			(
+				(
+					lv_solution_2_0='='
+					{
+						newLeafNode(lv_solution_2_0, grammarAccess.getMarkedBlockAccess().getSolutionEqualsSignKeyword_2_0_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getMarkedBlockRule());
+						}
+						setWithLastConsumed($current, "solution", lv_solution_2_0 != null, "=");
+					}
+				)
+			)
+			otherlv_3='solution'
+			{
+				newLeafNode(otherlv_3, grammarAccess.getMarkedBlockAccess().getSolutionKeyword_2_1());
+			}
+		)?
+	)
+;
+
 // Entry rule entryRuleAlternativeResponse
 entryRuleAlternativeResponse returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getAlternativeResponseRule()); }
@@ -239,13 +321,19 @@ ruleAlternativeResponse returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getAlternativeResponseRule());
-						}
+						newCompositeNode(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAlternativeResponseRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -257,13 +345,19 @@ ruleAlternativeResponse returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getAlternativeResponseRule());
-							}
+							newCompositeNode(grammarAccess.getAlternativeResponseAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getAlternativeResponseAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getAlternativeResponseRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -342,13 +436,19 @@ ruleMultiChoiceDiagram returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMultiChoiceDiagramRule());
-						}
+						newCompositeNode(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getMultiChoiceDiagramRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -360,13 +460,19 @@ ruleMultiChoiceDiagram returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMultiChoiceDiagramRule());
-							}
+							newCompositeNode(grammarAccess.getMultiChoiceDiagramAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getMultiChoiceDiagramAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultiChoiceDiagramRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -445,13 +551,19 @@ ruleMultiChoiceEmendation returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMultiChoiceEmendationRule());
-						}
+						newCompositeNode(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getMultiChoiceEmendationRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -463,13 +575,19 @@ ruleMultiChoiceEmendation returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMultiChoiceEmendationRule());
-							}
+							newCompositeNode(grammarAccess.getMultiChoiceEmendationAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getMultiChoiceEmendationAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultiChoiceEmendationRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -548,13 +666,19 @@ ruleMatchPairs returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMatchPairsRule());
-						}
+						newCompositeNode(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getMatchPairsRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -566,13 +690,19 @@ ruleMatchPairs returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMatchPairsRule());
-							}
+							newCompositeNode(grammarAccess.getMatchPairsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getMatchPairsAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMatchPairsRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -651,13 +781,19 @@ ruleMissingWords returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMissingWordsRule());
-						}
+						newCompositeNode(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getMissingWordsRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -669,13 +805,19 @@ ruleMissingWords returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMissingWordsRule());
-							}
+							newCompositeNode(grammarAccess.getMissingWordsAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMissingWordsRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -754,13 +896,19 @@ ruleMultiChoiceText returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMultiChoiceTextRule());
-						}
+						newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getMultiChoiceTextRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -772,13 +920,19 @@ ruleMultiChoiceText returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMultiChoiceTextRule());
-							}
+							newCompositeNode(grammarAccess.getMultiChoiceTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getMultiChoiceTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultiChoiceTextRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -857,13 +1011,19 @@ ruleAlternativeText returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getAlternativeTextRule());
-						}
+						newCompositeNode(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAlternativeTextRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -875,13 +1035,19 @@ ruleAlternativeText returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getAlternativeTextRule());
-							}
+							newCompositeNode(grammarAccess.getAlternativeTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getAlternativeTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getAlternativeTextRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -960,13 +1126,19 @@ ruleDragAndDropText returns [EObject current=null]
 			(
 				(
 					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getDragAndDropTextRule());
-						}
+						newCompositeNode(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_0_0());
 					}
-					otherlv_1=RULE_ID
+					lv_markedBlocks_1_0=ruleMarkedBlock
 					{
-						newLeafNode(otherlv_1, grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_0_0());
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getDragAndDropTextRule());
+						}
+						add(
+							$current,
+							"markedBlocks",
+							lv_markedBlocks_1_0,
+							"wodeledu.dsls.EduTest.MarkedBlock");
+						afterParserOrEnumRuleCall();
 					}
 				)
 			)
@@ -978,13 +1150,19 @@ ruleDragAndDropText returns [EObject current=null]
 				(
 					(
 						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getDragAndDropTextRule());
-							}
+							newCompositeNode(grammarAccess.getDragAndDropTextAccess().getMarkedBlocksMarkedBlockParserRuleCall_1_1_1_0());
 						}
-						otherlv_3=RULE_ID
+						lv_markedBlocks_3_0=ruleMarkedBlock
 						{
-							newLeafNode(otherlv_3, grammarAccess.getDragAndDropTextAccess().getBlocksBlockCrossReference_1_1_1_0());
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getDragAndDropTextRule());
+							}
+							add(
+								$current,
+								"markedBlocks",
+								lv_markedBlocks_3_0,
+								"wodeledu.dsls.EduTest.MarkedBlock");
+							afterParserOrEnumRuleCall();
 						}
 					)
 				)
@@ -1189,74 +1367,46 @@ ruleTestConfiguration returns [EObject current=null]
 			{
 				newLeafNode(otherlv_10, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_5_2());
 			}
-			otherlv_11='('
-			{
-				newLeafNode(otherlv_11, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_5_3());
-			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getTestConfigurationAccess().getStatementEStringParserRuleCall_5_4_0());
-					}
-					lv_statement_12_0=ruleEString
-					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+							$current = createModelElement(grammarAccess.getTestConfigurationRule());
 						}
-						set(
-							$current,
-							"statement",
-							lv_statement_12_0,
-							"wodeledu.dsls.EduTest.EString");
-						afterParserOrEnumRuleCall();
+					}
+					otherlv_11=RULE_ID
+					{
+						newLeafNode(otherlv_11, grammarAccess.getTestConfigurationAccess().getStatementEClassCrossReference_5_3_0());
 					}
 				)
 			)
-			otherlv_13=')'
-			{
-				newLeafNode(otherlv_13, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_5_5());
-			}
 		)?
 		(
-			otherlv_14=','
+			otherlv_12=','
 			{
-				newLeafNode(otherlv_14, grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0());
+				newLeafNode(otherlv_12, grammarAccess.getTestConfigurationAccess().getCommaKeyword_6_0());
 			}
-			otherlv_15='answers'
+			otherlv_13='answers'
 			{
-				newLeafNode(otherlv_15, grammarAccess.getTestConfigurationAccess().getAnswersKeyword_6_1());
+				newLeafNode(otherlv_13, grammarAccess.getTestConfigurationAccess().getAnswersKeyword_6_1());
 			}
-			otherlv_16='='
+			otherlv_14='='
 			{
-				newLeafNode(otherlv_16, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2());
-			}
-			otherlv_17='('
-			{
-				newLeafNode(otherlv_17, grammarAccess.getTestConfigurationAccess().getLeftParenthesisKeyword_6_3());
+				newLeafNode(otherlv_14, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_6_2());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getTestConfigurationAccess().getAnswersEStringParserRuleCall_6_4_0());
-					}
-					lv_answers_18_0=ruleEString
-					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTestConfigurationRule());
+							$current = createModelElement(grammarAccess.getTestConfigurationRule());
 						}
-						set(
-							$current,
-							"answers",
-							lv_answers_18_0,
-							"wodeledu.dsls.EduTest.EString");
-						afterParserOrEnumRuleCall();
+					}
+					otherlv_15=RULE_ID
+					{
+						newLeafNode(otherlv_15, grammarAccess.getTestConfigurationAccess().getAnswersEClassCrossReference_6_3_0());
 					}
 				)
 			)
-			otherlv_19=')'
-			{
-				newLeafNode(otherlv_19, grammarAccess.getTestConfigurationAccess().getRightParenthesisKeyword_6_5());
-			}
 		)?
 	)
 ;
@@ -1512,37 +1662,72 @@ ruleTextConfiguration returns [EObject current=null]
 				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getTextConfigurationAccess().getCommaKeyword_4());
-		}
-		otherlv_5='text'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getTextConfigurationAccess().getTextKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_6());
-		}
 		(
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getTextConfigurationAccess().getCommaKeyword_4_0());
+			}
+			otherlv_5='mode'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getTextConfigurationAccess().getModeKeyword_4_1());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_4_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_7_0());
-				}
-				lv_identifier_7_0=ruleEString
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getTextConfigurationRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getTextConfigurationAccess().getModeModeEnumRuleCall_4_3_0());
 					}
-					set(
-						$current,
-						"identifier",
-						lv_identifier_7_0,
-						"wodeledu.dsls.EduTest.EString");
-					afterParserOrEnumRuleCall();
-				}
+					lv_mode_7_0=ruleMode
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTextConfigurationRule());
+						}
+						set(
+							$current,
+							"mode",
+							lv_mode_7_0,
+							"wodeledu.dsls.EduTest.Mode");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
-		)
+		)?
+		(
+			otherlv_8=','
+			{
+				newLeafNode(otherlv_8, grammarAccess.getTextConfigurationAccess().getCommaKeyword_5_0());
+			}
+			otherlv_9='text'
+			{
+				newLeafNode(otherlv_9, grammarAccess.getTextConfigurationAccess().getTextKeyword_5_1());
+			}
+			otherlv_10='='
+			{
+				newLeafNode(otherlv_10, grammarAccess.getTextConfigurationAccess().getEqualsSignKeyword_5_2());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getTextConfigurationAccess().getIdentifierEStringParserRuleCall_5_3_0());
+					}
+					lv_identifier_11_0=ruleEString
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTextConfigurationRule());
+						}
+						set(
+							$current,
+							"identifier",
+							lv_identifier_11_0,
+							"wodeledu.dsls.EduTest.EString");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)?
 	)
 ;
 

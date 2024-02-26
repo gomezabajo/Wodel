@@ -54,6 +54,7 @@ import appliedMutations.TargetReferenceChanged;
 import edutest.AlternativeResponse;
 import edutest.AlternativeText;
 import edutest.DragAndDropText;
+import edutest.MarkedBlock;
 import edutest.MatchPairs;
 import edutest.MissingWords;
 import edutest.Mode;
@@ -82,14 +83,15 @@ import wodeledu.utils.manager.WodelEduUtils;
 public class EduTestSuperGenerator extends AbstractGenerator {
 
 	protected IProject project = null;
-	protected Map<MutatorTests, List<Test>> tests = new HashMap<MutatorTests, List<Test>>();
-	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> diagrams = new HashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
-	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> rand = new HashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
-	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new HashMap<MutatorTests, Map<Test, Registry>>();
-	protected Map<MutatorTests, Map<Test, Double>> puntuation = new HashMap<MutatorTests, Map<Test, Double>>();
-	protected Map<MutatorTests, Map<Test, Double>> penalty = new HashMap<MutatorTests, Map<Test, Double>>();
-	protected Map<MutatorTests, Integer> total = new HashMap<MutatorTests, Integer>();
-	protected Map<MutatorTests, Map<Test, List<TestOption>>> options = new HashMap<MutatorTests, Map<Test, List<TestOption>>>();
+	protected Map<MutatorTests, List<Test>> tests = new LinkedHashMap<MutatorTests, List<Test>>();
+	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new LinkedHashMap<MutatorTests, Map<Test, Registry>>();
+	protected Map<MutatorTests, Map<Test, Double>> puntuation = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
+	protected Map<MutatorTests, Map<Test, Double>> penalty = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
+	protected Map<MutatorTests, Integer> total = new LinkedHashMap<MutatorTests, Integer>();
+	protected Map<MutatorTests, Map<Test, List<TestOption>>> options = new LinkedHashMap<MutatorTests, Map<Test, List<TestOption>>>();
+	protected Map<MutatorTests, List<String>> solutionsMap = new LinkedHashMap<MutatorTests, List<String>>();
 	
 	public EduTestSuperGenerator() {
 		project = ProjectUtils.getProject();
@@ -243,10 +245,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		registry.seed = ModelManager.loadModel(packages, modelPath);
 		registry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
 		registry.history = new ArrayList<Resource>();
-		registry.wrong = new HashMap<Resource, List<Registry>>();
+		registry.wrong = new LinkedHashMap<Resource, List<Registry>>();
 		if (outFolder.isDirectory() == true) {
-			if (exercise.getBlocks() != null) {
-				for (Block block : exercise.getBlocks()) {
+			if (exercise.getMarkedBlocks() != null) {
+				for (MarkedBlock markedblock : exercise.getMarkedBlocks()) {
+					Block block = markedblock.getBlock();
 					if (block.getFrom() == null || block.getFrom().size() == 0) {
 						for (File f : outFolder.listFiles()) {
 							if (f.isFile() == true) {
@@ -706,8 +709,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 				}
 			}
-			if (exercise.getBlocks() != null) {
-				for (Block block : exercise.getBlocks()) {
+			if (exercise.getMarkedBlocks() != null) {
+				for (MarkedBlock markedblock : exercise.getMarkedBlocks()) {
+					Block block = markedblock.getBlock();
 					folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + block.getName());
 					if (folder.isDirectory() == true) {
 						for (File f : folder.listFiles()) {
@@ -739,7 +743,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			diags.put(test, mapFileNames);
 		}
 		diagrams.put(exercise, diags);
-		Map<Test, Map<String, List<String>>> random = new HashMap<Test, Map<String, List<String>>>();
+		Map<Test, Map<String, List<String>>> random = new LinkedHashMap<Test, Map<String, List<String>>>();
 		for (Test test : exercise.getTests()) {
 			Map<String, List<String>> entry = diagrams.get(exercise).get(test);
 			for (String key : entry.keySet()) {
@@ -4434,7 +4438,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			List<TestOption> opts = new ArrayList<TestOption>();
 			if (options.get(exercise).get(test) != null) {
 				for (TestOption opt : options.get(exercise).get(test)) {
-					opt.text = new HashMap<String, List<String>>();
+					opt.text = new LinkedHashMap<String, List<String>>();
 					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
 					for (EObject mutation : mutations) {
 						List<String> text = new ArrayList<String>();
@@ -4509,7 +4513,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private void buildMultiChoiceEmendation(Resource resource, MultiChoiceEmendation exercise, List<EObject> blocks, Class<?> cls) {
 		try {
-			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Map<Test, Registry> dataReg = new LinkedHashMap<Test, Registry>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
@@ -4533,7 +4537,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				dataReg.put(test, getRegistry((MultiChoiceEmendation) exercise, test, blocks, packages, registrypackages));
 			}
 			dataRegistry.put(exercise, dataReg);
-			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			Map<Test, List<TestOption>> testOptions = new LinkedHashMap<Test, List<TestOption>>();
 			for (Test test : exercise.getTests()) {
 				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
 					int rnd = ModelManager.getRandomIndex(dataRegistry.get(exercise).get(test).mutants);
@@ -4609,7 +4613,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			List<TestOption> opts = new ArrayList<TestOption>();
 			if (options.get(exercise).get(test) != null) {
 				for (TestOption opt : options.get(exercise).get(test)) {
-					opt.text = new HashMap<String, List<String>>();
+					opt.text = new LinkedHashMap<String, List<String>>();
 					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
 					for (EObject mutation : mutations) {
 						List<String> text = new ArrayList<String>();
@@ -4675,7 +4679,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //	 */
 //	private void buildMatchPairs(Resource resource, MatchPairs exercise, List<EObject> blocks, Class<?> cls) {
 //		try {
-//			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+//			Map<Test, Registry> dataReg = new LinkedHashMap<Test, Registry>();
 //			Bundle bundle = Platform.getBundle("wodel.models");
 //			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 //			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
@@ -4694,7 +4698,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 //			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 //			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
-//			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+//			Map<Test, List<TestOption>> testOptions = new LinkedHashMap<Test, List<TestOption>>();
 //			for (Test test : exercise.getTests()) {
 //				dataReg.put(test, getRegistry((MatchPairs) exercise, test, blocks, packages, registrypackages));
 //			}
@@ -4726,7 +4730,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //					}
 //				}
 //			}
-//			Map<Test, Registry> selectedDataReg = new HashMap<Test, Registry>();
+//			Map<Test, Registry> selectedDataReg = new LinkedHashMap<Test, Registry>();
 //			for (Test test : dataReg.keySet()) {
 //				Registry reg = dataReg.get(test);
 //				Registry newReg = new Registry();
@@ -4755,7 +4759,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //					System.out.println(st.getURI());
 //				}
 //			}
-//			Map<Test, Registry> exerciseDataReg = new HashMap<Test, Registry>();
+//			Map<Test, Registry> exerciseDataReg = new LinkedHashMap<Test, Registry>();
 //			for (Test test : selectedDataReg.keySet()) {
 //				Registry reg = selectedDataReg.get(test);
 //				Registry newReg = new Registry();
@@ -4829,7 +4833,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 //					j++;
 //				}
 //			}
-//			Map<Test, List<Integer>> orderedTestMap = new HashMap<Test, List<Integer>>();
+//			Map<Test, List<Integer>> orderedTestMap = new LinkedHashMap<Test, List<Integer>>();
 //			for (Test test : exerciseDataReg.keySet()) {
 //				List<Integer> orderedList = new ArrayList<Integer>();
 //				Registry reg = exerciseDataReg.get(test);
@@ -5025,7 +5029,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private void buildMatchPairs(Resource resource, MatchPairs exercise, List<EObject> blocks, Class<?> cls) {
 		try {
-			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Map<Test, Registry> dataReg = new LinkedHashMap<Test, Registry>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
@@ -5045,7 +5049,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
 			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
-			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			Map<Test, List<TestOption>> testOptions = new LinkedHashMap<Test, List<TestOption>>();
 			for (Test test : exercise.getTests()) {
 				dataReg.put(test, getRegistry((MatchPairs) exercise, test, blocks, packages, registrypackages));
 			}
@@ -5063,14 +5067,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 						int k = i;
 						while (covered == false && indexes.size() > 0) {
-							for (EObject block : exercise.getBlocks()) {
+							for (MarkedBlock markedblock : exercise.getMarkedBlocks()) {
+								Block block = markedblock.getBlock();
 								String name = ModelManager.getStringAttribute("name", block);
 								if (reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").contains("/" + name + "/") && !coveredBlocks.contains(name)) {
 									coveredBlocks.add(name);
 									covered = true;
 									break;
 								}
-								else if (coveredBlocks.size() == exercise.getBlocks().size()) {
+								else if (coveredBlocks.size() == exercise.getMarkedBlocks().size()) {
 									covered = true;
 									break;
 								}
@@ -5217,7 +5222,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private void buildMissingWords(Resource resource, MissingWords exercise, List<EObject> blocks, Class<?> cls) {
 		try {
-			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Map<Test, Registry> dataReg = new LinkedHashMap<Test, Registry>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
@@ -5241,7 +5246,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				dataReg.put(test, getRegistry((MissingWords) exercise, test, blocks, packages, registrypackages));
 			}
 			dataRegistry.put(exercise, dataReg);
-			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			Map<Test, List<TestOption>> testOptions = new LinkedHashMap<Test, List<TestOption>>();
 			for (Test test : exercise.getTests()) {
 				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
 					List<TestOption> opts = new ArrayList<TestOption>();
@@ -5411,7 +5416,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private void buildDragAndDropText(Resource resource, DragAndDropText exercise, List<EObject> blocks, Class<?> cls) {
 		try {
-			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Map<Test, Registry> dataReg = new LinkedHashMap<Test, Registry>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
 			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
@@ -5435,7 +5440,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				dataReg.put(test, getRegistry((DragAndDropText) exercise, test, blocks, packages, registrypackages));
 			}
 			dataRegistry.put(exercise, dataReg);
-			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			Map<Test, List<TestOption>> testOptions = new LinkedHashMap<Test, List<TestOption>>();
 			for (Test test : exercise.getTests()) {
 				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
 					List<TestOption> opts = new ArrayList<TestOption>();
@@ -5505,7 +5510,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected void buildOptions(Program program, Resource resource, List<EObject> blocks, Class<?> cls) {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
-			Map<Test, Map<String, List<String>>> diags = new HashMap<Test, Map<String, List<String>>>();
+			List<String> sols = new ArrayList<String>();
+			for (MarkedBlock markedblock : exercise.getMarkedBlocks()) {
+				Block block = markedblock.getBlock();
+				if (markedblock.isSolution()) {
+					sols.add(block.getName());
+				}
+			}
+			Map<Test, Map<String, List<String>>> diags = new LinkedHashMap<Test, Map<String, List<String>>>();
 			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText || exercise instanceof AlternativeText) {
 				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags);
 			}
@@ -5521,6 +5533,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			if (exercise instanceof DragAndDropText) {
 				buildDragAndDropText(resource, (DragAndDropText) exercise, blocks, cls);
 			}
+			solutionsMap.put(exercise, sols);
 		}
 	}
 	

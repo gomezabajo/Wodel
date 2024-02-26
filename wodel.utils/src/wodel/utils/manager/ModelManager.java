@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2841,6 +2842,34 @@ public class ModelManager {
 		return null;
 	}
 	
+
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return Root object
+	 */
+	public static List<EObject> getRoots(Resource model) {
+		Iterator<EObject> objects = model.getAllContents();
+		List<EObject> roots = new ArrayList<EObject>();
+		Set<EPackage> packages = new LinkedHashSet<EPackage>();
+		
+		if (objects.hasNext()) {
+			EObject obj = objects.next();
+			packages.add(obj.eClass().getEPackage());
+		}
+		
+		objects = model.getAllContents();
+		if (objects.hasNext()) {
+			EObject obj = objects.next();
+			EPackage pck = obj.eClass().getEPackage();
+			if (packages.contains(pck)) {
+				roots.add(obj);
+				packages.remove(pck);
+			}
+		}
+		return roots;
+	}
+
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -4665,15 +4694,34 @@ public class ModelManager {
 		EClass root = null;
 		List<EClass> eclasses = ModelManager.getEClasses(packages);
 		for (EClass eclass : eclasses) {
-			List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
-			if (containerTypes.size() == 0) {
-				root = eclass;
-				break;
+			if (eclass.isAbstract() == false) {
+				List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
+				if (containerTypes.size() == 0) {
+					root = eclass;
+					break;
+				}
 			}
 		}
 		return root;
 	}
 	
+	/**
+	 * Gets the root EClass
+	 */
+	public static List<EClass> getRootEClasses(List<EPackage> packages) {
+		List<EClass> roots = new ArrayList<EClass>();
+		List<EClass> eclasses = ModelManager.getEClasses(packages);
+		for (EClass eclass : eclasses) {
+			if (eclass.isAbstract() == false) {
+				List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
+				if (containerTypes.size() == 0) {
+					roots.add(eclass);
+				}
+			}
+		}
+		return roots;
+	}
+
 	/**
 	 * Gets the corresponding EPackage
 	 */

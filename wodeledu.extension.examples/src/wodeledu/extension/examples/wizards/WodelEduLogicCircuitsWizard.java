@@ -385,19 +385,20 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		final IFile testsFile = srcFolder.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "navigation=free\n"
+			String def = "metamodel \"/"+ projectName + "/" + modelName + "/" + metamodel + "\"\n\n"  
+					+ "navigation=free\n"
 					+ "AlternativeTextResponse mtg1 {\n"
 					+ "\tretry=yes, text='bool-exp'\n"
 					+ "\tdescription for 'lc1.model' = 'Does this logic circuit correspond to the below boolean expression?'\n"
 					+ "\tdescription for 'lc2.model' = 'Does this logic circuit correspond to the below boolean expression?'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram mtg1 {\n"
-					+ "\tretry=no\n"
+					+ "\tretry=no, mode=radiobutton\n"
 					+ "\tdescription for 'lc3.model' = 'Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(c&#8743;&#172;d)'\n"
 					+ "\tdescription for 'lc4.model' = 'Select which of the following logic circuits corresponds to the boolean expression f = (&#172;a&#8744;&#172;b)&#8744;(&#172;(c&#8743;&#172;d))'\n"
 					+ "}\n"
 					+ "MultiChoiceText mtg1 {\n"
-					+ "\tretry=no, text='bool-exp'\n"
+					+ "\tretry=no, mode=radiobutton, text='bool-exp'\n"
 					+ "\tdescription for 'lc5.model' = 'Select which of the following boolean expressions corresponds to this logic circuit'\n"
 					+ "\tdescription for 'lc6.model' = 'Select which of the following boolean expressions corresponds to this logic circuit'\n"
 					+ "}\n"

@@ -178,9 +178,11 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						counter++;
 					} else {
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
-						String previousInputLabel = previousInputNode.getKey();
-						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In2\n";
+						if (previousInputNode != null) {
+							String previousInputLabel = previousInputNode.getKey();
+							m4text += "line right 3*del from " + previousInputLabel + ".Out to "
+									+ inputLabel + ".In2\n";
+						}
 					}
 				}
 				if (nextNodes.get(i).getInputPins().size() > 1) {
@@ -194,9 +196,11 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						m4text += "line right 3*del from A" + counter + " to " + inputLabel + ".In2\n";
 						counter++;
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
-						String previousInputLabel = previousInputNode.getKey();
-						m4text += "line right 3*del from " + previousInputLabel + ".Out to "
-								+ inputLabel + ".In1\n";
+						if (previousInputNode != null) {
+							String previousInputLabel = previousInputNode.getKey();
+							m4text += "line right 3*del from " + previousInputLabel + ".Out to "
+									+ inputLabel + ".In1\n";
+						}
 					}
 					if (nextNodes.get(i).getInputs().size() == 2) {
 						SimpleEntry<String, Integer> previousInputNode = relationsMap.get(nextNodes.get(i).getInputs().get(0).getName());
@@ -313,24 +317,9 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						path + file.getName().replace(".model", ".svg");
 					String pngfile = "«folder»/src-gen/html/diagrams/" + 
 						path + file.getName().replace(".model", ".png");
-					File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
-					if (diagramsfolder.exists() != true) {
-						diagramsfolder.mkdir();
-					}
-					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + exercise.getName() + "/");
+					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
 					if (exercisefolder.exists() != true) {
-						exercisefolder.mkdir();
-					}
-					path = exercise.getName() + "/";
-					folders = Arrays.asList(folder.split("/"));
-					if (folders.size() > 0) {
-						for (String folderName : folders) {
-							path += folderName + "/";
-							exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
-							if (exercisefolder.exists() != true) {
-								exercisefolder.mkdir();
-							}
-						}
+						exercisefolder.mkdirs();
 					}
 					PrintWriter m4writer = null;
 					try {

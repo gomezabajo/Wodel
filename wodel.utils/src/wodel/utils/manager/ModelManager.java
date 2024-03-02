@@ -4708,15 +4708,30 @@ public class ModelManager {
 	/**
 	 * Gets the root EClass
 	 */
+	private static List<EClass> getRootEClassesSubpackages(List<EPackage> subpackages) {
+		List<EClass> roots = new ArrayList<EClass>();
+		for (EPackage pck : subpackages) {
+			List<EPackage> pcks = new ArrayList<EPackage>();
+			pcks.add(pck);
+			roots.add(getRootEClass(pcks));
+			if (pck.getESubpackages() != null && pck.getESubpackages().size() > 0) {
+				roots.addAll(getRootEClassesSubpackages(pck.getESubpackages()));
+			}
+		}
+		return roots;
+	}
+
+	/**
+	 * Gets the root EClass
+	 */
 	public static List<EClass> getRootEClasses(List<EPackage> packages) {
 		List<EClass> roots = new ArrayList<EClass>();
-		List<EClass> eclasses = ModelManager.getEClasses(packages);
-		for (EClass eclass : eclasses) {
-			if (eclass.isAbstract() == false) {
-				List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
-				if (containerTypes.size() == 0) {
-					roots.add(eclass);
-				}
+		roots.add(getRootEClass(packages));
+		List<EPackage> pcks = new ArrayList<EPackage>();
+		pcks.addAll(packages);
+		for (EPackage pck : packages) {
+			if (pck.getESubpackages() != null && pck.getESubpackages().size() > 0) {
+				roots.addAll(getRootEClassesSubpackages(pck.getESubpackages()));
 			}
 		}
 		return roots;

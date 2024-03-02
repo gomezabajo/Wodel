@@ -293,7 +293,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «ENDIF»
            «ENDIF»
            «ENDFOR»
-           <!--«var int fraction = 100 / solutions»-->
+           <!--«var double fraction = 100.0 / solutions»-->
            «{counter = 0; ""}»
            «FOR String diagram : answers»
            <!--«file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
@@ -302,7 +302,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		   «IF diagram.endsWith(ending)»
            «IF diagram.equals(test.source.replace('.model', '.png')) || diagram.startsWith(test.source.replace('.model', ''))»
           «IF 100 % solutions == 0»
-          <answer fraction="«fraction»" format="html">
+          <answer fraction="«100/solutions»" format="html">
           «ELSE»
           <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
           «{formatter.applyPattern("###.#####"); ""}»
@@ -329,7 +329,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «ENDFOR»
            «IF s || diagram.equals(test.source.replace('.model', '.png'))»
           «IF 100 % solutions == 0»
-          <answer fraction="«fraction»" format="html">
+          <answer fraction="«100/solutions»" format="html">
           «ELSE»
           <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
           «{formatter.applyPattern("###.#####"); ""}»
@@ -339,8 +339,10 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <answer fraction="0" format="html">
            «ENDIF»
            <!--«var String size = "15"»-->
+           «IF exercise.config.answers !== null»
            «IF roots.size() > 2 && exercise.config.answers.name.equals(roots.get(2).name)»
            «{size = "30"; ""}»
+           «ENDIF»
            «ENDIF»
            <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
@@ -464,6 +466,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           «ENDIF»
           «ENDFOR»
           «IF found == true»
+          <!--«var double fraction = 100.0 / solutions»-->
           «IF 100 % solutions == 0»
           <answer fraction="«100/solutions»" format="html">
           <text><![CDATA[<p>«text.trim()»<br></p>]]></text>
@@ -474,7 +477,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           «ELSE»
           <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
           «{formatter.applyPattern("###.#####"); ""}»
-          <answer fraction="«formatter.format(100.0/solutions)»" format="html">
+          <answer fraction="«formatter.format(fraction)»" format="html">
           <text><![CDATA[<p>«text.trim()»<br></p>]]></text>
           <feedback format="html">
           <text></text>
@@ -850,14 +853,14 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            «ENDIF»
            «ENDIF»
            «ENDFOR»
-           <!--«var int fraction = 100 / solutions»-->
+           <!--«var double fraction = 100.0 / solutions»-->
            «{counter = 0; ""}»
            «FOR String diagram : answers»
 		   <!-- «uuid = UUID.randomUUID()»-->
            «IF diagram.equals(test.source.replace('.model', '.png')) || diagram.startsWith(test.source.replace('.model', ''))»
            «var String text = getText((exercise as MultiChoiceText).config.identifier, ModelManager.getMetaModelPath() + "/" + test.source, resource)»
           «IF 100 % solutions == 0»
-          <answer fraction="«fraction»" format="html">
+          <answer fraction="«100/solutions»" format="html">
           «ELSE»
           <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
           «{formatter.applyPattern("###.#####"); ""}»

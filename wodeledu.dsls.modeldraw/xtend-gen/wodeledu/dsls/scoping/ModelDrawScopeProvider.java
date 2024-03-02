@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -43,7 +44,7 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
     {
       final List<EClass> scope = new ArrayList<EClass>();
       EObject _eContainer = instance.eContainer();
-      scope.addAll(this.getEClasses(((MutatorDraw) _eContainer).getMetamodel()));
+      scope.addAll(this.getRootEClasses(((MutatorDraw) _eContainer).getMetamodel()));
       _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
@@ -577,6 +578,67 @@ public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
         lits.addAll(eenum.getELiterals());
       }
       return lits;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  /**
+   * Gets the root EClass
+   */
+  public EClass getRootEClass(final List<EPackage> packages) {
+    final List<EClass> eclasses = ModelManager.getEClasses(packages);
+    for (final EClass eclass : eclasses) {
+      boolean _isAbstract = eclass.isAbstract();
+      boolean _equals = (_isAbstract == false);
+      if (_equals) {
+        final List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass));
+        int _size = containerTypes.size();
+        boolean _equals_1 = (_size == 0);
+        if (_equals_1) {
+          return eclass;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * It returns the list of root eclasses defined in a meta-model.
+   * @param String file containing the metamodel
+   * @return List<EClass>
+   */
+  private List<EClass> getRootEClassesSubpackages(final List<EPackage> subpackages) {
+    final List<EClass> roots = new ArrayList<EClass>();
+    for (final EPackage pck : subpackages) {
+      {
+        final List<EPackage> pcks = new ArrayList<EPackage>();
+        pcks.add(pck);
+        roots.add(this.getRootEClass(pcks));
+        if (((pck.getESubpackages() != null) && (pck.getESubpackages().size() > 0))) {
+          roots.addAll(this.getRootEClassesSubpackages(pck.getESubpackages()));
+        }
+      }
+    }
+    return roots;
+  }
+
+  /**
+   * Gets the root EClass
+   */
+  public List<EClass> getRootEClasses(final String metamodelFile) {
+    try {
+      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      final List<EClass> roots = new ArrayList<EClass>();
+      roots.add(this.getRootEClass(metamodel));
+      final List<EPackage> pcks = new ArrayList<EPackage>();
+      pcks.addAll(metamodel);
+      for (final EPackage pck : pcks) {
+        if (((pck.getESubpackages() != null) && (pck.getESubpackages().size() > 0))) {
+          roots.addAll(this.getRootEClassesSubpackages(pck.getESubpackages()));
+        }
+      }
+      return roots;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

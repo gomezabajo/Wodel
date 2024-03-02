@@ -824,7 +824,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           }
                           _builder.append("  ");
                           _builder.append("<!--");
-                          int fraction = (100 / solutions);
+                          double fraction = (100.0 / solutions);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
@@ -867,7 +867,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                           {
                                             if (((100 % solutions) == 0)) {
                                               _builder.append("<answer fraction=\"");
-                                              _builder.append(fraction);
+                                              _builder.append((100 / solutions));
                                               _builder.append("\" format=\"html\">");
                                               _builder.newLineIfNotEmpty();
                                             } else {
@@ -976,7 +976,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                   {
                                                     if (((100 % solutions) == 0)) {
                                                       _builder.append("<answer fraction=\"");
-                                                      _builder.append(fraction);
+                                                      _builder.append((100 / solutions));
                                                       _builder.append("\" format=\"html\">");
                                                       _builder.newLineIfNotEmpty();
                                                     } else {
@@ -1010,14 +1010,20 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                               _builder.append("-->");
                                               _builder.newLineIfNotEmpty();
                                               {
-                                                if (((this.roots.size() > 2) && ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(this.roots.get(2).getName()))) {
-                                                  String _xblockexpression_22 = null;
+                                                EClass _answers_1 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers();
+                                                boolean _tripleNotEquals_3 = (_answers_1 != null);
+                                                if (_tripleNotEquals_3) {
                                                   {
-                                                    size_1 = "30";
-                                                    _xblockexpression_22 = "";
+                                                    if (((this.roots.size() > 2) && ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(this.roots.get(2).getName()))) {
+                                                      String _xblockexpression_22 = null;
+                                                      {
+                                                        size_1 = "30";
+                                                        _xblockexpression_22 = "";
+                                                      }
+                                                      _builder.append(_xblockexpression_22);
+                                                      _builder.newLineIfNotEmpty();
+                                                    }
                                                   }
-                                                  _builder.append(_xblockexpression_22);
-                                                  _builder.newLineIfNotEmpty();
                                                 }
                                               }
                                               _builder.append("<text><![CDATA[<p><img src=\"@@PLUGINFILE@@/exercise_");
@@ -1169,8 +1175,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       {
                         List<EduTestSuperGenerator.TestOption> _get_5 = this.options.get(exercise).get(test_6);
-                        boolean _tripleNotEquals_3 = (_get_5 != null);
-                        if (_tripleNotEquals_3) {
+                        boolean _tripleNotEquals_4 = (_get_5 != null);
+                        if (_tripleNotEquals_4) {
                           {
                             List<EduTestSuperGenerator.TestOption> _get_6 = this.options.get(exercise).get(test_6);
                             for(final EduTestSuperGenerator.TestOption opt_1 : _get_6) {
@@ -1324,8 +1330,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.newLineIfNotEmpty();
                               {
                                 List<EduTestSuperGenerator.TestOption> _get_7 = this.options.get(exercise).get(test_6);
-                                boolean _tripleNotEquals_4 = (_get_7 != null);
-                                if (_tripleNotEquals_4) {
+                                boolean _tripleNotEquals_5 = (_get_7 != null);
+                                if (_tripleNotEquals_5) {
                                   {
                                     List<EduTestSuperGenerator.TestOption> _get_8 = this.options.get(exercise).get(test_6);
                                     for(final EduTestSuperGenerator.TestOption opt_2 : _get_8) {
@@ -1421,6 +1427,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                       }
                                                       {
                                                         if ((found_1 == true)) {
+                                                          _builder.append("  ");
+                                                          _builder.append("<!--");
+                                                          double fraction_1 = (100.0 / solutions_1);
+                                                          _builder.append("-->");
+                                                          _builder.newLineIfNotEmpty();
                                                           {
                                                             if (((100 % solutions_1) == 0)) {
                                                               _builder.append("  ");
@@ -1464,7 +1475,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               _builder.append("  ");
                                                               _builder.append("<answer fraction=\"");
-                                                              String _format_2 = formatter_2.format((100.0 / solutions_1));
+                                                              String _format_2 = formatter_2.format(fraction_1);
                                                               _builder.append(_format_2, "  ");
                                                               _builder.append("\" format=\"html\">");
                                                               _builder.newLineIfNotEmpty();
@@ -2552,9 +2563,9 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        EClass _answers_1 = ((MultiChoiceText)exercise).getConfig().getAnswers();
-                        boolean _tripleNotEquals_5 = (_answers_1 != null);
-                        if (_tripleNotEquals_5) {
+                        EClass _answers_2 = ((MultiChoiceText)exercise).getConfig().getAnswers();
+                        boolean _tripleNotEquals_6 = (_answers_2 != null);
+                        if (_tripleNotEquals_6) {
                           _builder.append("\t    ");
                           _builder.append("<!-- ");
                           int rootIndex_1 = 0;
@@ -2614,8 +2625,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       }
                       {
                         String _get_23 = solution_2.get(test_14.getSource());
-                        boolean _tripleNotEquals_6 = (_get_23 != null);
-                        if (_tripleNotEquals_6) {
+                        boolean _tripleNotEquals_7 = (_get_23 != null);
+                        if (_tripleNotEquals_7) {
                           String _xblockexpression_58 = null;
                           {
                             answersSet_1.add(solution_2.get(test_14.getSource()));
@@ -2846,7 +2857,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           }
                           _builder.append("  ");
                           _builder.append("<!--");
-                          int fraction_1 = (100 / solutions_2);
+                          double fraction_2 = (100.0 / solutions_2);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
@@ -2876,7 +2887,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   {
                                     if (((100 % solutions_2) == 0)) {
                                       _builder.append("<answer fraction=\"");
-                                      _builder.append(fraction_1);
+                                      _builder.append((100 / solutions_2));
                                       _builder.append("\" format=\"html\">");
                                       _builder.newLineIfNotEmpty();
                                     } else {
@@ -2894,7 +2905,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                       _builder.append(_xblockexpression_65);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("<answer fraction=\"");
-                                      String _format_3 = formatter_3.format(fraction_1);
+                                      String _format_3 = formatter_3.format(fraction_2);
                                       _builder.append(_format_3);
                                       _builder.append("\" format=\"html\">");
                                       _builder.newLineIfNotEmpty();

@@ -24,6 +24,7 @@ import modeldraw.Content
 import org.eclipse.emf.ecore.EStructuralFeature
 import modeldraw.ValuedFeature
 import modeldraw.MutatorInstance
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	def IScope scope_Item_name(MutatorDraw draw, EReference ref) {
@@ -34,7 +35,7 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
 	
 	def IScope scope_Item_name(MutatorInstance instance, EReference ref) {
 		val List<EClass> scope = new ArrayList<EClass>()
-		scope.addAll(getEClasses((instance.eContainer as MutatorDraw).metamodel))
+		scope.addAll(getRootEClasses((instance.eContainer as MutatorDraw).metamodel))
        	Scopes.scopeFor(scope)
 	}
 
@@ -351,4 +352,55 @@ class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
         }
         return lits
 	 }
+	/**
+	 * Gets the root EClass
+	 */
+	def EClass getRootEClass(List<EPackage> packages) {
+		val List<EClass> eclasses = ModelManager.getEClasses(packages)
+		for (EClass eclass : eclasses) {
+			if (eclass.isAbstract() == false) {
+				val List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass))
+				if (containerTypes.size() == 0) {
+					return eclass
+				}
+			}
+		}
+		return null
+	}
+	
+	 /** 
+	 * It returns the list of root eclasses defined in a meta-model.
+	 * @param String file containing the metamodel
+	 * @return List<EClass>
+	 */
+	def private List<EClass> getRootEClassesSubpackages(List<EPackage> subpackages) {
+		val List<EClass> roots = new ArrayList<EClass>()
+		for (EPackage pck : subpackages) {
+			val List<EPackage> pcks = new ArrayList<EPackage>()
+			pcks.add(pck)
+			roots.add(getRootEClass(pcks))
+			if (pck.getESubpackages() !== null && pck.getESubpackages().size() > 0) {
+				roots.addAll(getRootEClassesSubpackages(pck.getESubpackages()))
+			}
+		}
+		return roots
+	}
+
+	/**
+	 * Gets the root EClass
+	 */
+	def List<EClass> getRootEClasses(String metamodelFile) {
+		val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
+		val List<EClass> roots = new ArrayList<EClass>()
+		roots.add(getRootEClass(metamodel))
+		val List<EPackage> pcks = new ArrayList<EPackage>()
+		pcks.addAll(metamodel)
+		for (EPackage pck : pcks) {
+			if (pck.getESubpackages() !== null && pck.getESubpackages().size() > 0) {
+				roots.addAll(getRootEClassesSubpackages(pck.getESubpackages()))
+			}
+		}
+		return roots
+	}
+	 
 }

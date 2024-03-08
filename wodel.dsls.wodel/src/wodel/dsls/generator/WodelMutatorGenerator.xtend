@@ -889,7 +889,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						else {
 							attsRef = new ArrayList<AttributeConfigurationStrategy>();
 						}
-						attsRef.add(«referenceAtt.value.method(true, false, "objectSelection")»);
+						AttributeConfigurationStrategy attConfig = null;
+						«referenceAtt.value.method(true, false, "objectSelection")»
+						attsRef.add(attConfig);
 						attsRefList.put("«attributeName»", attsRef);
 					}
 					«ENDIF»
@@ -1535,7 +1537,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						else {
 							attsRef = new ArrayList<AttributeConfigurationStrategy>();
 						}
-						attsRef.add(«referenceAtt.value.method(true, true, "obSelection")»);
+						AttributeConfigurationStrategy attConfig = null;
+						«referenceAtt.value.method(true, true, "obSelection")»
+						attsRef.add(attConfig);
 						attsRefList.put("«attributeName»", attsRef);
 					}
 					«ENDIF»
@@ -7006,10 +7010,12 @@ public class «className» extends MutatorUtils {
    '''
 
     def method(AttributeSet e, boolean flag, boolean isList, int counter, boolean exhaustive, String obSelectionVariableName) '''
+    	«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
    		«IF isList == true»
     	«IF e.attribute.get(0) !== null»
 		«val EAttribute attribute = e.attribute.get(0)»
-		AttributeConfigurationStrategy attConfig = null;
 		«IF counter > 1»
 		List<AttributeConfigurationStrategy> atts = null;
 		if (attsList.get("«attributeName»") != null) {
@@ -7161,37 +7167,35 @@ public class «className» extends MutatorUtils {
 				
 	def method(DoubleType e, boolean exhaustive) ''' 
 		«IF e instanceof SpecificDoubleType»
-			new SpecificDoubleConfigurationStrategy(«(e as SpecificDoubleType).value»)
+			attConfig = new SpecificDoubleConfigurationStrategy(«(e as SpecificDoubleType).value»);
 		«ELSEIF e instanceof RandomDoubleType»
 			«var RandomDoubleType r = (e as RandomDoubleType)»
-			new RandomDoubleConfigurationStrategy(«r.min», «r.max», false)
+			attConfig = new RandomDoubleConfigurationStrategy(«r.min», «r.max», false);
 		«ENDIF»
 	'''	
 	def method(BooleanType e, boolean exhaustive) ''' 
 		«IF e instanceof SpecificBooleanType»
-			new SpecificBooleanConfigurationStrategy(«(e as SpecificBooleanType).value»)
+			attConfig = new SpecificBooleanConfigurationStrategy(«(e as SpecificBooleanType).value»);
 		«ELSEIF e instanceof RandomBooleanType»
-			new RandomBooleanConfigurationStrategy()
+			attConfig = new RandomBooleanConfigurationStrategy();
 		«ENDIF»
 		'''	
 	def method(IntegerType e, boolean exhaustive) '''
 		«IF e instanceof SpecificIntegerType» 		
-			new SpecificIntegerConfigurationStrategy(«(e as SpecificIntegerType).value»)
+			attConfig = new SpecificIntegerConfigurationStrategy(«(e as SpecificIntegerType).value»);
 		«ELSEIF e instanceof RandomIntegerType»
 			«var RandomIntegerType r = (e as RandomIntegerType)»
-			new RandomIntegerConfigurationStrategy(«r.min», «r.max», false)		
+			attConfig = new RandomIntegerConfigurationStrategy(«r.min», «r.max», false);		
 		«ENDIF»
 		'''
 	def method(ListStringType e, boolean flag, boolean exhaustive, String obSelectionVariableName) '''
 		«IF e instanceof ListStringType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
-					new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListStringType).value»", "«attributeName»")
+					attConfig = new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListStringType).value»", "«attributeName»");
 				«ELSE»
-					new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", refObjectSelected), "«(e as ListStringType).value»", "«attributeName»")
+					attConfig = new ListStringConfigurationStrategy(ModelManager.getStringAttribute("«attributeName»", refObjectSelected), "«(e as ListStringType).value»", "«attributeName»");
 				«ENDIF»
-			«ELSE»
-				null
 			«ENDIF»
 		«ENDIF»
 		'''
@@ -7200,9 +7204,9 @@ public class «className» extends MutatorUtils {
 		«IF e instanceof ListType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
-					new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListType).value»", "«attributeName»")
+					attConfig = new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", («obSelectionVariableName» != null) ? «obSelectionVariableName».getObject() : null), "«(e as ListType).value»", "«attributeName»");
 				«ELSE»
-					new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", refObjectSelected), "«(e as ListType).value»", "«attributeName»")
+					attConfig = new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", refObjectSelected), "«(e as ListType).value»", "«attributeName»");
 				«ENDIF»
 			«ELSE»
 				null
@@ -7213,9 +7217,9 @@ public class «className» extends MutatorUtils {
 		«IF e instanceof RandomType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
-					new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", «obSelectionVariableName».getObject()), "«attributeName»")
+					attConfig = new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", «obSelectionVariableName».getObject()), "«attributeName»");
 				«ELSE»
-					new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", refObjectSelected), "«attributeName»")
+					attConfig = new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", refObjectSelected), "«attributeName»");
 				«ENDIF»
 			«ELSE»
 				null
@@ -7223,25 +7227,25 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 		'''
 	def method(MinValueType e, boolean exhaustive) '''
-		new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»")
+		attConfig = new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»");
 		'''
 	def method(MaxValueType e, boolean exhaustive) '''
-		new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»")
+		attConfig = new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»");
 		'''
 	def method(RandomIntegerNumberType e, boolean exhaustive) '''
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
 		«IF exhaustive == false»
-		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
+		attConfig = new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false);
 		«ELSE»
-		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
+		attConfig = new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false);
 		«ENDIF»
 		«ENDIF»
 		'''
 	def method(RandomDoubleNumberType e, boolean exhaustive) '''
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
-		new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
+		attConfig = new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false);
 		«ENDIF»
 	'''
 

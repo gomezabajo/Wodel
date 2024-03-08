@@ -83,11 +83,6 @@ import wodel.utils.manager.ProjectUtils;
  * @author Pablo Gomez-Abajo - Utils for serialize and deserialize Wodel programs
  * 
  */
-
-/**
- * @author gomez
- *
- */
 public class WodelUtils {
 
 	/**

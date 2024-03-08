@@ -2869,11 +2869,15 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.append("}");
                         _builder.newLine();
                         _builder.append("\t");
-                        _builder.append("attsRef.add(");
+                        _builder.append("AttributeConfigurationStrategy attConfig = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
                         CharSequence _method_3 = this.method(referenceAtt.getValue(), true, false, "objectSelection");
                         _builder.append(_method_3, "\t");
-                        _builder.append(");");
                         _builder.newLineIfNotEmpty();
+                        _builder.append("\t");
+                        _builder.append("attsRef.add(attConfig);");
+                        _builder.newLine();
                         _builder.append("\t");
                         _builder.append("attsRefList.put(\"");
                         _builder.append(this.attributeName, "\t");
@@ -5396,11 +5400,15 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.append("}");
                         _builder.newLine();
                         _builder.append("\t");
-                        _builder.append("attsRef.add(");
+                        _builder.append("AttributeConfigurationStrategy attConfig = null;");
+                        _builder.newLine();
+                        _builder.append("\t");
                         CharSequence _method_3 = this.method(referenceAtt.getValue(), true, true, "obSelection");
                         _builder.append(_method_3, "\t");
-                        _builder.append(");");
                         _builder.newLineIfNotEmpty();
+                        _builder.append("\t");
+                        _builder.append("attsRef.add(attConfig);");
+                        _builder.newLine();
                         _builder.append("\t");
                         _builder.append("attsRefList.put(\"");
                         _builder.append(this.attributeName, "\t");
@@ -25859,6 +25867,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
   public CharSequence method(final AttributeSet e, final boolean flag, final boolean isList, final int counter, final boolean exhaustive, final String obSelectionVariableName) {
     StringConcatenation _builder = new StringConcatenation();
     {
+      if ((counter == 1)) {
+        _builder.append("AttributeConfigurationStrategy attConfig = null;");
+        _builder.newLine();
+      }
+    }
+    {
       if ((isList == true)) {
         {
           EAttribute _get = e.getAttribute().get(0);
@@ -25866,8 +25880,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (_tripleNotEquals) {
             final EAttribute attribute = e.getAttribute().get(0);
             _builder.newLineIfNotEmpty();
-            _builder.append("AttributeConfigurationStrategy attConfig = null;");
-            _builder.newLine();
             {
               if ((counter > 1)) {
                 _builder.append("List<AttributeConfigurationStrategy> atts = null;");
@@ -26365,22 +26377,22 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof SpecificDoubleType)) {
-        _builder.append("new SpecificDoubleConfigurationStrategy(");
+        _builder.append("attConfig = new SpecificDoubleConfigurationStrategy(");
         double _value = ((SpecificDoubleType) e).getValue();
         _builder.append(_value);
-        _builder.append(")");
+        _builder.append(");");
         _builder.newLineIfNotEmpty();
       } else {
         if ((e instanceof RandomDoubleType)) {
           RandomDoubleType r = ((RandomDoubleType) e);
           _builder.newLineIfNotEmpty();
-          _builder.append("new RandomDoubleConfigurationStrategy(");
+          _builder.append("attConfig = new RandomDoubleConfigurationStrategy(");
           double _min = r.getMin();
           _builder.append(_min);
           _builder.append(", ");
           double _max = r.getMax();
           _builder.append(_max);
-          _builder.append(", false)");
+          _builder.append(", false);");
           _builder.newLineIfNotEmpty();
         }
       }
@@ -26392,14 +26404,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof SpecificBooleanType)) {
-        _builder.append("new SpecificBooleanConfigurationStrategy(");
+        _builder.append("attConfig = new SpecificBooleanConfigurationStrategy(");
         boolean _isValue = ((SpecificBooleanType) e).isValue();
         _builder.append(_isValue);
-        _builder.append(")");
+        _builder.append(");");
         _builder.newLineIfNotEmpty();
       } else {
         if ((e instanceof RandomBooleanType)) {
-          _builder.append("new RandomBooleanConfigurationStrategy()");
+          _builder.append("attConfig = new RandomBooleanConfigurationStrategy();");
           _builder.newLine();
         }
       }
@@ -26411,22 +26423,22 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     StringConcatenation _builder = new StringConcatenation();
     {
       if ((e instanceof SpecificIntegerType)) {
-        _builder.append("new SpecificIntegerConfigurationStrategy(");
+        _builder.append("attConfig = new SpecificIntegerConfigurationStrategy(");
         int _value = ((SpecificIntegerType) e).getValue();
         _builder.append(_value);
-        _builder.append(")");
+        _builder.append(");");
         _builder.newLineIfNotEmpty();
       } else {
         if ((e instanceof RandomIntegerType)) {
           RandomIntegerType r = ((RandomIntegerType) e);
           _builder.newLineIfNotEmpty();
-          _builder.append("new RandomIntegerConfigurationStrategy(");
+          _builder.append("attConfig = new RandomIntegerConfigurationStrategy(");
           int _min = r.getMin();
           _builder.append(_min);
           _builder.append(", ");
           int _max = r.getMax();
           _builder.append(_max);
-          _builder.append(", false)\t\t");
+          _builder.append(", false);\t\t");
           _builder.newLineIfNotEmpty();
         }
       }
@@ -26444,7 +26456,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (_not) {
             {
               if ((flag == false)) {
-                _builder.append("new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
+                _builder.append("attConfig = new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", (");
                 _builder.append(obSelectionVariableName);
@@ -26455,23 +26467,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append(_value);
                 _builder.append("\", \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               } else {
-                _builder.append("new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
+                _builder.append("attConfig = new ListStringConfigurationStrategy(ModelManager.getStringAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", refObjectSelected), \"");
                 EList<String> _value_1 = ((ListStringType) e).getValue();
                 _builder.append(_value_1);
                 _builder.append("\", \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               }
             }
-          } else {
-            _builder.append("null");
-            _builder.newLine();
           }
         }
       }
@@ -26489,7 +26498,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (_not) {
             {
               if ((flag == false)) {
-                _builder.append("new ListConfigurationStrategy((EObject) ModelManager.getAttribute(\"");
+                _builder.append("attConfig = new ListConfigurationStrategy((EObject) ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", (");
                 _builder.append(obSelectionVariableName);
@@ -26500,17 +26509,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append(_value);
                 _builder.append("\", \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               } else {
-                _builder.append("new ListConfigurationStrategy((EObject) ModelManager.getAttribute(\"");
+                _builder.append("attConfig = new ListConfigurationStrategy((EObject) ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", refObjectSelected), \"");
                 EList<EObject> _value_1 = ((ListType) e).getValue();
                 _builder.append(_value_1);
                 _builder.append("\", \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -26534,20 +26543,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if (_not) {
             {
               if ((flag == false)) {
-                _builder.append("new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
+                _builder.append("attConfig = new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", ");
                 _builder.append(obSelectionVariableName);
                 _builder.append(".getObject()), \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               } else {
-                _builder.append("new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
+                _builder.append("attConfig = new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
                 _builder.append(this.attributeName);
                 _builder.append("\", refObjectSelected), \"");
                 _builder.append(this.attributeName);
-                _builder.append("\")");
+                _builder.append("\");");
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -26563,26 +26572,26 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 
   public CharSequence method(final MinValueType e, final boolean exhaustive) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("new MinValueConfigurationStrategy(packages, model, \"");
+    _builder.append("attConfig = new MinValueConfigurationStrategy(packages, model, \"");
     String _typeName = MutatorUtils.getTypeName(e);
     _builder.append(_typeName);
     _builder.append("\", \"");
     String _name = e.getAttribute().getName();
     _builder.append(_name);
-    _builder.append("\")");
+    _builder.append("\");");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
 
   public CharSequence method(final MaxValueType e, final boolean exhaustive) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("new MaxValueConfigurationStrategy(packages, model, \"");
+    _builder.append("attConfig = new MaxValueConfigurationStrategy(packages, model, \"");
     String _typeName = MutatorUtils.getTypeName(e);
     _builder.append(_typeName);
     _builder.append("\", \"");
     String _name = e.getAttribute().getName();
     _builder.append(_name);
-    _builder.append("\")");
+    _builder.append("\");");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
@@ -26598,7 +26607,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         {
           if ((exhaustive == false)) {
-            _builder.append("new RandomIntegerConfigurationStrategy(");
+            _builder.append("attConfig = new RandomIntegerConfigurationStrategy(");
             int _min = e.getMin();
             _builder.append(_min);
             _builder.append(", ModelManager.getIntAttribute(\"");
@@ -26607,10 +26616,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", hmObjects.get(\"");
             String _name_1 = sel.getObjSel().getName();
             _builder.append(_name_1);
-            _builder.append("\").getKey()), false)");
+            _builder.append("\").getKey()), false);");
             _builder.newLineIfNotEmpty();
           } else {
-            _builder.append("new RandomIntegerConfigurationStrategy(");
+            _builder.append("attConfig = new RandomIntegerConfigurationStrategy(");
             int _min_1 = e.getMin();
             _builder.append(_min_1);
             _builder.append(", ModelManager.getIntAttribute(\"");
@@ -26619,7 +26628,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", hmObjects.get(\"");
             String _name_3 = sel.getObjSel().getName();
             _builder.append(_name_3);
-            _builder.append("\").getKey()), false)");
+            _builder.append("\").getKey()), false);");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -26637,7 +26646,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         ObSelectionStrategy _object_1 = e.getObject();
         SpecificObjectSelection sel = ((SpecificObjectSelection) _object_1);
         _builder.newLineIfNotEmpty();
-        _builder.append("new RandomDoubleConfigurationStrategy(");
+        _builder.append("attConfig = new RandomDoubleConfigurationStrategy(");
         double _min = e.getMin();
         _builder.append(_min);
         _builder.append(", ModelManager.getDoubleAttribute(\"");
@@ -26646,7 +26655,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\", hmObjects.get(\"");
         String _name_1 = sel.getObjSel().getName();
         _builder.append(_name_1);
-        _builder.append("\").getKey()), false)");
+        _builder.append("\").getKey()), false);");
         _builder.newLineIfNotEmpty();
       }
     }

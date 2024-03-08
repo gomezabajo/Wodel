@@ -7009,6 +7009,7 @@ public class «className» extends MutatorUtils {
    		«IF isList == true»
     	«IF e.attribute.get(0) !== null»
 		«val EAttribute attribute = e.attribute.get(0)»
+		AttributeConfigurationStrategy attConfig = null;
 		«IF counter > 1»
 		List<AttributeConfigurationStrategy> atts = null;
 		if (attsList.get("«attributeName»") != null) {
@@ -7025,24 +7026,28 @@ public class «className» extends MutatorUtils {
 		//NAME:«attributeName = ""»
 		«ENDIF»
 		«IF e instanceof AttributeScalar»
-		atts.add(«e.value.method(flag, exhaustive, obSelectionVariableName)»);
+		«e.value.method(flag, exhaustive, obSelectionVariableName)»
+		atts.add(attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
-		atts.add(null);
+		atts.add(attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeReverse»
-		atts.add(new ReverseBooleanConfigurationStrategy("«attributeName»"));
+   		attConfig = new ReverseBooleanConfigurationStrategy("«attributeName»"); 
+		atts.add(attConfig);
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
 		«IF e.object instanceof RandomTypeSelection»
-		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"); 
+		atts.add(attConfig);
    		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		«IF exhaustive == false»
-		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"); 
 		«ELSE»
-		atts.add(new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»");
    		«ENDIF»
+   		atts.add(attConfig);
    		«ENDIF»
    		«ENDIF»
 		attsList.put("«attributeName»", atts);
@@ -7054,23 +7059,28 @@ public class «className» extends MutatorUtils {
 		//NAME:«attributeName = ""»
 		«ENDIF»
 		«IF e instanceof AttributeScalar»
-		atts.put("«attributeName»", «e.value.method(flag, exhaustive, obSelectionVariableName)»);
+		«e.value.method(flag, exhaustive, obSelectionVariableName)»;
+		atts.put("«attributeName»", attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
-   		atts.put("«attributeName»", null);
+   		atts.put("«attributeName»", attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeReverse»
-   		atts.put("«attributeName»", new ReverseBooleanConfigurationStrategy("«attributeName»"));
+   		attConfig = new ReverseBooleanConfigurationStrategy("«attributeName»");
+   		atts.put("«attributeName»", attConfig);
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
 		«IF e.object instanceof RandomTypeSelection»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»");
+		atts.put("«attributeName»", attConfig);
    		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		«IF exhaustive == false»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»");
+		atts.put("«attributeName»", attConfig);
 		«ELSE»
-		atts.put("«attributeName»", new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"));
+		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»");
+		atts.put("«attributeName»", attConfig);
 		«ENDIF»
    		«ENDIF»
    		«ENDIF»
@@ -7119,43 +7129,33 @@ public class «className» extends MutatorUtils {
 	//DATA TYPES COMPILES
 	def method(StringType e, boolean exhaustive) ''' 
 		«IF e instanceof SpecificStringType»
-			new SpecificStringConfigurationStrategy("«(e as SpecificStringType).value»")
+			attConfig = new SpecificStringConfigurationStrategy("«(e as SpecificStringType).value»");
 		«ELSEIF e instanceof RandomStringType»
 		    «var RandomStringType r = (e as RandomStringType)»
-			new RandomStringConfigurationStrategy(«r.min», «r.max», false)
+			attConfig = new RandomStringConfigurationStrategy(«r.min», «r.max», false);
 		«ELSEIF e instanceof UpperStringType»
 			«IF !attributeName.equals("")»
-			new UpperStringConfigurationStrategy("«attributeName»")
-			«ELSE»
-			null
+			attConfig = new UpperStringConfigurationStrategy("«attributeName»");
 			«ENDIF»
 		«ELSEIF e instanceof LowerStringType»
 			«IF !attributeName.equals("")»
-			new LowerStringConfigurationStrategy("«attributeName»")
-			«ELSE»
-			null
+			attConfig = new LowerStringConfigurationStrategy("«attributeName»");
 			«ENDIF»
 		«ELSEIF e instanceof CatStartStringType»
 			«IF !attributeName.equals("")»
-			new CatStartStringConfigurationStrategy("«(e as CatStartStringType).value»", "«attributeName»")
-			«ELSE»
-			null
+			attConfig = new CatStartStringConfigurationStrategy("«(e as CatStartStringType).value»", "«attributeName»");
 			«ENDIF»
 		«ELSEIF e instanceof CatEndStringType»
 			«IF !attributeName.equals("")»
-			new CatEndStringConfigurationStrategy("«(e as CatEndStringType).value»", "«attributeName»")
-			«ELSE»
-			null
+			attConfig = new CatEndStringConfigurationStrategy("«(e as CatEndStringType).value»", "«attributeName»");
 			«ENDIF»
 		«ELSEIF e instanceof ReplaceStringType»
 			«IF !attributeName.equals("")»
-			new ReplaceStringConfigurationStrategy("«attributeName»", "«(e as ReplaceStringType).oldstring»", "«(e as ReplaceStringType).newstring»")
-			«ELSE»
-			null
+			attConfig = new ReplaceStringConfigurationStrategy("«attributeName»", "«(e as ReplaceStringType).oldstring»", "«(e as ReplaceStringType).newstring»");
 			«ENDIF»
 		«ELSEIF e instanceof RandomStringNumberType»
 		    «var RandomStringNumberType r = (e as RandomStringNumberType)»
-			new RandomStringNumberConfigurationStrategy(«r.min», «r.max», false)
+			attConfig = new RandomStringNumberConfigurationStrategy(«r.min», «r.max», false);
 		«ENDIF»
 	'''
 				

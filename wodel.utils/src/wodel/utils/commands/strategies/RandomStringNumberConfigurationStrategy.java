@@ -1,5 +1,8 @@
 package wodel.utils.commands.strategies;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import wodel.utils.manager.MutatorUtils;
 
 /**
@@ -12,7 +15,11 @@ import wodel.utils.manager.MutatorUtils;
  *  
  */
 
-public class RandomStringNumberConfigurationStrategy extends StringConfigurationStrategy{
+public class RandomStringNumberConfigurationStrategy extends StringConfigurationStrategy {
+	
+	private List<Double> skipValues;
+	private int min;
+	private int max;
 	
 	/**
 	 * @param value
@@ -20,11 +27,43 @@ public class RandomStringNumberConfigurationStrategy extends StringConfiguration
 	 */
 	public RandomStringNumberConfigurationStrategy(int min, int max, boolean allowsNull){
 		super("");
+		this.min = min;
+		this.max = max;
+		this.skipValues = new ArrayList<Double>();
 		this.value = String.format("%d", MutatorUtils.getRandomInt(min, max));
+	}
+
+	public RandomStringNumberConfigurationStrategy(int min, int max, boolean allowsNull, List<Double> skipValues){
+		super("");
+		this.min = min;
+		this.max = max;
+		this.skipValues = new ArrayList<Double>();
+		this.skipValues.addAll(skipValues);
+		this.value = String.format("%d", MutatorUtils.getRandomInt(min, max, skipValues));
 	}
 
 	public RandomStringNumberConfigurationStrategy(int min, int max, boolean allowsNull, String a2m){
 		super(a2m);
+		this.min = min;
+		this.max = max;
+		this.skipValues = new ArrayList<Double>();
 		this.value = String.format("%d", MutatorUtils.getRandomInt(min, max));
+	}
+
+	public RandomStringNumberConfigurationStrategy(int min, int max, boolean allowsNull, String a2m, List<Double> skipValues){
+		super(a2m);
+		this.min = min;
+		this.max = max;
+		this.skipValues = new ArrayList<Double>();
+		this.skipValues.addAll(skipValues);
+		this.value = String.format("%d", MutatorUtils.getRandomInt(min, max, skipValues));
+	}
+	
+	public int getMin() {
+		return this.min;
+	}
+	
+	public int getMax() {
+		return this.max;
 	}
 }

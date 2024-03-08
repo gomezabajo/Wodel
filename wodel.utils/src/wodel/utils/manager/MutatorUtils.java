@@ -295,6 +295,34 @@ public class MutatorUtils {
 	}
 	
 	/**
+	 * Gets a random int in the min,max interval
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public static int getRandomInt(int min, int max, List<Double> skipValues) {
+		int value = 0;
+		if (min == 0 && max == 0) {
+			value = 0;
+		}
+		else {
+			List<Integer> values = new ArrayList<Integer>();
+			for (int m = min; m < max; m++) {
+				if (!skipValues.contains(1.0 * m)) {
+					values.add(m);
+				}
+			}
+			if (values.size() > 0) {
+				value = values.get(ModelManager.getRandomIndex(values));
+			}
+			else {
+				value = Integer.MIN_VALUE;
+			}
+		}
+		return value;
+	}
+	
+	/**
 	 * Gets a random double in the min,max interval
 	 * @param min
 	 * @param max

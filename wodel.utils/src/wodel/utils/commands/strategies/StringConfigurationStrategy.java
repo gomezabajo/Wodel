@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * Since March, 2015 it is continued by Pablo Gomez Abajo.
  *  
  */
-public abstract class StringConfigurationStrategy extends AttributeConfigurationStrategy{
+public abstract class StringConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	/**
 	 * Attribute value
@@ -30,16 +30,16 @@ public abstract class StringConfigurationStrategy extends AttributeConfiguration
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		if (c.getInstanceClass()== value.getClass()) {
+		if (c.getInstanceClass()== this.value.getClass()) {
 			return true;
 		}
 		return false;
 	}
 	
 	public String getValue(){
-		return value;
+		return this.value;
 	}
 	public String getValue(EObject o){
-		return value;
+		return this.value;
 	}
 }

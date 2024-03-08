@@ -56,6 +56,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 import wodel.utils.commands.selection.strategies.ObSelectionStrategy;
 import wodel.utils.commands.strategies.AttributeConfigurationStrategy;
+import wodel.utils.commands.strategies.RandomStringNumberConfigurationStrategy;
 import wodel.utils.commands.strategies.ReferenceConfigurationStrategy;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
@@ -3470,7 +3471,29 @@ public class ModelManager {
 					}
 					else {
 						if (acs.sameType(sf.getEType())) {
-							object.eSet(sf, acs.getValue(object));
+							if (acs instanceof RandomStringNumberConfigurationStrategy) {
+								RandomStringNumberConfigurationStrategy attConfig = (RandomStringNumberConfigurationStrategy) acs;
+								Object val = object.eGet(sf, true);
+								double currentValue = Double.MIN_VALUE;
+								if (val instanceof String) {
+									currentValue = Double.valueOf((String) val);
+								}
+								if (val instanceof Double || val instanceof Float || val instanceof Long || val instanceof Integer) {
+									currentValue = (double) val;
+								}
+								if (currentValue != Double.MIN_VALUE) { 
+									List<Double> skipValues = new ArrayList<Double>();
+									skipValues.add(currentValue);
+									RandomStringNumberConfigurationStrategy newAttConfig = new RandomStringNumberConfigurationStrategy(attConfig.getMin(), attConfig.getMax(), false, skipValues);
+									String newValue = newAttConfig.getValue();
+									if (Integer.valueOf(newValue) != Integer.MIN_VALUE) {
+										object.eSet(sf, newValue);
+									}
+								}
+							}
+							else {
+								object.eSet(sf, acs.getValue(object));
+							}
 						} else {
 							throw new WrongAttributeTypeException("The attribute '"
 									+ att + "' is not of the type '"

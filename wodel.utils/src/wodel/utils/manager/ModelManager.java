@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
@@ -3441,6 +3442,69 @@ public class ModelManager {
 		}
 		return null;
 	}
+	
+	private static double getNumericValue(Object val) {
+		double currentValue = Double.MIN_VALUE;
+		if (val instanceof String) {
+			String strValue = (String) val;
+			boolean error = false;
+			try {
+				currentValue = (double) Long.decode(strValue);
+			}
+			catch (NumberFormatException ex) {
+				error = true;
+			}
+			if (error) {
+				error = false;
+				try {
+					currentValue = Double.valueOf(strValue);
+				}
+				catch (NumberFormatException ex) {
+					error = true;
+				}
+			}
+			if (error) {
+				error = false;
+				try {
+					currentValue = Float.valueOf(strValue);
+				}
+				catch (NumberFormatException ex) {
+					error = true;
+				}
+			}
+			if (error) {
+				error = false;
+				try {
+					currentValue = Long.valueOf(strValue);
+				}
+				catch (NumberFormatException ex) {
+					error = true;
+				}
+			}
+			if (error) {
+				error = false;
+				try {
+					currentValue = Integer.valueOf(strValue);
+				}
+				catch (NumberFormatException ex) {
+					error = true;
+				}
+			}
+			if (error) {
+				error = false;
+				try {
+					currentValue = new BigInteger(strValue, 16).doubleValue();
+				}
+				catch (NumberFormatException ex) {
+					error = true;
+				}
+			}
+		}
+		if (val instanceof Double || val instanceof Float || val instanceof Long || val instanceof Integer) {
+			currentValue = (double) val;
+		}
+		return currentValue;
+	}
 
 	/**
 	 * @param att
@@ -3474,13 +3538,7 @@ public class ModelManager {
 							if (acs instanceof RandomStringNumberConfigurationStrategy) {
 								RandomStringNumberConfigurationStrategy attConfig = (RandomStringNumberConfigurationStrategy) acs;
 								Object val = object.eGet(sf, true);
-								double currentValue = Double.MIN_VALUE;
-								if (val instanceof String) {
-									currentValue = Double.valueOf((String) val);
-								}
-								if (val instanceof Double || val instanceof Float || val instanceof Long || val instanceof Integer) {
-									currentValue = (double) val;
-								}
+								double currentValue = ModelManager.getNumericValue(val);
 								if (currentValue != Double.MIN_VALUE) { 
 									List<Double> skipValues = new ArrayList<Double>();
 									skipValues.add(currentValue);

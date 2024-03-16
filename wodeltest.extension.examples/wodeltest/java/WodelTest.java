@@ -58,6 +58,15 @@ import wodel.utils.manager.ModelManager;
 
 public class WodelTest implements IWodelTest {
 	
+	private static JUNIT_VERSION jUnitVersion = JUNIT_VERSION.UNKNOWN;
+	
+	private enum JUNIT_VERSION {
+		UNKNOWN,
+		JUNIT3,
+		JUNIT4,
+		JUNIT5
+	}
+	
 	private class MyJUnitCore extends JUnitCore {
 		public MyJUnitCore() {
 			super();
@@ -131,11 +140,22 @@ public class WodelTest implements IWodelTest {
 		return artifactPaths;
 	}
 
-	private List<Object> getTests(Class<?> clazz) {
+	private static List<Object> getTests(Class<?> clazz) {
 		List<Object> ret = new ArrayList<Object>();
 		Method[] methods = clazz.getMethods();
 		for (int i = 0; i < methods.length; i++) {
 			if (methods[i].isAnnotationPresent(Test.class)) {
+				ret.add(methods[i]);
+			}
+		}
+		return ret;
+	}
+	
+	private static List<Object> getTestsJUnit3(Class<?> clazz) {
+		List<Object> ret = new ArrayList<Object>();
+		Method[] methods = clazz.getMethods();
+		for (int i = 0; i < methods.length; i++) {
+			if (methods[i].getName().startsWith("test")) {
 				ret.add(methods[i]);
 			}
 		}
@@ -172,12 +192,12 @@ public class WodelTest implements IWodelTest {
 		}
 		for (Failure failure : failures) {
 			if (failure.getTestHeader() != null && failure.getMessage() != null) {
-				WodelTestInfo info = new WodelTestInfo(failure.getDescription().getMethodName(), true, failure.getTestHeader(), failure.getMessage().replace("\n", "-"));
+				WodelTestInfo info = new WodelTestInfo(failure.getDescription().getMethodName(), true, failure.getTestHeader(), failure.getMessage().replace("\n", "-").replace("\r", ""));
 				testsInfo.add(info);
 			}
 		}
 		if (failures.size() == 0) {
-			WodelTestInfo info = new WodelTestInfo(clazzName, false, clazzName, EQUALS);
+			WodelTestInfo info = new WodelTestInfo(clazzName, false, clazzName, WodelTest.EQUALS);
 			testsInfo.add(info);
 		}
 		WodelTestResult wtr = new WodelTestResult(clazzName, clazz.getProtectionDomain().getCodeSource().getLocation().getPath(), tests, testsInfo);
@@ -230,8 +250,17 @@ public class WodelTest implements IWodelTest {
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);
 			compile(project);
 			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
+			if (WodelTest.jUnitVersion == JUNIT_VERSION.UNKNOWN) {
+				WodelTest.setJUnitVersion(classes);
+			}
 			for (Class<?> clazz : classes) {
-				List<Object> tests = getTests(clazz);
+				List<Object> tests = null;
+				if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT4) {
+					tests = WodelTest.getTests(clazz);
+				}
+				if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT3) {
+					tests = WodelTest.getTestsJUnit3(clazz);
+				}
 				if (tests.size() > 0) {
 					runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 					if (globalResult.getStatus() != Status.OK) {
@@ -264,6 +293,19 @@ public class WodelTest implements IWodelTest {
 			e.printStackTrace();
 		}
 		return globalResult;
+	}
+
+	private static void setJUnitVersion(Class<?>[] classes) {
+		List<Object> testList = new ArrayList<Object>();
+		for (Class<?> clazz : classes) {
+			testList.addAll(WodelTest.getTests(clazz));
+		}
+		if (testList.size() == 0) {
+			WodelTest.jUnitVersion = JUNIT_VERSION.JUNIT3;
+		}
+		else {
+			WodelTest.jUnitVersion = JUNIT_VERSION.JUNIT4;
+		}
 	}
 
 	@Override
@@ -422,8 +464,17 @@ public class WodelTest implements IWodelTest {
 				IOUtils.copyFile(artifactPath, srcJavaFilePath);
 				compile(project);
 				Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
+				if (WodelTest.jUnitVersion == JUNIT_VERSION.UNKNOWN) {
+					WodelTest.setJUnitVersion(classes);
+				}
 				for (Class<?> clazz : classes) {
-					List<Object> tests = getTests(clazz);
+					List<Object> tests = null;
+					if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT4) {
+						tests = WodelTest.getTests(clazz);
+					}
+					if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT3) {
+						tests = WodelTest.getTestsJUnit3(clazz);
+					}
 					if (tests.size() > 0) {
 						runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 						if (globalResult.getStatus() != Status.OK) {

@@ -5,7 +5,7 @@ metamodel "/[@**@]/data/model/java.ecore"
 description "Other mutations"
 
 with blocks {
-	rtr "Transforms the a NumberLiteral to a random number" {
+	rtr "Transforms a NumberLiteral to a random number" {
 		modify one NumberLiteral with {tokenValue = random-int-string(0, 9)}
 	}
 	vmr "Deletes a call to a void method" {

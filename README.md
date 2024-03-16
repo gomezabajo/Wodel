@@ -75,6 +75,11 @@ You can access the following links to learn more about this solution and the too
     - [wodeledu.models](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.models)
     - [wodeledu.run](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.run)
     - [wodeledu.utils](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.utils)
+- [wodeledu.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.additions)
+    - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
+    - [wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)
+    - [wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)
+    - [wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)
 
     ### eduTest DSL plugins
 
@@ -99,11 +104,6 @@ You can access the following links to learn more about this solution and the too
     - [wodeledu.dsls.mutatext](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext)
     - [wodeledu.dsls.mutatext.ide](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ide)
     - [wodeledu.dsls.mutatext.ui](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.dsls.mutatext.ui)
-- [wodeledu.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.additions)
-    - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
-    - [wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)
-    - [wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)
-    - [wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)
 
 # Wodel-Test
 

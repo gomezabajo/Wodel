@@ -2,6 +2,8 @@ package wodeledu.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 import modeldraw.Content;
 import modeldraw.Decoration;
 import modeldraw.Edge;
@@ -22,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,6 +32,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
@@ -48,32 +52,46 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
 
   private String className;
 
+  private List<EPackage> metamodel;
+
+  private List<EClass> roots;
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    ProjectUtils.resetProject();
-    this.project = ProjectUtils.getProject();
-    int i = 0;
-    this.fileName = resource.getURI().lastSegment();
-    String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
-    String _plus = (_replaceAll + ".draw");
-    this.fileName = _plus;
-    Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
-    for (final MutatorDraw e : _filter) {
-      {
-        if ((i == 0)) {
-          String _replace = this.fileName.replace(".draw", "");
-          String _plus_1 = (_replace + "Draw.java");
-          this.fileName = _plus_1;
-        } else {
-          String _replace_1 = this.fileName.replace(".draw", "");
-          String _plus_2 = (_replace_1 + Integer.valueOf(i));
-          String _plus_3 = (_plus_2 + "Draw.java");
-          this.fileName = _plus_3;
+    try {
+      ProjectUtils.resetProject();
+      this.project = ProjectUtils.getProject();
+      int i = 0;
+      this.fileName = resource.getURI().lastSegment();
+      String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
+      String _plus = (_replaceAll + ".draw");
+      this.fileName = _plus;
+      Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
+      for (final MutatorDraw e : _filter) {
+        {
+          if ((i == 0)) {
+            String _replace = this.fileName.replace(".draw", "");
+            String _plus_1 = (_replace + "Draw.java");
+            this.fileName = _plus_1;
+          } else {
+            String _replace_1 = this.fileName.replace(".draw", "");
+            String _plus_2 = (_replace_1 + Integer.valueOf(i));
+            String _plus_3 = (_plus_2 + "Draw.java");
+            this.fileName = _plus_3;
+          }
+          ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
+          this.metamodel = _arrayList;
+          this.metamodel.addAll(ModelManager.loadMetaModel(e.getMetamodel()));
+          ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
+          this.roots = _arrayList_1;
+          this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
+          this.className = this.fileName.replaceAll("Draw.java", "");
+          fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
+          i++;
         }
-        this.className = this.fileName.replaceAll("Draw.java", "");
-        fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
-        i++;
       }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
   }
 
@@ -6863,12 +6881,18 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("\t\t\t\t");
     _builder.append("String dotfile = \"");
     _builder.append(folder, "\t\t\t\t");
-    _builder.append("/src-gen/html/diagrams/\" + path + file.getName().replace(\".model\", \".dot\");");
+    _builder.append("/src-gen/html/diagrams/\" + path + \"");
+    String _name_35 = this.roots.get(0).getName();
+    _builder.append(_name_35, "\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t");
-    _builder.append("/src-gen/html/diagrams/\" + path + file.getName().replace(\".model\", \".png\");");
+    _builder.append("/src-gen/html/diagrams/\" + path + \"");
+    String _name_36 = this.roots.get(0).getName();
+    _builder.append(_name_36, "\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     CharSequence _generate = this.generate(draw, folder);
@@ -7032,8 +7056,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".dot\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_37 = this.roots.get(0).getName();
+    _builder.append(_name_37, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t\t");
@@ -7043,8 +7070,11 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".png\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_38 = this.roots.get(0).getName();
+    _builder.append(_name_38, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     CharSequence _generate_1 = this.generate(draw, folder);
     _builder.append(_generate_1, "\t\t\t\t\t");
@@ -7218,16 +7248,22 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".dot\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_39 = this.roots.get(0).getName();
+    _builder.append(_name_39, "\t\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".dot\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".png\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_40 = this.roots.get(0).getName();
+    _builder.append(_name_40, "\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     CharSequence _generate_2 = this.generate(draw, folder);
     _builder.append(_generate_2, "\t\t\t\t\t\t\t");

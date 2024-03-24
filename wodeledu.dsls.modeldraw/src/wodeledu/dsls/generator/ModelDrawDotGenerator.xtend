@@ -22,6 +22,10 @@ import wodel.utils.manager.ProjectUtils
 import modeldraw.ValuedFeature
 import modeldraw.Node
 import org.eclipse.xtext.generator.AbstractGenerator
+import java.util.List
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EClass
+import java.util.ArrayList
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -35,6 +39,8 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 	
 	private String fileName
 	private String className
+	private List<EPackage> metamodel
+	private List<EClass> roots
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		ProjectUtils.resetProject()
@@ -49,6 +55,10 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 			else {
 				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
 			}
+			metamodel = new ArrayList<EPackage>()
+			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
+			roots = new ArrayList<EClass>()
+			roots.addAll(ModelManager.getRootEClasses(metamodel))
 			className = fileName.replaceAll("Draw.java", "")
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
@@ -1520,8 +1530,8 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 							path += folderName + "/";
 						}
 					}
-					String dotfile = "«folder»/src-gen/html/diagrams/" + path + file.getName().replace(".model", ".dot");
-					String pngfile = "«folder»/src-gen/html/diagrams/" + path + file.getName().replace(".model", ".png");
+					String dotfile = "«folder»/src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
+					String pngfile = "«folder»/src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 					«draw.generate(folder)»
 					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
 					if (exercisefolder.exists() != true) {
@@ -1573,10 +1583,10 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 						Resource model = ModelManager.loadModel(packages, pathfile);
 						String dotfile = "«folder»/src-gen/html/diagrams/" + 
 							file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".dot");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
 						String pngfile = "«folder»/src-gen/html/diagrams/" + 
 							file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".png");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 						«draw.generate(folder)»
 						File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 						if (diagramsfolder.exists() != true) {
@@ -1632,9 +1642,9 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 							if (pathfile.endsWith(".model") == true) {
 								Resource model = ModelManager.loadModel(packages, pathfile);
 								String dotfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", ".dot");
+									"«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
 								String pngfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-								file.getName().replace(".model", ".png");
+								"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 								«draw.generate(folder)»
 								File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 								if (diagramsfolder.exists() != true) {

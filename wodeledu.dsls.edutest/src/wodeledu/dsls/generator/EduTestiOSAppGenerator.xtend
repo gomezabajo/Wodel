@@ -24,6 +24,7 @@ import edutest.MultiChoiceDiagram
 import edutest.MatchPairs
 import java.util.ArrayList
 import java.util.AbstractMap.SimpleEntry
+import org.eclipse.emf.ecore.EClass
 
 class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	
@@ -32,6 +33,8 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	private String examViewControllerSwift
 	private TreeMap<Integer, String> drawable = new TreeMap()
 	private TreeMap<Integer, TreeMap<Integer,String>> drawableAnswer = new TreeMap()
+	private List<EPackage> metamodel
+	private List<EClass> roots 
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		ProjectUtils.resetProject();
@@ -59,6 +62,10 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 					examViewControllerSwift = '../app/ios/tfgApp/ExamViewController.swift'
 					questionsSwift = '../app/ios/tfgApp/Questions.swift'
 				}
+				metamodel = new ArrayList<EPackage>()
+				metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
+				roots = new ArrayList<EClass>()
+				roots.addAll(ModelManager.getRootEClasses(metamodel))
 				fsa.generateFile(examViewControllerSwift, p.compile(resource, fsa))
 				fsa.generateFile(questionsSwift, p.compileQuestions(resource))
 				i++
@@ -70,7 +77,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 
 	/*iOSApp code will be generated here!!*/
 	def compile(Program program, Resource resource, IFileSystemAccess2 fsa) '''
-		«{buildOptions(program, resource, blocks, program.class); ""}»
+		«{buildOptions(program, resource, blocks, roots, program.class); ""}»
 				«var int i = 0»
 				«FOR exercise : program.exercises»
 					«IF exercise instanceof AlternativeResponse»
@@ -121,8 +128,8 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 									«FOR test : exercise.tests»
 										«var int j = 0»
 										«var TreeMap<Integer,String> diccAux = new TreeMap()»
-										«FOR String key : diagrams.get(exercise).get(test).keySet()»
-										«FOR String diag : diagrams.get(exercise).get(test).get(key)»
+										«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
+										«FOR String diag : diagrams.get(exercise).get(test).get(eclass)»
 											«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/"»
 											«var File diagramFolder = new File(diagramFolderName)»
 											«IF diagramFolder.exists() == false»
@@ -1013,7 +1020,7 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 			/*MobileApp code will be generated here!!*/
 			def compileQuestions(Program program, Resource resource) 
 			'''
-				«{buildOptions(program, resource, blocks, program.class); ""}»
+				«{buildOptions(program, resource, blocks, roots, program.class); ""}»
 				«var int i = 0»
 				«FOR exercise : program.exercises»
 					«IF exercise instanceof AlternativeResponse»
@@ -1070,8 +1077,8 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 								«ENDIF»					
 								«var int j=0»
 								«var int correct=j»
-								«FOR String key : diagrams.get(exercise).get(test).keySet()»
-								«FOR diagram : diagrams.get(exercise).get(test).get(key)»
+								«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
+								«FOR diagram : diagrams.get(exercise).get(test).get(eclass)»
 								«IF diagram.equals(test.source.replace('.model', '.png'))»
 									«{correct=j; ""}»
 												«ENDIF»

@@ -1,15 +1,20 @@
 package wodeledu.dsls.generator;
 
 import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 import modeldraw.MutatorDraw;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
@@ -35,43 +40,57 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
 
   private String[] rendererFolders;
 
+  private List<EPackage> metamodel;
+
+  private List<EClass> roots;
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
-    if (((this.rendererPath == null) || this.rendererPath.isEmpty())) {
-      this.rendererPath = "d:/dpic";
-    }
-    boolean _startsWith = this.rendererPath.startsWith("/");
-    boolean _not = (!_startsWith);
-    if (_not) {
-      this.rendererUnit = this.rendererPath.substring(0, 1);
-      this.rendererPath = this.rendererPath.substring(3, this.rendererPath.length());
-    }
-    this.rendererFolders = this.rendererPath.replace("\\", "/").split("/");
-    ProjectUtils.resetProject();
-    this.project = ProjectUtils.getProject();
-    int i = 0;
-    this.fileName = resource.getURI().lastSegment();
-    String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
-    String _plus = (_replaceAll + ".draw");
-    this.fileName = _plus;
-    Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
-    for (final MutatorDraw e : _filter) {
-      {
-        if ((i == 0)) {
-          String _replace = this.fileName.replace(".draw", "");
-          String _plus_1 = (_replace + "Draw.java");
-          this.fileName = _plus_1;
-        } else {
-          String _replace_1 = this.fileName.replace(".draw", "");
-          String _plus_2 = (_replace_1 + Integer.valueOf(i));
-          String _plus_3 = (_plus_2 + "Draw.java");
-          this.fileName = _plus_3;
-        }
-        this.className = this.fileName.replaceAll("Draw.java", "");
-        fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
-        i++;
+    try {
+      this.rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
+      if (((this.rendererPath == null) || this.rendererPath.isEmpty())) {
+        this.rendererPath = "d:/dpic";
       }
+      boolean _startsWith = this.rendererPath.startsWith("/");
+      boolean _not = (!_startsWith);
+      if (_not) {
+        this.rendererUnit = this.rendererPath.substring(0, 1);
+        this.rendererPath = this.rendererPath.substring(3, this.rendererPath.length());
+      }
+      this.rendererFolders = this.rendererPath.replace("\\", "/").split("/");
+      ProjectUtils.resetProject();
+      this.project = ProjectUtils.getProject();
+      int i = 0;
+      this.fileName = resource.getURI().lastSegment();
+      String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
+      String _plus = (_replaceAll + ".draw");
+      this.fileName = _plus;
+      Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
+      for (final MutatorDraw e : _filter) {
+        {
+          if ((i == 0)) {
+            String _replace = this.fileName.replace(".draw", "");
+            String _plus_1 = (_replace + "Draw.java");
+            this.fileName = _plus_1;
+          } else {
+            String _replace_1 = this.fileName.replace(".draw", "");
+            String _plus_2 = (_replace_1 + Integer.valueOf(i));
+            String _plus_3 = (_plus_2 + "Draw.java");
+            this.fileName = _plus_3;
+          }
+          ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
+          this.metamodel = _arrayList;
+          this.metamodel.addAll(ModelManager.loadMetaModel(e.getMetamodel()));
+          ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
+          this.roots = _arrayList_1;
+          this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
+          this.className = this.fileName.replaceAll("Draw.java", "");
+          fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
+          i++;
+        }
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
   }
 
@@ -796,32 +815,44 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("/src-gen/html/diagrams/\" + ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("path + file.getName().replace(\".model\", \".m4\");");
-    _builder.newLine();
+    _builder.append("path + \"");
+    String _name_1 = this.roots.get(0).getName();
+    _builder.append(_name_1, "\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".m4\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("String batfile = \"");
     _builder.append(folder, "\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("path + file.getName().replace(\".model\", \".bat\");");
-    _builder.newLine();
+    _builder.append("path + \"");
+    String _name_2 = this.roots.get(0).getName();
+    _builder.append(_name_2, "\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".bat\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("String svgfile = \"");
     _builder.append(folder, "\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("path + file.getName().replace(\".model\", \".svg\");");
-    _builder.newLine();
+    _builder.append("path + \"");
+    String _name_3 = this.roots.get(0).getName();
+    _builder.append(_name_3, "\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".svg\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("path + file.getName().replace(\".model\", \".png\");");
-    _builder.newLine();
+    _builder.append("path + \"");
+    String _name_4 = this.roots.get(0).getName();
+    _builder.append(_name_4, "\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("File exercisefolder = new File(\"");
     _builder.append(folder, "\t\t\t\t");
@@ -1084,32 +1115,44 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("/src-gen/html/diagrams/\" + file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".m4\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_5 = this.roots.get(0).getName();
+    _builder.append(_name_5, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".m4\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     _builder.append("String batfile = \"");
     _builder.append(folder, "\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".bat\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_6 = this.roots.get(0).getName();
+    _builder.append(_name_6, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".bat\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     _builder.append("String svgfile = \"");
     _builder.append(folder, "\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".svg\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_7 = this.roots.get(0).getName();
+    _builder.append(_name_7, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".svg\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + file.getName().replace(\".model\", \"\") + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".png\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_8 = this.roots.get(0).getName();
+    _builder.append(_name_8, "\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
     _builder.append("File diagramsfolder = new File(\"");
     _builder.append(folder, "\t\t\t\t\t");
@@ -1355,32 +1398,44 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".m4\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_9 = this.roots.get(0).getName();
+    _builder.append(_name_9, "\t\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".m4\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("String batfile = \"");
     _builder.append(folder, "\t\t\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".bat\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_10 = this.roots.get(0).getName();
+    _builder.append(_name_10, "\t\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".bat\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("String svgfile = \"");
     _builder.append(folder, "\t\t\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".svg\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_11 = this.roots.get(0).getName();
+    _builder.append(_name_11, "\t\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".svg\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("String pngfile = \"");
     _builder.append(folder, "\t\t\t\t\t\t\t");
     _builder.append("/src-gen/html/diagrams/\" + exercise.getName() + \"/\" +");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t");
-    _builder.append("file.getName().replace(\".model\", \".png\");");
-    _builder.newLine();
+    _builder.append("\"");
+    String _name_12 = this.roots.get(0).getName();
+    _builder.append(_name_12, "\t\t\t\t\t\t\t\t");
+    _builder.append("_\" + file.getName().replace(\".model\", \".png\");");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("File diagramsfolder = new File(\"");
     _builder.append(folder, "\t\t\t\t\t\t\t");

@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -55,6 +56,10 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
   private int num;
 
   private List<EObject> blocks;
+
+  private List<EPackage> metamodel;
+
+  private List<EClass> roots;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -101,6 +106,12 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               String _plus_13 = (_plus_12 + ".html");
               this.pageName = _plus_13;
             }
+            ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
+            this.metamodel = _arrayList;
+            this.metamodel.addAll(ModelManager.loadMetaModel(p.getMetamodel()));
+            ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
+            this.roots = _arrayList_1;
+            this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
             fsa.generateFile(this.fileName, EduTestSuperGenerator.removeComments(this.compile(p, resource)));
             i++;
           }
@@ -119,7 +130,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
   public CharSequence compile(final Program program, final Resource resource) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<!--");
-    this.buildOptions(program, resource, this.blocks, program.getClass());
+    this.buildOptions(program, resource, this.blocks, this.roots, program.getClass());
     _builder.append("-->");
     _builder.newLineIfNotEmpty();
     _builder.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
@@ -622,11 +633,11 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                   if (_greaterThan) {
                     _builder.append("    \t\t");
                     _builder.append("//KEY: ");
-                    Set<String> _keySet = this.rand.get(exercise_1).get(test_5).keySet();
-                    String key = new ArrayList<String>(_keySet).get(0);
+                    Set<EClass> _keySet = this.rand.get(exercise_1).get(test_5).keySet();
+                    EClass eclass = new ArrayList<EClass>(_keySet).get(0);
                     _builder.newLineIfNotEmpty();
                     _builder.append("//DIAGRAM: ");
-                    String diagram = this.rand.get(exercise_1).get(test_5).get(key).get(0);
+                    String diagram = this.rand.get(exercise_1).get(test_5).get(eclass).get(0);
                     _builder.newLineIfNotEmpty();
                     _builder.append("    \t\t");
                     _builder.append("image = document.getElementById(\'td-exercise-");
@@ -857,15 +868,15 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 _builder.append("    \t");
                 _builder.append("\t");
                 _builder.append("//KEY: ");
-                Set<String> _keySet_1 = this.rand.get(exercise_1).get(test_6).keySet();
-                String key_1 = new ArrayList<String>(_keySet_1).get(0);
+                Set<EClass> _keySet_1 = this.rand.get(exercise_1).get(test_6).keySet();
+                EClass eclass_1 = new ArrayList<EClass>(_keySet_1).get(0);
                 _builder.newLineIfNotEmpty();
                 {
-                  int _size_3 = this.rand.get(exercise_1).get(test_6).get(key_1).size();
+                  int _size_3 = this.rand.get(exercise_1).get(test_6).get(eclass_1).size();
                   boolean _greaterThan_2 = (_size_3 > 0);
                   if (_greaterThan_2) {
                     _builder.append("//DIAGRAM: ");
-                    String diagram_1 = this.rand.get(exercise_1).get(test_6).get(key_1).get(0);
+                    String diagram_1 = this.rand.get(exercise_1).get(test_6).get(eclass_1).get(0);
                     _builder.newLineIfNotEmpty();
                     _builder.append("    \t\t");
                     _builder.append("image = document.getElementById(\'td-exercise-");
@@ -1100,11 +1111,11 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 _builder.newLineIfNotEmpty();
                 _builder.append("    \t\t");
                 _builder.append("//KEY: ");
-                Set<String> _keySet_2 = this.rand.get(exercise_1).get(test_7).keySet();
-                String key_2 = new ArrayList<String>(_keySet_2).get(0);
+                Set<EClass> _keySet_2 = this.rand.get(exercise_1).get(test_7).keySet();
+                EClass eclass_2 = new ArrayList<EClass>(_keySet_2).get(0);
                 _builder.newLineIfNotEmpty();
                 {
-                  List<String> _get_14 = this.diagrams.get(exercise_1).get(test_7).get(key_2);
+                  List<String> _get_14 = this.diagrams.get(exercise_1).get(test_7).get(eclass_2);
                   for(final String diagram_2 : _get_14) {
                     _builder.append("image = document.getElementById(\'td-exercise-");
                     _builder.append(this.num);
@@ -1997,17 +2008,17 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
       EList<Test> _tests_1 = ss.getTests();
       for(final Test test_1 : _tests_1) {
         _builder.append("<!--KEY: ");
-        Set<String> _keySet = this.rand.get(ss).get(test_1).keySet();
-        String key = new ArrayList<String>(_keySet).get(0);
+        Set<EClass> _keySet = this.rand.get(ss).get(test_1).keySet();
+        EClass eclass = new ArrayList<EClass>(_keySet).get(0);
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          int _size = this.rand.get(ss).get(test_1).get(key).size();
+          int _size = this.rand.get(ss).get(test_1).get(eclass).size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             _builder.append("    \t\t");
             _builder.append("<!--DIAGRAM: ");
-            String diagram = this.rand.get(ss).get(test_1).get(key).get(0);
+            String diagram = this.rand.get(ss).get(test_1).get(eclass).get(0);
             _builder.append("-->");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t\t");
@@ -2447,12 +2458,12 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.newLine();
         _builder.append("    \t\t");
         _builder.append("<!--KEY: ");
-        Set<String> _keySet = this.rand.get(ss).get(test_1).keySet();
-        String key = new ArrayList<String>(_keySet).get(0);
+        Set<EClass> _keySet = this.rand.get(ss).get(test_1).keySet();
+        EClass eclass = new ArrayList<EClass>(_keySet).get(0);
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          List<String> _get = this.rand.get(ss).get(test_1).get(key);
+          List<String> _get = this.rand.get(ss).get(test_1).get(eclass);
           for(final String diagram : _get) {
             _builder.append("<td id=\"td-exercise-");
             _builder.append(this.num);

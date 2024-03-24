@@ -27,7 +27,7 @@ import java.util.AbstractMap.SimpleEntry
 import java.util.HashMap
 import edutest.MatchPairs
 import java.util.TreeMap
-import java.util.stream.Collectors
+import org.eclipse.emf.ecore.EClass
 
 class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	
@@ -38,7 +38,9 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	private String stringXmlFileName
 	private String stringXmlFileNameEs
 	private String userProfile = "C\\:\\\\Users\\\\User"
-	private String currentDate = (new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)).format((new Date(System.currentTimeMillis()))) 
+	private String currentDate = (new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)).format((new Date(System.currentTimeMillis())))
+	private List<EPackage> metamodel
+	private List<EClass> roots 
 	//private String pageName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
@@ -92,6 +94,10 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 					stringXmlFileNameEs = '../app/mobile/app/src/main/res/values-es/strings.xml'
 					//pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.app'
 				}
+				metamodel = new ArrayList<EPackage>()
+				metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
+				roots = new ArrayList<EClass>()
+				roots.addAll(ModelManager.getRootEClasses(metamodel))
 				fsa.generateFile(fileName, p.compile(resource))
 				fsa.generateFile(localProperties, p.localPropertiesCompile(resource))
 				fsa.generateFile(xmlFileName, p.xmlCompile(resource))
@@ -106,7 +112,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 
 	/*MobileApp code will be generated here!!*/
 	def compile(Program program, Resource resource) '''
-		«{buildOptions(program, resource, blocks, program.class); ""}»
+		«{buildOptions(program, resource, blocks, roots, program.class); ""}»
 		«var HashMap<Integer,String> drawable = new HashMap()»
 		«var HashMap<Integer,HashMap<Integer,String>> drawableAnswer = new HashMap()»
 		«var int i = 0»
@@ -143,8 +149,8 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 				«FOR test : exercise.tests»
 					«var int j = 0»
 					«var HashMap<Integer,String> diccAux = new HashMap()»
-					«FOR String key : diagrams.get(exercise).get(test).keySet()»
-					«FOR String diag : diagrams.get(exercise).get(test).get(key)»
+					«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diag : diagrams.get(exercise).get(test).get(eclass)»
 						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
 						«diccAux.put(j, "q" + i + "_respuesta" + j+".png")»
 						«{j++; ""}»
@@ -935,8 +941,8 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 					«FOR test : exercise.tests»
 					«var int i=0»
 					«var int correct=i»
-					«FOR String key : diagrams.get(exercise).get(test).keySet()»
-					«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
+					«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diagram : diagrams.get(exercise).get(test).get(eclass)»
 					«IF diagram.equals(test.source.replace('.model', '.png'))»
 							«{correct=i; ""}»
 						«ENDIF»
@@ -1122,8 +1128,8 @@ sdk.dir=«userProfile»AppData\\Local\\Android\\Sdk
 					«FOR test : exercise.tests»
 					«var int i=0»
 					«var int correct=i»
-					«FOR String key : diagrams.get(exercise).get(test).keySet()»
-					«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
+					«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
+					«FOR String diagram : diagrams.get(exercise).get(test).get(eclass)»
 					«IF diagram.equals(test.source.replace('.model', '.png'))»
 							«{correct=i; ""}»
 						«ENDIF»

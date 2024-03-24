@@ -22,11 +22,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,7 +43,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
@@ -141,7 +138,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
       StringConcatenation _builder = new StringConcatenation();
       String _xblockexpression = null;
       {
-        this.buildOptions(program, resource, this.blocks, program.getClass());
+        this.buildOptions(program, resource, this.blocks, this.roots, program.getClass());
         _xblockexpression = "";
       }
       _builder.append(_xblockexpression);
@@ -205,21 +202,150 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
         for(final MutatorTests exercise : _exercises) {
           {
             if ((exercise instanceof AlternativeResponse)) {
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              {
+                for(final EClass root : this.roots) {
+                  {
+                    EClass _answers = ((AlternativeResponse)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals = (_answers != null);
+                    if (_tripleNotEquals) {
+                      {
+                        boolean _equals = ((AlternativeResponse)exercise).getConfig().getAnswers().getName().equals(root.getName());
+                        if (_equals) {
+                          String _xblockexpression_1 = null;
+                          {
+                            answersClass = root;
+                            _xblockexpression_1 = "";
+                          }
+                          _builder.append(_xblockexpression_1);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement = ((AlternativeResponse)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_1 = (_statement != null);
+                    if (_tripleNotEquals_1) {
+                      {
+                        boolean _equals_1 = ((AlternativeResponse)exercise).getConfig().getStatement().getName().equals(root.getName());
+                        if (_equals_1) {
+                          String _xblockexpression_2 = null;
+                          {
+                            statementClass = root;
+                            _xblockexpression_2 = "";
+                          }
+                          _builder.append(_xblockexpression_2);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              {
+                if ((answersClass == null)) {
+                  String _xblockexpression_3 = null;
+                  {
+                    int _size = this.roots.size();
+                    int _minus = (_size - 1);
+                    answersClass = this.roots.get(_minus);
+                    _xblockexpression_3 = "";
+                  }
+                  _builder.append(_xblockexpression_3);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass == null)) {
+                  {
+                    int _size = this.roots.size();
+                    boolean _greaterThan = (_size > 1);
+                    if (_greaterThan) {
+                      String _xblockexpression_4 = null;
+                      {
+                        statementClass = this.roots.get(1);
+                        _xblockexpression_4 = "";
+                      }
+                      _builder.append(_xblockexpression_4);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_5 = null;
+                      {
+                        statementClass = this.roots.get(0);
+                        _xblockexpression_5 = "";
+                      }
+                      _builder.append(_xblockexpression_5);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
               {
                 EList<Test> _tests = ((AlternativeResponse)exercise).getTests();
                 for(final Test test : _tests) {
+                  _builder.append("        ");
+                  String _xifexpression = null;
+                  List<String> _get = this.diagrams.get(exercise).get(test).get(answersClass);
+                  boolean _tripleNotEquals_2 = (_get != null);
+                  if (_tripleNotEquals_2) {
+                    String _xifexpression_1 = null;
+                    int _size_1 = this.diagrams.get(exercise).get(test).get(answersClass).size();
+                    boolean _greaterThan_1 = (_size_1 > 0);
+                    if (_greaterThan_1) {
+                      _xifexpression_1 = this.diagrams.get(exercise).get(test).get(answersClass).get(0);
+                    }
+                    _xifexpression = _xifexpression_1;
+                  }
+                  String solution = _xifexpression;
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("        ");
+                  List<String> answers = new ArrayList<String>();
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("        ");
+                  Set<String> answersSet = new LinkedHashSet<String>();
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("        ");
+                  String _xblockexpression_6 = null;
                   {
-                    int _size = this.rand.get(exercise).get(test).keySet().size();
-                    boolean _greaterThan = (_size > 0);
-                    if (_greaterThan) {
-                      List<String> keys = Arrays.<String>asList(((String[])Conversions.unwrapArray(this.rand.get(exercise).get(test).keySet(), String.class)));
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t    ");
+                    answersSet.addAll(this.diagrams.get(exercise).get(test).get(answersClass));
+                    _xblockexpression_6 = "";
+                  }
+                  _builder.append(_xblockexpression_6, "        ");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("        ");
+                  String _xblockexpression_7 = null;
+                  {
+                    answers.addAll(answersSet);
+                    _xblockexpression_7 = "";
+                  }
+                  _builder.append(_xblockexpression_7, "        ");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("        ");
+                  String _xblockexpression_8 = null;
+                  {
+                    Collections.shuffle(answers);
+                    _xblockexpression_8 = "";
+                  }
+                  _builder.append(_xblockexpression_8, "        ");
+                  _builder.newLineIfNotEmpty();
+                  {
+                    int _size_2 = answers.size();
+                    boolean _greaterThan_2 = (_size_2 > 0);
+                    if (_greaterThan_2) {
                       _builder.append("<!-- ");
-                      String diagram = keys.get(0);
+                      String diagram = answers.get(0);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
-                      _builder.append("        ");
                       _builder.append("<!--");
                       String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
                       String _plus = (_workspaceAbsolutePath + "/");
@@ -306,8 +432,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<idnumber></idnumber>");
                           _builder.newLine();
                           {
-                            boolean _equals = diagram.equals(test.getSource().replace(".model", ".png"));
-                            if (_equals) {
+                            boolean _equals_2 = diagram.equals(solution.replace(".model", ".png"));
+                            if (_equals_2) {
                               _builder.append("<answer fraction=\"100\" format=\"moodle_auto_format\">");
                               _builder.newLine();
                               _builder.append("  ");
@@ -387,209 +513,181 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
           }
           {
             if ((exercise instanceof MultiChoiceDiagram)) {
-              _builder.append("           ");
+              _builder.append("        ");
               int min = Integer.MAX_VALUE;
               _builder.newLineIfNotEmpty();
               {
                 EList<Test> _tests_1 = ((MultiChoiceDiagram)exercise).getTests();
                 for(final Test test_1 : _tests_1) {
                   {
-                    Set<String> _keySet = this.diagrams.get(exercise).get(test_1).keySet();
-                    for(final String key : _keySet) {
-                      int counter = this.diagrams.get(exercise).get(test_1).get(key).size();
+                    Set<EClass> _keySet = this.diagrams.get(exercise).get(test_1).keySet();
+                    for(final EClass eclass : _keySet) {
+                      int counter = this.diagrams.get(exercise).get(test_1).get(eclass).size();
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min > counter)) {
-                          String _xblockexpression_1 = null;
-                          {
-                            min = counter;
-                            _xblockexpression_1 = "";
-                          }
-                          _builder.append(_xblockexpression_1);
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              _builder.append("        ");
-              String statement = null;
-              _builder.newLineIfNotEmpty();
-              _builder.append("        ");
-              Map<String, String> solution = new LinkedHashMap<String, String>();
-              _builder.newLineIfNotEmpty();
-              {
-                int _size_1 = this.roots.size();
-                boolean _greaterThan_1 = (_size_1 > 1);
-                if (_greaterThan_1) {
-                  {
-                    EList<Test> _tests_2 = ((MultiChoiceDiagram)exercise).getTests();
-                    for(final Test test_2 : _tests_2) {
-                      {
-                        Set<String> _keySet_1 = this.diagrams.get(exercise).get(test_2).keySet();
-                        for(final String key_1 : _keySet_1) {
-                          {
-                            if ((statement != null)) {
-                              String _xblockexpression_2 = null;
-                              {
-                                solution.put(test_2.getSource(), key_1);
-                                _xblockexpression_2 = "";
-                              }
-                              _builder.append(_xblockexpression_2);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                          {
-                            if ((statement == null)) {
-                              String _xblockexpression_3 = null;
-                              {
-                                statement = key_1;
-                                _xblockexpression_3 = "";
-                              }
-                              _builder.append(_xblockexpression_3);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              {
-                int _size_2 = this.roots.size();
-                boolean _equals_1 = (_size_2 == 1);
-                if (_equals_1) {
-                  {
-                    EList<Test> _tests_3 = ((MultiChoiceDiagram)exercise).getTests();
-                    for(final Test test_3 : _tests_3) {
-                      {
-                        Set<String> _keySet_2 = this.diagrams.get(exercise).get(test_3).keySet();
-                        for(final String key_2 : _keySet_2) {
-                          String _xblockexpression_4 = null;
-                          {
-                            solution.put(test_3.getSource(), key_2);
-                            _xblockexpression_4 = "";
-                          }
-                          _builder.append(_xblockexpression_4);
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              _builder.append("        ");
-              List<String> answers = new ArrayList<String>();
-              _builder.newLineIfNotEmpty();
-              _builder.append("        ");
-              Set<String> answersSet = new HashSet<String>();
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_4 = ((MultiChoiceDiagram)exercise).getTests();
-                for(final Test test_4 : _tests_4) {
-                  {
-                    Set<String> _keySet_3 = this.diagrams.get(exercise).get(test_4).keySet();
-                    for(final String key_3 : _keySet_3) {
-                      String _xblockexpression_5 = null;
-                      {
-                        answersSet.addAll(this.diagrams.get(exercise).get(test_4).get(key_3));
-                        _xblockexpression_5 = "";
-                      }
-                      _builder.append(_xblockexpression_5);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("<!-- ");
-                      String ending = ".png";
-                      _builder.append("-->");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        EClass _answers = ((MultiChoiceDiagram)exercise).getConfig().getAnswers();
-                        boolean _tripleNotEquals = (_answers != null);
-                        if (_tripleNotEquals) {
-                          _builder.append("\t    ");
-                          _builder.append("<!-- ");
-                          int rootIndex = 0;
-                          _builder.append("-->");
-                          _builder.newLineIfNotEmpty();
-                          _builder.append("\t    ");
-                          _builder.append("<!-- ");
-                          int forIndex = 0;
-                          _builder.append("-->");
-                          _builder.newLineIfNotEmpty();
-                          {
-                            for(final EClass root : this.roots) {
-                              {
-                                boolean _equals_2 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(root.getName());
-                                if (_equals_2) {
-                                  _builder.append("\t    ");
-                                  String _xblockexpression_6 = null;
-                                  {
-                                    rootIndex = forIndex;
-                                    _xblockexpression_6 = "";
-                                  }
-                                  _builder.append(_xblockexpression_6, "\t    ");
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                              _builder.append("\t    ");
-                              String _xblockexpression_7 = null;
-                              {
-                                forIndex++;
-                                _xblockexpression_7 = "";
-                              }
-                              _builder.append(_xblockexpression_7, "\t    ");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                          {
-                            if ((rootIndex > 0)) {
-                              String _xblockexpression_8 = null;
-                              {
-                                String _plus_9 = (Integer.valueOf((rootIndex - 1)) + ".png");
-                                ending = _plus_9;
-                                _xblockexpression_8 = "";
-                              }
-                              _builder.append(_xblockexpression_8);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                          _builder.append("        ");
                           String _xblockexpression_9 = null;
                           {
-                            answersSet.add(statement);
+                            min = counter;
                             _xblockexpression_9 = "";
                           }
-                          _builder.append(_xblockexpression_9, "        ");
+                          _builder.append(_xblockexpression_9);
                           _builder.newLineIfNotEmpty();
                         }
                       }
+                    }
+                  }
+                }
+              }
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_1 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_1 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              {
+                for(final EClass root_1 : this.roots) {
+                  {
+                    EClass _answers_1 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_3 = (_answers_1 != null);
+                    if (_tripleNotEquals_3) {
                       {
-                        String _get = solution.get(test_4.getSource());
-                        boolean _tripleNotEquals_1 = (_get != null);
-                        if (_tripleNotEquals_1) {
+                        boolean _equals_3 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(root_1.getName());
+                        if (_equals_3) {
                           String _xblockexpression_10 = null;
                           {
-                            answersSet.add(solution.get(test_4.getSource()));
+                            answersClass_1 = root_1;
                             _xblockexpression_10 = "";
                           }
                           _builder.append(_xblockexpression_10);
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      String _xblockexpression_11 = null;
+                    }
+                  }
+                  {
+                    EClass _statement_1 = ((MultiChoiceDiagram)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_4 = (_statement_1 != null);
+                    if (_tripleNotEquals_4) {
                       {
-                        answers.addAll(answersSet);
-                        _xblockexpression_11 = "";
+                        boolean _equals_4 = ((MultiChoiceDiagram)exercise).getConfig().getStatement().getName().equals(root_1.getName());
+                        if (_equals_4) {
+                          String _xblockexpression_11 = null;
+                          {
+                            statementClass_1 = root_1;
+                            _xblockexpression_11 = "";
+                          }
+                          _builder.append(_xblockexpression_11);
+                          _builder.newLineIfNotEmpty();
+                        }
                       }
-                      _builder.append(_xblockexpression_11);
+                    }
+                  }
+                }
+              }
+              {
+                if ((answersClass_1 == null)) {
+                  String _xblockexpression_12 = null;
+                  {
+                    int _size_3 = this.roots.size();
+                    int _minus = (_size_3 - 1);
+                    answersClass_1 = this.roots.get(_minus);
+                    _xblockexpression_12 = "";
+                  }
+                  _builder.append(_xblockexpression_12);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_1 == null)) {
+                  {
+                    int _size_3 = this.roots.size();
+                    boolean _greaterThan_3 = (_size_3 > 1);
+                    if (_greaterThan_3) {
+                      String _xblockexpression_13 = null;
+                      {
+                        statementClass_1 = this.roots.get(1);
+                        _xblockexpression_13 = "";
+                      }
+                      _builder.append(_xblockexpression_13);
                       _builder.newLineIfNotEmpty();
-                      String _xblockexpression_12 = null;
+                    } else {
+                      String _xblockexpression_14 = null;
                       {
-                        Collections.shuffle(answers);
-                        _xblockexpression_12 = "";
+                        statementClass_1 = this.roots.get(0);
+                        _xblockexpression_14 = "";
                       }
-                      _builder.append(_xblockexpression_12);
+                      _builder.append(_xblockexpression_14);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              {
+                EList<Test> _tests_2 = ((MultiChoiceDiagram)exercise).getTests();
+                for(final Test test_2 : _tests_2) {
+                  String _xifexpression_2 = null;
+                  List<String> _get_1 = this.diagrams.get(exercise).get(test_2).get(statementClass_1);
+                  boolean _tripleNotEquals_5 = (_get_1 != null);
+                  if (_tripleNotEquals_5) {
+                    String _xifexpression_3 = null;
+                    int _size_4 = this.diagrams.get(exercise).get(test_2).get(statementClass_1).size();
+                    boolean _greaterThan_4 = (_size_4 > 0);
+                    if (_greaterThan_4) {
+                      _xifexpression_3 = this.diagrams.get(exercise).get(test_2).get(statementClass_1).get(0);
+                    } else {
+                      _xifexpression_3 = null;
+                    }
+                    _xifexpression_2 = _xifexpression_3;
+                  } else {
+                    _xifexpression_2 = null;
+                  }
+                  String statement = _xifexpression_2;
+                  _builder.newLineIfNotEmpty();
+                  String _xifexpression_4 = null;
+                  List<String> _get_2 = this.diagrams.get(exercise).get(test_2).get(answersClass_1);
+                  boolean _tripleNotEquals_6 = (_get_2 != null);
+                  if (_tripleNotEquals_6) {
+                    String _xifexpression_5 = null;
+                    int _size_5 = this.diagrams.get(exercise).get(test_2).get(answersClass_1).size();
+                    boolean _greaterThan_5 = (_size_5 > 0);
+                    if (_greaterThan_5) {
+                      _xifexpression_5 = this.diagrams.get(exercise).get(test_2).get(answersClass_1).get(0);
+                    }
+                    _xifexpression_4 = _xifexpression_5;
+                  }
+                  String solution_1 = _xifexpression_4;
+                  _builder.newLineIfNotEmpty();
+                  List<String> answers_1 = new ArrayList<String>();
+                  _builder.newLineIfNotEmpty();
+                  Set<String> answersSet_1 = new LinkedHashSet<String>();
+                  _builder.newLineIfNotEmpty();
+                  {
+                    if (((this.diagrams.get(exercise).get(test_2).get(answersClass_1) != null) && (this.diagrams.get(exercise).get(test_2).get(answersClass_1).size() > 0))) {
+                      String _xblockexpression_15 = null;
+                      {
+                        answersSet_1.addAll(this.diagrams.get(exercise).get(test_2).get(answersClass_1));
+                        _xblockexpression_15 = "";
+                      }
+                      _builder.append(_xblockexpression_15);
+                      _builder.newLineIfNotEmpty();
+                      String _xblockexpression_16 = null;
+                      {
+                        answers_1.addAll(answersSet_1);
+                        _xblockexpression_16 = "";
+                      }
+                      _builder.append(_xblockexpression_16);
+                      _builder.newLineIfNotEmpty();
+                      String _xblockexpression_17 = null;
+                      {
+                        Collections.shuffle(answers_1);
+                        _xblockexpression_17 = "";
+                      }
+                      _builder.append(_xblockexpression_17);
                       _builder.newLineIfNotEmpty();
                       _builder.append("   ");
                       _builder.append("<!--");
@@ -598,7 +696,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       String _name_1 = this.project.getName();
                       String _plus_10 = (_plus_9 + _name_1);
                       String _plus_11 = (_plus_10 + "/src-gen/html/diagrams/");
-                      String _replace_5 = test_4.getSource().replace(".model", "");
+                      String _replace_5 = test_2.getSource().replace(".model", "");
                       String _plus_12 = (_plus_11 + _replace_5);
                       String _plus_13 = (_plus_12 + "/");
                       String _plus_14 = (_plus_13 + statement);
@@ -630,48 +728,35 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<questiontext format=\"html\">");
                           _builder.newLine();
                           {
-                            EClass _statement = ((MultiChoiceDiagram)exercise).getConfig().getStatement();
-                            boolean _tripleNotEquals_2 = (_statement != null);
-                            if (_tripleNotEquals_2) {
-                              {
-                                if (((this.roots.size() > 1) && ((MultiChoiceDiagram)exercise).getConfig().getStatement().getName().equals(this.roots.get(1).getName()))) {
-                                  _builder.append("  ");
-                                  _builder.append("<text><![CDATA[<p>");
-                                  String _replace_6 = test_4.getQuestion().replace("\"", "\'");
-                                  _builder.append(_replace_6, "  ");
-                                  _builder.append("<br></p><p><img src=\"@@PLUGINFILE@@/exercise_");
-                                  _builder.append(uuid_1, "  ");
-                                  _builder.append(".png\" alt=\"");
-                                  String _replace_7 = test_4.getQuestion().replace("\"", "\'");
-                                  _builder.append(_replace_7, "  ");
-                                  _builder.append("\" width=\"30%\" height=\"30%\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
-                                  _builder.newLineIfNotEmpty();
-                                  _builder.append("  ");
-                                  _builder.append("<file name=\"exercise_");
-                                  _builder.append(uuid_1, "  ");
-                                  _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                                  String _replace_8 = test_4.getSource().replace(".model", "");
-                                  String _plus_15 = ("diagrams/" + _replace_8);
-                                  String _plus_16 = (_plus_15 + "/");
-                                  String _plus_17 = (_plus_16 + statement);
-                                  String _stringBase64_1 = this.getStringBase64(_plus_17);
-                                  _builder.append(_stringBase64_1, "  ");
-                                  _builder.append("</file>");
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  _builder.append("  ");
-                                  _builder.append("<text><![CDATA[<p>");
-                                  String _replace_9 = test_4.getQuestion().replace("\"", "\'");
-                                  _builder.append(_replace_9, "  ");
-                                  _builder.append("</p>]]></text>");
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
+                            if ((((((MultiChoiceDiagram)exercise).getConfig().getStatement() != null) && (this.roots.size() > 1)) && statementClass_1.getName().equals(this.roots.get(1).getName()))) {
+                              _builder.append("  ");
+                              _builder.append("<text><![CDATA[<p>");
+                              String _replace_6 = test_2.getQuestion().replace("\"", "\'");
+                              _builder.append(_replace_6, "  ");
+                              _builder.append("<br></p><p><img src=\"@@PLUGINFILE@@/exercise_");
+                              _builder.append(uuid_1, "  ");
+                              _builder.append(".png\" alt=\"");
+                              String _replace_7 = test_2.getQuestion().replace("\"", "\'");
+                              _builder.append(_replace_7, "  ");
+                              _builder.append("\" width=\"30%\" height=\"30%\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("  ");
+                              _builder.append("<file name=\"exercise_");
+                              _builder.append(uuid_1, "  ");
+                              _builder.append(".png\" path=\"/\" encoding=\"base64\">");
+                              String _replace_8 = test_2.getSource().replace(".model", "");
+                              String _plus_15 = ("diagrams/" + _replace_8);
+                              String _plus_16 = (_plus_15 + "/");
+                              String _plus_17 = (_plus_16 + statement);
+                              String _stringBase64_1 = this.getStringBase64(_plus_17);
+                              _builder.append(_stringBase64_1, "  ");
+                              _builder.append("</file>");
+                              _builder.newLineIfNotEmpty();
                             } else {
                               _builder.append("  ");
                               _builder.append("<text><![CDATA[<p>");
-                              String _replace_10 = test_4.getQuestion().replace("\"", "\'");
-                              _builder.append(_replace_10, "  ");
+                              String _replace_9 = test_2.getQuestion().replace("\"", "\'");
+                              _builder.append(_replace_9, "  ");
                               _builder.append("</p>]]></text>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -772,71 +857,21 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           int solutions = 1;
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
-                          {
-                            for(final String diagram_1 : answers) {
-                              _builder.append("  ");
-                              _builder.append("<!--");
-                              boolean s = false;
-                              _builder.append("-->");
-                              _builder.newLineIfNotEmpty();
-                              {
-                                List<String> _get_1 = this.solutionsMap.get(exercise);
-                                for(final String sol : _get_1) {
-                                  {
-                                    if ((diagram_1.startsWith((sol + "/")) || diagram_1.startsWith((sol + "\\")))) {
-                                      _builder.append("  ");
-                                      String _xblockexpression_13 = null;
-                                      {
-                                        s = true;
-                                        _xblockexpression_13 = "";
-                                      }
-                                      _builder.append(_xblockexpression_13, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                              {
-                                if ((s == true)) {
-                                  {
-                                    if ((counter_1 < (min - 1))) {
-                                      _builder.append("  ");
-                                      String _xblockexpression_14 = null;
-                                      {
-                                        counter_1++;
-                                        _xblockexpression_14 = "";
-                                      }
-                                      _builder.append(_xblockexpression_14, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                      _builder.append("  ");
-                                      String _xblockexpression_15 = null;
-                                      {
-                                        solutions++;
-                                        _xblockexpression_15 = "";
-                                      }
-                                      _builder.append(_xblockexpression_15, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
                           _builder.append("  ");
                           _builder.append("<!--");
                           double fraction = (100.0 / solutions);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
-                          String _xblockexpression_16 = null;
+                          String _xblockexpression_18 = null;
                           {
                             counter_1 = 0;
-                            _xblockexpression_16 = "";
+                            _xblockexpression_18 = "";
                           }
-                          _builder.append(_xblockexpression_16, "  ");
+                          _builder.append(_xblockexpression_18, "  ");
                           _builder.newLineIfNotEmpty();
                           {
-                            for(final String diagram_2 : answers) {
+                            for(final String diagram_1 : answers_1) {
                               _builder.append("  ");
                               _builder.append("<!--");
                               String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
@@ -844,10 +879,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               String _name_2 = this.project.getName();
                               String _plus_19 = (_plus_18 + _name_2);
                               String _plus_20 = (_plus_19 + "/src-gen/html/diagrams/");
-                              String _replace_11 = test_4.getSource().replace(".model", "");
-                              String _plus_21 = (_plus_20 + _replace_11);
+                              String _replace_10 = test_2.getSource().replace(".model", "");
+                              String _plus_21 = (_plus_20 + _replace_10);
                               String _plus_22 = (_plus_21 + "/");
-                              String _plus_23 = (_plus_22 + diagram_2);
+                              String _plus_23 = (_plus_22 + diagram_1);
                               File _file = new File(_plus_23);
                               File _file_1 = file_1 = _file;
                               _builder.append(_file_1, "  ");
@@ -860,10 +895,51 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   _builder.append("-->");
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    boolean _endsWith = diagram_2.endsWith(ending);
-                                    if (_endsWith) {
+                                    if (((diagram_1.startsWith(answersClass_1.getName()) || diagram_1.contains(("/" + answersClass_1.getName()))) || diagram_1.contains(("\\" + answersClass_1.getName())))) {
+                                      _builder.append("<!--");
+                                      boolean s = false;
+                                      _builder.append("-->");
+                                      _builder.newLineIfNotEmpty();
                                       {
-                                        if ((diagram_2.equals(test_4.getSource().replace(".model", ".png")) || diagram_2.startsWith(test_4.getSource().replace(".model", "")))) {
+                                        List<String> _get_3 = this.solutionsMap.get(exercise);
+                                        for(final String sol : _get_3) {
+                                          {
+                                            if ((((diagram_1.startsWith((sol + "/")) || diagram_1.startsWith((sol + "\\"))) || diagram_1.contains((((sol + "/") + answersClass_1.getName()) + "_"))) || diagram_1.contains((((sol + "\\") + answersClass_1.getName()) + "_")))) {
+                                              String _xblockexpression_19 = null;
+                                              {
+                                                s = true;
+                                                _xblockexpression_19 = "";
+                                              }
+                                              _builder.append(_xblockexpression_19);
+                                              _builder.newLineIfNotEmpty();
+                                            }
+                                          }
+                                        }
+                                      }
+                                      {
+                                        if ((s == true)) {
+                                          {
+                                            if ((counter_1 < (min - 1))) {
+                                              String _xblockexpression_20 = null;
+                                              {
+                                                counter_1++;
+                                                _xblockexpression_20 = "";
+                                              }
+                                              _builder.append(_xblockexpression_20);
+                                              _builder.newLineIfNotEmpty();
+                                              String _xblockexpression_21 = null;
+                                              {
+                                                solutions++;
+                                                _xblockexpression_21 = "";
+                                              }
+                                              _builder.append(_xblockexpression_21);
+                                              _builder.newLineIfNotEmpty();
+                                            }
+                                          }
+                                        }
+                                      }
+                                      {
+                                        if ((s || diagram_1.equals(solution_1))) {
                                           {
                                             if (((100 % solutions) == 0)) {
                                               _builder.append("<answer fraction=\"");
@@ -877,12 +953,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                               DecimalFormat formatter = ((DecimalFormat) _numberInstance);
                                               _builder.append("-->");
                                               _builder.newLineIfNotEmpty();
-                                              String _xblockexpression_17 = null;
+                                              String _xblockexpression_22 = null;
                                               {
                                                 formatter.applyPattern("###.#####");
-                                                _xblockexpression_17 = "";
+                                                _xblockexpression_22 = "";
                                               }
-                                              _builder.append(_xblockexpression_17);
+                                              _builder.append(_xblockexpression_22);
                                               _builder.newLineIfNotEmpty();
                                               _builder.append("<answer fraction=\"");
                                               String _format = formatter.format(fraction);
@@ -893,21 +969,9 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                           }
                                           _builder.append(" ");
                                           _builder.append("<!--");
-                                          String size = "15";
+                                          String size = "60";
                                           _builder.append("-->");
                                           _builder.newLineIfNotEmpty();
-                                          {
-                                            if (((this.roots.size() > 1) && ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(this.roots.get(1).getName()))) {
-                                              _builder.append(" ");
-                                              String _xblockexpression_18 = null;
-                                              {
-                                                size = "30";
-                                                _xblockexpression_18 = "";
-                                              }
-                                              _builder.append(_xblockexpression_18, " ");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
                                           _builder.append(" ");
                                           _builder.append("<text><![CDATA[<p><img src=\"@@PLUGINFILE@@/exercise_");
                                           _builder.append(uuid_1, " ");
@@ -921,10 +985,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                           _builder.append("<file name=\"exercise_");
                                           _builder.append(uuid_1, " ");
                                           _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                                          String _replace_12 = test_4.getSource().replace(".model", "");
-                                          String _plus_24 = ("diagrams/" + _replace_12);
+                                          String _replace_11 = test_2.getSource().replace(".model", "");
+                                          String _plus_24 = ("diagrams/" + _replace_11);
                                           String _plus_25 = (_plus_24 + "/");
-                                          String _plus_26 = (_plus_25 + diagram_2);
+                                          String _plus_26 = (_plus_25 + diagram_1);
                                           String _stringBase64_2 = this.getStringBase64(_plus_26);
                                           _builder.append(_stringBase64_2, " ");
                                           _builder.append("</file>");
@@ -944,35 +1008,38 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                         } else {
                                           {
                                             if ((counter_1 < (min - 1))) {
-                                              String _xblockexpression_19 = null;
+                                              _builder.append(" ");
+                                              String _xblockexpression_23 = null;
                                               {
                                                 counter_1++;
-                                                _xblockexpression_19 = "";
+                                                _xblockexpression_23 = "";
                                               }
-                                              _builder.append(_xblockexpression_19);
+                                              _builder.append(_xblockexpression_23, " ");
                                               _builder.newLineIfNotEmpty();
+                                              _builder.append(" ");
                                               _builder.append("<!--");
-                                              boolean s_1 = false;
+                                              _builder.append(s = false, " ");
                                               _builder.append("-->");
                                               _builder.newLineIfNotEmpty();
                                               {
-                                                List<String> _get_2 = this.solutionsMap.get(exercise);
-                                                for(final String sol_1 : _get_2) {
+                                                List<String> _get_4 = this.solutionsMap.get(exercise);
+                                                for(final String sol_1 : _get_4) {
                                                   {
-                                                    if ((diagram_2.startsWith((sol_1 + "/")) || diagram_2.startsWith((sol_1 + "\\")))) {
-                                                      String _xblockexpression_20 = null;
+                                                    if ((((diagram_1.startsWith((sol_1 + "/")) || diagram_1.startsWith((sol_1 + "\\"))) || diagram_1.contains((((sol_1 + "/") + answersClass_1.getName()) + "_"))) || diagram_1.contains((((sol_1 + "\\") + answersClass_1.getName()) + "_")))) {
+                                                      _builder.append(" ");
+                                                      String _xblockexpression_24 = null;
                                                       {
-                                                        s_1 = true;
-                                                        _xblockexpression_20 = "";
+                                                        s = true;
+                                                        _xblockexpression_24 = "";
                                                       }
-                                                      _builder.append(_xblockexpression_20);
+                                                      _builder.append(_xblockexpression_24, " ");
                                                       _builder.newLineIfNotEmpty();
                                                     }
                                                   }
                                                 }
                                               }
                                               {
-                                                if ((s_1 || diagram_2.equals(test_4.getSource().replace(".model", ".png")))) {
+                                                if ((s || diagram_1.equals(solution_1))) {
                                                   {
                                                     if (((100 % solutions) == 0)) {
                                                       _builder.append("<answer fraction=\"");
@@ -986,12 +1053,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                       DecimalFormat formatter_1 = ((DecimalFormat) _numberInstance_1);
                                                       _builder.append("-->");
                                                       _builder.newLineIfNotEmpty();
-                                                      String _xblockexpression_21 = null;
+                                                      String _xblockexpression_25 = null;
                                                       {
                                                         formatter_1.applyPattern("###.#####");
-                                                        _xblockexpression_21 = "";
+                                                        _xblockexpression_25 = "";
                                                       }
-                                                      _builder.append(_xblockexpression_21);
+                                                      _builder.append(_xblockexpression_25);
                                                       _builder.newLineIfNotEmpty();
                                                       _builder.append("<answer fraction=\"");
                                                       String _format_1 = formatter_1.format(fraction);
@@ -1005,52 +1072,42 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                   _builder.newLine();
                                                 }
                                               }
+                                              _builder.append(" ");
                                               _builder.append("<!--");
-                                              String size_1 = "15";
+                                              String size_1 = "60";
                                               _builder.append("-->");
                                               _builder.newLineIfNotEmpty();
-                                              {
-                                                EClass _answers_1 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers();
-                                                boolean _tripleNotEquals_3 = (_answers_1 != null);
-                                                if (_tripleNotEquals_3) {
-                                                  {
-                                                    if (((this.roots.size() > 2) && ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(this.roots.get(2).getName()))) {
-                                                      String _xblockexpression_22 = null;
-                                                      {
-                                                        size_1 = "30";
-                                                        _xblockexpression_22 = "";
-                                                      }
-                                                      _builder.append(_xblockexpression_22);
-                                                      _builder.newLineIfNotEmpty();
-                                                    }
-                                                  }
-                                                }
-                                              }
+                                              _builder.append(" ");
                                               _builder.append("<text><![CDATA[<p><img src=\"@@PLUGINFILE@@/exercise_");
-                                              _builder.append(uuid_1);
+                                              _builder.append(uuid_1, " ");
                                               _builder.append(".png\" alt=\"\" width=\"");
-                                              _builder.append(size_1);
+                                              _builder.append(size_1, " ");
                                               _builder.append("%\" height=\"");
-                                              _builder.append(size_1);
+                                              _builder.append(size_1, " ");
                                               _builder.append("%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
                                               _builder.newLineIfNotEmpty();
+                                              _builder.append(" ");
                                               _builder.append("<file name=\"exercise_");
-                                              _builder.append(uuid_1);
+                                              _builder.append(uuid_1, " ");
                                               _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                                              String _replace_13 = test_4.getSource().replace(".model", "");
-                                              String _plus_27 = ("diagrams/" + _replace_13);
+                                              String _replace_12 = test_2.getSource().replace(".model", "");
+                                              String _plus_27 = ("diagrams/" + _replace_12);
                                               String _plus_28 = (_plus_27 + "/");
-                                              String _plus_29 = (_plus_28 + diagram_2);
+                                              String _plus_29 = (_plus_28 + diagram_1);
                                               String _stringBase64_3 = this.getStringBase64(_plus_29);
-                                              _builder.append(_stringBase64_3);
+                                              _builder.append(_stringBase64_3, " ");
                                               _builder.append("</file>");
                                               _builder.newLineIfNotEmpty();
+                                              _builder.append(" ");
                                               _builder.append("<feedback format=\"html\">");
                                               _builder.newLine();
+                                              _builder.append(" ");
                                               _builder.append("<text></text>");
                                               _builder.newLine();
+                                              _builder.append(" ");
                                               _builder.append("</feedback>");
                                               _builder.newLine();
+                                              _builder.append(" ");
                                               _builder.append("</answer>");
                                               _builder.newLine();
                                             }
@@ -1081,36 +1138,36 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
               int min_1 = Integer.MAX_VALUE;
               _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_5 = ((MultiChoiceEmendation)exercise).getTests();
-                for(final Test test_5 : _tests_5) {
+                EList<Test> _tests_3 = ((MultiChoiceEmendation)exercise).getTests();
+                for(final Test test_3 : _tests_3) {
                   {
-                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_5) != null))) {
+                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_3) != null))) {
                       int counter_2 = 0;
                       _builder.newLineIfNotEmpty();
                       List<AbstractMap.SimpleEntry<String, Boolean>> textOptions = new ArrayList<AbstractMap.SimpleEntry<String, Boolean>>();
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(exercise).get(test_5);
-                        for(final EduTestSuperGenerator.TestOption opt : _get_3) {
+                        List<EduTestSuperGenerator.TestOption> _get_5 = this.options.get(exercise).get(test_3);
+                        for(final EduTestSuperGenerator.TestOption opt : _get_5) {
                           {
-                            Set<String> _keySet_4 = opt.text.keySet();
-                            for(final String key_4 : _keySet_4) {
+                            Set<String> _keySet_1 = opt.text.keySet();
+                            for(final String key : _keySet_1) {
                               {
-                                List<String> _get_4 = opt.text.get(key_4);
-                                for(final String text : _get_4) {
+                                List<String> _get_6 = opt.text.get(key);
+                                for(final String text : _get_6) {
                                   boolean found = false;
                                   _builder.newLineIfNotEmpty();
                                   {
                                     for(final AbstractMap.SimpleEntry<String, Boolean> entry : textOptions) {
                                       {
-                                        boolean _equals_3 = entry.getKey().equals(text);
-                                        if (_equals_3) {
-                                          String _xblockexpression_23 = null;
+                                        boolean _equals_5 = entry.getKey().equals(text);
+                                        if (_equals_5) {
+                                          String _xblockexpression_26 = null;
                                           {
                                             found = true;
-                                            _xblockexpression_23 = "";
+                                            _xblockexpression_26 = "";
                                           }
-                                          _builder.append(_xblockexpression_23);
+                                          _builder.append(_xblockexpression_26);
                                           _builder.newLineIfNotEmpty();
                                         }
                                       }
@@ -1118,20 +1175,20 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   }
                                   {
                                     if ((found == false)) {
-                                      String _xblockexpression_24 = null;
+                                      String _xblockexpression_27 = null;
                                       {
                                         counter_2++;
-                                        _xblockexpression_24 = "";
+                                        _xblockexpression_27 = "";
                                       }
-                                      _builder.append(_xblockexpression_24);
+                                      _builder.append(_xblockexpression_27);
                                       _builder.newLineIfNotEmpty();
-                                      String _xblockexpression_25 = null;
+                                      String _xblockexpression_28 = null;
                                       {
                                         AbstractMap.SimpleEntry<String, Boolean> _simpleEntry = new AbstractMap.SimpleEntry<String, Boolean>(text, Boolean.valueOf(false));
                                         textOptions.add(_simpleEntry);
-                                        _xblockexpression_25 = "";
+                                        _xblockexpression_28 = "";
                                       }
-                                      _builder.append(_xblockexpression_25);
+                                      _builder.append(_xblockexpression_28);
                                       _builder.newLineIfNotEmpty();
                                     }
                                   }
@@ -1141,21 +1198,71 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           }
                         }
                       }
-                      String _xblockexpression_26 = null;
+                      String _xblockexpression_29 = null;
                       {
-                        mapTextOptions.put(test_5, textOptions);
-                        _xblockexpression_26 = "";
+                        mapTextOptions.put(test_3, textOptions);
+                        _xblockexpression_29 = "";
                       }
-                      _builder.append(_xblockexpression_26);
+                      _builder.append(_xblockexpression_29);
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min_1 > counter_2)) {
-                          String _xblockexpression_27 = null;
+                          String _xblockexpression_30 = null;
                           {
                             min_1 = counter_2;
-                            _xblockexpression_27 = "";
+                            _xblockexpression_30 = "";
                           }
-                          _builder.append(_xblockexpression_27);
+                          _builder.append(_xblockexpression_30);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_2 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_2 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              {
+                for(final EClass root_2 : this.roots) {
+                  {
+                    EClass _answers_2 = ((MultiChoiceEmendation)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_7 = (_answers_2 != null);
+                    if (_tripleNotEquals_7) {
+                      {
+                        boolean _equals_6 = ((MultiChoiceEmendation)exercise).getConfig().getAnswers().getName().equals(root_2.getName());
+                        if (_equals_6) {
+                          String _xblockexpression_31 = null;
+                          {
+                            answersClass_2 = root_2;
+                            _xblockexpression_31 = "";
+                          }
+                          _builder.append(_xblockexpression_31);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement_2 = ((MultiChoiceEmendation)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_8 = (_statement_2 != null);
+                    if (_tripleNotEquals_8) {
+                      {
+                        boolean _equals_7 = ((MultiChoiceEmendation)exercise).getConfig().getStatement().getName().equals(root_2.getName());
+                        if (_equals_7) {
+                          String _xblockexpression_32 = null;
+                          {
+                            statementClass_2 = root_2;
+                            _xblockexpression_32 = "";
+                          }
+                          _builder.append(_xblockexpression_32);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -1164,30 +1271,68 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                 }
               }
               {
-                EList<Test> _tests_6 = ((MultiChoiceEmendation)exercise).getTests();
-                for(final Test test_6 : _tests_6) {
+                if ((answersClass_2 == null)) {
+                  String _xblockexpression_33 = null;
                   {
-                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_6) != null))) {
+                    int _size_6 = this.roots.size();
+                    int _minus = (_size_6 - 1);
+                    answersClass_2 = this.roots.get(_minus);
+                    _xblockexpression_33 = "";
+                  }
+                  _builder.append(_xblockexpression_33);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_2 == null)) {
+                  {
+                    int _size_6 = this.roots.size();
+                    boolean _greaterThan_6 = (_size_6 > 1);
+                    if (_greaterThan_6) {
+                      String _xblockexpression_34 = null;
+                      {
+                        statementClass_2 = this.roots.get(1);
+                        _xblockexpression_34 = "";
+                      }
+                      _builder.append(_xblockexpression_34);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_35 = null;
+                      {
+                        statementClass_2 = this.roots.get(0);
+                        _xblockexpression_35 = "";
+                      }
+                      _builder.append(_xblockexpression_35);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              {
+                EList<Test> _tests_4 = ((MultiChoiceEmendation)exercise).getTests();
+                for(final Test test_4 : _tests_4) {
+                  {
+                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_4) != null))) {
                       _builder.append("            ");
                       _builder.append("<!--");
-                      String diagram_3 = "";
+                      String diagram_2 = "";
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_5 = this.options.get(exercise).get(test_6);
-                        boolean _tripleNotEquals_4 = (_get_5 != null);
-                        if (_tripleNotEquals_4) {
+                        List<EduTestSuperGenerator.TestOption> _get_7 = this.options.get(exercise).get(test_4);
+                        boolean _tripleNotEquals_9 = (_get_7 != null);
+                        if (_tripleNotEquals_9) {
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_6 = this.options.get(exercise).get(test_6);
-                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_6) {
+                            List<EduTestSuperGenerator.TestOption> _get_8 = this.options.get(exercise).get(test_4);
+                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_8) {
                               {
-                                int _size_3 = opt_1.text.size();
-                                boolean _greaterThan_2 = (_size_3 > 0);
-                                if (_greaterThan_2) {
+                                int _size_7 = opt_1.text.size();
+                                boolean _greaterThan_7 = (_size_7 > 0);
+                                if (_greaterThan_7) {
                                   {
                                     if ((opt_1.solution == true)) {
                                       _builder.append("<!--");
-                                      _builder.append(diagram_3 = opt_1.path);
+                                      _builder.append(diagram_2 = opt_1.path);
                                       _builder.append("-->");
                                       _builder.newLineIfNotEmpty();
                                     }
@@ -1199,17 +1344,30 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                         }
                       }
                       {
-                        boolean _equals_4 = diagram_3.equals("");
-                        boolean _not = (!_equals_4);
+                        boolean _equals_8 = diagram_2.equals("");
+                        boolean _not = (!_equals_8);
                         if (_not) {
+                          int _lastIndexOf = diagram_2.lastIndexOf("/");
+                          int _plus_30 = (_lastIndexOf + 1);
+                          String _substring = diagram_2.substring(0, _plus_30);
+                          String _name_3 = answersClass_2.getName();
+                          String _plus_31 = (_substring + _name_3);
+                          String _plus_32 = (_plus_31 + "_");
+                          int _lastIndexOf_1 = diagram_2.lastIndexOf("/");
+                          int _plus_33 = (_lastIndexOf_1 + 1);
+                          String _substring_1 = diagram_2.substring(_plus_33, diagram_2.length());
+                          String _plus_34 = (_plus_32 + _substring_1);
+                          _builder.append(diagram_2 = _plus_34);
+                          _builder.newLineIfNotEmpty();
+                          _builder.append("           ");
                           _builder.append("<!--");
                           String _workspaceAbsolutePath_3 = ModelManager.getWorkspaceAbsolutePath();
-                          String _plus_30 = (_workspaceAbsolutePath_3 + "/");
-                          String _name_3 = this.project.getName();
-                          String _plus_31 = (_plus_30 + _name_3);
-                          String _plus_32 = (_plus_31 + "/src-gen/html/");
-                          String _plus_33 = (_plus_32 + diagram_3);
-                          File file_2 = new File(_plus_33);
+                          String _plus_35 = (_workspaceAbsolutePath_3 + "/");
+                          String _name_4 = this.project.getName();
+                          String _plus_36 = (_plus_35 + _name_4);
+                          String _plus_37 = (_plus_36 + "/src-gen/html/");
+                          String _plus_38 = (_plus_37 + diagram_2);
+                          File file_2 = new File(_plus_38);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
@@ -1238,8 +1396,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.newLineIfNotEmpty();
                               _builder.append("\t\t\t");
                               _builder.append("<text><![CDATA[<p>");
-                              String _replace_14 = test_6.getQuestion().replace("\"", "\'");
-                              _builder.append(_replace_14, "\t\t\t");
+                              String _replace_13 = test_4.getQuestion().replace("\"", "\'");
+                              _builder.append(_replace_13, "\t\t\t");
                               _builder.append("<br><br><img src=\"@@PLUGINFILE@@/exercise_");
                               _builder.append(uuid_2, "\t\t\t");
                               _builder.append(".png\" alt=\"multiple choice\" width=\"20%\" height=\"20%\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
@@ -1248,7 +1406,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append("<file name=\"exercise_");
                               _builder.append(uuid_2, "    ");
                               _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                              String _stringBase64_4 = this.getStringBase64(diagram_3);
+                              String _stringBase64_4 = this.getStringBase64(diagram_2);
                               _builder.append(_stringBase64_4, "    ");
                               _builder.append("</file>");
                               _builder.newLineIfNotEmpty();
@@ -1329,46 +1487,46 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               int solutions_1 = 0;
                               _builder.newLineIfNotEmpty();
                               {
-                                List<EduTestSuperGenerator.TestOption> _get_7 = this.options.get(exercise).get(test_6);
-                                boolean _tripleNotEquals_5 = (_get_7 != null);
-                                if (_tripleNotEquals_5) {
+                                List<EduTestSuperGenerator.TestOption> _get_9 = this.options.get(exercise).get(test_4);
+                                boolean _tripleNotEquals_10 = (_get_9 != null);
+                                if (_tripleNotEquals_10) {
                                   {
-                                    List<EduTestSuperGenerator.TestOption> _get_8 = this.options.get(exercise).get(test_6);
-                                    for(final EduTestSuperGenerator.TestOption opt_2 : _get_8) {
+                                    List<EduTestSuperGenerator.TestOption> _get_10 = this.options.get(exercise).get(test_4);
+                                    for(final EduTestSuperGenerator.TestOption opt_2 : _get_10) {
                                       _builder.append("  ");
                                       List<String> textOptions_1 = new ArrayList<String>();
                                       _builder.newLineIfNotEmpty();
                                       {
-                                        int _size_4 = opt_2.text.size();
-                                        boolean _greaterThan_3 = (_size_4 > 0);
-                                        if (_greaterThan_3) {
+                                        int _size_8 = opt_2.text.size();
+                                        boolean _greaterThan_8 = (_size_8 > 0);
+                                        if (_greaterThan_8) {
                                           {
                                             if ((opt_2.solution == true)) {
                                               {
-                                                Set<String> _keySet_5 = opt_2.text.keySet();
-                                                for(final String key_5 : _keySet_5) {
+                                                Set<String> _keySet_2 = opt_2.text.keySet();
+                                                for(final String key_1 : _keySet_2) {
                                                   {
-                                                    List<String> _get_9 = opt_2.text.get(key_5);
-                                                    for(final String text_1 : _get_9) {
+                                                    List<String> _get_11 = opt_2.text.get(key_1);
+                                                    for(final String text_1 : _get_11) {
                                                       {
                                                         boolean _contains = textOptions_1.contains(text_1);
                                                         boolean _not_1 = (!_contains);
                                                         if (_not_1) {
                                                           _builder.append("  ");
-                                                          String _xblockexpression_28 = null;
+                                                          String _xblockexpression_36 = null;
                                                           {
                                                             solutions_1++;
-                                                            _xblockexpression_28 = "";
+                                                            _xblockexpression_36 = "";
                                                           }
-                                                          _builder.append(_xblockexpression_28, "  ");
+                                                          _builder.append(_xblockexpression_36, "  ");
                                                           _builder.newLineIfNotEmpty();
                                                           _builder.append("  ");
-                                                          String _xblockexpression_29 = null;
+                                                          String _xblockexpression_37 = null;
                                                           {
                                                             textOptions_1.add(text_1);
-                                                            _xblockexpression_29 = "";
+                                                            _xblockexpression_37 = "";
                                                           }
-                                                          _builder.append(_xblockexpression_29, "  ");
+                                                          _builder.append(_xblockexpression_37, "  ");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -1383,43 +1541,43 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                     }
                                   }
                                   {
-                                    List<EduTestSuperGenerator.TestOption> _get_10 = this.options.get(exercise).get(test_6);
-                                    for(final EduTestSuperGenerator.TestOption opt_3 : _get_10) {
+                                    List<EduTestSuperGenerator.TestOption> _get_12 = this.options.get(exercise).get(test_4);
+                                    for(final EduTestSuperGenerator.TestOption opt_3 : _get_12) {
                                       {
                                         if ((opt_3.solution == true)) {
                                           {
-                                            int _size_5 = opt_3.text.size();
-                                            boolean _greaterThan_4 = (_size_5 > 0);
-                                            if (_greaterThan_4) {
+                                            int _size_9 = opt_3.text.size();
+                                            boolean _greaterThan_9 = (_size_9 > 0);
+                                            if (_greaterThan_9) {
                                               {
-                                                Set<String> _keySet_6 = opt_3.text.keySet();
-                                                for(final String key_6 : _keySet_6) {
+                                                Set<String> _keySet_3 = opt_3.text.keySet();
+                                                for(final String key_2 : _keySet_3) {
                                                   {
-                                                    List<String> _get_11 = opt_3.text.get(key_6);
-                                                    for(final String text_2 : _get_11) {
+                                                    List<String> _get_13 = opt_3.text.get(key_2);
+                                                    for(final String text_2 : _get_13) {
                                                       _builder.append("  ");
                                                       boolean found_1 = false;
                                                       _builder.newLineIfNotEmpty();
                                                       {
-                                                        List<AbstractMap.SimpleEntry<String, Boolean>> _get_12 = mapTextOptions.get(test_6);
-                                                        for(final AbstractMap.SimpleEntry<String, Boolean> entry_1 : _get_12) {
+                                                        List<AbstractMap.SimpleEntry<String, Boolean>> _get_14 = mapTextOptions.get(test_4);
+                                                        for(final AbstractMap.SimpleEntry<String, Boolean> entry_1 : _get_14) {
                                                           {
                                                             if ((entry_1.getKey().equals(text_2) && (!(entry_1.getValue()).booleanValue()))) {
                                                               _builder.append("  ");
-                                                              String _xblockexpression_30 = null;
+                                                              String _xblockexpression_38 = null;
                                                               {
                                                                 found_1 = true;
-                                                                _xblockexpression_30 = "";
+                                                                _xblockexpression_38 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_30, "  ");
+                                                              _builder.append(_xblockexpression_38, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                               _builder.append("  ");
-                                                              String _xblockexpression_31 = null;
+                                                              String _xblockexpression_39 = null;
                                                               {
                                                                 entry_1.setValue(Boolean.valueOf(true));
-                                                                _xblockexpression_31 = "";
+                                                                _xblockexpression_39 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_31, "  ");
+                                                              _builder.append(_xblockexpression_39, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1466,12 +1624,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                               _builder.append("-->");
                                                               _builder.newLineIfNotEmpty();
                                                               _builder.append("  ");
-                                                              String _xblockexpression_32 = null;
+                                                              String _xblockexpression_40 = null;
                                                               {
                                                                 formatter_2.applyPattern("###.#####");
-                                                                _xblockexpression_32 = "";
+                                                                _xblockexpression_40 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_32, "  ");
+                                                              _builder.append(_xblockexpression_40, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                               _builder.append("  ");
                                                               _builder.append("<answer fraction=\"");
@@ -1512,46 +1670,46 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                     }
                                   }
                                   {
-                                    List<EduTestSuperGenerator.TestOption> _get_13 = this.options.get(exercise).get(test_6);
-                                    for(final EduTestSuperGenerator.TestOption opt_4 : _get_13) {
+                                    List<EduTestSuperGenerator.TestOption> _get_15 = this.options.get(exercise).get(test_4);
+                                    for(final EduTestSuperGenerator.TestOption opt_4 : _get_15) {
                                       {
                                         if ((opt_4.solution == false)) {
                                           _builder.append("  ");
                                           int counter_3 = 0;
                                           _builder.newLineIfNotEmpty();
                                           {
-                                            int _size_6 = opt_4.text.size();
-                                            boolean _greaterThan_5 = (_size_6 > 0);
-                                            if (_greaterThan_5) {
+                                            int _size_10 = opt_4.text.size();
+                                            boolean _greaterThan_10 = (_size_10 > 0);
+                                            if (_greaterThan_10) {
                                               {
-                                                Set<String> _keySet_7 = opt_4.text.keySet();
-                                                for(final String key_7 : _keySet_7) {
+                                                Set<String> _keySet_4 = opt_4.text.keySet();
+                                                for(final String key_3 : _keySet_4) {
                                                   {
-                                                    List<String> _get_14 = opt_4.text.get(key_7);
-                                                    for(final String text_3 : _get_14) {
+                                                    List<String> _get_16 = opt_4.text.get(key_3);
+                                                    for(final String text_3 : _get_16) {
                                                       _builder.append("  ");
                                                       boolean found_2 = false;
                                                       _builder.newLineIfNotEmpty();
                                                       {
-                                                        List<AbstractMap.SimpleEntry<String, Boolean>> _get_15 = mapTextOptions.get(test_6);
-                                                        for(final AbstractMap.SimpleEntry<String, Boolean> entry_2 : _get_15) {
+                                                        List<AbstractMap.SimpleEntry<String, Boolean>> _get_17 = mapTextOptions.get(test_4);
+                                                        for(final AbstractMap.SimpleEntry<String, Boolean> entry_2 : _get_17) {
                                                           {
                                                             if ((entry_2.getKey().equals(text_3) && (!(entry_2.getValue()).booleanValue()))) {
                                                               _builder.append("  ");
-                                                              String _xblockexpression_33 = null;
+                                                              String _xblockexpression_41 = null;
                                                               {
                                                                 found_2 = true;
-                                                                _xblockexpression_33 = "";
+                                                                _xblockexpression_41 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_33, "  ");
+                                                              _builder.append(_xblockexpression_41, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                               _builder.append("  ");
-                                                              String _xblockexpression_34 = null;
+                                                              String _xblockexpression_42 = null;
                                                               {
                                                                 entry_2.setValue(Boolean.valueOf(true));
-                                                                _xblockexpression_34 = "";
+                                                                _xblockexpression_42 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_34, "  ");
+                                                              _builder.append(_xblockexpression_42, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1583,12 +1741,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                                               _builder.append("</answer>");
                                                               _builder.newLine();
                                                               _builder.append("  ");
-                                                              String _xblockexpression_35 = null;
+                                                              String _xblockexpression_43 = null;
                                                               {
                                                                 counter_3++;
-                                                                _xblockexpression_35 = "";
+                                                                _xblockexpression_43 = "";
                                                               }
-                                                              _builder.append(_xblockexpression_35, "  ");
+                                                              _builder.append(_xblockexpression_43, "  ");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1605,12 +1763,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                     }
                                   }
                                   {
-                                    List<AbstractMap.SimpleEntry<String, Boolean>> _get_16 = mapTextOptions.get(test_6);
-                                    for(final AbstractMap.SimpleEntry<String, Boolean> entry_3 : _get_16) {
+                                    List<AbstractMap.SimpleEntry<String, Boolean>> _get_18 = mapTextOptions.get(test_4);
+                                    for(final AbstractMap.SimpleEntry<String, Boolean> entry_3 : _get_18) {
                                       {
                                         Boolean _value = entry_3.getValue();
-                                        boolean _equals_5 = ((_value).booleanValue() == true);
-                                        if (_equals_5) {
+                                        boolean _equals_9 = ((_value).booleanValue() == true);
+                                        if (_equals_9) {
                                         }
                                       }
                                     }
@@ -1641,10 +1799,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
               int max = Integer.MIN_VALUE;
               _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_7 = ((MatchPairs)exercise).getTests();
-                for(final Test test_7 : _tests_7) {
+                EList<Test> _tests_5 = ((MatchPairs)exercise).getTests();
+                for(final Test test_5 : _tests_5) {
                   {
-                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_7) != null))) {
+                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_5) != null))) {
                       List<String> textOptions_2 = new ArrayList<String>();
                       _builder.newLineIfNotEmpty();
                       int k = 0;
@@ -1652,31 +1810,31 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       int counter_4 = 0;
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_17 = this.options.get(exercise).get(test_7);
-                        for(final EduTestSuperGenerator.TestOption opt_5 : _get_17) {
+                        List<EduTestSuperGenerator.TestOption> _get_19 = this.options.get(exercise).get(test_5);
+                        for(final EduTestSuperGenerator.TestOption opt_5 : _get_19) {
                           {
-                            Set<String> _keySet_8 = opt_5.text.keySet();
-                            for(final String key_8 : _keySet_8) {
+                            Set<String> _keySet_5 = opt_5.text.keySet();
+                            for(final String key_4 : _keySet_5) {
                               {
-                                List<String> _get_18 = opt_5.text.get(key_8);
-                                for(final String text_4 : _get_18) {
+                                List<String> _get_20 = opt_5.text.get(key_4);
+                                for(final String text_4 : _get_20) {
                                   {
                                     boolean _contains_1 = textOptions_2.contains(text_4);
                                     boolean _not_2 = (!_contains_1);
                                     if (_not_2) {
-                                      String _xblockexpression_36 = null;
+                                      String _xblockexpression_44 = null;
                                       {
                                         counter_4++;
-                                        _xblockexpression_36 = "";
+                                        _xblockexpression_44 = "";
                                       }
-                                      _builder.append(_xblockexpression_36);
+                                      _builder.append(_xblockexpression_44);
                                       _builder.newLineIfNotEmpty();
-                                      String _xblockexpression_37 = null;
+                                      String _xblockexpression_45 = null;
                                       {
                                         textOptions_2.add(text_4);
-                                        _xblockexpression_37 = "";
+                                        _xblockexpression_45 = "";
                                       }
-                                      _builder.append(_xblockexpression_37);
+                                      _builder.append(_xblockexpression_45);
                                       _builder.newLineIfNotEmpty();
                                     }
                                   }
@@ -1688,28 +1846,28 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       }
                       {
                         if ((counter_4 > max)) {
-                          String _xblockexpression_38 = null;
+                          String _xblockexpression_46 = null;
                           {
                             max = counter_4;
-                            _xblockexpression_38 = "";
+                            _xblockexpression_46 = "";
                           }
-                          _builder.append(_xblockexpression_38);
+                          _builder.append(_xblockexpression_46);
                           _builder.newLineIfNotEmpty();
-                          String _xblockexpression_39 = null;
+                          String _xblockexpression_47 = null;
                           {
                             index = k;
-                            _xblockexpression_39 = "";
+                            _xblockexpression_47 = "";
                           }
-                          _builder.append(_xblockexpression_39);
+                          _builder.append(_xblockexpression_47);
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      String _xblockexpression_40 = null;
+                      String _xblockexpression_48 = null;
                       {
                         k++;
-                        _xblockexpression_40 = "";
+                        _xblockexpression_48 = "";
                       }
-                      _builder.append(_xblockexpression_40);
+                      _builder.append(_xblockexpression_48);
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -1721,10 +1879,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
               _builder.append("-->");
               _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_8 = ((MatchPairs)exercise).getTests();
-                for(final Test test_8 : _tests_8) {
+                EList<Test> _tests_6 = ((MatchPairs)exercise).getTests();
+                for(final Test test_6 : _tests_6) {
                   {
-                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_8) != null))) {
+                    if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_6) != null))) {
                       int k_1 = 0;
                       _builder.newLineIfNotEmpty();
                       int counter_5 = 0;
@@ -1734,34 +1892,34 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_19 = this.options.get(exercise).get(test_8);
-                        for(final EduTestSuperGenerator.TestOption opt_6 : _get_19) {
+                        List<EduTestSuperGenerator.TestOption> _get_21 = this.options.get(exercise).get(test_6);
+                        for(final EduTestSuperGenerator.TestOption opt_6 : _get_21) {
                           List<String> textOptions_3 = new ArrayList<String>();
                           _builder.newLineIfNotEmpty();
                           {
-                            Set<String> _keySet_9 = opt_6.text.keySet();
-                            for(final String key_9 : _keySet_9) {
+                            Set<String> _keySet_6 = opt_6.text.keySet();
+                            for(final String key_5 : _keySet_6) {
                               _builder.append("<!--");
-                              String text_5 = opt_6.text.get(key_9).get(0);
+                              String text_5 = opt_6.text.get(key_5).get(0);
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
                                 boolean _contains_2 = textOptions_3.contains(text_5);
                                 boolean _not_3 = (!_contains_2);
                                 if (_not_3) {
-                                  String _xblockexpression_41 = null;
+                                  String _xblockexpression_49 = null;
                                   {
                                     counter_5++;
-                                    _xblockexpression_41 = "";
+                                    _xblockexpression_49 = "";
                                   }
-                                  _builder.append(_xblockexpression_41);
+                                  _builder.append(_xblockexpression_49);
                                   _builder.newLineIfNotEmpty();
-                                  String _xblockexpression_42 = null;
+                                  String _xblockexpression_50 = null;
                                   {
                                     textOptions_3.add(text_5);
-                                    _xblockexpression_42 = "";
+                                    _xblockexpression_50 = "";
                                   }
-                                  _builder.append(_xblockexpression_42);
+                                  _builder.append(_xblockexpression_50);
                                   _builder.newLineIfNotEmpty();
                                 }
                               }
@@ -1774,9 +1932,9 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append("<!--");
                               String _pairOptions = pairOptions;
                               String _trim_3 = textOption.trim();
-                              String _plus_34 = (_trim_3 + ".<br>");
-                              String _plus_35 = pairOptions = (_pairOptions + _plus_34);
-                              _builder.append(_plus_35);
+                              String _plus_39 = (_trim_3 + ".<br>");
+                              String _plus_40 = pairOptions = (_pairOptions + _plus_39);
+                              _builder.append(_plus_40);
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                             }
@@ -1785,25 +1943,113 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      _builder.append(mapPairOptions.put(test_8, mapOptions));
+                      _builder.append(mapPairOptions.put(test_6, mapOptions));
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min_2 > counter_5)) {
-                          String _xblockexpression_43 = null;
+                          String _xblockexpression_51 = null;
                           {
                             min_2 = counter_5;
-                            _xblockexpression_43 = "";
+                            _xblockexpression_51 = "";
                           }
-                          _builder.append(_xblockexpression_43);
+                          _builder.append(_xblockexpression_51);
                           _builder.newLineIfNotEmpty();
                         }
                       }
-                      String _xblockexpression_44 = null;
+                      String _xblockexpression_52 = null;
                       {
                         k_1++;
-                        _xblockexpression_44 = "";
+                        _xblockexpression_52 = "";
                       }
-                      _builder.append(_xblockexpression_44);
+                      _builder.append(_xblockexpression_52);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_3 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_3 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              {
+                for(final EClass root_3 : this.roots) {
+                  {
+                    EClass _answers_3 = ((MatchPairs)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_11 = (_answers_3 != null);
+                    if (_tripleNotEquals_11) {
+                      {
+                        boolean _equals_10 = ((MatchPairs)exercise).getConfig().getAnswers().getName().equals(root_3.getName());
+                        if (_equals_10) {
+                          String _xblockexpression_53 = null;
+                          {
+                            answersClass_3 = root_3;
+                            _xblockexpression_53 = "";
+                          }
+                          _builder.append(_xblockexpression_53);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement_3 = ((MatchPairs)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_12 = (_statement_3 != null);
+                    if (_tripleNotEquals_12) {
+                      {
+                        boolean _equals_11 = ((MatchPairs)exercise).getConfig().getStatement().getName().equals(root_3.getName());
+                        if (_equals_11) {
+                          String _xblockexpression_54 = null;
+                          {
+                            statementClass_3 = root_3;
+                            _xblockexpression_54 = "";
+                          }
+                          _builder.append(_xblockexpression_54);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              {
+                if ((answersClass_3 == null)) {
+                  String _xblockexpression_55 = null;
+                  {
+                    int _size_11 = this.roots.size();
+                    int _minus = (_size_11 - 1);
+                    answersClass_3 = this.roots.get(_minus);
+                    _xblockexpression_55 = "";
+                  }
+                  _builder.append(_xblockexpression_55);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_3 == null)) {
+                  {
+                    int _size_11 = this.roots.size();
+                    boolean _greaterThan_11 = (_size_11 > 1);
+                    if (_greaterThan_11) {
+                      String _xblockexpression_56 = null;
+                      {
+                        statementClass_3 = this.roots.get(1);
+                        _xblockexpression_56 = "";
+                      }
+                      _builder.append(_xblockexpression_56);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_57 = null;
+                      {
+                        statementClass_3 = this.roots.get(0);
+                        _xblockexpression_57 = "";
+                      }
+                      _builder.append(_xblockexpression_57);
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -1813,18 +2059,18 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
               int k_2 = 0;
               _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_9 = ((MatchPairs)exercise).getTests();
-                for(final Test test_9 : _tests_9) {
+                EList<Test> _tests_7 = ((MatchPairs)exercise).getTests();
+                for(final Test test_7 : _tests_7) {
                   _builder.append("        ");
                   _builder.append("<!--");
                   EduTestSuperGenerator.TestOption opt_7 = null;
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   {
-                    if (((this.options.get(exercise).get(test_9) != null) && (this.options.get(exercise).get(test_9).size() > index))) {
+                    if (((this.options.get(exercise).get(test_7) != null) && (this.options.get(exercise).get(test_7).size() > index))) {
                       _builder.append("        ");
                       _builder.append("<!--");
-                      _builder.append(opt_7 = this.options.get(exercise).get(test_9).get(index), "        ");
+                      _builder.append(opt_7 = this.options.get(exercise).get(test_7).get(index), "        ");
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                     }
@@ -1842,14 +2088,27 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
+                      int _lastIndexOf_2 = seed.lastIndexOf("/");
+                      int _plus_41 = (_lastIndexOf_2 + 1);
+                      String _substring_2 = seed.substring(0, _plus_41);
+                      String _name_5 = answersClass_3.getName();
+                      String _plus_42 = (_substring_2 + _name_5);
+                      String _plus_43 = (_plus_42 + "_");
+                      int _lastIndexOf_3 = seed.lastIndexOf("/");
+                      int _plus_44 = (_lastIndexOf_3 + 1);
+                      String _substring_3 = seed.substring(_plus_44, seed.length());
+                      String _plus_45 = (_plus_43 + _substring_3);
+                      _builder.append(seed = _plus_45, "        ");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("        ");
                       _builder.append("<!--");
                       String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_36 = (_workspaceAbsolutePath_4 + "/");
-                      String _name_4 = this.project.getName();
-                      String _plus_37 = (_plus_36 + _name_4);
-                      String _plus_38 = (_plus_37 + "/src-gen/html/");
-                      String _plus_39 = (_plus_38 + seed);
-                      File file_3 = new File(_plus_39);
+                      String _plus_46 = (_workspaceAbsolutePath_4 + "/");
+                      String _name_6 = this.project.getName();
+                      String _plus_47 = (_plus_46 + _name_6);
+                      String _plus_48 = (_plus_47 + "/src-gen/html/");
+                      String _plus_49 = (_plus_48 + seed);
+                      File file_3 = new File(_plus_49);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -1879,7 +2138,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("  ");
                           _builder.append("<!--");
-                          String question = test_9.getQuestion().replace("\"", "\'");
+                          String question = test_7.getQuestion().replace("\"", "\'");
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
@@ -2013,14 +2272,14 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_20 = this.options.get(exercise).get(test_9);
-                            for(final EduTestSuperGenerator.TestOption op : _get_20) {
+                            List<EduTestSuperGenerator.TestOption> _get_22 = this.options.get(exercise).get(test_7);
+                            for(final EduTestSuperGenerator.TestOption op : _get_22) {
                               _builder.append("        ");
                               _builder.append("  ");
-                              String key_10 = this.getText(((MatchPairs) exercise).getConfig().getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
+                              String key_6 = this.getText(((MatchPairs) exercise).getConfig().getIdentifier(), op.entry.getKey().getURI().toFileString(), resource);
                               _builder.newLineIfNotEmpty();
                               {
-                                int _length = key_10.length();
+                                int _length = key_6.length();
                                 boolean _lessEqualsThan = (_length <= 127);
                                 if (_lessEqualsThan) {
                                   _builder.append("        ");
@@ -2028,23 +2287,23 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   boolean found_3 = false;
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<Integer> _keySet_10 = entries.keySet();
-                                    for(final int entryKey : _keySet_10) {
+                                    Set<Integer> _keySet_7 = entries.keySet();
+                                    for(final int entryKey : _keySet_7) {
                                       _builder.append("        ");
                                       _builder.append("  ");
                                       AbstractMap.SimpleEntry<String, String> entry_4 = entries.get(Integer.valueOf(entryKey));
                                       _builder.newLineIfNotEmpty();
                                       {
-                                        boolean _equals_6 = entry_4.getKey().equals(key_10);
-                                        if (_equals_6) {
+                                        boolean _equals_12 = entry_4.getKey().equals(key_6);
+                                        if (_equals_12) {
                                           _builder.append("        ");
                                           _builder.append("  ");
-                                          String _xblockexpression_45 = null;
+                                          String _xblockexpression_58 = null;
                                           {
                                             found_3 = true;
-                                            _xblockexpression_45 = "";
+                                            _xblockexpression_58 = "";
                                           }
-                                          _builder.append(_xblockexpression_45, "          ");
+                                          _builder.append(_xblockexpression_58, "          ");
                                           _builder.newLineIfNotEmpty();
                                         }
                                       }
@@ -2054,18 +2313,18 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                     if ((found_3 == false)) {
                                       _builder.append("        ");
                                       _builder.append("  ");
-                                      String _trim_5 = mapPairOptions.get(test_9).get(op).trim();
-                                      AbstractMap.SimpleEntry<String, String> entry_5 = new AbstractMap.SimpleEntry<String, String>(key_10, _trim_5);
+                                      String _trim_5 = mapPairOptions.get(test_7).get(op).trim();
+                                      AbstractMap.SimpleEntry<String, String> entry_5 = new AbstractMap.SimpleEntry<String, String>(key_6, _trim_5);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("        ");
                                       _builder.append("  ");
-                                      String _xblockexpression_46 = null;
+                                      String _xblockexpression_59 = null;
                                       {
                                         int _plusPlus_3 = keyCounter++;
                                         entries.put(Integer.valueOf(_plusPlus_3), entry_5);
-                                        _xblockexpression_46 = "";
+                                        _xblockexpression_59 = "";
                                       }
-                                      _builder.append(_xblockexpression_46, "          ");
+                                      _builder.append(_xblockexpression_59, "          ");
                                       _builder.newLineIfNotEmpty();
                                     }
                                   }
@@ -2078,12 +2337,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           int counter_6 = 0;
                           _builder.newLineIfNotEmpty();
                           {
-                            Set<Integer> _keySet_11 = entries.keySet();
-                            for(final int key_11 : _keySet_11) {
+                            Set<Integer> _keySet_8 = entries.keySet();
+                            for(final int key_7 : _keySet_8) {
                               {
                                 if ((counter_6 < min_2)) {
                                   _builder.append("          ");
-                                  AbstractMap.SimpleEntry<String, String> entry_6 = entries.get(Integer.valueOf(key_11));
+                                  AbstractMap.SimpleEntry<String, String> entry_6 = entries.get(Integer.valueOf(key_7));
                                   _builder.newLineIfNotEmpty();
                                   _builder.append("          ");
                                   _builder.append("<subquestion format=\"html\">");
@@ -2109,12 +2368,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   _builder.append("</subquestion>");
                                   _builder.newLine();
                                   _builder.append("          ");
-                                  String _xblockexpression_47 = null;
+                                  String _xblockexpression_60 = null;
                                   {
                                     counter_6++;
-                                    _xblockexpression_47 = "";
+                                    _xblockexpression_60 = "";
                                   }
-                                  _builder.append(_xblockexpression_47, "          ");
+                                  _builder.append(_xblockexpression_60, "          ");
                                   _builder.newLineIfNotEmpty();
                                 }
                               }
@@ -2126,12 +2385,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("</question>");
                       _builder.newLine();
                       _builder.append("        ");
-                      String _xblockexpression_48 = null;
+                      String _xblockexpression_61 = null;
                       {
                         k_2++;
-                        _xblockexpression_48 = "";
+                        _xblockexpression_61 = "";
                       }
-                      _builder.append(_xblockexpression_48, "        ");
+                      _builder.append(_xblockexpression_61, "        ");
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -2142,8 +2401,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
           {
             if ((exercise instanceof MissingWords)) {
               {
-                EList<Test> _tests_10 = ((MissingWords)exercise).getTests();
-                for(final Test test_10 : _tests_10) {
+                EList<Test> _tests_8 = ((MissingWords)exercise).getTests();
+                for(final Test test_8 : _tests_8) {
                   _builder.append("        ");
                   _builder.append("<!-- ");
                   int k_3 = 0;
@@ -2151,7 +2410,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                   _builder.newLineIfNotEmpty();
                   _builder.append("        ");
                   _builder.append("<!-- ");
-                  int solution_1 = 0;
+                  int solution_2 = 0;
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   _builder.append("        ");
@@ -2165,8 +2424,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   {
-                    List<EduTestSuperGenerator.TestOption> _get_21 = this.options.get(exercise).get(test_10);
-                    for(final EduTestSuperGenerator.TestOption opt_8 : _get_21) {
+                    List<EduTestSuperGenerator.TestOption> _get_23 = this.options.get(exercise).get(test_8);
+                    for(final EduTestSuperGenerator.TestOption opt_8 : _get_23) {
                       {
                         boolean _contains_3 = opt_8.path.contains(((MissingWords)exercise).getMarkedBlocks().get(0).getBlock().getName());
                         if (_contains_3) {
@@ -2179,11 +2438,99 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       }
                     }
                   }
+                  _builder.append("       \t");
+                  _builder.append("<!-- ");
+                  EClass answersClass_4 = null;
+                  _builder.append("-->");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("       \t");
+                  _builder.append("<!-- ");
+                  EClass statementClass_4 = null;
+                  _builder.append("-->");
+                  _builder.newLineIfNotEmpty();
+                  {
+                    for(final EClass root_4 : this.roots) {
+                      {
+                        EClass _answers_4 = ((MissingWords)exercise).getConfig().getAnswers();
+                        boolean _tripleNotEquals_13 = (_answers_4 != null);
+                        if (_tripleNotEquals_13) {
+                          {
+                            boolean _equals_13 = ((MissingWords)exercise).getConfig().getAnswers().getName().equals(root_4.getName());
+                            if (_equals_13) {
+                              String _xblockexpression_62 = null;
+                              {
+                                answersClass_4 = root_4;
+                                _xblockexpression_62 = "";
+                              }
+                              _builder.append(_xblockexpression_62);
+                              _builder.newLineIfNotEmpty();
+                            }
+                          }
+                        }
+                      }
+                      {
+                        EClass _statement_4 = ((MissingWords)exercise).getConfig().getStatement();
+                        boolean _tripleNotEquals_14 = (_statement_4 != null);
+                        if (_tripleNotEquals_14) {
+                          {
+                            boolean _equals_14 = ((MissingWords)exercise).getConfig().getStatement().getName().equals(root_4.getName());
+                            if (_equals_14) {
+                              String _xblockexpression_63 = null;
+                              {
+                                statementClass_4 = root_4;
+                                _xblockexpression_63 = "";
+                              }
+                              _builder.append(_xblockexpression_63);
+                              _builder.newLineIfNotEmpty();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  {
+                    if ((answersClass_4 == null)) {
+                      String _xblockexpression_64 = null;
+                      {
+                        int _size_12 = this.roots.size();
+                        int _minus = (_size_12 - 1);
+                        answersClass_4 = this.roots.get(_minus);
+                        _xblockexpression_64 = "";
+                      }
+                      _builder.append(_xblockexpression_64);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                  {
+                    if ((statementClass_4 == null)) {
+                      {
+                        int _size_12 = this.roots.size();
+                        boolean _greaterThan_12 = (_size_12 > 1);
+                        if (_greaterThan_12) {
+                          String _xblockexpression_65 = null;
+                          {
+                            statementClass_4 = this.roots.get(1);
+                            _xblockexpression_65 = "";
+                          }
+                          _builder.append(_xblockexpression_65);
+                          _builder.newLineIfNotEmpty();
+                        } else {
+                          String _xblockexpression_66 = null;
+                          {
+                            statementClass_4 = this.roots.get(0);
+                            _xblockexpression_66 = "";
+                          }
+                          _builder.append(_xblockexpression_66);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
                   {
                     if ((op_1 != null)) {
                       _builder.append("        ");
                       _builder.append("<!-- ");
-                      String diagram_4 = op_1.path;
+                      String diagram_3 = op_1.path;
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
@@ -2192,8 +2539,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<String> _keySet_12 = op_1.options.keySet();
-                        for(final String key_12 : _keySet_12) {
+                        Set<String> _keySet_9 = op_1.options.keySet();
+                        for(final String key_8 : _keySet_9) {
                           _builder.append("<!-- ");
                           int tmp = k_3;
                           _builder.append("-->");
@@ -2204,8 +2551,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
-                            List<String> _get_22 = op_1.text.get(key_12);
-                            for(final String text_6 : _get_22) {
+                            List<String> _get_24 = op_1.text.get(key_8);
+                            for(final String text_6 : _get_24) {
                               _builder.append("        ");
                               _builder.append("<!--");
                               int _plusPlus_3 = k_3++;
@@ -2215,8 +2562,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append("        ");
                               _builder.append("<!--");
                               String _opWithGaps = opWithGaps;
-                              String _plus_40 = opWithGaps = (_opWithGaps + (((text_6 + "%") + Integer.valueOf(k_3)) + " "));
-                              _builder.append(_plus_40, "        ");
+                              String _plus_50 = opWithGaps = (_opWithGaps + (((text_6 + "%") + Integer.valueOf(k_3)) + " "));
+                              _builder.append(_plus_50, "        ");
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                             }
@@ -2228,21 +2575,21 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
                           _builder.append("<!-- ");
-                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_1 = op_1.options.get(key_12);
+                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_1 = op_1.options.get(key_8);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
                             for(final EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>> entry_7 : entries_1) {
                               _builder.append("        ");
                               _builder.append("<!--");
-                              int _plusPlus_4 = solution_1++;
+                              int _plusPlus_4 = solution_2++;
                               _builder.append(_plusPlus_4, "        ");
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
                                 Boolean _value_2 = entry_7.getValue().getValue().getValue().getValue();
-                                boolean _equals_7 = ((_value_2).booleanValue() == true);
-                                if (_equals_7) {
+                                boolean _equals_15 = ((_value_2).booleanValue() == true);
+                                if (_equals_15) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
                                   int _plusPlus_5 = k_3++;
@@ -2251,7 +2598,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   _builder.newLineIfNotEmpty();
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
-                                  _builder.append(opWithGaps = opWithGaps.replace(("%" + Integer.valueOf(k_3)), (("[[" + Integer.valueOf(solution_1)) + "]]")), "        ");
+                                  _builder.append(opWithGaps = opWithGaps.replace(("%" + Integer.valueOf(k_3)), (("[[" + Integer.valueOf(solution_2)) + "]]")), "        ");
                                   _builder.append("-->");
                                   _builder.newLineIfNotEmpty();
                                 }
@@ -2272,22 +2619,34 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<!-- ");
                           String _textWithGaps = textWithGaps;
                           String _trim_6 = opWithGaps.trim();
-                          String _plus_41 = (_trim_6 + ".<br>");
-                          String _plus_42 = textWithGaps = (_textWithGaps + _plus_41);
-                          _builder.append(_plus_42);
+                          String _plus_51 = (_trim_6 + ".<br>");
+                          String _plus_52 = textWithGaps = (_textWithGaps + _plus_51);
+                          _builder.append(_plus_52);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                         }
                       }
+                      int _lastIndexOf_4 = diagram_3.lastIndexOf("/");
+                      int _plus_53 = (_lastIndexOf_4 + 1);
+                      String _substring_4 = diagram_3.substring(0, _plus_53);
+                      String _name_7 = answersClass_4.getName();
+                      String _plus_54 = (_substring_4 + _name_7);
+                      String _plus_55 = (_plus_54 + "_");
+                      int _lastIndexOf_5 = diagram_3.lastIndexOf("/");
+                      int _plus_56 = (_lastIndexOf_5 + 1);
+                      String _substring_5 = diagram_3.substring(_plus_56, diagram_3.length());
+                      String _plus_57 = (_plus_55 + _substring_5);
+                      _builder.append(diagram_3 = _plus_57);
+                      _builder.newLineIfNotEmpty();
                       _builder.append("        ");
                       _builder.append("<!--");
                       String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_43 = (_workspaceAbsolutePath_5 + "/");
-                      String _name_5 = this.project.getName();
-                      String _plus_44 = (_plus_43 + _name_5);
-                      String _plus_45 = (_plus_44 + "/src-gen/html/");
-                      String _plus_46 = (_plus_45 + diagram_4);
-                      File file_4 = new File(_plus_46);
+                      String _plus_58 = (_workspaceAbsolutePath_5 + "/");
+                      String _name_8 = this.project.getName();
+                      String _plus_59 = (_plus_58 + _name_8);
+                      String _plus_60 = (_plus_59 + "/src-gen/html/");
+                      String _plus_61 = (_plus_60 + diagram_3);
+                      File file_4 = new File(_plus_61);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -2302,8 +2661,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("     ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_15 = test_10.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_15, "             ");
+                          String _replace_14 = test_8.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_14, "             ");
                           _builder.append("<br></p>]]></text>");
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
@@ -2317,8 +2676,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("  ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_16 = test_10.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_16, "          ");
+                          String _replace_15 = test_8.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_15, "          ");
                           _builder.append("<br><img src=\"@@PLUGINFILE@@/exercise_");
                           _builder.append(uuid_4, "          ");
                           _builder.append(".png\" alt=\"\" width=\"20%\" height=\"20%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br><br></p><p>");
@@ -2331,7 +2690,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<file name=\"exercise_");
                           _builder.append(uuid_4, "          ");
                           _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                          String _stringBase64_6 = this.getStringBase64(diagram_4);
+                          String _stringBase64_6 = this.getStringBase64(diagram_3);
                           _builder.append(_stringBase64_6, "          ");
                           _builder.append("</file>");
                           _builder.newLineIfNotEmpty();
@@ -2402,11 +2761,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<shownumcorrect/>");
                           _builder.newLine();
                           {
-                            Set<String> _keySet_13 = op_1.options.keySet();
-                            for(final String key_13 : _keySet_13) {
+                            Set<String> _keySet_10 = op_1.options.keySet();
+                            for(final String key_9 : _keySet_10) {
                               _builder.append("        ");
                               _builder.append("<!-- ");
-                              List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_2 = op_1.options.get(key_13);
+                              List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_2 = op_1.options.get(key_9);
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
@@ -2446,25 +2805,25 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
           }
           {
             if ((exercise instanceof MultiChoiceText)) {
-              _builder.append("           ");
+              _builder.append("        ");
               int min_3 = Integer.MAX_VALUE;
               _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_11 = ((MultiChoiceText)exercise).getTests();
-                for(final Test test_11 : _tests_11) {
+                EList<Test> _tests_9 = ((MultiChoiceText)exercise).getTests();
+                for(final Test test_9 : _tests_9) {
                   {
-                    Set<String> _keySet_14 = this.diagrams.get(exercise).get(test_11).keySet();
-                    for(final String key_14 : _keySet_14) {
-                      int counter_7 = this.diagrams.get(exercise).get(test_11).get(key_14).size();
+                    Set<EClass> _keySet_11 = this.diagrams.get(exercise).get(test_9).keySet();
+                    for(final EClass eclass_1 : _keySet_11) {
+                      int counter_7 = this.diagrams.get(exercise).get(test_9).get(eclass_1).size();
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min_3 > counter_7)) {
-                          String _xblockexpression_49 = null;
+                          String _xblockexpression_67 = null;
                           {
                             min_3 = counter_7;
-                            _xblockexpression_49 = "";
+                            _xblockexpression_67 = "";
                           }
-                          _builder.append(_xblockexpression_49);
+                          _builder.append(_xblockexpression_67);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -2472,44 +2831,50 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                   }
                 }
               }
-              _builder.append("        ");
-              String statement_1 = null;
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_5 = null;
+              _builder.append("-->");
               _builder.newLineIfNotEmpty();
-              _builder.append("        ");
-              Map<String, String> solution_2 = new LinkedHashMap<String, String>();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_5 = null;
+              _builder.append("-->");
               _builder.newLineIfNotEmpty();
               {
-                int _size_7 = this.roots.size();
-                boolean _greaterThan_6 = (_size_7 > 1);
-                if (_greaterThan_6) {
+                for(final EClass root_5 : this.roots) {
                   {
-                    EList<Test> _tests_12 = ((MultiChoiceText)exercise).getTests();
-                    for(final Test test_12 : _tests_12) {
+                    EClass _answers_5 = ((MultiChoiceText)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_15 = (_answers_5 != null);
+                    if (_tripleNotEquals_15) {
                       {
-                        Set<String> _keySet_15 = this.diagrams.get(exercise).get(test_12).keySet();
-                        for(final String key_15 : _keySet_15) {
+                        boolean _equals_16 = ((MultiChoiceText)exercise).getConfig().getAnswers().getName().equals(root_5.getName());
+                        if (_equals_16) {
+                          String _xblockexpression_68 = null;
                           {
-                            if ((statement_1 != null)) {
-                              String _xblockexpression_50 = null;
-                              {
-                                solution_2.put(test_12.getSource(), key_15);
-                                _xblockexpression_50 = "";
-                              }
-                              _builder.append(_xblockexpression_50);
-                              _builder.newLineIfNotEmpty();
-                            }
+                            answersClass_5 = root_5;
+                            _xblockexpression_68 = "";
                           }
+                          _builder.append(_xblockexpression_68);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement_5 = ((MultiChoiceText)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_16 = (_statement_5 != null);
+                    if (_tripleNotEquals_16) {
+                      {
+                        boolean _equals_17 = ((MultiChoiceText)exercise).getConfig().getStatement().getName().equals(root_5.getName());
+                        if (_equals_17) {
+                          String _xblockexpression_69 = null;
                           {
-                            if ((statement_1 == null)) {
-                              String _xblockexpression_51 = null;
-                              {
-                                statement_1 = key_15;
-                                _xblockexpression_51 = "";
-                              }
-                              _builder.append(_xblockexpression_51);
-                              _builder.newLineIfNotEmpty();
-                            }
+                            statementClass_5 = root_5;
+                            _xblockexpression_69 = "";
                           }
+                          _builder.append(_xblockexpression_69);
+                          _builder.newLineIfNotEmpty();
                         }
                       }
                     }
@@ -2517,151 +2882,116 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                 }
               }
               {
-                int _size_8 = this.roots.size();
-                boolean _equals_8 = (_size_8 == 1);
-                if (_equals_8) {
+                if ((answersClass_5 == null)) {
+                  String _xblockexpression_70 = null;
                   {
-                    EList<Test> _tests_13 = ((MultiChoiceText)exercise).getTests();
-                    for(final Test test_13 : _tests_13) {
+                    int _size_13 = this.roots.size();
+                    int _minus = (_size_13 - 1);
+                    answersClass_5 = this.roots.get(_minus);
+                    _xblockexpression_70 = "";
+                  }
+                  _builder.append(_xblockexpression_70);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_5 == null)) {
+                  {
+                    int _size_13 = this.roots.size();
+                    boolean _greaterThan_13 = (_size_13 > 1);
+                    if (_greaterThan_13) {
+                      String _xblockexpression_71 = null;
                       {
-                        Set<String> _keySet_16 = this.diagrams.get(exercise).get(test_13).keySet();
-                        for(final String key_16 : _keySet_16) {
-                          String _xblockexpression_52 = null;
-                          {
-                            solution_2.put(test_13.getSource(), key_16);
-                            _xblockexpression_52 = "";
-                          }
-                          _builder.append(_xblockexpression_52);
-                          _builder.newLineIfNotEmpty();
-                        }
+                        statementClass_5 = this.roots.get(1);
+                        _xblockexpression_71 = "";
                       }
+                      _builder.append(_xblockexpression_71);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_72 = null;
+                      {
+                        statementClass_5 = this.roots.get(0);
+                        _xblockexpression_72 = "";
+                      }
+                      _builder.append(_xblockexpression_72);
+                      _builder.newLineIfNotEmpty();
                     }
                   }
                 }
               }
-              _builder.append("        ");
-              List<String> answers_1 = new ArrayList<String>();
-              _builder.newLineIfNotEmpty();
-              _builder.append("        ");
-              Set<String> answersSet_1 = new HashSet<String>();
-              _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_14 = ((MultiChoiceText)exercise).getTests();
-                for(final Test test_14 : _tests_14) {
+                EList<Test> _tests_10 = ((MultiChoiceText)exercise).getTests();
+                for(final Test test_10 : _tests_10) {
+                  String _xifexpression_6 = null;
+                  List<String> _get_25 = this.diagrams.get(exercise).get(test_10).get(statementClass_5);
+                  boolean _tripleNotEquals_17 = (_get_25 != null);
+                  if (_tripleNotEquals_17) {
+                    String _xifexpression_7 = null;
+                    int _size_14 = this.diagrams.get(exercise).get(test_10).get(statementClass_5).size();
+                    boolean _greaterThan_14 = (_size_14 > 0);
+                    if (_greaterThan_14) {
+                      _xifexpression_7 = this.diagrams.get(exercise).get(test_10).get(statementClass_5).get(0);
+                    } else {
+                      _xifexpression_7 = null;
+                    }
+                    _xifexpression_6 = _xifexpression_7;
+                  } else {
+                    _xifexpression_6 = null;
+                  }
+                  String statement_1 = _xifexpression_6;
+                  _builder.newLineIfNotEmpty();
+                  String _xifexpression_8 = null;
+                  List<String> _get_26 = this.diagrams.get(exercise).get(test_10).get(answersClass_5);
+                  boolean _tripleNotEquals_18 = (_get_26 != null);
+                  if (_tripleNotEquals_18) {
+                    String _xifexpression_9 = null;
+                    int _size_15 = this.diagrams.get(exercise).get(test_10).get(answersClass_5).size();
+                    boolean _greaterThan_15 = (_size_15 > 0);
+                    if (_greaterThan_15) {
+                      _xifexpression_9 = this.diagrams.get(exercise).get(test_10).get(answersClass_5).get(0);
+                    }
+                    _xifexpression_8 = _xifexpression_9;
+                  }
+                  String solution_3 = _xifexpression_8;
+                  _builder.newLineIfNotEmpty();
+                  List<String> answers_2 = new ArrayList<String>();
+                  _builder.newLineIfNotEmpty();
+                  Set<String> answersSet_2 = new LinkedHashSet<String>();
+                  _builder.newLineIfNotEmpty();
                   {
-                    Set<String> _keySet_17 = this.diagrams.get(exercise).get(test_14).keySet();
-                    for(final String key_17 : _keySet_17) {
-                      String _xblockexpression_53 = null;
+                    if (((this.diagrams.get(exercise).get(test_10).get(answersClass_5) != null) && (this.diagrams.get(exercise).get(test_10).get(answersClass_5).size() > 0))) {
+                      String _xblockexpression_73 = null;
                       {
-                        answersSet_1.addAll(this.diagrams.get(exercise).get(test_14).get(key_17));
-                        _xblockexpression_53 = "";
+                        answersSet_2.addAll(this.diagrams.get(exercise).get(test_10).get(answersClass_5));
+                        _xblockexpression_73 = "";
                       }
-                      _builder.append(_xblockexpression_53);
+                      _builder.append(_xblockexpression_73);
                       _builder.newLineIfNotEmpty();
-                      _builder.append("<!-- ");
-                      String ending_1 = ".png";
-                      _builder.append("-->");
+                      String _xblockexpression_74 = null;
+                      {
+                        answers_2.addAll(answersSet_2);
+                        _xblockexpression_74 = "";
+                      }
+                      _builder.append(_xblockexpression_74);
                       _builder.newLineIfNotEmpty();
+                      String _xblockexpression_75 = null;
                       {
-                        EClass _answers_2 = ((MultiChoiceText)exercise).getConfig().getAnswers();
-                        boolean _tripleNotEquals_6 = (_answers_2 != null);
-                        if (_tripleNotEquals_6) {
-                          _builder.append("\t    ");
-                          _builder.append("<!-- ");
-                          int rootIndex_1 = 0;
-                          _builder.append("-->");
-                          _builder.newLineIfNotEmpty();
-                          _builder.append("\t    ");
-                          _builder.append("<!-- ");
-                          int forIndex_1 = 0;
-                          _builder.append("-->");
-                          _builder.newLineIfNotEmpty();
-                          {
-                            for(final EClass root_1 : this.roots) {
-                              {
-                                boolean _equals_9 = ((MultiChoiceText)exercise).getConfig().getAnswers().getName().equals(root_1.getName());
-                                if (_equals_9) {
-                                  _builder.append("\t    ");
-                                  String _xblockexpression_54 = null;
-                                  {
-                                    rootIndex_1 = forIndex_1;
-                                    _xblockexpression_54 = "";
-                                  }
-                                  _builder.append(_xblockexpression_54, "\t    ");
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                              _builder.append("\t    ");
-                              String _xblockexpression_55 = null;
-                              {
-                                forIndex_1++;
-                                _xblockexpression_55 = "";
-                              }
-                              _builder.append(_xblockexpression_55, "\t    ");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                          {
-                            if ((rootIndex_1 > 0)) {
-                              String _xblockexpression_56 = null;
-                              {
-                                String _plus_47 = (Integer.valueOf((rootIndex_1 - 1)) + ".png");
-                                ending_1 = _plus_47;
-                                _xblockexpression_56 = "";
-                              }
-                              _builder.append(_xblockexpression_56);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                          _builder.append("        ");
-                          String _xblockexpression_57 = null;
-                          {
-                            answersSet_1.add(statement_1);
-                            _xblockexpression_57 = "";
-                          }
-                          _builder.append(_xblockexpression_57, "        ");
-                          _builder.newLineIfNotEmpty();
-                        }
+                        Collections.shuffle(answers_2);
+                        _xblockexpression_75 = "";
                       }
-                      {
-                        String _get_23 = solution_2.get(test_14.getSource());
-                        boolean _tripleNotEquals_7 = (_get_23 != null);
-                        if (_tripleNotEquals_7) {
-                          String _xblockexpression_58 = null;
-                          {
-                            answersSet_1.add(solution_2.get(test_14.getSource()));
-                            _xblockexpression_58 = "";
-                          }
-                          _builder.append(_xblockexpression_58);
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                      String _xblockexpression_59 = null;
-                      {
-                        answers_1.addAll(answersSet_1);
-                        _xblockexpression_59 = "";
-                      }
-                      _builder.append(_xblockexpression_59);
-                      _builder.newLineIfNotEmpty();
-                      String _xblockexpression_60 = null;
-                      {
-                        Collections.shuffle(answers_1);
-                        _xblockexpression_60 = "";
-                      }
-                      _builder.append(_xblockexpression_60);
+                      _builder.append(_xblockexpression_75);
                       _builder.newLineIfNotEmpty();
                       _builder.append("<!--");
                       String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_47 = (_workspaceAbsolutePath_6 + "/");
-                      String _name_6 = this.project.getName();
-                      String _plus_48 = (_plus_47 + _name_6);
-                      String _plus_49 = (_plus_48 + "/src-gen/html/diagrams/");
-                      String _replace_17 = test_14.getSource().replace(".model", "");
-                      String _plus_50 = (_plus_49 + _replace_17);
-                      String _plus_51 = (_plus_50 + "/");
-                      String _replace_18 = test_14.getSource().replace(".model", ".png");
-                      String _plus_52 = (_plus_51 + _replace_18);
-                      File file_5 = new File(_plus_52);
+                      String _plus_62 = (_workspaceAbsolutePath_6 + "/");
+                      String _name_9 = this.project.getName();
+                      String _plus_63 = (_plus_62 + _name_9);
+                      String _plus_64 = (_plus_63 + "/src-gen/html/diagrams/");
+                      String _replace_16 = test_10.getSource().replace(".model", "");
+                      String _plus_65 = (_plus_64 + _replace_16);
+                      String _plus_66 = (_plus_65 + "/");
+                      String _plus_67 = (_plus_66 + statement_1);
+                      File file_5 = new File(_plus_67);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -2690,8 +3020,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_19 = test_14.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_19, "  ");
+                          String _replace_17 = test_10.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_17, "  ");
                           _builder.append("<br><img src=\"@@PLUGINFILE@@/exercise_");
                           _builder.append(uuid_5, "  ");
                           _builder.append(".png\" alt=\"\" width=\"30%\" height=\"30%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br></p>]]></text>");
@@ -2700,12 +3030,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<file name=\"exercise_");
                           _builder.append(uuid_5, "  ");
                           _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                          String _replace_20 = test_14.getSource().replace(".model", "");
-                          String _plus_53 = ("diagrams/" + _replace_20);
-                          String _plus_54 = (_plus_53 + "/");
-                          String _replace_21 = test_14.getSource().replace(".model", ".png");
-                          String _plus_55 = (_plus_54 + _replace_21);
-                          String _stringBase64_7 = this.getStringBase64(_plus_55);
+                          String _replace_18 = test_10.getSource().replace(".model", "");
+                          String _plus_68 = ("diagrams/" + _replace_18);
+                          String _plus_69 = (_plus_68 + "/");
+                          String _plus_70 = (_plus_69 + statement_1);
+                          String _stringBase64_7 = this.getStringBase64(_plus_70);
                           _builder.append(_stringBase64_7, "  ");
                           _builder.append("</file>");
                           _builder.newLineIfNotEmpty();
@@ -2805,84 +3134,80 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           int solutions_2 = 1;
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
-                          {
-                            for(final String diagram_5 : answers_1) {
-                              _builder.append("  ");
-                              _builder.append("<!--");
-                              boolean s_2 = false;
-                              _builder.append("-->");
-                              _builder.newLineIfNotEmpty();
-                              {
-                                List<String> _get_24 = this.solutionsMap.get(exercise);
-                                for(final String sol_2 : _get_24) {
-                                  {
-                                    if ((diagram_5.startsWith((sol_2 + "/")) || diagram_5.startsWith((sol_2 + "\\")))) {
-                                      _builder.append("  ");
-                                      String _xblockexpression_61 = null;
-                                      {
-                                        s_2 = true;
-                                        _xblockexpression_61 = "";
-                                      }
-                                      _builder.append(_xblockexpression_61, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                              {
-                                if ((s_2 == true)) {
-                                  {
-                                    if ((counter_8 < (min_3 - 1))) {
-                                      _builder.append("  ");
-                                      String _xblockexpression_62 = null;
-                                      {
-                                        counter_8++;
-                                        _xblockexpression_62 = "";
-                                      }
-                                      _builder.append(_xblockexpression_62, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                      _builder.append("  ");
-                                      String _xblockexpression_63 = null;
-                                      {
-                                        solutions_2++;
-                                        _xblockexpression_63 = "";
-                                      }
-                                      _builder.append(_xblockexpression_63, "  ");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
                           _builder.append("  ");
                           _builder.append("<!--");
                           double fraction_2 = (100.0 / solutions_2);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
-                          String _xblockexpression_64 = null;
+                          String _xblockexpression_76 = null;
                           {
                             counter_8 = 0;
-                            _xblockexpression_64 = "";
+                            _xblockexpression_76 = "";
                           }
-                          _builder.append(_xblockexpression_64, "  ");
+                          _builder.append(_xblockexpression_76, "  ");
                           _builder.newLineIfNotEmpty();
                           {
-                            for(final String diagram_6 : answers_1) {
+                            for(final String diagram_4 : answers_2) {
+                              _builder.append("           ");
+                              _builder.append("<!--");
+                              boolean s_1 = false;
+                              _builder.append("-->");
+                              _builder.newLineIfNotEmpty();
+                              {
+                                List<String> _get_27 = this.solutionsMap.get(exercise);
+                                for(final String sol_2 : _get_27) {
+                                  {
+                                    if ((((diagram_4.startsWith((sol_2 + "/")) || diagram_4.startsWith((sol_2 + "\\"))) || diagram_4.contains((((sol_2 + "/") + answersClass_5.getName()) + "_"))) || diagram_4.contains((((sol_2 + "\\") + answersClass_5.getName()) + "_")))) {
+                                      _builder.append("           ");
+                                      String _xblockexpression_77 = null;
+                                      {
+                                        s_1 = true;
+                                        _xblockexpression_77 = "";
+                                      }
+                                      _builder.append(_xblockexpression_77, "           ");
+                                      _builder.newLineIfNotEmpty();
+                                    }
+                                  }
+                                }
+                              }
+                              {
+                                if ((s_1 == true)) {
+                                  {
+                                    if ((counter_8 < (min_3 - 1))) {
+                                      _builder.append("           ");
+                                      String _xblockexpression_78 = null;
+                                      {
+                                        counter_8++;
+                                        _xblockexpression_78 = "";
+                                      }
+                                      _builder.append(_xblockexpression_78, "           ");
+                                      _builder.newLineIfNotEmpty();
+                                      _builder.append("           ");
+                                      String _xblockexpression_79 = null;
+                                      {
+                                        solutions_2++;
+                                        _xblockexpression_79 = "";
+                                      }
+                                      _builder.append(_xblockexpression_79, "           ");
+                                      _builder.newLineIfNotEmpty();
+                                    }
+                                  }
+                                }
+                              }
                               _builder.append("<!-- ");
                               _builder.append(uuid_5 = UUID.randomUUID());
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
-                                if ((diagram_6.equals(test_14.getSource().replace(".model", ".png")) || diagram_6.startsWith(test_14.getSource().replace(".model", "")))) {
+                                if ((s_1 || diagram_4.equals(solution_3))) {
                                   _builder.append(" ");
                                   String _identifier = ((MultiChoiceText) exercise).getConfig().getIdentifier();
                                   String _metaModelPath = ModelManager.getMetaModelPath();
-                                  String _plus_56 = (_metaModelPath + "/");
-                                  String _source = test_14.getSource();
-                                  String _plus_57 = (_plus_56 + _source);
-                                  String text_7 = this.getText(_identifier, _plus_57, resource);
+                                  String _plus_71 = (_metaModelPath + "/");
+                                  String _source = test_10.getSource();
+                                  String _plus_72 = (_plus_71 + _source);
+                                  String text_7 = this.getText(_identifier, _plus_72, resource);
                                   _builder.newLineIfNotEmpty();
                                   {
                                     if (((100 % solutions_2) == 0)) {
@@ -2897,12 +3222,12 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                       DecimalFormat formatter_3 = ((DecimalFormat) _numberInstance_3);
                                       _builder.append("-->");
                                       _builder.newLineIfNotEmpty();
-                                      String _xblockexpression_65 = null;
+                                      String _xblockexpression_80 = null;
                                       {
                                         formatter_3.applyPattern("###.#####");
-                                        _xblockexpression_65 = "";
+                                        _xblockexpression_80 = "";
                                       }
-                                      _builder.append(_xblockexpression_65);
+                                      _builder.append(_xblockexpression_80);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("<answer fraction=\"");
                                       String _format_3 = formatter_3.format(fraction_2);
@@ -2927,11 +3252,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   _builder.append("<file name=\"exercise_");
                                   _builder.append(uuid_5, " ");
                                   _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                                  String _replace_22 = test_14.getSource().replace(".model", "");
-                                  String _plus_58 = ("diagrams/" + _replace_22);
-                                  String _plus_59 = (_plus_58 + "/");
-                                  String _plus_60 = (_plus_59 + diagram_6);
-                                  String _stringBase64_8 = this.getStringBase64(_plus_60);
+                                  String _replace_19 = test_10.getSource().replace(".model", "");
+                                  String _plus_73 = ("diagrams/" + _replace_19);
+                                  String _plus_74 = (_plus_73 + "/");
+                                  String _plus_75 = (_plus_74 + diagram_4);
+                                  String _stringBase64_8 = this.getStringBase64(_plus_75);
                                   _builder.append(_stringBase64_8, " ");
                                   _builder.append("</file>-->");
                                   _builder.newLineIfNotEmpty();
@@ -2951,23 +3276,28 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   {
                                     if ((counter_8 < (min_3 - 1))) {
                                       _builder.append("           ");
-                                      String _xblockexpression_66 = null;
+                                      String _xblockexpression_81 = null;
                                       {
                                         counter_8++;
-                                        _xblockexpression_66 = "";
+                                        _xblockexpression_81 = "";
                                       }
-                                      _builder.append(_xblockexpression_66, "           ");
+                                      _builder.append(_xblockexpression_81, "           ");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("           ");
                                       String _identifier_1 = ((MultiChoiceText) exercise).getConfig().getIdentifier();
                                       String _outputPath = ModelManager.getOutputPath();
-                                      String _plus_61 = (_outputPath + "/");
-                                      String _replace_23 = test_14.getSource().replace(".model", "");
-                                      String _plus_62 = (_plus_61 + _replace_23);
-                                      String _plus_63 = (_plus_62 + "/");
-                                      String _replace_24 = diagram_6.replace(".png", ".model");
-                                      String _plus_64 = (_plus_63 + _replace_24);
-                                      String text_8 = this.getText(_identifier_1, _plus_64, resource);
+                                      String _plus_76 = (_outputPath + "/");
+                                      String _replace_20 = test_10.getSource().replace(".model", "");
+                                      String _plus_77 = (_plus_76 + _replace_20);
+                                      String _plus_78 = (_plus_77 + "/");
+                                      String _name_10 = answersClass_5.getName();
+                                      String _plus_79 = (_name_10 + "_");
+                                      String _replace_21 = diagram_4.replace(_plus_79, "");
+                                      String _name_11 = answersClass_5.getName();
+                                      String _plus_80 = (_name_11 + "_");
+                                      String _replace_22 = _replace_21.replace(_plus_80, "").replace(".png", ".model");
+                                      String _plus_81 = (_plus_78 + _replace_22);
+                                      String text_8 = this.getText(_identifier_1, _plus_81, resource);
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("           ");
                                       _builder.append("<answer fraction=\"0\" format=\"html\">");
@@ -2988,11 +3318,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                       _builder.append("<file name=\"exercise_");
                                       _builder.append(uuid_5, "           ");
                                       _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                                      String _replace_25 = test_14.getSource().replace(".model", "");
-                                      String _plus_65 = ("diagrams/" + _replace_25);
-                                      String _plus_66 = (_plus_65 + "/");
-                                      String _plus_67 = (_plus_66 + diagram_6);
-                                      String _stringBase64_9 = this.getStringBase64(_plus_67);
+                                      String _replace_23 = test_10.getSource().replace(".model", "");
+                                      String _plus_82 = ("diagrams/" + _replace_23);
+                                      String _plus_83 = (_plus_82 + "/");
+                                      String _plus_84 = (_plus_83 + diagram_4);
+                                      String _stringBase64_9 = this.getStringBase64(_plus_84);
                                       _builder.append(_stringBase64_9, "           ");
                                       _builder.append("</file>-->");
                                       _builder.newLineIfNotEmpty();
@@ -3027,28 +3357,153 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
           }
           {
             if ((exercise instanceof AlternativeText)) {
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_6 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_6 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_15 = ((AlternativeText)exercise).getTests();
-                for(final Test test_15 : _tests_15) {
+                for(final EClass root_6 : this.roots) {
                   {
-                    int _size_9 = this.rand.get(exercise).get(test_15).size();
-                    boolean _greaterThan_7 = (_size_9 > 0);
-                    if (_greaterThan_7) {
+                    EClass _answers_6 = ((AlternativeText)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_19 = (_answers_6 != null);
+                    if (_tripleNotEquals_19) {
+                      {
+                        boolean _equals_18 = ((AlternativeText)exercise).getConfig().getAnswers().getName().equals(root_6.getName());
+                        if (_equals_18) {
+                          String _xblockexpression_82 = null;
+                          {
+                            answersClass_6 = root_6;
+                            _xblockexpression_82 = "";
+                          }
+                          _builder.append(_xblockexpression_82);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement_6 = ((AlternativeText)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_20 = (_statement_6 != null);
+                    if (_tripleNotEquals_20) {
+                      {
+                        boolean _equals_19 = ((AlternativeText)exercise).getConfig().getStatement().getName().equals(root_6.getName());
+                        if (_equals_19) {
+                          String _xblockexpression_83 = null;
+                          {
+                            statementClass_6 = root_6;
+                            _xblockexpression_83 = "";
+                          }
+                          _builder.append(_xblockexpression_83);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              {
+                if ((answersClass_6 == null)) {
+                  String _xblockexpression_84 = null;
+                  {
+                    int _size_16 = this.roots.size();
+                    int _minus = (_size_16 - 1);
+                    answersClass_6 = this.roots.get(_minus);
+                    _xblockexpression_84 = "";
+                  }
+                  _builder.append(_xblockexpression_84);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_6 == null)) {
+                  {
+                    int _size_16 = this.roots.size();
+                    boolean _greaterThan_16 = (_size_16 > 1);
+                    if (_greaterThan_16) {
+                      String _xblockexpression_85 = null;
+                      {
+                        statementClass_6 = this.roots.get(1);
+                        _xblockexpression_85 = "";
+                      }
+                      _builder.append(_xblockexpression_85);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_86 = null;
+                      {
+                        statementClass_6 = this.roots.get(0);
+                        _xblockexpression_86 = "";
+                      }
+                      _builder.append(_xblockexpression_86);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              {
+                EList<Test> _tests_11 = ((AlternativeText)exercise).getTests();
+                for(final Test test_11 : _tests_11) {
+                  String _xifexpression_10 = null;
+                  List<String> _get_28 = this.diagrams.get(exercise).get(test_11).get(answersClass_6);
+                  boolean _tripleNotEquals_21 = (_get_28 != null);
+                  if (_tripleNotEquals_21) {
+                    String _xifexpression_11 = null;
+                    int _size_17 = this.diagrams.get(exercise).get(test_11).get(answersClass_6).size();
+                    boolean _greaterThan_17 = (_size_17 > 0);
+                    if (_greaterThan_17) {
+                      _xifexpression_11 = this.diagrams.get(exercise).get(test_11).get(answersClass_6).get(0);
+                    }
+                    _xifexpression_10 = _xifexpression_11;
+                  }
+                  String solution_4 = _xifexpression_10;
+                  _builder.newLineIfNotEmpty();
+                  List<String> answers_3 = new ArrayList<String>();
+                  _builder.newLineIfNotEmpty();
+                  Set<String> answersSet_3 = new LinkedHashSet<String>();
+                  _builder.newLineIfNotEmpty();
+                  {
+                    if (((this.diagrams.get(exercise).get(test_11).get(answersClass_6) != null) && (this.diagrams.get(exercise).get(test_11).get(answersClass_6).size() > 0))) {
+                      String _xblockexpression_87 = null;
+                      {
+                        answersSet_3.addAll(this.diagrams.get(exercise).get(test_11).get(answersClass_6));
+                        _xblockexpression_87 = "";
+                      }
+                      _builder.append(_xblockexpression_87);
+                      _builder.newLineIfNotEmpty();
+                      String _xblockexpression_88 = null;
+                      {
+                        answers_3.addAll(answersSet_3);
+                        _xblockexpression_88 = "";
+                      }
+                      _builder.append(_xblockexpression_88);
+                      _builder.newLineIfNotEmpty();
+                      String _xblockexpression_89 = null;
+                      {
+                        Collections.shuffle(answers_3);
+                        _xblockexpression_89 = "";
+                      }
+                      _builder.append(_xblockexpression_89);
+                      _builder.newLineIfNotEmpty();
                       _builder.append("<!-- ");
-                      List<String> diagram_7 = this.rand.get(exercise).get(test_15).get(Integer.valueOf(0));
+                      String diagram_5 = answers_3.get(0);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       _builder.append("<!--");
                       String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_68 = (_workspaceAbsolutePath_7 + "/");
-                      String _name_7 = this.project.getName();
-                      String _plus_69 = (_plus_68 + _name_7);
-                      String _plus_70 = (_plus_69 + "/src-gen/html/diagrams/");
-                      String _replace_26 = test_15.getSource().replace(".model", "");
-                      String _plus_71 = (_plus_70 + _replace_26);
-                      String _plus_72 = (_plus_71 + "/");
-                      String _plus_73 = (_plus_72 + diagram_7);
-                      File file_6 = new File(_plus_73);
+                      String _plus_85 = (_workspaceAbsolutePath_7 + "/");
+                      String _name_12 = this.project.getName();
+                      String _plus_86 = (_plus_85 + _name_12);
+                      String _plus_87 = (_plus_86 + "/src-gen/html/diagrams/");
+                      String _replace_24 = test_11.getSource().replace(".model", "");
+                      String _plus_88 = (_plus_87 + _replace_24);
+                      String _plus_89 = (_plus_88 + "/");
+                      String _plus_90 = (_plus_89 + diagram_5);
+                      File file_6 = new File(_plus_90);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -3061,8 +3516,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.newLine();
                           _builder.append("    ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_27 = test_15.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_27, "    ");
+                          String _replace_25 = test_11.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_25, "    ");
                           _builder.append("<br></p>]]></text>");
                           _builder.newLineIfNotEmpty();
                           _builder.append("  ");
@@ -3087,10 +3542,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<!--");
                           String _identifier_2 = ((AlternativeText) exercise).getConfig().getIdentifier();
                           String _metaModelPath_1 = ModelManager.getMetaModelPath();
-                          String _plus_74 = (_metaModelPath_1 + "/");
-                          String _source_1 = test_15.getSource();
-                          String _plus_75 = (_plus_74 + _source_1);
-                          _builder.append(text_9 = this.getText(_identifier_2, _plus_75, resource), "    ");
+                          String _plus_91 = (_metaModelPath_1 + "/");
+                          String _source_1 = test_11.getSource();
+                          String _plus_92 = (_plus_91 + _source_1);
+                          _builder.append(text_9 = this.getText(_identifier_2, _plus_92, resource), "    ");
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           _builder.append("    ");
@@ -3103,13 +3558,13 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.newLine();
                           _builder.append("    ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_28 = test_15.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_28, "    ");
+                          String _replace_26 = test_11.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_26, "    ");
                           _builder.append("<br></p><p><img src=\"@@PLUGINFILE@@/exercise_");
                           _builder.append(uuid_6, "    ");
                           _builder.append(".png\" alt=\"");
-                          String _replace_29 = test_15.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_29, "    ");
+                          String _replace_27 = test_11.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_27, "    ");
                           _builder.append("\" width=\"20%\" height=\"20%\" class=\"img-responsive atto_image_button_text-bottom\"><br></p><p>");
                           _builder.append(text_9, "    ");
                           _builder.append("<br></p>]]></text>");
@@ -3118,11 +3573,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<file name=\"exercise_");
                           _builder.append(uuid_6, "\t\t\t  ");
                           _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                          String _replace_30 = test_15.getSource().replace(".model", "");
-                          String _plus_76 = ("diagrams/" + _replace_30);
-                          String _plus_77 = (_plus_76 + "/");
-                          String _plus_78 = (_plus_77 + diagram_7);
-                          String _stringBase64_10 = this.getStringBase64(_plus_78);
+                          String _replace_28 = test_11.getSource().replace(".model", "");
+                          String _plus_93 = ("diagrams/" + _replace_28);
+                          String _plus_94 = (_plus_93 + "/");
+                          String _plus_95 = (_plus_94 + diagram_5);
+                          String _stringBase64_10 = this.getStringBase64(_plus_95);
                           _builder.append(_stringBase64_10, "\t\t\t  ");
                           _builder.append("</file>");
                           _builder.newLineIfNotEmpty();
@@ -3151,8 +3606,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<idnumber></idnumber>");
                           _builder.newLine();
                           {
-                            boolean _equals_10 = diagram_7.equals(test_15.getSource().replace(".model", ".png"));
-                            if (_equals_10) {
+                            boolean _equals_20 = diagram_5.equals(solution_4.replace(".model", ".png"));
+                            if (_equals_20) {
                               _builder.append("<answer fraction=\"100\" format=\"moodle_auto_format\">");
                               _builder.newLine();
                               _builder.append("  ");
@@ -3242,9 +3697,97 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
               Map<String, Integer> indexes = new TreeMap<String, Integer>();
               _builder.append("-->");
               _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass answersClass_7 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
+              _builder.append("       \t");
+              _builder.append("<!-- ");
+              EClass statementClass_7 = null;
+              _builder.append("-->");
+              _builder.newLineIfNotEmpty();
               {
-                EList<Test> _tests_16 = ((DragAndDropText)exercise).getTests();
-                for(final Test test_16 : _tests_16) {
+                for(final EClass root_7 : this.roots) {
+                  {
+                    EClass _answers_7 = ((DragAndDropText)exercise).getConfig().getAnswers();
+                    boolean _tripleNotEquals_22 = (_answers_7 != null);
+                    if (_tripleNotEquals_22) {
+                      {
+                        boolean _equals_21 = ((DragAndDropText)exercise).getConfig().getAnswers().getName().equals(root_7.getName());
+                        if (_equals_21) {
+                          String _xblockexpression_90 = null;
+                          {
+                            answersClass_7 = root_7;
+                            _xblockexpression_90 = "";
+                          }
+                          _builder.append(_xblockexpression_90);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                  {
+                    EClass _statement_7 = ((DragAndDropText)exercise).getConfig().getStatement();
+                    boolean _tripleNotEquals_23 = (_statement_7 != null);
+                    if (_tripleNotEquals_23) {
+                      {
+                        boolean _equals_22 = ((DragAndDropText)exercise).getConfig().getStatement().getName().equals(root_7.getName());
+                        if (_equals_22) {
+                          String _xblockexpression_91 = null;
+                          {
+                            statementClass_7 = root_7;
+                            _xblockexpression_91 = "";
+                          }
+                          _builder.append(_xblockexpression_91);
+                          _builder.newLineIfNotEmpty();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              {
+                if ((answersClass_7 == null)) {
+                  String _xblockexpression_92 = null;
+                  {
+                    int _size_18 = this.roots.size();
+                    int _minus = (_size_18 - 1);
+                    answersClass_7 = this.roots.get(_minus);
+                    _xblockexpression_92 = "";
+                  }
+                  _builder.append(_xblockexpression_92);
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              {
+                if ((statementClass_7 == null)) {
+                  {
+                    int _size_18 = this.roots.size();
+                    boolean _greaterThan_18 = (_size_18 > 1);
+                    if (_greaterThan_18) {
+                      String _xblockexpression_93 = null;
+                      {
+                        statementClass_7 = this.roots.get(1);
+                        _xblockexpression_93 = "";
+                      }
+                      _builder.append(_xblockexpression_93);
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      String _xblockexpression_94 = null;
+                      {
+                        statementClass_7 = this.roots.get(0);
+                        _xblockexpression_94 = "";
+                      }
+                      _builder.append(_xblockexpression_94);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              }
+              {
+                EList<Test> _tests_12 = ((DragAndDropText)exercise).getTests();
+                for(final Test test_12 : _tests_12) {
                   _builder.append("        ");
                   _builder.append("<!-- ");
                   int k_4 = 0;
@@ -3266,8 +3809,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   {
-                    List<EduTestSuperGenerator.TestOption> _get_25 = this.options.get(exercise).get(test_16);
-                    for(final EduTestSuperGenerator.TestOption opt_9 : _get_25) {
+                    List<EduTestSuperGenerator.TestOption> _get_29 = this.options.get(exercise).get(test_12);
+                    for(final EduTestSuperGenerator.TestOption opt_9 : _get_29) {
                       {
                         boolean _contains_4 = opt_9.path.contains(((DragAndDropText)exercise).getMarkedBlocks().get(0).getBlock().getName());
                         if (_contains_4) {
@@ -3284,7 +3827,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                     if ((op_2 != null)) {
                       _builder.append("        ");
                       _builder.append("<!-- ");
-                      String diagram_8 = op_2.path;
+                      String diagram_6 = op_2.path;
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
@@ -3308,11 +3851,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<String> _keySet_18 = op_2.options.keySet();
-                        for(final String key_18 : _keySet_18) {
+                        Set<String> _keySet_12 = op_2.options.keySet();
+                        for(final String key_10 : _keySet_12) {
                           {
-                            List<String> _get_26 = op_2.text.get(key_18);
-                            for(final String text_10 : _get_26) {
+                            List<String> _get_30 = op_2.text.get(key_10);
+                            for(final String text_10 : _get_30) {
                               _builder.append("        ");
                               _builder.append("<!--");
                               int _plusPlus_8 = k_4++;
@@ -3322,8 +3865,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append("        ");
                               _builder.append("<!--");
                               String _opWithGaps_1 = opWithGaps_1;
-                              String _plus_79 = opWithGaps_1 = (_opWithGaps_1 + (((text_10 + "%") + Integer.valueOf(k_4)) + " "));
-                              _builder.append(_plus_79, "        ");
+                              String _plus_96 = opWithGaps_1 = (_opWithGaps_1 + (((text_10 + "%") + Integer.valueOf(k_4)) + " "));
+                              _builder.append(_plus_96, "        ");
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                             }
@@ -3331,19 +3874,19 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("<!--");
                           String _trim_9 = opWithGaps_1.trim();
-                          String _plus_80 = (_trim_9 + ".<br>");
-                          String _opWithGaps_2 = opWithGaps_1 = _plus_80;
+                          String _plus_97 = (_trim_9 + ".<br>");
+                          String _opWithGaps_2 = opWithGaps_1 = _plus_97;
                           _builder.append(_opWithGaps_2, "        ");
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                         }
                       }
                       {
-                        Set<String> _keySet_19 = op_2.sortedOptions.keySet();
-                        for(final String key_19 : _keySet_19) {
+                        Set<String> _keySet_13 = op_2.sortedOptions.keySet();
+                        for(final String key_11 : _keySet_13) {
                           _builder.append("        ");
                           _builder.append("<!-- ");
-                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_3 = op_2.sortedOptions.get(key_19);
+                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_3 = op_2.sortedOptions.get(key_11);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
@@ -3354,11 +3897,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append(" -->");
                               _builder.newLineIfNotEmpty();
                               {
-                                Set<String> _keySet_20 = group.keySet();
-                                for(final String typeName : _keySet_20) {
+                                Set<String> _keySet_14 = group.keySet();
+                                for(final String typeName : _keySet_14) {
                                   {
-                                    boolean _equals_11 = typeName.equals(entry_9.getValue().getKey().getName());
-                                    if (_equals_11) {
+                                    boolean _equals_23 = typeName.equals(entry_9.getValue().getKey().getName());
+                                    if (_equals_23) {
                                       _builder.append("        ");
                                       _builder.append("<!-- ");
                                       _builder.append(value = group.get(typeName), "        ");
@@ -3446,11 +3989,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append(" -->");
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<String> _keySet_21 = group.keySet();
-                        for(final String typeName_1 : _keySet_21) {
+                        Set<String> _keySet_15 = group.keySet();
+                        for(final String typeName_1 : _keySet_15) {
                           {
-                            Set<String> _keySet_22 = group.get(typeName_1).keySet();
-                            for(final String attName : _keySet_22) {
+                            Set<String> _keySet_16 = group.get(typeName_1).keySet();
+                            for(final String attName : _keySet_16) {
                               _builder.append("        ");
                               _builder.append("<!-- ");
                               int _plusPlus_9 = localIndex++;
@@ -3458,8 +4001,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
-                                Set<String> _keySet_23 = group.get(typeName_1).get(attName).keySet();
-                                for(final String name : _keySet_23) {
+                                Set<String> _keySet_17 = group.get(typeName_1).get(attName).keySet();
+                                for(final String name : _keySet_17) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
                                   int _plusPlus_10 = index_1++;
@@ -3485,11 +4028,11 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                         }
                       }
                       {
-                        Set<String> _keySet_24 = op_2.sortedOptions.keySet();
-                        for(final String key_20 : _keySet_24) {
+                        Set<String> _keySet_18 = op_2.sortedOptions.keySet();
+                        for(final String key_12 : _keySet_18) {
                           _builder.append("        ");
                           _builder.append("<!-- ");
-                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> sortedEntries = op_2.sortedOptions.get(key_20);
+                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> sortedEntries = op_2.sortedOptions.get(key_12);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
@@ -3510,7 +4053,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       }
                       _builder.append("        ");
                       _builder.append("<!--");
-                      Map<String, Map<String, Map<String, Integer>>> _put_7 = groups.put(test_16, group);
+                      Map<String, Map<String, Map<String, Integer>>> _put_7 = groups.put(test_12, group);
                       _builder.append(_put_7, "        ");
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
@@ -3520,19 +4063,19 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        Set<String> _keySet_25 = op_2.options.keySet();
-                        for(final String key_21 : _keySet_25) {
+                        Set<String> _keySet_19 = op_2.options.keySet();
+                        for(final String key_13 : _keySet_19) {
                           _builder.append("        ");
                           _builder.append("<!-- ");
-                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_4 = op_2.options.get(key_21);
+                          List<EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>>> entries_4 = op_2.options.get(key_13);
                           _builder.append("-->");
                           _builder.newLineIfNotEmpty();
                           {
                             for(final EduTestSuperGenerator.ComparableSimpleEntry<String, AbstractMap.SimpleEntry<EClass, AbstractMap.SimpleEntry<String, AbstractMap.SimpleEntry<Integer, Boolean>>>> entry_11 : entries_4) {
                               {
                                 Boolean _value_4 = entry_11.getValue().getValue().getValue().getValue();
-                                boolean _equals_12 = ((_value_4).booleanValue() == true);
-                                if (_equals_12) {
+                                boolean _equals_24 = ((_value_4).booleanValue() == true);
+                                if (_equals_24) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
                                   int _plusPlus_11 = k_4++;
@@ -3541,10 +4084,10 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                                   _builder.newLineIfNotEmpty();
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
-                                  Integer _get_27 = solutions_3.get(entry_11.getKey());
-                                  String _plus_81 = ("[[" + _get_27);
-                                  String _plus_82 = (_plus_81 + "]]");
-                                  _builder.append(opWithGaps_1 = opWithGaps_1.replace(("%" + Integer.valueOf(k_4)), _plus_82), "        ");
+                                  Integer _get_31 = solutions_3.get(entry_11.getKey());
+                                  String _plus_98 = ("[[" + _get_31);
+                                  String _plus_99 = (_plus_98 + "]]");
+                                  _builder.append(opWithGaps_1 = opWithGaps_1.replace(("%" + Integer.valueOf(k_4)), _plus_99), "        ");
                                   _builder.append("-->");
                                   _builder.newLineIfNotEmpty();
                                 }
@@ -3568,19 +4111,32 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                       _builder.append("<!-- ");
                       String _textWithGaps_1 = textWithGaps_1;
                       String _trim_10 = opWithGaps_1.trim();
-                      String _plus_83 = textWithGaps_1 = (_textWithGaps_1 + _trim_10);
-                      _builder.append(_plus_83, "\t\t");
+                      String _plus_100 = textWithGaps_1 = (_textWithGaps_1 + _trim_10);
+                      _builder.append(_plus_100, "\t\t");
                       _builder.append("-->");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("        ");
+                      int _lastIndexOf_6 = diagram_6.lastIndexOf("/");
+                      int _plus_101 = (_lastIndexOf_6 + 1);
+                      String _substring_6 = diagram_6.substring(0, _plus_101);
+                      String _name_13 = answersClass_7.getName();
+                      String _plus_102 = (_substring_6 + _name_13);
+                      String _plus_103 = (_plus_102 + "_");
+                      int _lastIndexOf_7 = diagram_6.lastIndexOf("/");
+                      int _plus_104 = (_lastIndexOf_7 + 1);
+                      String _substring_7 = diagram_6.substring(_plus_104, diagram_6.length());
+                      String _plus_105 = (_plus_103 + _substring_7);
+                      _builder.append(diagram_6 = _plus_105, "        ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
                       _builder.append("<!--");
                       String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_84 = (_workspaceAbsolutePath_8 + "/");
-                      String _name_8 = this.project.getName();
-                      String _plus_85 = (_plus_84 + _name_8);
-                      String _plus_86 = (_plus_85 + "/src-gen/html/");
-                      String _plus_87 = (_plus_86 + diagram_8);
-                      File file_7 = new File(_plus_87);
+                      String _plus_106 = (_workspaceAbsolutePath_8 + "/");
+                      String _name_14 = this.project.getName();
+                      String _plus_107 = (_plus_106 + _name_14);
+                      String _plus_108 = (_plus_107 + "/src-gen/html/");
+                      String _plus_109 = (_plus_108 + diagram_6);
+                      File file_7 = new File(_plus_109);
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
@@ -3595,8 +4151,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("     ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_31 = test_16.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_31, "             ");
+                          String _replace_29 = test_12.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_29, "             ");
                           _builder.append("<br></p>]]></text>");
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
@@ -3610,8 +4166,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("        ");
                           _builder.append("  ");
                           _builder.append("<text><![CDATA[<p>");
-                          String _replace_32 = test_16.getQuestion().replace("\"", "\'");
-                          _builder.append(_replace_32, "          ");
+                          String _replace_30 = test_12.getQuestion().replace("\"", "\'");
+                          _builder.append(_replace_30, "          ");
                           _builder.append("<br><img src=\"@@PLUGINFILE@@/exercise_");
                           _builder.append(uuid_7, "          ");
                           _builder.append(".png\" alt=\"\" width=\"20%\" height=\"20%\" role=\"presentation\" class=\"img-responsive atto_image_button_text-bottom\"><br><br></p><p>");
@@ -3624,7 +4180,7 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<file name=\"exercise_");
                           _builder.append(uuid_7, "          ");
                           _builder.append(".png\" path=\"/\" encoding=\"base64\">");
-                          String _stringBase64_11 = this.getStringBase64(diagram_8);
+                          String _stringBase64_11 = this.getStringBase64(diagram_6);
                           _builder.append(_stringBase64_11, "          ");
                           _builder.append("</file>");
                           _builder.newLineIfNotEmpty();
@@ -3695,37 +4251,37 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
                           _builder.append("<shownumcorrect/>");
                           _builder.newLine();
                           {
-                            Set<String> _keySet_26 = groups.get(test_16).keySet();
-                            for(final String typeName_2 : _keySet_26) {
+                            Set<String> _keySet_20 = groups.get(test_12).keySet();
+                            for(final String typeName_2 : _keySet_20) {
                               _builder.append("        ");
                               _builder.append("<!-- ");
-                              Map<String, Map<String, Integer>> entries_5 = groups.get(test_16).get(typeName_2);
+                              Map<String, Map<String, Integer>> entries_5 = groups.get(test_12).get(typeName_2);
                               _builder.append("-->");
                               _builder.newLineIfNotEmpty();
                               {
-                                Set<String> _keySet_27 = entries_5.keySet();
-                                for(final String attName_1 : _keySet_27) {
+                                Set<String> _keySet_21 = entries_5.keySet();
+                                for(final String attName_1 : _keySet_21) {
                                   _builder.append("        ");
                                   _builder.append("<!-- ");
-                                  Map<String, Integer> entry_12 = groups.get(test_16).get(typeName_2).get(attName_1);
+                                  Map<String, Integer> entry_12 = groups.get(test_12).get(typeName_2).get(attName_1);
                                   _builder.append("-->");
                                   _builder.newLineIfNotEmpty();
                                   {
-                                    Set<String> _keySet_28 = entry_12.keySet();
-                                    for(final String key_22 : _keySet_28) {
+                                    Set<String> _keySet_22 = entry_12.keySet();
+                                    for(final String key_14 : _keySet_22) {
                                       _builder.append("        ");
                                       _builder.append("<dragbox>");
                                       _builder.newLine();
                                       _builder.append("        ");
                                       _builder.append("<text>");
-                                      String _trim_12 = key_22.trim();
+                                      String _trim_12 = key_14.trim();
                                       _builder.append(_trim_12, "        ");
                                       _builder.append("</text>");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("        ");
                                       _builder.append("<group>");
-                                      Integer _get_28 = groups.get(test_16).get(typeName_2).get(attName_1).get(key_22);
-                                      _builder.append(_get_28, "        ");
+                                      Integer _get_32 = groups.get(test_12).get(typeName_2).get(attName_1).get(key_14);
+                                      _builder.append(_get_32, "        ");
                                       _builder.append("</group>");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("        ");

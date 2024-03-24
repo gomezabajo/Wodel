@@ -22,7 +22,6 @@ import wodel.utils.exceptions.AbstractCreationException;
 import wodel.utils.exceptions.ObjectNotContainedException;
 import wodel.utils.exceptions.ReferenceNonExistingException;
 import wodel.utils.exceptions.WrongAttributeTypeException;
-import wodel.utils.manager.EMFComparison;
 import wodel.utils.manager.EMFCopier;
 import wodel.utils.manager.ModelManager;
 
@@ -421,9 +420,9 @@ public class RetypeObjectMutator extends Mutator {
 				}
 			}
 		}
-		
+
 		// removes the retyped object
-		EObject o = ModelManager.getObject(this.getModel(), this.removed);
+		EObject o = ModelManager.loadObject(this.getModel(), this.removed);
 		if (o != null) {
 			EObject con = o.eContainer();
 			for (EReference r : con.eClass().getEAllReferences()) {

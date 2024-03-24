@@ -2940,6 +2940,32 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return EObject
 	 */
+	public static EObject loadObject(Resource model, EObject eobj) {
+		EObject ob = null;
+		if (eobj != null) {
+			List<EObject> objs = getAllObjects(model);
+
+			for (EObject obj : objs) {
+				if (EcoreUtil.equals(obj, eobj)) {
+					ob = obj;
+					break;
+				}
+			}
+			if (ob == null) {
+				ob = getObjectByURI(model, EcoreUtil.getURI(eobj));
+			}
+			if (ob == null) {
+				ob = getObjectByID(model, EcoreUtil.getIdentification(eobj));
+			}
+		}
+		return ob;
+	}
+
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
 	public static EObject getObject(List<Resource> models, EObject eobj) {
 		EObject ob = null;
 		if (eobj != null) {

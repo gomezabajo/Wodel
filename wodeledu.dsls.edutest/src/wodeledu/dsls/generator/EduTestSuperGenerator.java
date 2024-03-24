@@ -83,8 +83,8 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 
 	protected IProject project = null;
 	protected Map<MutatorTests, List<Test>> tests = new LinkedHashMap<MutatorTests, List<Test>>();
-	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
-	protected Map<MutatorTests, Map<Test, Map<String, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<String, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new LinkedHashMap<MutatorTests, Map<Test, Registry>>();
 	protected Map<MutatorTests, Map<Test, Double>> puntuation = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
 	protected Map<MutatorTests, Map<Test, Double>> penalty = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
@@ -697,14 +697,23 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param exercise
 	 * @param diags
 	 */
-	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, Map<String, List<String>>> diags) {
+	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, Map<EClass, List<String>>> diags, List<EClass> eclasses) {
 		for (Test test : exercise.getTests()) {
 			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
-			Map<String, List<String>> mapFileNames = new LinkedHashMap<String, List<String>>();
+			Map<EClass, List<String>> mapFileNames = new LinkedHashMap<EClass, List<String>>();
 			if (folder.isDirectory() == true) {
 				for (File f : folder.listFiles()) {
 					if (f.getName().endsWith(".png")) {
-						mapFileNames.put(f.getName(), new ArrayList<String>());
+						for (EClass eclass : eclasses) {
+							if (f.getName().startsWith(eclass.getName())) {
+								List<String> fileNames = new ArrayList<String>();
+								if (mapFileNames.get(eclass) != null) {
+									fileNames = mapFileNames.get(eclass);
+								}
+								fileNames.add(f.getName());
+								mapFileNames.put(eclass, fileNames);
+							}
+						}
 					}
 				}
 			}
@@ -715,8 +724,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					if (folder.isDirectory() == true) {
 						for (File f : folder.listFiles()) {
 							if (f.getName().endsWith(".png")) {
-								for (String key : mapFileNames.keySet()) {
-									mapFileNames.get(key).add(block.getName() + "/" + f.getName());
+								for (EClass eclass : eclasses) {
+									if (f.getName().startsWith(eclass.getName())) {
+										List<String> fileNames = new ArrayList<String>();
+										if (mapFileNames.get(eclass) != null) {
+											fileNames = mapFileNames.get(eclass);
+										}
+										fileNames.add(block.getName() + "/" + f.getName());
+										mapFileNames.put(eclass, fileNames);
+									}
 								}
 							}
 						}
@@ -728,8 +744,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								for (File f : wrongFolder.listFiles()) {
 									for (File w : f.listFiles()) {
 										if (w.getName().endsWith(".png")) {
-											for (String key : mapFileNames.keySet()) {
-												mapFileNames.get(key).add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+											for (EClass eclass : eclasses) {
+												if (f.getName().startsWith(eclass.getName())) {
+													List<String> fileNames = new ArrayList<String>();
+													if (mapFileNames.get(eclass) != null) {
+														fileNames = mapFileNames.get(eclass);
+													}
+													fileNames.add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+													mapFileNames.put(eclass, fileNames);
+												}
 											}
 										}
 									}
@@ -742,12 +765,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			diags.put(test, mapFileNames);
 		}
 		diagrams.put(exercise, diags);
-		Map<Test, Map<String, List<String>>> random = new LinkedHashMap<Test, Map<String, List<String>>>();
+		Map<Test, Map<EClass, List<String>>> random = new LinkedHashMap<Test, Map<EClass, List<String>>>();
 		for (Test test : exercise.getTests()) {
-			Map<String, List<String>> entry = diagrams.get(exercise).get(test);
-			for (String key : entry.keySet()) {
-				Collections.shuffle(entry.get(key));
-			}
+			Map<EClass, List<String>> entry = diagrams.get(exercise).get(test);
+			//for (EClass eclass : entry.keySet()) {
+			//	Collections.shuffle(entry.get(eclass));
+			//}
 			random.put(test, entry);
 		}
 		rand.put(exercise, random);
@@ -5506,7 +5529,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param resource
 	 * @return
 	 */
-	protected void buildOptions(Program program, Resource resource, List<EObject> blocks, Class<?> cls) {
+	protected void buildOptions(Program program, Resource resource, List<EObject> blocks, List<EClass> eclasses, Class<?> cls) {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
 			List<String> sols = new ArrayList<String>();
@@ -5516,9 +5539,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					sols.add(block.getName());
 				}
 			}
-			Map<Test, Map<String, List<String>>> diags = new LinkedHashMap<Test, Map<String, List<String>>>();
+			Map<Test, Map<EClass, List<String>>> diags = new LinkedHashMap<Test, Map<EClass, List<String>>>();
 			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText || exercise instanceof AlternativeText) {
-				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags);
+				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags, eclasses);
 			}
 			if (exercise instanceof MultiChoiceEmendation) {
 				buildMultiChoiceEmendation(resource, (MultiChoiceEmendation) exercise, blocks, cls);

@@ -11,6 +11,10 @@ import org.eclipse.core.resources.IProject
 import wodel.utils.manager.ProjectUtils
 import org.eclipse.core.runtime.Platform
 import org.eclipse.xtext.generator.AbstractGenerator
+import java.util.List
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EClass
+import java.util.ArrayList
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw code generator.
@@ -28,6 +32,9 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 	private String rendererPath
 	private String rendererUnit
 	private String[] rendererFolders
+	
+	private List<EPackage> metamodel
+	private List<EClass> roots
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
@@ -52,6 +59,10 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 			else {
 				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
 			}
+			metamodel = new ArrayList<EPackage>()
+			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
+			roots = new ArrayList<EClass>()
+			roots.addAll(ModelManager.getRootEClasses(metamodel))
 			className = fileName.replaceAll("Draw.java", "")
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
@@ -310,13 +321,13 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						}
 					}
 					String m4file = "«folder»/src-gen/html/diagrams/" + 
-						path + file.getName().replace(".model", ".m4");
+						path + "«roots.get(0).name»_" + file.getName().replace(".model", ".m4");
 					String batfile = "«folder»/src-gen/html/diagrams/" + 
-						path + file.getName().replace(".model", ".bat");
+						path + "«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
 					String svgfile = "«folder»/src-gen/html/diagrams/" + 
-						path + file.getName().replace(".model", ".svg");
+						path + "«roots.get(0).name»_" + file.getName().replace(".model", ".svg");
 					String pngfile = "«folder»/src-gen/html/diagrams/" + 
-						path + file.getName().replace(".model", ".png");
+						path + "«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 					File exercisefolder = new File("«folder»/src-gen/html/diagrams/" + path);
 					if (exercisefolder.exists() != true) {
 						exercisefolder.mkdirs();
@@ -401,13 +412,13 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						Resource model = ModelManager.loadModel(packages, pathfile);
 						String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
 						String m4file = "«folder»/src-gen/html/diagrams/" + file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".m4");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".m4");
 						String batfile = "«folder»/src-gen/html/diagrams/" + file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".bat");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
 						String svgfile = "«folder»/src-gen/html/diagrams/" + file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".svg");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".svg");
 						String pngfile = "«folder»/src-gen/html/diagrams/" + file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", ".png");
+							"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 						File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 						if (diagramsfolder.exists() != true) {
 							diagramsfolder.mkdir();
@@ -486,13 +497,13 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 								Resource model = ModelManager.loadModel(packages, pathfile);
 								String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
 								String m4file = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", ".m4");
+									"«roots.get(0).name»_" + file.getName().replace(".model", ".m4");
 								String batfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", ".bat");
+									"«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
 								String svgfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", ".svg");
+									"«roots.get(0).name»_" + file.getName().replace(".model", ".svg");
 								String pngfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", ".png");
+									"«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 								File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 								if (diagramsfolder.exists() != true) {
 									diagramsfolder.mkdir();

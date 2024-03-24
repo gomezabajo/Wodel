@@ -49,6 +49,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
 			
+			
 			fileName = resource.URI.lastSegment
 			var xTextFileName = "file:/" + path + "/src/" + fileName
 			xmiFileName = "file:/" + path + '/' + ModelManager.outputFolder + '/' + fileName.replaceAll(".draw", "_draw.model")

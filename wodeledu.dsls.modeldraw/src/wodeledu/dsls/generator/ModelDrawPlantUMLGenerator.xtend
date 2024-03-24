@@ -16,6 +16,10 @@ import modeldraw.ValuedFeature
 import modeldraw.MutatorInstance
 import modeldraw.Edge
 import modeldraw.Relation
+import java.util.List
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EClass
+import java.util.ArrayList
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -29,6 +33,8 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	
 	private String fileName
 	private String className
+	private List<EPackage> metamodel
+	private List<EClass> roots
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		ProjectUtils.resetProject()
@@ -43,6 +49,10 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			else {
 				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
 			}
+			metamodel = new ArrayList<EPackage>()
+			metamodel.addAll(ModelManager.loadMetaModel(e.metamodel))
+			roots = new ArrayList<EClass>()
+			roots.addAll(ModelManager.getRootEClasses(metamodel))
 			className = fileName.replaceAll("Draw.java", "")
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
@@ -488,7 +498,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 		}
 
 		public static void generateUMLGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
-		//«counter = 0»
+		//«counter = 1»
 		«FOR MutatorInstance instance : draw.instances»			
 			if (file.isFile()) {
 				String pathfile = file.getPath();
@@ -496,11 +506,11 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					Resource model = ModelManager.loadModel(packages, pathfile);
 					String path = exercise.getName() + "/" + folder;
 					String umlfile = "«folder»/src-gen/html/diagrams/" + 
-						path + "/" + file.getName().replace(".model", "_«counter».txt");
+						path + "/«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 					Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 					Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 					Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
-					«draw.generate(folder, counter)»
+					«draw.generate(folder, counter - 1)»
 					File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 					if (diagramsfolder.exists() != true) {
 						diagramsfolder.mkdirs();
@@ -549,7 +559,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			// GENERATES PNG FILES FROM SOURCE MODELS
 			File folder = new File("«folder»/data/model");
 			for (File file : folder.listFiles()) {
-			//«counter = 0»
+			//«counter = 1»
 			«FOR MutatorInstance instance : draw.instances»			
 				if (file.isFile()) {
 					String pathfile = file.getPath();
@@ -557,11 +567,11 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 						Resource model = ModelManager.loadModel(packages, pathfile);
 						String umlfile = "«folder»/src-gen/html/diagrams/" + 
 							file.getName().replace(".model", "") + "/" +
-							file.getName().replace(".model", "_«counter».txt");
+							"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 						Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 						Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 						Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
-						«draw.generate(folder, counter)»
+						«draw.generate(folder, counter - 1)»
 						File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 						if (diagramsfolder.exists() != true) {
 							diagramsfolder.mkdirs();
@@ -610,18 +620,18 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			for (File exercise : folder.listFiles()) {
 				if (exercise.isDirectory()) {
 					for (File file : exercise.listFiles()) {
-					//«counter = 0»
+					//«counter = 1»
 					«FOR MutatorInstance instance : draw.instances»			
 						if (file.isFile()) {
 							String pathfile = file.getPath();
 							if (pathfile.endsWith(".model") == true) {
 								Resource model = ModelManager.loadModel(packages, pathfile);
 								String umlfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
-									file.getName().replace(".model", "_«counter».txt");
+									"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 								Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 								Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
 								Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
-								«draw.generate(folder, counter)»
+								«draw.generate(folder, counter - 1)»
 								File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 								if (diagramsfolder.exists() != true) {
 									diagramsfolder.mkdirs();

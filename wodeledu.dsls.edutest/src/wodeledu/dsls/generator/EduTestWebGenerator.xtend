@@ -30,6 +30,7 @@ import java.util.Collections
 import java.util.Comparator
 import edutest.Mode
 import edutest.Navigation
+import org.eclipse.emf.ecore.EClass
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -43,6 +44,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 	private String pageName
 	private int num
 	private List<EObject> blocks
+	private List<EPackage> metamodel
+	private List<EClass> roots
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		try {
@@ -68,6 +71,10 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 					fileName = 'html/' + resource.URI.lastSegment.replaceAll(".test", "") + i + '.html'
 					pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.html'
 				}
+				metamodel = new ArrayList<EPackage>()
+				metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
+				roots = new ArrayList<EClass>()
+				roots.addAll(ModelManager.getRootEClasses(metamodel))
 				fsa.generateFile(fileName, removeComments(p.compile(resource)))
 				i++
 			}
@@ -77,7 +84,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 	}
 
 	def compile(Program program, Resource resource) '''
-		<!--«buildOptions(program, resource, blocks, program.class)»-->
+		<!--«buildOptions(program, resource, blocks, roots, program.class)»-->
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
@@ -241,8 +248,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
     		«IF rand.get(exercise).get(test).size() > 0»
-    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
-			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(key).get(0)»
+    		//KEY: «var EClass eclass = new ArrayList<EClass>(rand.get(exercise).get(test).keySet()).get(0)»
+			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(eclass).get(0)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -290,9 +297,9 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		//COUNTER: «num = 0»
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
-    		«IF rand.get(exercise).get(test).get(key).size > 0»
-			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(key).get(0)»
+    		//KEY: «var EClass eclass = new ArrayList<EClass>(rand.get(exercise).get(test).keySet()).get(0)»
+    		«IF rand.get(exercise).get(test).get(eclass).size > 0»
+			//DIAGRAM: «var String diagram = rand.get(exercise).get(test).get(eclass).get(0)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -342,8 +349,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		//COUNTER: «num = 0»
     		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-    		//KEY: «var String key = new ArrayList<String>(rand.get(exercise).get(test).keySet()).get(0)»
-			«FOR String diagram : diagrams.get(exercise).get(test).get(key)»
+    		//KEY: «var EClass eclass = new ArrayList<EClass>(rand.get(exercise).get(test).keySet()).get(0)»
+			«FOR String diagram : diagrams.get(exercise).get(test).get(eclass)»
     		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
     			«IF diagram.indexOf('/') > 0»
@@ -570,9 +577,9 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		</td>
     	<!--COUNTER: «num = 0»--> 
 		«FOR test : ss.tests»
-    		<!--KEY: «var String key = new ArrayList<String>(rand.get(ss).get(test).keySet()).get(0)»-->
-			«IF rand.get(ss).get(test).get(key).size > 0»
-    		<!--DIAGRAM: «var diagram = rand.get(ss).get(test).get(key).get(0)»-->
+    		<!--KEY: «var EClass eclass = new ArrayList<EClass>(rand.get(ss).get(test).keySet()).get(0)»-->
+			«IF rand.get(ss).get(test).get(eclass).size > 0»
+    		<!--DIAGRAM: «var diagram = rand.get(ss).get(test).get(eclass).get(0)»-->
 			<!--COUNTER: «num = num + 1»-->
 			<td class="exercise-«num»-«part»" id="exercise-«num»-«part»" valign="top" style="display: none;">
 			<fieldset valign="top">
@@ -659,8 +666,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 			<td valign="top">
 			<table class="pretty">
 			<tr>
-    		<!--KEY: «var String key = new ArrayList<String>(rand.get(ss).get(test).keySet()).get(0)»-->
-			«FOR String diagram : rand.get(ss).get(test).get(key)»
+    		<!--KEY: «var EClass eclass = new ArrayList<EClass>(rand.get(ss).get(test).keySet()).get(0)»-->
+			«FOR String diagram : rand.get(ss).get(test).get(eclass)»
 			<td id="td-exercise-«num»-«part»-«diagram.replace('/', '-')»" valign="top">
 			«IF diagram.indexOf('/') > 0»
 			<a href="#" class="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" id="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" onclick="check«part»(«num»,'«diagram.substring(diagram.indexOf('/') + 1)»');"><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram.replace('/', '-')»" id="exercise-«num»-«diagram.replace('/', '-')»" name="exercise-«num»-«diagram.replace('/', '-')»" class="images" /></a>

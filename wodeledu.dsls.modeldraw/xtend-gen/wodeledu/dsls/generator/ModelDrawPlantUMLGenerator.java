@@ -2,6 +2,8 @@ package wodeledu.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 import modeldraw.Edge;
 import modeldraw.MutatorDraw;
 import modeldraw.MutatorInstance;
@@ -11,12 +13,15 @@ import modeldraw.Relation;
 import modeldraw.ValuedFeature;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
@@ -36,32 +41,46 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 
   private String className;
 
+  private List<EPackage> metamodel;
+
+  private List<EClass> roots;
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    ProjectUtils.resetProject();
-    this.project = ProjectUtils.getProject();
-    int i = 0;
-    this.fileName = resource.getURI().lastSegment();
-    String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
-    String _plus = (_replaceAll + ".draw");
-    this.fileName = _plus;
-    Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
-    for (final MutatorDraw e : _filter) {
-      {
-        if ((i == 0)) {
-          String _replace = this.fileName.replace(".draw", "");
-          String _plus_1 = (_replace + "Draw.java");
-          this.fileName = _plus_1;
-        } else {
-          String _replace_1 = this.fileName.replace(".draw", "");
-          String _plus_2 = (_replace_1 + Integer.valueOf(i));
-          String _plus_3 = (_plus_2 + "Draw.java");
-          this.fileName = _plus_3;
+    try {
+      ProjectUtils.resetProject();
+      this.project = ProjectUtils.getProject();
+      int i = 0;
+      this.fileName = resource.getURI().lastSegment();
+      String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
+      String _plus = (_replaceAll + ".draw");
+      this.fileName = _plus;
+      Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
+      for (final MutatorDraw e : _filter) {
+        {
+          if ((i == 0)) {
+            String _replace = this.fileName.replace(".draw", "");
+            String _plus_1 = (_replace + "Draw.java");
+            this.fileName = _plus_1;
+          } else {
+            String _replace_1 = this.fileName.replace(".draw", "");
+            String _plus_2 = (_replace_1 + Integer.valueOf(i));
+            String _plus_3 = (_plus_2 + "Draw.java");
+            this.fileName = _plus_3;
+          }
+          ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
+          this.metamodel = _arrayList;
+          this.metamodel.addAll(ModelManager.loadMetaModel(e.getMetamodel()));
+          ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
+          this.roots = _arrayList_1;
+          this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
+          this.className = this.fileName.replaceAll("Draw.java", "");
+          fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
+          i++;
         }
-        this.className = this.fileName.replaceAll("Draw.java", "");
-        fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
-        i++;
       }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
   }
 
@@ -1684,7 +1703,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("//");
-    _builder.append(counter = 0, "\t");
+    _builder.append(counter = 1, "\t");
     _builder.newLineIfNotEmpty();
     {
       EList<MutatorInstance> _instances_2 = draw.getInstances();
@@ -1716,9 +1735,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t\t");
-        _builder.append("path + \"/\" + file.getName().replace(\".model\", \"_");
-        _builder.append(counter, "\t\t\t\t");
-        _builder.append(".txt\");");
+        _builder.append("path + \"/");
+        String _name_5 = this.roots.get(counter).getName();
+        _builder.append(_name_5, "\t\t\t\t");
+        _builder.append("_\" + file.getName().replace(\".model\", \".txt\");");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t");
@@ -1734,7 +1754,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t");
-        CharSequence _generate = this.generate(draw, folder, counter);
+        CharSequence _generate = this.generate(draw, folder, (counter - 1));
         _builder.append(_generate, "\t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -1925,7 +1945,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("//");
-    _builder.append(counter = 0, "\t\t");
+    _builder.append(counter = 1, "\t\t");
     _builder.newLineIfNotEmpty();
     {
       EList<MutatorInstance> _instances_3 = draw.getInstances();
@@ -1957,9 +1977,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t\t");
-        _builder.append("file.getName().replace(\".model\", \"_");
-        _builder.append(counter, "\t\t\t\t\t");
-        _builder.append(".txt\");");
+        _builder.append("\"");
+        String _name_6 = this.roots.get(counter).getName();
+        _builder.append(_name_6, "\t\t\t\t\t");
+        _builder.append("_\" + file.getName().replace(\".model\", \".txt\");");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t\t");
@@ -1975,7 +1996,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t");
-        CharSequence _generate_1 = this.generate(draw, folder, counter);
+        CharSequence _generate_1 = this.generate(draw, folder, (counter - 1));
         _builder.append(_generate_1, "\t\t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
@@ -2166,7 +2187,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("//");
-    _builder.append(counter = 0, "\t\t\t\t");
+    _builder.append(counter = 1, "\t\t\t\t");
     _builder.newLineIfNotEmpty();
     {
       EList<MutatorInstance> _instances_4 = draw.getInstances();
@@ -2194,9 +2215,10 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t\t");
-        _builder.append("file.getName().replace(\".model\", \"_");
-        _builder.append(counter, "\t\t\t\t\t\t\t");
-        _builder.append(".txt\");");
+        _builder.append("\"");
+        String _name_7 = this.roots.get(counter).getName();
+        _builder.append(_name_7, "\t\t\t\t\t\t\t");
+        _builder.append("_\" + file.getName().replace(\".model\", \".txt\");");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");
@@ -2212,7 +2234,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");
-        CharSequence _generate_2 = this.generate(draw, folder, counter);
+        CharSequence _generate_2 = this.generate(draw, folder, (counter - 1));
         _builder.append(_generate_2, "\t\t\t\t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t");

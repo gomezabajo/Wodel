@@ -76,7 +76,7 @@ You can access the following links to learn more about this solution and the too
     - [wodeledu.run](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.run)
     - [wodeledu.utils](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.utils)
 - [wodeledu.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.additions)
-    - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
+    - [wodel.semantic.comparison.lc](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.lc)
     - [wodeledu.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.extension.examples)
     - [wodeledu.model2text.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.dfa)
     - [wodeledu.model2text.lc](https://github.com/gomezabajo/Wodel/tree/master/wodeledu.model2text.lc)

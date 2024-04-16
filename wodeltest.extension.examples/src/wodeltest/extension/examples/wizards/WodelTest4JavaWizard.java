@@ -539,12 +539,10 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 					if (entry.getName().startsWith("wodeltest/lib/java")) {
 						final String name = entry.getName();
 						final File f = libFolder.getRawLocation().makeAbsolute().toFile();
-						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/lib/java", "").split("/")[0]);
-						if (!dest.exists()) {
-							dest.getParentFile().mkdirs();
-						}
+						File dest = new File(f.getPath() + '/' + entry.getName().substring("wodeltest/lib/java".length(), entry.getName().length()).split("/")[1]);
 						InputStream input = jar.getInputStream(entry);
-						final IFile output = libFolder.getFile(new Path(dest.getName()));
+						final IFile output = libFolder.getFile(new Path(dest.getName()
+								.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
 						output.create(input, true, monitor);
 						output.refreshLocal(IResource.DEPTH_ZERO, monitor);
 						input.close();

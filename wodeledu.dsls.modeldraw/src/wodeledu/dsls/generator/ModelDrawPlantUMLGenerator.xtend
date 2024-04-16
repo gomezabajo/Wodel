@@ -86,7 +86,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				for (String key : umlrels.get(«index»).get(umlrel).keySet()) {
 					for (LabelStyle value : umlrels.get(«index»).get(umlrel).get(key)) {
 						rels.add((key.replaceAll("'", "") + " " + value.style + " " + value.name.replaceAll("'", "")).trim());
-					} 					
+					}
 				}
 			}
 		}
@@ -118,6 +118,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	import org.eclipse.emf.ecore.EObject;
 	import org.eclipse.emf.ecore.EPackage;
 	import org.eclipse.emf.ecore.resource.Resource;
+	import org.eclipse.emf.ecore.util.EcoreUtil;
 	
 	import net.sourceforge.plantuml.SourceStringReader;
 	import wodel.utils.exceptions.MetaModelNotFoundException;
@@ -170,7 +171,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 			
    		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
 	   			+ project.name»
-		private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
+		private static void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {
 			// COUNTER: «var int counter = 0»
 			Map<EObject, List<LabelStyle>> localnodes = null;
 			Map<EObject, Map<String, List<LabelStyle>>> localrels = null;
@@ -215,7 +216,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				}
 				label.label = "«node.name.name.toLowerCase()»";
 				label.name = "\"" + name + " :<u>" + ModelManager.getStringAttribute("name", cl) + "</u>\" as " + getOrdinalFor(i);
-				id.put(node, i);
+				id.put(ModelManager.getURIEnding(node), i);
 				i++;
 				«ENDIF»
 				«IF node.feature !== null»
@@ -361,7 +362,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 		«ENDFOR»
 		}
 		
-		private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<EObject, Integer> id) {
+		private static void generateUMLEdges(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {
 			// COUNTER: «counter = 0»
 			Map<EObject, Map<String, List<LabelStyle>>> localrels = null;
 			int i = 0;
@@ -420,6 +421,14 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					tar = ((List<EObject>) o).get(0);
 				}
 				if (src != null && tar != null) {
+					String multiplicitySource = ModelManager.getStringAttribute("multiplicitySource", edge);
+					if (multiplicitySource == null || multiplicitySource.equals("1")) {
+						multiplicitySource = "";
+					}
+					String multiplicityTarget = ModelManager.getStringAttribute("multiplicityTarget", edge);
+					if (multiplicityTarget == null || multiplicityTarget.equals("1")) {
+						multiplicityTarget = "";
+					}
 					src_label = ModelManager.getStringAttribute("name", src);
 					tar_label = ModelManager.getStringAttribute("name", tar);
 					List<LabelStyle> target = new ArrayList<LabelStyle>();
@@ -429,11 +438,11 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					LabelStyle tar_lbl = new LabelStyle();
 					tar_lbl.name = tar_label;
 				«IF edge.name.name.equals("ClassAssociation")»
-					tar_lbl.style = "<-->";
+					tar_lbl.style = (multiplicitySource.length() > 0 ? " \"" + multiplicitySource + "\" " : "") + "<-->" + (multiplicityTarget.length() > 0 ? "\" " + multiplicityTarget + "\" " : "");
 				«ELSEIF edge.name.name.equals("ClassAggregation")»
-					tar_lbl.style = "o-->";
+					tar_lbl.style = (multiplicitySource.length() > 0 ? " \"" + multiplicitySource + "\" " : "") + "o-->" + (multiplicityTarget.length() > 0 ? "\" " + multiplicityTarget + "\" " : "");
 				«ELSEIF edge.name.name.equals("ClassComposition")»
-					tar_lbl.style = "*-->";
+					tar_lbl.style = (multiplicitySource.length() > 0 ? " \"" + multiplicitySource + "\" " : "") + "*-->" + (multiplicityTarget.length() > 0 ? "\" " + multiplicityTarget + "\" " : "");
 				«ENDIF»
 					target.add(tar_lbl);
 					rels.put(src_label, target);
@@ -467,15 +476,23 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					tar = ((List<EObject>) o).get(0);
 				}
 				if (src != null && tar != null) {
-					src_label = getOrdinalFor(id.get(src));
-					tar_label = getOrdinalFor(id.get(tar));
+					String multiplicitySource = ModelManager.getStringAttribute("multiplicitySource", edge);
+					if (multiplicitySource == null || multiplicitySource.equals("1")) {
+						multiplicitySource = "";
+					}
+					String multiplicityTarget = ModelManager.getStringAttribute("multiplicityTarget", edge);
+					if (multiplicityTarget == null || multiplicityTarget.equals("1")) {
+						multiplicityTarget = "";
+					}
+					src_label = getOrdinalFor(id.get(ModelManager.getURIEnding(src)));
+					tar_label = getOrdinalFor(id.get(ModelManager.getURIEnding(tar)));
 					List<LabelStyle> target = new ArrayList<LabelStyle>();
 					if (rels.get(src_label) != null) {
 						target = rels.get(src_label);
 					}
 					LabelStyle tar_lbl = new LabelStyle();
 					tar_lbl.name = tar_label;
-					tar_lbl.style = "--";
+					tar_lbl.style = (multiplicitySource.length() > 0 ? " \"" + multiplicitySource + "\" " : "") + "--" + (multiplicityTarget.length() > 0 ? "\" " + multiplicityTarget + "\" " : "");
 					target.add(tar_lbl);
 					rels.put(src_label, target);
 				}
@@ -509,7 +526,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 						path + "/«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 					Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 					Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-					Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
+					Map<String, Integer> id = new LinkedHashMap<String, Integer>();
 					«draw.generate(folder, counter - 1)»
 					File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 					if (diagramsfolder.exists() != true) {
@@ -570,7 +587,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 							"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 						Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 						Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-						Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
+						Map<String, Integer> id = new LinkedHashMap<String, Integer>();
 						«draw.generate(folder, counter - 1)»
 						File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 						if (diagramsfolder.exists() != true) {
@@ -630,7 +647,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 									"«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 								Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
 								Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels = new LinkedHashMap<Integer, Map<EObject, Map<String, List<LabelStyle>>>>();
-								Map<EObject, Integer> id = new LinkedHashMap<EObject, Integer>();
+								Map<String, Integer> id = new LinkedHashMap<String, Integer>();
 								«draw.generate(folder, counter - 1)»
 								File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 								if (diagramsfolder.exists() != true) {

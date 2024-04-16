@@ -12,7 +12,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.acceleo.common,
  org.eclipse.acceleo.model,
- org.eclipse.modisco.java.generation,
  org.eclipse.acceleo.engine,
  org.eclipse.modisco.infra.common.core,
  org.eclipse.jface.text
@@ -21,3 +20,5 @@ Automatic-Module-Name: wodeltest.project
 Bundle-ActivationPolicy: lazy
 Export-Package: wodeltest.extension.run,
  wodeltest.extension.utils
+Bundle-ClassPath: .,
+ lib/org.eclipse.modisco.java.generation_1.5.0.v20211130-1518.jar

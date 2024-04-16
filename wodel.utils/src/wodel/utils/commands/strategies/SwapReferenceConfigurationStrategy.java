@@ -71,18 +71,36 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		
 		if (this.source != null) {
 			if (o.eGet(this.source) != null) {
-				if (EcoreUtil.equals(this.source.getEType(), (((EObject) o.eGet(this.source)).eClass()))) {
-					othereobjsrc = (EObject) o.eGet(this.source, true);
-					othereobjsrcname = this.source.getName();
+				if (o.eGet(this.source) instanceof EObject) {
+					if (EcoreUtil.equals(this.source.getEType(), (((EObject) o.eGet(this.source)).eClass()))) {
+						othereobjsrc = (EObject) o.eGet(this.source, true);
+						othereobjsrcname = this.source.getName();
+					}
+				}
+				if (o.eGet(this.source) instanceof List<?> && ((List<EObject>)o.eGet(this.source)).size() > 0) {
+					if (EcoreUtil.equals(this.source.getEType(), (((List<EObject>) o.eGet(this.source)).get(0).eClass()))) {
+						othereobjsrc = ((List<EObject>) o.eGet(this.source, true)).get(0);
+						othereobjsrcname = this.source.getName();
+					}
+					
 				}
 			}
 		}
 
 		if (this.target != null) {
 			if (o.eGet(this.target) != null) {
-				if (EcoreUtil.equals(this.target.getEType(), (((EObject) o.eGet(this.target)).eClass()))) {
-					othereobjtar = (EObject) o.eGet(this.target, true);
-					othereobjtarname = this.target.getName();
+				if (o.eGet(this.target) instanceof EObject) {
+					if (EcoreUtil.equals(this.target.getEType(), (((EObject) o.eGet(this.target)).eClass()))) {
+						othereobjtar = (EObject) o.eGet(this.target, true);
+						othereobjtarname = this.target.getName();
+					}
+				}
+				if (o.eGet(this.target) instanceof List<?> && ((List<EObject>)o.eGet(this.target)).size() > 0) {
+					if (EcoreUtil.equals(this.target.getEType(), (((List<EObject>) o.eGet(this.target)).get(0).eClass()))) {
+						othereobjtar = ((List<EObject>) o.eGet(this.target, true)).get(0);
+						othereobjtarname = this.target.getName();
+					}
+					
 				}
 			}
 		}
@@ -171,18 +189,34 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		
 		if (this.source != null) {
 			if (obj_source.eGet(this.source) != null) {
-				if (EcoreUtil.equals(this.source.getEType(), (((EObject) obj_source.eGet(this.source)).eClass()))) {
-					othereobjsrc = (EObject) obj_source.eGet(this.source, true);
-					othereobjsrcname = this.source.getName();
+				if (obj_source.eGet(this.source) instanceof EObject) {
+					if (EcoreUtil.equals(this.source.getEType(), (((EObject) obj_source.eGet(this.source)).eClass()))) {
+						othereobjsrc = (EObject) obj_source.eGet(this.source, true);
+						othereobjsrcname = this.source.getName();
+					}
+				}
+				if (obj_source.eGet(this.source) instanceof List<?> && ((List<EObject>)obj_source.eGet(this.source)).size() > 0) {
+					if (EcoreUtil.equals(this.source.getEType(), (((List<EObject>) obj_source.eGet(this.source)).get(0)).eClass())) {
+						othereobjsrc = ((List<EObject>) obj_source.eGet(this.source, true)).get(0);
+						othereobjsrcname = this.source.getName();
+					}
 				}
 			}
 		}
 
 		if (this.target != null) {
 			if (obj_source.eGet(this.target) != null) {
-				if (EcoreUtil.equals(this.target.getEType(), (((EObject) obj_source.eGet(this.target)).eClass()))) {
-					othereobjtar = (EObject) obj_source.eGet(this.target, true);
-					othereobjtarname = this.target.getName();
+				if (obj_source.eGet(this.target) instanceof EObject) {
+					if (EcoreUtil.equals(this.target.getEType(), (((EObject) obj_source.eGet(this.target)).eClass()))) {
+						othereobjtar = (EObject) obj_source.eGet(this.target, true);
+						othereobjtarname = this.target.getName();
+					}
+				}
+				if (obj_source.eGet(this.target) instanceof List<?> && ((List<EObject>)obj_source.eGet(this.target)).size() > 0) {
+					if (EcoreUtil.equals(this.target.getEType(), (((List<EObject>) obj_source.eGet(this.target)).get(0)).eClass())) {
+						othereobjtar = ((List<EObject>) obj_source.eGet(this.target, true)).get(0);
+						othereobjtarname = this.target.getName();
+					}
 				}
 			}
 		}
@@ -267,18 +301,34 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		
 		if (this.source != null) {
 			if (obj_source.eGet(this.source) != null) {
-				if (EcoreUtil.equals(this.source.getEType(), (((EObject) obj_source.eGet(this.source)).eClass()))) {
-					othereobjsrc = (EObject) obj_source.eGet(this.source, true);
-					othereobjsrcname = this.source.getName();
+				if (obj_source.eGet(this.source) instanceof EObject) {
+					if (EcoreUtil.equals(this.source.getEType(), (((EObject) obj_source.eGet(this.source)).eClass()))) {
+						othereobjsrc = (EObject) obj_source.eGet(this.source, true);
+						othereobjsrcname = this.source.getName();
+					}
+				}
+				if (obj_source.eGet(this.source) instanceof List<?> && ((List<EObject>)obj_source.eGet(this.source)).size() > 0) {
+					if (EcoreUtil.equals(this.source.getEType(), (((List<EObject>) obj_source.eGet(this.source)).get(0)).eClass())) {
+						othereobjsrc = ((List<EObject>) obj_source.eGet(this.source, true)).get(0);
+						othereobjsrcname = this.source.getName();
+					}
 				}
 			}
 		}
 
 		if (this.target != null) {
 			if (obj_source.eGet(this.target) != null) {
-				if (EcoreUtil.equals(this.target.getEType(), (((EObject) obj_source.eGet(this.target)).eClass()))) {
-					othereobjtar = (EObject) obj_source.eGet(this.target, true);
-					othereobjtarname = this.target.getName();
+				if (obj_source.eGet(this.target) instanceof EObject) {
+					if (EcoreUtil.equals(this.target.getEType(), (((EObject) obj_source.eGet(this.target)).eClass()))) {
+						othereobjtar = (EObject) obj_source.eGet(this.target, true);
+						othereobjtarname = this.target.getName();
+					}
+				}
+				if (obj_source.eGet(this.target) instanceof List<?> && ((List<EObject>)obj_source.eGet(this.target)).size() > 0) {
+					if (EcoreUtil.equals(this.target.getEType(), (((List<EObject>) obj_source.eGet(this.target)).get(0)).eClass())) {
+						othereobjtar = ((List<EObject>) obj_source.eGet(this.target, true)).get(0);
+						othereobjtarname = this.target.getName();
+					}
 				}
 			}
 		}

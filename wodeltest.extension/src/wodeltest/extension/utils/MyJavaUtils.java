@@ -60,8 +60,7 @@ public final class MyJavaUtils {
 		org.eclipse.jface.text.IDocument document = new org.eclipse.jface.text.Document(
 				source);
 		org.eclipse.text.edits.TextEdit textEdit = formatter
-				.format(
-						org.eclipse.jdt.core.formatter.CodeFormatter.K_COMPILATION_UNIT,
+				.format(org.eclipse.jdt.core.formatter.CodeFormatter.K_COMPILATION_UNIT,
 						source, 0, source.length(), 0, "\n"); //$NON-NLS-1$
 
 		if (textEdit != null) {
@@ -91,10 +90,8 @@ public final class MyJavaUtils {
 			// Initialize the compiler settings
 			options.put(org.eclipse.jdt.core.JavaCore.COMPILER_COMPLIANCE,
 					org.eclipse.jdt.core.JavaCore.VERSION_1_5);
-			options
-					.put(
-							org.eclipse.jdt.core.JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,
-							org.eclipse.jdt.core.JavaCore.VERSION_1_5);
+			options.put(org.eclipse.jdt.core.JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,
+						org.eclipse.jdt.core.JavaCore.VERSION_1_5);
 			options.put(org.eclipse.jdt.core.JavaCore.COMPILER_SOURCE,
 					org.eclipse.jdt.core.JavaCore.VERSION_1_5);
 

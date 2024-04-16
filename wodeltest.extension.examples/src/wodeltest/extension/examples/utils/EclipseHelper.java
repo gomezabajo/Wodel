@@ -1,15 +1,20 @@
 package wodeltest.extension.examples.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -25,8 +30,10 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -66,9 +73,10 @@ public class EclipseHelper {
 		}
 	}
 
+	@SuppressWarnings({ "restriction", "deprecation" })
 	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final Shell theShell) {
+			final List<String> exportedPackages, final List<String> bundleClasspath, final boolean isWodelTest4JavaProject, final IProgressMonitor progressMonitor, final Shell theShell) {
 		IProject project = null;
 		try {
 			progressMonitor.beginTask("", 10);
@@ -98,6 +106,7 @@ public class EclipseHelper {
 					projectName);
 			projectDescription.setLocation(null);
 			project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+
 			final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
 			if (referencedProjects.size() != 0) {
 				projectDescription.setReferencedProjects(referencedProjects.toArray(new IProject[referencedProjects
@@ -142,15 +151,59 @@ public class EclipseHelper {
 			classpathEntries
 					.add(JavaCore
 							.newContainerEntry(new Path(
-									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11")));
-			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
+									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"), 
+									ClasspathEntry.NO_ACCESS_RULES, 
+									new IClasspathAttribute[] {	JavaCore.newClasspathAttribute(IClasspathAttribute.MODULE, "true") },
+									false));
 
+			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
+			
+			if (isWodelTest4JavaProject) {
+				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/5")));
+/*
+				String[] jUnit5Libraries = new String[] {
+						"lib/junit-jupiter-api_5.9.2.jar",
+						"lib/junit-jupiter-engine_5.9.2.jar",
+						"lib/junit-jupiter-migrationsupport_5.9.2.jar",
+						"lib/junit-jupiter-params_5.9.2.jar",
+						"lib/junit-platform-commons_1.9.2.jar",
+						"lib/junit-platform-engine_1.9.2.jar",
+						"lib/junit-platform-launcher_1.9.2.jar",
+						"lib/junit-platform-runner_1.9.2.jar",
+						"lib/junit-platform-suite-api_1.9.2.jar",
+						"lib/junit-platform-suite-commons_1.9.2.jar",
+						"lib/junit-platform-suite-engine_1.9.2.jar",
+						"lib/junit-vintage-engine_5.9.2.jar",
+						"lib/org.apiguardian.api_1.1.2.jar",
+						"lib/org.hamcrest.core_1.3.0.v20180420-1519.jar",
+						"lib/org.junit_4.13.2.v20211018-1956.jar",
+						"lib/org.opentest4j_1.2.0.jar"						
+				};
+				
+				for (String jUnit5Library : jUnit5Libraries) {
+					classpathEntries.add(JavaCore.newLibraryEntry(project.getFile(jUnit5Library).getLocation(), null, null));
+					/*
+ 					IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+					        IPackageFragmentRoot.K_BINARY,
+					        IClasspathEntry.CPE_LIBRARY, project.getFile(jUnit5Library).getLocation(),
+					        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+					        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+					        null, null, null, // specific output folder
+					        false, // exported
+					        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+					        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+					classpathEntries.add(relativeLibraryEntry);
+					*/
+/*				
+				}
+*/
+			}
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
 					new SubProgressMonitor(progressMonitor, 1));
 
 			javaProject.setOutputLocation(new Path("/" + projectName + "/bin"), new SubProgressMonitor(progressMonitor,
 					1));
-			createManifest(projectName, requiredBundles, importPackages, exportedPackages, progressMonitor, project);
+			createManifest(projectName, requiredBundles, importPackages, exportedPackages, bundleClasspath, progressMonitor, project);
 			createBuildProps(progressMonitor, project, srcFolders);
 		}
 		catch (final Exception exception) {
@@ -209,11 +262,13 @@ public class EclipseHelper {
 		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void createManifest(final String projectName, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final IProject project)
+			final List<String> exportedPackages, final List<String> bundleClasspath, final IProgressMonitor progressMonitor, final IProject project)
 	throws CoreException {
 		final StringBuilder maniContent = new StringBuilder("Manifest-Version: 1.0\n");
 		maniContent.append("Automatic-Module-Name: " + projectName + "\n");
+		//maniContent.append("Bundle-ActivationPolicy: lazy\n");
 		maniContent.append("Bundle-ManifestVersion: 2\n");
 		maniContent.append("Bundle-Name: " + projectName + "\n");
 		maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");
@@ -246,6 +301,15 @@ public class EclipseHelper {
 			}
 		}
 		//maniContent.append("Bundle-RequiredExecutionEnvironment: J2SE-1.5\r\n");
+		if (bundleClasspath != null && !bundleClasspath.isEmpty()) {
+			int nBundleClasspath = 0;
+			maniContent.append("Bundle-ClassPath: ");
+			for (final String entry : bundleClasspath) {
+				nBundleClasspath++;
+				if (nBundleClasspath == bundleClasspath.size()) maniContent.append(" " + entry + "\n");
+				else maniContent.append(" " + entry + ",\n");
+			}
+		}
 
 		final IFolder metaInf = project.getFolder("META-INF");
 		metaInf.create(false, true, new SubProgressMonitor(progressMonitor, 1));

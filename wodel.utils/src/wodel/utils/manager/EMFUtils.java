@@ -3,6 +3,8 @@ package wodel.utils.manager;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -17,8 +19,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
+import org.eclipse.emf.common.util.TreeIterator;
 /**
  * Auxiliary methods on EMF models. 
  * @author eguerra
@@ -397,10 +400,26 @@ public class EMFUtils {
 	}
 	
 	public static void print(Resource model) {
-		List<EObject> objects = model.getContents();
-		for (EObject object : objects) {
-			print(object);
+		TreeIterator<EObject> it = model.getAllContents();
+		while (it.hasNext()) {
+			print(it.next());
+		}
+	}
+
+	public static void resolveAll(Resource model) {
+		TreeIterator<EObject> it = model.getAllContents();
+		Map<EObject, EObject> resolved = new LinkedHashMap<EObject, EObject>();
+		while (it.hasNext()) {
+			EObject obj = it.next();
+			if (obj.eIsProxy()) {
+				resolved.put(obj, EcoreUtil.resolve(obj, model.getResourceSet()));
+			}
+		}
+		for (EObject obj : resolved.keySet()) {
+			EObject resolve = resolved.get(obj);
+			if (resolve != null) {
+				EcoreUtil.replace(obj, resolve);
+			}
 		}
 	}
 }
-

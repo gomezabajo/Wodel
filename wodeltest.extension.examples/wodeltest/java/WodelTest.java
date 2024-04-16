@@ -11,6 +11,7 @@ import wodel.utils.manager.WodelTestUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.modisco.infra.discovery.core.exception.DiscoveryException;
 import org.eclipse.modisco.java.discoverer.DiscoverJavaModelFromJavaProject;
-import org.junit.Test;
 import org.junit.runner.Computer;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -56,15 +56,33 @@ import wodel.utils.manager.AcceleoUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 
+import org.junit.jupiter.engine.JupiterTestEngine;
+import org.junit.platform.launcher.Launcher;
+import org.junit.platform.launcher.LauncherDiscoveryRequest;
+import org.junit.platform.launcher.TestPlan;
+import org.junit.platform.launcher.core.LauncherConfig;
+import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
+import org.junit.platform.launcher.core.LauncherFactory;
+import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
+import org.junit.platform.launcher.listeners.TestExecutionSummary;
+
+import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
+
 public class WodelTest implements IWodelTest {
 	
-	private static JUNIT_VERSION jUnitVersion = JUNIT_VERSION.UNKNOWN;
+	private static JUnitVersion jUnitVersion = JUnitVersion.UNKNOWN;
 	
-	private enum JUNIT_VERSION {
-		UNKNOWN,
-		JUNIT3,
-		JUNIT4,
-		JUNIT5
+	private enum JUnitVersion {
+		UNKNOWN(-1),
+		JUNIT3(3),
+		JUNIT4(4),
+		JUNIT5(5);
+		
+		private int id;
+		
+		private JUnitVersion(int id) {
+			this.id = id;
+		}
 	}
 	
 	private class MyJUnitCore extends JUnitCore {
@@ -75,6 +93,12 @@ public class WodelTest implements IWodelTest {
 		public void finalize() throws Throwable {
 			super.finalize();
 		}
+	}
+	
+	private SummaryGeneratingListener listener;
+
+	public WodelTest() {
+		this.listener = new SummaryGeneratingListener(); 
 	}
 
 	@Override
@@ -139,12 +163,23 @@ public class WodelTest implements IWodelTest {
 		}
 		return artifactPaths;
 	}
+	
+	private static List<Object> getTestsJUnit5(Class<?> clazz) {
+		List<Object> ret = new ArrayList<Object>();
+		Method[] methods = clazz.getDeclaredMethods();
+		for (Method method : methods) {
+			if (method.isAnnotationPresent(org.junit.jupiter.api.Test.class)) {
+				ret.add(method);
+			}
+		}
+		return ret;
+	}
 
-	private static List<Object> getTests(Class<?> clazz) {
+	private static List<Object> getTestsJUnit4(Class<?> clazz) {
 		List<Object> ret = new ArrayList<Object>();
 		Method[] methods = clazz.getMethods();
 		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].isAnnotationPresent(Test.class)) {
+			if (methods[i].isAnnotationPresent(org.junit.Test.class)) {
 				ret.add(methods[i]);
 			}
 		}
@@ -164,53 +199,114 @@ public class WodelTest implements IWodelTest {
 	
 	private void runTest(WodelTestGlobalResult globalResult, Class<?> clazz, List<Object> tests, IProject project, String folderPath, String artifactPath, boolean initial) {
 		List<WodelTestResultClass> results = globalResult.getResults();
-		Class<?>[] classRunner = new Class<?>[1];
-		classRunner[0] = clazz;
-		List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
-		Computer computer = new Computer();
-		MyJUnitCore jUnitCore = new MyJUnitCore();
-		Result result = null;
-		try {
-			result = jUnitCore.run(computer, classRunner);
-		} catch (Exception e) {
-			globalResult.setStatus(Status.EXCEPTION);
-			return;
-		}
-		
-		try {
-			jUnitCore.finalize();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<Failure> failures = result.getFailures();
 
-		String clazzName = clazz.getName();
-		if (clazzName.indexOf(".") != -1) {
-			clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
-			clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
-		}
-		for (Failure failure : failures) {
-			if (failure.getTestHeader() != null && failure.getMessage() != null) {
-				WodelTestInfo info = new WodelTestInfo(failure.getDescription().getMethodName(), true, failure.getTestHeader(), failure.getMessage().replace("\n", "-").replace("\r", ""));
+		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT3 || WodelTest.jUnitVersion == JUnitVersion.JUNIT4) {
+			Class<?>[] classRunner = new Class<?>[1];
+			classRunner[0] = clazz;
+			List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
+			Computer computer = new Computer();
+			MyJUnitCore jUnitCore = new MyJUnitCore();
+			Result result = null;
+			try {
+				result = jUnitCore.run(computer, classRunner);
+			} catch (Exception e) {
+				globalResult.setStatus(Status.EXCEPTION);
+				return;
+			}
+			
+			try {
+				jUnitCore.finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<Failure> failures = result.getFailures();
+
+			String clazzName = clazz.getName();
+			if (clazzName.indexOf(".") != -1) {
+				clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
+				clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
+			}
+			for (Failure failure : failures) {
+				if (failure.getTestHeader() != null && failure.getMessage() != null) {
+					WodelTestInfo info = new WodelTestInfo(failure.getDescription().getMethodName(), true, failure.getTestHeader(), failure.getMessage().replace("\n", "-").replace("\r", ""));
+					testsInfo.add(info);
+				}
+			}
+			if (failures.size() == 0) {
+				WodelTestInfo info = new WodelTestInfo(clazzName, false, clazzName, WodelTest.EQUALS);
 				testsInfo.add(info);
 			}
+			WodelTestResult wtr = new WodelTestResult(clazzName, clazz.getProtectionDomain().getCodeSource().getLocation().getPath(), tests, testsInfo);
+			globalResult.incNumTestsExecuted(result.getRunCount());
+			globalResult.incNumTestsFailed(result.getFailureCount());
+			globalResult.incNumTestsError(wtr.getErrorCount());
+			WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, folderPath);
+			if (resultClass == null) {
+				resultClass = new WodelTestResultClass(folderPath);
+				results.add(resultClass);
+			}
+			resultClass.addResult(wtr);
+			globalResult.setStatus(Status.OK);
 		}
-		if (failures.size() == 0) {
-			WodelTestInfo info = new WodelTestInfo(clazzName, false, clazzName, WodelTest.EQUALS);
-			testsInfo.add(info);
+		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT5) {
+			String clazzName = clazz.getName();
+			if (clazzName.indexOf(".") != -1) {
+				clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
+				clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
+			}
+			long testsFoundCount = 0;
+			long testsFailedCount = 0;
+
+			JupiterTestEngine testEngine = new JupiterTestEngine();
+			LauncherConfig config = LauncherConfig.builder()
+				    .enableTestExecutionListenerAutoRegistration(false)
+				    .enableTestEngineAutoRegistration(false)
+				    .enablePostDiscoveryFilterAutoRegistration(false)
+				    .addTestEngines(testEngine)
+				    .addTestExecutionListeners(listener)
+				    .build();
+			Launcher launcher = LauncherFactory.create(config);
+
+			LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder
+					.request()
+					.selectors(selectClass(clazz))
+					.build();
+			TestPlan testPlan = launcher.discover(request);
+			launcher.registerTestExecutionListeners(listener);
+			launcher.execute(request);
+			
+			TestExecutionSummary result = this.listener.getSummary();
+			result.printTo(new PrintWriter(System.out));
+			
+			testsFoundCount += result.getTestsSucceededCount() + result.getTestsFailedCount();
+			testsFailedCount += result.getTestsFailedCount();
+			
+			List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
+			List<org.junit.platform.launcher.listeners.TestExecutionSummary.Failure> failures = result.getFailures();
+
+			for (org.junit.platform.launcher.listeners.TestExecutionSummary.Failure failure : failures) {
+				if (failure.getException() != null) {
+					WodelTestInfo info = new WodelTestInfo(clazzName, true, failure.getException().getMessage().replace("\n", "-").replace("\r", "").replace(";","-"), failure.getException().getMessage().replace("\n", "-").replace("\r", "").replace(";","-"));
+					testsInfo.add(info);
+				}
+			}
+			if (failures.size() == 0) {
+				WodelTestInfo info = new WodelTestInfo(clazzName, false, clazzName, WodelTest.EQUALS);
+				testsInfo.add(info);
+			}
+			WodelTestResult wtr = new WodelTestResult(clazzName, clazz.getProtectionDomain().getCodeSource().getLocation().getPath(), tests, testsInfo);
+			globalResult.incNumTestsExecuted((int) testsFoundCount);
+			globalResult.incNumTestsFailed((int) testsFailedCount);
+			globalResult.incNumTestsError(wtr.getErrorCount());
+			WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, folderPath);
+			if (resultClass == null) {
+				resultClass = new WodelTestResultClass(folderPath);
+				results.add(resultClass);
+			}
+			resultClass.addResult(wtr);
+			globalResult.setStatus(Status.OK);
 		}
-		WodelTestResult wtr = new WodelTestResult(clazzName, clazz.getProtectionDomain().getCodeSource().getLocation().getPath(), tests, testsInfo);
-		globalResult.incNumTestsExecuted(result.getRunCount());
-		globalResult.incNumTestsFailed(result.getFailureCount());
-		globalResult.incNumTestsError(wtr.getErrorCount());
-		WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, folderPath);
-		if (resultClass == null) {
-			resultClass = new WodelTestResultClass(folderPath);
-			results.add(resultClass);
-		}
-		resultClass.addResult(wtr);
-		globalResult.setStatus(Status.OK);
 	}
 
 	@Override
@@ -250,16 +346,21 @@ public class WodelTest implements IWodelTest {
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);
 			compile(project);
 			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
-			if (WodelTest.jUnitVersion == JUNIT_VERSION.UNKNOWN) {
-				WodelTest.setJUnitVersion(classes);
-			}
+			WodelTest.setJUnitVersion(classes);
 			for (Class<?> clazz : classes) {
-				List<Object> tests = null;
-				if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT4) {
-					tests = WodelTest.getTests(clazz);
-				}
-				if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT3) {
-					tests = WodelTest.getTestsJUnit3(clazz);
+				List<Object> tests = new ArrayList<Object>();
+				switch(WodelTest.jUnitVersion) {
+				case JUNIT5: 
+					tests.addAll(WodelTest.getTestsJUnit5(clazz));
+					break;
+				case JUNIT4: 
+					tests.addAll(WodelTest.getTestsJUnit4(clazz));
+					break;
+				case JUNIT3: 
+					tests.addAll(WodelTest.getTestsJUnit3(clazz));
+					break;
+				case UNKNOWN: 
+					break;
 				}
 				if (tests.size() > 0) {
 					runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
@@ -296,15 +397,22 @@ public class WodelTest implements IWodelTest {
 	}
 
 	private static void setJUnitVersion(Class<?>[] classes) {
-		List<Object> testList = new ArrayList<Object>();
+		List<Object> testListJUnit3 = new ArrayList<Object>();
+		List<Object> testListJUnit4 = new ArrayList<Object>();
+		List<Object> testListJUnit5 = new ArrayList<Object>();
 		for (Class<?> clazz : classes) {
-			testList.addAll(WodelTest.getTests(clazz));
+			testListJUnit3.addAll(WodelTest.getTestsJUnit3(clazz));
+			testListJUnit4.addAll(WodelTest.getTestsJUnit4(clazz));
+			testListJUnit5.addAll(WodelTest.getTestsJUnit5(clazz));
 		}
-		if (testList.size() == 0) {
-			WodelTest.jUnitVersion = JUNIT_VERSION.JUNIT3;
+		if (testListJUnit3.size() != 0) {
+			WodelTest.jUnitVersion = JUnitVersion.JUNIT3;
 		}
-		else {
-			WodelTest.jUnitVersion = JUNIT_VERSION.JUNIT4;
+		else if (testListJUnit4.size() != 0) {
+			WodelTest.jUnitVersion = JUnitVersion.JUNIT4;
+		}
+		else if (testListJUnit5.size() != 0) {
+			WodelTest.jUnitVersion = JUnitVersion.JUNIT5;
 		}
 	}
 
@@ -464,16 +572,22 @@ public class WodelTest implements IWodelTest {
 				IOUtils.copyFile(artifactPath, srcJavaFilePath);
 				compile(project);
 				Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
-				if (WodelTest.jUnitVersion == JUNIT_VERSION.UNKNOWN) {
-					WodelTest.setJUnitVersion(classes);
-				}
+				WodelTest.setJUnitVersion(classes);
+				WodelTest.setJUnitVersion(classes);
 				for (Class<?> clazz : classes) {
-					List<Object> tests = null;
-					if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT4) {
-						tests = WodelTest.getTests(clazz);
-					}
-					if (WodelTest.jUnitVersion == JUNIT_VERSION.JUNIT3) {
-						tests = WodelTest.getTestsJUnit3(clazz);
+					List<Object> tests = new ArrayList<Object>();
+					switch(WodelTest.jUnitVersion) {
+					case JUNIT5: 
+						tests.addAll(WodelTest.getTestsJUnit5(clazz));
+						break;
+					case JUNIT4: 
+						tests.addAll(WodelTest.getTestsJUnit4(clazz));
+						break;
+					case JUNIT3: 
+						tests.addAll(WodelTest.getTestsJUnit3(clazz));
+						break;
+					case UNKNOWN: 
+						break;
 					}
 					if (tests.size() > 0) {
 						runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);

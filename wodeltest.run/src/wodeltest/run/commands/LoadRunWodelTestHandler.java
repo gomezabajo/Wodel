@@ -69,7 +69,6 @@ import wodeltest.run.utils.MutatorHelper;
 import wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart;
 
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
-
 public class LoadRunWodelTestHandler extends AbstractHandler {
 
 	private static class LoadRunWodelTestWithProgress implements IRunnableWithProgress {
@@ -521,6 +520,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					IProject testSuiteProject = workspaceRoot.getProject(testSuiteName);
 
 					boolean parallelize = Platform.getPreferencesService().getBoolean("WodelTest", "Parallelize mutants execution", false, null);
+					Thread.currentThread().setContextClassLoader(ResourcesPlugin.getPlugin().getClass().getClassLoader());
 					
 					if (!parallelize) {
 						File mutantFolder = new File(path);

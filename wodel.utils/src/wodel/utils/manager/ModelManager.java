@@ -3151,6 +3151,13 @@ public class ModelManager {
 		return null;
 	}
 	
+	public static String getURIEnding(EObject object) {
+		URI uri = EcoreUtil.getURI(object);
+		String partialURI = uri.toString();
+		partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+		return partialURI;
+	}
+	
 	/**
 	 * @param model
 	 *            Loaded Model

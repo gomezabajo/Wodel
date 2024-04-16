@@ -3,6 +3,7 @@ package wodeltest.extension.examples.wizards;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -130,9 +131,10 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		folders.add("src-gen");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
-		Set<String> requiredBundles = new HashSet<String>();
-		Set<String> importPackages = new HashSet<String>();
+		Set<String> requiredBundles = new LinkedHashSet<String>();
+		Set<String> importPackages = new LinkedHashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
+		List<String> bundleClasspath = new ArrayList<String>();
 		
 		requiredBundles.add("wodel.utils");
 		requiredBundles.add("wodel.models");
@@ -140,6 +142,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.emf.ecore");
 		requiredBundles.add("org.eclipse.emf.compare");
 		requiredBundles.add("com.google.guava");
+		requiredBundles.add("com.google.inject");
 		requiredBundles.add("org.apache.log4j");
 		requiredBundles.add("org.eclipse.ocl");
 		requiredBundles.add("org.eclipse.ocl.ecore");
@@ -166,11 +169,42 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.modisco.infra.common.core");
 		requiredBundles.add("org.eclipse.jdt.launching");
 		requiredBundles.add("org.eclipse.acceleo.model");
-		requiredBundles.add("com.google.inject");
+		requiredBundles.add("junit-jupiter-api");
+		requiredBundles.add("junit-jupiter-engine");
+		requiredBundles.add("junit-jupiter-migrationsupport");
+		requiredBundles.add("junit-jupiter-params");
+		requiredBundles.add("junit-platform-commons");
+		requiredBundles.add("junit-platform-engine");
+		requiredBundles.add("junit-platform-launcher");
+		requiredBundles.add("junit-platform-runner");
+		requiredBundles.add("junit-platform-suite-api");
+		requiredBundles.add("junit-platform-suite-commons");
+		requiredBundles.add("junit-platform-suite-engine");
+		requiredBundles.add("junit-vintage-engine");
+		requiredBundles.add("org.apiguardian.api");
+		requiredBundles.add("org.hamcrest.core");
+		requiredBundles.add("org.opentest4j");
+/*		bundleClasspath.add("lib/junit-jupiter-api_5.9.2.jar");
+		bundleClasspath.add("lib/junit-jupiter-engine_5.9.2.jar");
+		bundleClasspath.add("lib/junit-jupiter-migrationsupport_5.9.2.jar");
+		bundleClasspath.add("lib/junit-jupiter-params_5.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-commons_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-engine_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-launcher_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-runner_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-suite-api_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-suite-commons_1.9.2.jar");
+		bundleClasspath.add("lib/junit-platform-suite-engine_1.9.2.jar");
+		bundleClasspath.add("lib/junit-vintage-engine_5.9.2.jar");
+		bundleClasspath.add("lib/org.apiguardian.api_1.1.2.jar");
+		bundleClasspath.add("lib/org.hamcrest.core_1.3.0.v20180420-1519.jar");
+		bundleClasspath.add("lib/org.junit_4.13.2.v20211018-1956.jar");
+		bundleClasspath.add("lib/org.opentest4j_1.2.0.jar");
+*/
 		
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, monitor, this.getShell());
+				exportedPackages, bundleClasspath, true, monitor, this.getShell());
 
 		SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", project.getName());
 		List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();
@@ -488,6 +522,49 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
+		final IFolder libFolder = project.getFolder(new Path("lib"));
+		libFolder.create(true, true, monitor);
+
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/lib/java")) {
+						final String name = entry.getName();
+						final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/lib/java", "").split("/")[0]);
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						final IFile output = libFolder.getFile(new Path(dest.getName()));
+						output.create(input, true, monitor);
+						output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+						input.close();
+					}
+				}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/lib/java";
+			final File src = new Path(srcName).toFile();
+			for (File f : src.listFiles()) {
+				final IFile dest = libFolder.getFile(new Path(f.getName()));
+				dest.create(new FileInputStream(f), true, monitor);
+				dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
 		final IFolder iconsFolder = project.getFolder(new Path("icons"));
 		iconsFolder.create(true, true, monitor);
 		
@@ -546,12 +623,37 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		});
 		monitor.worked(1);
 		
-		
+/*		
+		String[] jUnit5Libraries = new String[] {
+				"junit-jupiter-api_5.9.2.jar",
+				"junit-jupiter-engine_5.9.2.jar",
+				"junit-jupiter-migrationsupport_5.9.2.jar",
+				"junit-jupiter-params_5.9.2.jar",
+				"junit-platform-commons_1.9.2.jar",
+				"junit-platform-engine_1.9.2.jar",
+				"junit-platform-launcher_1.9.2.jar",
+				"junit-platform-runner_1.9.2.jar",
+				"junit-platform-suite-api_1.9.2.jar",
+				"junit-platform-suite-commons_1.9.2.jar",
+				"junit-platform-suite-engine_1.9.2.jar",
+				"junit-vintage-engine_5.9.2.jar",
+				"org.apiguardian.api_1.1.2.jar",
+				"org.hamcrest.core_1.3.0.v20180420-1519.jar",
+				"org.junit_4.13.2.v20211018-1956.jar",
+				"org.opentest4j_1.2.0.jar"						
+			};
+*/
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			/*
+			for (String jUnit5Library : jUnit5Libraries) {
+				libFolder.getFile(jUnit5Library).refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+			}
+			*/
 		} catch (CoreException ex) {
 			ex.printStackTrace();
 		}
+
 
 	}
 	

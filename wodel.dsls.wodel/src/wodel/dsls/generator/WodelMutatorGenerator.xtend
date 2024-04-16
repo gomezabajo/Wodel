@@ -402,7 +402,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«IF mut.object.refType !== null»
 			List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelection.getObject());
 			EObject object = o.get(ModelManager.getRandomIndex(o));
-			objectSelection = new SpecificObjectSelection(model, packages, object);
+			objectSelection = new SpecificObjectSelection(packages, model, object);
 			«ENDIF»
 		«ELSEIF mut.object instanceof SpecificClosureSelection»
 			«IF ((mut.object as SpecificClosureSelection).objSel !== null && (mut.object as SpecificClosureSelection).refType !== null)»
@@ -428,7 +428,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«IF mut.object.refType !== null»
 			List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelection.getObject());
 			EObject object = o.get(ModelManager.getRandomIndex(o));
-			objectSelection = new SpecificObjectSelection(model, packages, object);
+			objectSelection = new SpecificObjectSelection(packages, model, object);
 			«ENDIF»
 			«ENDIF»
 		«ENDIF»
@@ -985,7 +985,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«IF mut.object.refType !== null»
 			List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelections.get(0).getObject());
 			EObject object = o.get(ModelManager.getRandomIndex(o));
-			objectSelection = new SpecificObjectSelection(model, packages, object);
+			objectSelection = new SpecificObjectSelection(packages, model, object);
 			objects.add(object);
 			«ENDIF»
 		«ELSEIF mut.object instanceof SpecificClosureSelection»
@@ -1020,7 +1020,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«IF mut.object.refType !== null»
 			List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelection.getObject());
 			EObject object = o.get(ModelManager.getRandomIndex(o));
-			objectSelection = new SpecificObjectSelection(model, packages, object);
+			objectSelection = new SpecificObjectSelection(packages, model, object);
 			objects.add(object);
 			«ENDIF»
 			«ENDIF»
@@ -1290,7 +1290,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   			«ENDIF»
 	   			«ENDIF»
 				if (obSelection != null) {
-					«c.method(false, true, counter, true, "obSelection")»
+					«c.method(false, true, 1, true, "obSelection")»
 				}
 				«ENDFOR»
 		Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
@@ -1636,7 +1636,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						monitor.worked(1);
 						k[0] = k[0] + 1;
 					}
-					muts = null;
+					if (muts != null) {
+						muts.getMuts().clear();
+					}
 		«ENDIF»
 				}
 			}
@@ -1891,7 +1893,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						monitor.worked(1);
 						k[0] = k[0] + 1;
 					}
-					muts = null;
+					if (muts != null) {
+						muts.getMuts().clear();
+					}
 		«ENDIF»
 			}
 		//END CREATE OBJECT «methodName»
@@ -3108,7 +3112,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						monitor.worked(1);
 						k[0] = k[0] + 1;
 					}
-					muts = null;
+					if (muts != null) {
+						muts.getMuts().clear();
+					}
 				}
 		«ENDIF»
 		}
@@ -3247,7 +3253,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 									monitor.worked(1);
 									k[0] = k[0] + 1;
 								}
-								muts = null;
+								if (muts != null) {
+									muts.getMuts().clear();
+								}
 							}
 				«ENDIF»
 						}
@@ -3357,7 +3365,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 							monitor.worked(1);
 							k[0] = k[0] + 1;
 						}
-						muts = null;
+						if (muts != null) {
+							muts.getMuts().clear();
+						}
 					}
 		«ENDIF»
 		«ENDIF»
@@ -3910,9 +3920,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					objects.add(objectSelection.getObject());
 				}
 				«IF mut.object.refType !== null»
-				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelections.get(0).getObject());
+				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objects.get(0));
 				EObject object = o.get(ModelManager.getRandomIndex(o));
-				objectSelection = new SpecificObjectSelection(model, packages, object);
+				objectSelection = new SpecificObjectSelection(packages, model, object);
+				objects.clear();
 				objects.add(object);
 				«ENDIF»
 			«ELSEIF mut.object instanceof SpecificClosureSelection»
@@ -3946,7 +3957,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«IF mut.object.refType !== null»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", objectSelection.getObject());
 				EObject object = o.get(ModelManager.getRandomIndex(o));
-				objectSelection = new SpecificObjectSelection(model, packages, object);
+				objectSelection = new SpecificObjectSelection(packages, model, object);
 				objects.add(object);
 				«ENDIF»
 				«ENDIF»
@@ -4129,11 +4140,11 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF mut.container === null»
 				«IF standalone == false»
-				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, m, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, project, monitor, k, serialize, test, classes);
 				«ELSE»
-				mutation«nMethodCall»(packages, model, hmObjects, hmList, hashmapModelFilenames,
+				mutation«nMethodCall»(packages, m, hmObjects, hmList, hashmapModelFilenames,
 									modelFilename, mutPaths, hmMutator, seed, registeredPackages, localRegisteredPackages, hashmapModelFolders, ecoreURI,
 									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, muts, monitor, k, serialize, test, classes);
 				«ENDIF»
@@ -4188,7 +4199,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						monitor.worked(1);
 						k[0] = k[0] + 1;
 					}
-					muts = null;
+					if (muts != null) {
+						muts.getMuts().clear();
+					}
 		«IF mut.container === null»
 			}
 		«ENDIF»
@@ -4703,7 +4716,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 						monitor.worked(1);
 						k[0] = k[0] + 1;
 					}
-					muts = null;
+					if (muts != null) {
+						muts.getMuts().clear();
+					}
 		«IF mut.container === null»
 			}
 		«ENDIF»
@@ -5074,7 +5089,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					monitor.worked(1);
 					k[0] = k[0] + 1;
 				}
-				muts = null;
+				if (muts != null) {
+					muts.getMuts().clear();
+				}
 			}
 				//Unload tmp model
 				try {
@@ -5742,7 +5759,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					monitor.worked(1);
 					k[0] = k[0] + 1;
 				}
-				muts = null;
+				if (muts != null) {
+					muts.getMuts().clear();
+				}
 			}
 			}
 		«ENDIF»
@@ -5833,7 +5852,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					monitor.worked(1);
 					k[0] = k[0] + 1;
 				}
-				muts = null;
+				if (muts != null) {
+					muts.getMuts().clear();
+				}
 			}
 		«ENDIF»
 		«ENDIF»
@@ -6171,16 +6192,20 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			}
 			«ENDIF»
 		}
-		cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = cMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = cMut;
+		}
 	«ENDIF»
 	«IF mut instanceof CloneObjectMutator»
 		ObjectCloned cMut = AppliedMutationsFactory.eINSTANCE.createObjectCloned();
 		if (mut.getObject() != null) {
 			cMut.getObject().add(mut.getObject());
 		}
-		cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = cMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = cMut;
+		}
 	«ENDIF»
 	«IF mut instanceof RetypeObjectMutator»
 		ObjectRetyped rMut = AppliedMutationsFactory.eINSTANCE.createObjectRetyped();
@@ -6193,8 +6218,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		}
 		rMut.setType(mut.getEType());
 		rMut.setNewType(mut.getNewEType());
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof RemoveObjectMutator»
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
@@ -6203,8 +6230,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			rMut.getObject().add(foundObject);
 		}
 		rMut.setType(mut.getEType());
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof CreateReferenceMutator»
 		ReferenceCreated rMut = AppliedMutationsFactory.eINSTANCE.createReferenceCreated();
@@ -6215,8 +6244,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			rMut.getRef().add(((CreateReferenceMutator) mut).getReference());
 			rMut.setRefName(((CreateReferenceMutator) mut).getRefName());
 		}
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof RemoveRandomReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
@@ -6227,8 +6258,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
 			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 		}
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof RemoveSpecificReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
@@ -6239,8 +6272,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
 			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 		}
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof RemoveCompleteReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
@@ -6251,8 +6286,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
 			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 		}
-		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-		appMut = rMut;
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			appMut = rMut;
+		}
 	«ENDIF»
 	«IF mut instanceof ModifyInformationMutator»
 			InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
@@ -6318,9 +6355,15 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			if (newAttVal != null) {
 				attMut«attCounter».setNewVal(newAttVal.toString());
 			}
-			attMut«attCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
-			attsMut.add(attMut«attCounter»);
-			icMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			if (hmMutator.get("m«nRegistryMutation»") != null) {
+				attMut«attCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
+				attsMut.add(attMut«attCounter»);
+				icMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+			}
+			else {
+				attMut«attCounter» = null;
+				icMut = null;
+			}
 			//ATTRIBUTE COUNTER INC: «attCounter++»
 		«ENDFOR»
 		«ENDIF»
@@ -6390,22 +6433,30 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			if (newRefAttVal«refCounter» != null) {
 				refMut«refCounter».setNewVal(newRefAttVal«refCounter».toString());
 			}
-			refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
+			if (hmMutator.get("m«nRegistryMutation»") != null) {
+				refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
+			}
 			«ENDIF»
-			previous = mutator.getPrevious("«ref.reference.get(0).name»");
-			next = mutator.getNext("«ref.reference.get(0).name»");
-			if (previous != null) {
-				refMut«refCounter».setFrom(previous);
-				refMut«refCounter».setMutantFrom(previous);
+			if (hmMutator.get("m«nRegistryMutation»") != null) {
+				previous = mutator.getPrevious("«ref.reference.get(0).name»");
+				next = mutator.getNext("«ref.reference.get(0).name»");
+				if (previous != null) {
+					refMut«refCounter».setFrom(previous);
+					refMut«refCounter».setMutantFrom(previous);
+				}
+				if (next != null) {
+					refMut«refCounter».setTo(next);
+					refMut«refCounter».setMutantTo(next);
+				}
+				refMut«refCounter».setSrcRefName(mutator.getSrcRefType());
+				refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
+				refsMut.add(refMut«refCounter»);
+				icMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 			}
-			if (next != null) {
-				refMut«refCounter».setTo(next);
-				refMut«refCounter».setMutantTo(next);
+			else {
+				refMut«refCounter» = null;
+				icMut = null;
 			}
-			refMut«refCounter».setSrcRefName(mutator.getSrcRefType());
-			refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
-			refsMut.add(refMut«refCounter»);
-			icMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 			//REFERENCE COUNTER INC: «refCounter++»
 		«ENDFOR»
 		«ENDIF»
@@ -6417,8 +6468,10 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			srcMut.setFrom(((ModifySourceReferenceMutator) mut).getSource());
 			srcMut.setTo(((ModifySourceReferenceMutator) mut).getNewSource());
 			srcMut.setRefName(((ModifySourceReferenceMutator) mut).getRefType());
-			srcMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-			appMut = srcMut;
+			if (hmMutator.get("m«nRegistryMutation»") != null) {
+				srcMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+				appMut = srcMut;
+			}
 	«ENDIF»
 	«IF mut instanceof ModifyTargetReferenceMutator»
 			TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
@@ -6454,16 +6507,22 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				trcMut.setOldTo(oldTo);
 			}
 			trcMut.setRefName(mutator.getRefType());
-			trcMut.setDef(hmMutator.get("m«nRegistryMutation»"));
-			appMut = trcMut;
+			if (hmMutator.get("m«nRegistryMutation»") != null) {
+				trcMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+				appMut = trcMut;
+			}
 	«ENDIF»
 	«IF mut instanceof SelectObjectMutator»
-		appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
-		appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
+			appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		}
 	«ENDIF»
 	«IF mut instanceof SelectSampleMutator»
-		appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
-		appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
+			appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		}
 	«ENDIF»
 		return appMut;
 	}
@@ -6486,13 +6545,20 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + localNRegistryMethod.toString()»
 		//REGISTRY COUNTER INC: «localNRegistryMutation++»
 		AppMutation appMut«mutCounter + 1» = «registryMethodName»(muts.get(«mutCounter»), hmMutator, seed, null, null);
-		appMut«mutCounter + 1».setDef(hmMutator.get("m«localNRegistryMutation»"));
-		appMuts.add(appMut«mutCounter + 1»);
-		//REGISTRY METHOD INC: «localNRegistryMethod++»
-		//COUNTER: «mutCounter++»
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			appMut«mutCounter + 1».setDef(hmMutator.get("m«localNRegistryMutation»"));
+			appMuts.add(appMut«mutCounter + 1»);
+			//REGISTRY METHOD INC: «localNRegistryMethod++»
+			//COUNTER: «mutCounter++»
+		}
 		«ENDFOR»
-		appMut.getMuts().addAll(appMuts);
-		appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		if (hmMutator.get("m«nRegistryMutation»") != null) {
+			appMut.getMuts().addAll(appMuts);
+			appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		}
+		else {
+			appMut = null;
+		}
 		return appMut;
 	}
 	«ENDIF»

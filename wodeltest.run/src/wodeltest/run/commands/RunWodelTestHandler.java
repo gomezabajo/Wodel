@@ -672,7 +672,8 @@ public class RunWodelTestHandler extends AbstractHandler {
 //					}
 					
 					boolean parallelize = Platform.getPreferencesService().getBoolean("WodelTest", "Parallelize mutants execution", false, null);
-					
+					Thread.currentThread().setContextClassLoader(ResourcesPlugin.getPlugin().getClass().getClassLoader());
+
 					if (!parallelize) {
 						File mutantFolder = new File(path);
 						List<String> artifactPaths = test.artifactPaths(sourceProject, path, mutantFolder, blockNames);

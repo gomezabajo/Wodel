@@ -133,6 +133,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		Set<String> requiredBundles = new HashSet<String>();
 		Set<String> importPackages = new HashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
+		List<String> bundleClasspath = new ArrayList<String>();
 
 		requiredBundles.add("wodel.utils");
 		requiredBundles.add("wodel.models");
@@ -165,7 +166,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, monitor, this.getShell());
+				exportedPackages, bundleClasspath, false, monitor, this.getShell());
 
 		SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", project.getName());
 		List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();

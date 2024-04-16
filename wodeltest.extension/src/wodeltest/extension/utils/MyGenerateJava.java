@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.modisco.java.generation.files.GenerateJava;
 
 public class MyGenerateJava extends GenerateJava {
 	
@@ -27,7 +26,7 @@ public class MyGenerateJava extends GenerateJava {
 	 *
 	 * @generated
 	 */
-	public static final String MODULE_FILE_NAME = "/GenerateJava"; //$NON-NLS-1$
+	public static final String MODULE_FILE_NAME = "/wodeltest/extension/utils/GenerateJava"; //$NON-NLS-1$
 	
 	/**
 	 * Allows the public constructor to be used. Note that a generator created

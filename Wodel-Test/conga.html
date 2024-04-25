@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/Wodel/stylesheets/style.css?v=71b53d53afae1d431a5ba999d5b9f774677d70d8">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>Wodel-Test - A Model-based Framework for Language-independent Mutation Testing</title>
+<meta property="og:title" content="gomezabajo.github.io/Wodel/Wodel-Test" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Wodel-Test - A Framework for Language Independent Mutation Testing" />
+<meta property="og:description" content="Wodel-Test - A Framework for Language Independent Mutation Testing" />
+<link rel="canonical" href="https://gomezabajo.github.io/Wodel/Wodel-Test" />
+<meta property="og:url" content="https://gomezabajo.github.io/Wodel/Wodel-Test" />
+<meta property="og:site_name" content="gomezabajo.github.io/Wodel/Wodel-Test" />
+<script type="application/ld+json">
+{"name":"gomezabajo.github.io/Wodel/Wodel-Test","description":"Wodel-Test - Language Independent Solution for Mutation Testing","author":"gomezabajo","@type":"WebSite","url":"https://gomezabajo.github.io/Wodel/Wodel-Test","image":null,"publisher":null,"headline":"gomezabajo.github.io/Wodel/Wodel-Test","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/Wodel/images/favicon.ico">
+  </head>
+
+  <body>
+<!--
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-61793148-3', 'auto');
+	ga('send', 'pageview');
+	
+	</script>
+-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61793148-4"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-61793148-4');
+	</script>
+    <header>
+      <div class="container">
+        <h1>Wodel-Test</h1>
+        <h2>A Model-based Framework for Language-independent Mutation Testing</h2>
+
+        <section id="downloads">
+          
+          <a href="https://github.com/gomezabajo/Wodel" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+		  <a href="/Wodel/Wodel-Test/plugins/testBotGenerator.zip" class="btn btn-github"><span class="icon"></span>Wodel-Test for Conga</a>
+		  <a href="/Wodel/Wodel-Test/ecore/BotGenerator.ecore" class="btn btn-github"><span class="icon"></span>Conga ecore Meta-model</a>
+		  <a href="/Wodel/Wodel-Test/ecore/Annotation.ecore" class="btn btn-github"><span class="icon"></span>Annotation ecore Meta-model</a>
+          <br />
+        </section>
+      </div>
+    </header>
+	
+    <div class="container">
+      <section id="main_content">
+        <script>
+    setTimeout(function() {//delay execution until after dom is parsed
+		var containerEls = document.getElementsByClassName('container');
+		var headingEl = containerEls[0].getElementsByTagName('h1')[0];
+		var headerEl = document.getElementsByTagName('header')[0];
+		var downloadsSectionEl = document.getElementById('downloads');
+		var wodelRootPath = "/Wodel";
+		var wodelTestRootPath = "/Wodel/Wodel-Test";
+		var wodelTestFAPath = "/Wodel/Wodel-Test/fa.html"
+		var wodelTestJavaPath = "/Wodel/Wodel-Test/java.html"
+		var wodelTestATLPath = "/Wodel/Wodel-Test/atl.html"
+		var wodelTestCongaPath = "/Wodel/Wodel-Test/conga.html"
+		var wodelTestTutorialPath = "/Wodel/Wodel-Test/tutorial.html"
+		
+		containerEls[0].style.maxWidth = '800px';
+		containerEls[1].style.maxWidth = '800px';
+		headingEl.style.margin = '0';
+		headerEl.style.marginBottom = '7px';
+		downloadsSectionEl.style.margin = '0';
+		
+		if (location.pathname !== wodelRootPath) {
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test', wodelTestRootPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for FA', wodelTestFAPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Java', wodelTestJavaPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for ATL', wodelTestATLPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Conga', wodelTestCongaPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test Tutorial', wodelTestTutorialPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel', wodelRootPath));
+		}
+		
+		function generateNavLink(linkText, hrefPath) {
+		    var navLink = document.createElement('a');
+			var linkTextNode = document.createTextNode(linkText);
+			navLink.setAttribute('href', hrefPath);
+			navLink.appendChild(linkTextNode);
+			return navLink;
+		}
+	});
+</script>
+
+<p style="text-align: justify; text-justify: inter-word;">Here is a list of the identified chatbot mutation operators for the Conga meta-model useful for mutation testing:</p>
+
+<p>Delete training phrase (max similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
+  i = select one Intent where {self = tpi->intent}
+  li = select one LanguageIntent in i->inputs
+  remove one TrainingPhrase from li->inputs where {self = tpi->max1}
+</code></pre></div></div>
+
+<p>Delete training phrase (min similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
+  i = select one Intent where {self = tpi->intent}
+  li = select one LanguageIntent in i->inputs
+  remove one TrainingPhrase from li->inputs where {self = tpi->min1}
+</code></pre></div></div>
+
+<p>Delete training phrases with required parameter</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one Parameter where {required = true}
+  remove all TrainingPhrase where {tokens->parameter = p}
+  remove all LanguageIntent where {inputs = null}
+</code></pre></div></div>
+
+<p>Delete training phrases with literal</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input = select one SimpleInput
+  prt = select one ParameterReferenceToken where {textReference = input.values}
+  remove all TrainingPhrase where {tokens = prt}
+</code></pre></div></div>
+
+<p>Keep two training phrases (max similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
+  i = select one Intent where {self = tpi->intent}
+  li = select one LanguageIntent in i->inputs
+  tp0 = select one TrainingPhrase in li->inputs where {self = tpi->max1}
+  tp1 = select one TrainingPhrase in li->inputs where {self = tpi->max2 and self <> tp0}
+  tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
+  remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
+</code></pre></div></div>
+
+<p>Keep two training phrases (min similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
+  i = select one Intent where {self = tpi->intent}
+  li = select one LanguageIntent in i->inputs
+  tp0 = select one TrainingPhrase in li->inputs where {self = tpi->min1}
+  tp1 = select one TrainingPhrase in li->inputs where {self = tpi->min2 and self <> tp0}
+  tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
+  remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
+</code></pre></div></div>
+
+<p>Move training phrase (max similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i1 = select one Intent where {inputs <> null}
+  iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and max1Value = max(max1Value)}
+  i2 = select one Intent where {inputs <> null and self = iiv->intent2}
+  li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
+  li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
+  tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->max1}
+  tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
+  modify li2 with {inputs += tp1}
+</code></pre></div></div>
+
+<p>Move training phrase (min similarity)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i1 = select one Intent where {inputs <> null}
+  iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and min1Value = min(min1Value)}
+  i2 = select one Intent where {inputs <> null and self = iiv->intent2}
+  li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
+  li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
+  tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->min1}
+  tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
+  modify li2 with {inputs += tp1}
+</code></pre></div></div>
+
+<p>Delete intent parameter</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one Parameter
+  remove all TrainingPhrase where {tokens->parameter = p}
+  remove all ParameterToken where {parameter = p}
+  remove p
+  remove all LanguageIntent where {inputs = null}
+</code></pre></div></div>
+
+<p>Delete parameter prompt</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p0 = select one Parameter where {required = true}
+  remove one LanguagePrompt from p0->prompts
+</code></pre></div></div>
+
+<p>Set required parameter to optional</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one Parameter where {required = true} with {required = false}
+</code></pre></div></div>
+
+<p>Change regular expression</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one RegexInput with {expresion = catstart('[^'), expresion = catend(']')}
+</code></pre></div></div>
+
+<p>Delete literal from entity</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remove one SimpleInput
+</code></pre></div></div>
+
+<p>Delete fallback intent</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i = select one Intent where {fallbackIntent = true}
+  remove all UserInteraction where {intent = i}
+  remove i
+</code></pre></div></div>
+
+<p>Delete actions</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi0 = select one BotInteraction where {actions <> null}
+  remove one Action from bi0->actions 
+</code></pre></div></div>
+
+<p>Delete a parameter used in a response</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text = select one TextInput where {tokens is typed ParameterToken}
+  remove one ParameterToken from text->tokens
+</code></pre></div></div>
+
+<p>Swap outputs</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi1 = select one BotInteraction where {actions <> null and outcoming->^target <> null}
+  ui1 = select one UserInteraction in bi1->outcoming where {^target <> null}
+  bi2 = select one BotInteraction in ui1->^target where {self <> bi1 and actions <> null and actions <> bi1->actions}
+  modify bi1 with {swapref(actions, bi2->actions)}
+</code></pre></div></div>
+
+<p>Delete conversation step</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui0 = select one UserInteraction where {^target->outcoming->^target is typed BotInteraction}
+  bi0 = select one BotInteraction in ui0->^target->outcoming->^target
+  modify target ^target from ui0 to bi0
+</code></pre></div></div>
+
+<p>Delete conversation bifurcation</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi = select one BotInteraction where {outcoming <> null}
+  ui = select one UserInteraction in bi->outcoming
+  remove one UserInteraction from bi->outcoming where {self <> ui}
+</code></pre></div></div>
+
+<p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>
+
+<ul>
+  <li><span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel/">Wodel-Test</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span></li>
+</ul>
+<ul>
+  <li><span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/pages-themes/hacker">Hacker theme</a>.</span></li>
+</ul>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!--<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-2319112-5"></script>-->
+
+<!--<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-2319112-5');
+</script>-->
+
+
+   
+  </body>
+</html>

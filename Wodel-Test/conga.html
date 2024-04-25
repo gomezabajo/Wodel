@@ -112,83 +112,83 @@
 
 <p>Delete training phrase (max similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
-  i = select one Intent where {self = tpi->intent}
-  li = select one LanguageIntent in i->inputs
-  remove one TrainingPhrase from li->inputs where {self = tpi->max1}
+i = select one Intent where {self = tpi->intent}
+li = select one LanguageIntent in i->inputs
+remove one TrainingPhrase from li->inputs where {self = tpi->max1}
 </code></pre></div></div>
 
 <p>Delete training phrase (min similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
-  i = select one Intent where {self = tpi->intent}
-  li = select one LanguageIntent in i->inputs
-  remove one TrainingPhrase from li->inputs where {self = tpi->min1}
+i = select one Intent where {self = tpi->intent}
+li = select one LanguageIntent in i->inputs
+remove one TrainingPhrase from li->inputs where {self = tpi->min1}
 </code></pre></div></div>
 
 <p>Delete training phrases with required parameter</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one Parameter where {required = true}
-  remove all TrainingPhrase where {tokens->parameter = p}
-  remove all LanguageIntent where {inputs = null}
+remove all TrainingPhrase where {tokens->parameter = p}
+remove all LanguageIntent where {inputs = null}
 </code></pre></div></div>
 
 <p>Delete training phrases with literal</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input = select one SimpleInput
-  prt = select one ParameterReferenceToken where {textReference = input.values}
-  remove all TrainingPhrase where {tokens = prt}
+prt = select one ParameterReferenceToken where {textReference = input.values}
+remove all TrainingPhrase where {tokens = prt}
 </code></pre></div></div>
 
 <p>Keep two training phrases (max similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
-  i = select one Intent where {self = tpi->intent}
-  li = select one LanguageIntent in i->inputs
-  tp0 = select one TrainingPhrase in li->inputs where {self = tpi->max1}
-  tp1 = select one TrainingPhrase in li->inputs where {self = tpi->max2 and self <> tp0}
-  tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
-  remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
+i = select one Intent where {self = tpi->intent}
+li = select one LanguageIntent in i->inputs
+tp0 = select one TrainingPhrase in li->inputs where {self = tpi->max1}
+tp1 = select one TrainingPhrase in li->inputs where {self = tpi->max2 and self <> tp0}
+tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
+remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
 </code></pre></div></div>
 
 <p>Keep two training phrases (min similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tpi = select one IntentValue from annotation resources
-  i = select one Intent where {self = tpi->intent}
-  li = select one LanguageIntent in i->inputs
-  tp0 = select one TrainingPhrase in li->inputs where {self = tpi->min1}
-  tp1 = select one TrainingPhrase in li->inputs where {self = tpi->min2 and self <> tp0}
-  tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
-  remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
+i = select one Intent where {self = tpi->intent}
+li = select one LanguageIntent in i->inputs
+tp0 = select one TrainingPhrase in li->inputs where {self = tpi->min1}
+tp1 = select one TrainingPhrase in li->inputs where {self = tpi->min2 and self <> tp0}
+tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
+remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
 </code></pre></div></div>
 
 <p>Move training phrase (max similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i1 = select one Intent where {inputs <> null}
-  iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and max1Value = max(max1Value)}
-  i2 = select one Intent where {inputs <> null and self = iiv->intent2}
-  li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
-  li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
-  tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->max1}
-  tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
-  modify li2 with {inputs += tp1}
+iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and max1Value = max(max1Value)}
+i2 = select one Intent where {inputs <> null and self = iiv->intent2}
+li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
+li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
+tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->max1}
+tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
+modify li2 with {inputs += tp1}
 </code></pre></div></div>
 
 <p>Move training phrase (min similarity)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i1 = select one Intent where {inputs <> null}
-  iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and min1Value = min(min1Value)}
-  i2 = select one Intent where {inputs <> null and self = iiv->intent2}
-  li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
-  li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
-  tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->min1}
-  tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
-  modify li2 with {inputs += tp1}
+iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and min1Value = min(min1Value)}
+i2 = select one Intent where {inputs <> null and self = iiv->intent2}
+li1 = select one LanguageIntent in i1->inputs where {inputs <> null}
+li2 = select one LanguageIntent in i2->inputs where {self <> li1 and inputs <> null}
+tp1 = select one TrainingPhrase in li1->inputs where {self = iiv->min1}
+tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
+modify li2 with {inputs += tp1}
 </code></pre></div></div>
 
 <p>Delete intent parameter</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one Parameter
-  remove all TrainingPhrase where {tokens->parameter = p}
-  remove all ParameterToken where {parameter = p}
-  remove p
-  remove all LanguageIntent where {inputs = null}
+remove all TrainingPhrase where {tokens->parameter = p}
+remove all ParameterToken where {parameter = p}
+remove p
+remove all LanguageIntent where {inputs = null}
 </code></pre></div></div>
 
 <p>Delete parameter prompt</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p0 = select one Parameter where {required = true}
-  remove one LanguagePrompt from p0->prompts
+remove one LanguagePrompt from p0->prompts
 </code></pre></div></div>
 
 <p>Set required parameter to optional</p>
@@ -205,37 +205,37 @@
 
 <p>Delete fallback intent</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i = select one Intent where {fallbackIntent = true}
-  remove all UserInteraction where {intent = i}
-  remove i
+remove all UserInteraction where {intent = i}
+remove i
 </code></pre></div></div>
 
 <p>Delete actions</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi0 = select one BotInteraction where {actions <> null}
-  remove one Action from bi0->actions 
+remove one Action from bi0->actions 
 </code></pre></div></div>
 
 <p>Delete a parameter used in a response</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text = select one TextInput where {tokens is typed ParameterToken}
-  remove one ParameterToken from text->tokens
+remove one ParameterToken from text->tokens
 </code></pre></div></div>
 
 <p>Swap outputs</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi1 = select one BotInteraction where {actions <> null and outcoming->^target <> null}
-  ui1 = select one UserInteraction in bi1->outcoming where {^target <> null}
-  bi2 = select one BotInteraction in ui1->^target where {self <> bi1 and actions <> null and actions <> bi1->actions}
-  modify bi1 with {swapref(actions, bi2->actions)}
+ui1 = select one UserInteraction in bi1->outcoming where {^target <> null}
+bi2 = select one BotInteraction in ui1->^target where {self <> bi1 and actions <> null and actions <> bi1->actions}
+modify bi1 with {swapref(actions, bi2->actions)}
 </code></pre></div></div>
 
 <p>Delete conversation step</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui0 = select one UserInteraction where {^target->outcoming->^target is typed BotInteraction}
-  bi0 = select one BotInteraction in ui0->^target->outcoming->^target
-  modify target ^target from ui0 to bi0
+bi0 = select one BotInteraction in ui0->^target->outcoming->^target
+modify target ^target from ui0 to bi0
 </code></pre></div></div>
 
 <p>Delete conversation bifurcation</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bi = select one BotInteraction where {outcoming <> null}
-  ui = select one UserInteraction in bi->outcoming
-  remove one UserInteraction from bi->outcoming where {self <> ui}
+ui = select one UserInteraction in bi->outcoming
+remove one UserInteraction from bi->outcoming where {self <> ui}
 </code></pre></div></div>
 
 <p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>

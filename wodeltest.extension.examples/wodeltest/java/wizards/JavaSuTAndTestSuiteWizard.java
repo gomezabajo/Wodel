@@ -118,9 +118,9 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/sut")) {
+						if (entry.getName().startsWith("sample/java/sut")) {
 							final File f = srcSut.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/sut", ""));
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/java/sut", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -137,7 +137,7 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/sut";
+				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/java/sut";
 				final File src = new Path(srcName).toFile();
 				final File dest = srcSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
@@ -157,9 +157,9 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/data")) {
+						if (entry.getName().startsWith("sample/java/data")) {
 							final File f = dataSut.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/data", ""));
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/java/data", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -176,7 +176,7 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				dataName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/data";
+				dataName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/java/data";
 				final File src = new Path(dataName).toFile();
 				final File dest = dataSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
@@ -207,9 +207,9 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/test")) {
+						if (entry.getName().startsWith("sample/java/test")) {
 							final File f = srcTest.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/test", ""));
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/java/test", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -226,7 +226,7 @@ public class JavaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/test";
+				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/java/test";
 				final File src = new Path(srcName).toFile();
 				final File dest = srcTest.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {

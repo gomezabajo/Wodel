@@ -469,6 +469,9 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		final IFolder sampleFolder = project.getFolder(new Path("sample"));
 		sampleFolder.create(true, true, monitor);
 
+		final IFolder javaFolder = sampleFolder.getFolder(new Path("java"));
+		javaFolder.create(true, true, monitor);
+
 		try {
 		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 		//URL fileURL = bundle.getEntry("content");
@@ -482,7 +485,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 				if (! entry.isDirectory()) {
 					if (entry.getName().startsWith("wodeltest/sample/java")) {
 						final String name = entry.getName();
-						final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
+						final File f = javaFolder.getRawLocation().makeAbsolute().toFile();
 						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/java", ""));
 						if (!dest.exists()) {
 							dest.getParentFile().mkdirs();
@@ -514,7 +517,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		else {
 			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/java";
 			final File src = new Path(srcName).toFile();
-			final File dest = sampleFolder.getRawLocation().makeAbsolute().toFile();
+			final File dest = javaFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
 				IOUtils.copyFolderWithReplacements(src, dest, replacements);
 			}
@@ -522,6 +525,62 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
+		final IFolder junit5Folder = sampleFolder.getFolder(new Path("junit5"));
+		junit5Folder.create(true, true, monitor);
+
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/sample/junit5")) {
+						final String name = entry.getName();
+						final File f = junit5Folder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/junit5", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/junit5";
+			final File src = new Path(srcName).toFile();
+			final File dest = junit5Folder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolderWithReplacements(src, dest, replacements);
+			}
+		}
+		} catch (IOException e) {
+		}
+
 		final IFolder libFolder = project.getFolder(new Path("lib"));
 		libFolder.create(true, true, monitor);
 
@@ -1003,6 +1062,22 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4Java\"");
 		pContent.append("\n");
 		pContent.append("\tname=\"Wodel-Test for Java SuT and Test Suite simple example\"");
+		pContent.append("\n");
+		pContent.append("\tproject=\"true\">");
+		pContent.append("\n");
+		pContent.append("\t</wizard>");
+		pContent.append("\n");
+		pContent.append("\t<wizard");
+		pContent.append("\n");
+		pContent.append("\tcategory=\"wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples\"");
+		pContent.append("\n");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".wizards.JavaSuTAndTestSuiteWizardjUnit5\"");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4Java\"");
+		pContent.append("\n");
+		pContent.append("\tname=\"Wodel-Test for Java SuT and jUnit5 Test Suite simple example\"");
 		pContent.append("\n");
 		pContent.append("\tproject=\"true\">");
 		pContent.append("\n");

@@ -126,7 +126,8 @@ You can access the following link to learn more about this solution and the tool
     - [wodeltest.optimiser](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser)
     - [wodeltest.run](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.run)
 - [wodeltest.additions](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.additions)
-    - [wodeltest.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension.examples)
+    - [wodeltest.conga.parsers](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.conga.parsers)
+	- [wodeltest.extension.examples](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension.examples)
     - [wodeltest.optimiser.subsumption](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser.subsumption)
 
 [![Contributors][contributors-shield]][contributors-url]

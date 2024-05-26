@@ -47,6 +47,7 @@ import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodeltest.extension.examples.utils.EclipseHelper;
+import wodeltest.extension.examples.utils.ProjectKind;
 import wodel.dsls.WodelUtils;
 
 public class WodelTest4ATLWizard extends Wizard implements INewWizard {
@@ -166,7 +167,7 @@ public class WodelTest4ATLWizard extends Wizard implements INewWizard {
 		
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, bundleClasspath, false, monitor, this.getShell());
+				exportedPackages, bundleClasspath, ProjectKind.ATL, monitor, this.getShell());
 
 		SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", project.getName());
 		List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();

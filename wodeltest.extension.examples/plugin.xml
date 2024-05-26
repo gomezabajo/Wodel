@@ -163,4 +163,24 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodeltest.extension.WodelTestProject"
+            name="Wodel-Test">
+      </category>
+      <category
+            id="wodeltest.extension.WodelTestExamples"
+            name="Wodel-Test Examples"
+            parentCategory="wodeltest.extension.WodelTestProject">
+      </category>
+      <wizard
+            category="wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4CongaWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4Conga"
+            name="Wodel-Test for Conga"
+            project="true">
+      </wizard>
+   </extension>
 </plugin>

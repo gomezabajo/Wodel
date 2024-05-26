@@ -1,0 +1,7 @@
+goodbye
+
+#me
+goodbye
+
+#bot
+INTENT goodbye

@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,6 +45,7 @@ import org.eclipse.xtext.ui.XtextProjectHelper;
 
 import wodeltest.extension.examples.builder.WodelTestBuilder;
 import wodeltest.extension.examples.builder.WodelTestNature;
+import wodeltest.extension.examples.wizards.WodelTest4CongaWizard;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel project examples creation Eclipse Helper.
@@ -76,7 +78,7 @@ public class EclipseHelper {
 	@SuppressWarnings({ "restriction", "deprecation" })
 	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final List<String> bundleClasspath, final boolean isWodelTest4JavaProject, final IProgressMonitor progressMonitor, final Shell theShell) {
+			final List<String> exportedPackages, final List<String> bundleClasspath, final ProjectKind projectKind, final IProgressMonitor progressMonitor, final Shell theShell) {
 		IProject project = null;
 		try {
 			progressMonitor.beginTask("", 10);
@@ -158,7 +160,7 @@ public class EclipseHelper {
 
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 			
-			if (isWodelTest4JavaProject) {
+			if (projectKind == ProjectKind.JAVA) {
 				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/5")));
 /*
 				String[] jUnit5Libraries = new String[] {
@@ -181,7 +183,6 @@ public class EclipseHelper {
 				};
 				
 				for (String jUnit5Library : jUnit5Libraries) {
-					classpathEntries.add(JavaCore.newLibraryEntry(project.getFile(jUnit5Library).getLocation(), null, null));
 					/*
  					IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
 					        IPackageFragmentRoot.K_BINARY,
@@ -198,9 +199,67 @@ public class EclipseHelper {
 				}
 */
 			}
+			if (projectKind == ProjectKind.CONGA) {
+/*				
+				String[] congaLibraries = new String[] {
+						 "lib/CONGA_RasaParsers.jar",
+						 "lib/commonmark-0.17.1.jar",
+						 "lib/jackson-annotations-2.15.2.jar",
+						 "lib/jackson-core-2.15.2.jar",
+						 "lib/jackson-databind-2.15.2.jar",
+						 "lib/jackson-dataformat-xml-2.15.2.jar",
+						 "lib/jackson-dataformat-yaml-2.15.2.jar",
+						 "lib/jsoup-1.6.0.jar",
+						 "lib/org.eclipse.xtext.xbase.lib_2.32.0.v20230827-1315.jar",
+						 "lib/snakeyaml-2.0.jar",
+						 "lib/woodstox-core-6.5.1.jar",
+						 "lib/json-20230618.jar",
+						 "lib/gson-2.10.1.jar",
+						 "lib/jsr305-3.0.2.jar",
+						 "lib/spotbugs-annotations-4.8.0.jar",
+						 "lib/winp-1.28.jar"
+				};
+*/			
+
+				/*
+				String[] congaLibraries = new String[] {
+						 "wodeltest/lib/conga/CONGA_RasaParsers.jar",
+						 "wodeltest/lib/conga/commonmark-0.17.1.jar",
+						 "wodeltest/lib/conga/jackson-annotations-2.15.2.jar",
+						 "wodeltest/lib/conga/jackson-core-2.15.2.jar",
+						 "wodeltest/lib/conga/jackson-databind-2.15.2.jar",
+						 "wodeltest/lib/conga/jackson-dataformat-xml-2.15.2.jar",
+						 "wodeltest/lib/conga/jackson-dataformat-yaml-2.15.2.jar",
+						 "wodeltest/lib/conga/jsoup-1.6.0.jar",
+						 "wodeltest/lib/conga/org.eclipse.xtext.xbase.lib_2.32.0.v20230827-1315.jar",
+						 "wodeltest/lib/conga/snakeyaml-2.0.jar",
+						 "wodeltest/lib/conga/woodstox-core-6.5.1.jar",
+						 "wodeltest/lib/conga/json-20230618.jar",
+						 "wodeltest/lib/conga/gson-2.10.1.jar",
+						 "wodeltest/lib/conga/jsr305-3.0.2.jar",
+						 "wodeltest/lib/conga/spotbugs-annotations-4.8.0.jar",
+						 "wodeltest/lib/conga/winp-1.28.jar"
+				};
+				for (String congaLibrary : congaLibraries) {
+					classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + congaLibrary), null, null));
+*/
+				/*
+					IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+					        IPackageFragmentRoot.K_BINARY,
+					        IClasspathEntry.CPE_LIBRARY, project.getFile(congaLibrary).getProjectRelativePath(),
+					        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+					        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+					        null, null, null, // specific output folder
+					        false, // exported
+					        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+					        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+					classpathEntries.add(relativeLibraryEntry);
+				*/
+/*				}*/
+			}
+			
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
 					new SubProgressMonitor(progressMonitor, 1));
-
 			javaProject.setOutputLocation(new Path("/" + projectName + "/bin"), new SubProgressMonitor(progressMonitor,
 					1));
 			createManifest(projectName, requiredBundles, importPackages, exportedPackages, bundleClasspath, progressMonitor, project);

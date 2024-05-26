@@ -94,6 +94,7 @@ public class Generator implements IGenerator {
 						"import wodel.utils.manager.WodelTestGlobalResult;\n" +
 						"import java.io.File;\n" +
 						"import java.util.List;\n" +
+						"import java.util.Map;\n\n" +
 						"import org.eclipse.core.resources.IProject;\n" +
 						"import org.eclipse.emf.ecore.EObject;\n" +
 						"import org.eclipse.emf.ecore.EPackage;\n\n" +
@@ -107,7 +108,12 @@ public class Generator implements IGenerator {
 						"\tpublic void projectToModel(String projectName, Class<?> cls) {\n\t}\n\n\t@Override\n" +
 						"\tpublic boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {\n\t\treturn false;\n\t}\n\n\t@Override\n" +
 						"\tpublic String getContainerEClassName() {\n\t\treturn \"\";\n\t}\n\n\t@Override\n" +
-						"\tpublic boolean annotateMutation(Resource model, EObject container, String annotation) {\n\t\treturn false;\n\t}\n" +
+						"\tpublic boolean annotateMutation(Resource model, EObject container, String annotation) {\n\t\treturn false;\n\t}\n\t@Override\n" +
+						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {\n\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, int port) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads) {\n\t\treturn null;\n\t}\n" +
 						"}";
 				if (file.exists()) {
 					String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));

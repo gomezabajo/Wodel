@@ -56,8 +56,7 @@
          id="wodeltest.extension.examples"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.comparison.java"
@@ -176,9 +175,15 @@
          version="0.0.0"
          unpack="false"/>
 
-
    <plugin
          id="wodeltest.optimiser.subsumption"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wodeltest.conga.parsers"
          download-size="0"
          install-size="0"
          version="0.0.0"

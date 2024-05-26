@@ -1,0 +1,7 @@
+bot_challenge
+
+#me
+bot_challenge
+
+#bot
+INTENT bot_challenge

@@ -1,34 +1,34 @@
 generate exhaustive mutants
 in "data/out/"
 from "data/model/"
-metamodel "/testBotGenerator/data/model/BotGenerator.ecore"
+metamodel "/data/model/BotGenerator.ecore"
 with resources from
-	{annotation="data/model/Annotation" metamodel="/testBotGenerator/data/model/Annotation.ecore"}
+	{annotation="data/model/Annotation" metamodel="/data/model/Annotation.ecore"}
 
 with blocks {
-	dp_max "Borrar una frase de entrenamiento (mayor similitud)" {
+	dp_max "Delete training phrase (max similarity)" {
 		tpi = select one IntentValue from annotation resources
 		i = select one Intent where {self = tpi->intent}
 		li = select one LanguageIntent in i->inputs
 		remove one TrainingPhrase from li->inputs where {self = tpi->max1}
 	}
-	dp_min "Borrar una frase de entrenamiento (menor similitud)" {
+	dp_min "Delete training phrase (min similarity)" {
 		tpi = select one IntentValue from annotation resources
 		i = select one Intent where {self = tpi->intent}
 		li = select one LanguageIntent in i->inputs
 		remove one TrainingPhrase from li->inputs where {self = tpi->min1}
 	}
- 	dpwp "Borrar todas las frases de un parámetro requerido" {
+ 	dpwp "Delete training phrases with required parameter" {
 		p = select one Parameter where {required = true}
 		remove all TrainingPhrase where {tokens->parameter = p}
 		remove all LanguageIntent where {inputs = null}
 	}
-	dpwl "Borrar todas las frases que utilicen un literal en concreto" {
+	dpwl "Delete training phrases with literal" {
 		input = select one SimpleInput
 		prt = select one ParameterReferenceToken where {textReference = input.values}
 		remove all TrainingPhrase where {tokens = prt}
 	}
-	k2p_max "Eliminar frases de entrenamiento de Intents hasta trainingPhrases->size() < 3 (mayor similitud)" {
+	k2p_max "Keep two training phrases (max similarity)" {
 		tpi = select one IntentValue from annotation resources
 		i = select one Intent where {self = tpi->intent}
 		li = select one LanguageIntent in i->inputs
@@ -37,7 +37,7 @@ with blocks {
 		tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
 		remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
 	}
-	k2p_min "Eliminar frases de entrenamiento de Intents hasta trainingPhrases->size() < 3 (menor similitud)" {
+	k2p_min "Keep two training phrases (min similarity)" {
 		tpi = select one IntentValue from annotation resources
 		i = select one Intent where {self = tpi->intent}
 		li = select one LanguageIntent in i->inputs
@@ -46,7 +46,7 @@ with blocks {
 		tp2 = select one TrainingPhrase in li->inputs where {self <> tp0 and self <> tp1}
 		remove all TrainingPhrase from li->inputs where {self <> tp0 and self <> tp1}
 	}
-	mp_max "Mover frases de entrenamiento entre intents al principio de la conversación (mayor similitud)" {
+	mp_max "Move training phrase (max similarity)" {
 		i1 = select one Intent where {inputs <> null}
 		iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and max1Value = max(max1Value)}
 		i2 = select one Intent where {inputs <> null and self = iiv->intent2}
@@ -56,7 +56,7 @@ with blocks {
 		tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
 		modify li2 with {inputs += tp1}
 	}
-	mp_min "Mover frases de entrenamiento entre intents al principio de la conversación (menor similitud)" {
+	mp_min "Move training phrase (min similarity)" {
 		i1 = select one Intent where {inputs <> null}
 		iiv = select one IntentIntentValue from annotation resources where {intent1 = i1 and min1Value = min(min1Value)}
 		i2 = select one Intent where {inputs <> null and self = iiv->intent2}
@@ -66,51 +66,51 @@ with blocks {
 		tp2 = select one TrainingPhrase in li1->inputs where {self <> tp1}
 		modify li2 with {inputs += tp1}
 	}
-	rip "Eliminar todas las frases de un parametro y ese parametro" {
+	dip "Delete intent parameter" {
 		p = select one Parameter
 		remove all TrainingPhrase where {tokens->parameter = p}
 		remove all ParameterToken where {parameter = p}
 		remove p
 		remove all LanguageIntent where {inputs = null}
 	}
-	dpp "Borrar el prompt de un parámetro que sea requerido" {
+	dpp "Delete parameter prompt" {
 		p0 = select one Parameter where {required = true}
 		remove one LanguagePrompt from p0->prompts
 	}
-	spo "Cambiar un parametro requerido a opcional" {
+	spo "Set required parameter to optional" {
 		modify one Parameter where {required = true} with {required = false}
 	}
-	cre "Cambiar expresion regular" {
+	cre "Change regular expression" {
 		modify one RegexInput with {expresion = catstart('[^'), expresion = catend(']')}
 	}
-	dle "Elimina un literal de una entity" {
+	dle "Delete literal from entity" {
 		remove one SimpleInput 
 	}
-	dfi "Borrar un intent que tenga fallback=true" {
+	dfi "Delete fallback intent" {
 		i = select one Intent where {fallbackIntent = true}
 		remove all UserInteraction where {intent = i}
 		remove i
 	}
-	da "Borrar acciones asociadas a un BotInteraction" {
+	da "Delete actions" {
 		bi0 = select one BotInteraction where {actions <> null}
 		remove one Action from bi0->actions 
 	}
-	dpr "Borrar un parametro que se utilice en una respuesta" {
+	dpr "Delete a parameter used in a response" {
 		text = select one TextInput where {tokens is typed ParameterToken}
 		remove one ParameterToken from text->tokens
 	}
-	so "Swap outputs between two consecutive steps" {
+	so "Swap outputs" {
 		bi1 = select one BotInteraction where {actions <> null and outcoming->^target <> null}
 		ui1 = select one UserInteraction in bi1->outcoming where {^target <> null}
 		bi2 = select one BotInteraction in ui1->^target where {self <> bi1 and actions <> null and actions <> bi1->actions}
 		modify bi1 with {swapref(actions, bi2->actions)}
 	}
-	dcs "Saltarse un paso en una interacción" {
+	dcs "Delete conversation step" {
 		ui0 = select one UserInteraction where {^target->outcoming->^target is typed BotInteraction}
 		bi0 = select one BotInteraction in ui0->^target->outcoming->^target
 		modify target ^target from ui0 to bi0
 	}
-	dcb "Eliminar bifurcación en un flujo de conversación" {
+	dcb "Delete conversation bifurcation" {
 		bi = select one BotInteraction where {outcoming <> null}
 		ui = select one UserInteraction in bi->outcoming
 		remove one UserInteraction from bi->outcoming where {self <> ui}

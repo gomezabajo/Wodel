@@ -2,6 +2,21 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path=""/>
+	<classpathentry exported="true" kind="lib" path="CONGA_RasaParsers.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-0.17.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="gson-2.10.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-annotations-2.15.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-core-2.15.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-databind-2.15.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-dataformat-xml-2.15.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-dataformat-yaml-2.15.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="json-20230618.jar"/>
+	<classpathentry exported="true" kind="lib" path="jsoup-1.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="jsr305-3.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="org.eclipse.xtext.xbase.lib_2.32.0.v20230827-1315.jar"/>
+	<classpathentry exported="true" kind="lib" path="snakeyaml-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="spotbugs-annotations-4.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="winp-1.28.jar"/>
+	<classpathentry exported="true" kind="lib" path="woodstox-core-6.5.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

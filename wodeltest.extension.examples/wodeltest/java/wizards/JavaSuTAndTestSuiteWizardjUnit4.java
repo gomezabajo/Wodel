@@ -109,6 +109,8 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 
 		final IFolder srcSut = sut.getFolder(new Path("src"));
 		//srcSut.create(true, true, monitor);
+		final IFolder calcSut = srcSut.getFolder(new Path("calc"));
+		calcSut.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
@@ -118,9 +120,9 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit4/sut")) {
-							final File f = srcSut.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit4/sut", ""));
+						if (entry.getName().startsWith("sample/junit4/sut/calc")) {
+							final File f = calcSut.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit4/sut/calc", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -137,9 +139,9 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit4/sut";
+				srcName = JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit4/sut/calc";
 				final File src = new Path(srcName).toFile();
-				final File dest = srcSut.getRawLocation().makeAbsolute().toFile();
+				final File dest = calcSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}
@@ -198,6 +200,9 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 		
 		final IFolder srcTest = test.getFolder(new Path("src"));
 		//srcTest.create(true, true, monitor);
+		final IFolder calcTest = srcTest.getFolder(new Path("calc"));
+		calcTest.create(true, true, monitor);
+		
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
@@ -207,9 +212,9 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit4/test")) {
-							final File f = srcTest.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit4/test", ""));
+						if (entry.getName().startsWith("sample/junit4/test/calc")) {
+							final File f = calcTest.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit4/test/calc", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -226,9 +231,9 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit4/test";
+				srcName = JavaSuTAndTestSuiteWizardjUnit4.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit4/test/calc";
 				final File src = new Path(srcName).toFile();
-				final File dest = srcTest.getRawLocation().makeAbsolute().toFile();
+				final File dest = calcTest.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}

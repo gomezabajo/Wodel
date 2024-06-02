@@ -317,7 +317,7 @@ public class EclipseHelper {
 			}
 		}
 		bpContent.append("\n");
-		bpContent.append("bin.includes = META-INF/,plugin.xml,.\n");
+		bpContent.append("bin.includes = META-INF/,plugin.xml,.,sample/,bin/,data/,icons/,src/\n");
 		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 
@@ -327,7 +327,7 @@ public class EclipseHelper {
 	throws CoreException {
 		final StringBuilder maniContent = new StringBuilder("Manifest-Version: 1.0\n");
 		maniContent.append("Automatic-Module-Name: " + projectName + "\n");
-		//maniContent.append("Bundle-ActivationPolicy: lazy\n");
+		maniContent.append("Bundle-ActivationPolicy: lazy\n");
 		maniContent.append("Bundle-ManifestVersion: 2\n");
 		maniContent.append("Bundle-Name: " + projectName + "\n");
 		maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");

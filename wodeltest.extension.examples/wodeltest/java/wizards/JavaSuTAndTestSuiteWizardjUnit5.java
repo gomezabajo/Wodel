@@ -109,6 +109,12 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 
 		final IFolder srcSut = sut.getFolder(new Path("src"));
 		//srcSut.create(true, true, monitor);
+		final IFolder comSut = srcSut.getFolder(new Path("com"));
+		comSut.create(true, true, monitor);
+		final IFolder exampleSut = comSut.getFolder(new Path("example"));
+		exampleSut.create(true, true, monitor);
+		final IFolder toolSut = comSut.getFolder(new Path("tool"));
+		toolSut.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
@@ -118,9 +124,9 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit5/sut")) {
-							final File f = srcSut.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/sut", ""));
+						if (entry.getName().startsWith("sample/junit5/sut/com/example/tool")) {
+							final File f = toolSut.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/sut/com/example/tool", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -137,9 +143,48 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut/com/example/tool";
 				final File src = new Path(srcName).toFile();
-				final File dest = srcSut.getRawLocation().makeAbsolute().toFile();
+				final File dest = toolSut.getRawLocation().makeAbsolute().toFile();
+				if ((src != null) && (dest != null)) {
+					IOUtils.copyFolder(src, dest);
+				}
+			}
+		} catch (IOException e) {
+		}
+		final IFolder internalSut = comSut.getFolder(new Path("internal"));
+		internalSut.create(true, true, monitor);
+		try {
+			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+				while(entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("sample/junit5/sut/com/example/tool/internal")) {
+							final File f = internalSut.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/sut/com/example/tool/internal", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+					}
+				}
+				jar.close();
+			}
+			else {
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut/com/example/tool/internal";
+				final File src = new Path(srcName).toFile();
+				final File dest = internalSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}
@@ -198,6 +243,12 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 		
 		final IFolder srcTest = test.getFolder(new Path("src"));
 		//srcTest.create(true, true, monitor);
+		final IFolder comTest = srcTest.getFolder(new Path("com"));
+		comTest.create(true, true, monitor);
+		final IFolder exampleTest = comTest.getFolder(new Path("example"));
+		exampleTest.create(true, true, monitor);
+		final IFolder toolTest = comTest.getFolder(new Path("tool"));
+		toolTest.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
@@ -207,9 +258,9 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit5/test")) {
-							final File f = srcTest.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test", ""));
+						if (entry.getName().startsWith("sample/junit5/test/com/example/tool")) {
+							final File f = toolTest.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -226,16 +277,54 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test/com/example/tool";
 				final File src = new Path(srcName).toFile();
-				final File dest = srcTest.getRawLocation().makeAbsolute().toFile();
+				final File dest = toolTest.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}
 			}
 		} catch (IOException e) {
 		}
-
+		final IFolder internalTest = comTest.getFolder(new Path("internal"));
+		internalTest.create(true, true, monitor);
+		try {
+			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+				while(entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("sample/junit5/test/com/example/tool/internal")) {
+							final File f = internalTest.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool/internal", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+					}
+				}
+				jar.close();
+			}
+			else {
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut/com/example/tool/internal";
+				final File src = new Path(srcName).toFile();
+				final File dest = internalTest.getRawLocation().makeAbsolute().toFile();
+				if ((src != null) && (dest != null)) {
+					IOUtils.copyFolder(src, dest);
+				}
+			}
+		} catch (IOException e) {
+		}
 		monitor.worked(1);
 		
 		try {

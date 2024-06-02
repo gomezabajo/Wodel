@@ -24,9 +24,13 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -47,6 +51,7 @@ import com.google.common.io.CharStreams;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
+import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
 import wodel.dsls.WodelUtils;
@@ -680,7 +685,35 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 
-		createPlugin(monitor, project);
+		try {
+
+			//addTextToFile(configPath, "config.txt", "\n" + this.getName(), monitor);
+			
+			IProjectDescription description = project.getDescription();
+
+			String[] natures = description.getNatureIds();
+			String[] newNatures = new String[natures.length + 1];
+			System.arraycopy(natures, 0, newNatures, 0, natures.length);
+			newNatures[natures.length] = WodelTestNature.NATURE_ID;
+
+			// validate the natures
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IStatus status = workspace.validateNatureSet(newNatures);
+
+			// only apply new nature, if the status is ok
+			if (status.getCode() == IStatus.OK) {
+				description.setNatureIds(newNatures);
+				project.setDescription(description, null);
+			}
+			
+			//final IFolder metaInf = mutProject.getFolder("META-INF");
+			//addTextToFile(metaInf, "MANIFEST.MF", "Export-Package: mutator." + mutProject.getName() + ",\n mutator.wodeltest." + mutProject.getName() + "\n", monitor);
+			createPlugin(monitor, project);
+			
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		monitor.setTaskName("Opening file for editing...");
 		final IFile file = srcFolder.getFile(new Path(mutFile.getName()));
@@ -843,9 +876,9 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<extension");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodel.project.sampleNature\"");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTNature\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Sample Project Nature\"");
+		pContent.append("\tname=\"Wodel-Test SUT Project Nature\"");
 		pContent.append("\n");
 		pContent.append("\tpoint=\"org.eclipse.core.resources.natures\">");
 		pContent.append("\n");
@@ -853,7 +886,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<run");
 		pContent.append("\n");
-		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.SampleNature\">");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.WodelTestSUTNature\">");
 		pContent.append("\n");
 		pContent.append("\t</run>");
 		pContent.append("\n");
@@ -861,7 +894,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<builder");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodel.project.sampleBuilder\">");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTBuilder\">");
 		pContent.append("\n");
 		pContent.append("\t</builder>");
 		pContent.append("\n");
@@ -869,9 +902,9 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<extension");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodel.project.sampleBuilder\"");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTBuilder\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Sample Project Builder\"");
+		pContent.append("\tname=\"Wodel-Test SUT Project Builder\"");
 		pContent.append("\n");
 		pContent.append("\tpoint=\"org.eclipse.core.resources.builders\">");
 		pContent.append("\n");
@@ -881,7 +914,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<run");
 		pContent.append("\n");
-		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.SampleBuilder\">");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.WodelTestSUTBuilder\">");
 		pContent.append("\n");
 		pContent.append("\t</run>");
 		pContent.append("\n");
@@ -895,21 +928,21 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<category");
 		pContent.append("\n");
-		pContent.append("\tname=\"Sample Project Nature commands\"");
+		pContent.append("\tname=\"Wodel-Test SUT Project Nature commands\"");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodel.project.sampleNature.category\">");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTNature.category\">");
 		pContent.append("\n");
 		pContent.append("\t</category>");
 		pContent.append("\n");
 		pContent.append("\t<command");
 		pContent.append("\n");
-		pContent.append("\tname=\"Add/RemoveSample Project Nature\"");
+		pContent.append("\tname=\"Add/Remove Wodel-Test SUT Project Nature\"");
 		pContent.append("\n");
-		pContent.append("\tdefaultHandler=\"mutator.wodeltest." + project.getName() + ".builder.AddRemoveSampleNatureHandler\"");
+		pContent.append("\tdefaultHandler=\"mutator.wodeltest." + project.getName() + ".builder.AddRemoveWodelTestSUTNatureHandler\"");
 		pContent.append("\n");
-		pContent.append("\tcategoryId=\"wodel.project.sampleNature.category\"");
+		pContent.append("\tcategoryId=\"wodeltest.extension.wodelTestSUTNature.category\"");
 		pContent.append("\n");
-		pContent.append("\tid=\"wodel.project.addRemoveSampleNature\">");
+		pContent.append("\tid=\"wodeltest.extension.addRemoveWodelTestSUTNature\">");
 		pContent.append("\n");
 		pContent.append("\t</command>");
 		pContent.append("\n");
@@ -925,9 +958,11 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<command");
 		pContent.append("\n");
-		pContent.append("\tcommandId=\"wodel.project.addRemoveSampleNature\"");
+		pContent.append("\tcommandId=\"wodeltest.extension.addRemoveWodelTestSUTNature\"");
 		pContent.append("\n");
-		pContent.append("\tlabel=\"Disable Sample builder\"");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tlabel=\"Disable Wodel-Test SUT Nature\"");
 		pContent.append("\n");
 		pContent.append("\tstyle=\"push\">");
 		pContent.append("\n");
@@ -953,7 +988,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<test");
 		pContent.append("\n");
-		pContent.append("\tvalue=\"wodel.project.sampleNature\"");
+		pContent.append("\tvalue=\"wodeltest.extension.wodelTestSUTNature\"");
 		pContent.append("\n");
 		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
 		pContent.append("\n");
@@ -971,9 +1006,11 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<command");
 		pContent.append("\n");
-		pContent.append("\tcommandId=\"wodel.project.addRemoveSampleNature\"");
+		pContent.append("\tcommandId=\"wodeltest.extension.addRemoveWodelTestSUTNature\"");
 		pContent.append("\n");
-		pContent.append("\tlabel=\"Enable Sample builder\"");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tlabel=\"Enable Wodel-Test SUT Nature\"");
 		pContent.append("\n");
 		pContent.append("\tstyle=\"push\">");
 		pContent.append("\n");
@@ -1001,7 +1038,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t<test");
 		pContent.append("\n");
-		pContent.append("\tvalue=\"wodel.project.sampleNature\"");
+		pContent.append("\tvalue=\"wodeltest.extension.wodelTestSUTNature\"");
 		pContent.append("\n");
 		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
 		pContent.append("\n");
@@ -1057,19 +1094,10 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\t</category>");
 		pContent.append("\n");
-		pContent.append("\t<category");
-		pContent.append("\n");
-		pContent.append("\tid=\"wodeltest.extension.WodelTestExamples\"");
-		pContent.append("\n");
-		pContent.append("\tname=\"Wodel-Test Examples\"");
-		pContent.append("\n");
-		pContent.append("\tparentCategory=\"wodeltest.extension.WodelTestProject\">");
-		pContent.append("\n");
-		pContent.append("\t</category>");
 		pContent.append("\n");
 		pContent.append("\t<wizard");
 		pContent.append("\n");
-		pContent.append("\tcategory=\"wodeltest.extension.WodelTestProject/wodeltest.extension.WodelTestExamples\"");
+		pContent.append("\tcategory=\"wodeltest.extension.WodelTestProject\"");
 		pContent.append("\n");
 		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".wizards.CongaSuTAndTestSuiteWizard\"");
 		pContent.append("\n");
@@ -1077,7 +1105,7 @@ public class WodelTest4CongaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4Conga\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Wodel-Test for Conga SuT and Test Suite simple example\"");
+		pContent.append("\tname=\"Wodel-Test for Conga example\"");
 		pContent.append("\n");
 		pContent.append("\tproject=\"true\">");
 		pContent.append("\n");

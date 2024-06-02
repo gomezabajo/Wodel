@@ -63,7 +63,7 @@ import wodel.utils.manager.WodelTestClassInfo;
 import wodel.utils.manager.WodelTestGlobalResult;
 import wodel.utils.manager.WodelTestResultClass;
 import wodel.utils.manager.WodelTestUtils;
-import wodeltest.run.builder.WodelTestNature;
+import wodeltest.run.sut.builder.WodelTestSUTNature;
 import wodeltest.run.utils.MutatorHelper;
 import wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart;
 
@@ -383,7 +383,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				String[] natures = description.getNatureIds();
 				String[] newNatures = new String[natures.length + 1];
 				System.arraycopy(natures, 0, newNatures, 0, natures.length);
-				newNatures[natures.length] = WodelTestNature.NATURE_ID;
+				newNatures[natures.length] = WodelTestSUTNature.NATURE_ID;
 				// validate the natures
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IStatus status = workspace.validateNatureSet(newNatures);

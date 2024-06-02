@@ -13,8 +13,8 @@ public class CongaSuTAndTestSuiteWizardPage extends WizardPage {
 	
 	protected CongaSuTAndTestSuiteWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for Java SuT and Test Suite simple example");
-		setDescription("This wizard creates the Wodel-Test for Java SuT and Test Suite simple example projects.");
+		setTitle("Wodel-Test for Conga Example");
+		setDescription("Wodel-Test for Conga Example.");
 		this.selection = selection;
 	}
 

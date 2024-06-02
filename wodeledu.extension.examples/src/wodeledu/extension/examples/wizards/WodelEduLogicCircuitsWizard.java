@@ -18,12 +18,17 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -47,6 +52,7 @@ import wodel.utils.manager.ProjectUtils;
 import wodel.dsls.WodelUtils;
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
+import wodeledu.extension.examples.builder.WodelEduNature;
 import wodeledu.extension.examples.utils.EclipseHelper;
 
 /**
@@ -669,6 +675,59 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 
+		createPlugin(monitor, project);
+		
+		monitor.setTaskName("Opening file for editing...");
+		IFile mutatorFile = srcFolder.getFile(new Path(fileName));
+		getShell().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				IWorkbenchPage page = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage();
+				try {
+					IDE.openEditor(page, mutatorFile, true);
+				} catch (PartInitException e) {
+				}
+			}
+		});
+		monitor.worked(1);
+		
+		
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException ex) {
+			ex.printStackTrace();
+		}
+		
+		try {
+
+			//addTextToFile(configPath, "config.txt", "\n" + this.getName(), monitor);
+			
+			IProjectDescription description = project.getDescription();
+
+			String[] natures = description.getNatureIds();
+			String[] newNatures = new String[natures.length + 1];
+			System.arraycopy(natures, 0, newNatures, 0, natures.length);
+			newNatures[natures.length] = WodelEduNature.NATURE_ID;
+
+			// validate the natures
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IStatus status = workspace.validateNatureSet(newNatures);
+
+			// only apply new nature, if the status is ok
+			if (status.getCode() == IStatus.OK) {
+				description.setNatureIds(newNatures);
+				project.setDescription(description, null);
+			}
+			
+			//final IFolder metaInf = mutProject.getFolder("META-INF");
+			//addTextToFile(metaInf, "MANIFEST.MF", "Export-Package: mutator." + mutProject.getName() + ",\n mutator.wodeltest." + mutProject.getName() + "\n", monitor);
+			createPlugin(monitor, project);
+			
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	/**
@@ -710,5 +769,68 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 	private InputStream openTestStream() {
 		String contents = "";
 		return new ByteArrayInputStream(contents.getBytes());
+	}
+	
+	private static void assertExist(final IContainer c) {
+		if (!c.exists()) {
+			if (!c.getParent().exists()) {
+				assertExist(c.getParent());
+			}
+			if (c instanceof IFolder) {
+				try {
+					((IFolder) c).create(false, true, new NullProgressMonitor());
+				}
+				catch (final CoreException e) {
+					//OawLog.logError(e);
+				}
+			}
+
+		}
+
+	}
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final IProgressMonitor progressMonitor) {
+		final IFile file = container.getFile(new Path(name));
+		assertExist(file.getParent());
+		try {
+			final InputStream stream = new ByteArrayInputStream(content.getBytes(file.getCharset()));
+			if (file.exists()) {
+				file.setContents(stream, true, true, progressMonitor);
+			}
+			else {
+				file.create(stream, true, progressMonitor);
+			}
+			stream.close();
+		}
+		catch (final Exception e) {
+			// TO-DO: Something
+		}
+		progressMonitor.worked(1);
+
+		return file;
+	}
+
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final String charSet, final IProgressMonitor progressMonitor) throws CoreException {
+		final IFile file = createFile(name, container, content, progressMonitor);
+		if (file != null && charSet != null) {
+			file.setCharset(charSet, progressMonitor);
+		}
+
+		return file;
+	}
+	
+	
+	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
+		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		pContent.append("\n");
+		pContent.append("<?eclipse version=\"3.4\"?>");
+		pContent.append("\n");
+		pContent.append("<plugin>");
+		pContent.append("\n");
+		pContent.append("</plugin>");
+		pContent.append("\n");
+		createFile("plugin.xml", project, pContent.toString(), progressMonitor);
 	}
 }

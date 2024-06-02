@@ -2,22 +2,22 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="wodeltest.run.sampleBuilder"
-         name="Wodel Test Project Builder"
+         id="wodeltest.run.wodelTestSUTBuilder"
+         name="Wodel Test SUT Project Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="true">
          <run
-               class="wodeltest.run.builder.WodelTestBuilder">
+               class="wodeltest.run.sut.builder.WodelTestSUTBuilder">
          </run>
       </builder>
    </extension>
 	<extension
-     id="wodeltest.run.sampleNature"
+     id="wodeltest.run.wodelTestSUTNature"
      point="org.eclipse.core.resources.natures">
   <runtime>
      <run
-           class="wodeltest.run.builder.WodelTestNature">
+           class="wodeltest.run.sut.builder.WodelTestSUTNature">
      </run>
   </runtime>
   </extension>
@@ -64,7 +64,7 @@
                         <adapt type="org.eclipse.core.resources.IResource">
                         	<test
                         		property="org.eclipse.core.resources.projectNature"
-                        		value="wodeltest.extension.sampleNature">
+                        		value="wodeltest.extension.wodelTestSUTNature">
     						</test>
  						</adapt>
                      </iterate>
@@ -83,28 +83,28 @@
             name="Wodel-Test">
       </category>
       <view
-            name="Wodel-Test global graphical results"
+            name="Global graphical results"
             icon="icons/wodel4.jpg"
             category="wodeltest.run.views"
             class="wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart"
             id="wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart">
       </view>
       <view
-            name="Wodel-Test mutant results"
+            name="Mutant results"
             icon="icons/wodel4.jpg"
             category="wodeltest.run.views"
             class="wodeltest.run.views.WodelTestClassResultsViewPart"
             id="wodeltest.run.views.WodelTestClassResultsViewPart">
       </view>
       <view
-            name="Wodel-Test test results"
+            name="Test results"
             icon="icons/wodel4.jpg"
             category="wodeltest.run.views"
             class="wodeltest.run.views.WodelTestResultsTestViewPart"
             id="wodeltest.run.views.WodelTestResultsTestViewPart">
       </view>
       <view
-            name="Wodel-Test mutation operator results"
+            name="Mutation operator results"
             icon="icons/wodel4.jpg"
             category="wodeltest.run.views"
             class="wodeltest.run.views.WodelTestMutatorResultsViewPart"

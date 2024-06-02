@@ -2,40 +2,40 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="wodel.project.sampleBuilder"
-         name="Sample Project Builder"
+         id="wodel.project.wodelBuilder"
+         name="Wodel Project Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="true">
          <run
-               class="wodel.project.builder.SampleBuilder">
+               class="wodel.project.builder.WodelBuilder">
          </run>
       </builder>
    </extension>
    <extension
-         id="wodel.project.sampleNature"
-         name="Sample Project Nature"
+         id="wodel.project.wodelNature"
+         name="Wodel Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="wodel.project.builder.SampleNature">
+               class="wodel.project.builder.WodelNature">
          </run>
       </runtime>
       <builder
-            id="wodel.project.sampleBuilder">
+            id="wodel.project.wodelBuilder">
       </builder>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="wodel.project.builder.sampleNature.category"
-            name="Sample Project Nature commands">
+            id="wodel.project.wodelNature.category"
+            name="Wodel Project Nature commands">
       </category>
       <command
-            categoryId="wodel.project.builder.sampleNature.category"
-            defaultHandler="wodel.project.builder.AddRemoveSampleNatureHandler"
-            id="wodel.project.builder.addRemoveSampleNature"
-            name="Add/RemoveSample Project Nature">
+            categoryId="wodel.project.wodelNature.category"
+            defaultHandler="wodel.project.builder.AddRemoveWodelNatureHandler"
+            id="wodel.project.addRemoveWodelNature"
+            name="Add/Remove Wodel Project Nature">
       </command>
    </extension>
    <extension
@@ -43,8 +43,9 @@
       <menuContribution
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
-               commandId="wodel.project.builder.addRemoveSampleNature"
-               label="Disable Sample builder"
+               commandId="wodel.project.addRemoveWodelNature"
+               icon="icons/wodel4.jpg"
+               label="Disable Wodel Nature"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -60,7 +61,7 @@
                         </instanceof>
                         <test
                               property="org.eclipse.core.resources.projectNature"
-                              value="wodel.project.sampleNature">
+                              value="wodel.project.wodelNature">
                         </test>
                      </and>
                   </iterate>
@@ -68,8 +69,9 @@
             </visibleWhen>
          </command>
          <command
-               commandId="wodel.project.builder.addRemoveSampleNature"
-               label="Enable Sample builder"
+               commandId="wodel.project.addRemoveWodelNature"
+               label="Enable Wodel Nature"
+               icon="icons/wodel4.jpg"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -86,7 +88,7 @@
                         <not>
                            <test
                                  property="org.eclipse.core.resources.projectNature"
-                                 value="wodel.project.sampleNature">
+                                 value="wodel.project.wodelNature">
                            </test>
                         </not>
                      </and>

@@ -325,6 +325,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
+		boolean postProcessing = false;
 		if (registry != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry().getConfigurationElementsFor(
@@ -341,6 +342,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 							src.doGenerate(fileName, metamodel, projectName, mutantName, project, srcFolder,
 									configFolder, monitor);
 						}
+						postProcessing = true;
 					}
 				} catch (CoreException e1) {
 					// TODO Auto-generated catch block
@@ -375,6 +377,10 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		});
 		monitor.worked(1);
+		
+		if (postProcessing == false) {
+			createPlugin(monitor, project);
+		}
 		
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -441,4 +447,67 @@ public class WodelWizard extends Wizard implements INewWizard {
 		this.selection = selection;
 	}
 
+	private static void assertExist(final IContainer c) {
+		if (!c.exists()) {
+			if (!c.getParent().exists()) {
+				assertExist(c.getParent());
+			}
+			if (c instanceof IFolder) {
+				try {
+					((IFolder) c).create(false, true, new NullProgressMonitor());
+				}
+				catch (final CoreException e) {
+					//OawLog.logError(e);
+				}
+			}
+
+		}
+
+	}
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final IProgressMonitor progressMonitor) {
+		final IFile file = container.getFile(new Path(name));
+		assertExist(file.getParent());
+		try {
+			final InputStream stream = new ByteArrayInputStream(content.getBytes(file.getCharset()));
+			if (file.exists()) {
+				file.setContents(stream, true, true, progressMonitor);
+			}
+			else {
+				file.create(stream, true, progressMonitor);
+			}
+			stream.close();
+		}
+		catch (final Exception e) {
+			// TO-DO: Something
+		}
+		progressMonitor.worked(1);
+
+		return file;
+	}
+
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final String charSet, final IProgressMonitor progressMonitor) throws CoreException {
+		final IFile file = createFile(name, container, content, progressMonitor);
+		if (file != null && charSet != null) {
+			file.setCharset(charSet, progressMonitor);
+		}
+
+		return file;
+	}
+	
+	
+	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
+		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		pContent.append("\n");
+		pContent.append("<?eclipse version=\"3.4\"?>");
+		pContent.append("\n");
+		pContent.append("<plugin>");
+		pContent.append("\n");
+		pContent.append("</plugin>");
+		pContent.append("\n");
+		createFile("plugin.xml", project, pContent.toString(), progressMonitor);
+	}
 }

@@ -34,7 +34,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import mutator.wodeltest.[@**@].builder.SampleNature;
+import mutator.wodeltest.[@**@].builder.WodelTestSUTNature;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel project examples creation Eclipse Helper.
@@ -47,11 +47,11 @@ public class EclipseHelper {
 
 	public static final String ISO_8859_1 = "iso-8859-1";
 	
-	public static void addWodelTestNature(IProject project) {
+	public static void addWodelTestSUTNature(IProject project) {
 		try {
 			IProjectDescription description = project.getDescription();
 			String natures[] = description.getNatureIds();
-			String wodelTestNature = SampleNature.NATURE_ID;
+			String wodelTestNature = WodelTestSUTNature.NATURE_ID;
 			if (!Arrays.asList(natures).contains(wodelTestNature)) {
 				int newNaturesLength = natures.length + 1;
 				String newNatures[] = new String[newNaturesLength];
@@ -108,7 +108,7 @@ public class EclipseHelper {
 			}
 
 			if (sut == true) {
-				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "wodeltest.extension.sampleNature" });
+				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, WodelTestSUTNature.NATURE_ID });
 			}
 			else {
 				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID });

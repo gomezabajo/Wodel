@@ -9,8 +9,8 @@
       </generator>
    </extension>
    <extension
-         id="wodeltest.extension.sampleBuilder"
-         name="Wodel Test Builder"
+         id="wodeltest.extension.wodelTestBuilder"
+         name="Wodel-Test Project Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="true">
@@ -19,13 +19,135 @@
          </run>
       </builder>
    </extension>
-	<extension
-     id="wodeltest.extension.sampleNature"
-     point="org.eclipse.core.resources.natures">
-   <runtime>
-     <run
-           class="wodeltest.extension.builder.WodelTestNature">
-     </run>
-  </runtime>
-  </extension>
+   <extension
+         id="wodeltest.extension.wodelTestNature"
+         name="Wodel-Test Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="wodeltest.extension.builder.WodelTestNature">
+         </run>
+      </runtime>
+      <builder
+            id="wodeltest.extension.wodelTestBuilder">
+      </builder>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Wodel-Test Project Nature commands"
+            id="wodeltest.extension.addRemoveWodelTestNature">
+      </category>
+      <command
+            name="Add/Remove Wodel-Test Project Nature"
+            defaultHandler="wodeltest.extension.builder.AddRemoveWodelTestNatureHandler"
+            categoryId="wodeltest.extension.addRemoveWodelTestNature"
+            id="wodeltest.extension.addRemoveWodelTestNature">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+         <command
+               commandId="wodeltest.extension.addRemoveWodelTestNature"
+               icon="icons/wodel4.jpg"
+               label="Disable Wodel-Test Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <test
+                              value="wodeltest.extension.wodelTestNature"
+                              property="org.eclipse.core.resources.projectNature">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="wodeltest.extension.addRemoveWodelTestNature"
+               icon="icons/wodel4.jpg"
+               label="Enable Wodel-Test Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <not>
+                           <test
+                                 value="wodeltest.extension.wodelTestNature"
+                                 property="org.eclipse.core.resources.projectNature">
+                           </test>
+                        </not>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+<!--
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeltest.extension.run.commands.WodelProject2WodelTestProject"
+            id="wodeltest.extension.run.commands.convertToWodelTestProject"
+            name="Convert to Wodel-Test project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+        locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+        <command
+            commandId="wodeltest.extension.run.commands.convertToWodelTestProject"
+            icon="icons/wodel4.jpg"
+            label="Convert to Wodel-Test project"
+            style="push">
+          <visibleWhen
+            checkEnabled="false">
+            <with
+              variable="activeMenuSelection">
+              <iterate>
+                <adapt type="org.eclipse.core.resources.IResource">
+                  <test
+                     property="org.eclipse.core.resources.projectNature"
+                     value="wodel.project.wodelNature">
+    			  </test>
+                </adapt>
+              </iterate>
+              <count value="1">
+              </count>
+            </with>
+          </visibleWhen>
+        </command>
+      </menuContribution>
+   </extension>
+-->
 </plugin>

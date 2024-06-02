@@ -33,7 +33,7 @@ public class FASuTAndTestSuiteWizard extends Wizard implements INewWizard {
 
 	private ISelection selection;
 
-	private static final String WIZARD_NAME = "Wodel-Test for FA SuT and Test Suite simple example";
+	private static final String WIZARD_NAME = "Wodel-Test for FA Example";
 	
 	public FASuTAndTestSuiteWizardPage _pageOne;
 

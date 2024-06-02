@@ -48,7 +48,7 @@ import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.LockRegistry;
 import wodel.utils.manager.ModelManager;
-import wodel.project.builder.SampleNature;
+import wodel.project.builder.WodelNature;
 
 public class ATLSemanticComparison extends SemanticComparison {
 
@@ -257,7 +257,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
 		try {
 			//If it is a Wodel project
-			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(SampleNature.NATURE_ID)) {
+			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(WodelNature.NATURE_ID)) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");

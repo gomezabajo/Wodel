@@ -2,132 +2,26 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="wodel.project.sampleBuilder"
-         name="Sample Project Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder
-            hasNature="true">
-         <run
-               class="wodeledu.extension.examples.builder.SampleBuilder">
-         </run>
-      </builder>
-   </extension>
-   <extension
-         id="wodel.project.sampleNature"
-         name="Sample Project Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="wodeledu.extension.examples.builder.SampleNature">
-         </run>
-      </runtime>
-      <builder
-            id="wodel.project.sampleBuilder">
-      </builder>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <category
-            name="Sample Project Nature commands"
-            id="wodeledu.extension.examples.builder.addRemoveSampleNature">
-      </category>
-      <command
-            name="Add/RemoveSample Project Nature"
-            defaultHandler="wodeledu.extension.examples.builder.AddRemoveSampleNatureHandler"
-            categoryId="wodeledu.extension.examples.builder.addRemoveSampleNature"
-            id="wodeledu.extension.examples.builder.addRemoveSampleNature">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
-         <command
-               commandId="wodeledu.extension.examples.builder.addRemoveSampleNature"
-               label="Disable Sample builder"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="selection">
-                  <count
-                        value="1">
-                  </count>
-                  <iterate>
-                     <adapt
-                           type="org.eclipse.core.resources.IProject">
-                        <test
-                              value="wodel.project.sampleNature"
-                              property="org.eclipse.core.resources.projectNature">
-                        </test>
-                     </adapt>
-                  </iterate>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="wodeledu.extension.examples.builder.addRemoveSampleNature"
-               label="Enable Sample builder"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="selection">
-                  <count
-                        value="1">
-                  </count>
-                  <iterate>
-                     <adapt
-                           type="org.eclipse.core.resources.IProject">
-                        <not>
-                           <test
-                                 value="wodel.project.sampleNature"
-                                 property="org.eclipse.core.resources.projectNature">
-                           </test>
-                        </not>
-                     </adapt>
-                  </iterate>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         id="xmlProblem"
-         name="XML Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-      <persistent
-            value="true">
-      </persistent>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="wodeledu.extension.WodelEduProject"
-            name="Wodel-Edu">
-      </category>
-      <category
             id="wodeledu.extension.WodelEduExamples"
-            name="Wodel-Edu Examples"
-            parentCategory="wodeledu.extension.WodelEduProject">
+            name="Examples for Wodel-Edu"
+            parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
-            category="wodeledu.extension.WodelEduProject/wodeledu.extension.WodelEduExamples"
+            category="wodel.project.WodelProject/wodeledu.extension.WodelEduExamples"
             class="wodeledu.extension.examples.wizards.WodelEduAutomataWizard"
             icon="icons/wodel4.jpg"
             id="wodeledu.extension.examples.wizards.WodelEduAutomataWizard"
-            name="Wodel-Edu Finite Automata"
+            name="Finite Automata"
             project="true">
       </wizard>
       <wizard
-            category="wodeledu.extension.WodelEduProject/wodeledu.extension.WodelEduExamples"
+            category="wodel.project.WodelProject/wodeledu.extension.WodelEduExamples"
             class="wodeledu.extension.examples.wizards.WodelEduLogicCircuitsWizard"
             icon="icons/wodel4.jpg"
             id="wodeledu.extension.examples.wizards.WodelEduLogicCircuitsWizard"
-            name="Wodel-Edu Logic Circuits"
+            name="Logic Circuits"
             project="true">
       </wizard>
    </extension>

@@ -19,12 +19,18 @@ import java.util.jar.JarFile;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -36,6 +42,7 @@ import org.eclipse.jdt.launching.JavaRuntime;
 
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
+import wodeledu.extension.builder.WodelEduNature;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
@@ -52,6 +59,24 @@ import wodel.extension.generator.IGenerator;
  */
 public class Generator implements IGenerator {
 
+	private void addTextToFile(IFolder path, String fileName, String text, IProgressMonitor monitor) {
+		IFile file = path.getFile(new Path(fileName));
+		try {
+			InputStream stream = file.getContents();
+			if (file.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				content += text;
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				file.setContents(stream, true, true, monitor);
+			}
+			else {
+				file.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (CoreException e) {
+		} catch (IOException e) {
+		}
+	}
 
 	@Override
 	public String getName() {
@@ -256,23 +281,6 @@ public class Generator implements IGenerator {
 		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + mutProject.getFolder(new Path('/' + outputPath + '/' + cfgoptsFileName.replaceAll(".mutatext", "_mutatext.model"))).getFullPath();
 		MutaTextUtils.serialize(xTextFileName, xmiFileName);
 		
-		final IFile configFile = configPath.getFile(new Path("config.txt"));
-		try {
-			InputStream stream = configFile.getContents();
-			if (configFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-				content += "\n" + this.getName();
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-				configFile.setContents(stream, true, true, monitor);
-			}
-			else {
-				configFile.create(stream, true, monitor);
-			}
-			stream.close();
-		} catch (CoreException e) {
-		} catch (IOException e) {
-		}
-		
 		final IFolder srcgenFolder = mutProject.getFolder(new Path("src-gen"));
 		try {
 			srcgenFolder.create(true, true, monitor);
@@ -444,7 +452,38 @@ public class Generator implements IGenerator {
 		} catch (IOException e) {
 		}
 
+		try {
+
+			addTextToFile(configPath, "config.txt", "\n" + this.getName(), monitor);
+			
+			IProjectDescription description = mutProject.getDescription();
+
+			String[] natures = description.getNatureIds();
+			String[] newNatures = new String[natures.length + 1];
+			System.arraycopy(natures, 0, newNatures, 0, natures.length);
+			newNatures[natures.length] = WodelEduNature.NATURE_ID;
+
+			// validate the natures
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IStatus status = workspace.validateNatureSet(newNatures);
+
+			// only apply new nature, if the status is ok
+			if (status.getCode() == IStatus.OK) {
+				description.setNatureIds(newNatures);
+				mutProject.setDescription(description, null);
+			}
+			
+			//final IFolder metaInf = mutProject.getFolder("META-INF");
+			//addTextToFile(metaInf, "MANIFEST.MF", "Export-Package: mutator." + mutProject.getName() + ",\n mutator.wodeltest." + mutProject.getName() + "\n", monitor);
+			createPlugin(monitor, mutProject);
+			
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
+		
 	}
 	
 	@Override
@@ -536,5 +575,69 @@ public class Generator implements IGenerator {
 	private InputStream openContentStream() {
 		String contents = "";
 		return new ByteArrayInputStream(contents.getBytes());
+	}
+	
+	private static void assertExist(final IContainer c) {
+		if (!c.exists()) {
+			if (!c.getParent().exists()) {
+				assertExist(c.getParent());
+			}
+			if (c instanceof IFolder) {
+				try {
+					((IFolder) c).create(false, true, new NullProgressMonitor());
+				}
+				catch (final CoreException e) {
+					//OawLog.logError(e);
+				}
+			}
+
+		}
+
+	}
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final IProgressMonitor progressMonitor) {
+		final IFile file = container.getFile(new Path(name));
+		assertExist(file.getParent());
+		try {
+			final InputStream stream = new ByteArrayInputStream(content.getBytes(file.getCharset()));
+			if (file.exists()) {
+				file.setContents(stream, true, true, progressMonitor);
+			}
+			else {
+				file.create(stream, true, progressMonitor);
+			}
+			stream.close();
+		}
+		catch (final Exception e) {
+			// TO-DO: Something
+		}
+		progressMonitor.worked(1);
+
+		return file;
+	}
+
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final String charSet, final IProgressMonitor progressMonitor) throws CoreException {
+		final IFile file = createFile(name, container, content, progressMonitor);
+		if (file != null && charSet != null) {
+			file.setCharset(charSet, progressMonitor);
+		}
+
+		return file;
+	}
+	
+	
+	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
+		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		pContent.append("\n");
+		pContent.append("<?eclipse version=\"3.4\"?>");
+		pContent.append("\n");
+		pContent.append("<plugin>");
+		pContent.append("\n");
+		pContent.append("</plugin>");
+		pContent.append("\n");
+		createFile("plugin.xml", project, pContent.toString(), progressMonitor);
 	}
 }

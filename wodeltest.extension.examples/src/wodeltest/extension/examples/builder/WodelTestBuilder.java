@@ -82,7 +82,7 @@ public class WodelTestBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "wodeltest.extension.sampleBuilder";
+	public static final String BUILDER_ID = "wodeltest.extension.wodelTestBuilder";
 
 	private static final String MARKER_TYPE = "wodeltest.extension.xmlProblem";
 

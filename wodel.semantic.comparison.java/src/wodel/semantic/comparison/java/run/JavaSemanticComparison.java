@@ -34,7 +34,7 @@ import wodel.utils.manager.AcceleoUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.WodelTestUtils;
-import wodel.project.builder.SampleNature;
+import wodel.project.builder.WodelNature;
 
 public class JavaSemanticComparison extends SemanticComparison {
 	
@@ -227,7 +227,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 			resource1 = ModelManager.loadModel(packages, model1);
 			resource2 = ModelManager.loadModel(packages, model2);
 			//If it is a Wodel project
-			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(SampleNature.NATURE_ID)) {
+			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(WodelNature.NATURE_ID)) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");

@@ -38,7 +38,7 @@ public class CongaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 
 	private ISelection selection;
 
-	private static final String WIZARD_NAME = "Wodel-Test for Conga SuT and Test Suite simple example";
+	private static final String WIZARD_NAME = "Wodel-Test for Conga Example";
 	
 	public CongaSuTAndTestSuiteWizardPage _pageOne;
 
@@ -52,8 +52,8 @@ public class CongaSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 		_pageOne = new CongaSuTAndTestSuiteWizardPage(selection);
-		_pageOne.setTitle("Wodel-Test for Conga SuT and Test Suite simple example");
-		_pageOne.setDescription("Create the Wodel-Test for Conga SuT and Test Suite simple example projects");
+		_pageOne.setTitle("Wodel-Test for Conga Example");
+		_pageOne.setDescription("Create the Wodel-Test for Conga Example");
 		addPage(_pageOne);
 	}
 

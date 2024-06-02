@@ -33,7 +33,7 @@ public class ATLSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 
 	private ISelection selection;
 
-	private static final String WIZARD_NAME = "Wodel-Test for ATL SuT and Test Suite simple example";
+	private static final String WIZARD_NAME = "Wodel-Test for ATL example";
 	
 	public ATLSuTAndTestSuiteWizardPage _pageOne;
 
@@ -47,8 +47,8 @@ public class ATLSuTAndTestSuiteWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 		_pageOne = new ATLSuTAndTestSuiteWizardPage(selection);
-		_pageOne.setTitle("Wodel-Test for ATL SuT and Test Suite simple example");
-		_pageOne.setDescription("Create the Wodel-Test for ATL SuT and Test Suite simple example projects");
+		_pageOne.setTitle("Wodel-Test for ATL example");
+		_pageOne.setDescription("Create the Wodel-Test for ATL example");
 		addPage(_pageOne);
 	}
 

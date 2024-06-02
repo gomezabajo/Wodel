@@ -35,8 +35,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.xtext.ui.XtextProjectHelper;
 
-import wodeledu.extension.examples.builder.SampleBuilder;
-import wodeledu.extension.examples.builder.SampleNature;
+import wodeledu.extension.examples.builder.WodelEduBuilder;
+import wodeledu.extension.examples.builder.WodelEduNature;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel project examples creation Eclipse Helper.
@@ -109,7 +109,7 @@ public class EclipseHelper {
 				}
 			}
 
-			projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", SampleNature.NATURE_ID });
+			projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", WodelEduNature.WODEL_NATURE_ID, WodelEduNature.NATURE_ID });
 			
 			final ICommand java = projectDescription.newCommand();
 			java.setBuilderName(JavaCore.BUILDER_ID);
@@ -121,7 +121,7 @@ public class EclipseHelper {
 			schema.setBuilderName("org.eclipse.pde.SchemaBuilder");
 
 			final ICommand oaw = projectDescription.newCommand();
-			oaw.setBuilderName(SampleBuilder.BUILDER_ID);
+			oaw.setBuilderName(WodelEduBuilder.BUILDER_ID);
 
 			projectDescription.setBuildSpec(new ICommand[] { java, manifest, schema, oaw });
 

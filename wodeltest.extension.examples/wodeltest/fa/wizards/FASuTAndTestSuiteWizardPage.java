@@ -13,8 +13,8 @@ public class FASuTAndTestSuiteWizardPage extends WizardPage {
 	
 	protected FASuTAndTestSuiteWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for FA SuT and Test Suite simple example");
-		setDescription("This wizard creates the Wodel-Test for FA SuT and Test Suite simple example projects.");
+		setTitle("Wodel-Test for FA Example");
+		setDescription("This wizard creates the Wodel-Test for FA Example.");
 		this.selection = selection;
 	}
 

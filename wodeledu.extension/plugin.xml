@@ -7,5 +7,146 @@
             class="wodeledu.extension.run.Generator">
       </generator>
    </extension>
-
+   <extension
+         id="wodeledu.extension.wodelEduBuilder"
+         name="Wodel-Edu Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="wodeledu.extension.builder.WodelEduBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="wodeledu.extension.wodelEduNature"
+         name="Wodel-Edu Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="wodeledu.extension.builder.WodelEduNature">
+         </run>
+      </runtime>
+      <builder
+            id="wodel.project.wodelBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Wodel-Edu Project Nature commands"
+            id="wodeledu.extension.addRemoveWodelEduNature">
+      </category>
+      <command
+            name="Add/Remove Wodel-Edu Project Nature"
+            defaultHandler="wodeledu.extension.builder.AddRemoveWodelEduNatureHandler"
+            categoryId="wodeledu.extension.addRemoveWodelEduNature"
+            id="wodeledu.extension.addRemoveWodelEduNature">
+      </command>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+         <command
+               commandId="wodeledu.extension.addRemoveWodelEduNature"
+               icon="icons/wodel4.jpg"
+               label="Disable Wodel-Edu Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <test
+                              value="wodeledu.extension.wodelEduNature"
+                              property="org.eclipse.core.resources.projectNature">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="wodeledu.extension.addRemoveWodelEduNature"
+               icon="icons/wodel4.jpg"
+               label="Enable Wodel-Edu Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <not>
+                           <test
+                                 value="wodeledu.extension.wodelEduNature"
+                                 property="org.eclipse.core.resources.projectNature">
+                           </test>
+                        </not>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+<!--
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeledu.extension.run.commands.WodelProject2WodelEduProject"
+            id="wodeledu.extension.run.commands.convertToWodelEduProject"
+            name="Convert to Wodel-Edu project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+        locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+        <command
+            commandId="wodeledu.extension.run.commands.convertToWodelEduProject"
+            icon="icons/wodel4.jpg"
+            label="Convert to Wodel-Edu project"
+            style="push">
+          <visibleWhen
+            checkEnabled="false">
+            <with
+              variable="activeMenuSelection">
+              <iterate>
+                <adapt type="org.eclipse.core.resources.IResource">
+                  <test
+                     property="org.eclipse.core.resources.projectNature"
+                     value="wodel.project.wodelNature">
+    			  </test>
+                </adapt>
+              </iterate>
+              <count value="1">
+              </count>
+            </with>
+          </visibleWhen>
+        </command>
+      </menuContribution>
+   </extension>
+-->
 </plugin>

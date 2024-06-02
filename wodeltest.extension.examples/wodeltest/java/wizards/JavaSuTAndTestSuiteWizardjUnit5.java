@@ -33,7 +33,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 
 	private ISelection selection;
 
-	private static final String WIZARD_NAME = "Wodel-Test for Java SuT and jUnit5 Test Suite simple example";
+	private static final String WIZARD_NAME = "Wodel-Test for jUnit5 Example";
 	
 	public JavaSuTAndTestSuiteWizardPagejUnit5 _pageOne;
 
@@ -47,8 +47,8 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 	public void addPages() {
 		super.addPages();
 		_pageOne = new JavaSuTAndTestSuiteWizardPagejUnit5(selection);
-		_pageOne.setTitle("Wodel-Test for Java SuT and jUnit5 Test Suite simple example");
-		_pageOne.setDescription("Create the Wodel-Test for Java SuT and jUnit5 Test Suite simple example projects");
+		_pageOne.setTitle("Wodel-Test for jUnit5 Example");
+		_pageOne.setDescription("Create the Wodel-Test for jUnit5 Example");
 		addPage(_pageOne);
 	}
 
@@ -137,7 +137,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut";
 				final File src = new Path(srcName).toFile();
 				final File dest = srcSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
@@ -176,7 +176,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				dataName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/data";
+				dataName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/data";
 				final File src = new Path(dataName).toFile();
 				final File dest = dataSut.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
@@ -226,7 +226,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test";
 				final File src = new Path(srcName).toFile();
 				final File dest = srcTest.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
@@ -253,6 +253,5 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 	{
 		return true;
 	}
-
 }
 

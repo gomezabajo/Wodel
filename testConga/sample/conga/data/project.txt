@@ -1,0 +1,2 @@
+testConga
+org.eclipse.jdt.core.javanature

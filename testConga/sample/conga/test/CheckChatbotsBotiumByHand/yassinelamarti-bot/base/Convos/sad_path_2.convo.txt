@@ -1,0 +1,23 @@
+#me
+greet
+
+#bot
+utter_greet
+
+#me
+mood_unhappy
+
+#bot
+utter_cheer_up
+
+#bot
+MEDIA https://i.imgur.com/nGF1K8f.jpg
+
+#bot
+utter_did_that_help
+
+#me
+deny
+
+#bot
+utter_goodbye

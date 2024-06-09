@@ -1,4 +1,0 @@
-Chatbots
-CheckChatbotsBotiumAuto
-CheckChatbotsBotiumByHand
-CheckChatbotsRasa

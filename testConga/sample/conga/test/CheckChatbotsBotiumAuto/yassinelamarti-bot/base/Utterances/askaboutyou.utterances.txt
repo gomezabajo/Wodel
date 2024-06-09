@@ -1,0 +1,4 @@
+askAboutYou
+can you develop a chatbot ? 
+are you a developer ? 
+what are your skills ? 

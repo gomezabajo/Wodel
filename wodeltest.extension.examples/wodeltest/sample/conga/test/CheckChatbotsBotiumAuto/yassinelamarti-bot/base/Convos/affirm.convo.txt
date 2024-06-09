@@ -1,7 +1,0 @@
-affirm
-
-#me
-affirm
-
-#bot
-INTENT affirm

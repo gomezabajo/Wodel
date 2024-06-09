@@ -1,7 +1,0 @@
-deny
-
-#me
-deny
-
-#bot
-INTENT deny

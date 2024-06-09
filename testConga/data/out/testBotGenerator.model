@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/data/model/BotGenerator.ecore" output="data/out/" exhaustive="true">
+    <source path="data/model/"/>
+    <resources metamodel="/data/model/Annotation.ecore" name="annotation">
+      <path path="data/model/Annotation"/>
+    </resources>
+  </definition>
+  <blocks name="dp_max" description="Delete training phrase (max similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentValue"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/max1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="dp_min" description="Delete training phrase (min similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentValue"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/min1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="dpwp" description="Delete training phrases with required parameter">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <refName href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="dpwl" description="Delete training phrases with literal">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="input">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//SimpleInput"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="prt">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//ParameterReferenceToken"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/BotGenerator.ecore#//ParameterReferenceToken/textReference"/>
+            <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.3/@commands.0">
+              <attribute href="../model/BotGenerator.ecore#//SimpleInput/values"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="k2p_max" description="Keep two training phrases (max similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentValue"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.1">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/max1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/max2"/>
+            </value>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.3"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.4"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.4"/>
+          </second>
+        </expression>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="k2p_min" description="Keep two training phrases (min similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentValue"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.1">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/min1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
+              <refType href="../model/Annotation.ecore#//IntentValue/min2"/>
+            </value>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.3"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.4"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.4"/>
+          </second>
+        </expression>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="mp_max" description="Move training phrase (max similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="iiv">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentIntentValue"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/Annotation.ecore#//IntentIntentValue/intent1"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/Annotation.ecore#//IntentIntentValue/max1Value"/>
+            <value xsi:type="mutatorenvironment:MaxValueType">
+              <attribute href="../model/Annotation.ecore#//IntentIntentValue/max1Value"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i2">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.1">
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/intent2"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.1">
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/max1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.5"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.4"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.5"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="mp_min" description="Move training phrase (min similarity)">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="iiv">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
+        <type href="../model/Annotation.ecore#//IntentIntentValue"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/Annotation.ecore#//IntentIntentValue/intent1"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.0"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/Annotation.ecore#//IntentIntentValue/min1Value"/>
+            <value xsi:type="mutatorenvironment:MinValueType">
+              <attribute href="../model/Annotation.ecore#//IntentIntentValue/min1Value"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i2">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.1">
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/intent2"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.2">
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.1">
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/min1"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3">
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.5"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.4"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.5"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="dip" description="Delete intent parameter">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <refName href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.8/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//ParameterToken"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.8/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.8/@commands.0"/>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="dpp" description="Delete parameter prompt">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//LanguagePrompt"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.9/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//Parameter/prompts"/>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="spo" description="Set required parameter to optional">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/BotGenerator.ecore#//Parameter/required"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="cre" description="Change regular expression">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//RegexInput"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/BotGenerator.ecore#//RegexInput/expresion"/>
+        <value xsi:type="mutatorenvironment:CatStartStringType" value="[^"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/BotGenerator.ecore#//RegexInput/expresion"/>
+        <value xsi:type="mutatorenvironment:CatEndStringType" value="]"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="dle" description="Delete literal from entity">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//SimpleInput"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="dfi" description="Delete fallback intent">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Intent"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/BotGenerator.ecore#//Intent/fallbackIntent"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/BotGenerator.ecore#//UserInteraction/intent"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.13/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.13/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="da" description="Delete actions">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//Action"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.14/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="dpr" description="Delete a parameter used in a response">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="text">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//TextInput"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
+            <name href="../model/BotGenerator.ecore#//TextInput/tokens"/>
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/BotGenerator.ecore#//ParameterToken"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//ParameterToken"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.15/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//TextInput/tokens"/>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="so" description="Swap outputs">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <refName href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.1">
+        <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0"/>
+          </first>
+          <operator/>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+          </second>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0">
+              <refType href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+            </value>
+          </second>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceSwap">
+        <reference href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+        <reference href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.2"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="dcs" description="Delete conversation step">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
+            <name href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+            <refName href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <refRefName href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+        <refRefType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <refRefRefType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+      <source xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.0"/>
+      <newTarget xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.1"/>
+    </commands>
+  </blocks>
+  <blocks name="dcb" description="Delete conversation bifurcation">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
+      </object>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.0">
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.1"/>
+          </first>
+        </expression>
+      </container>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

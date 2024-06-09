@@ -1,2 +1,0 @@
-utter_goodbye
-Bye

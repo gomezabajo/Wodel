@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/testATL.plugins_1.0.0.202406090631.jar" id="testATL.plugins" version="1.0.0.202406090631">
+      <category name="Wodel-Test for ATL"/>
+   </feature>
+   <category-def name="Wodel-Test for ATL" label="Wodel-Test for ATL"/>
+</site>

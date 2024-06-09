@@ -1,0 +1,4 @@
+data/model
+data/out
+testFA.mutator
+Wodel-Test: Generation of a model-based software testing framework

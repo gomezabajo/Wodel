@@ -1,7 +1,0 @@
-mood_unhappy
-
-#me
-mood_unhappy
-
-#bot
-INTENT mood_unhappy

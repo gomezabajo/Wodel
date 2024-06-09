@@ -1,0 +1,2 @@
+testFA
+org.eclipse.jdt.core.javanature

@@ -1,7 +1,0 @@
-mood_great
-
-#me
-mood_great
-
-#bot
-INTENT mood_great

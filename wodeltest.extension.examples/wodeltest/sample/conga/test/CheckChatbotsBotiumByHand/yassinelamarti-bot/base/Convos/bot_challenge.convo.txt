@@ -1,5 +1,0 @@
-#me
-bot_challenge
-
-#bot
-utter_iamabot

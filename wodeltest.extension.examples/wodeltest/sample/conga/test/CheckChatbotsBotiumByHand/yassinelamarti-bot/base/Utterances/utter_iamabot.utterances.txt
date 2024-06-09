@@ -1,2 +1,0 @@
-utter_iamabot
-I am a bot, powered by Rasa.

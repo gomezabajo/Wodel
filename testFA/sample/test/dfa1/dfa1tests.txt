@@ -1,0 +1,9 @@
+;no
+a;yes
+ab;no
+aba;no
+b;no
+ba;yes
+bba;yes
+bbab;no
+bbba;yes

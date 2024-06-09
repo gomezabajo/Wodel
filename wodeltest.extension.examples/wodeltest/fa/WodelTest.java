@@ -34,7 +34,7 @@ public class WodelTest implements IWodelTest {
 	public String getProjectName() {
 		return "[@**@]";
 	}
-
+	
 	@Override
 	public String getNatureId() {
 		return JavaCore.NATURE_ID;
@@ -151,8 +151,32 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
+	public void projectToModel(IProject project, Class<?> cls) {
+		String targetPath = ModelManager.getMetaModelPath(cls);
+		File sourceFolder = new File(project.getLocation().toFile().toPath().toString() + "/model");
+		for (File source : sourceFolder.listFiles()) {
+			if (source.getName().endsWith(".model")) {
+				try {
+					IOUtils.copyFile(source, new File(targetPath + "/" + source.getName()));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
 	public boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {
 		String targetPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/model/" + className + "/" + folderName + "/" + modelName;
+		ModelManager.saveOutModel(model, targetPath);
+		return false;
+	}
+
+	@Override
+	public boolean modelToProject(String className, Resource model, String folderName, String modelName,
+			IProject project, Class<?> cls) {
+		String targetPath = project.getLocation().toFile().toPath().toString() + "/model/" + className + "/" + folderName + "/" + modelName;
 		ModelManager.saveOutModel(model, targetPath);
 		return false;
 	}

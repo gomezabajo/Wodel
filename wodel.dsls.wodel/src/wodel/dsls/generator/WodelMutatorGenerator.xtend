@@ -133,14 +133,10 @@ abstract class WodelMutatorGenerator extends AbstractGenerator {
 	protected IProject project = null
 	protected String fileName
 	protected String className
-	protected String path
-	protected String xmiFileName
 	protected Program program
 	protected Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>()
 	
 	protected Bundle bundle
-	protected String metricsURL
-	protected String mutatorURL
 
 	def String getProjectName() {
 		var String projectName = null
@@ -1909,6 +1905,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		List<Resource> resources = new ArrayList<Resource>();
 		resources.add(model);
 		//«var boolean rts = false»
+		//«var int i = 0»
+		//«var int j = 0»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 			«IF mut.object.resource === null»
 			«IF mut.container === null»
@@ -2115,26 +2113,35 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«ENDIF»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
+			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
+			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
 			«ELSE»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", «className».class);
+			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, «className».class);
 			«ENDIF»
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-			«IF standalone == false»
-			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ELSE»
-			resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ENDIF»
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
+				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ENDIF»
+				«{i++; ""}»
 			«ENDFOR»
 			«FOR ecoreURI : ecoreURIs»
-			//«val ecoreURI2 = ecoreURI.replace("\\", "/")»
-			«IF standalone == false»
-			resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, "«ecoreURI2»"));
-			«ELSE»
-			resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, "file:/«ecoreURI2»"));
-			«ENDIF»
+				String relativeEcoreURI_«j» = "«ecoreURI.replace("\\", "/").substring(ecoreURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), ecoreURI.replace("\\", "/").length())»";
+				String absoluteEcoreURI_«j» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeEcoreURI_«j»;
+				absoluteEcoreURI_«j» = "file:/" + absoluteEcoreURI_«j».substring(1, absoluteEcoreURI_«j».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ENDIF»
+				«{j++; ""}»
 			«ENDFOR»
 			«IF mut.container === null»
 			«IF mut.object instanceof RandomTypeSelection»
@@ -2316,24 +2323,34 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«ENDIF»
 			«FOR resourceURI : resourceURIs»
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
+				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
 				«IF standalone == false»
-				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
+				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
 				«ELSE»
-				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
+				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
 				«ENDIF»
+				«{i++; ""}»
 			«ENDFOR»
 			«FOR ecoreURI : ecoreURIs»
+				String relativeEcoreURI_«j» = "«ecoreURI.replace("\\", "/").substring(ecoreURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), ecoreURI.replace("\\", "/").length())»";
+				String absoluteEcoreURI_«j» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeEcoreURI_«j»;
+				absoluteEcoreURI_«j» = "file:/" + absoluteEcoreURI_«j».substring(1, absoluteEcoreURI_«j».length()); 
 				«IF standalone == false»
-				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«ecoreURI.replace("\\", "/")»").toFileString()));
+				resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
 				«ELSE»
-				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI("file:/" + "«ecoreURI.replace("\\", "/")»").toFileString()));
+				resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
 				«ENDIF»
+				«{j++; ""}»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
+			String relativeObjectMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String absoluteObjectMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeObjectMetamodelPath;
 			«IF standalone == false»
-			objectPackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
+			objectPackages = ModelManager.loadMetaModel(absoluteObjectMetamodelPath, this.getClass());
 			«ELSE»
-			objectPackages = ModelManager.loadMetaModel("«metamodelPath»", «className».class);
+			objectPackages = ModelManager.loadMetaModel(absoluteObjectMetamodelPath, «className».class);
 			«ENDIF»
 			packages.addAll(objectPackages);
 			«ENDIF»
@@ -2468,6 +2485,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	def selectObjectMutatorExhaustive(SelectObjectMutator mut, MutatorEnvironment e, Block b, boolean last) '''
 		//SELECT OBJECT «methodName»
 		//«var boolean rts = false»
+		//«var int i = 0»
+		//«var int j = 0»
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
 		List<EPackage> resourcePackages = new ArrayList<EPackage>();
@@ -2496,26 +2515,35 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
+			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
+			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
 			«ELSE»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", «className».class);
+			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, «className».class);
 			«ENDIF»
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-			«IF standalone == false»
-			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ELSE»
-			resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ENDIF»
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
+				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ENDIF»
+				«{i++; ""}»
 			«ENDFOR»
 			«FOR ecoreURI : ecoreURIs»
-			//«val ecoreURI2 = ecoreURI.replace("\\", "/")»
-			«IF standalone == false»
-			resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, "«ecoreURI2»"));
-			«ELSE»
-			resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, "file:/«ecoreURI2»"));
-			«ENDIF»
+				String relativeEcoreURI_«j» = "«ecoreURI.replace("\\", "/").substring(ecoreURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), ecoreURI.replace("\\", "/").length())»";
+				String absoluteEcoreURI_«j» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeEcoreURI_«j»;
+				absoluteEcoreURI_«j» = "file:/" + absoluteEcoreURI_«j».substring(1, absoluteEcoreURI_«j».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ENDIF»
+				«{j++; ""}»
 			«ENDFOR»
 		«ENDIF»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
@@ -3387,6 +3415,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		List<Resource> resources = new ArrayList<Resource>();
 		resources.add(model);
 		SpecificReferenceSelection referenceSelection = null;
+		//«var int i = 0»
+		//«var int j = 0»
 		«IF mut.object.resource === null»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 			«IF mut.object instanceof RandomTypeSelection»
@@ -3539,26 +3569,35 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
+			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
-			List<EPackage> resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
+			List<Resource> resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
 			«ELSE»
-			List<EPackage> resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", «className».class);
+			List<Resource> resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, «className».class);
 			«ENDIF»
 			List<Resource> resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-			«IF standalone == false»
-			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ELSE»
-			resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI("file:/" + "«resourceURI.replace("\\", "/")»").toFileString()));
-			«ENDIF»
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
+				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_«i»).toFileString()));
+				«ENDIF»
+				«{i++; ""}»
 			«ENDFOR»
 			«FOR ecoreURI : ecoreURIs»
-			//«val ecoreURI2 = ecoreURI.replace("\\", "/")»
-			«IF standalone == false»
-			resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, "«ecoreURI2»"));
-			«ELSE»
-			resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, "file:/«ecoreURI2»"));
-			«ENDIF»
+				String relativeEcoreURI_«j» = "«ecoreURI.replace("\\", "/").substring(ecoreURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), ecoreURI.replace("\\", "/").length())»";
+				String absoluteEcoreURI_«j» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeEcoreURI_«j»;
+				absoluteEcoreURI_«j» = "file:/" + absoluteEcoreURI_«j».substring(1, absoluteEcoreURI_«j».length()); 
+				«IF standalone == false»
+				resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ELSE»
+				resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_«j»).toFileString()));
+				«ENDIF»
+				«{j++; ""}»
 			«ENDFOR»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 			«IF mut.object instanceof RandomTypeSelection»
@@ -6696,6 +6735,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 
+import mutatorenvironment.MutatorenvironmentPackage;
+import mutatormetrics.MutatormetricsPackage;
+
 public class «className» extends MutatorUtils {
 	
 	«IF standalone == false»
@@ -6773,16 +6815,17 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 
 		//Generate metrics model
-	   	String metricsecore = "«metricsURL/*FileLocator.resolve(metricsURL).getFile()*/»";
+	   	String metricsecore = MutatormetricsPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "model/MutatorMetrics.ecore";
+	   	metricsecore = metricsecore.substring(1, metricsecore.length());
 
 		MutatorMetricsGenerator metricsGenerator = null;
 	   	if (metrics == true) {
 	   		List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic net metrics");
 	   		«IF standalone == false»
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		«ELSE»
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 	   		«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
@@ -6791,9 +6834,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic debug metrics");
 	   		«IF standalone == true»
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		«ELSE»
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 	   		«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);   			
@@ -6881,16 +6924,17 @@ public class «className» extends MutatorUtils {
 		«ENDFOR»
 		
 		//Generate metrics model
-	   	String metricsecore = "«metricsURL/*FileLocator.resolve(metricsURL).getFile()*/»";
+	   	String metricsecore = MutatormetricsPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "model/MutatorMetrics.ecore";
+	   	metricsecore = metricsecore.substring(1, metricsecore.length());
 
 		MutatorMetricsGenerator metricsGenerator = null;
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
 			«IF standalone == false»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
@@ -6899,9 +6943,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
 			«IF standalone == false»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath(e) + "/" + getProjectName + "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 			monitor.worked(1);   			
@@ -6958,10 +7002,8 @@ public class «className» extends MutatorUtils {
 		«IF e instanceof Program»
 		String ecoreURI = "«e.metamodel»";
 		«/*IF e.source.multiple == true*/»
-		«var String modelPath = path+"/"+e.source.path»
-		«var String outputPath = path+"/"+e.output» 
-		String modelURI = "«modelPath»";
-		String modelsURI = "«outputPath»";
+		String modelURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.source.path»";
+		String modelsURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.output»";
 
 		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		«IF (e.source.path.endsWith("/"))»
@@ -6984,7 +7026,7 @@ public class «className» extends MutatorUtils {
 		//Load Model
 		Set<String> modelFilenames = hashmapModelFilenames.keySet();
 	   	if (numMutants > 0) {
-	   		totalMutants = numMutants * «MutatorUtils.getNumberOfSeedModels(e.eContainer as MutatorEnvironment, path)»;
+	   		totalMutants = numMutants * «MutatorUtils.getNumberOfSeedModels(e.eContainer as MutatorEnvironment, className + ".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")" + projectName + "/")»;
 	   	}
 		totalTasks += totalMutants;
 		monitor.beginTask("Generating mutants", totalTasks);
@@ -6999,10 +7041,8 @@ public class «className» extends MutatorUtils {
 	def multipleBlockCompile(Definition e, Block b) '''
 		«IF e instanceof Program»
 		String ecoreURI = "«e.metamodel»";
-		«var String modelPath = path+"/"+e.source.path»
-		«var String outputPath = path+"/"+e.output» 
-		String modelURI = "«modelPath»";
-		String modelsURI = "«outputPath»";
+		String modelURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.source.path»";
+		String modelsURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.output»";
 		
 		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
@@ -7642,11 +7682,11 @@ public class «className» extends MutatorUtils {
 				((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = min«expressionList.get(indexExpression)».getValue();
 			«ELSE»
 			«IF indexExpression == 0»
-				MinValueConfigurationStrategy min«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(resourcesPackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MinValueType)»", "«(refev.attValue as MinValueType).attribute.name»");
+				MinValueConfigurationStrategy min«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(resourcePackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MinValueType)»", "«(refev.attValue as MinValueType).attribute.name»");
 			«ELSE»
 				«compileAuxiliarExpression(indexExpression)»
 				List<EObject> auxObjects = evaluate(objects, auxExp«expressionList.get(indexExpression)»);
-				MinValueConfigurationStrategy min«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(resourcesPackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MinValueType)»", auxObjects, "«(refev.attValue as MinValueType).attribute.name»");
+				MinValueConfigurationStrategy min«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(resourcePackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MinValueType)»", auxObjects, "«(refev.attValue as MinValueType).attribute.name»");
 			«ENDIF»
 				((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = min«expressionList.get(indexExpression)».getValue();
 			«ENDIF»
@@ -7663,7 +7703,7 @@ public class «className» extends MutatorUtils {
 				((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = max«expressionList.get(indexExpression)».getValue();
 			«ELSE»
 			«IF expressionPosition == 0»
-				MaxValueConfigurationStrategy max«expressionList.get(indexExpression)» = new MaxValueConfigurationStrategy(resourcesPackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MaxValueType)»", "«(refev.attValue as MaxValueType).attribute.name»");
+				MaxValueConfigurationStrategy max«expressionList.get(indexExpression)» = new MaxValueConfigurationStrategy(resourcePackages, resources, "«MutatorUtils.getTypeName(refev.attValue as MaxValueType)»", "«(refev.attValue as MaxValueType).attribute.name»");
 			«ELSE»
 				«compileAuxiliarExpression(expressionPosition)»
 				List<EObject> auxObjects = evaluate(objects, auxExp«expressionList.get(indexExpression)»);
@@ -8010,15 +8050,19 @@ public class «className» extends MutatorUtils {
    //COMMANDS
    
    def execute(MutatorEnvironment e)'''
+   		«var String fileName = e.eResource.URI.lastSegment»
+		String xmiFilename = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«program.output + fileName.replaceAll(".mutator", ".model")»";
+		xmiFilename = "file:/" + xmiFilename.substring(1, xmiFilename.length());
    		//Generate metrics model
-		String mutatorecore = "«mutatorURL/*FileLocator.resolve(mutatorURL).getFile()*/»";
+		String mutatorecore = MutatorenvironmentPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "model/MutatorEnvironment.ecore";
+		mutatorecore = mutatorecore.substring(1, mutatorecore.length()); 
 		
 		//Load MetaModel
 		List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 		«IF standalone == false»
-		Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI("«xmiFileName»").toFileString());
+		Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 		«ELSE»
-		Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI("«xmiFileName»").toFileString());
+		Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 		«ENDIF»
 		
 		Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
@@ -8145,15 +8189,19 @@ public class «className» extends MutatorUtils {
 	def executeBlock(MutatorEnvironment e,
 		Block b
 	)'''
+   		«var String fileName = e.eResource.URI.lastSegment»
+		String xmiFilename = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«program.output + fileName.replaceAll(".mutator", ".model")»";
+		xmiFilename = "file:/" + xmiFilename.substring(1, xmiFilename.length());
 		//Generate metrics model
-		String mutatorecore = "«mutatorURL/*FileLocator.resolve(mutatorURL).getFile()*/»";
+		String mutatorecore = MutatorenvironmentPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "model/MutatorEnvironment.ecore";
+		mutatorecore = mutatorecore.substring(1, mutatorecore.length()); 
 		
 		//Load MetaModel
 		List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 		«IF standalone == false»
-		Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI("«xmiFileName»").toFileString());
+		Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 		«ELSE»
-		Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI("«xmiFileName»").toFileString());
+		Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 		«ENDIF»
 		
 		Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));

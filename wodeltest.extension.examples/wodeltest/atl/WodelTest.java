@@ -56,7 +56,7 @@ public class WodelTest implements IWodelTest {
 	public String getProjectName() {
 		return "[@**@]";
 	}
-
+	
 	@Override
 	public String getNatureId() {
 		return AtlNature.ATL_NATURE_ID;
@@ -340,6 +340,28 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
+	public void projectToModel(IProject project, Class<?> cls) {
+		try {
+			String transformationFile = project.getLocation().toFile().toPath().toString() + "/" + project.getName() + ".atl";
+			ModelFactory modelFactory = new EMFModelFactory();
+			IReferenceModel atlMetamodel = AtlParser.getDefault().getAtlMetamodel();
+			IModel atlModel = modelFactory.newModel(atlMetamodel);
+			AtlParser atlParser = new AtlParser();		
+			atlParser.inject(atlModel, transformationFile);			
+			atlModel.setIsTarget(true); // the model is not write-only
+
+			// serialize the atl file into a model
+			String injectedFile = "file:/" + ModelManager.getMetaModelPath(cls) + "/" + project.getName() + ".model";
+			IExtractor extractor = new EMFExtractor();
+			extractor.extract(atlModel, injectedFile);
+
+		} catch (ATLCoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {
 		ATLPackage.eINSTANCE.eClass();
 		try {
@@ -352,6 +374,31 @@ public class WodelTest implements IWodelTest {
 
 			AtlParser atlParser = new AtlParser();
 			String outputPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + folderName;
+			File outputFolder = new File(outputPath);
+			if (!outputFolder.exists()) {
+				outputFolder.mkdir();
+			}
+			atlParser.extract(atlModel, outputPath + "/" + modelName.replace(".model", ".atl"));
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean modelToProject(String className, Resource model, String folderName, String modelName,
+			IProject project, Class<?> cls) {
+		ATLPackage.eINSTANCE.eClass();
+		try {
+			ModelFactory modelFactory = new EMFModelFactory();
+			IReferenceModel atlMetamodel = AtlParser.getDefault().getAtlMetamodel();
+			IModel atlModel = modelFactory.newModel(atlMetamodel);
+			IInjector injector = new EMFInjector();
+			injector.inject(atlModel, "file:/" + ModelManager.getOutputPath(cls) + "/" + project.getName()
+					+ "/" + folderName + "/" + modelName);
+
+			AtlParser atlParser = new AtlParser();
+			String outputPath = project.getLocation().toFile().toPath().toString() + "/" + folderName;
 			File outputFolder = new File(outputPath);
 			if (!outputFolder.exists()) {
 				outputFolder.mkdir();

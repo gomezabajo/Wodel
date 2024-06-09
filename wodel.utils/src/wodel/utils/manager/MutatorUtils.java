@@ -9776,7 +9776,7 @@ public class MutatorUtils {
 			if (localRegisteredPackages != null) {
 				ModelManager.registerMetaModel(localRegisteredPackages);
 			}
-			boolean value = test.modelToProject(className, model, "", mutantName, project.getName(), null);
+			boolean value = test.modelToProject(className, model, "", mutantName, project, null);
 			if (value == false) {
 				if (localRegisteredPackages != null) {
 					List<EPackage> localRegistered = new ArrayList<EPackage>();
@@ -10718,7 +10718,7 @@ public class MutatorUtils {
 			if (localRegisteredPackages != null) {
 				ModelManager.registerMetaModel(localRegisteredPackages);
 			}
-			boolean value = test.modelToProject(className, model, block, mutantName, project.getName(), null);
+			boolean value = test.modelToProject(className, model, block, mutantName, project, null);
 			if (value == false) {
 				if (localRegisteredPackages != null) {
 					List<EPackage> localRegistered = new ArrayList<EPackage>();

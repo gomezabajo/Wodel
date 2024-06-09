@@ -44,7 +44,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
-import org.jvnet.winp.WinProcess;
+//import org.jvnet.winp.WinProcess;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -93,7 +93,8 @@ public class WodelTest implements IWodelTest {
 		private int port = 0;
 		private String botiumBatFile = "";
 		private String botiumProcessTitle = "";
-		private WinProcess rasaProcess = null;
+		//private WinProcess rasaProcess = null;
+		private Process rasaProcess = null;
 		private boolean last = false;
 		
 		private String botiumPath = "";
@@ -101,7 +102,8 @@ public class WodelTest implements IWodelTest {
 		private String artifactPath = null;
 		private List<WodelTestResultClass> results = null;
 		
-		public BotiumRunner(int port, String botiumBatFile, String botiumProcessTitle, WinProcess rasaProcess, boolean last, String botiumPath, WodelTestGlobalResult globalResult, String artifactPath, List<WodelTestResultClass> results) {
+		//public BotiumRunner(int port, String botiumBatFile, String botiumProcessTitle, WinProcess rasaProcess, boolean last, String botiumPath, WodelTestGlobalResult globalResult, String artifactPath, List<WodelTestResultClass> results) {
+		public BotiumRunner(int port, String botiumBatFile, String botiumProcessTitle, Process rasaProcess, boolean last, String botiumPath, WodelTestGlobalResult globalResult, String artifactPath, List<WodelTestResultClass> results) {
 			this.port = port;
 			this.botiumBatFile = botiumBatFile;
 			this.botiumProcessTitle = botiumProcessTitle;
@@ -125,7 +127,13 @@ public class WodelTest implements IWodelTest {
 			/*** terminar los procesos ***/
 			botiumProcess.destroy();
 			if (last) {
-				this.rasaProcess.killRecursively();
+				this.rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
+				this.rasaProcess.destroy();
+				this.rasaProcess.destroyForcibly();
+				//this.rasaProcess.killRecursively();
 			}
 
 			/*** recolectar resultados ***/
@@ -160,37 +168,43 @@ public class WodelTest implements IWodelTest {
 		projectPath = projectPath.replace("\\", "/").replace("//", "/");
 		String mutantPath = projectPath + "/mutants/zip";
 		File mutantFolder = new File(mutantPath);
-		for (File chatbotFolder : mutantFolder.listFiles()) {
-			String chatbotPath = mutantPath + "/" + chatbotFolder.getName();
-			if (blockNames.size() > 0) {
-				for (String blockName : blockNames) {
-					String blockPath = chatbotPath + "/" + blockName;
-					File blockFolder = new File(blockPath);
-					if (blockFolder.exists()) {
-						for (File zipFolder : blockFolder.listFiles()) {
-							String zipPath = blockPath + "/" + zipFolder.getName();
-							File modelFolder = new File(zipPath);
-							if (modelFolder.exists()) {
-								for (File artifact : modelFolder.listFiles()) {
-									if (artifact.exists()) {
-										artifactPaths.add(zipPath + "/" + artifact.getName());
+		if (mutantFolder.exists()) {
+			if (mutantFolder.listFiles() != null) {
+				for (File chatbotFolder : mutantFolder.listFiles()) {
+					String chatbotPath = mutantPath + "/" + chatbotFolder.getName();
+					if (blockNames.size() > 0) {
+						for (String blockName : blockNames) {
+							String blockPath = chatbotPath + "/" + blockName;
+							File blockFolder = new File(blockPath);
+							if (blockFolder.exists()) {
+								for (File zipFolder : blockFolder.listFiles()) {
+									String zipPath = blockPath + "/" + zipFolder.getName();
+									File modelFolder = new File(zipPath);
+									if (modelFolder.exists()) {
+										for (File artifact : modelFolder.listFiles()) {
+											if (artifact.exists()) {
+												artifactPaths.add(zipPath + "/" + artifact.getName());
+											}
+										}
 									}
 								}
 							}
 						}
 					}
-				}
-			}
-			String blockPath = chatbotPath + "/" + chatbotFolder.getName();
-			File blockFolder = new File(blockPath);
-			if (blockFolder.exists()) {
-				for (File zipFolder : blockFolder.listFiles()) {
-					String zipPath = blockPath + "/" + zipFolder.getName();
-					File modelFolder = new File(zipPath);
-					if (modelFolder.exists()) {
-						for (File artifact : modelFolder.listFiles()) {
-							if (artifact.exists()) {
-								artifactPaths.add(zipPath + "/" + artifact.getName());
+					String blockPath = chatbotPath + "/" + chatbotFolder.getName();
+					File blockFolder = new File(blockPath);
+					if (blockFolder.exists()) {
+						if (blockFolder.listFiles() != null) {
+							for (File zipFolder : blockFolder.listFiles()) {
+								String zipPath = blockPath + "/" + zipFolder.getName();
+								File modelFolder = new File(zipPath);
+								if (modelFolder.exists()) {
+									for (File artifact : modelFolder.listFiles()) {
+										if (artifact.exists()) {
+											artifactPaths.add(zipPath + "/" + artifact.getName());
+										}
+									}
+								}
 							}
 						}
 					}
@@ -324,7 +338,7 @@ public class WodelTest implements IWodelTest {
 	}
 	
 	private static boolean isSetUp(String strurl, int port, int timeout) {
-        boolean responseOK = false;
+      boolean responseOK = false;
 	    strurl = strurl.replaceFirst("https", "http");
 	    try {
 	    	URL plainurl = new URL(strurl);
@@ -710,7 +724,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -742,7 +756,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				Process rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				WodelTestResult wtr = parseRasaTestResults(globalResult, artifactPath, rasaResultsPath + "/" + RASA_LANGUAGE);
@@ -796,11 +815,17 @@ public class WodelTest implements IWodelTest {
 				String[] botiumFolders = botiumFolder.split("/");
 				createBatToLaunchBotium(chatbotName, mutant, botiumBatFile, botiumUnit, botiumFolders, detectScriptingmemory(botiumPath));
 				String botiumTitle = "botium_" + chatbotName + "_" + port;
-				WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+				//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
 				Process botiumProcess = execBat(botiumBatFile, botiumTitle, true);
 				/*** terminar los procesos ***/
 				botiumProcess.destroy();
-				rasaWinProcess.killRecursively();
+				//rasaWinProcess.killRecursively();
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
+				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 
 				/*** recolectar resultados ***/
 				String botiumMochawesomePath = botiumPath + "/mochawesome-report/mochawesome.json";
@@ -828,7 +853,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -860,7 +885,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				Process rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				WodelTestResult wtr = parseRasaTestResults(globalResult, artifactPath, rasaResultsPath + "/" + RASA_LANGUAGE);
@@ -913,11 +943,17 @@ public class WodelTest implements IWodelTest {
 				String[] botiumFolders = botiumFolder.split("/");
 				createBatToLaunchBotium(chatbotName, mutant, botiumBatFile, botiumUnit, botiumFolders, detectScriptingmemory(botiumPath));
 				String botiumTitle = "botium_" + chatbotName + "_" + port;
-				WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+				//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
 				Process botiumProcess = execBat(botiumBatFile, botiumTitle, true);
 				/*** terminar los procesos ***/
 				botiumProcess.destroy();
-				rasaWinProcess.killRecursively();
+				//rasaWinProcess.killRecursively();
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
+				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 
 				/*** recolectar resultados ***/
 				String botiumMochawesomePath = botiumPath + "/mochawesome-report/mochawesome.json";
@@ -946,7 +982,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -977,7 +1013,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				Process rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				WodelTestResult wtr = parseRasaTestResults(globalResult, artifactPath, rasaResultsPath + "/" + RASA_LANGUAGE);
@@ -1026,8 +1067,9 @@ public class WodelTest implements IWodelTest {
 
 				/*** lanza botium en un nuevo hilo ***/
 				String botiumTitle = "botium_" + chatbotName + "_" + port;
-				WinProcess rasaWinProcess = new WinProcess(rasaProcess);
-				BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaWinProcess, true, botiumPath, globalResult, artifactPath, results);
+				//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+				//BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaWinProcess, true, botiumPath, globalResult, artifactPath, results);
+				BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaProcess, true, botiumPath, globalResult, artifactPath, results);
 				Thread botiumThread = new Thread(botiumRunner);
 				botiumThread.start();
 				threads.add(botiumThread);
@@ -1058,7 +1100,7 @@ public class WodelTest implements IWodelTest {
 			List<IProject> rasaTests = new ArrayList<IProject>();
 			List<IProject> botiumTests = new ArrayList<IProject>();
 			for (IProject testSuiteProject : testSuitesProjects) {
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				TestKind testKind = getTestKind(testSuitePath);
 				if (testKind == TestKind.RASA_TEST) {
 					rasaTests.add(testSuiteProject);
@@ -1069,7 +1111,7 @@ public class WodelTest implements IWodelTest {
 			}
 			/*** ejecutar test en rasa ***/
 			for (IProject testSuiteProject : rasaTests) {
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());
 				String mutant = chatbotName; 
 				chatbotName = chatbotName.substring(0, chatbotName.indexOf("/"));
@@ -1092,7 +1134,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				Process rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				if (globalResultsMap.get(testSuiteProject) == null) {
@@ -1134,7 +1181,7 @@ public class WodelTest implements IWodelTest {
 				}
 				for (IProject botiumTestSuiteProject : botiumTests) {
 					/*** aplicar el test ***/
-					String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + botiumTestSuiteProject.getName();
+					String testSuitePath = botiumTestSuiteProject.getLocation().toFile().getPath().toString();
 					BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 					String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 					testSuitePath += "/" + chatbotName + "/base";
@@ -1151,12 +1198,18 @@ public class WodelTest implements IWodelTest {
 					String[] botiumFolders = botiumFolder.split("/");
 					createBatToLaunchBotium(chatbotName, mutant, botiumBatFile, botiumUnit, botiumFolders, detectScriptingmemory(botiumPath));
 					String botiumTitle = "botium_" + chatbotName + "_" + port;
-					WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+					//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
 					Process botiumProcess = execBat(botiumBatFile, botiumTitle, true);
 					/*** terminar los procesos ***/
 					botiumProcess.destroy();
-					if (botiumTestSuiteProject.equals(botiumTests.get(botiumTests.size() - 1))) {
-						rasaWinProcess.killRecursively();
+					if (botiumTestSuiteProject.getName().equals(botiumTests.get(botiumTests.size() - 1).getName())) {
+						rasaProcess.descendants().forEach(p -> {
+							p.destroy();
+							p.destroyForcibly();
+						});
+						rasaProcess.destroy();
+						rasaProcess.destroyForcibly();
+						//rasaWinProcess.killRecursively();
 					}
 
 					try {
@@ -1211,7 +1264,7 @@ public class WodelTest implements IWodelTest {
 		List<IProject> rasaTests = new ArrayList<IProject>();
 		List<IProject> botiumTests = new ArrayList<IProject>();
 		for (IProject testSuiteProject : testSuitesProjects) {
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 			TestKind testKind = getTestKind(testSuitePath);
 			if (testKind == TestKind.RASA_TEST) {
 				rasaTests.add(testSuiteProject);
@@ -1223,7 +1276,7 @@ public class WodelTest implements IWodelTest {
 		/*** ejecutar test en rasa ***/
 		for (IProject testSuiteProject : rasaTests) {
 			try {
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				String rasaResultsPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				IOUtils.copyFolder(chatbotPath, rasaResultsPath);
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1241,7 +1294,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				if (globalResultsMap.get(testSuiteProject) == null) {
@@ -1284,7 +1342,7 @@ public class WodelTest implements IWodelTest {
 		/*** aplicar test de botium ***/
 		for (IProject testSuiteProject : botiumTests) {
 			try {
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 				String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1301,12 +1359,18 @@ public class WodelTest implements IWodelTest {
 				String[] botiumFolders = botiumFolder.split("/");
 				createBatToLaunchBotium(chatbotName, mutant, botiumBatFile, botiumUnit, botiumFolders, detectScriptingmemory(botiumPath));
 				String botiumTitle = "botium_" + chatbotName + "_" + port;
-				WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+				//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
 				Process botiumProcess = execBat(botiumBatFile, botiumTitle, true);
 				/*** terminar los procesos ***/
 				botiumProcess.destroy();
-				if (testSuiteProject.equals(botiumTests.get(botiumTests.size() - 1))) {
-					rasaWinProcess.killRecursively();
+				if (testSuiteProject.getName().equals(botiumTests.get(botiumTests.size() - 1).getName())) {
+					//rasaWinProcess.killRecursively();
+					rasaProcess.descendants().forEach(p -> {
+						p.destroy();
+						p.destroyForcibly();
+					});
+					rasaProcess.destroy();
+					rasaProcess.destroyForcibly();
 				}
 				/*** recolectar resultados ***/
 				if (globalResultsMap.get(testSuiteProject) == null) {
@@ -1360,7 +1424,7 @@ public class WodelTest implements IWodelTest {
 		List<IProject> rasaTests = new ArrayList<IProject>();
 		List<IProject> botiumTests = new ArrayList<IProject>();
 		for (IProject testSuiteProject : testSuitesProjects) {
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 			TestKind testKind = getTestKind(testSuitePath);
 			if (testKind == TestKind.RASA_TEST) {
 				rasaTests.add(testSuiteProject);
@@ -1372,7 +1436,7 @@ public class WodelTest implements IWodelTest {
 		for (IProject testSuiteProject : rasaTests) {
 			try {
 				/*** ejecutar test en rasa ***/
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				String rasaResultsPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				IOUtils.copyFolder(chatbotPath, rasaResultsPath);
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1390,7 +1454,12 @@ public class WodelTest implements IWodelTest {
 				String rasaTitle = "rasa_" + chatbotName; 
 				rasaProcess = execBat(rasaBatFile, rasaTitle, true);
 				/*** terminar los procesos ***/
+				rasaProcess.descendants().forEach(p -> {
+					p.destroy();
+					p.destroyForcibly();
+				});
 				rasaProcess.destroy();
+				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
 				WodelTestResult wtr = parseRasaTestResults(globalResultsMap.get(testSuiteProject), artifactPath, rasaResultsPath + "/" + RASA_LANGUAGE);
@@ -1425,7 +1494,7 @@ public class WodelTest implements IWodelTest {
 		/*** aplicar test de botium ***/
 		for (IProject testSuiteProject : botiumTests) {
 			try {
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
 				BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 				String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1448,12 +1517,13 @@ public class WodelTest implements IWodelTest {
 				}
 				List<WodelTestResultClass> results = globalResultsMap.get(testSuiteProject).getResults();
 				String botiumTitle = "botium_" + chatbotName + "_" + port;
-				WinProcess rasaWinProcess = new WinProcess(rasaProcess);
+				//WinProcess rasaWinProcess = new WinProcess(rasaProcess);
 				boolean last = false; 
-				if (testSuiteProject.equals(botiumTests.get(botiumTests.size() - 1))) {
+				if (testSuiteProject.getName().equals(botiumTests.get(botiumTests.size() - 1).getName())) {
 					last = true;
 				}
-				BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaWinProcess, last, botiumPath, globalResultsMap.get(testSuiteProject), artifactPath, results);
+				//BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaWinProcess, last, botiumPath, globalResultsMap.get(testSuiteProject), artifactPath, results);
+				BotiumRunner botiumRunner = new BotiumRunner(port, botiumBatFile, botiumTitle, rasaProcess, last, botiumPath, globalResultsMap.get(testSuiteProject), artifactPath, results);
 				Thread botiumThread = new Thread(botiumRunner);
 				botiumThread.start();
 				threads.add(botiumThread);
@@ -1473,6 +1543,26 @@ public class WodelTest implements IWodelTest {
 	public void projectToModel(String projectName, Class<?> cls) {
 		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toOSString();
 		projectPath = projectPath.replace("\\", "/");
+		String targetPath = ModelManager.getMetaModelPath(cls);
+		File sourceFolder = new File(projectPath + "/zip");
+		for (File source : sourceFolder.listFiles()) {
+			if (source.getName().endsWith(".zip")) {
+				String inputPath = projectPath + "/zip/" +  source.getName(); 
+				try {
+					RasaParserGenerator.doRasaParser(inputPath, targetPath + "/xmi", RASA_VERSION);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				String modelName = source.getName().replace(".zip", ".xmi");
+				IOUtils.copyFile(targetPath + "/xmi/" + modelName, targetPath + "/" + modelName.replace(".xmi", ".model"));
+			}
+		}
+	}
+
+	@Override
+	public void projectToModel(IProject project, Class<?> cls) {
+		String projectPath = project.getLocation().toFile().toPath().toString();
 		String targetPath = ModelManager.getMetaModelPath(cls);
 		File sourceFolder = new File(projectPath + "/zip");
 		for (File source : sourceFolder.listFiles()) {
@@ -1524,6 +1614,40 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
+	public boolean modelToProject(String className, Resource model, String folderName, String modelName,
+			IProject project, Class<?> cls) {
+		String modelsFolder = ModelManager.getMetaModelPath(cls);
+		File fModelsFolder = new File(modelsFolder);
+		List<String> models = new ArrayList<String>(); 
+		for (File fSeedFile : fModelsFolder.listFiles()) {
+			if (fSeedFile.isFile() && fSeedFile.getName().endsWith(".model")) {
+				models.add(fSeedFile.getPath().toString().replace("\\", "/"));
+			}
+		}
+		String seedFile = models.get(0);
+		String seedName = seedFile.substring(seedFile.lastIndexOf("/") + 1, seedFile.length()).replace(".model", "");
+		String outputSeedPath = project.getLocation().toFile().toPath().toFile() + "/mutants/zip/" + className + "/" + seedName;
+		if (!new File(outputSeedPath).exists()) {
+			try {
+				RasaParserGenerator.doRasaGenerator(seedFile, outputSeedPath, RASA_VERSION);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		String inputFile = ModelManager.getOutputPath(cls) + "/" + className + "/" + folderName + "/" + modelName;
+		String outputPath = project.getLocation().toFile().toPath().toFile() + "/mutants/zip/" + className + "/" + folderName;
+		try {
+			RasaParserGenerator.doRasaGenerator(inputFile, outputPath, RASA_VERSION);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
 	public String getContainerEClassName() {
 		return "";
 	}
@@ -1532,5 +1656,4 @@ public class WodelTest implements IWodelTest {
 	public boolean annotateMutation(Resource model, EObject container, String annotation) {
 		return false;
 	}
-
 }

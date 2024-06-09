@@ -281,14 +281,14 @@ public class RunWodelTestHandler extends AbstractHandler {
 						testSuitesProjects.add(p);
 					}
 				}
-				String path = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString();
-				IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.txt");
+				String path = sourceProject.getLocation().toFile().getPath().toString();
+				IOUtils.deleteFile(path + "/data/classes.txt");
 				for (IProject testSuiteProject : testSuitesProjects) {
 					File testSuiteResultsFolder = new File(path + "/data/" + testSuiteProject.getName());
 					if (!testSuiteResultsFolder.exists() || !testSuiteResultsFolder.isDirectory()) {
 						testSuiteResultsFolder.mkdirs();
 					}
-					IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/" + testSuiteProject.getName() + "/classes.results.txt");
+					IOUtils.deleteFile(path + "/data/" + testSuiteProject.getName() + "/classes.results.txt");
 				}
 				long currentTimeMillis = System.currentTimeMillis();
 				int numMutatorsSelected = 0;
@@ -312,7 +312,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<String> metamodels = null;
 				List<EPackage> packages = new ArrayList<EPackage>();
 				String metamodelpath = null;
-				test.projectToModel(projectName, mutatorLauncher.getValue());
+				test.projectToModel(sourceProject, mutatorLauncher.getValue());
 				String outputPath = ModelManager.getOutputPath(mutatorLauncher.getValue());
 				File outputFolder = new File(outputPath);
 				for (File outputFile : outputFolder.listFiles()) {
@@ -401,7 +401,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<EObject> blocks = null;
 				List<String> blockNames = null;
 				MutationResults mutationResults = null;
-				String classesPath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.txt";
+				String classesPath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
 				TreeMap<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
 				ProjectUtils.projectName = test.getProjectName();
@@ -636,9 +636,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 												for (File blockModelFile : modelFile.listFiles()) {
 													if (blockModelFile.isFile() && blockModelFile.getName().endsWith(".model")) {
 														Resource model = ModelManager.loadModel(packages, blockModelFile.getPath());
-														boolean value = test.modelToProject(modelFolder.getName(), model, modelFile.getName(), blockModelFile.getName(), projectName, cls);
+														boolean value = test.modelToProject(modelFolder.getName(), model, modelFile.getName(), blockModelFile.getName(), sourceProject, cls);
 														if (value && classes.size() > 0) {
-															String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + modelFolder.getName() + "/" + modelFile.getName() + "/" + blockModelFile.getName().replace(".model", "") + "/src/";
+															String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName() + "/" + blockModelFile.getName().replace(".model", "") + "/src/";
 															WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 														}
 													}
@@ -648,9 +648,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 										else {
 											if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
 												Resource model = ModelManager.loadModel(packages, modelFile.getPath());
-												boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), projectName, cls);
+												boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), sourceProject, cls);
 												if (value && classes.size() > 0) {
-													String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
+													String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
 													WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 												}
 											}
@@ -907,7 +907,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
-						String classpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/classes.txt";
+						String classpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
 						for (IProject testSuiteProject : testSuitesProjects) {
 						    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
 						    List<String> liveMutantPaths = new ArrayList<String>();
@@ -927,7 +927,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						    	}
 						    }
 							files = null;
-							String equivalentpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
+							String equivalentpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
 							if (doCompare != null) {
 								for (File file : sourcefiles) {
 									if (file.isFile() == true) {
@@ -1062,7 +1062,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				if (mutatorNames.length() > 0) {
 					mutatorNames = mutatorNames.substring(0, mutatorNames.lastIndexOf("|"));
 				}
-				WodelTestUtils.storeFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/mutators.txt", mutatorNames);
+				WodelTestUtils.storeFile(path + "/data/mutators.txt", mutatorNames);
 
 
 				currentTimeMillis = System.currentTimeMillis() - currentTimeMillis;

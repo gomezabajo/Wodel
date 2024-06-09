@@ -33,10 +33,14 @@ public interface IWodelTest {
 
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads);
 
+	public void projectToModel(IProject project, Class<?> cls);
+	
 	public void projectToModel(String projectName, Class<?> cls);
+
+	public boolean modelToProject(String className, Resource model, String folderName, String modelName, IProject project, Class<?> cls);
 	
 	public boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls);
-	
+
 	public String getContainerEClassName();
 	
 	public boolean annotateMutation(Resource model, EObject container, String annotation);

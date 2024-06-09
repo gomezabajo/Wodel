@@ -36,12 +36,7 @@ public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
     String _plus = (_workspaceAbsolutePath + "/");
     String _projectName = this.getProjectName();
     String _plus_1 = (_plus + _projectName);
-    this.path = _plus_1;
-    String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(resource);
-    String _plus_2 = (_workspaceAbsolutePath_1 + "/");
-    String _projectName_1 = this.getProjectName();
-    String _plus_3 = (_plus_2 + _projectName_1);
-    String projectFolderName = (_plus_3 + "/");
+    String projectFolderName = (_plus_1 + "/");
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     String mutatorName = "";
@@ -53,17 +48,17 @@ public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
         String xTextFileName = this.getMutatorPath(e, files);
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
         this.program = ((Program) _definition);
-        String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath(resource);
-        String _plus_4 = ("file:/" + _workspaceAbsolutePath_2);
+        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(resource);
+        String _plus_2 = ("file:/" + _workspaceAbsolutePath_1);
+        String _plus_3 = (_plus_2 + "/");
+        String _projectName_1 = this.getProjectName();
+        String _plus_4 = (_plus_3 + _projectName_1);
         String _plus_5 = (_plus_4 + "/");
-        String _projectName_2 = this.getProjectName();
-        String _plus_6 = (_plus_5 + _projectName_2);
-        String _plus_7 = (_plus_6 + "/");
         String _output = this.program.getOutput();
-        String _plus_8 = (_plus_7 + _output);
+        String _plus_6 = (_plus_5 + _output);
         String _replaceAll = this.fileName.replaceAll(".mutator", ".model");
-        String _plus_9 = (_plus_8 + _replaceAll);
-        this.xmiFileName = _plus_9;
+        String _plus_7 = (_plus_6 + _replaceAll);
+        this.xmiFileName = _plus_7;
         try {
           WodelUtils.serialize(xTextFileName, this.xmiFileName);
         } catch (final Throwable _t) {
@@ -73,12 +68,12 @@ public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
           }
         }
         String _replaceAll_1 = this.fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
-        String _plus_10 = (_replaceAll_1 + ".mutator");
-        this.fileName = _plus_10;
+        String _plus_8 = (_replaceAll_1 + ".mutator");
+        this.fileName = _plus_8;
         mutatorName = this.fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
         String _replaceAll_2 = mutatorName.replaceAll("[.]", "_");
-        String _plus_11 = (_replaceAll_2 + "DynamicAPI.java");
-        this.fileName = _plus_11;
+        String _plus_9 = (_replaceAll_2 + "DynamicAPI.java");
+        this.fileName = _plus_9;
         this.className = this.fileName.replaceAll(".java", "");
         int i = 1;
         String key = this.className.replace("DynamicAPI", "");

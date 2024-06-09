@@ -113,7 +113,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 		comSut.create(true, true, monitor);
 		final IFolder exampleSut = comSut.getFolder(new Path("example"));
 		exampleSut.create(true, true, monitor);
-		final IFolder toolSut = comSut.getFolder(new Path("tool"));
+		final IFolder toolSut = exampleSut.getFolder(new Path("tool"));
 		toolSut.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -152,7 +152,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 			}
 		} catch (IOException e) {
 		}
-		final IFolder internalSut = comSut.getFolder(new Path("internal"));
+		final IFolder internalSut = toolSut.getFolder(new Path("internal"));
 		internalSut.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -247,7 +247,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 		comTest.create(true, true, monitor);
 		final IFolder exampleTest = comTest.getFolder(new Path("example"));
 		exampleTest.create(true, true, monitor);
-		final IFolder toolTest = comTest.getFolder(new Path("tool"));
+		final IFolder toolTest = exampleTest.getFolder(new Path("tool"));
 		toolTest.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -286,7 +286,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 			}
 		} catch (IOException e) {
 		}
-		final IFolder internalTest = comTest.getFolder(new Path("internal"));
+		final IFolder internalTest = toolTest.getFolder(new Path("internal"));
 		internalTest.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());

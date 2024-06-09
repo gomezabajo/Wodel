@@ -26,7 +26,6 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 		project = ProjectUtils.getProject()
 		
 		standalone = false
-		path = ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName
 		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles

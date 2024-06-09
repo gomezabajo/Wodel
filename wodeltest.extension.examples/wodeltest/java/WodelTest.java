@@ -105,7 +105,7 @@ public class WodelTest implements IWodelTest {
 	public String getProjectName() {
 		return "[@**@]";
 	}
-
+	
 	@Override
 	public String getNatureId() {
 		return JavaCore.NATURE_ID;
@@ -435,6 +435,24 @@ public class WodelTest implements IWodelTest {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public void projectToModel(IProject project, Class<?> cls) {
+		try {
+			IJavaProject javaProject = JavaCore.create(project);
+			String[] classNames = WodelTestUtils.getClassesFilter(project, javaProject);
+			for (String className : classNames) {
+				String filter = className.replace(".", "\\.");
+				DiscoverJavaModelFromJavaProject discoverer = new DiscoverJavaModelFromJavaProject();
+				discoverer.setIncludedElementsRegEx(filter);
+				discoverer.discoverElement(javaProject, new NullProgressMonitor());
+				Resource resource = discoverer.getTargetModel();
+				ModelManager.saveOutModel(resource, ModelManager.getMetaModelPath(cls) + "/" + className + ".model");
+			}
+		} catch (DiscoveryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {
@@ -442,6 +460,27 @@ public class WodelTest implements IWodelTest {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
 			String folder = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + className + "/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
+			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
+			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
+				new File(folder), new ArrayList<Object>());
+			//if (javaGenerator.status == true) {
+				javaGenerator.doGenerate(null);
+			//	return true;
+			//}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean modelToProject(String className, Resource model, String folderName, String modelName,
+			IProject project, Class<?> cls) {
+		try {
+			JavaPackage.eINSTANCE.eClass();
+			AcceleoUtils.SwitchSuccessNotification(false);
+			String folder = project.getLocation().toFile().getPath().toString() + "/" + className + "/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
 				new File(folder), new ArrayList<Object>());

@@ -29,8 +29,6 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
 
   protected IProject project = null;
 
-  protected String path;
-
   protected String xmiFileName;
 
   protected String className = "";
@@ -683,25 +681,17 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
         _builder.append("\t");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("File projectFolder = new File(\"");
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
-        _builder.append(_workspaceAbsolutePath, "\t\t");
-        _builder.append("/");
-        String _projectName_2 = this.getProjectName();
-        _builder.append(_projectName_2, "\t\t");
-        _builder.append("\");");
+        _builder.append("File projectFolder = new File(");
+        _builder.append(this.className, "\t\t");
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath());");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("String outputWodelFolder = \"");
-        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(e);
-        _builder.append(_workspaceAbsolutePath_1, "\t\t");
-        _builder.append("/");
-        String _projectName_3 = this.getProjectName();
-        _builder.append(_projectName_3, "\t\t");
-        _builder.append("/");
+        _builder.append("String outputWodelFolder = ");
+        _builder.append(this.className, "\t\t");
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath() + \"");
         String _outputFolder = ModelManager.getOutputFolder(e);
         _builder.append(_outputFolder, "\t\t");
         _builder.append("\";");

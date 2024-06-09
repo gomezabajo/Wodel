@@ -150,13 +150,13 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				if (test == null) {
 					return;
 				}
-				String path = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString();
+				String path = sourceProject.getLocation().toFile().getPath().toString();
 				File folder = new File(path + "/data/");
 				if (!folder.exists()) {
 					folder.mkdir();
 				}
-				IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.txt");
-				IOUtils.deleteFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.results.txt");
+				IOUtils.deleteFile(path + "/data/classes.txt");
+				IOUtils.deleteFile(path + "/data/classes.results.txt");
 				String projectNamePath = path + "/data/project.txt";
 				WodelTestResultClass.storeProjectInfo(projectNamePath, test.getProjectName(), test.getNatureId());
 				String testNamePath = path + "/data/" + projectName + ".test.txt";
@@ -177,7 +177,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				List<EPackage> packages = null;
 				String metamodelpath = null;
 				List<Resource> models = null;
-				test.projectToModel(projectName, mutatorLauncher.getValue());
+				test.projectToModel(sourceProject, mutatorLauncher.getValue());
 				String outputPath = ModelManager.getOutputPath(mutatorLauncher.getValue());
 				File outputFolder = new File(outputPath);
 				for (File outputFile : outputFolder.listFiles()) {
@@ -251,7 +251,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				List<String> blockNames = null;
 				Object ob = null;
 				MutationResults mutationResults = null;
-				String classesPath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/classes.txt";
+				String classesPath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
 				TreeMap<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
 				ProjectUtils.projectName = test.getProjectName();
@@ -484,9 +484,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 															// TODO Auto-generated catch block
 															e.printStackTrace();
 														}
-														boolean value = test.modelToProject(modelFolder.getName(), model, modelFile.getName(), blockModelFile.getName(), projectName, cls);
+														boolean value = test.modelToProject(modelFolder.getName(), model, modelFile.getName(), blockModelFile.getName(), sourceProject, cls);
 														if (value && classes.size() > 0) {
-															String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + modelFolder.getName() + "/" + modelFile.getName() + "/" + blockModelFile.getName().replace(".model", "") + "/src/";
+															String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName() + "/" + blockModelFile.getName().replace(".model", "") + "/src/";
 															WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 														}
 													}
@@ -502,9 +502,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
 												}
-												boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), projectName, cls);
+												boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), sourceProject, cls);
 												if (value && classes.size() > 0) {
-													String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + modelFolder.getName() + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
+													String projectPath = path + "/" + modelFolder.getName() + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
 													WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 												}
 											}
@@ -654,7 +654,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
-						String classpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/classes.txt";
+						String classpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
 					    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsPath);
 					    List<String> liveMutantPaths = new ArrayList<String>();
 					    for (String packagename : packageClasses.keySet()) {
@@ -673,7 +673,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					    	}
 					    }
 						files = null;
-						String equivalentpath = ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getFullPath().toFile().getPath().toString() + "/data/classes.equivalent.txt";
+						String equivalentpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.equivalent.txt";
 						if (doCompare != null) {
 							for (File file : sourcefiles) {
 								if (file.isFile() == true) {
@@ -807,7 +807,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					if (mutatorNames.length() > 0) {
 						mutatorNames = mutatorNames.substring(0, mutatorNames.lastIndexOf("|"));
 					}
-					WodelTestUtils.storeFile(ModelManager.getWorkspaceAbsolutePath() + "/" + sourceProject.getName() + "/data/mutators.txt", mutatorNames);
+					WodelTestUtils.storeFile(sourceProject.getLocation().toFile().getPath().toString() + "/data/mutators.txt", mutatorNames);
 
 					currentTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 					String globalResultsData = String.format("%d", currentTimeMillis) + "\n";

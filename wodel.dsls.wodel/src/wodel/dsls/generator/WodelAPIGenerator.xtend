@@ -24,7 +24,6 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 	protected String fileName
 	protected Program program
 	protected IProject project = null
-	protected String path
 	protected String xmiFileName
 	protected String className = ""
 	protected Map<String, List<String>> mutMap = new HashMap<String, List<String>>()
@@ -81,7 +80,7 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
 							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
-							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e)+"/"+mutatorFolderAndFile
+							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e) + "/" + mutatorFolderAndFile
 						}
 					}
 					else  {
@@ -282,9 +281,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 			
-		File projectFolder = new File("«ModelManager.getWorkspaceAbsolutePath(e)»/«getProjectName»");
+		File projectFolder = new File(«className».class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = "«ModelManager.getWorkspaceAbsolutePath(e)»/«getProjectName»/«ModelManager.getOutputFolder(e)»";
+		String outputWodelFolder = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath() + "«ModelManager.getOutputFolder(e)»";
 		// clean-up output folder preserving xtext auto generated models
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;

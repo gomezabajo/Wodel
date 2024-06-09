@@ -25,7 +25,6 @@ class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 		project = ProjectUtils.getProject()
 		
 		standalone = true
-		path = ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName
 		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
@@ -35,12 +34,7 @@ class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
 			fileName = resource.URI.lastSegment
-			var String xTextFileName = getMutatorPath(e, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
-			try {
-				WodelUtils.serialize(xTextFileName, xmiFileName)
-			} catch (Exception ex) {}
 
 			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */

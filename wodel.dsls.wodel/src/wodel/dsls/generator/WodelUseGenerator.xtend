@@ -118,7 +118,7 @@ class WodelUseGenerator extends AbstractGenerator {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
 							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
-							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e)+"/"+mutatorFolderAndFile
+							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e) + "/" + mutatorFolderAndFile
 						}
 					}
 					else  {

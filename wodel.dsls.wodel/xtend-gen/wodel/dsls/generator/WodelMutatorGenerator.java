@@ -173,19 +173,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 
   protected String className;
 
-  protected String path;
-
-  protected String xmiFileName;
-
   protected Program program;
 
   protected Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>();
 
   protected Bundle bundle;
-
-  protected String metricsURL;
-
-  protected String mutatorURL;
 
   public String getProjectName() {
     String projectName = null;
@@ -6637,6 +6629,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("//");
     boolean rts = false;
     _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("//");
+    int i = 0;
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("//");
+    int j = 0;
+    _builder.newLineIfNotEmpty();
     {
       if (((mut.getObject() instanceof RandomTypeSelection) || (mut.getObject() instanceof CompleteTypeSelection))) {
         {
@@ -7710,18 +7710,33 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("//");
                 final String metamodelPath = resource.getMetamodel().replace("\\", "/");
                 _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String relativeMetamodelPath = \"");
+                String _projectName_1 = this.getProjectName();
+                String _plus_3 = ("/" + _projectName_1);
+                String _plus_4 = (_plus_3 + "/");
+                int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+                String _projectName_2 = this.getProjectName();
+                String _plus_5 = ("/" + _projectName_2);
+                int _length = (_plus_5 + "/").length();
+                int _plus_6 = (_lastIndexOf + _length);
+                String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
+                _builder.append(_substring, "\t");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String absoluteMetamodelPath = ");
+                _builder.append(this.className, "\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeMetamodelPath;");
+                _builder.newLineIfNotEmpty();
                 {
                   if ((this.standalone == false)) {
                     _builder.append("\t");
-                    _builder.append("resourcePackages = ModelManager.loadMetaModel(\"");
-                    _builder.append(metamodelPath, "\t");
-                    _builder.append("\", this.getClass());");
-                    _builder.newLineIfNotEmpty();
+                    _builder.append("resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());");
+                    _builder.newLine();
                   } else {
                     _builder.append("\t");
-                    _builder.append("resourcePackages = ModelManager.loadMetaModel(\"");
-                    _builder.append(metamodelPath, "\t");
-                    _builder.append("\", ");
+                    _builder.append("resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, ");
                     _builder.append(this.className, "\t");
                     _builder.append(".class);");
                     _builder.newLineIfNotEmpty();
@@ -7732,46 +7747,128 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   for(final String resourceURI : resourceURIs) {
+                    _builder.append("\t");
+                    _builder.append("String relativeResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(" = \"");
+                    String _replace = resourceURI.replace("\\", "/");
+                    String _replace_1 = resourceURI.replace("\\", "/");
+                    String _projectName_3 = this.getProjectName();
+                    String _plus_7 = ("/" + _projectName_3);
+                    String _plus_8 = (_plus_7 + "/");
+                    int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
+                    String _projectName_4 = this.getProjectName();
+                    String _plus_9 = ("/" + _projectName_4);
+                    int _length_1 = (_plus_9 + "/").length();
+                    int _plus_10 = (_lastIndexOf_1 + _length_1);
+                    String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
+                    _builder.append(_substring_1, "\t");
+                    _builder.append("\";");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("String absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(" = ");
+                    _builder.append(this.className, "\t");
+                    _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(" = \"file:/\" + absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(".substring(1, absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(".length()); ");
+                    _builder.newLineIfNotEmpty();
                     {
                       if ((this.standalone == false)) {
                         _builder.append("\t");
-                        _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(\"file:/\" + \"");
-                        String _replace = resourceURI.replace("\\", "/");
-                        _builder.append(_replace, "\t");
-                        _builder.append("\").toFileString()));");
+                        _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_");
+                        _builder.append(i, "\t");
+                        _builder.append(").toFileString()));");
                         _builder.newLineIfNotEmpty();
                       } else {
                         _builder.append("\t");
-                        _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(\"file:/\" + \"");
-                        String _replace_1 = resourceURI.replace("\\", "/");
-                        _builder.append(_replace_1, "\t");
-                        _builder.append("\").toFileString()));");
+                        _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_");
+                        _builder.append(i, "\t");
+                        _builder.append(").toFileString()));");
                         _builder.newLineIfNotEmpty();
                       }
                     }
+                    _builder.append("\t");
+                    String _xblockexpression = null;
+                    {
+                      i++;
+                      _xblockexpression = "";
+                    }
+                    _builder.append(_xblockexpression, "\t");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 {
                   for(final String ecoreURI : ecoreURIs) {
                     _builder.append("\t");
-                    _builder.append("//");
-                    final String ecoreURI2 = ecoreURI.replace("\\", "/");
+                    _builder.append("String relativeEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(" = \"");
+                    String _replace_2 = ecoreURI.replace("\\", "/");
+                    String _replace_3 = ecoreURI.replace("\\", "/");
+                    String _projectName_5 = this.getProjectName();
+                    String _plus_11 = ("/" + _projectName_5);
+                    String _plus_12 = (_plus_11 + "/");
+                    int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+                    String _projectName_6 = this.getProjectName();
+                    String _plus_13 = ("/" + _projectName_6);
+                    int _length_2 = (_plus_13 + "/").length();
+                    int _plus_14 = (_lastIndexOf_2 + _length_2);
+                    String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
+                    _builder.append(_substring_2, "\t");
+                    _builder.append("\";");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("String absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(" = ");
+                    _builder.append(this.className, "\t");
+                    _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(" = \"file:/\" + absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(".substring(1, absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(".length()); ");
                     _builder.newLineIfNotEmpty();
                     {
                       if ((this.standalone == false)) {
                         _builder.append("\t");
-                        _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, \"");
-                        _builder.append(ecoreURI2, "\t");
-                        _builder.append("\"));");
+                        _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                        _builder.append(j, "\t");
+                        _builder.append(").toFileString()));");
                         _builder.newLineIfNotEmpty();
                       } else {
                         _builder.append("\t");
-                        _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, \"file:/");
-                        _builder.append(ecoreURI2, "\t");
-                        _builder.append("\"));");
+                        _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                        _builder.append(j, "\t");
+                        _builder.append(").toFileString()));");
                         _builder.newLineIfNotEmpty();
                       }
                     }
+                    _builder.append("\t");
+                    String _xblockexpression_1 = null;
+                    {
+                      j++;
+                      _xblockexpression_1 = "";
+                    }
+                    _builder.append(_xblockexpression_1, "\t");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 {
@@ -8646,12 +8743,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t");
             _builder.append("//");
             String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
-            String _projectName_1 = this.getProjectName();
-            String _plus_4 = (_plus_3 + _projectName_1);
-            String _plus_5 = (_plus_4 + "/");
+            String _plus_15 = (_workspaceAbsolutePath_1 + "/");
+            String _projectName_7 = this.getProjectName();
+            String _plus_16 = (_plus_15 + _projectName_7);
+            String _plus_17 = (_plus_16 + "/");
             String _path_1 = source_1.getPath();
-            final String resourcePath_1 = (_plus_5 + _path_1);
+            final String resourcePath_1 = (_plus_17 + _path_1);
             _builder.newLineIfNotEmpty();
             {
               boolean _exists_1 = new File(resourcePath_1).exists();
@@ -8685,62 +8782,161 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             }
             {
               for(final String resourceURI_1 : resourceURIs_1) {
+                _builder.append("\t");
+                _builder.append("String relativeResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = \"");
+                String _replace_4 = resourceURI_1.replace("\\", "/");
+                String _replace_5 = resourceURI_1.replace("\\", "/");
+                String _projectName_8 = this.getProjectName();
+                String _plus_18 = ("/" + _projectName_8);
+                String _plus_19 = (_plus_18 + "/");
+                int _lastIndexOf_3 = _replace_5.lastIndexOf(_plus_19);
+                String _projectName_9 = this.getProjectName();
+                String _plus_20 = ("/" + _projectName_9);
+                int _length_3 = (_plus_20 + "/").length();
+                int _plus_21 = (_lastIndexOf_3 + _length_3);
+                String _substring_3 = _replace_4.substring(_plus_21, resourceURI_1.replace("\\", "/").length());
+                _builder.append(_substring_3, "\t");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = ");
+                _builder.append(this.className, "\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = \"file:/\" + absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(".substring(1, absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(".length()); ");
+                _builder.newLineIfNotEmpty();
                 {
                   if ((this.standalone == false)) {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace_2 = resourceURI_1.replace("\\", "/");
-                    _builder.append(_replace_2, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace_3 = resourceURI_1.replace("\\", "/");
-                    _builder.append(_replace_3, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   }
                 }
+                _builder.append("\t");
+                String _xblockexpression_2 = null;
+                {
+                  i++;
+                  _xblockexpression_2 = "";
+                }
+                _builder.append(_xblockexpression_2, "\t");
+                _builder.newLineIfNotEmpty();
               }
             }
             {
               for(final String ecoreURI_1 : ecoreURIs_1) {
+                _builder.append("\t");
+                _builder.append("String relativeEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = \"");
+                String _replace_6 = ecoreURI_1.replace("\\", "/");
+                String _replace_7 = ecoreURI_1.replace("\\", "/");
+                String _projectName_10 = this.getProjectName();
+                String _plus_22 = ("/" + _projectName_10);
+                String _plus_23 = (_plus_22 + "/");
+                int _lastIndexOf_4 = _replace_7.lastIndexOf(_plus_23);
+                String _projectName_11 = this.getProjectName();
+                String _plus_24 = ("/" + _projectName_11);
+                int _length_4 = (_plus_24 + "/").length();
+                int _plus_25 = (_lastIndexOf_4 + _length_4);
+                String _substring_4 = _replace_6.substring(_plus_25, ecoreURI_1.replace("\\", "/").length());
+                _builder.append(_substring_4, "\t");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = ");
+                _builder.append(this.className, "\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = \"file:/\" + absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(".substring(1, absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(".length()); ");
+                _builder.newLineIfNotEmpty();
                 {
                   if ((this.standalone == false)) {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace_4 = ecoreURI_1.replace("\\", "/");
-                    _builder.append(_replace_4, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace_5 = ecoreURI_1.replace("\\", "/");
-                    _builder.append(_replace_5, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   }
                 }
+                _builder.append("\t");
+                String _xblockexpression_3 = null;
+                {
+                  j++;
+                  _xblockexpression_3 = "";
+                }
+                _builder.append(_xblockexpression_3, "\t");
+                _builder.newLineIfNotEmpty();
               }
             }
             _builder.append("\t");
             _builder.append("//");
             final String metamodelPath_1 = resource_1.getMetamodel().replace("\\", "/");
             _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String relativeObjectMetamodelPath = \"");
+            String _projectName_12 = this.getProjectName();
+            String _plus_26 = ("/" + _projectName_12);
+            String _plus_27 = (_plus_26 + "/");
+            int _lastIndexOf_5 = metamodelPath_1.lastIndexOf(_plus_27);
+            String _projectName_13 = this.getProjectName();
+            String _plus_28 = ("/" + _projectName_13);
+            int _length_5 = (_plus_28 + "/").length();
+            int _plus_29 = (_lastIndexOf_5 + _length_5);
+            String _substring_5 = metamodelPath_1.substring(_plus_29, metamodelPath_1.length());
+            _builder.append(_substring_5, "\t");
+            _builder.append("\";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String absoluteObjectMetamodelPath = ");
+            _builder.append(this.className, "\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeObjectMetamodelPath;");
+            _builder.newLineIfNotEmpty();
             {
               if ((this.standalone == false)) {
                 _builder.append("\t");
-                _builder.append("objectPackages = ModelManager.loadMetaModel(\"");
-                _builder.append(metamodelPath_1, "\t");
-                _builder.append("\", this.getClass());");
-                _builder.newLineIfNotEmpty();
+                _builder.append("objectPackages = ModelManager.loadMetaModel(absoluteObjectMetamodelPath, this.getClass());");
+                _builder.newLine();
               } else {
                 _builder.append("\t");
-                _builder.append("objectPackages = ModelManager.loadMetaModel(\"");
-                _builder.append(metamodelPath_1, "\t");
-                _builder.append("\", ");
+                _builder.append("objectPackages = ModelManager.loadMetaModel(absoluteObjectMetamodelPath, ");
                 _builder.append(this.className, "\t");
                 _builder.append(".class);");
                 _builder.newLineIfNotEmpty();
@@ -9270,6 +9466,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     boolean rts = false;
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
+    _builder.append("//");
+    int i = 0;
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("//");
+    int j = 0;
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
     _builder.append("List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();");
     _builder.newLine();
     _builder.append("\t");
@@ -9364,18 +9568,33 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("//");
         final String metamodelPath = resource.getMetamodel().replace("\\", "/");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("String relativeMetamodelPath = \"");
+        String _projectName_1 = this.getProjectName();
+        String _plus_3 = ("/" + _projectName_1);
+        String _plus_4 = (_plus_3 + "/");
+        int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+        String _projectName_2 = this.getProjectName();
+        String _plus_5 = ("/" + _projectName_2);
+        int _length = (_plus_5 + "/").length();
+        int _plus_6 = (_lastIndexOf + _length);
+        String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
+        _builder.append(_substring, "\t");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("String absoluteMetamodelPath = ");
+        _builder.append(this.className, "\t");
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeMetamodelPath;");
+        _builder.newLineIfNotEmpty();
         {
           if ((this.standalone == false)) {
             _builder.append("\t");
-            _builder.append("resourcePackages = ModelManager.loadMetaModel(\"");
-            _builder.append(metamodelPath, "\t");
-            _builder.append("\", this.getClass());");
-            _builder.newLineIfNotEmpty();
+            _builder.append("resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());");
+            _builder.newLine();
           } else {
             _builder.append("\t");
-            _builder.append("resourcePackages = ModelManager.loadMetaModel(\"");
-            _builder.append(metamodelPath, "\t");
-            _builder.append("\", ");
+            _builder.append("resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, ");
             _builder.append(this.className, "\t");
             _builder.append(".class);");
             _builder.newLineIfNotEmpty();
@@ -9386,46 +9605,128 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           for(final String resourceURI : resourceURIs) {
+            _builder.append("\t");
+            _builder.append("String relativeResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(" = \"");
+            String _replace = resourceURI.replace("\\", "/");
+            String _replace_1 = resourceURI.replace("\\", "/");
+            String _projectName_3 = this.getProjectName();
+            String _plus_7 = ("/" + _projectName_3);
+            String _plus_8 = (_plus_7 + "/");
+            int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
+            String _projectName_4 = this.getProjectName();
+            String _plus_9 = ("/" + _projectName_4);
+            int _length_1 = (_plus_9 + "/").length();
+            int _plus_10 = (_lastIndexOf_1 + _length_1);
+            String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
+            _builder.append(_substring_1, "\t");
+            _builder.append("\";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String absoluteResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(" = ");
+            _builder.append(this.className, "\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("absoluteResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(" = \"file:/\" + absoluteResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(".substring(1, absoluteResourceURI_");
+            _builder.append(i, "\t");
+            _builder.append(".length()); ");
+            _builder.newLineIfNotEmpty();
             {
               if ((this.standalone == false)) {
                 _builder.append("\t");
-                _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(\"file:/\" + \"");
-                String _replace = resourceURI.replace("\\", "/");
-                _builder.append(_replace, "\t");
-                _builder.append("\").toFileString()));");
+                _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(").toFileString()));");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("\t");
-                _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(\"file:/\" + \"");
-                String _replace_1 = resourceURI.replace("\\", "/");
-                _builder.append(_replace_1, "\t");
-                _builder.append("\").toFileString()));");
+                _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(").toFileString()));");
                 _builder.newLineIfNotEmpty();
               }
             }
+            _builder.append("\t");
+            String _xblockexpression = null;
+            {
+              i++;
+              _xblockexpression = "";
+            }
+            _builder.append(_xblockexpression, "\t");
+            _builder.newLineIfNotEmpty();
           }
         }
         {
           for(final String ecoreURI : ecoreURIs) {
             _builder.append("\t");
-            _builder.append("//");
-            final String ecoreURI2 = ecoreURI.replace("\\", "/");
+            _builder.append("String relativeEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(" = \"");
+            String _replace_2 = ecoreURI.replace("\\", "/");
+            String _replace_3 = ecoreURI.replace("\\", "/");
+            String _projectName_5 = this.getProjectName();
+            String _plus_11 = ("/" + _projectName_5);
+            String _plus_12 = (_plus_11 + "/");
+            int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+            String _projectName_6 = this.getProjectName();
+            String _plus_13 = ("/" + _projectName_6);
+            int _length_2 = (_plus_13 + "/").length();
+            int _plus_14 = (_lastIndexOf_2 + _length_2);
+            String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
+            _builder.append(_substring_2, "\t");
+            _builder.append("\";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String absoluteEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(" = ");
+            _builder.append(this.className, "\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("absoluteEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(" = \"file:/\" + absoluteEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(".substring(1, absoluteEcoreURI_");
+            _builder.append(j, "\t");
+            _builder.append(".length()); ");
             _builder.newLineIfNotEmpty();
             {
               if ((this.standalone == false)) {
                 _builder.append("\t");
-                _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, \"");
-                _builder.append(ecoreURI2, "\t");
-                _builder.append("\"));");
+                _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(").toFileString()));");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("\t");
-                _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, \"file:/");
-                _builder.append(ecoreURI2, "\t");
-                _builder.append("\"));");
+                _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(").toFileString()));");
                 _builder.newLineIfNotEmpty();
               }
             }
+            _builder.append("\t");
+            String _xblockexpression_1 = null;
+            {
+              j++;
+              _xblockexpression_1 = "";
+            }
+            _builder.append(_xblockexpression_1, "\t");
+            _builder.newLineIfNotEmpty();
           }
         }
       }
@@ -11483,8 +11784,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t");
             _builder.append("//REGISTRY METHOD NAME:");
             String _string = Integer.valueOf(this.nRegistryMethodCall).toString();
-            String _plus_3 = ("registry" + _string);
-            String _registryMethodName = this.registryMethodName = _plus_3;
+            String _plus_15 = ("registry" + _string);
+            String _registryMethodName = this.registryMethodName = _plus_15;
             _builder.append(_registryMethodName, "\t");
             _builder.newLineIfNotEmpty();
             {
@@ -11716,8 +12017,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       } else {
                         _builder.append("   \t\t");
                         _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                        String _projectName_1 = this.getProjectName();
-                        _builder.append(_projectName_1, "   \t\t");
+                        String _projectName_7 = this.getProjectName();
+                        _builder.append(_projectName_7, "   \t\t");
                         _builder.append("\", serialize, test, classes, ");
                         _builder.append(this.className, "   \t\t");
                         _builder.append(".class, true);");
@@ -11737,8 +12038,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         String _name_73 = b.getName();
                         _builder.append(_name_73);
                         _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                        String _projectName_2 = this.getProjectName();
-                        _builder.append(_projectName_2);
+                        String _projectName_8 = this.getProjectName();
+                        _builder.append(_projectName_8);
                         _builder.append("\", serialize, test, classes, ");
                         _builder.append(this.className);
                         _builder.append(".class, true, false);");
@@ -12064,8 +12365,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           _builder.append("\t\t\t\t");
           _builder.append("//REGISTRY METHOD NAME:");
           String _string_1 = Integer.valueOf(this.nRegistryMethodCall).toString();
-          String _plus_4 = ("registry" + _string_1);
-          String _registryMethodName_1 = this.registryMethodName = _plus_4;
+          String _plus_16 = ("registry" + _string_1);
+          String _registryMethodName_1 = this.registryMethodName = _plus_16;
           _builder.append(_registryMethodName_1, "\t\t\t\t\t");
           _builder.newLineIfNotEmpty();
           {
@@ -12312,8 +12613,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLine();
                     } else {
                       _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_3 = this.getProjectName();
-                      _builder.append(_projectName_3);
+                      String _projectName_9 = this.getProjectName();
+                      _builder.append(_projectName_9);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true);");
@@ -12333,8 +12634,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       String _name_102 = b.getName();
                       _builder.append(_name_102);
                       _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_4 = this.getProjectName();
-                      _builder.append(_projectName_4);
+                      String _projectName_10 = this.getProjectName();
+                      _builder.append(_projectName_10);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true, false);");
@@ -12752,8 +13053,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLine();
                     } else {
                       _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_5 = this.getProjectName();
-                      _builder.append(_projectName_5);
+                      String _projectName_11 = this.getProjectName();
+                      _builder.append(_projectName_11);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true);");
@@ -12777,8 +13078,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       String _name_114 = b.getName();
                       _builder.append(_name_114, "\t\t\t");
                       _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_6 = this.getProjectName();
-                      _builder.append(_projectName_6, "\t\t\t");
+                      String _projectName_12 = this.getProjectName();
+                      _builder.append(_projectName_12, "\t\t\t");
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className, "\t\t\t");
                       _builder.append(".class, true, false);");
@@ -12873,6 +13174,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("SpecificReferenceSelection referenceSelection = null;");
     _builder.newLine();
+    _builder.append("//");
+    int i = 0;
+    _builder.newLineIfNotEmpty();
+    _builder.append("//");
+    int j = 0;
+    _builder.newLineIfNotEmpty();
     {
       String _resource = mut.getObject().getResource();
       boolean _tripleEquals = (_resource == null);
@@ -13441,18 +13748,33 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("//");
             final String metamodelPath = resource.getMetamodel().replace("\\", "/");
             _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String relativeMetamodelPath = \"");
+            String _projectName_1 = this.getProjectName();
+            String _plus_3 = ("/" + _projectName_1);
+            String _plus_4 = (_plus_3 + "/");
+            int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+            String _projectName_2 = this.getProjectName();
+            String _plus_5 = ("/" + _projectName_2);
+            int _length = (_plus_5 + "/").length();
+            int _plus_6 = (_lastIndexOf + _length);
+            String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
+            _builder.append(_substring, "\t");
+            _builder.append("\";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("String absoluteMetamodelPath = ");
+            _builder.append(this.className, "\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeMetamodelPath;");
+            _builder.newLineIfNotEmpty();
             {
               if ((this.standalone == false)) {
                 _builder.append("\t");
-                _builder.append("List<EPackage> resourcePackages = ModelManager.loadMetaModel(\"");
-                _builder.append(metamodelPath, "\t");
-                _builder.append("\", this.getClass());");
-                _builder.newLineIfNotEmpty();
+                _builder.append("List<Resource> resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());");
+                _builder.newLine();
               } else {
                 _builder.append("\t");
-                _builder.append("List<EPackage> resourcePackages = ModelManager.loadMetaModel(\"");
-                _builder.append(metamodelPath, "\t");
-                _builder.append("\", ");
+                _builder.append("List<Resource> resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, ");
                 _builder.append(this.className, "\t");
                 _builder.append(".class);");
                 _builder.newLineIfNotEmpty();
@@ -13463,46 +13785,128 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             {
               for(final String resourceURI : resourceURIs) {
+                _builder.append("\t");
+                _builder.append("String relativeResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = \"");
+                String _replace = resourceURI.replace("\\", "/");
+                String _replace_1 = resourceURI.replace("\\", "/");
+                String _projectName_3 = this.getProjectName();
+                String _plus_7 = ("/" + _projectName_3);
+                String _plus_8 = (_plus_7 + "/");
+                int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
+                String _projectName_4 = this.getProjectName();
+                String _plus_9 = ("/" + _projectName_4);
+                int _length_1 = (_plus_9 + "/").length();
+                int _plus_10 = (_lastIndexOf_1 + _length_1);
+                String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
+                _builder.append(_substring_1, "\t");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = ");
+                _builder.append(this.className, "\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(" = \"file:/\" + absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(".substring(1, absoluteResourceURI_");
+                _builder.append(i, "\t");
+                _builder.append(".length()); ");
+                _builder.newLineIfNotEmpty();
                 {
                   if ((this.standalone == false)) {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace = resourceURI.replace("\\", "/");
-                    _builder.append(_replace, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadModel(resourcePackages, URI.createURI(absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(\"file:/\" + \"");
-                    String _replace_1 = resourceURI.replace("\\", "/");
-                    _builder.append(_replace_1, "\t");
-                    _builder.append("\").toFileString()));");
+                    _builder.append("resources.add(ModelManager.loadModelNoException(resourcePackages, URI.createURI(absoluteResourceURI_");
+                    _builder.append(i, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   }
                 }
+                _builder.append("\t");
+                String _xblockexpression = null;
+                {
+                  i++;
+                  _xblockexpression = "";
+                }
+                _builder.append(_xblockexpression, "\t");
+                _builder.newLineIfNotEmpty();
               }
             }
             {
               for(final String ecoreURI : ecoreURIs) {
                 _builder.append("\t");
-                _builder.append("//");
-                final String ecoreURI2 = ecoreURI.replace("\\", "/");
+                _builder.append("String relativeEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = \"");
+                String _replace_2 = ecoreURI.replace("\\", "/");
+                String _replace_3 = ecoreURI.replace("\\", "/");
+                String _projectName_5 = this.getProjectName();
+                String _plus_11 = ("/" + _projectName_5);
+                String _plus_12 = (_plus_11 + "/");
+                int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+                String _projectName_6 = this.getProjectName();
+                String _plus_13 = ("/" + _projectName_6);
+                int _length_2 = (_plus_13 + "/").length();
+                int _plus_14 = (_lastIndexOf_2 + _length_2);
+                String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
+                _builder.append(_substring_2, "\t");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("String absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = ");
+                _builder.append(this.className, "\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + relativeEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(" = \"file:/\" + absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(".substring(1, absoluteEcoreURI_");
+                _builder.append(j, "\t");
+                _builder.append(".length()); ");
                 _builder.newLineIfNotEmpty();
                 {
                   if ((this.standalone == false)) {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, \"");
-                    _builder.append(ecoreURI2, "\t");
-                    _builder.append("\"));");
+                    _builder.append("resources.add(ModelManager.loadMetaModelAsResource(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("\t");
-                    _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, \"file:/");
-                    _builder.append(ecoreURI2, "\t");
-                    _builder.append("\"));");
+                    _builder.append("resources.add(ModelManager.loadMetaModelAsResourceNoException(resourcePackages, URI.createURI(absoluteEcoreURI_");
+                    _builder.append(j, "\t");
+                    _builder.append(").toFileString()));");
                     _builder.newLineIfNotEmpty();
                   }
                 }
+                _builder.append("\t");
+                String _xblockexpression_1 = null;
+                {
+                  j++;
+                  _xblockexpression_1 = "";
+                }
+                _builder.append(_xblockexpression_1, "\t");
+                _builder.newLineIfNotEmpty();
               }
             }
             {
@@ -24852,6 +25256,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("import wodel.utils.manager.EMFCopier;");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("import mutatorenvironment.MutatorenvironmentPackage;");
+    _builder.newLine();
+    _builder.append("import mutatormetrics.MutatormetricsPackage;");
+    _builder.newLine();
+    _builder.newLine();
     _builder.append("public class ");
     _builder.append(this.className);
     _builder.append(" extends MutatorUtils {");
@@ -25085,10 +25494,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("//Generate metrics model");
             _builder.newLine();
             _builder.append("\t   \t");
-            _builder.append("String metricsecore = \"");
-            _builder.append(this.metricsURL, "\t   \t");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
+            _builder.append("String metricsecore = MutatormetricsPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"model/MutatorMetrics.ecore\";");
+            _builder.newLine();
+            _builder.append("\t   \t");
+            _builder.append("metricsecore = metricsecore.substring(1, metricsecore.length());");
+            _builder.newLine();
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("MutatorMetricsGenerator metricsGenerator = null;");
@@ -25105,50 +25515,44 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((this.standalone == false)) {
                 _builder.append("\t   \t\t");
-                _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, \"");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus = (_workspaceAbsolutePath + "/");
-                String _projectName = this.getProjectName();
-                String _plus_1 = (_plus + _projectName);
-                String _plus_2 = (_plus_1 + "/");
+                _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_6 = ((MutatorEnvironment) e).getDefinition();
                 String _output = ((Program) _definition_6).getOutput();
-                String _plus_3 = (_plus_2 + _output);
-                _builder.append(_plus_3, "\t   \t\t");
+                _builder.append(_output, "\t   \t\t");
                 _builder.append("\", \"");
                 Definition _definition_7 = ((MutatorEnvironment) e).getDefinition();
                 String _metamodel = ((Program) _definition_7).getMetamodel();
                 _builder.append(_metamodel, "\t   \t\t");
-                _builder.append("\", \"");
+                _builder.append("\", ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_8 = ((MutatorEnvironment) e).getDefinition();
                 String _path = ((Program) _definition_8).getSource().getPath();
-                String _plus_4 = ((this.path + "/") + _path);
-                _builder.append(_plus_4, "\t   \t\t");
+                _builder.append(_path, "\t   \t\t");
                 _builder.append("\", \"");
                 _builder.append(this.fileName, "\t   \t\t");
                 _builder.append("\", hashmapMutVersions, this.getClass());");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("\t   \t\t");
-                _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, \"");
-                String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus_5 = (_workspaceAbsolutePath_1 + "/");
-                String _projectName_1 = this.getProjectName();
-                String _plus_6 = (_plus_5 + _projectName_1);
-                String _plus_7 = (_plus_6 + "/");
+                _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_9 = ((MutatorEnvironment) e).getDefinition();
                 String _output_1 = ((Program) _definition_9).getOutput();
-                String _plus_8 = (_plus_7 + _output_1);
-                _builder.append(_plus_8, "\t   \t\t");
+                _builder.append(_output_1, "\t   \t\t");
                 _builder.append("\", \"");
                 Definition _definition_10 = ((MutatorEnvironment) e).getDefinition();
                 String _metamodel_1 = ((Program) _definition_10).getMetamodel();
                 _builder.append(_metamodel_1, "\t   \t\t");
-                _builder.append("\", \"");
+                _builder.append("\", ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_11 = ((MutatorEnvironment) e).getDefinition();
                 String _path_1 = ((Program) _definition_11).getSource().getPath();
-                String _plus_9 = ((this.path + "/") + _path_1);
-                _builder.append(_plus_9, "\t   \t\t");
+                _builder.append(_path_1, "\t   \t\t");
                 _builder.append("\", \"");
                 _builder.append(this.fileName, "\t   \t\t");
                 _builder.append("\", hashmapMutVersions, ");
@@ -25178,50 +25582,44 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((this.standalone == true)) {
                 _builder.append("\t   \t\t");
-                _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, \"");
-                String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus_10 = (_workspaceAbsolutePath_2 + "/");
-                String _projectName_2 = this.getProjectName();
-                String _plus_11 = (_plus_10 + _projectName_2);
-                String _plus_12 = (_plus_11 + "/");
+                _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_12 = ((MutatorEnvironment) e).getDefinition();
                 String _output_2 = ((Program) _definition_12).getOutput();
-                String _plus_13 = (_plus_12 + _output_2);
-                _builder.append(_plus_13, "\t   \t\t");
+                _builder.append(_output_2, "\t   \t\t");
                 _builder.append("\", \"");
                 Definition _definition_13 = ((MutatorEnvironment) e).getDefinition();
                 String _metamodel_2 = ((Program) _definition_13).getMetamodel();
                 _builder.append(_metamodel_2, "\t   \t\t");
-                _builder.append("\", \"");
+                _builder.append("\", ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_14 = ((MutatorEnvironment) e).getDefinition();
                 String _path_2 = ((Program) _definition_14).getSource().getPath();
-                String _plus_14 = ((this.path + "/") + _path_2);
-                _builder.append(_plus_14, "\t   \t\t");
+                _builder.append(_path_2, "\t   \t\t");
                 _builder.append("\", \"");
                 _builder.append(this.fileName, "\t   \t\t");
                 _builder.append("\", hashmapMutVersions, this.getClass());");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("\t   \t\t");
-                _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, \"");
-                String _workspaceAbsolutePath_3 = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus_15 = (_workspaceAbsolutePath_3 + "/");
-                String _projectName_3 = this.getProjectName();
-                String _plus_16 = (_plus_15 + _projectName_3);
-                String _plus_17 = (_plus_16 + "/");
+                _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_15 = ((MutatorEnvironment) e).getDefinition();
                 String _output_3 = ((Program) _definition_15).getOutput();
-                String _plus_18 = (_plus_17 + _output_3);
-                _builder.append(_plus_18, "\t   \t\t");
+                _builder.append(_output_3, "\t   \t\t");
                 _builder.append("\", \"");
                 Definition _definition_16 = ((MutatorEnvironment) e).getDefinition();
                 String _metamodel_3 = ((Program) _definition_16).getMetamodel();
                 _builder.append(_metamodel_3, "\t   \t\t");
-                _builder.append("\", \"");
+                _builder.append("\", ");
+                _builder.append(this.className, "\t   \t\t");
+                _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
                 Definition _definition_17 = ((MutatorEnvironment) e).getDefinition();
                 String _path_3 = ((Program) _definition_17).getSource().getPath();
-                String _plus_19 = ((this.path + "/") + _path_3);
-                _builder.append(_plus_19, "\t   \t\t");
+                _builder.append(_path_3, "\t   \t\t");
                 _builder.append("\", \"");
                 _builder.append(this.fileName, "\t   \t\t");
                 _builder.append("\", hashmapMutVersions, ");
@@ -25526,10 +25924,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("//Generate metrics model");
         _builder.newLine();
         _builder.append("\t   \t");
-        _builder.append("String metricsecore = \"");
-        _builder.append(this.metricsURL, "\t   \t");
-        _builder.append("\";");
-        _builder.newLineIfNotEmpty();
+        _builder.append("String metricsecore = MutatormetricsPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"model/MutatorMetrics.ecore\";");
+        _builder.newLine();
+        _builder.append("\t   \t");
+        _builder.append("metricsecore = metricsecore.substring(1, metricsecore.length());");
+        _builder.newLine();
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("MutatorMetricsGenerator metricsGenerator = null;");
@@ -25546,50 +25945,50 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((this.standalone == false)) {
             _builder.append("\t\t\t");
-            _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, \"");
-            String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath(e);
-            String _plus_20 = (_workspaceAbsolutePath_4 + "/");
-            String _projectName_4 = this.getProjectName();
-            String _plus_21 = (_plus_20 + _projectName_4);
-            String _plus_22 = (_plus_21 + "/");
+            _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
             Definition _definition_19 = ((MutatorEnvironment) e).getDefinition();
             String _output_4 = ((Program) _definition_19).getOutput();
-            String _plus_23 = (_plus_22 + _output_4);
-            _builder.append(_plus_23, "\t\t\t");
+            _builder.append(_output_4, "\t\t\t");
             _builder.append("\", \"");
             Definition _definition_20 = ((MutatorEnvironment) e).getDefinition();
             String _metamodel_4 = ((Program) _definition_20).getMetamodel();
             _builder.append(_metamodel_4, "\t\t\t");
-            _builder.append("\", \"");
+            _builder.append("\", ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+            String _projectName = this.getProjectName();
+            _builder.append(_projectName, "\t\t\t");
+            _builder.append("/");
             Definition _definition_21 = ((MutatorEnvironment) e).getDefinition();
             String _path_4 = ((Program) _definition_21).getSource().getPath();
-            String _plus_24 = ((this.path + "/") + _path_4);
-            _builder.append(_plus_24, "\t\t\t");
+            _builder.append(_path_4, "\t\t\t");
             _builder.append("\", \"");
             _builder.append(this.fileName, "\t\t\t");
             _builder.append("\", hashmapMutVersions, this.getClass());");
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("\t\t\t");
-            _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, \"");
-            String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath(e);
-            String _plus_25 = (_workspaceAbsolutePath_5 + "/");
-            String _projectName_5 = this.getProjectName();
-            String _plus_26 = (_plus_25 + _projectName_5);
-            String _plus_27 = (_plus_26 + "/");
+            _builder.append("metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
             Definition _definition_22 = ((MutatorEnvironment) e).getDefinition();
             String _output_5 = ((Program) _definition_22).getOutput();
-            String _plus_28 = (_plus_27 + _output_5);
-            _builder.append(_plus_28, "\t\t\t");
+            _builder.append(_output_5, "\t\t\t");
             _builder.append("\", \"");
             Definition _definition_23 = ((MutatorEnvironment) e).getDefinition();
             String _metamodel_5 = ((Program) _definition_23).getMetamodel();
             _builder.append(_metamodel_5, "\t\t\t");
-            _builder.append("\", \"");
+            _builder.append("\", ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+            String _projectName_1 = this.getProjectName();
+            _builder.append(_projectName_1, "\t\t\t");
+            _builder.append("/");
             Definition _definition_24 = ((MutatorEnvironment) e).getDefinition();
             String _path_5 = ((Program) _definition_24).getSource().getPath();
-            String _plus_29 = ((this.path + "/") + _path_5);
-            _builder.append(_plus_29, "\t\t\t");
+            _builder.append(_path_5, "\t\t\t");
             _builder.append("\", \"");
             _builder.append(this.fileName, "\t\t\t");
             _builder.append("\", hashmapMutVersions, ");
@@ -25619,50 +26018,50 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((this.standalone == false)) {
             _builder.append("\t\t\t");
-            _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, \"");
-            String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath(e);
-            String _plus_30 = (_workspaceAbsolutePath_6 + "/");
-            String _projectName_6 = this.getProjectName();
-            String _plus_31 = (_plus_30 + _projectName_6);
-            String _plus_32 = (_plus_31 + "/");
+            _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
             Definition _definition_25 = ((MutatorEnvironment) e).getDefinition();
             String _output_6 = ((Program) _definition_25).getOutput();
-            String _plus_33 = (_plus_32 + _output_6);
-            _builder.append(_plus_33, "\t\t\t");
+            _builder.append(_output_6, "\t\t\t");
             _builder.append("\", \"");
             Definition _definition_26 = ((MutatorEnvironment) e).getDefinition();
             String _metamodel_6 = ((Program) _definition_26).getMetamodel();
             _builder.append(_metamodel_6, "\t\t\t");
-            _builder.append("\", \"");
+            _builder.append("\", ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+            String _projectName_2 = this.getProjectName();
+            _builder.append(_projectName_2, "\t\t\t");
+            _builder.append("/");
             Definition _definition_27 = ((MutatorEnvironment) e).getDefinition();
             String _path_6 = ((Program) _definition_27).getSource().getPath();
-            String _plus_34 = ((this.path + "/") + _path_6);
-            _builder.append(_plus_34, "\t\t\t");
+            _builder.append(_path_6, "\t\t\t");
             _builder.append("\", \"");
             _builder.append(this.fileName, "\t\t\t");
             _builder.append("\", hashmapMutVersions, this.getClass());");
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("\t\t\t");
-            _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, \"");
-            String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath(e);
-            String _plus_35 = (_workspaceAbsolutePath_7 + "/");
-            String _projectName_7 = this.getProjectName();
-            String _plus_36 = (_plus_35 + _projectName_7);
-            String _plus_37 = (_plus_36 + "/");
+            _builder.append("metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
             Definition _definition_28 = ((MutatorEnvironment) e).getDefinition();
             String _output_7 = ((Program) _definition_28).getOutput();
-            String _plus_38 = (_plus_37 + _output_7);
-            _builder.append(_plus_38, "\t\t\t");
+            _builder.append(_output_7, "\t\t\t");
             _builder.append("\", \"");
             Definition _definition_29 = ((MutatorEnvironment) e).getDefinition();
             String _metamodel_7 = ((Program) _definition_29).getMetamodel();
             _builder.append(_metamodel_7, "\t\t\t");
-            _builder.append("\", \"");
+            _builder.append("\", ");
+            _builder.append(this.className, "\t\t\t");
+            _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+            String _projectName_3 = this.getProjectName();
+            _builder.append(_projectName_3, "\t\t\t");
+            _builder.append("/");
             Definition _definition_30 = ((MutatorEnvironment) e).getDefinition();
             String _path_7 = ((Program) _definition_30).getSource().getPath();
-            String _plus_39 = ((this.path + "/") + _path_7);
-            _builder.append(_plus_39, "\t\t\t");
+            _builder.append(_path_7, "\t\t\t");
             _builder.append("\", \"");
             _builder.append(this.fileName, "\t\t\t");
             _builder.append("\", hashmapMutVersions, ");
@@ -25812,19 +26211,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
+        _builder.append("String modelURI = ");
+        _builder.append(this.className);
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"");
         String _path = ((Program)e).getSource().getPath();
-        String modelPath = ((this.path + "/") + _path);
-        _builder.newLineIfNotEmpty();
-        String _output = ((Program)e).getOutput();
-        String outputPath = ((this.path + "/") + _output);
-        _builder.append(" ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("String modelURI = \"");
-        _builder.append(modelPath);
+        _builder.append(_path);
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
-        _builder.append("String modelsURI = \"");
-        _builder.append(outputPath);
+        _builder.append("String modelsURI = ");
+        _builder.append(this.className);
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"");
+        String _output = ((Program)e).getOutput();
+        _builder.append(_output);
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -25879,7 +26277,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t   \t\t");
         _builder.append("totalMutants = numMutants * ");
         EObject _eContainer = ((Program)e).eContainer();
-        int _numberOfSeedModels = MutatorUtils.getNumberOfSeedModels(((MutatorEnvironment) _eContainer), this.path);
+        String _projectName = this.getProjectName();
+        String _plus = ((this.className + ".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")") + _projectName);
+        String _plus_1 = (_plus + "/");
+        int _numberOfSeedModels = MutatorUtils.getNumberOfSeedModels(((MutatorEnvironment) _eContainer), _plus_1);
         _builder.append(_numberOfSeedModels, "\t   \t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
@@ -25915,19 +26316,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append(_metamodel);
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
+        _builder.append("String modelURI = ");
+        _builder.append(this.className);
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"");
         String _path = ((Program)e).getSource().getPath();
-        String modelPath = ((this.path + "/") + _path);
-        _builder.newLineIfNotEmpty();
-        String _output = ((Program)e).getOutput();
-        String outputPath = ((this.path + "/") + _output);
-        _builder.append(" ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("String modelURI = \"");
-        _builder.append(modelPath);
+        _builder.append(_path);
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
-        _builder.append("String modelsURI = \"");
-        _builder.append(outputPath);
+        _builder.append("String modelsURI = ");
+        _builder.append(this.className);
+        _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\") + \"");
+        String _output = ((Program)e).getOutput();
+        _builder.append(_output);
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -28351,7 +28751,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                                 _builder.append("MinValueConfigurationStrategy min");
                                 Integer _get_71 = this.expressionList.get(indexExpression);
                                 _builder.append(_get_71);
-                                _builder.append(" = new MinValueConfigurationStrategy(resourcesPackages, resources, \"");
+                                _builder.append(" = new MinValueConfigurationStrategy(resourcePackages, resources, \"");
                                 AttributeEvaluationType _attValue_18 = refev.getAttValue();
                                 String _typeName_10 = MutatorUtils.getTypeName(((MinValueType) _attValue_18));
                                 _builder.append(_typeName_10);
@@ -28373,7 +28773,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                                 _builder.append("MinValueConfigurationStrategy min");
                                 Integer _get_73 = this.expressionList.get(indexExpression);
                                 _builder.append(_get_73);
-                                _builder.append(" = new MinValueConfigurationStrategy(resourcesPackages, resources, \"");
+                                _builder.append(" = new MinValueConfigurationStrategy(resourcePackages, resources, \"");
                                 AttributeEvaluationType _attValue_20 = refev.getAttValue();
                                 String _typeName_11 = MutatorUtils.getTypeName(((MinValueType) _attValue_20));
                                 _builder.append(_typeName_11);
@@ -28458,7 +28858,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                                     _builder.append("MaxValueConfigurationStrategy max");
                                     Integer _get_81 = this.expressionList.get(indexExpression);
                                     _builder.append(_get_81);
-                                    _builder.append(" = new MaxValueConfigurationStrategy(resourcesPackages, resources, \"");
+                                    _builder.append(" = new MaxValueConfigurationStrategy(resourcePackages, resources, \"");
                                     AttributeEvaluationType _attValue_27 = refev.getAttValue();
                                     String _typeName_14 = MutatorUtils.getTypeName(((MaxValueType) _attValue_27));
                                     _builder.append(_typeName_14);
@@ -30284,12 +30684,26 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
   public CharSequence execute(final MutatorEnvironment e) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("   \t\t");
-    _builder.append("//Generate metrics model");
-    _builder.newLine();
-    _builder.append("String mutatorecore = \"");
-    _builder.append(this.mutatorURL);
+    String fileName = e.eResource().getURI().lastSegment();
+    _builder.newLineIfNotEmpty();
+    _builder.append("String xmiFilename = ");
+    _builder.append(this.className);
+    _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+    String _output = this.program.getOutput();
+    String _replaceAll = fileName.replaceAll(".mutator", ".model");
+    String _plus = (_output + _replaceAll);
+    _builder.append(_plus);
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
+    _builder.append("xmiFilename = \"file:/\" + xmiFilename.substring(1, xmiFilename.length());");
+    _builder.newLine();
+    _builder.append("   \t\t");
+    _builder.append("//Generate metrics model");
+    _builder.newLine();
+    _builder.append("String mutatorecore = MutatorenvironmentPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"model/MutatorEnvironment.ecore\";");
+    _builder.newLine();
+    _builder.append("mutatorecore = mutatorecore.substring(1, mutatorecore.length()); ");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("//Load MetaModel");
     _builder.newLine();
@@ -30297,15 +30711,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     {
       if ((this.standalone == false)) {
-        _builder.append("Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(\"");
-        _builder.append(this.xmiFileName);
-        _builder.append("\").toFileString());");
-        _builder.newLineIfNotEmpty();
+        _builder.append("Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());");
+        _builder.newLine();
       } else {
-        _builder.append("Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(\"");
-        _builder.append(this.xmiFileName);
-        _builder.append("\").toFileString());");
-        _builder.newLineIfNotEmpty();
+        _builder.append("Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(xmiFilename).toFileString());");
+        _builder.newLine();
       }
     }
     _builder.newLine();
@@ -30372,8 +30782,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("//NAME:");
             String _name_1 = c.getName();
             String _string = Integer.valueOf(this.nCommands).toString();
-            String _plus = (_name_1 + _string);
-            String _commandName = this.commandName = _plus;
+            String _plus_1 = (_name_1 + _string);
+            String _commandName = this.commandName = _plus_1;
             _builder.append(_commandName);
             _builder.newLineIfNotEmpty();
           } else {
@@ -30384,8 +30794,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
         _builder.append("//METHOD NAME:");
         String _string_1 = Integer.valueOf(this.nMethod).toString();
-        String _plus_1 = ("mutation" + _string_1);
-        String _methodName = this.methodName = _plus_1;
+        String _plus_2 = ("mutation" + _string_1);
+        String _methodName = this.methodName = _plus_2;
         _builder.append(_methodName);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -30538,7 +30948,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                   EList<InvariantCS> _expressions_1 = constraint.getExpressions();
                   for(final InvariantCS expression : _expressions_1) {
                     _builder.append("newrules.add(\"");
-                    String _constraintText = WodelUtils.getConstraintText(this.fileName, expression);
+                    String _constraintText = WodelUtils.getConstraintText(fileName, expression);
                     _builder.append(_constraintText);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
@@ -30641,12 +31051,26 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 
   public CharSequence executeBlock(final MutatorEnvironment e, final Block b) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Generate metrics model");
-    _builder.newLine();
-    _builder.append("String mutatorecore = \"");
-    _builder.append(this.mutatorURL);
+    _builder.append("   \t\t");
+    String fileName = e.eResource().getURI().lastSegment();
+    _builder.newLineIfNotEmpty();
+    _builder.append("String xmiFilename = ");
+    _builder.append(this.className);
+    _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
+    String _output = this.program.getOutput();
+    String _replaceAll = fileName.replaceAll(".mutator", ".model");
+    String _plus = (_output + _replaceAll);
+    _builder.append(_plus);
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
+    _builder.append("xmiFilename = \"file:/\" + xmiFilename.substring(1, xmiFilename.length());");
+    _builder.newLine();
+    _builder.append("//Generate metrics model");
+    _builder.newLine();
+    _builder.append("String mutatorecore = MutatorenvironmentPackage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"model/MutatorEnvironment.ecore\";");
+    _builder.newLine();
+    _builder.append("mutatorecore = mutatorecore.substring(1, mutatorecore.length()); ");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("//Load MetaModel");
     _builder.newLine();
@@ -30654,15 +31078,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     {
       if ((this.standalone == false)) {
-        _builder.append("Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(\"");
-        _builder.append(this.xmiFileName);
-        _builder.append("\").toFileString());");
-        _builder.newLineIfNotEmpty();
+        _builder.append("Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());");
+        _builder.newLine();
       } else {
-        _builder.append("Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(\"");
-        _builder.append(this.xmiFileName);
-        _builder.append("\").toFileString());");
-        _builder.newLineIfNotEmpty();
+        _builder.append("Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages, URI.createURI(xmiFilename).toFileString());");
+        _builder.newLine();
       }
     }
     _builder.newLine();
@@ -30725,8 +31145,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("//NAME:");
                 String _name_1 = c.getName();
                 String _string = Integer.valueOf(this.nCommands).toString();
-                String _plus = (_name_1 + _string);
-                String _commandName = this.commandName = _plus;
+                String _plus_1 = (_name_1 + _string);
+                String _commandName = this.commandName = _plus_1;
                 _builder.append(_commandName);
                 _builder.newLineIfNotEmpty();
               } else {
@@ -30739,8 +31159,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
         _builder.append("//METHOD NAME:");
         String _string_1 = Integer.valueOf(this.nMethod).toString();
-        String _plus_1 = ("mutation" + _string_1);
-        String _methodName = this.methodName = _plus_1;
+        String _plus_2 = ("mutation" + _string_1);
+        String _methodName = this.methodName = _plus_2;
         _builder.append(_methodName);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -30913,7 +31333,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                   EList<InvariantCS> _expressions_1 = constraint.getExpressions();
                   for(final InvariantCS expression : _expressions_1) {
                     _builder.append("newrules.add(\"");
-                    String _constraintText = WodelUtils.getConstraintText(this.fileName, expression);
+                    String _constraintText = WodelUtils.getConstraintText(fileName, expression);
                     _builder.append(_constraintText);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();

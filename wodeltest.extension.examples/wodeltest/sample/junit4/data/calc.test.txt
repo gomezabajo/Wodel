@@ -1,2 +1,0 @@
-calc
-calc-test

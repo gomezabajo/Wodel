@@ -1,0 +1,2 @@
+testJava
+org.eclipse.jdt.core.javanature

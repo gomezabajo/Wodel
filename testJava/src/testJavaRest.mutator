@@ -1,0 +1,29 @@
+generate exhaustive mutants
+in "data/out/"
+from "data/model/"
+metamodel "/testJava/data/model/java.ecore"
+description "Other mutations"
+
+with blocks {
+	rtr "Transforms a NumberLiteral to a random number" {
+		modify one NumberLiteral with {tokenValue = random-int-string(0, 9)}
+	}
+	vmr "Deletes a call to a void method" {
+		remove one MethodInvocation
+			where {method->returnType->type is typed PrimitiveTypeVoid}
+	}
+	nvmr "Deletes a call to a non-void method" {
+		remove one MethodInvocation
+			where {method->returnType->type not typed PrimitiveTypeVoid}
+	}
+	cir "Replaces a call to a constructor by null" {
+		a = select one Assignment where {rightHandSide is typed ClassInstanceCreation}
+		create NullLiteral in a->rightHandSide
+	}
+	vra "Replace an assignment to a variable by the Java default values" {
+		remove one Assignment where {rightHandSide is typed NumberLiteral}
+	}
+	rst "Removes one Statement" {
+		remove one Statement where {self not typed VariableDeclarationStatement}
+	}
+}

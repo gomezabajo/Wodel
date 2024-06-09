@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/testJava/data/model/java.ecore" output="data/out/" description="Conditional mutation operators" exhaustive="true">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="cn1" description="Conditional Negation">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ifstmt">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//IfStatement"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+        <refType href="../model/java.ecore#//IfStatement/expression"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="neg">
+      <type href="../model/java.ecore#//PrefixExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+        <refType href="../model/java.ecore#//IfStatement/expression"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/java.ecore#//PrefixExpression/operator"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="par">
+      <type href="../model/java.ecore#//ParenthesizedExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2">
+        <refType href="../model/java.ecore#//PrefixExpression/operand"/>
+      </container>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/java.ecore#//ParenthesizedExpression/expression"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="cn2" description="Conditional Negation">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="rtstmt">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//ReturnStatement"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+        <refType href="../model/java.ecore#//ReturnStatement/expression"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="neg">
+      <type href="../model/java.ecore#//PrefixExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+        <refType href="../model/java.ecore#//ReturnStatement/expression"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/java.ecore#//PrefixExpression/operator"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="par">
+      <type href="../model/java.ecore#//ParenthesizedExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2">
+        <refType href="../model/java.ecore#//PrefixExpression/operand"/>
+      </container>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/java.ecore#//ParenthesizedExpression/expression"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="cn3" description="Conditional Negation">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
+        <refType href="../model/java.ecore#//InfixExpression/leftOperand"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="neg">
+      <type href="../model/java.ecore#//PrefixExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
+        <refType href="../model/java.ecore#//InfixExpression/leftOperand"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/java.ecore#//PrefixExpression/operator"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="par">
+      <type href="../model/java.ecore#//ParenthesizedExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2">
+        <refType href="../model/java.ecore#//PrefixExpression/operand"/>
+      </container>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/java.ecore#//ParenthesizedExpression/expression"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="cn4" description="Conditional Negation">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
+        <refType href="../model/java.ecore#//InfixExpression/rightOperand"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//InfixExpression"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="neg">
+      <type href="../model/java.ecore#//PrefixExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
+        <refType href="../model/java.ecore#//InfixExpression/rightOperand"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/java.ecore#//PrefixExpression/operator"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="par">
+      <type href="../model/java.ecore#//ParenthesizedExpression"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.2">
+        <refType href="../model/java.ecore#//PrefixExpression/operand"/>
+      </container>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/java.ecore#//ParenthesizedExpression/expression"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="rc" description="Removes a conditional statement">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="main">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//Block"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
+            <name href="../model/java.ecore#//Block/statements"/>
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/java.ecore#//IfStatement"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="if0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
+        <refType href="../model/java.ecore#//Block/statements"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//IfStatement"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="b2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.1">
+        <refType href="../model/java.ecore#//IfStatement/thenStatement"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/java.ecore#//Block"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/java.ecore#//Block/statements"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.1"/>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

@@ -1,0 +1,32 @@
+generate exhaustive mutants
+in "data/out/"
+from "data/model/"
+metamodel "/testJava/data/model/java.ecore"
+description "Number literal subtraction"
+
+with blocks {
+	dnl "Subtract 1 to a NumberLiteral leftOperand InfixExpression" {
+		exp2 = select one InfixExpression where {leftOperand is typed NumberLiteral}
+		n3 = select one NumberLiteral in exp2->leftOperand
+		dec = deep clone n3 with {tokenValue = '1'}
+		create InfixExpression in exp2->leftOperand with {leftOperand = n3, operator = '-', rightOperand = dec}
+	}	
+	dnr "Subtract 1 to a NumberLiteral rightOperand InfixExpression" {
+		exp2 = select one InfixExpression where {rightOperand is typed NumberLiteral}
+		n3 = select one NumberLiteral in exp2->rightOperand
+		dec = deep clone n3 with {tokenValue = '1'}
+		create InfixExpression in exp2->rightOperand with {leftOperand = n3, operator = '-', rightOperand = dec}
+	}	
+	dnrst "Subtract 1 to a NumberLiteral ReturnStatement" {
+		exp2 = select one ReturnStatement where {expression is typed NumberLiteral}
+		n3 = select one NumberLiteral in exp2->expression
+		dec = deep clone n3 with {tokenValue = '1'}
+		create InfixExpression in exp2->expression with {leftOperand = n3, operator = '-', rightOperand = dec}
+	}	
+	dna "Subtract 1 to a NumberLiteral Assignment" {
+		exp2 = select one Assignment where {rightHandSide is typed NumberLiteral}
+		n3 = select one NumberLiteral in exp2->rightHandSide
+		dec = deep clone n3 with {tokenValue = '1'}
+		create InfixExpression in exp2->rightHandSide with {leftOperand = n3, operator = '-', rightOperand = dec}
+	}	
+}

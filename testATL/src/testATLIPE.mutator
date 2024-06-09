@@ -1,0 +1,32 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/testATL/data/model/ATL.ecore"
+with resources from
+	{input="data/model/in" metamodel="/testATL/data/model/MyEcore.ecore"},
+	{output="data/model/out" metamodel="/testATL/data/model/MyEcore.ecore"}
+	
+with blocks {
+	cipe "In pattern addition" {
+		cl = select one EClass from input resources
+		p = select one InPattern
+		mod = select one OclModel in p->elements->type->model
+		ipe = create SimpleInPatternElement in p->elements
+			with {varName = random-string(2, 4)}
+		elem = create OclModelElement in ipe->type
+			with {copy(name, cl.name), variableDeclaration = ipe}
+		modify mod with {elements += elem}
+	}
+//	ripe "Remove in pattern" {
+//		remove one InPatternElement
+//	}
+//	ccipe "Class change in pattern" {
+//		sipe = select one SimpleInPatternElement
+//		type = select one OclModelElement in sipe->type
+//		cl = select one EClass from input resources where {name <> type.name}
+//		modify type with {copy(name, cl.name)}
+//	}
+//	ncipe "Name change in pattern" {
+//		modify one InPatternElement with {varName = random-string(4, 6)}
+//	}
+}

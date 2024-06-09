@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/testATL/data/model/ATL.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+    <resources metamodel="/testATL/data/model/MyEcore.ecore" name="input">
+      <path path="data/model/in"/>
+    </resources>
+    <resources metamodel="/testATL/data/model/MyEcore.ecore" name="output">
+      <path path="data/model/out"/>
+    </resources>
+  </definition>
+  <blocks name="cipe" description="In pattern addition">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="input">
+        <type href="../model/MyEcore.ecore#//EClass"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/0/InPattern"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="mod">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
+        <refType href="../model/ATL.ecore#/0/InPattern/elements"/>
+        <refRefType href="../model/ATL.ecore#/1/VariableDeclaration/type"/>
+        <refRefRefType href="../model/ATL.ecore#/1/OclModelElement/model"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OclModel"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="ipe">
+      <type href="../model/ATL.ecore#/0/SimpleInPatternElement"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
+        <refType href="../model/ATL.ecore#/0/InPattern/elements"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/ATL.ecore#/1/VariableDeclaration/varName"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="elem">
+      <type href="../model/ATL.ecore#/1/OclModelElement"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.3">
+        <refType href="../model/ATL.ecore#/1/VariableDeclaration/type"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
+        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/ATL.ecore#/1/OclType/variableDeclaration"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.3"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/ATL.ecore#/1/OclModel/elements"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.4"/>
+      </references>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

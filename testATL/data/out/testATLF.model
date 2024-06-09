@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/testATL/data/model/ATL.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="cf" description="Create filter">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/0/InPattern"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
+            <name href="../model/ATL.ecore#/0/InPattern/filter"/>
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/ATL.ecore#/1/OperatorCallExp"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="opce">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+        <refType href="../model/ATL.ecore#/0/InPattern/filter"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OperatorCallExp"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="feat">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OclFeature"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sipe">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+        <refType href="../model/ATL.ecore#/0/InPattern/elements"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/0/SimpleInPatternElement"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="conj">
+      <type href="../model/ATL.ecore#/1/OperatorCallExp"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/ATL.ecore#/1/OperationCallExp/operationName"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="and"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="call">
+      <type href="../model/ATL.ecore#/1/OperationCallExp"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.4">
+        <refType href="../model/ATL.ecore#/1/PropertyCallExp/source"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="../model/ATL.ecore#/1/OperationCallExp/operationName"/>
+        <attribute href="../model/ATL.ecore#/1/Attribute/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="exp">
+      <type href="../model/ATL.ecore#/1/VariableExp"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.5">
+        <refType href="../model/ATL.ecore#/1/PropertyCallExp/source"/>
+      </container>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.3"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/ATL.ecore#/1/VariableDeclaration/variableExp"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.6"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.4"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/ATL.ecore#/1/OperationCallExp/arguments"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceAdd">
+        <reference href="../model/ATL.ecore#/0/InPattern/filter"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.4"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="rf" description="Remove filter">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OclExpression"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is" container="true">
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/ATL.ecore#/0/InPattern"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="ccf" description="Condition change filter">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="../model/ATL.ecore#/0/InPattern"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/ATL.ecore#/0/InPattern/filter"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="opce">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
+        <refType href="../model/ATL.ecore#/0/InPattern/filter"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/ATL.ecore#/1/OperationCallExp/operationName"/>
+            <value xsi:type="mutatorenvironment:ListStringType" operator="different">
+              <value>not</value>
+              <value>and</value>
+              <value>or</value>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OperationCallExp"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="feat">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/ATL.ecore#/1/OclFeature"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/ATL.ecore#/1/Attribute/name"/>
+            <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.2/@commands.1" operator="different">
+              <attribute href="../model/ATL.ecore#/1/OperationCallExp/operationName"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="../model/ATL.ecore#/1/OperationCallExp/operationName"/>
+        <attribute href="../model/ATL.ecore#/1/Attribute/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2"/>
+      </attributes>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

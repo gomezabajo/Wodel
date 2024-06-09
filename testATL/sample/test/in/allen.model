@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<families:Family xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="http://families/1.0" xmi:id="_APC0gCOtEemrMIvIGxfM-g" lastName="Allen">
+  <father xmi:id="_GK2roCOtEemrMIvIGxfM-g" firstName="John"/>
+  <mother xmi:id="_JOLSsCOtEemrMIvIGxfM-g" firstName="Mary"/>
+  <sons xmi:id="_D9n_ECOtEemrMIvIGxfM-g" firstName="Peter"/>
+</families:Family>

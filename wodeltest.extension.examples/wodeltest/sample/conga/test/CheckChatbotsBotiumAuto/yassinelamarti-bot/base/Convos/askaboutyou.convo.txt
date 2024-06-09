@@ -1,7 +1,0 @@
-askAboutYou
-
-#me
-askAboutYou
-
-#bot
-INTENT askAboutYou

@@ -5268,7 +5268,6 @@ public class WodelUtils {
 //		String eclipseHomePath = "";
 //		String compilerName = "";
 		String wodelWorkspacePath;
-		ProjectUtils.projectName = wodelProjectName;
 //		if (args.length < 3) {
 //			System.out.println("args[0] = wodelProjectPath, args[1] = eclipseHomePath, args[2] = compilerName");
 //			return;
@@ -7186,7 +7185,6 @@ public class WodelUtils {
 				}
 				//WodelGenerator wodelGenerator = new WodelGenerator();
 				//wodelGenerator.doGenerate(wodelProgram, fsa, null);
-				ProjectUtils.projectName = wodelProjectName;
 				Main.main(new String[] {wodelProjectPath + "/src/" + wodelProjectName + ".mutator", wodelProjectPath});
 				builder = new ProcessBuilder("cmd.exe", "/c", eclipseHomePath + "/" + compilerName + " " + String.format("-nosplash -application org.eclipse.jdt.apt.core.aptBuild startup.jar -data %s -build all", wodelWorkspacePath));
 				builder.inheritIO();

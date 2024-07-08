@@ -35,9 +35,6 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 		if (ProjectUtils.project !== null) {
 			projectName = ProjectUtils.project.name
 		}
-		else {
-			projectName = ProjectUtils.projectName
-		}
 		return projectName
 	}
 	
@@ -79,8 +76,8 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 				if (file !== null) {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
-							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
-							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e) + "/" + mutatorFolderAndFile
+							var mutatorFolderAndFile = file.path.indexOf("/") != - 1 ? file.path.substring(file.path.lastIndexOf("/" + getProjectName)).replace("\\", "/") : file.path.substring(file.path.lastIndexOf("\\" + getProjectName)).replace("\\", "/") 
+							mutatorPath = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath + mutatorFolderAndFile
 						}
 					}
 					else  {

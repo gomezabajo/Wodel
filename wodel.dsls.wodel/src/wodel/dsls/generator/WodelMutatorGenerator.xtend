@@ -6,13 +6,12 @@ import org.eclipse.core.resources.IProject
 import mutatorenvironment.Program
 import java.util.Map
 import mutatorenvironment.Mutator
-import java.util.HashMap
+import java.util.LinkedHashMap
 import org.osgi.framework.Bundle
 import wodel.utils.manager.ProjectUtils
 import java.io.File
 import java.util.ArrayList
 import mutatorenvironment.MutatorEnvironment
-import wodel.utils.manager.ModelManager
 import mutatorenvironment.ModifyInformationMutator
 import mutatorenvironment.RandomTypeSelection
 import mutatorenvironment.CompleteTypeSelection
@@ -134,7 +133,7 @@ abstract class WodelMutatorGenerator extends AbstractGenerator {
 	protected String fileName
 	protected String className
 	protected Program program
-	protected Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>()
+	protected Map<Mutator, Integer> mutIndexes = new LinkedHashMap<Mutator, Integer>()
 	
 	protected Bundle bundle
 
@@ -142,9 +141,6 @@ abstract class WodelMutatorGenerator extends AbstractGenerator {
 		var String projectName = null
 		if (ProjectUtils.project !== null) {
 			projectName = ProjectUtils.project.name
-		}
-		else {
-			projectName = ProjectUtils.projectName
 		}
 		return projectName
 	}
@@ -187,8 +183,8 @@ abstract class WodelMutatorGenerator extends AbstractGenerator {
 				if (file !== null) {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
-							var mutatorFolderAndFile = file.path.substring(file.path.indexOf(getProjectName)).replace("\\", "/")
-							mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath(e)+"/"+mutatorFolderAndFile
+							var mutatorFolderAndFile = file.path.indexOf("/") != - 1 ? file.path.substring(file.path.lastIndexOf("/" + getProjectName)).replace("\\", "/") : file.path.substring(file.path.lastIndexOf("\\" + getProjectName)).replace("\\", "/") 
+							mutatorPath = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath+mutatorFolderAndFile
 						}
 					}
 					else  {
@@ -207,7 +203,7 @@ package mutator.«getProjectName»;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -249,11 +245,11 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 «ENDIF»
 
 	«IF standalone == false»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ELSE»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ENDIF»
@@ -429,7 +425,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 		«ENDIF»
 				
-		Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		//COUNTER:«var counter = 0»
 		«FOR c : mut.attributes »
 			//COUNTER:«counter++»
@@ -663,8 +659,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			«ENDIF»
    		«ENDFOR»
-		Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-		Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+		Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+		Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		List<EObject> objsAttRef = new ArrayList<EObject>();
 		//COUNTER:«counter = 0»
 		«FOR c : mut.references »
@@ -1039,7 +1035,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				object = ModelManager.getObject(resource, object);
 				if (object != null) {
 					obSelection = new SpecificObjectSelection(packages, resource, object);
-					Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+					Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		//COUNTER:«var counter = 0»
 		«FOR c : mut.attributes »
 			//COUNTER:«counter++»
@@ -1289,8 +1285,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					«c.method(false, true, 1, true, "obSelection")»
 				}
 				«ENDFOR»
-		Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-		Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+		Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+		Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		List<EObject> objsAttRef = new ArrayList<EObject>();
 		//COUNTER:«counter = 0»
 		«FOR c : mut.references »
@@ -1587,7 +1583,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -1702,14 +1698,14 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDIF»
 		«ENDIF»
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
 			«c.method(false, false, counter, false, "objectSelection")»
 		«ENDFOR»
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
 			«c.method(false)»
 		«ENDFOR»
@@ -1791,14 +1787,14 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDIF»
 		«ENDIF»
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
 			«c.method(false, false, counter, true, "objectSelection")»
 		«ENDFOR»
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
 			«c.method(true)»
 		«ENDFOR»
@@ -1844,7 +1840,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -2101,7 +2097,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
+			//«val String resourcePath = ProjectUtils.getProject.getLocation.toFile.getPath + "/" + source.path»
 			«IF (new File(resourcePath)).exists()»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
@@ -2113,7 +2109,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«ENDIF»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String relativeMetamodelPath = "«metamodelPath.indexOf("/" + getProjectName + "/") != - 1 ? metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length()) : metamodelPath»";
+			relativeMetamodelPath = relativeMetamodelPath.startsWith("/") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; 
 			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
 			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
@@ -2122,7 +2119,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").indexOf("/" + getProjectName + "/") != - 1 ? resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length()) : resourceURI»";
 				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
 				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
 				«IF standalone == false»
@@ -2311,7 +2308,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			List<EPackage> objectPackages = null;
 			resources = new ArrayList<Resource>();
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
+			//«val String resourcePath = ProjectUtils.getProject.getLocation.toFile.getPath + "/" + source.path»
 			«IF (new File(resourcePath)).exists()»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
@@ -2323,7 +2320,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«ENDIF»
 			«FOR resourceURI : resourceURIs»
-				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").indexOf("/" + getProjectName + "/") != - 1 ? resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length()) : resourceURI»";
 				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
 				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
 				«IF standalone == false»
@@ -2505,7 +2502,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		resourcePackages.addAll(packages);
 		«ELSE»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
+			//«val String resourcePath = ProjectUtils.getProject.getLocation.toFile.getPath + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -2515,7 +2512,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String relativeMetamodelPath = "«metamodelPath.indexOf("/" + getProjectName + "/") != - 1 ? metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length()) : metamodelPath»";
+			relativeMetamodelPath = relativeMetamodelPath.startsWith("/") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; 
 			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
 			resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
@@ -2524,7 +2522,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").indexOf("/" + getProjectName + "/") != - 1 ? resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length()) : resourceURI»";
 				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
 				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
 				«IF standalone == false»
@@ -3096,7 +3094,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -3236,7 +3234,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 							«ENDIF»
 							«IF last == true»
 							// MUTANT COMPLETION AND REGISTRY
-							Map<String, List<String>> rules = new HashMap<String, List<String>>();
+							Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 							«FOR constraint : e.constraints»
 							if (rules.get("«constraint.type.name»") == null) {
 								rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -3348,7 +3346,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					«ENDIF»
 					«IF last == true»
 					// MUTANT COMPLETION AND REGISTRY
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					«FOR constraint : e.constraints»
 					if (rules.get("«constraint.type.name»") == null) {
 						rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -3559,7 +3557,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDFOR»
 			«IF resource !== null»
 			//«val Source source = resource.path»
-			//«val String resourcePath = ModelManager.workspaceAbsolutePath + "/" + getProjectName + "/" + source.path»
+			//«val String resourcePath = ProjectUtils.getProject.getLocation.toFile.getPath + "/" + source.path»
 			«FOR resourceFile : (new File(resourcePath)).listFiles»
 				«IF resourceFile.name.endsWith(".model")»
 					//«resourceURIs.add(resourceFile.path)»
@@ -3569,7 +3567,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			String relativeMetamodelPath = "«metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length())»";
+			String relativeMetamodelPath = "«metamodelPath.indexOf("/" + getProjectName + "/") != - 1 ? metamodelPath.substring(metamodelPath.lastIndexOf("/"  + getProjectName + "/") + ("/" + getProjectName + "/").length(), metamodelPath.length()) : metamodelPath»";
+			relativeMetamodelPath = relativeMetamodelPath.startsWith("/") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; 
 			String absoluteMetamodelPath = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeMetamodelPath;
 			«IF standalone == false»
 			List<Resource> resourcePackages = ModelManager.loadMetaModel(absoluteMetamodelPath, this.getClass());
@@ -3578,7 +3577,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			List<Resource> resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
-				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length())»";
+				String relativeResourceURI_«i» = "«resourceURI.replace("\\", "/").indexOf("/" + getProjectName + "/") != - 1 ? resourceURI.replace("\\", "/").substring(resourceURI.replace("\\", "/").lastIndexOf("/" + getProjectName + "/") + ("/" + getProjectName + "/").length(), resourceURI.replace("\\", "/").length()) : resourceURI»";
 				String absoluteResourceURI_«i» = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + relativeResourceURI_«i»;
 				absoluteResourceURI_«i» = "file:/" + absoluteResourceURI_«i».substring(1, absoluteResourceURI_«i».length()); 
 				«IF standalone == false»
@@ -3867,13 +3866,13 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
 				}
 			«ENDIF»
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			//«var counter = 0»
 			«FOR c : mut.attributes»
 				//«counter ++»
 				«c.method(false, false, counter, false, "objectSelection")»
 			«ENDFOR»
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			«FOR c : mut.references»
 				«c.method(false)»
 			«ENDFOR»
@@ -4105,13 +4104,13 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 			«ENDIF»
 		«ENDIF»
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
 			«c.method(false, false, counter, true, "objectSelection")»
 		«ENDFOR»
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
 			«c.method(true)»
 		«ENDFOR»
@@ -4193,7 +4192,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -4400,13 +4399,13 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
 				}
 			«ENDIF»
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			//«var counter = 0»
 			«FOR c : mut.attributes»
 				//«counter ++»
 				«c.method(false, false, counter, false, "objectSelection")»
 			«ENDFOR»
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			«FOR c : mut.references»
 				«c.method(false)»
 			«ENDFOR»
@@ -4634,13 +4633,13 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				ObSelectionStrategy cSelection = new SpecificObjectSelection(packages, m, c);
 				SpecificReferenceSelection rSelection = new SpecificReferenceSelection(packages, m, null, null);
 		«ENDIF»
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		//«var counter = 0»
 		«FOR c : mut.attributes»
 			//«counter++»
 			«c.method(false, false, counter, true, "obSelection")»
 		«ENDFOR»
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 		«FOR c : mut.references»
 			«c.method(true)»
 		«ENDFOR»
@@ -4710,7 +4709,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				«ENDIF»
 				«IF last == true»
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -5083,7 +5082,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			«IF last == true»
 			// MUTANT COMPLETION AND REGISTRY
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			«FOR constraint : e.constraints»
 			if (rules.get("«constraint.type.name»") == null) {
 				rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -5753,7 +5752,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			«IF last == true»
 			// MUTANT COMPLETION AND REGISTRY
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			«FOR constraint : e.constraints»
 			if (rules.get("«constraint.type.name»") == null) {
 				rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -5846,7 +5845,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			«IF last == true»
 			// MUTANT COMPLETION AND REGISTRY
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			«FOR constraint : e.constraints»
 			if (rules.get("«constraint.type.name»") == null) {
 				rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -5973,9 +5972,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	def method(Mutator mut, boolean exhaustive, MutatorEnvironment e, Block b, boolean last) '''
 		«IF exhaustive == false»
 		«IF standalone == false»
-		private List<Mutator> «methodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {
+		private List<Mutator> «methodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {
 		«ELSE»
-		private static List<Mutator> «methodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {
+		private static List<Mutator> «methodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {
 		«ENDIF»
 			List<Mutator> mutations = new ArrayList<Mutator>();
 		«IF mut instanceof ModifyInformationMutator»
@@ -6028,7 +6027,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 					Map<String, String> hashmapModelFolders, String ecoreURI, boolean registry,
 					Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,
-					List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+					List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 					throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		«ELSE»
@@ -6039,7 +6038,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					Map<String, EObject> hmMutator, Resource seed, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 					Map<String, String> hashmapModelFolders, String ecoreURI, boolean registry,
 					Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,
-					List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+					List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 					throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		«ENDIF»
@@ -6094,9 +6093,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 		//INC COUNTER: «nRegistryMutation++»
 		«ENDIF»
 		«IF standalone == false»
-		private List<Mutator> «compositeMethodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException {
+		private List<Mutator> «compositeMethodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException {
 		«ELSE»
-		private static List<Mutator> «compositeMethodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException {
+		private static List<Mutator> «compositeMethodName»(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException {
 		«ENDIF»
 			List<Mutator> mutations = new ArrayList<Mutator>();
 			«var localNCompositeMethod = nCompositeMethod + 1»
@@ -6571,9 +6570,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
    	«IF mut.eContainer instanceof MutatorEnvironment»
 	//LOCAL COPY REGISTRY COUNTER: «var localNRegistryMutation = nRegistryMutation»
 	«IF standalone == false»
-	private AppMutation «compositeRegistryMethodName»(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) {
+	private AppMutation «compositeRegistryMethodName»(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, Map<String, List<String>> classes) {
 	«ELSE»
-	private static AppMutation «compositeRegistryMethodName»(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) {
+	private static AppMutation «compositeRegistryMethodName»(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, Map<String, List<String>> classes) {
 	«ENDIF»
 		CompositeMutation appMut = AppliedMutationsFactory.eINSTANCE.createCompositeMutation();
 		appMut.setSize(«MutatorUtils.mutatorSize(mut)»);
@@ -6638,11 +6637,11 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«c.generateRegistryMethods(exhaustive)»
 		«ENDFOR»
 		«IF standalone == false»
-		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		«ELSE»
-		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+		public int block_«b.name»(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		«ENDIF»
@@ -6691,12 +6690,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.AbstractMap.SimpleEntry;
 
 import wodel.utils.manager.IWodelTest;
@@ -6741,9 +6739,9 @@ import mutatormetrics.MutatormetricsPackage;
 public class «className» extends MutatorUtils {
 	
 	«IF standalone == false»
-	private Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();
+	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
 	«ELSE»
-	private static Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();
+	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
 	«ENDIF» 
 
 	«IF standalone == false»
@@ -6769,11 +6767,11 @@ public class «className» extends MutatorUtils {
 
 	@Override
 	«IF standalone == false»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ELSE»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ENDIF»
@@ -6800,7 +6798,7 @@ public class «className» extends MutatorUtils {
 	   	«ENDIF»
 
 	   	int totalMutants = 0;
-		Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();
 
 		//RESET COUNTER: «nMethod = 0»
 		//RESET COUNTER: «nCompositeMethod = 0»
@@ -6867,11 +6865,11 @@ public class «className» extends MutatorUtils {
 	«ENDFOR»
 	@Override
 	«IF standalone == false»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ELSE»
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 	«ENDIF»
@@ -6889,8 +6887,8 @@ public class «className» extends MutatorUtils {
 			totalTasks++;
 		}
 		monitor.beginTask("Generating mutants", totalTasks);
-		Map<String, Set<String>> hashmapMutants = new HashMap<String, Set<String>>();
-		Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		Map<String, Set<String>> hashmapMutants = new LinkedHashMap<String, Set<String>>();
+		Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();
 
 		List<String> fromNames = null;
 		//«var int i = 0»
@@ -7005,7 +7003,7 @@ public class «className» extends MutatorUtils {
 		String modelURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.source.path»";
 		String modelsURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.output»";
 
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
 		«IF (e.source.path.endsWith("/"))»
 		File[] files = new File(modelURI).listFiles();
 		«ELSE»
@@ -7032,7 +7030,7 @@ public class «className» extends MutatorUtils {
 		monitor.beginTask("Generating mutants", totalTasks);
 		int count = 0;
 		for (String modelFilename : modelFilenames) {
-			Set<String> hashsetMutants = new HashSet<String>();
+			Set<String> hashsetMutants = new LinkedHashSet<String>();
 			hashsetMutants.add(modelFilename);
 
 		«ENDIF»
@@ -7044,9 +7042,9 @@ public class «className» extends MutatorUtils {
 		String modelURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.source.path»";
 		String modelsURI = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "«e.output»";
 		
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		«IF (e.source.path.endsWith("/"))»
 		File[] files = new File(modelURI).listFiles();
 		«ELSE»
@@ -7097,7 +7095,7 @@ public class «className» extends MutatorUtils {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
 			«IF b.repeat == Repeat.YES»
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			«ELSEIF b.repeat == Repeat.NO»
 			if (seedModelFilename != null) {
 				if (hashmapMutants.get(seedModelFilename) != null) {
@@ -7105,7 +7103,7 @@ public class «className» extends MutatorUtils {
 				}
 			}
 			if (hashsetMutantsBlock == null) {
-				hashsetMutantsBlock = new HashSet<String>();
+				hashsetMutantsBlock = new LinkedHashSet<String>();
 			}
 			«ENDIF»
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
@@ -8067,8 +8065,8 @@ public class «className» extends MutatorUtils {
 		
 		Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
 		«IF (e.definition as Program).exhaustive == true»
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			monitor.subTask("Mutants generation");
 			«IF standalone == false»
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
@@ -8111,10 +8109,11 @@ public class «className» extends MutatorUtils {
 		k[0] = 0;
 		«ENDIF»
 		for (int i = 0; i < numMutantsToGenerate; i++) {
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
-			monitor.subTask("Mutant " + (count * numMutantsToGenerate + i + 1) + "/" + totalMutants + ": " + mutFilename);
+			String mutFilenameRelativePath = mutFilename.indexOf("/«ProjectUtils.getProject.getName»/") != -1 ? mutFilename.substring(mutFilename.lastIndexOf("/«ProjectUtils.getProject.getName»/"), mutFilename.length()) : mutFilename;
+			monitor.subTask("Mutant " + (count * numMutantsToGenerate + i + 1) + "/" + totalMutants + ": " + mutFilenameRelativePath);
 			String mutPath = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + "vs";
 			boolean isRepeated = true;
 			int attempts = 0;
@@ -8141,7 +8140,7 @@ public class «className» extends MutatorUtils {
 
 
 				//MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
        			«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
@@ -8207,8 +8206,8 @@ public class «className» extends MutatorUtils {
 		Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
 		
 		«IF (e.definition as Program).exhaustive == true»
-		Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-		Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+		Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+		Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 		«IF standalone == false»
 		Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 		«ELSE»
@@ -8255,8 +8254,8 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
    	   			
 		for (int i = 0; i < numMutantsToGenerate; i++) {
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
    	   		«IF b.from.size == 0»
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + ".model";
 			String mutPath = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + "vs";
@@ -8288,7 +8287,7 @@ public class «className» extends MutatorUtils {
 				«ENDFOR»
 				
 				// MUTANT COMPLETION AND REGISTRY
-				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+				Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 	       		«FOR constraint : e.constraints»
 				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -59,6 +59,9 @@ import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 import wodeltest.run.utils.MutatorHelper;
+import wodeltest.run.utils.JUnitProgressBar.Failure;
+import wodeltest.run.utils.JUnitProgressBar.Ok;
+import wodeltest.run.utils.JUnitProgressBar.Stopped;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;
@@ -80,11 +83,14 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 	private Map<String, TreeViewer> m_treeViewer = new TreeMap<String, TreeViewer>();
 	
-	private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
+	//private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
+	private static final Color RED = new Failure(Display.getCurrent()).getColor();
 
-	private static final Color GREEN = new Color(Display.getCurrent(), 102, 255, 102);
-
-	private static final Color BLUE = new Color(Display.getCurrent(), 102, 102, 255);
+	//private static final Color GREEN = new Color(Display.getCurrent(), 102, 255, 102);
+	private static final Color GREEN = new Ok(Display.getCurrent()).getColor();
+	
+	//private static final Color BLUE = new Color(Display.getCurrent(), 102, 102, 255);
+	private static final Color GREY = new Stopped(Display.getCurrent()).getColor();
 
 	private static Map<String, Composite> contents = new TreeMap<String, Composite>();
 
@@ -119,7 +125,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return true;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -208,12 +214,13 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 	@Override
 	public void createPartControl(Composite parent) {
 		// TODO Auto-generated method stub
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		IProject project = WodelTestUtils.getProject();
 	    
-	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+	    String path = project.getLocation().toFile().getPath().replace("\\", "/");
+	    String workspacePath = path.substring(0, path.lastIndexOf("/" + project.getName()));
 	    String classespath = path + "/data/classes.txt";
 		//String testSuiteName = Platform.getPreferencesService().getString("WodelTest", "Current test-suite", WodelTestUtils.getTestSuiteName(project), null);
 	    testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
@@ -229,9 +236,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 			String ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
 		    for (String testSuiteName : testSuiteNames) {
-		    	String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteName + "/classes.results.txt";
+		    	String infopath = project.getLocation().toFile().getPath() + "/data/" + testSuiteName + "/classes.results.txt";
 			    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
-			    Map<String, List<WodelTestClass>> classes =  new HashMap<String, List<WodelTestClass>>();
+			    Map<String, List<WodelTestClass>> classes =  new LinkedHashMap<String, List<WodelTestClass>>();
 			    for (String pckName : packageClasses.keySet()) {
 			    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(packageClasses, pckName, project.getName(), classespath, infopath);
 			    	classes.put(pckName, pckclasses);
@@ -436,7 +443,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 		                		if (path.indexOf("/" + sourceProject.getName()) > 0) {
 		                			path = path.substring(path.indexOf("/" + sourceProject.getName()), path.length());
 		                		}
-	                    		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
+	                    		openFileInEditor( workspacePath + "/" + path);
 		                    }
 			        	}
 			        }
@@ -477,7 +484,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return new Object[0];
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -531,7 +538,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public boolean hasChildren(Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return false;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -602,7 +609,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 		}
 		
 		private Color getBackground(Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return null;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -636,7 +643,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 						return RED;
 					}
 					else {
-						return BLUE;
+						return GREY;
 					}
 				}
 			}
@@ -651,7 +658,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 							return RED;
 						}
 						else {
-							return BLUE;
+							return GREY;
 						}
 					}
 				}
@@ -663,7 +670,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 						return data.getNumberOfMutants() > 0 ? GREEN : RED;
 					}
 					else {
-						return BLUE;
+						return GREY;
 					}
 				}
 			}
@@ -686,7 +693,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return null;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -756,7 +763,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		IProject project = WodelTestUtils.getProject();

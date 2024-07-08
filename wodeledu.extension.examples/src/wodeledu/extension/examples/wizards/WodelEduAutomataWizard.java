@@ -136,8 +136,6 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
@@ -168,6 +166,8 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
 		
 		monitor.beginTask("Creating data folder", 9);
 		final IFolder dataFolder = project.getFolder(new Path("data"));
@@ -325,8 +325,8 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 			
-		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
-		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
+		String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + fileName;
+		String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + fileName.replaceAll("mutator", "model");
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
 		monitor.beginTask("Creating tests folder", 8);

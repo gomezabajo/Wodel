@@ -117,7 +117,7 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.isReadyProject() != true) {
+		if (ProjectUtils.projectsAreReady() == null) {
 			return;
 		}
 		try {

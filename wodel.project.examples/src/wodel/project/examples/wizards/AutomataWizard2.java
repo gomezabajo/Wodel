@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -41,7 +42,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodel.project.examples.utils.EclipseHelper;
 import wodel.dsls.WodelUtils;
@@ -127,8 +127,6 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
@@ -159,6 +157,8 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
 
 		monitor.beginTask("Creating data folder", 9);
 		final IFolder dataFolder = project.getFolder(new Path("data"));
@@ -301,8 +301,8 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 			
-		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
-		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
+		String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + fileName;
+		String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + fileName.replaceAll("mutator", "model");
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
 		monitor.beginTask("Creating tests folder", 8);
@@ -337,6 +337,8 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 		} catch (CoreException ex) {
 			ex.printStackTrace();
 		}
+		
+		createPlugin(monitor, project);
 
 	}
 	
@@ -379,5 +381,69 @@ public class AutomataWizard2 extends Wizard implements INewWizard {
 	private InputStream openTestStream() {
 		String contents = "";
 		return new ByteArrayInputStream(contents.getBytes());
+	}
+	
+	private static void assertExist(final IContainer c) {
+		if (!c.exists()) {
+			if (!c.getParent().exists()) {
+				assertExist(c.getParent());
+			}
+			if (c instanceof IFolder) {
+				try {
+					((IFolder) c).create(false, true, new NullProgressMonitor());
+				}
+				catch (final CoreException e) {
+					//OawLog.logError(e);
+				}
+			}
+
+		}
+
+	}
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final IProgressMonitor progressMonitor) {
+		final IFile file = container.getFile(new Path(name));
+		assertExist(file.getParent());
+		try {
+			final InputStream stream = new ByteArrayInputStream(content.getBytes(file.getCharset()));
+			if (file.exists()) {
+				file.setContents(stream, true, true, progressMonitor);
+			}
+			else {
+				file.create(stream, true, progressMonitor);
+			}
+			stream.close();
+		}
+		catch (final Exception e) {
+			// TO-DO: Something
+		}
+		progressMonitor.worked(1);
+
+		return file;
+	}
+
+	
+	public static IFile createFile(final String name, final IContainer container, final String content,
+			final String charSet, final IProgressMonitor progressMonitor) throws CoreException {
+		final IFile file = createFile(name, container, content, progressMonitor);
+		if (file != null && charSet != null) {
+			file.setCharset(charSet, progressMonitor);
+		}
+
+		return file;
+	}
+	
+	
+	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
+		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		pContent.append("\n");
+		pContent.append("<?eclipse version=\"3.4\"?>");
+		pContent.append("\n");
+		pContent.append("<plugin>");
+		pContent.append("\n");
+		pContent.append("</plugin>");
+		pContent.append("\n");
+		createFile("plugin.xml", project, pContent.toString(), progressMonitor);
 	}
 }

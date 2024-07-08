@@ -97,8 +97,6 @@ public class WodelUseGenerator extends AbstractGenerator {
     boolean _tripleNotEquals = (_project != null);
     if (_tripleNotEquals) {
       projectName = ProjectUtils.getProject().getName();
-    } else {
-      projectName = ProjectUtils.projectName;
     }
     return projectName;
   }
@@ -155,12 +153,25 @@ public class WodelUseGenerator extends AbstractGenerator {
             if (_equals) {
               boolean _equals_1 = file.getName().equals(this.fileName);
               if (_equals_1) {
-                String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.getProjectName())).replace("\\", "/");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus = ("file:/" + _workspaceAbsolutePath);
-                String _plus_1 = (_plus + "/");
-                String _plus_2 = (_plus_1 + mutatorFolderAndFile);
-                mutatorPath = _plus_2;
+                String _xifexpression = null;
+                int _indexOf = file.getPath().indexOf("/");
+                boolean _notEquals = (_indexOf != (-1));
+                if (_notEquals) {
+                  String _path = file.getPath();
+                  String _projectName = this.getProjectName();
+                  String _plus = ("/" + _projectName);
+                  _xifexpression = file.getPath().substring(_path.lastIndexOf(_plus)).replace("\\", "/");
+                } else {
+                  String _path_1 = file.getPath();
+                  String _projectName_1 = this.getProjectName();
+                  String _plus_1 = ("\\" + _projectName_1);
+                  _xifexpression = file.getPath().substring(_path_1.lastIndexOf(_plus_1)).replace("\\", "/");
+                }
+                String mutatorFolderAndFile = _xifexpression;
+                String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+                String _plus_2 = ("file:/" + _path_2);
+                String _plus_3 = (_plus_2 + mutatorFolderAndFile);
+                mutatorPath = _plus_3;
               }
             } else {
               mutatorPath = this.getMutatorPath(e, file.listFiles());
@@ -174,13 +185,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();
-    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(this.getClass());
-    String _plus = (_workspaceAbsolutePath + "/");
-    String _projectName = this.getProjectName();
-    String _plus_1 = (_plus + _projectName);
-    this.path = _plus_1;
+    this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
     MutatorEnvironment mutatorEnvironment = null;
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
     for (final MutatorEnvironment e : _filter) {
@@ -206,31 +212,27 @@ public class WodelUseGenerator extends AbstractGenerator {
             this.fileName = resource.getURI().lastSegment();
             String _replaceAll = this.fileName.replaceAll(".model", "");
             String _name = b.getName();
-            String _plus_2 = ("_" + _name);
-            String _plus_3 = (_plus_2 + ".java");
-            String _replaceAll_1 = _replaceAll.replaceAll(".mutator", _plus_3);
+            String _plus = ("_" + _name);
+            String _plus_1 = (_plus + ".java");
+            String _replaceAll_1 = _replaceAll.replaceAll(".mutator", _plus_1);
             String _name_1 = b.getName();
-            String _plus_4 = ("_" + _name_1);
-            String _plus_5 = (_plus_4 + ".java");
-            this.fileName = _replaceAll_1.replace(".model", _plus_5);
+            String _plus_2 = ("_" + _name_1);
+            String _plus_3 = (_plus_2 + ".java");
+            this.fileName = _replaceAll_1.replace(".model", _plus_3);
             this.modelName = this.fileName.replaceAll(".java", "");
             this.useName = this.fileName.replaceAll(".java", ".use");
             this.propertiesName = this.fileName.replaceAll(".java", ".properties");
             final MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
             blockMutatorEnvironment.setDefinition(EcoreUtil.<Definition>copy(e.getDefinition()));
             blockMutatorEnvironment.getBlocks().add(EcoreUtil.<Block>copy(b));
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath(this.getClass());
-            String _plus_6 = ("file://" + _workspaceAbsolutePath_1);
-            String _plus_7 = (_plus_6 + "/");
-            String _projectName_1 = this.getProjectName();
-            String _plus_8 = (_plus_7 + _projectName_1);
-            String _plus_9 = (_plus_8 + "/");
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_4 = ("file://" + _path);
             String _outputFolder = ModelManager.getOutputFolder();
-            String _plus_10 = (_plus_9 + _outputFolder);
-            String _plus_11 = (_plus_10 + "/");
-            String _plus_12 = (_plus_11 + this.modelName);
-            String _plus_13 = (_plus_12 + ".model");
-            final Resource blockResource = ModelManager.createModel(_plus_13);
+            String _plus_5 = (_plus_4 + _outputFolder);
+            String _plus_6 = (_plus_5 + "/");
+            String _plus_7 = (_plus_6 + this.modelName);
+            String _plus_8 = (_plus_7 + ".model");
+            final Resource blockResource = ModelManager.createModel(_plus_8);
             blockResource.getContents().add(blockMutatorEnvironment);
             fsa.generateFile(this.useName, this.removeComments(this.use(blockMutatorEnvironment, resource, blockResource), "use"));
             fsa.generateFile(this.propertiesName, this.removeComments(this.properties(blockMutatorEnvironment, resource, blockResource), "properties"));

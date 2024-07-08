@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -61,7 +61,7 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 
 	public WodelTest4FAWizardPage _pageOne;
 
-	private static final String WIZARD_NAME = "Wodel-Test for FA Example";
+	private static final String WIZARD_NAME = "Wodel-Test for FA example";
 
 	public WodelTest4FAWizard() {
 		// TODO Auto-generated constructor stub
@@ -73,8 +73,8 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 		_pageOne = new WodelTest4FAWizardPage(selection);
-		_pageOne.setTitle("Wodel-Test for FA Example");
-		_pageOne.setDescription("Create a Wodel-Test for FA Example project");
+		_pageOne.setTitle("Wodel-Test for FA example");
+		_pageOne.setDescription("Create a Wodel-Test for FA example project");
 		addPage(_pageOne);
 	}
 
@@ -129,15 +129,13 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
-		Set<String> requiredBundles = new HashSet<String>();
-		Set<String> importPackages = new HashSet<String>();
+		Set<String> requiredBundles = new LinkedHashSet<String>();
+		Set<String> importPackages = new LinkedHashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
 		List<String> bundleClasspath = new ArrayList<String>();
 
@@ -166,6 +164,8 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, bundleClasspath, ProjectKind.FA, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
 
 		SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", project.getName());
 		List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();
@@ -327,7 +327,7 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		File folder = srcFolder.getRawLocation().makeAbsolute().toFile();
+		File folder = new File(srcFolder.getLocation().toFile().getPath());
 		String mutatorName = "";
 		IFile mutFile = null;
 		if (folder.listFiles() != null) {
@@ -337,8 +337,8 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 						mutFile = srcFolder.getFile(new Path(mutatorFile.getName()));
 					}
 					mutatorName = mutatorFile.getName();
-					String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + mutatorName)).getFullPath();
-					String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + mutatorName.replaceAll("mutator", "model"))).getFullPath();
+					String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + mutatorName;
+					String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + mutatorName.replaceAll("mutator", "model");
 					WodelUtils.serialize(xTextFileName, xmiFileName);
 				}
 			}
@@ -920,11 +920,27 @@ public class WodelTest4FAWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4FA\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Wodel-Test for FA example\"");
+		pContent.append("\tname=\"Wodel-Test for FA\"");
 		pContent.append("\n");
 		pContent.append("\tproject=\"true\">");
 		pContent.append("\n");
 		pContent.append("\t</wizard>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.ide.projectNatureImages\">");
+		pContent.append("\n");
+		pContent.append("\t<image");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTProjectNature\"");
+		pContent.append("\n");
+		pContent.append("\tnatureId=\"wodeltest.extension.wodelTestSUTNature\">");
+		pContent.append("\n");
+		pContent.append("\t</image>");
 		pContent.append("\n");
 		pContent.append("\t</extension>");
 		pContent.append("\n");

@@ -2,32 +2,35 @@ package wodel.utils.manager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.List;
+import java.util.LinkedHashSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 public class ProjectUtils {
 	
-	public static final String NATURE_ID = "wodel.project.sampleNature";
+	public static final String NATURE_ID = "wodel.project.wodelNature";
 	
-	private static IProject project = null;
-	private static IFile file = null;
 	private static ISelection selection = null;
 	private static IWorkbenchWindow window = null;
-	
-	public static String projectName = null;
+	private static IProject currentProject = null;
 	
 	private static IResource extractSelection(ISelection sel) {
 		if (!(sel instanceof IStructuredSelection))
@@ -49,57 +52,108 @@ public class ProjectUtils {
 		return (IFile) part.getEditorInput().getAdapter(IFile.class);
 	}
 
-	private static IFile getFile(ISelection structuredSelection)
+	private static IFile getSelectedFile()
 	{
-		IResource element = extractSelection(structuredSelection);
 		IFile file = null;
-		if (element instanceof IFile) {
-			file = (IFile) element;
+		String fileName = null;
+		if (currentProject != null) {
+			List<String> fileNames = new ArrayList<String>(ProjectUtils.getFiles("mutator"));
+			if (fileNames == null || fileNames.size() == 0) {
+				return null;
+			}
+			fileName = new ArrayList<String>(fileNames).get(0);
+		}
+		else if (projectsAreReady() != null) {
+			List<String> fileNames = new ArrayList<String>(ProjectUtils.getFiles("mutator"));
+			if (fileNames == null || fileNames.size() == 0) {
+				return null;
+			}
+			fileName = new ArrayList<String>(fileNames).get(0);
+		}
+		else {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+			ISelectionService selectionService = windows[0].getSelectionService();
+			ISelection structuredSelection = selectionService.getSelection();
+			IResource element = extractSelection(structuredSelection);
+			if (element instanceof IFile) {
+				file = (IFile) element;
+				fileName = file.getName();
+				setProject(file.getProject());
+			}
+		}
+		if (currentProject != null && fileName != null && fileName.length() > 0) {
+			file = currentProject.getFolder("src").getFile(fileName);
 		}
 		return file;
 	}
 	
-	public static boolean isReadyProject() {
-       	isReadyFile();
-       	if (file != null) {
-       		project = file.getProject();
-       	}
-	    if (project == null) {
-	    	try {
-	            String workspacePath = ModelManager.getWorkspaceAbsolutePath();
-	            IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-	            workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+	private static IProject getSelectedProject() {
+		if (currentProject != null) {
+			return currentProject;
+		}
+		else if (projectsAreReady() != null) {
+			return currentProject;
+		}
+		else {
+            try {
+    			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+                String workspacePath = workspaceRoot.getLocation().toFile().getPath();
+				workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 	            File workspaceFolder = new File(workspacePath);
+	            if (workspaceFolder.listFiles() != null) {
+		            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
+		                if (workspaceProjectFolder.isDirectory()) {
+		                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
+		                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+		                        setProject(workspaceProject);
+		                        return workspaceProject;
+		                    }
+		                }
+		            }
+	            }
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return currentProject;
+	}
+	
+	public static IProject projectsAreReady() {
+		currentProject = null;
+       	IProject project = null;
+       	if (isReadyFile() == null) {
+       		return project;
+       	}
+    	try {
+            IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+            String workspacePath = workspaceRoot.getLocation().toFile().getPath();
+            workspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+            File workspaceFolder = new File(workspacePath);
+            if (workspaceFolder.listFiles() != null) {
 	            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 	                if (workspaceProjectFolder.isDirectory()) {
 	                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-	                    if (projectName != null && projectName.length() > 0) {
-	                    	if (workspaceProject.getName().equals(projectName)) {
-	                    		project = workspaceProject;
-	                    		break;
-	                    	}
-	                    }
 	                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
 	                        project = workspaceProject;
-	                        break;
+	                        setProject(project);
+	                        return project;
 	                    }
 	                }
 	            }
-			} catch (Exception e) {
-			}
+            }
+		} catch (Exception e) {
+		}
 
-		    if (project == null) {
-		    	return false;
-		    }
-	    }
-	    return true;
+	    return project;
 	}
 	
-	public static boolean isReadyFile() {
+	public static IFile isReadyFile() {
 		try {
 			window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		} catch (Exception ex) {
-			return false;
+			return null;
 		}
 		if (window == null) {
 			window = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
@@ -111,112 +165,153 @@ public class ProjectUtils {
 //	        	file = getFile(selection);
 //	        }
 //	    }
+		IFile file = null;
 	    if (window != null && window.getActivePage() != null && window.getActivePage().getActiveEditor() != null && window.getActivePage().getActiveEditor() instanceof IEditorPart) {
-	    	IEditorPart part = window.getActivePage().getActiveEditor();
-	    	if (part == null) {
-	    		part = window.getActivePage().getEditorReferences()[0].getEditor(true);
-	    	}
-	    	if (part != null) {
-	    		file = getFile(part);
+	    	IEditorReference[] editors = window.getActivePage().getEditorReferences();
+	    	if (editors != null && editors.length > 0) {
+	    		for (IEditorReference editor : editors) {
+	    			IEditorPart part = editor.getEditor(true);
+	    			if (part != null) {
+	    				file = getFile(part);
+	    				if (file != null && file.getFileExtension().equals("mutator")) {
+	    					break;
+	    				}
+	    			}
+	    		}
 	    	}
 	    }
-	    if (file == null) {
-	    	return false;
-	    }
-	    return true;
+	    return file;
 	}
 
 	public static IProject getProject() {
-		if (isReadyProject() == false) {
-			return null;
+		if (currentProject != null) {
+			return currentProject;
+		}
+		IProject project = getSelectedProject();
+		IFile file = null;
+		if (project == null) {
+			file = isReadyFile();
+			if (file != null) {
+				project = file.getProject();
+			}
+		}
+		try {
+			if (project == null || !(project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID))) {
+				project = projectsAreReady();
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			if (project != null && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
+				setProject(project);
+				Set<String> fileNames = ProjectUtils.getFiles("mutator");
+				if (fileNames == null || fileNames.size() == 0) {
+					return project;
+				}
+				String fileName = new ArrayList<String>(fileNames).get(0);
+				file = currentProject.getFolder("src").getFile(fileName);
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return project;
 	}
 	
-	public static void resetProject() {
-		project = null;
+	public static void setProject(IProject project) {
+		try {
+			if (project != null && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
+				currentProject = project;
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static IFile getFile() {
-		if (isReadyFile() == false) {
+		IFile file = null;
+		if ((file = isReadyFile()) == null) {
 			return null;
 		}
 		return file;
 	}
 	
 	public static IWorkbenchWindow getWorkbenchWindow() {
-		if (isReadyFile() == false) {
+		if (isReadyFile() == null) {
 			return null;
 		}
 		return window;
 	}
 
 	public static ISelection getSelection() {
-		if (isReadyFile() == false) {
+		if (isReadyFile() == null) {
 			return null;
 		}
 		return selection;
 	}
 	
-	private static List<String> getFiles(File[] files, String extension) {
-		List<String> fs = new ArrayList<String>();
+	private static Set<String> getFiles(File[] files, String extension) {
+		Set<String> fs = new LinkedHashSet<String>();
 		int i = 0;
 		while (files != null && i < files.length) {
 			File file = files[i];
 			if (file.isFile() == true) {
 				if (file.getName().endsWith("." + extension)) {
 					String f = file.getName();
-					if (!fs.contains(f)) {
-						fs.add(f);
-					}
+					fs.add(f);
 				}
 			}
 			else {
-				List<String> nextFiles = getFiles(file.listFiles(), extension);
-				for (String nextFile : nextFiles) {
-					if (!fs.contains(nextFile)) {
-						fs.add(nextFile);
-					}
-				}
+				Set<String> nextFiles = getFiles(file.listFiles(), extension);
+				fs.addAll(nextFiles);
 			}
 			i++;
 		}
 		return fs;
 	}
 
-	public static List<String> getFiles(String extension) {
-		List<String> fs = new ArrayList<String>();
-		if (project == null) {
+	public static Set<String> getFiles(String extension) {
+		Set<String> fs = new LinkedHashSet<String>();
+		if (currentProject == null) {
 			return fs;
 		}
-		File projectFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toOSString());
-		if (projectFolder.listFiles() == null || projectFolder.listFiles().length == 0) {
-			return fs;
+		else if (currentProject != null) {
+			File projectFolder = new File(currentProject.getLocation().toFile().getPath());
+			if (!(projectFolder.listFiles() == null || projectFolder.listFiles().length == 0)) {
+				fs.addAll(getFiles(projectFolder.listFiles(), extension));
+			}
 		}
-		fs = getFiles(projectFolder.listFiles(), extension);
 		return fs;
 	}
 
 	
 	public static String getFileName() {
 		String filename = null;
-		if (file != null) {
+		if (currentProject == null) {
+			return filename;
+		}
+		IFile currentFile = getFile();
+		IProject currentProject = getProject(); 
+		if (currentFile != null) {
 			//filename = WodelContext.getFileName();
-			filename = file.getName();
-			if (!filename.endsWith(".mutator") && project != null) {
-				List<String> fileNames = ProjectUtils.getFiles("mutator");
+			filename = currentFile.getName();
+			if (!filename.endsWith(".mutator") && currentProject != null) {
+				Set<String> fileNames = ProjectUtils.getFiles("mutator");
 				if (fileNames == null || fileNames.size() == 0) {
 					return null;
 				}
-				filename = fileNames.get(0);
+				filename = new ArrayList<String>(fileNames).get(0);
 			}
 		}
-		else if (project != null) {
-			List<String> fileNames = ProjectUtils.getFiles("mutator");
+		else if (currentProject != null) {
+			Set<String> fileNames = ProjectUtils.getFiles("mutator");
 			if (fileNames == null || fileNames.size() == 0) {
 				return null;
 			}
-			filename = fileNames.get(0);
+			filename = new ArrayList<String>(fileNames).get(0);
 		}
 		return filename;
 	}

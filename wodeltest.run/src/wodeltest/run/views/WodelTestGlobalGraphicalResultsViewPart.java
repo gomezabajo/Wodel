@@ -5,7 +5,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +19,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
@@ -47,6 +38,7 @@ import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
+import wodeltest.run.utils.JUnitProgressBar;
 import wodeltest.run.utils.MutatorHelper;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.WodelTestClass;
@@ -61,12 +53,21 @@ import wodel.utils.manager.WodelTestUtils;
 
 public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements IPartListener {
 
-	public static final String ID= "wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart"; //$NON-NLS-1$
+	public static final String ID = "wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart"; //$NON-NLS-1$
 	private static IProject project;
 	private static Map<String, String[]> equivalentMutants = new TreeMap<String, String[]>();
 	private static int LEFT_BUTTON = 1;
 	private static GlobalResultsProvider resultsProvider = null;
 	private static Map<String, Map<String, List<WodelTestClass>>> classes = null;
+	
+	private static int numOperatorsSelected = 0;
+	private static int numOperatorsApplied = 0;
+
+	private static int numMutantsGenerated = 0;
+	private static Map<String, Double> mutationScore = null;
+	
+	private static Map<String, Long> runningTimes = null;
+	private static Map<String, Long> mutationTimes = null;
 	
 	private static Map<String, Map<String, List<WodelTestClass>>> packageClasses = null;
 	
@@ -89,6 +90,8 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	private static TabItem currentTab = null;
 	
 	private static boolean partDeactivated = false;
+	
+	private JUnitProgressBar progressBar = null;
 	
 	private static class GlobalResult {
 		public String name;
@@ -145,16 +148,17 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 		    if (test == null) {
 		    	return;
 		    }
+			mutationScore = new LinkedHashMap<String, Double>();
 	        entries = new TreeMap<String, List<GlobalResult>>();
-			String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+			String path = project.getLocation().toFile().getPath();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			//String testSuiteName = Platform.getPreferencesService().getString("WodelTest", "Current test-suite", WodelTestUtils.getTestSuiteName(project), null);
 			Map<String, String> globalResultsPaths = new TreeMap<String, String>();
 			Map<String, String[]> globalResults = new TreeMap<String, String[]>();
 			Map<String, String> equivalentPaths = new TreeMap<String, String>();
 			Map<String, String[]> equivalents = new TreeMap<String, String[]>();
-			Map<String, Long> runningTimes = new TreeMap<String, Long>();
-			Map<String, Long> mutationTimes = new TreeMap<String, Long>();
+			runningTimes = new TreeMap<String, Long>();
+			mutationTimes = new TreeMap<String, Long>();
 			packageClasses = new TreeMap<String, Map<String, List<WodelTestClass>>>();
 			classes = new TreeMap<String, Map<String, List<WodelTestClass>>>();
 		    String classespath = path + "/data/classes.txt";
@@ -179,10 +183,10 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			    runningTimes.put(testSuiteName, runningTime);
 			    long mutationTime = Long.parseLong(globalResults.get(testSuiteName)[1]) / 1000;
 			    mutationTimes.put(testSuiteName, mutationTime);
-			    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/" + testSuiteName + "/classes.results.txt";
+			    String infopath = path + "/data/" + testSuiteName + "/classes.results.txt";
 			    Map<String, List<WodelTestClass>> pckClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
 			    packageClasses.put(testSuiteName, pckClasses);
-			    Map<String, List<WodelTestClass>> clss = new HashMap<String, List<WodelTestClass>>();
+			    Map<String, List<WodelTestClass>> clss = new LinkedHashMap<String, List<WodelTestClass>>();
 			    for (String pckName : pckClasses.keySet()) {
 			    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(pckClasses, pckName, project.getName(), classespath, infopath);
 			    	clss.put(pckName, pckclasses);
@@ -228,7 +232,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 								mutatorData.put(testSuiteName, new ArrayList<WodelTestMutatorResult>());
 							}
 							mutatorData.get(testSuiteName).add(wtmr);
-							int numMutatorsApplied = globalResults.get(testSuiteName).length > 3 ? Integer.parseInt(globalResults.get(testSuiteName)[3]) : 0;
+							numOperatorsApplied = globalResults.get(testSuiteName).length > 3 ? Integer.parseInt(globalResults.get(testSuiteName)[3]) : 0;
 							//for (WodelTestMutatorResult wtmr : mutatorData) {
 							//	if (wtmr.getNumberOfMutants() > 0) {
 							//		numMutatorsApplied++;
@@ -252,31 +256,31 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 									numMutantsKilled++;
 								}
 							}
-							int numMutantsGenerated = Integer.parseInt(globalResults.get(testSuiteName)[4]);
+							numMutantsGenerated = Integer.parseInt(globalResults.get(testSuiteName)[4]);
 							int numMutantsNonCompiling = Integer.parseInt(globalResults.get(testSuiteName)[5]);
 							int numMutantsCompiling = numMutantsGenerated - numMutantsNonCompiling;
 							int numMutantsEquivalent = 0;
 							if (equivalentMutants != null && equivalentMutants.get(testSuiteName) != null) {
 								numMutantsEquivalent = equivalentMutants.get(testSuiteName).length;
 							}
-							double mutationScore = numMutantsCompiling > 0 ? 1.0 * numMutantsKilled / (numMutantsCompiling - numMutantsEquivalent) : 0;
+							mutationScore.put(testSuiteName, numMutantsCompiling > 0 ? 1.0 * numMutantsKilled / (numMutantsCompiling - numMutantsEquivalent) : 0);
 							DecimalFormat formatter = new DecimalFormat("###.##%");
 							entries.put(testSuiteName, new ArrayList<GlobalResult>());
 							GlobalResult entry = new GlobalResult();
 							entry.name = "#Generated mutants";
-							entry.value =  numMutantsGenerated + " (Mutation score: " + formatter.format(mutationScore) + ") (Running time: " + runningTimes.get(testSuiteName) + " s.; Mutation time: " + mutationTimes.get(testSuiteName) + " s.; Tests execution time: " + (runningTimes.get(testSuiteName) - mutationTimes.get(testSuiteName)) + " s.)";
+							entry.value =  numMutantsGenerated + " (Mutation score: " + formatter.format(mutationScore.get(testSuiteName)) + ") (Running time: " + runningTimes.get(testSuiteName) + " s.; Mutation time: " + mutationTimes.get(testSuiteName) + " s.; Tests execution time: " + (runningTimes.get(testSuiteName) - mutationTimes.get(testSuiteName)) + " s.)";
 							entry.percent = -1.0;
 							entries.get(testSuiteName).add(entry);
-							int numMutatorsSelected = globalResults.get(testSuiteName).length > 2 ? Integer.parseInt(globalResults.get(testSuiteName)[2]) : 0;
+							numOperatorsSelected = globalResults.get(testSuiteName).length > 2 ? Integer.parseInt(globalResults.get(testSuiteName)[2]) : 0;
 							entry = new GlobalResult();
 							entry.name = "#Mutation operators selected";
-							entry.value = numMutatorsSelected;
+							entry.value = numOperatorsSelected;
 							entry.percent = -1.0;
 							entries.get(testSuiteName).add(entry);
 							entry = new GlobalResult();
 							entry.name = "#Mutation operators applied";
-							entry.value = numMutatorsApplied;
-							entry.percent = numMutatorsSelected > 0 ? 1.0 * numMutatorsApplied / numMutatorsSelected : 1.0;
+							entry.value = numOperatorsApplied;
+							entry.percent = numOperatorsSelected > 0 ? 1.0 * numOperatorsApplied / numOperatorsSelected : 1.0;
 							entries.get(testSuiteName).add(entry);
 							entry = new GlobalResult();
 							entry.name = "#Mutants compiling";
@@ -305,7 +309,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 							entry = new GlobalResult();
 							entry.name = "Mutation score";
 							entry.value = -1;
-							entry.percent = mutationScore;
+							entry.percent = mutationScore.get(testSuiteName);
 							entries.get(testSuiteName).add(entry);
 							
 							String testsResultsPath = path + "/data/" + testSuiteName + "/" + project.getName() + ".tests.results.txt";
@@ -360,12 +364,13 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		project = WodelTestUtils.getProject();
 		
 	    m_tabFolder = new TabFolder(parent, SWT.FILL);
+	    m_tabFolder.setLayoutData(new GridLayout());
 		m_tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				TabFolder tabFolder = (TabFolder) event.getSource();
@@ -381,23 +386,17 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 		testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 		
 		for (String testSuiteName : testSuiteNames) {
-			Composite currentContents = new Group(m_tabFolder, SWT.FILL);
-			GridLayout layout = new GridLayout();
-	    	currentContents.setLayout(layout);
-    		contents.put(testSuiteName, currentContents);
+
+//    		final GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+//    		data.horizontalAlignment = SWT.FILL;
     		
-    		final TabItem tabItem = new TabItem(m_tabFolder, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-    		tabItem.setText(testSuiteName);
-    		tabItem.setControl(currentContents);
+    		
 
-    		final GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-    		data.horizontalAlignment = SWT.FILL;
-
-    		final Canvas canvas = new Canvas(currentContents, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-	    	canvas.setLayoutData(data);
-	    	canvas.setVisible(true);
+//    		final Canvas canvas = new Canvas(currentContents, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+//	    	canvas.setLayoutData(data);
+//	    	canvas.setVisible(true);
 	    	
-			String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+			String path = project.getLocation().toFile().getPath();
 			String appliedMutatorsPath = path + "/data/mutators.txt";
 			String[] appliedMutators = WodelTestUtils.loadFile(appliedMutatorsPath);
 			if (appliedMutators.length > 0) {
@@ -446,7 +445,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			    if (classes.get(testSuiteName) == null) {
 			    	Map<String, List<WodelTestClass>> pckClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
 				    packageClasses.put(testSuiteName, pckClasses);
-				    Map<String, List<WodelTestClass>> clss = new HashMap<String, List<WodelTestClass>>();
+				    Map<String, List<WodelTestClass>> clss = new LinkedHashMap<String, List<WodelTestClass>>();
 				    for (String pckName : pckClasses.keySet()) {
 				    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(pckClasses, pckName, project.getName(), classespath, infopath);
 				    	clss.put(pckName, pckclasses);
@@ -539,21 +538,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			    	errorTestsText += errorTest + "\n";
 			    }
 
-			    final List<String> killedClasses = killedClassesList;
-			    final List<String> equivalentClasses = equivalentClassesList;
-			    final List<String> liveClasses = liveClassesList;
-			    final List<String> failedTests = failedTestsList;
-			    final List<String> passedTests = passedTestsList;
-			    final List<String> errorTests = errorTestsList;
-			    final String appliedMutatorsMessage = appliedMutatorsText;
-			    final String notAppliedMutatorsMessage = notAppliedMutatorsText;
-			    final String killedClassesMessage = killedClassesText;
-			    final String equivalentClassesMessage = equivalentClassesText;
-			    final String liveClassesMessage = liveClassesText;
-			    final String failedTestsMessage = failedTestsText;
-			    final String passedTestsMessage = passedTestsText;
-			    final String errorTestsMessage = errorTestsText;
-
+			    /*
 			    canvas.addPaintListener(new PaintListener() {
 			    	
 					@Override
@@ -874,6 +859,90 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			    		}
 			    	}
 			    });
+*/
+				final List<String> killedClasses = killedClassesList;
+			    final List<String> equivalentClasses = equivalentClassesList;
+			    final List<String> liveClasses = liveClassesList;
+			    final List<String> failedTests = failedTestsList;
+			    final List<String> passedTests = passedTestsList;
+			    final List<String> errorTests = errorTestsList;
+			    final String appliedMutatorsMessage = appliedMutatorsText;
+			    final String notAppliedMutatorsMessage = notAppliedMutatorsText;
+			    final String killedClassesMessage = killedClassesText;
+			    final String equivalentClassesMessage = equivalentClassesText;
+			    final String liveClassesMessage = liveClassesText;
+			    final String failedTestsMessage = failedTestsText;
+			    final String passedTestsMessage = passedTestsText;
+			    final String errorTestsMessage = errorTestsText;
+			    
+				Group currentContents = new Group(m_tabFolder, SWT.FILL);
+		    	currentContents.setLayout(new GridLayout());
+			    
+		    	DecimalFormat formatter = new DecimalFormat("###.##%");
+	    		currentContents.setText("#Generated mutants: " + numMutantsGenerated + " - Mutation score: " + formatter.format(mutationScore.get(testSuiteName)) + " - Total running time: " + runningTimes.get(testSuiteName) + " s.; Mutation time: " + mutationTimes.get(testSuiteName) + " s.; Tests execution time: " + (runningTimes.get(testSuiteName) - mutationTimes.get(testSuiteName)) + " s.");
+			    currentContents.setVisible(true);
+			    currentContents.layout(true, true);
+
+			    contents.put(testSuiteName, currentContents);
+	    		
+	    		final TabItem tabItem = new TabItem(m_tabFolder, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+	    		tabItem.setText(testSuiteName);
+	    		tabItem.setControl(currentContents);
+	    		m_tabFolder.setVisible(true);
+	    		m_tabFolder.layout(true, true);
+
+			    final int numOperatorsNotApplied = numOperatorsSelected - numOperatorsApplied;
+
+			    Group operatorsResults = new Group(currentContents, SWT.FILL);
+			    operatorsResults.setLayout(new GridLayout());
+			    operatorsResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+			    operatorsResults.setText("Mutation operators applied/selected: " + numOperatorsApplied + "/" + numOperatorsSelected);
+			    operatorsResults.setVisible(true);
+			    operatorsResults.layout(true, true);
+			    
+			    final JUnitProgressBar fOperatorsBar = new JUnitProgressBar(operatorsResults);
+				fOperatorsBar.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+				
+			    fOperatorsBar.reset(false, false, numOperatorsApplied, numOperatorsNotApplied, numOperatorsSelected, numOperatorsSelected);
+			    fOperatorsBar.setVisible(true);
+			    fOperatorsBar.layout(true, true);
+			    
+			    final int killed = killedClasses.size();
+			    final int liveOrEquivalent = liveClasses.size() + equivalentClasses.size();
+			    final int totalMutantsCount = killedClasses.size() + liveClasses.size() + equivalentClasses.size();
+			    
+				Group mutantsResults = new Group(currentContents, SWT.FILL);
+			    mutantsResults.setLayout(new GridLayout());
+				mutantsResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+			    mutantsResults.setText("Killed mutants/total generated mutants: " + killed + "/" + totalMutantsCount);
+			    mutantsResults.setVisible(true);
+			    mutantsResults.layout(true, true);
+
+			    final JUnitProgressBar fMutantsBar = new JUnitProgressBar(mutantsResults);
+				fMutantsBar.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+				
+			    fMutantsBar.reset(false, false, killed, liveOrEquivalent, totalMutantsCount, totalMutantsCount);
+			    fMutantsBar.setVisible(true);
+			    fMutantsBar.layout(true, true);
+
+			    final int passed = passedTests.size();
+			    final int failed = failedTests.size();
+			    final int total = passedTests.size() + failedTests.size();
+			    
+				Group testsResults = new Group(currentContents, SWT.FILL);
+			    testsResults.setLayout(new GridLayout());
+				testsResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+			    testsResults.setText("Passed tests/total tests: " + passed + "/" + total);
+			    testsResults.setVisible(true);
+			    testsResults.layout(true, true);
+
+			    final JUnitProgressBar fTestsBar = new JUnitProgressBar(testsResults);
+				fTestsBar.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+				
+			    fTestsBar.reset(false, false, passed, failed, total, total);
+			    fTestsBar.setVisible(true);
+			    fTestsBar.layout(true, true);
+
 			}
 			catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -886,6 +955,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 				e.printStackTrace();
 			}
 		}
+		
 	    
 	    getSite().getPage().addPartListener(this);
 	}
@@ -903,7 +973,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		project = WodelTestUtils.getProject();

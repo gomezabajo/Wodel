@@ -21,11 +21,10 @@ import mutatorenvironment.Program
  */
 class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
 		
 		standalone = true
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
+		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""

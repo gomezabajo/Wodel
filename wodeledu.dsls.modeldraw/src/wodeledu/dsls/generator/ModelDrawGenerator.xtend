@@ -24,9 +24,9 @@ import org.eclipse.core.resources.IProject
  */
 class ModelDrawGenerator extends AbstractGenerator {
 
-	@Inject ModelDrawDotGenerator dotGenerator
-	@Inject ModelDrawCircuitGenerator circuitGenerator
-	@Inject ModelDrawPlantUMLGenerator plantUMLGenerator
+	@Inject public ModelDrawDotGenerator dotGenerator
+	@Inject public ModelDrawCircuitGenerator circuitGenerator
+	@Inject public ModelDrawPlantUMLGenerator plantUMLGenerator
 	
 	protected IProject project = null
 	private String fileName
@@ -34,6 +34,16 @@ class ModelDrawGenerator extends AbstractGenerator {
 	private String xmiFileName
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		project = ProjectUtils.getProject()
+		path = ProjectUtils.getProject.getLocation.toFile.getPath	
+		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
+			
+			
+			fileName = resource.URI.lastSegment
+			var xTextFileName = "file:/" + path + "/src/" + fileName
+			xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".draw", "_draw.model")
+			ModelDrawUtils.serialize(xTextFileName, xmiFileName)
+		}
 		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
 		if (modelDrawMode.equals("Dot")) {
 			dotGenerator.doGenerate(resource, fsa, context)
@@ -43,17 +53,6 @@ class ModelDrawGenerator extends AbstractGenerator {
 		}
 		if (modelDrawMode.equals("PlantUML")) {
 			plantUMLGenerator.doGenerate(resource, fsa, context)
-		}
-		ProjectUtils.resetProject()
-		project = ProjectUtils.getProject()
-		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
-		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
-			
-			
-			fileName = resource.URI.lastSegment
-			var xTextFileName = "file:/" + path + "/src/" + fileName
-			xmiFileName = "file:/" + path + '/' + ModelManager.outputFolder + '/' + fileName.replaceAll(".draw", "_draw.model")
-			ModelDrawUtils.serialize(xTextFileName, xmiFileName)
 		}
 	}
 }

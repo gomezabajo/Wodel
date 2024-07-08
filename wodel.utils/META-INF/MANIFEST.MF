@@ -42,7 +42,8 @@ Require-Bundle: org.eclipse.emf.ecore,
  junit-platform-runner,
  junit-platform-commons,
  org.hamcrest.core,
- junit-platform-engine
+ junit-platform-engine,
+ org.eclipse.core.filesystem
 Export-Package: wodel.utils.commands,
  wodel.utils.commands.selection.strategies,
  wodel.utils.commands.strategies,

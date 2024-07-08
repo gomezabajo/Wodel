@@ -59,7 +59,6 @@ import mutatorenvironment.miniOCL.InvariantCS;
 import mutatorenvironment.miniOCL.NameExpCS;
 import mutatorenvironment.miniOCL.PathCS;
 import mutatorenvironment.miniOCL.PathElementCS;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -2785,14 +2784,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
-      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-      String _plus = (_workspaceAbsolutePath + "/");
-      IProject _project = ProjectUtils.getProject();
-      String _plus_1 = (_plus + _project);
-      String _plus_2 = (_plus_1 + "/");
-      String _path = program.getSource().getPath();
-      String _plus_3 = (_plus_2 + _path);
-      final File[] files = new File(_plus_3).listFiles();
+      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+      String _plus = (_path + "/");
+      String _path_1 = program.getSource().getPath();
+      String _plus_1 = (_plus + _path_1);
+      final File[] files = new File(_plus_1).listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
         boolean _equals = (_isFile == true);
@@ -2968,13 +2964,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-            String _plus = (_workspaceAbsolutePath + "/");
-            IProject _project = ProjectUtils.getProject();
-            String _plus_1 = (_plus + _project);
-            String _plus_2 = (_plus_1 + "/");
-            String _path = ((Program)definition).getSource().getPath();
-            final String model = (_plus_2 + _path);
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus = (_path + "/");
+            String _path_1 = ((Program)definition).getSource().getPath();
+            final String model = (_plus + _path_1);
             final List<EClass> classes = this.getModelEClasses(definition, model);
             final List<String> sclasses = new ArrayList<String>();
             for (final EClassifier cl : classes) {
@@ -2995,14 +2988,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
-            IProject _project_1 = ProjectUtils.getProject();
-            String _plus_4 = (_plus_3 + _project_1);
-            String _plus_5 = (_plus_4 + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            String _plus_6 = (_plus_5 + _path_1);
-            final File[] files = new File(_plus_6).listFiles();
+            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_1 = (_path_2 + "/");
+            String _path_3 = ((Program)definition).getSource().getPath();
+            String _plus_2 = (_plus_1 + _path_3);
+            final File[] files = new File(_plus_2).listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);
@@ -3061,13 +3051,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-            String _plus = (_workspaceAbsolutePath + "/");
-            IProject _project = ProjectUtils.getProject();
-            String _plus_1 = (_plus + _project);
-            String _plus_2 = (_plus_1 + "/");
-            String _path = ((Program)definition).getSource().getPath();
-            final String model = (_plus_2 + _path);
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus = (_path + "/");
+            String _path_1 = ((Program)definition).getSource().getPath();
+            final String model = (_plus + _path_1);
             final List<EClass> classes = this.getModelEClasses(definition, model);
             final List<String> sclasses = new ArrayList<String>();
             for (final EClassifier cl : classes) {
@@ -3088,14 +3075,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
-            IProject _project_1 = ProjectUtils.getProject();
-            String _plus_4 = (_plus_3 + _project_1);
-            String _plus_5 = (_plus_4 + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            String _plus_6 = (_plus_5 + _path_1);
-            final File[] files = new File(_plus_6).listFiles();
+            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_1 = (_path_2 + "/");
+            String _path_3 = ((Program)definition).getSource().getPath();
+            String _plus_2 = (_plus_1 + _path_3);
+            final File[] files = new File(_plus_2).listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);
@@ -3216,14 +3200,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
-      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-      String _plus = (_workspaceAbsolutePath + "/");
-      IProject _project = ProjectUtils.getProject();
-      String _plus_1 = (_plus + _project);
-      String _plus_2 = (_plus_1 + "/");
-      String _path = program.getSource().getPath();
-      String _plus_3 = (_plus_2 + _path);
-      final File[] files = new File(_plus_3).listFiles();
+      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+      String _plus = (_path + "/");
+      String _path_1 = program.getSource().getPath();
+      String _plus_1 = (_plus + _path_1);
+      final File[] files = new File(_plus_1).listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
         boolean _equals = (_isFile == true);
@@ -3428,13 +3409,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-            String _plus = (_workspaceAbsolutePath + "/");
-            IProject _project = ProjectUtils.getProject();
-            String _plus_1 = (_plus + _project);
-            String _plus_2 = (_plus_1 + "/");
-            String _path = ((Program)definition).getSource().getPath();
-            final String model = (_plus_2 + _path);
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus = (_path + "/");
+            String _path_1 = ((Program)definition).getSource().getPath();
+            final String model = (_plus + _path_1);
             final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
             final List<String> scontainers = new ArrayList<String>();
             for (final EClassifier cl : containers) {
@@ -3453,14 +3431,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
-            IProject _project_1 = ProjectUtils.getProject();
-            String _plus_4 = (_plus_3 + _project_1);
-            String _plus_5 = (_plus_4 + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            String _plus_6 = (_plus_5 + _path_1);
-            final File[] files = new File(_plus_6).listFiles();
+            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_1 = (_path_2 + "/");
+            String _path_3 = ((Program)definition).getSource().getPath();
+            String _plus_2 = (_plus_1 + _path_3);
+            final File[] files = new File(_plus_2).listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);
@@ -3517,13 +3492,10 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-            String _plus = (_workspaceAbsolutePath + "/");
-            IProject _project = ProjectUtils.getProject();
-            String _plus_1 = (_plus + _project);
-            String _plus_2 = (_plus_1 + "/");
-            String _path = ((Program)definition).getSource().getPath();
-            final String model = (_plus_2 + _path);
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus = (_path + "/");
+            String _path_1 = ((Program)definition).getSource().getPath();
+            final String model = (_plus + _path_1);
             final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
             final List<String> scontainers = new ArrayList<String>();
             for (final EClassifier cl : containers) {
@@ -3542,14 +3514,11 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
-            IProject _project_1 = ProjectUtils.getProject();
-            String _plus_4 = (_plus_3 + _project_1);
-            String _plus_5 = (_plus_4 + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            String _plus_6 = (_plus_5 + _path_1);
-            final File[] files = new File(_plus_6).listFiles();
+            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_1 = (_path_2 + "/");
+            String _path_3 = ((Program)definition).getSource().getPath();
+            String _plus_2 = (_plus_1 + _path_3);
+            final File[] files = new File(_plus_2).listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);

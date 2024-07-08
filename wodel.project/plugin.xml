@@ -26,13 +26,24 @@
       </builder>
    </extension>
    <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
       <category
-            id="wodel.project.wodelNature.category"
+            id="wodel.project.addRemoveWodelNature"
             name="Wodel Project Nature commands">
       </category>
       <command
-            categoryId="wodel.project.wodelNature.category"
+            categoryId="wodel.project.addRemoveWodelNature"
             defaultHandler="wodel.project.builder.AddRemoveWodelNatureHandler"
             id="wodel.project.addRemoveWodelNature"
             name="Add/Remove Wodel Project Nature">
@@ -55,15 +66,13 @@
                         value="1">
                   </count>
                   <iterate>
-                     <and>
-                        <instanceof
-                              value="org.eclipse.core.resources.IProject">
-                        </instanceof>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
                         <test
-                              property="org.eclipse.core.resources.projectNature"
-                              value="wodel.project.wodelNature">
+                              value="wodel.project.wodelNature"
+                              property="org.eclipse.core.resources.projectNature">
                         </test>
-                     </and>
+                     </adapt>
                   </iterate>
                </with>
             </visibleWhen>
@@ -81,33 +90,20 @@
                         value="1">
                   </count>
                   <iterate>
-                     <and>
-                        <instanceof
-                              value="org.eclipse.core.resources.IProject">
-                        </instanceof>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
                         <not>
                            <test
-                                 property="org.eclipse.core.resources.projectNature"
-                                 value="wodel.project.wodelNature">
+                                 value="wodel.project.wodelNature"
+                                 property="org.eclipse.core.resources.projectNature">
                            </test>
                         </not>
-                     </and>
+                     </adapt>
                   </iterate>
                </with>
             </visibleWhen>
          </command>
       </menuContribution>
-   </extension>
-   <extension
-         id="xmlProblem"
-         name="XML Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-      <persistent
-            value="true">
-      </persistent>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -123,5 +119,29 @@
             name="New Wodel Project"
             project="true">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/wodel4.jpg"
+            id="wodel.project.wodelNatureImage"
+            natureId="wodel.project.wodelNature">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="wodel.dsls.Wodel"
+            class="wodel.project.properties.WodelPropertiesPage"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.properties.wodelPropertiesPage"
+            name="Properties">
+            <enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+                <test property="org.eclipse.core.resources.projectNature" 
+                      value="wodel.project.wodelNature"/>
+            </adapt>  
+			</enabledWhen>
+      </page>
    </extension>
 </plugin>

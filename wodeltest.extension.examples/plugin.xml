@@ -4,7 +4,7 @@
    <extension point="org.eclipse.ui.newWizards">
       <category
          id="wodeltest.extension.WodelTestExamples"
-         name="Examples for Wodel-Test"
+         name="Wodel-Test"
          parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
@@ -15,13 +15,6 @@
             name="Java"
             project="true">
       </wizard>
-   </extension>
-   <extension point="org.eclipse.ui.newWizards">
-      <category
-         id="wodeltest.extension.WodelTestExamples"
-         name="Examples for Wodel-Test"
-         parentCategory="wodel.project.WodelProject">
-      </category>
       <wizard
             category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
             class="wodeltest.extension.examples.wizards.WodelTest4ATLWizard"
@@ -30,13 +23,6 @@
             name="ATL"
             project="true">
       </wizard>
-   </extension>
-   <extension point="org.eclipse.ui.newWizards">
-      <category
-         id="wodeltest.extension.WodelTestExamples"
-         name="Examples for Wodel-Test"
-         parentCategory="wodel.project.WodelProject">
-      </category>
       <wizard
             category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
             class="wodeltest.extension.examples.wizards.WodelTest4FAWizard"
@@ -45,19 +31,51 @@
             name="FA"
             project="true">
       </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4ChatbotsWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4Chatbots"
+            name="Chatbots"
+            project="true">
+      </wizard>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
       <category
-         id="wodeltest.extension.WodelTestExamples"
-         name="Examples for Wodel-Test"
+         id="wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+         name="Wodel-Test update-site generators"
          parentCategory="wodel.project.WodelProject">
       </category>
       <wizard
-            category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
-            class="wodeltest.extension.examples.wizards.WodelTest4CongaWizard"
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+            class="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4JavaUpdateSiteWizard"
             icon="icons/wodel4.jpg"
-            id="wodeltest.extension.examples.WodelTest4Conga"
-            name="Conga"
+            id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4JavaUpdateSiteWizard"
+            name="Wodel-Test for Java"
+            project="true">
+      </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+            class="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4ATLUpdateSiteWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4ATLUpdateSiteWizard"
+            name="Wodel-Test for ATL"
+            project="true">
+      </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+            class="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4FAUpdateSiteWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4FAUpdateSiteWizard"
+            name="Wodel-Test for FA"
+            project="true">
+      </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+            class="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4ChatbotsUpdateSiteWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4ChatbotsUpdateSiteWizard"
+            name="Wodel-Test for Chatbots"
             project="true">
       </wizard>
    </extension>

@@ -27,13 +27,13 @@ import wodeledu.dsls.ModelDrawUtils;
 @SuppressWarnings("all")
 public class ModelDrawGenerator extends AbstractGenerator {
   @Inject
-  private ModelDrawDotGenerator dotGenerator;
+  public ModelDrawDotGenerator dotGenerator;
 
   @Inject
-  private ModelDrawCircuitGenerator circuitGenerator;
+  public ModelDrawCircuitGenerator circuitGenerator;
 
   @Inject
-  private ModelDrawPlantUMLGenerator plantUMLGenerator;
+  public ModelDrawPlantUMLGenerator plantUMLGenerator;
 
   protected IProject project = null;
 
@@ -45,6 +45,22 @@ public class ModelDrawGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    this.project = ProjectUtils.getProject();
+    this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
+    Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
+    for (final MutatorDraw e : _filter) {
+      {
+        this.fileName = resource.getURI().lastSegment();
+        String xTextFileName = ((("file:/" + this.path) + "/src/") + this.fileName);
+        String _outputFolder = ModelManager.getOutputFolder();
+        String _plus = ((("file:/" + this.path) + "/") + _outputFolder);
+        String _plus_1 = (_plus + "/");
+        String _replaceAll = this.fileName.replaceAll(".draw", "_draw.model");
+        String _plus_2 = (_plus_1 + _replaceAll);
+        this.xmiFileName = _plus_2;
+        ModelDrawUtils.serialize(xTextFileName, this.xmiFileName);
+      }
+    }
     String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
     boolean _equals = modelDrawMode.equals("Dot");
     if (_equals) {
@@ -57,27 +73,6 @@ public class ModelDrawGenerator extends AbstractGenerator {
     boolean _equals_2 = modelDrawMode.equals("PlantUML");
     if (_equals_2) {
       this.plantUMLGenerator.doGenerate(resource, fsa, context);
-    }
-    ProjectUtils.resetProject();
-    this.project = ProjectUtils.getProject();
-    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-    String _plus = (_workspaceAbsolutePath + "/");
-    String _name = this.project.getName();
-    String _plus_1 = (_plus + _name);
-    this.path = _plus_1;
-    Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
-    for (final MutatorDraw e : _filter) {
-      {
-        this.fileName = resource.getURI().lastSegment();
-        String xTextFileName = ((("file:/" + this.path) + "/src/") + this.fileName);
-        String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_2 = ((("file:/" + this.path) + "/") + _outputFolder);
-        String _plus_3 = (_plus_2 + "/");
-        String _replaceAll = this.fileName.replaceAll(".draw", "_draw.model");
-        String _plus_4 = (_plus_3 + _replaceAll);
-        this.xmiFileName = _plus_4;
-        ModelDrawUtils.serialize(xTextFileName, this.xmiFileName);
-      }
     }
   }
 }

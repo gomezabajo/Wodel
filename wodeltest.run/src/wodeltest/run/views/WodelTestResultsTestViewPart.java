@@ -46,6 +46,9 @@ import org.eclipse.ui.part.ViewPart;
 
 import wodel.utils.manager.ModelManager;
 import wodeltest.run.utils.MutatorHelper;
+import wodeltest.run.utils.JUnitProgressBar.Failure;
+import wodeltest.run.utils.JUnitProgressBar.Ok;
+import wodeltest.run.utils.JUnitProgressBar.Stopped;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestResultTest;
@@ -69,11 +72,14 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 	
 	private static boolean partDeactivated = false;
 	
-	private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
+	//private static final Color RED = new Color(Display.getCurrent(), 255, 102, 102);
+	private static final Color RED = new Failure(Display.getCurrent()).getColor();
 
-	private static final Color GREEN = new Color(Display.getCurrent(), 102, 255, 102);
+	//private static final Color GREEN = new Color(Display.getCurrent(), 102, 255, 102);
+	private static final Color GREEN = new Ok(Display.getCurrent()).getColor();
 	
-	private static final Color BLUE = new Color(Display.getCurrent(), 102, 102, 255);
+	//private static final Color BLUE = new Color(Display.getCurrent(), 102, 102, 255);
+	private static final Color GREY = new Stopped(Display.getCurrent()).getColor();
 
 	
 	private static int filterIndex = -1;
@@ -104,7 +110,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return true;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -181,12 +187,13 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		IProject project = WodelTestUtils.getProject();
 	    
-	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+	    String path = project.getLocation().toFile().getPath().replace("\\", "/");
+	    String workspacePath = path.substring(0, path.lastIndexOf("/" + project.getName()));
 	    String classespath = path + "/data/classes.txt";
 		//testSuiteName = Platform.getPreferencesService().getString("WodelTest", "Current test-suite", WodelTestUtils.getTestSuiteName(project), null);
 	    IWodelTest test = MutatorHelper.getTest(project);
@@ -302,7 +309,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 	                		if (path.indexOf("/" + testSuiteName) > 0) {
 								path = path.substring(path.indexOf("/" + testSuiteName), path.length());
 							}
-	                   		openFileInEditor( ModelManager.getWorkspaceAbsolutePath() + path);
+	                   		openFileInEditor( workspacePath + "/" + path);
 			        	}
 			        }
 				}
@@ -346,7 +353,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return new Object[0];
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -392,7 +399,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 		@Override
 		public boolean hasChildren(Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return false;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -453,7 +460,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 		}
 		
 		private Color getBackground(Object element) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return null;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -481,7 +488,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					return GREEN;
 				}
 				else {
-					return error ? BLUE : RED;
+					return error ? GREY : RED;
 				}
 			}
 			if (element instanceof WodelTestResultTest) {
@@ -490,7 +497,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					return result.getDetectedMutants() > 0 ? GREEN : RED;
 				}
 				else {
-					return BLUE;
+					return GREY;
 				}
 			}
 			if (element instanceof WodelTestResultTestInfo) {
@@ -499,7 +506,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					return result.getValue() ? GREEN : RED;
 				}
 				else {
-					return BLUE;
+					return GREY;
 				}
 			}
 			return null;
@@ -518,7 +525,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (WodelTestUtils.isReadyProject() != true) {
+			if (WodelTestUtils.projectsAreReady() == null) {
 				return null;
 			}
 			IProject project = WodelTestUtils.getProject();
@@ -615,7 +622,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (WodelTestUtils.isReadyProject() != true) {
+		if (WodelTestUtils.projectsAreReady() == null) {
 			return;
 		}
 		IProject project = WodelTestUtils.getProject();

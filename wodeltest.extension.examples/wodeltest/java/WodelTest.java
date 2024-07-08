@@ -335,11 +335,14 @@ public class WodelTest implements IWodelTest {
 			folderPath = folderPath.substring(0, folderPath.lastIndexOf(File.separator + "src"));
 			String javaFileName = className.substring(className.lastIndexOf(".") + 1, className.length()) + ".java";
 			String srcJavaFilePath = "";
+			String projectName = project.getName();
+			String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			workspacePath = workspacePath.substring(0, workspacePath.lastIndexOf("/" + projectName));
 			if (packageName.length() > 0) {
-				srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
+				srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
 			}
 			else {
-				srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + javaFileName;
+				srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + javaFileName;
 			}
 			String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
 			IOUtils.copyFile(srcJavaFilePath, newSrcPath);
@@ -459,7 +462,8 @@ public class WodelTest implements IWodelTest {
 		try {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
-			String folder = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + className + "/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			String folder = projectPath + "/" + className + "/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
 				new File(folder), new ArrayList<Object>());
@@ -600,11 +604,14 @@ public class WodelTest implements IWodelTest {
 				folderPath = folderPath.substring(0, folderPath.lastIndexOf(File.separator + "src"));
 				String javaFileName = className.substring(className.lastIndexOf(".") + 1, className.length()) + ".java";
 				String srcJavaFilePath = "";
+				String projectName = project.getName();
+				String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+				workspacePath = workspacePath.substring(0, workspacePath.lastIndexOf("/" + projectName));
 				if (packageName.length() > 0) {
-					srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
+					srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
 				}
 				else {
-					srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + javaFileName;
+					srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + javaFileName;
 				}
 				String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
 				IOUtils.copyFile(srcJavaFilePath, newSrcPath);

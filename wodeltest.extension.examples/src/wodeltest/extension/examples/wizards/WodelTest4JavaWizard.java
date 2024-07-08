@@ -130,8 +130,6 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
@@ -211,6 +209,8 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, bundleClasspath, ProjectKind.JAVA, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
 
 		SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", project.getName());
 		List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();
@@ -372,7 +372,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		File folder = srcFolder.getRawLocation().makeAbsolute().toFile();
+		File folder = new File(srcFolder.getLocation().toFile().getPath());
 		String mutatorName = "";
 		IFile mutFile = null;
 		if (folder.listFiles() != null) {
@@ -382,8 +382,8 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 						mutFile = srcFolder.getFile(new Path(mutatorFile.getName()));
 					}
 					mutatorName = mutatorFile.getName();
-					String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + mutatorName)).getFullPath();
-					String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + mutatorName.replaceAll("mutator", "model"))).getFullPath();
+					String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + mutatorName;
+					String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + mutatorName.replaceAll("mutator", "model");
 					WodelUtils.serialize(xTextFileName, xmiFileName);
 				}
 			}
@@ -1090,7 +1090,7 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4Java\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Wodel-Test for jUnit4 example\"");
+		pContent.append("\tname=\"Wodel-Test for jUnit4\"");
 		pContent.append("\n");
 		pContent.append("\tproject=\"true\">");
 		pContent.append("\n");
@@ -1107,11 +1107,27 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		pContent.append("\n");
 		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".WodelTest4Java\"");
 		pContent.append("\n");
-		pContent.append("\tname=\"Wodel-Test for jUnit5 example\"");
+		pContent.append("\tname=\"Wodel-Test for jUnit5\"");
 		pContent.append("\n");
 		pContent.append("\tproject=\"true\">");
 		pContent.append("\n");
 		pContent.append("\t</wizard>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.ide.projectNatureImages\">");
+		pContent.append("\n");
+		pContent.append("\t<image");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTProjectNature\"");
+		pContent.append("\n");
+		pContent.append("\tnatureId=\"wodeltest.extension.wodelTestSUTNature\">");
+		pContent.append("\n");
+		pContent.append("\t</image>");
 		pContent.append("\n");
 		pContent.append("\t</extension>");
 		pContent.append("\n");

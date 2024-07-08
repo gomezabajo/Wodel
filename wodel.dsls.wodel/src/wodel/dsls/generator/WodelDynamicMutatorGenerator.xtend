@@ -19,7 +19,6 @@ import wodel.utils.manager.JavaUtils
  */
 class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
 		
 		standalone = false
@@ -35,7 +34,7 @@ class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
 //			mutatorURL = URI.createURI("file:" + ModelManager.getMutatorEnvironmentBundle(resource)).toFileString().replace("\\", "/")
 //		}
 
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
+		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var MutatorEnvironment mutatorEnvironment = null

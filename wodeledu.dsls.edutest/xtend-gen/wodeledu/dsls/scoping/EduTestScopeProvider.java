@@ -13,7 +13,6 @@ import mutatorenvironment.Block;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -42,22 +41,18 @@ public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
     try {
       IScope _xblockexpression = null;
       {
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-        String _plus = ("file:/" + _workspaceAbsolutePath);
-        String _plus_1 = (_plus + "/");
-        String _name = ProjectUtils.getProject().getName();
-        String _plus_2 = (_plus_1 + _name);
-        String _plus_3 = (_plus_2 + "/");
+        String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+        String _plus = (_path + "/");
         String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_4 = (_plus_3 + _outputFolder);
-        String _plus_5 = (_plus_4 + "/");
+        String _plus_1 = (_plus + _outputFolder);
+        String _plus_2 = (_plus_1 + "/");
         String _replaceAll = mts.eResource().getURI().lastSegment().replaceAll("test", "model");
-        final String xmiFileName = (_plus_5 + _replaceAll);
+        final String xmiFileName = (_plus_2 + _replaceAll);
         final Bundle bundle = Platform.getBundle("wodel.models");
         final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
         final String ecore = FileLocator.resolve(fileURL).getFile();
         final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
-        final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
+        final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName);
         final List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
         List<Block> blocks = new ArrayList<Block>();
         for (final EObject eobject : eobjects) {

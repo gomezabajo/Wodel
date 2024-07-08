@@ -66,19 +66,20 @@ public class ATLSemanticComparison extends SemanticComparison {
 		try {
 			Atl2006Compiler compiler = new Atl2006Compiler();
 			FileInputStream trafoFile;
-			File folder = new File(ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp");
+			String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
+			File folder = new File(projectPath + "/temp");
 			for (File atl_file : folder.listFiles()) {
 				if (atl_file.isFile() && atl_file.getName().endsWith(".atl")) {
 					trafoFile = new FileInputStream(atl_file);
 					String asm_transformation = atl_file.getName().replace(".atl", ".asm");
-					compiler.compile(trafoFile, ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp/" + asm_transformation);
+					compiler.compile(trafoFile, projectPath + "/temp/" + asm_transformation);
 				}
 				if (atl_file.isDirectory()) {
 					for (File atl_file2 : atl_file.listFiles()) {
 						if (atl_file2.isFile() && atl_file2.getName().endsWith(".atl")) {
 							trafoFile = new FileInputStream(atl_file2);
 							String asm_transformation = atl_file2.getName().replace(".atl", ".asm");
-							compiler.compile(trafoFile, ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp/" + atl_file.getName() + "/" + asm_transformation);
+							compiler.compile(trafoFile, projectPath + "/temp/" + atl_file.getName() + "/" + asm_transformation);
 						}
 					}
 				}
@@ -109,7 +110,8 @@ public class ATLSemanticComparison extends SemanticComparison {
 			IInjector injector = new EMFInjector();
 			injector.inject(atlModel, "file:/" + path);
 
-			String outputPath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + projectName + "/temp/";
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			String outputPath = projectPath + "/temp/";
 			File outputFolder = new File(outputPath);
 			if (!outputFolder.exists()) {
 				outputFolder.mkdir();
@@ -125,7 +127,8 @@ public class ATLSemanticComparison extends SemanticComparison {
 	private String getXML(File modelFile, String projectName) {
 		String xml = "";
 		try {
-			String path = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + projectName + "/temp/" + modelFile.getName().replace(".model", ".asm");
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			String path = projectPath + "/temp/" + modelFile.getName().replace(".model", ".asm");
 			File xmlFile = new File(path);
 			if (xmlFile.exists()) {
 				FileReader xmlReader = new FileReader(xmlFile);

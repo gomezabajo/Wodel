@@ -45,6 +45,30 @@ public class AddRemoveWodelNatureHandler extends AbstractHandler {
 		return null;
 	}
 
+	private boolean toggleNature(String natureID, String[] natures, IProjectDescription description, IProject project) throws CoreException {
+		for (int i = 0; i < natures.length; ++i) {
+			if (natureID.equals(natures[i])) {
+				// Remove the nature
+				String[] newNatures = new String[natures.length - 1];
+				System.arraycopy(natures, 0, newNatures, 0, i);
+				System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
+				description.setNatureIds(newNatures);
+				project.setDescription(description, null);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void addNature(String natureID, String[] natures, IProjectDescription description, IProject project) throws CoreException {
+		// Add the nature
+		String[] newNatures = new String[natures.length + 1];
+		System.arraycopy(natures, 0, newNatures, 0, natures.length);
+		newNatures[natures.length] = natureID;
+		description.setNatureIds(newNatures);
+		project.setDescription(description, null);
+	}
+
 	/**
 	 * Toggles sample nature on a project
 	 *
@@ -55,24 +79,9 @@ public class AddRemoveWodelNatureHandler extends AbstractHandler {
 		IProjectDescription description = project.getDescription();
 		String[] natures = description.getNatureIds();
 
-		for (int i = 0; i < natures.length; ++i) {
-			if (WodelNature.NATURE_ID.equals(natures[i])) {
-				// Remove the nature
-				String[] newNatures = new String[natures.length - 1];
-				System.arraycopy(natures, 0, newNatures, 0, i);
-				System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
-				description.setNatureIds(newNatures);
-				project.setDescription(description, null);
-				return;
-			}
+		boolean natureID = toggleNature(WodelNature.NATURE_ID, natures, description, project);
+		if (!natureID) {
+			addNature(WodelNature.NATURE_ID, natures, description, project);
 		}
-
-		// Add the nature
-		String[] newNatures = new String[natures.length + 1];
-		System.arraycopy(natures, 0, newNatures, 0, natures.length);
-		newNatures[natures.length] = WodelNature.NATURE_ID;
-		description.setNatureIds(newNatures);
-		project.setDescription(description, null);
 	}
-
 }

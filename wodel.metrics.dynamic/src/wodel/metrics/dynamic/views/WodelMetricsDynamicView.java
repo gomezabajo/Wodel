@@ -87,7 +87,7 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 	}
 
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.isReadyProject() != true) {
+		if (ProjectUtils.projectsAreReady() == null) {
 			return;
 		}
 		try {

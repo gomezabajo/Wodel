@@ -81,7 +81,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 		try {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
-			String folder = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + projectName + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
+			String folder = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath() + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
 				new File(folder), new ArrayList<Object>()); //serialized);
@@ -223,10 +223,12 @@ public class JavaSemanticValidation extends SemanticValidation {
 			if (block.indexOf("/") != -1) {
 				block = block.substring(block.lastIndexOf("/") + 1, block.length());
 			}
-			System.out.println("block/mutant: " + block + "/" + mutantName);
+			System.out.println("block/mutant: " + block + "/" + className);
 			modelToProject(resource, block, mutantName, project.getName());
-			String artifactPath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
-			String srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
+			String artifactPath = project.getLocation().toFile().getPath() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
+			String workspacePath = project.getLocation().toFile().getPath().replace("\\", "/");
+			workspacePath = workspacePath.substring(0, workspacePath.lastIndexOf("/" + project.getName()));
+			String srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
 			String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
 			IOUtils.copyFile(srcJavaFilePath, newSrcPath);
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);

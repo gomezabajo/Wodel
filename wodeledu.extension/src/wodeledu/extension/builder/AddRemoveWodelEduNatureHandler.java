@@ -76,12 +76,7 @@ public class AddRemoveWodelEduNatureHandler extends AbstractHandler {
 		IProjectDescription description = project.getDescription();
 		String[] natures = description.getNatureIds();
 
-		boolean natureID = toggleNature(WodelEduNature.WODEL_NATURE_ID, natures, description, project);
-		if (!natureID) {
-			addNature(WodelEduNature.WODEL_NATURE_ID, natures, description, project);
-		}
- 
-		natureID = toggleNature(WodelEduNature.NATURE_ID, natures, description, project);
+		boolean natureID = toggleNature(WodelEduNature.NATURE_ID, natures, description, project);
 		if (!natureID) {
 			addNature(WodelEduNature.NATURE_ID, natures, description, project);
 		}

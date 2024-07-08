@@ -3,7 +3,7 @@ package wodel.dsls.generator;
 import com.google.common.base.Objects;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import mutatorenvironment.ArithmeticOperator;
@@ -101,7 +101,6 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.osgi.framework.Bundle;
 import wodel.dsls.WodelUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.ProjectUtils;
 
@@ -175,7 +174,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
 
   protected Program program;
 
-  protected Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>();
+  protected Map<Mutator, Integer> mutIndexes = new LinkedHashMap<Mutator, Integer>();
 
   protected Bundle bundle;
 
@@ -185,8 +184,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     boolean _tripleNotEquals = (_project != null);
     if (_tripleNotEquals) {
       projectName = ProjectUtils.getProject().getName();
-    } else {
-      projectName = ProjectUtils.projectName;
     }
     return projectName;
   }
@@ -243,12 +240,25 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             if (_equals) {
               boolean _equals_1 = file.getName().equals(this.fileName);
               if (_equals_1) {
-                String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.getProjectName())).replace("\\", "/");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus = ("file:/" + _workspaceAbsolutePath);
-                String _plus_1 = (_plus + "/");
-                String _plus_2 = (_plus_1 + mutatorFolderAndFile);
-                mutatorPath = _plus_2;
+                String _xifexpression = null;
+                int _indexOf = file.getPath().indexOf("/");
+                boolean _notEquals = (_indexOf != (-1));
+                if (_notEquals) {
+                  String _path = file.getPath();
+                  String _projectName = this.getProjectName();
+                  String _plus = ("/" + _projectName);
+                  _xifexpression = file.getPath().substring(_path.lastIndexOf(_plus)).replace("\\", "/");
+                } else {
+                  String _path_1 = file.getPath();
+                  String _projectName_1 = this.getProjectName();
+                  String _plus_1 = ("\\" + _projectName_1);
+                  _xifexpression = file.getPath().substring(_path_1.lastIndexOf(_plus_1)).replace("\\", "/");
+                }
+                String mutatorFolderAndFile = _xifexpression;
+                String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+                String _plus_2 = ("file:/" + _path_2);
+                String _plus_3 = (_plus_2 + mutatorFolderAndFile);
+                mutatorPath = _plus_3;
               }
             } else {
               mutatorPath = this.getMutatorPath(e, file.listFiles());
@@ -273,7 +283,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import java.util.ArrayList;");
     _builder.newLine();
-    _builder.append("import java.util.HashMap;");
+    _builder.append("import java.util.LinkedHashMap;");
     _builder.newLine();
     _builder.append("import java.util.List;");
     _builder.newLine();
@@ -365,7 +375,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((this.standalone == false)) {
         _builder.append("\t");
-        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -377,7 +387,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       } else {
         _builder.append("\t");
-        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -1010,7 +1020,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     }
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();");
+    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();");
     _builder.newLine();
     _builder.append("//COUNTER:");
     int counter = 0;
@@ -1859,9 +1869,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.append("Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();");
+    _builder.append("Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();");
     _builder.newLine();
-    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();");
+    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();");
     _builder.newLine();
     _builder.append("List<EObject> objsAttRef = new ArrayList<EObject>();");
     _builder.newLine();
@@ -3414,7 +3424,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("obSelection = new SpecificObjectSelection(packages, resource, object);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();");
+    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();");
     _builder.newLine();
     _builder.append("//COUNTER:");
     int counter = 0;
@@ -4334,9 +4344,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();");
+    _builder.append("Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();");
     _builder.newLine();
-    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();");
+    _builder.append("Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();");
     _builder.newLine();
     _builder.append("List<EObject> objsAttRef = new ArrayList<EObject>();");
     _builder.newLine();
@@ -5556,7 +5566,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
@@ -5985,7 +5995,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("ObSelectionStrategy objectSelection = null;");
     _builder.newLine();
@@ -6004,7 +6014,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -6268,7 +6278,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("ObSelectionStrategy objectSelection = null;");
     _builder.newLine();
@@ -6287,7 +6297,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -6428,7 +6438,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
@@ -7668,13 +7678,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("//");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-                String _plus = (_workspaceAbsolutePath + "/");
-                String _projectName = this.getProjectName();
-                String _plus_1 = (_plus + _projectName);
-                String _plus_2 = (_plus_1 + "/");
-                String _path = source.getPath();
-                final String resourcePath = (_plus_2 + _path);
+                String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+                String _plus = (_path + "/");
+                String _path_1 = source.getPath();
+                final String resourcePath = (_plus + _path_1);
                 _builder.newLineIfNotEmpty();
                 {
                   boolean _exists = new File(resourcePath).exists();
@@ -7712,18 +7719,31 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("String relativeMetamodelPath = \"");
-                String _projectName_1 = this.getProjectName();
-                String _plus_3 = ("/" + _projectName_1);
-                String _plus_4 = (_plus_3 + "/");
-                int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
-                String _projectName_2 = this.getProjectName();
-                String _plus_5 = ("/" + _projectName_2);
-                int _length = (_plus_5 + "/").length();
-                int _plus_6 = (_lastIndexOf + _length);
-                String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
-                _builder.append(_substring, "\t");
+                String _xifexpression = null;
+                String _projectName = this.getProjectName();
+                String _plus_1 = ("/" + _projectName);
+                String _plus_2 = (_plus_1 + "/");
+                int _indexOf = metamodelPath.indexOf(_plus_2);
+                boolean _notEquals = (_indexOf != (-1));
+                if (_notEquals) {
+                  String _projectName_1 = this.getProjectName();
+                  String _plus_3 = ("/" + _projectName_1);
+                  String _plus_4 = (_plus_3 + "/");
+                  int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+                  String _projectName_2 = this.getProjectName();
+                  String _plus_5 = ("/" + _projectName_2);
+                  int _length = (_plus_5 + "/").length();
+                  int _plus_6 = (_lastIndexOf + _length);
+                  _xifexpression = metamodelPath.substring(_plus_6, metamodelPath.length());
+                } else {
+                  _xifexpression = metamodelPath;
+                }
+                _builder.append(_xifexpression, "\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("relativeMetamodelPath = relativeMetamodelPath.startsWith(\"/\") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; ");
+                _builder.newLine();
                 _builder.append("\t");
                 _builder.append("String absoluteMetamodelPath = ");
                 _builder.append(this.className, "\t");
@@ -7751,18 +7771,29 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("String relativeResourceURI_");
                     _builder.append(i, "\t");
                     _builder.append(" = \"");
+                    String _xifexpression_1 = null;
                     String _replace = resourceURI.replace("\\", "/");
-                    String _replace_1 = resourceURI.replace("\\", "/");
                     String _projectName_3 = this.getProjectName();
                     String _plus_7 = ("/" + _projectName_3);
                     String _plus_8 = (_plus_7 + "/");
-                    int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
-                    String _projectName_4 = this.getProjectName();
-                    String _plus_9 = ("/" + _projectName_4);
-                    int _length_1 = (_plus_9 + "/").length();
-                    int _plus_10 = (_lastIndexOf_1 + _length_1);
-                    String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
-                    _builder.append(_substring_1, "\t");
+                    int _indexOf_1 = _replace.indexOf(_plus_8);
+                    boolean _notEquals_1 = (_indexOf_1 != (-1));
+                    if (_notEquals_1) {
+                      String _replace_1 = resourceURI.replace("\\", "/");
+                      String _replace_2 = resourceURI.replace("\\", "/");
+                      String _projectName_4 = this.getProjectName();
+                      String _plus_9 = ("/" + _projectName_4);
+                      String _plus_10 = (_plus_9 + "/");
+                      int _lastIndexOf_1 = _replace_2.lastIndexOf(_plus_10);
+                      String _projectName_5 = this.getProjectName();
+                      String _plus_11 = ("/" + _projectName_5);
+                      int _length_1 = (_plus_11 + "/").length();
+                      int _plus_12 = (_lastIndexOf_1 + _length_1);
+                      _xifexpression_1 = _replace_1.substring(_plus_12, resourceURI.replace("\\", "/").length());
+                    } else {
+                      _xifexpression_1 = resourceURI;
+                    }
+                    _builder.append(_xifexpression_1, "\t");
                     _builder.append("\";");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -7814,18 +7845,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("String relativeEcoreURI_");
                     _builder.append(j, "\t");
                     _builder.append(" = \"");
-                    String _replace_2 = ecoreURI.replace("\\", "/");
                     String _replace_3 = ecoreURI.replace("\\", "/");
-                    String _projectName_5 = this.getProjectName();
-                    String _plus_11 = ("/" + _projectName_5);
-                    String _plus_12 = (_plus_11 + "/");
-                    int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+                    String _replace_4 = ecoreURI.replace("\\", "/");
                     String _projectName_6 = this.getProjectName();
                     String _plus_13 = ("/" + _projectName_6);
-                    int _length_2 = (_plus_13 + "/").length();
-                    int _plus_14 = (_lastIndexOf_2 + _length_2);
-                    String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
-                    _builder.append(_substring_2, "\t");
+                    String _plus_14 = (_plus_13 + "/");
+                    int _lastIndexOf_2 = _replace_4.lastIndexOf(_plus_14);
+                    String _projectName_7 = this.getProjectName();
+                    String _plus_15 = ("/" + _projectName_7);
+                    int _length_2 = (_plus_15 + "/").length();
+                    int _plus_16 = (_lastIndexOf_2 + _length_2);
+                    String _substring = _replace_3.substring(_plus_16, ecoreURI.replace("\\", "/").length());
+                    _builder.append(_substring, "\t");
                     _builder.append("\";");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -8742,13 +8773,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("//");
-            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-            String _plus_15 = (_workspaceAbsolutePath_1 + "/");
-            String _projectName_7 = this.getProjectName();
-            String _plus_16 = (_plus_15 + _projectName_7);
-            String _plus_17 = (_plus_16 + "/");
-            String _path_1 = source_1.getPath();
-            final String resourcePath_1 = (_plus_17 + _path_1);
+            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus_17 = (_path_2 + "/");
+            String _path_3 = source_1.getPath();
+            final String resourcePath_1 = (_plus_17 + _path_3);
             _builder.newLineIfNotEmpty();
             {
               boolean _exists_1 = new File(resourcePath_1).exists();
@@ -8786,18 +8814,29 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String relativeResourceURI_");
                 _builder.append(i, "\t");
                 _builder.append(" = \"");
-                String _replace_4 = resourceURI_1.replace("\\", "/");
+                String _xifexpression_2 = null;
                 String _replace_5 = resourceURI_1.replace("\\", "/");
                 String _projectName_8 = this.getProjectName();
                 String _plus_18 = ("/" + _projectName_8);
                 String _plus_19 = (_plus_18 + "/");
-                int _lastIndexOf_3 = _replace_5.lastIndexOf(_plus_19);
-                String _projectName_9 = this.getProjectName();
-                String _plus_20 = ("/" + _projectName_9);
-                int _length_3 = (_plus_20 + "/").length();
-                int _plus_21 = (_lastIndexOf_3 + _length_3);
-                String _substring_3 = _replace_4.substring(_plus_21, resourceURI_1.replace("\\", "/").length());
-                _builder.append(_substring_3, "\t");
+                int _indexOf_2 = _replace_5.indexOf(_plus_19);
+                boolean _notEquals_2 = (_indexOf_2 != (-1));
+                if (_notEquals_2) {
+                  String _replace_6 = resourceURI_1.replace("\\", "/");
+                  String _replace_7 = resourceURI_1.replace("\\", "/");
+                  String _projectName_9 = this.getProjectName();
+                  String _plus_20 = ("/" + _projectName_9);
+                  String _plus_21 = (_plus_20 + "/");
+                  int _lastIndexOf_3 = _replace_7.lastIndexOf(_plus_21);
+                  String _projectName_10 = this.getProjectName();
+                  String _plus_22 = ("/" + _projectName_10);
+                  int _length_3 = (_plus_22 + "/").length();
+                  int _plus_23 = (_lastIndexOf_3 + _length_3);
+                  _xifexpression_2 = _replace_6.substring(_plus_23, resourceURI_1.replace("\\", "/").length());
+                } else {
+                  _xifexpression_2 = resourceURI_1;
+                }
+                _builder.append(_xifexpression_2, "\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -8849,18 +8888,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String relativeEcoreURI_");
                 _builder.append(j, "\t");
                 _builder.append(" = \"");
-                String _replace_6 = ecoreURI_1.replace("\\", "/");
-                String _replace_7 = ecoreURI_1.replace("\\", "/");
-                String _projectName_10 = this.getProjectName();
-                String _plus_22 = ("/" + _projectName_10);
-                String _plus_23 = (_plus_22 + "/");
-                int _lastIndexOf_4 = _replace_7.lastIndexOf(_plus_23);
+                String _replace_8 = ecoreURI_1.replace("\\", "/");
+                String _replace_9 = ecoreURI_1.replace("\\", "/");
                 String _projectName_11 = this.getProjectName();
                 String _plus_24 = ("/" + _projectName_11);
-                int _length_4 = (_plus_24 + "/").length();
-                int _plus_25 = (_lastIndexOf_4 + _length_4);
-                String _substring_4 = _replace_6.substring(_plus_25, ecoreURI_1.replace("\\", "/").length());
-                _builder.append(_substring_4, "\t");
+                String _plus_25 = (_plus_24 + "/");
+                int _lastIndexOf_4 = _replace_9.lastIndexOf(_plus_25);
+                String _projectName_12 = this.getProjectName();
+                String _plus_26 = ("/" + _projectName_12);
+                int _length_4 = (_plus_26 + "/").length();
+                int _plus_27 = (_lastIndexOf_4 + _length_4);
+                String _substring_1 = _replace_8.substring(_plus_27, ecoreURI_1.replace("\\", "/").length());
+                _builder.append(_substring_1, "\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -8912,16 +8951,16 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("String relativeObjectMetamodelPath = \"");
-            String _projectName_12 = this.getProjectName();
-            String _plus_26 = ("/" + _projectName_12);
-            String _plus_27 = (_plus_26 + "/");
-            int _lastIndexOf_5 = metamodelPath_1.lastIndexOf(_plus_27);
             String _projectName_13 = this.getProjectName();
             String _plus_28 = ("/" + _projectName_13);
-            int _length_5 = (_plus_28 + "/").length();
-            int _plus_29 = (_lastIndexOf_5 + _length_5);
-            String _substring_5 = metamodelPath_1.substring(_plus_29, metamodelPath_1.length());
-            _builder.append(_substring_5, "\t");
+            String _plus_29 = (_plus_28 + "/");
+            int _lastIndexOf_5 = metamodelPath_1.lastIndexOf(_plus_29);
+            String _projectName_14 = this.getProjectName();
+            String _plus_30 = ("/" + _projectName_14);
+            int _length_5 = (_plus_30 + "/").length();
+            int _plus_31 = (_lastIndexOf_5 + _length_5);
+            String _substring_2 = metamodelPath_1.substring(_plus_31, metamodelPath_1.length());
+            _builder.append(_substring_2, "\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -9531,13 +9570,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("//");
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-        String _plus = (_workspaceAbsolutePath + "/");
-        String _projectName = this.getProjectName();
-        String _plus_1 = (_plus + _projectName);
-        String _plus_2 = (_plus_1 + "/");
-        String _path = source.getPath();
-        final String resourcePath = (_plus_2 + _path);
+        String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+        String _plus = (_path + "/");
+        String _path_1 = source.getPath();
+        final String resourcePath = (_plus + _path_1);
         _builder.newLineIfNotEmpty();
         {
           File[] _listFiles = new File(resourcePath).listFiles();
@@ -9570,18 +9606,31 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("String relativeMetamodelPath = \"");
-        String _projectName_1 = this.getProjectName();
-        String _plus_3 = ("/" + _projectName_1);
-        String _plus_4 = (_plus_3 + "/");
-        int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
-        String _projectName_2 = this.getProjectName();
-        String _plus_5 = ("/" + _projectName_2);
-        int _length = (_plus_5 + "/").length();
-        int _plus_6 = (_lastIndexOf + _length);
-        String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
-        _builder.append(_substring, "\t");
+        String _xifexpression = null;
+        String _projectName = this.getProjectName();
+        String _plus_1 = ("/" + _projectName);
+        String _plus_2 = (_plus_1 + "/");
+        int _indexOf = metamodelPath.indexOf(_plus_2);
+        boolean _notEquals = (_indexOf != (-1));
+        if (_notEquals) {
+          String _projectName_1 = this.getProjectName();
+          String _plus_3 = ("/" + _projectName_1);
+          String _plus_4 = (_plus_3 + "/");
+          int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+          String _projectName_2 = this.getProjectName();
+          String _plus_5 = ("/" + _projectName_2);
+          int _length = (_plus_5 + "/").length();
+          int _plus_6 = (_lastIndexOf + _length);
+          _xifexpression = metamodelPath.substring(_plus_6, metamodelPath.length());
+        } else {
+          _xifexpression = metamodelPath;
+        }
+        _builder.append(_xifexpression, "\t");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("relativeMetamodelPath = relativeMetamodelPath.startsWith(\"/\") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; ");
+        _builder.newLine();
         _builder.append("\t");
         _builder.append("String absoluteMetamodelPath = ");
         _builder.append(this.className, "\t");
@@ -9609,18 +9658,29 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("String relativeResourceURI_");
             _builder.append(i, "\t");
             _builder.append(" = \"");
+            String _xifexpression_1 = null;
             String _replace = resourceURI.replace("\\", "/");
-            String _replace_1 = resourceURI.replace("\\", "/");
             String _projectName_3 = this.getProjectName();
             String _plus_7 = ("/" + _projectName_3);
             String _plus_8 = (_plus_7 + "/");
-            int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
-            String _projectName_4 = this.getProjectName();
-            String _plus_9 = ("/" + _projectName_4);
-            int _length_1 = (_plus_9 + "/").length();
-            int _plus_10 = (_lastIndexOf_1 + _length_1);
-            String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
-            _builder.append(_substring_1, "\t");
+            int _indexOf_1 = _replace.indexOf(_plus_8);
+            boolean _notEquals_1 = (_indexOf_1 != (-1));
+            if (_notEquals_1) {
+              String _replace_1 = resourceURI.replace("\\", "/");
+              String _replace_2 = resourceURI.replace("\\", "/");
+              String _projectName_4 = this.getProjectName();
+              String _plus_9 = ("/" + _projectName_4);
+              String _plus_10 = (_plus_9 + "/");
+              int _lastIndexOf_1 = _replace_2.lastIndexOf(_plus_10);
+              String _projectName_5 = this.getProjectName();
+              String _plus_11 = ("/" + _projectName_5);
+              int _length_1 = (_plus_11 + "/").length();
+              int _plus_12 = (_lastIndexOf_1 + _length_1);
+              _xifexpression_1 = _replace_1.substring(_plus_12, resourceURI.replace("\\", "/").length());
+            } else {
+              _xifexpression_1 = resourceURI;
+            }
+            _builder.append(_xifexpression_1, "\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -9672,18 +9732,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("String relativeEcoreURI_");
             _builder.append(j, "\t");
             _builder.append(" = \"");
-            String _replace_2 = ecoreURI.replace("\\", "/");
             String _replace_3 = ecoreURI.replace("\\", "/");
-            String _projectName_5 = this.getProjectName();
-            String _plus_11 = ("/" + _projectName_5);
-            String _plus_12 = (_plus_11 + "/");
-            int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+            String _replace_4 = ecoreURI.replace("\\", "/");
             String _projectName_6 = this.getProjectName();
             String _plus_13 = ("/" + _projectName_6);
-            int _length_2 = (_plus_13 + "/").length();
-            int _plus_14 = (_lastIndexOf_2 + _length_2);
-            String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
-            _builder.append(_substring_2, "\t");
+            String _plus_14 = (_plus_13 + "/");
+            int _lastIndexOf_2 = _replace_4.lastIndexOf(_plus_14);
+            String _projectName_7 = this.getProjectName();
+            String _plus_15 = ("/" + _projectName_7);
+            int _length_2 = (_plus_15 + "/").length();
+            int _plus_16 = (_lastIndexOf_2 + _length_2);
+            String _substring = _replace_3.substring(_plus_16, ecoreURI.replace("\\", "/").length());
+            _builder.append(_substring, "\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -11784,8 +11844,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t");
             _builder.append("//REGISTRY METHOD NAME:");
             String _string = Integer.valueOf(this.nRegistryMethodCall).toString();
-            String _plus_15 = ("registry" + _string);
-            String _registryMethodName = this.registryMethodName = _plus_15;
+            String _plus_17 = ("registry" + _string);
+            String _registryMethodName = this.registryMethodName = _plus_17;
             _builder.append(_registryMethodName, "\t");
             _builder.newLineIfNotEmpty();
             {
@@ -11914,7 +11974,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("// MUTANT COMPLETION AND REGISTRY");
                 _builder.newLine();
                 _builder.append("\t\t");
-                _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+                _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
                 _builder.newLine();
                 {
                   EList<Constraint> _constraints = e.getConstraints();
@@ -12017,8 +12077,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       } else {
                         _builder.append("   \t\t");
                         _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                        String _projectName_7 = this.getProjectName();
-                        _builder.append(_projectName_7, "   \t\t");
+                        String _projectName_8 = this.getProjectName();
+                        _builder.append(_projectName_8, "   \t\t");
                         _builder.append("\", serialize, test, classes, ");
                         _builder.append(this.className, "   \t\t");
                         _builder.append(".class, true);");
@@ -12038,8 +12098,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                         String _name_73 = b.getName();
                         _builder.append(_name_73);
                         _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                        String _projectName_8 = this.getProjectName();
-                        _builder.append(_projectName_8);
+                        String _projectName_9 = this.getProjectName();
+                        _builder.append(_projectName_9);
                         _builder.append("\", serialize, test, classes, ");
                         _builder.append(this.className);
                         _builder.append(".class, true, false);");
@@ -12365,8 +12425,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           _builder.append("\t\t\t\t");
           _builder.append("//REGISTRY METHOD NAME:");
           String _string_1 = Integer.valueOf(this.nRegistryMethodCall).toString();
-          String _plus_16 = ("registry" + _string_1);
-          String _registryMethodName_1 = this.registryMethodName = _plus_16;
+          String _plus_18 = ("registry" + _string_1);
+          String _registryMethodName_1 = this.registryMethodName = _plus_18;
           _builder.append(_registryMethodName_1, "\t\t\t\t\t");
           _builder.newLineIfNotEmpty();
           {
@@ -12504,7 +12564,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t\t\t");
-              _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+              _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
               _builder.newLine();
               {
                 EList<Constraint> _constraints_1 = e.getConstraints();
@@ -12613,8 +12673,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLine();
                     } else {
                       _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_9 = this.getProjectName();
-                      _builder.append(_projectName_9);
+                      String _projectName_10 = this.getProjectName();
+                      _builder.append(_projectName_10);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true);");
@@ -12634,8 +12694,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       String _name_102 = b.getName();
                       _builder.append(_name_102);
                       _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_10 = this.getProjectName();
-                      _builder.append(_projectName_10);
+                      String _projectName_11 = this.getProjectName();
+                      _builder.append(_projectName_11);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true, false);");
@@ -12940,7 +13000,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t\t");
-              _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+              _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
               _builder.newLine();
               {
                 EList<Constraint> _constraints_2 = e.getConstraints();
@@ -13053,8 +13113,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.newLine();
                     } else {
                       _builder.append("boolean isRepeated = registryMutantStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_11 = this.getProjectName();
-                      _builder.append(_projectName_11);
+                      String _projectName_12 = this.getProjectName();
+                      _builder.append(_projectName_12);
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className);
                       _builder.append(".class, true);");
@@ -13078,8 +13138,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                       String _name_114 = b.getName();
                       _builder.append(_name_114, "\t\t\t");
                       _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
-                      String _projectName_12 = this.getProjectName();
-                      _builder.append(_projectName_12, "\t\t\t");
+                      String _projectName_13 = this.getProjectName();
+                      _builder.append(_projectName_13, "\t\t\t");
                       _builder.append("\", serialize, test, classes, ");
                       _builder.append(this.className, "\t\t\t");
                       _builder.append(".class, true, false);");
@@ -13711,13 +13771,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("//");
-            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-            String _plus = (_workspaceAbsolutePath + "/");
-            String _projectName = this.getProjectName();
-            String _plus_1 = (_plus + _projectName);
-            String _plus_2 = (_plus_1 + "/");
-            String _path = source.getPath();
-            final String resourcePath = (_plus_2 + _path);
+            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+            String _plus = (_path + "/");
+            String _path_1 = source.getPath();
+            final String resourcePath = (_plus + _path_1);
             _builder.newLineIfNotEmpty();
             {
               File[] _listFiles = new File(resourcePath).listFiles();
@@ -13750,18 +13807,31 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("String relativeMetamodelPath = \"");
-            String _projectName_1 = this.getProjectName();
-            String _plus_3 = ("/" + _projectName_1);
-            String _plus_4 = (_plus_3 + "/");
-            int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
-            String _projectName_2 = this.getProjectName();
-            String _plus_5 = ("/" + _projectName_2);
-            int _length = (_plus_5 + "/").length();
-            int _plus_6 = (_lastIndexOf + _length);
-            String _substring = metamodelPath.substring(_plus_6, metamodelPath.length());
-            _builder.append(_substring, "\t");
+            String _xifexpression = null;
+            String _projectName = this.getProjectName();
+            String _plus_1 = ("/" + _projectName);
+            String _plus_2 = (_plus_1 + "/");
+            int _indexOf = metamodelPath.indexOf(_plus_2);
+            boolean _notEquals = (_indexOf != (-1));
+            if (_notEquals) {
+              String _projectName_1 = this.getProjectName();
+              String _plus_3 = ("/" + _projectName_1);
+              String _plus_4 = (_plus_3 + "/");
+              int _lastIndexOf = metamodelPath.lastIndexOf(_plus_4);
+              String _projectName_2 = this.getProjectName();
+              String _plus_5 = ("/" + _projectName_2);
+              int _length = (_plus_5 + "/").length();
+              int _plus_6 = (_lastIndexOf + _length);
+              _xifexpression = metamodelPath.substring(_plus_6, metamodelPath.length());
+            } else {
+              _xifexpression = metamodelPath;
+            }
+            _builder.append(_xifexpression, "\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("relativeMetamodelPath = relativeMetamodelPath.startsWith(\"/\") == true ? relativeMetamodelPath.substring(1, relativeMetamodelPath.length()) : relativeMetamodelPath; ");
+            _builder.newLine();
             _builder.append("\t");
             _builder.append("String absoluteMetamodelPath = ");
             _builder.append(this.className, "\t");
@@ -13789,18 +13859,29 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String relativeResourceURI_");
                 _builder.append(i, "\t");
                 _builder.append(" = \"");
+                String _xifexpression_1 = null;
                 String _replace = resourceURI.replace("\\", "/");
-                String _replace_1 = resourceURI.replace("\\", "/");
                 String _projectName_3 = this.getProjectName();
                 String _plus_7 = ("/" + _projectName_3);
                 String _plus_8 = (_plus_7 + "/");
-                int _lastIndexOf_1 = _replace_1.lastIndexOf(_plus_8);
-                String _projectName_4 = this.getProjectName();
-                String _plus_9 = ("/" + _projectName_4);
-                int _length_1 = (_plus_9 + "/").length();
-                int _plus_10 = (_lastIndexOf_1 + _length_1);
-                String _substring_1 = _replace.substring(_plus_10, resourceURI.replace("\\", "/").length());
-                _builder.append(_substring_1, "\t");
+                int _indexOf_1 = _replace.indexOf(_plus_8);
+                boolean _notEquals_1 = (_indexOf_1 != (-1));
+                if (_notEquals_1) {
+                  String _replace_1 = resourceURI.replace("\\", "/");
+                  String _replace_2 = resourceURI.replace("\\", "/");
+                  String _projectName_4 = this.getProjectName();
+                  String _plus_9 = ("/" + _projectName_4);
+                  String _plus_10 = (_plus_9 + "/");
+                  int _lastIndexOf_1 = _replace_2.lastIndexOf(_plus_10);
+                  String _projectName_5 = this.getProjectName();
+                  String _plus_11 = ("/" + _projectName_5);
+                  int _length_1 = (_plus_11 + "/").length();
+                  int _plus_12 = (_lastIndexOf_1 + _length_1);
+                  _xifexpression_1 = _replace_1.substring(_plus_12, resourceURI.replace("\\", "/").length());
+                } else {
+                  _xifexpression_1 = resourceURI;
+                }
+                _builder.append(_xifexpression_1, "\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -13852,18 +13933,18 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("String relativeEcoreURI_");
                 _builder.append(j, "\t");
                 _builder.append(" = \"");
-                String _replace_2 = ecoreURI.replace("\\", "/");
                 String _replace_3 = ecoreURI.replace("\\", "/");
-                String _projectName_5 = this.getProjectName();
-                String _plus_11 = ("/" + _projectName_5);
-                String _plus_12 = (_plus_11 + "/");
-                int _lastIndexOf_2 = _replace_3.lastIndexOf(_plus_12);
+                String _replace_4 = ecoreURI.replace("\\", "/");
                 String _projectName_6 = this.getProjectName();
                 String _plus_13 = ("/" + _projectName_6);
-                int _length_2 = (_plus_13 + "/").length();
-                int _plus_14 = (_lastIndexOf_2 + _length_2);
-                String _substring_2 = _replace_2.substring(_plus_14, ecoreURI.replace("\\", "/").length());
-                _builder.append(_substring_2, "\t");
+                String _plus_14 = (_plus_13 + "/");
+                int _lastIndexOf_2 = _replace_4.lastIndexOf(_plus_14);
+                String _projectName_7 = this.getProjectName();
+                String _plus_15 = ("/" + _projectName_7);
+                int _length_2 = (_plus_15 + "/").length();
+                int _plus_16 = (_lastIndexOf_2 + _length_2);
+                String _substring = _replace_3.substring(_plus_16, ecoreURI.replace("\\", "/").length());
+                _builder.append(_substring, "\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -14946,7 +15027,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("//");
     int counter = 0;
@@ -14963,7 +15044,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -15846,7 +15927,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("//");
     int counter = 0;
@@ -15863,7 +15944,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -16170,7 +16251,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
@@ -16941,7 +17022,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("//");
     int counter = 0;
@@ -16958,7 +17039,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -17769,7 +17850,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();");
+    _builder.append("Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();");
     _builder.newLine();
     _builder.append("//");
     int counter = 0;
@@ -17786,7 +17867,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();");
+    _builder.append("Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();");
     _builder.newLine();
     {
       EList<ReferenceSet> _references = mut.getReferences();
@@ -17995,7 +18076,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
@@ -19439,7 +19520,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
@@ -22138,7 +22219,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("// MUTANT COMPLETION AND REGISTRY");
             _builder.newLine();
             _builder.append("\t");
-            _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+            _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
             _builder.newLine();
             {
               EList<Constraint> _constraints = e.getConstraints();
@@ -22426,7 +22507,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if ((last == true)) {
             _builder.append("// MUTANT COMPLETION AND REGISTRY");
             _builder.newLine();
-            _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+            _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
             _builder.newLine();
             {
               EList<Constraint> _constraints_1 = e.getConstraints();
@@ -22849,12 +22930,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if ((this.standalone == false)) {
             _builder.append("private List<Mutator> ");
             _builder.append(this.methodName);
-            _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {");
+            _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {");
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("private static List<Mutator> ");
             _builder.append(this.methodName);
-            _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {");
+            _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException {");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -22991,7 +23072,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t");
-            _builder.append("List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)");
+            _builder.append("List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t");
@@ -23033,7 +23114,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t");
-            _builder.append("List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)");
+            _builder.append("List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t");
@@ -23181,12 +23262,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if ((this.standalone == false)) {
         _builder.append("private List<Mutator> ");
         _builder.append(this.compositeMethodName);
-        _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException {");
+        _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException {");
         _builder.newLineIfNotEmpty();
       } else {
         _builder.append("private static List<Mutator> ");
         _builder.append(this.compositeMethodName);
-        _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException {");
+        _builder.append("(List<EPackage> packages, Resource model, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmObjects, Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hmList, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException {");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -24761,12 +24842,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           if ((this.standalone == false)) {
             _builder.append("private AppMutation ");
             _builder.append(this.compositeRegistryMethodName);
-            _builder.append("(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) {");
+            _builder.append("(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, Map<String, List<String>> classes) {");
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("private static AppMutation ");
             _builder.append(this.compositeRegistryMethodName);
-            _builder.append("(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) {");
+            _builder.append("(List<Mutator> muts, Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hmMutator, Resource seed, boolean serialize, IWodelTest test, Map<String, List<String>> classes) {");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -25002,7 +25083,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("public int block_");
         String _name = b.getName();
         _builder.append(_name, "\t");
-        _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t\t\t\t\t\t\t\t\t  ");
@@ -25017,7 +25098,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("public int block_");
         String _name_1 = b.getName();
         _builder.append(_name_1, "\t");
-        _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.append("(int maxAttempts, int numMutants, boolean registry, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, List<String> fromNames, Map<String, Set<String>> hashmapMutants, Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t\t\t\t\t\t\t\t\t  ");
@@ -25177,9 +25258,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import java.util.Collections;");
     _builder.newLine();
-    _builder.append("import java.util.HashMap;");
-    _builder.newLine();
-    _builder.append("import java.util.HashSet;");
+    _builder.append("import java.util.LinkedHashSet;");
     _builder.newLine();
     _builder.append("import java.util.Set;");
     _builder.newLine();
@@ -25187,7 +25266,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import java.util.Map;");
     _builder.newLine();
-    _builder.append("import java.util.TreeMap;");
+    _builder.append("import java.util.LinkedHashMap;");
     _builder.newLine();
     _builder.append("import java.util.AbstractMap.SimpleEntry;");
     _builder.newLine();
@@ -25270,11 +25349,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     {
       if ((this.standalone == false)) {
         _builder.append("\t");
-        _builder.append("private Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();");
+        _builder.append("private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();");
         _builder.newLine();
       } else {
         _builder.append("\t");
-        _builder.append("private static Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();");
+        _builder.append("private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();");
         _builder.newLine();
       }
     }
@@ -25356,7 +25435,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((this.standalone == false)) {
                 _builder.append("\t");
-                _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+                _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -25368,7 +25447,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
               } else {
                 _builder.append("\t");
-                _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+                _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -25445,7 +25524,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("int totalMutants = 0;");
             _builder.newLine();
             _builder.append("\t\t");
-            _builder.append("Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();");
+            _builder.append("Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();");
             _builder.newLine();
             _builder.newLine();
             _builder.append("\t\t");
@@ -25722,7 +25801,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         {
           if ((this.standalone == false)) {
             _builder.append("\t");
-            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -25734,7 +25813,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
           } else {
             _builder.append("\t");
-            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
@@ -25788,10 +25867,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("monitor.beginTask(\"Generating mutants\", totalTasks);");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, Set<String>> hashmapMutants = new HashMap<String, Set<String>>();");
+        _builder.append("Map<String, Set<String>> hashmapMutants = new LinkedHashMap<String, Set<String>>();");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         _builder.newLine();
         _builder.append("\t\t");
@@ -26226,7 +26305,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
-        _builder.append("Map<String, String> hashmapModelFilenames = new HashMap<String, String>();");
+        _builder.append("Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();");
         _builder.newLine();
         {
           boolean _endsWith = ((Program)e).getSource().getPath().endsWith("/");
@@ -26296,7 +26375,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("for (String modelFilename : modelFilenames) {");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Set<String> hashsetMutants = new HashSet<String>();");
+        _builder.append("Set<String> hashsetMutants = new LinkedHashSet<String>();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("hashsetMutants.add(modelFilename);");
@@ -26331,11 +26410,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
-        _builder.append("Map<String, String> hashmapModelFilenames = new HashMap<String, String>();");
+        _builder.append("Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();");
         _builder.newLine();
-        _builder.append("Map<String, String> hashmapModelFolders = new HashMap<String, String>();");
+        _builder.append("Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();");
         _builder.newLine();
-        _builder.append("Map<String, String> seedModelFilenames = new HashMap<String, String>();");
+        _builder.append("Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();");
         _builder.newLine();
         {
           boolean _endsWith = ((Program)e).getSource().getPath().endsWith("/");
@@ -26472,7 +26551,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           boolean _equals = Objects.equal(_repeat, Repeat.YES);
           if (_equals) {
             _builder.append("\t");
-            _builder.append("hashsetMutantsBlock = new HashSet<String>();");
+            _builder.append("hashsetMutantsBlock = new LinkedHashSet<String>();");
             _builder.newLine();
           } else {
             Repeat _repeat_1 = b.getRepeat();
@@ -26501,7 +26580,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.newLine();
               _builder.append("\t");
               _builder.append("\t");
-              _builder.append("hashsetMutantsBlock = new HashSet<String>();");
+              _builder.append("hashsetMutantsBlock = new LinkedHashSet<String>();");
               _builder.newLine();
               _builder.append("\t");
               _builder.append("}");
@@ -30727,10 +30806,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       boolean _equals = (_isExhaustive == true);
       if (_equals) {
         _builder.append("\t");
-        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
+        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
+        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("monitor.subTask(\"Mutants generation\");");
@@ -30841,16 +30920,25 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("for (int i = 0; i < numMutantsToGenerate; i++) {");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
+        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
+        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + i + \".model\";");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("monitor.subTask(\"Mutant \" + (count * numMutantsToGenerate + i + 1) + \"/\" + totalMutants + \": \" + mutFilename);");
+        _builder.append("String mutFilenameRelativePath = mutFilename.indexOf(\"/");
+        String _name_2 = ProjectUtils.getProject().getName();
+        _builder.append(_name_2, "\t");
+        _builder.append("/\") != -1 ? mutFilename.substring(mutFilename.lastIndexOf(\"/");
+        String _name_3 = ProjectUtils.getProject().getName();
+        _builder.append(_name_3, "\t");
+        _builder.append("/\"), mutFilename.length()) : mutFilename;");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("monitor.subTask(\"Mutant \" + (count * numMutantsToGenerate + i + 1) + \"/\" + totalMutants + \": \" + mutFilenameRelativePath);");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("String mutPath = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + i + \"vs\";");
@@ -30917,27 +31005,27 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("//MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();
           for(final Constraint constraint : _constraints) {
             _builder.append("if (rules.get(\"");
-            String _name_2 = constraint.getType().getName();
-            _builder.append(_name_2);
+            String _name_4 = constraint.getType().getName();
+            _builder.append(_name_4);
             _builder.append("\") == null) {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("rules.put(\"");
-            String _name_3 = constraint.getType().getName();
-            _builder.append(_name_3, "\t");
+            String _name_5 = constraint.getType().getName();
+            _builder.append(_name_5, "\t");
             _builder.append("\", new ArrayList<String>());");
             _builder.newLineIfNotEmpty();
             _builder.append("}");
             _builder.newLine();
             _builder.append("List<String> newrules = rules.get(\"");
-            String _name_4 = constraint.getType().getName();
-            _builder.append(_name_4);
+            String _name_6 = constraint.getType().getName();
+            _builder.append(_name_6);
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
             {
@@ -30972,8 +31060,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             _builder.append("rules.put(\"");
-            String _name_5 = constraint.getType().getName();
-            _builder.append(_name_5);
+            String _name_7 = constraint.getType().getName();
+            _builder.append(_name_7);
             _builder.append("\", newrules);");
             _builder.newLineIfNotEmpty();
           }
@@ -31094,9 +31182,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       boolean _isExhaustive = ((Program) _definition).isExhaustive();
       boolean _equals = (_isExhaustive == true);
       if (_equals) {
-        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
+        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
         _builder.newLine();
-        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
+        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
         _builder.newLine();
         {
           if ((this.standalone == false)) {
@@ -31208,10 +31296,10 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("for (int i = 0; i < numMutantsToGenerate; i++) {");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
+        _builder.append("Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
+        _builder.append("Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();");
         _builder.newLine();
         {
           int _size_1 = b.getFrom().size();
@@ -31302,7 +31390,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("// MUTANT COMPLETION AND REGISTRY");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("Map<String, List<String>> rules = new HashMap<String, List<String>>();");
+        _builder.append("Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();");
         _builder.newLine();
         {
           EList<Constraint> _constraints = e.getConstraints();

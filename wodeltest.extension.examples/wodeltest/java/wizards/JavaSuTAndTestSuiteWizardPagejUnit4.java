@@ -18,7 +18,7 @@ public class JavaSuTAndTestSuiteWizardPagejUnit4 extends WizardPage {
 	
 	protected JavaSuTAndTestSuiteWizardPagejUnit4(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for jUnit4 Example");
+		setTitle("Wodel-Test for jUnit4");
 		setDescription("This wizard creates the Wodel-Test for jUnit4 example.");
 		this.selection = selection;
 	}

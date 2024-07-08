@@ -61,7 +61,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 		try {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
-			String folder = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + projectName + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
+			String folder = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath() + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
 				new File(folder), new ArrayList<Object>()); //serialized);
@@ -104,7 +104,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 		String bytecodePath = null;
 		if (srcFile.isFile() && srcFile.getName().endsWith(".java")) {
 			String classname = srcFile.getName().replace(".java", "");
-			bytecodePath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/bin/" + packagename + "/" + classname + ".class";
+			bytecodePath = project.getLocation().toFile().getPath() + "/bin/" + packagename + "/" + classname + ".class";
 		}
 		return bytecodePath;
 	}
@@ -121,7 +121,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 					WodelTestUtils.awaitFile(bytecodePath, 2000);
 				}
 				String classname = bytecodePath.substring(bytecodePath.lastIndexOf("/") + 1, bytecodePath.lastIndexOf("."));
-				String tmpBytecodeName1 = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp/class/" + classname + "." + modelName.replace(".model", "") + ".tmp";
+				String tmpBytecodeName1 = project.getLocation().toFile().getPath() + "/temp/class/" + classname + "." + modelName.replace(".model", "") + ".tmp";
 				IOUtils.copyFile(bytecode.getPath(), tmpBytecodeName1);
 				File tmpBytecode = new File(tmpBytecodeName1);
 				byteArray = getBytesFromFile(tmpBytecode);
@@ -170,7 +170,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				}
 			}
 			String javaFileName = className + ".java";
-			String srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/src/" + packageName + "/" + javaFileName;
+			String srcJavaFilePath = project.getLocation().toFile().getPath() + "/src/" + packageName + "/" + javaFileName;
 			String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
 			IOUtils.copyFile(srcJavaFilePath, newSrcPath);
 			compile(project);
@@ -184,7 +184,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 			}
 			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
 			modelToProject(resource2, block, mutantName, project.getName());
-			String artifactPath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
+			String artifactPath = project.getLocation().toFile().getPath() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);
 			compile(project);
 			byte[] byteArrayModel2 = getBytecode(project, javaProject, resource2, block, className + ".java", artifactPath, packageName);

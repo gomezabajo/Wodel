@@ -15,7 +15,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 
 /**
@@ -27,14 +26,9 @@ import wodel.utils.manager.ProjectUtils;
 public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();
     this.standalone = true;
-    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(resource);
-    String _plus = (_workspaceAbsolutePath + "/");
-    String _projectName = this.getProjectName();
-    String _plus_1 = (_plus + _projectName);
-    String projectFolderName = (_plus_1 + "/");
+    String projectFolderName = ProjectUtils.getProject().getLocation().toFile().getPath();
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     MutatorEnvironment mutatorEnvironment = null;
@@ -45,8 +39,8 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
         this.program = ((Program) _definition);
         String _replaceAll = this.fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
-        String _plus_2 = (_replaceAll + ".mutator");
-        this.fileName = _plus_2;
+        String _plus = (_replaceAll + ".mutator");
+        this.fileName = _plus;
         this.fileName = this.fileName.replaceAll(".mutator", "Standalone.java");
         this.className = this.fileName.replaceAll("Standalone.java", "Standalone");
         int i = 1;
@@ -73,27 +67,27 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
     }
     List<String> mutators = this.getMutators(files);
     String _replaceAll = this.getProjectName().replaceAll("[.]", "/");
-    String _plus_2 = ("mutator/" + _replaceAll);
-    String _plus_3 = (_plus_2 + "/");
+    String _plus = ("mutator/" + _replaceAll);
+    String _plus_1 = (_plus + "/");
     String _replaceAll_1 = this.getProjectName().replaceAll("[.]", "_");
-    String _plus_4 = (_plus_3 + _replaceAll_1);
-    String _plus_5 = (_plus_4 + "StandaloneLauncher.java");
-    boolean _isFile = fsa.isFile(_plus_5);
+    String _plus_2 = (_plus_1 + _replaceAll_1);
+    String _plus_3 = (_plus_2 + "StandaloneLauncher.java");
+    boolean _isFile = fsa.isFile(_plus_3);
     if (_isFile) {
       String _replaceAll_2 = this.getProjectName().replaceAll("[.]", "/");
-      String _plus_6 = ("mutator/" + _replaceAll_2);
-      String _plus_7 = (_plus_6 + "/");
+      String _plus_4 = ("mutator/" + _replaceAll_2);
+      String _plus_5 = (_plus_4 + "/");
       String _replaceAll_3 = this.getProjectName().replaceAll("[.]", "_");
-      String _plus_8 = (_plus_7 + _replaceAll_3);
-      String _plus_9 = (_plus_8 + "StandaloneLauncher.java");
-      fsa.deleteFile(_plus_9);
+      String _plus_6 = (_plus_5 + _replaceAll_3);
+      String _plus_7 = (_plus_6 + "StandaloneLauncher.java");
+      fsa.deleteFile(_plus_7);
     }
     String _replaceAll_4 = this.getProjectName().replaceAll("[.]", "/");
-    String _plus_10 = ("mutator/" + _replaceAll_4);
-    String _plus_11 = (_plus_10 + "/");
+    String _plus_8 = ("mutator/" + _replaceAll_4);
+    String _plus_9 = (_plus_8 + "/");
     String _replaceAll_5 = this.getProjectName().replaceAll("[.]", "_");
-    String _plus_12 = (_plus_11 + _replaceAll_5);
-    String _plus_13 = (_plus_12 + "StandaloneLauncher.java");
-    fsa.generateFile(_plus_13, JavaUtils.format(this.launcher(mutatorEnvironment, mutators), false));
+    String _plus_10 = (_plus_9 + _replaceAll_5);
+    String _plus_11 = (_plus_10 + "StandaloneLauncher.java");
+    fsa.generateFile(_plus_11, JavaUtils.format(this.launcher(mutatorEnvironment, mutators), false));
   }
 }

@@ -3,12 +3,20 @@
  */
 package wodeledu.dsls.generator;
 
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import edutest.Program;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.ProjectUtils;
+import wodeledu.dsls.EduTestUtils;
 
 /**
  * Generates code from your model files on save.
@@ -18,35 +26,57 @@ import org.eclipse.xtext.generator.IGeneratorContext;
 @SuppressWarnings("all")
 public class EduTestGenerator extends AbstractGenerator {
   @Inject
-  private EduTestWebGenerator webGenerator;
+  public EduTestWebGenerator webGenerator;
 
   @Inject
-  private EduTestMoodleGenerator moodleGenerator;
+  public EduTestMoodleGenerator moodleGenerator;
 
   @Inject
-  private EduTestAndroidAppGenerator androidAppGenerator;
+  public EduTestAndroidAppGenerator androidAppGenerator;
 
   @Inject
-  private EduTestiOSAppGenerator iOSAppGenerator;
+  public EduTestiOSAppGenerator iOSAppGenerator;
 
   @Override
-  public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    String _xifexpression = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      _xifexpression = ProjectUtils.getProject().getLocation().toFile().getPath();
+    } else {
+      _xifexpression = null;
+    }
+    String path = _xifexpression;
+    Iterable<Program> _filter = Iterables.<Program>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Program.class);
+    for (final Program e : _filter) {
+      {
+        String fileName = resource.getURI().lastSegment();
+        String xTextFileName = ((("file:/" + path) + "/src/") + fileName);
+        String _outputFolder = ModelManager.getOutputFolder();
+        String _plus = ((("file:/" + path) + "/") + _outputFolder);
+        String _plus_1 = (_plus + "/");
+        String _replaceAll = fileName.replaceAll(".test", "_test.model");
+        String xmiFileName = (_plus_1 + _replaceAll);
+        EduTestUtils.serialize(xTextFileName, xmiFileName);
+      }
+    }
     String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null);
     boolean _equals = eduTestMode.equals("Web");
     if (_equals) {
-      this.webGenerator.doGenerate(input, fsa, context);
+      this.webGenerator.doGenerate(resource, fsa, context);
     }
     boolean _equals_1 = eduTestMode.equals("Moodle");
     if (_equals_1) {
-      this.moodleGenerator.doGenerate(input, fsa, context);
+      this.moodleGenerator.doGenerate(resource, fsa, context);
     }
     boolean _equals_2 = eduTestMode.equals("AndroidApp");
     if (_equals_2) {
-      this.androidAppGenerator.doGenerate(input, fsa, context);
+      this.androidAppGenerator.doGenerate(resource, fsa, context);
     }
     boolean _equals_3 = eduTestMode.equals("iOSApp");
     if (_equals_3) {
-      this.iOSAppGenerator.doGenerate(input, fsa, context);
+      this.iOSAppGenerator.doGenerate(resource, fsa, context);
     }
   }
 }

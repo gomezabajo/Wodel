@@ -6,13 +6,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.LinkedHashSet;
 import java.util.regex.Pattern;
 
 import mutatorenvironment.AttributeOperation;
@@ -5998,7 +5996,7 @@ public class MutatorUtils {
 	 * @return
 	 */
 	protected static List<EObject> evaluate(List<EObject> candidates, Expression exp) {
-		Set<EObject> selected = new HashSet<EObject>();
+		Set<EObject> selected = new LinkedHashSet<EObject>();
 		Set<EObject> selected_tmp = null;
 //		Map<EObject, EObject> dictionary = new HashMap<EObject, EObject>();
 
@@ -6019,7 +6017,7 @@ public class MutatorUtils {
 			evaluateFirstReference((ReferenceEvaluation) exp.first, candidates/*candidates_tmp*/, selected);
 		}
 
-		selected_tmp = new HashSet<EObject>();
+		selected_tmp = new LinkedHashSet<EObject>();
 		selected_tmp.addAll(selected);
 
 		if (exp.operator.size() > 0) {
@@ -6414,7 +6412,7 @@ public class MutatorUtils {
 		for (EObject eObject : ModelManager.getAllObjects(model)) {
 
 			// get metaclasses of object (metaclass and ancestors)
-			Set<EClass> metaclasses = new HashSet<EClass>();
+			Set<EClass> metaclasses = new LinkedHashSet<EClass>();
 			EClass metaclass = eObject.eClass();
 			metaclasses.add(metaclass);
 			metaclasses.addAll(metaclass.getEAllSuperTypes());
@@ -6483,7 +6481,7 @@ public class MutatorUtils {
 	 * @return
 	 */
 	protected static Map<String, Object> getMutatorNames(List<Object> objects) {
-		Map<String, Object> mutators = new HashMap<String, Object>();
+		Map<String, Object> mutators = new LinkedHashMap<String, Object>();
 		if (objects.size() > 0) {
 			if (objects.get(0) instanceof EObject) {
 				for (Object obj : objects) {
@@ -6602,7 +6600,7 @@ public class MutatorUtils {
 	 * @return
 	 */
 	protected static Map<String, EObject> getMutators(List<EObject> objects) {
-		Map<String, EObject> mutators = new HashMap<String, EObject>();
+		Map<String, EObject> mutators = new LinkedHashMap<String, EObject>();
 		int counter = 0;
 		for (EObject obj : objects) {
 			String name = obj.eClass().getName();
@@ -6634,7 +6632,7 @@ public class MutatorUtils {
 	 * @return
 	 */
 	protected static Map<String, EObject> getMutatorsByBlock(List<EObject> objects, String blockName) {
-		Map<String, EObject> mutators = new HashMap<String, EObject>();
+		Map<String, EObject> mutators = new LinkedHashMap<String, EObject>();
 		try {
 			int counter = 0;
 			for (EObject obj : objects) {
@@ -9278,8 +9276,10 @@ public class MutatorUtils {
 		List<File> files = new ArrayList<File>();
 		File folder = new File(modelURI);
 		if (modelURI.endsWith("/")) {
-			for (File file : folder.listFiles()) {
-				files.add(file);
+			if (folder.listFiles() != null) {
+				for (File file : folder.listFiles()) {
+					files.add(file);
+				}
 			}
 		}
 		else {
@@ -9742,7 +9742,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFilenames,
 			int[] n, List<String> mutPaths, Map<String,
 			List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -10231,7 +10231,7 @@ public class MutatorUtils {
 			boolean registry, Set<String> hashsetMutants,
 			Map<String, String> hashmapModelFilenames,
 			int[] n, List<String> mutPaths, Map<String,
-			List<String>> hashmapMutVersions, String projectName, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
+			List<String>> hashmapMutVersions, String projectName, boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -10684,7 +10684,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFolders, String block,
 			List<String> fromBlocks, int[] n, List<String> mutPaths,
 			Map<String, List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -11385,7 +11385,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFolders, String block,
 			List<String> fromBlocks, int[] n, List<String> mutPaths,
 			Map<String, List<String>> hashmapMutVersions, String projectName,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -12819,14 +12819,14 @@ public class MutatorUtils {
 		return numMutants;
 	}
 	
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, 
 			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		return null;
 	}
 
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, 
 			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {

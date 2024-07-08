@@ -1,10 +1,5 @@
 package wodel.utils.manager;
 
-import java.io.FileNotFoundException;
-
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
-
 /**
  * @author Pablo Gomez-Abajo
  * 
@@ -14,7 +9,6 @@ import wodel.utils.exceptions.ModelNotFoundException;
  */
 
 public interface IMutatorDraw {
-	public void generate() throws MetaModelNotFoundException,
-		ModelNotFoundException, FileNotFoundException;
+	public void run();
 
 }

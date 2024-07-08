@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
@@ -67,19 +68,20 @@ public class WodelTest implements IWodelTest {
 		try {
 			Atl2006Compiler compiler = new Atl2006Compiler();
 			FileInputStream trafoFile;
-			File folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName());
+			String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
+			File folder = new File(projectPath);
 			for (File atl_file : folder.listFiles()) {
 				if (atl_file.isFile() && atl_file.getName().endsWith(".atl")) {
 					trafoFile = new FileInputStream(atl_file);
 					String asm_transformation = atl_file.getName().replace(".atl", ".asm");
-					compiler.compile(trafoFile, ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + asm_transformation);
+					compiler.compile(trafoFile, projectPath + "/" + asm_transformation);
 				}
 				if (atl_file.isDirectory()) {
 					for (File atl_file2 : atl_file.listFiles()) {
 						if (atl_file2.isFile() && atl_file2.getName().endsWith(".atl")) {
 							trafoFile = new FileInputStream(atl_file2);
 							String asm_transformation = atl_file2.getName().replace(".atl", ".asm");
-							compiler.compile(trafoFile, ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + atl_file.getName() + "/" + asm_transformation);
+							compiler.compile(trafoFile, projectPath + "/" + atl_file.getName() + "/" + asm_transformation);
 						}
 					}
 				}
@@ -293,17 +295,18 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
+			String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
+			String workspacePath = projectPath.substring(0, projectPath.lastIndexOf("/" + project.getName()));
 			String in = getIn(projectPath, project.getName());
 			String inMetamodel = projectPath + "/" + in + ".ecore";
 			String out = getOut(projectPath, project.getName());
 			String outMetamodel = projectPath + "/" + out + ".ecore";
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String testSuitePath = workspacePath + "/" + testSuiteProject.getName();
 			List<Object> tests = getTests(testSuitePath);
 			for (Object test : tests) {
 				String inModel = (String) test;
 				String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
-				String modelPath = artifactPath.substring(0, artifactPath.indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
+				String modelPath = artifactPath.replace("\\", "/").substring(0, artifactPath.replace("\\", "/").indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
 				runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
 				String blockName = artifactPath.substring(artifactPath.indexOf("\\" + project.getName() + "/") + ("\\" + project.getName() + "/").length(), artifactPath.length());
 				blockName = blockName.substring(0, blockName.indexOf("/"));
@@ -320,7 +323,8 @@ public class WodelTest implements IWodelTest {
 	@Override
 	public void projectToModel(String projectName, Class<?> cls) {
 		try {
-			String transformationFile = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + projectName + ".atl";
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toOSString();
+			String transformationFile = projectPath + "/" + projectName + ".atl";
 			ModelFactory modelFactory = new EMFModelFactory();
 			IReferenceModel atlMetamodel = AtlParser.getDefault().getAtlMetamodel();
 			IModel atlModel = modelFactory.newModel(atlMetamodel);
@@ -373,7 +377,8 @@ public class WodelTest implements IWodelTest {
 					+ "/" + folderName + "/" + modelName);
 
 			AtlParser atlParser = new AtlParser();
-			String outputPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + folderName;
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			String outputPath = projectPath + "/" + folderName;
 			File outputFolder = new File(outputPath);
 			if (!outputFolder.exists()) {
 				outputFolder.mkdir();
@@ -446,19 +451,19 @@ public class WodelTest implements IWodelTest {
 			WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 			try {
 				List<WodelTestResultClass> results = globalResult.getResults();
-				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
+				String projectPath = project.getLocation().toFile().getPath();
 				String in = getIn(projectPath, project.getName());
 				String inMetamodel = projectPath + "/" + in + ".ecore";
 				String out = getOut(projectPath, project.getName());
 				String outMetamodel = projectPath + "/" + out + ".ecore";
-				String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				List<Object> tests = getTests(testSuitePath);
 				for (Object test : tests) {
 					String inModel = (String) test;
 					String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
-					String modelPath = artifactPath.substring(0, artifactPath.indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
+					String modelPath = artifactPath.replace("\\", "/").substring(0, artifactPath.indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
 					runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
-					String blockName = artifactPath.substring(artifactPath.indexOf("\\" + project.getName() + "/") + ("\\" + project.getName() + "/").length(), artifactPath.length());
+					String blockName = artifactPath.replace("\\", "/").substring(artifactPath.replace("\\", "/").indexOf("/" + project.getName() + "/") + ("/" + project.getName() + "/").length(), artifactPath.replace("\\", "/").length());
 					blockName = blockName.substring(0, blockName.indexOf("/"));
 					runHelper(globalResult, results, project, tests, test, artifactPath, blockName, in, inMetamodel, out, outMetamodel, projectPath);
 				}

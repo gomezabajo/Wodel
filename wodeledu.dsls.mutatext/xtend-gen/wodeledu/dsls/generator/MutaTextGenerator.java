@@ -33,24 +33,19 @@ public class MutaTextGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    ProjectUtils.resetProject();
     this.project = ProjectUtils.getProject();
-    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-    String _plus = (_workspaceAbsolutePath + "/");
-    String _name = this.project.getName();
-    String _plus_1 = (_plus + _name);
-    this.path = _plus_1;
+    this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
     Iterable<Configuration> _filter = Iterables.<Configuration>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Configuration.class);
     for (final Configuration e : _filter) {
       {
         this.fileName = resource.getURI().lastSegment();
         String xTextFileName = ((("file:/" + this.path) + "/src/") + this.fileName);
         String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_2 = ((("file:/" + this.path) + "/") + _outputFolder);
-        String _plus_3 = (_plus_2 + "/");
+        String _plus = ((("file:/" + this.path) + "/") + _outputFolder);
+        String _plus_1 = (_plus + "/");
         String _replaceAll = this.fileName.replaceAll(".mutatext", "_mutatext.model");
-        String _plus_4 = (_plus_3 + _replaceAll);
-        this.xmiFileName = _plus_4;
+        String _plus_2 = (_plus_1 + _replaceAll);
+        this.xmiFileName = _plus_2;
         MutaTextUtils.serialize(xTextFileName, this.xmiFileName);
       }
     }

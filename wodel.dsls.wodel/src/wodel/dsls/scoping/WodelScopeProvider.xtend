@@ -2218,7 +2218,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) {*/
-        	val File[] files = new File(ModelManager.getWorkspaceAbsolutePath + '/' + ProjectUtils.getProject + '/' + program.source.path).listFiles()
+        	val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
@@ -2333,7 +2333,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ModelManager.getWorkspaceAbsolutePath +'/'+ ProjectUtils.getProject + '/' + definition.source.path
+        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
         		val List<EClass> classes  = getModelEClasses(definition, model)
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
@@ -2352,7 +2352,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
 				
-				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath + '/' + ProjectUtils.getProject + '/' + definition.source.path).listFiles()
+				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {
@@ -2395,7 +2395,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
+        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
         		val List<EClass> classes  = getModelEClasses(definition, model)
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
@@ -2414,7 +2414,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
 				
-				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path).listFiles()
+				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {
@@ -2501,7 +2501,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) { */
-        	val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + program.source.path).listFiles()
+        	val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
@@ -2631,7 +2631,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
+        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
 	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
     	   		for (EClassifier cl : containers) scontainers.add(cl.name)
@@ -2648,7 +2648,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
     	    if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path).listFiles()
+				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {
@@ -2689,7 +2689,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path
+        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
 	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
     	   		for (EClassifier cl : containers) scontainers.add(cl.name)
@@ -2706,7 +2706,7 @@ class WodelScopeProvider extends AbstractWodelScopeProvider {
     	    if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/' + ProjectUtils.getProject + '/' + definition.source.path).listFiles()
+				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {

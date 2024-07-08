@@ -150,4 +150,12 @@
       </menuContribution>
    </extension>
 -->
+	<extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.wodelNatureImage"
+            natureId="wodeltest.extension.wodelTestNature">
+      </image>
+   </extension>
 </plugin>

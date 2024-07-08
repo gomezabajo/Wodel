@@ -24,30 +24,56 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
+import org.osgi.framework.Bundle;
 
+//import wodeledu.dsls.EduTestStandaloneSetup;
+import wodeledu.dsls.EduTestUtils;
+import wodeledu.dsls.ModelDrawStandaloneSetup;
+import wodeledu.dsls.ModelDrawUtils;
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
+import wodeledu.dsls.generator.ModelDrawGenerator;
+import wodeledu.dsls.generator.ModelDrawPlantUMLGenerator;
+import wodeledu.dsls.generator.ModelDrawDotGenerator;
+import wodeledu.dsls.generator.ModelDrawCircuitGenerator;
+/*
+import wodeledu.dsls.generator.EduTestGenerator;
+import wodeledu.dsls.generator.EduTestAndroidAppGenerator;
+import wodeledu.dsls.generator.EduTestiOSAppGenerator;
+import wodeledu.dsls.generator.EduTestMoodleGenerator;
+import wodeledu.dsls.generator.EduTestWebGenerator;
+*/
 import wodeledu.extension.builder.WodelEduNature;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-
+import com.google.inject.Injector;
 import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.extension.generator.IGenerator;
 
 /**
@@ -58,6 +84,23 @@ import wodel.extension.generator.IGenerator;
  * 
  */
 public class Generator implements IGenerator {
+
+	private void compile(IProject project) {
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, new NullProgressMonitor());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationCanceledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	private void addTextToFile(IFolder path, String fileName, String text, IProgressMonitor monitor) {
 		IFile file = path.getFile(new Path(fileName));
@@ -154,6 +197,11 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
+		
+		String xTextFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/src/" + graphFileName;
+		String xmiFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/" + outputPath + '/' + graphFileName.replaceAll(".draw", "_draw.model");
+		ModelDrawUtils.serialize(xTextFileName, xmiFileName);
+		
 		final IFile testsFile = srcPath.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
@@ -196,6 +244,10 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
+		xTextFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/src/" + testsFileName;
+		xmiFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/" + outputPath + '/' + testsFileName.replaceAll(".test", "_test.model");
+		EduTestUtils.serialize(xTextFileName, xmiFileName);
+
 		final IFile idelemsFile = srcPath.getFile(new Path(idelemsFileName));
 		try {
 			InputStream stream = openContentStream();
@@ -246,8 +298,8 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
-		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + mutProject.getFolder(new Path("/src/" + idelemsFileName)).getFullPath();
-		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + mutProject.getFolder(new Path('/' + outputPath + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model"))).getFullPath();
+		xTextFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/src/" + idelemsFileName;
+		xmiFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/" + outputPath + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model");
 		ModelTextUtils.serialize(xTextFileName, xmiFileName);
 
 		final IFile cfgoptsFile = srcPath.getFile(new Path(cfgoptsFileName));
@@ -277,8 +329,9 @@ public class Generator implements IGenerator {
 		} catch (IOException e) {
 		}
 		
-		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + mutProject.getFolder(new Path("/src/" + cfgoptsFileName)).getFullPath();
-		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + mutProject.getFolder(new Path('/' + outputPath + '/' + cfgoptsFileName.replaceAll(".mutatext", "_mutatext.model"))).getFullPath();
+		xTextFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/src/" + cfgoptsFileName;
+		xmiFileName = "file:/" + mutProject.getLocation().toFile().getPath() + "/" + outputPath + '/' + cfgoptsFileName.replaceAll(".modeltext", "_modeltext.model");
+
 		MutaTextUtils.serialize(xTextFileName, xmiFileName);
 		
 		final IFolder srcgenFolder = mutProject.getFolder(new Path("src-gen"));
@@ -488,6 +541,36 @@ public class Generator implements IGenerator {
 	
 	@Override
 	public void doRun(IFile file) {
+		
+		try {
+			String xmiFileName = file.getProject().getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder() + "/" + file.getName().replace(".mutator", "_draw.model");
+			Bundle bundle = Platform.getBundle("wodeledu.models");
+	   		URL fileURL = bundle.getEntry("/model/ModelDraw.ecore");
+	   		String drawecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> drawpackages = ModelManager.loadMetaModel(drawecore);
+			Resource drawmodel = ModelManager.loadModel(drawpackages, xmiFileName);
+			String stringURI = "/resource/" + file.getProject().getName();
+			stringURI = stringURI + "/src/" + file.getName().replace(".mutator", ".draw");
+			drawmodel.setURI(URI.createURI(stringURI));
+			ModelDrawGenerator generator = new ModelDrawGenerator();
+			Injector injector = new ModelDrawStandaloneSetup().createInjectorAndDoEMFRegistration();
+			InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+			generator.circuitGenerator = new ModelDrawCircuitGenerator();
+			generator.plantUMLGenerator = new ModelDrawPlantUMLGenerator();
+			generator.dotGenerator = new ModelDrawDotGenerator();
+			generator.doGenerate(drawmodel, fsa, null);
+			compile(file.getProject());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		Class<?> cls = null;
 		String mutatorName = file.getProject().getName();
 		String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "Draw";
@@ -527,17 +610,51 @@ public class Generator implements IGenerator {
 				e.printStackTrace();
 			}
 		}
-		
 		Object ob = null;
 		try {
 			ob = cls.getDeclaredConstructor().newInstance();
-			Method m = cls.getMethod("generate");
+			Method m = cls.getMethod("run");
 			m.invoke(ob);
 			// ime = (IMutatorExecutor)ob;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		try {
+			classLoader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+/*
+		try {
+			String xmiFileName = file.getProject().getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder() + "/" + file.getName().replace(".mutator", "_test.model");
+			Bundle bundle = Platform.getBundle("wodeledu.models");
+	   		URL fileURL = bundle.getEntry("/model/EduTest.ecore");
+	   		String testecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> testpackages = ModelManager.loadMetaModel(testecore);
+			Resource testmodel = ModelManager.loadModel(testpackages, xmiFileName);
+			String stringURI = "/resource/" + file.getProject().getName();
+			stringURI = stringURI + "/src/" + file.getName().replace(".mutator", ".test");
+			testmodel.setURI(URI.createURI(stringURI));
+			EduTestGenerator generator = new EduTestGenerator();
+			generator.webGenerator = new EduTestWebGenerator();
+			generator.moodleGenerator = new EduTestMoodleGenerator();
+			generator.androidAppGenerator = new EduTestAndroidAppGenerator();
+			generator.iOSAppGenerator = new EduTestiOSAppGenerator();
+			Injector injector = new EduTestStandaloneSetup().createInjectorAndDoEMFRegistration();
+			InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+			generator.doGenerate(testmodel, fsa, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+*/		
 		final IFile testsFile = file.getParent().getFile(new Path(file.getName().replace(".mutator", ".test")));
 		try {
 			InputStream stream = testsFile.getContents();
@@ -553,12 +670,7 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
-		
-		try {
-			classLoader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	@Override

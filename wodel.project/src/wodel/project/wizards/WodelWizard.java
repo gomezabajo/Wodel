@@ -23,10 +23,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.List;
+import java.util.LinkedHashSet;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
 
+import wodel.project.properties.WodelPropertiesPage;
 import wodel.project.utils.EclipseHelper;
 import wodel.dsls.WodelUtils;
 
@@ -99,7 +100,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		final String projectName = _pageOne.getProjectName();
 		final String modelName = _pageOne.getModelName();
 		final String mutantName = _pageOne.getMutantName();
-		final HashMap<String, Boolean> wodelExtensions = _pageOne
+		final Map<String, Boolean> wodelExtensions = _pageOne
 				.getWodelExtensions();
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
@@ -135,17 +136,15 @@ public class WodelWizard extends Wizard implements INewWizard {
 
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor,
-			HashMap<String, Boolean> wodelExtensions) throws CoreException {
+			Map<String, Boolean> wodelExtensions) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
-		Set<String> requiredBundles = new HashSet<String>();
-		Set<String> importPackages = new HashSet<String>();
+		Set<String> requiredBundles = new LinkedHashSet<String>();
+		Set<String> importPackages = new LinkedHashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
 
 		requiredBundles.add("wodel.utils");
@@ -167,7 +166,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.core.di");
 		
 		List<String> additionalRequiredBundles = new ArrayList<String>();
-		
+
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if (registry != null) {
 			IConfigurationElement[] extensions = Platform
@@ -201,6 +200,20 @@ public class WodelWizard extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
+
+		((IResource) project).setPersistentProperty(new QualifiedName(Platform.getBundle("wodel.project").getSymbolicName(), WodelPropertiesPage.MODEL_FOLDER_PROPERTY), modelName);
+		((IResource) project).setPersistentProperty(new QualifiedName(Platform.getBundle("wodel.project").getSymbolicName(), WodelPropertiesPage.MUTANT_FOLDER_PROPERTY), mutantName);
+		
+		List<String> extensionsList = new ArrayList<String>();
+		for (String wodelExtension : wodelExtensions.keySet()) {
+			if (wodelExtensions.get(wodelExtension)) {
+				extensionsList.add(wodelExtension);
+			}
+		}
+		String extensionProperty = extensionsList.size() > 0 ? extensionsList.get(0) : WodelPropertiesPage.DEFAULT_WODEL_EXTENSION; 
+		((IResource) project).setPersistentProperty(new QualifiedName(Platform.getBundle("wodel.project").getSymbolicName(), WodelPropertiesPage.WODEL_EXTENSION_PROPERTY), extensionProperty);
 
 		monitor.beginTask("Creating data folder", 9);
 		final IFolder dataFolder = project.getFolder(new Path("data"));
@@ -321,8 +334,8 @@ public class WodelWizard extends Wizard implements INewWizard {
 			e.printStackTrace();
 		} catch (IOException e) {
 		}
-		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
-		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
+		String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + fileName;
+		String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + fileName.replaceAll("mutator", "model");
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
 		boolean postProcessing = false;
@@ -350,7 +363,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-
+		
 		monitor.beginTask("Creating tests folder", 8);
 		final IFile test = configFolder.getFile(new Path("test.txt"));
 		try {

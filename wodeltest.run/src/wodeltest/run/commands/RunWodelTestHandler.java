@@ -8,10 +8,9 @@ import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -296,8 +295,8 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<String> mutatorsApplied = new ArrayList<String>();
 				int numMutantsGenerated = 0;
 				int numMutantsNonCompiling = 0;
-				Map<IProject, String> resultsProjectsPath = new HashMap<IProject, String>();
-				Map<IProject, String> testsResultsProjectsPath = new HashMap<IProject, String>();
+				Map<IProject, String> resultsProjectsPath = new LinkedHashMap<IProject, String>();
+				Map<IProject, String> testsResultsProjectsPath = new LinkedHashMap<IProject, String>();
 				for (IProject testSuiteProject : testSuitesProjects) {
 					File testSuiteResultsFolder = new File(path + "/data/" + testSuiteProject.getName());
 					if (!testSuiteResultsFolder.exists() || !testSuiteResultsFolder.isDirectory()) {
@@ -329,7 +328,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<Resource> models = null;
 				String ecore = null;
 				boolean isRegistered = false;
-				Map<String, EPackage> registeredPackages = new HashMap<String, EPackage>();
+				Map<String, EPackage> registeredPackages = new LinkedHashMap<String, EPackage>();
 				Class<?> cls = mutatorLauncher.getValue();
 				try {
 					ecore = FileLocator.resolve(fileURL).getFile();
@@ -402,12 +401,11 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<String> blockNames = null;
 				MutationResults mutationResults = null;
 				String classesPath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
-				TreeMap<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
+				Map<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
-				ProjectUtils.projectName = test.getProjectName();
 				try {
 					ob = cls.getDeclaredConstructor().newInstance();
-					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
+					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class});
 					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 					registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
@@ -573,7 +571,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 									if (doProcess != null) {
 										doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, targetfile);
 									}
-									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
+									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile, test);
 								}
 								//hashmap_postproc.put(modelfile, targetfile);
 							}
@@ -593,7 +591,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 											if (doProcess != null) {
 												doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, pathfile);
 											}
-											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile);
+											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile, test);
 										}
 										//hashmap_postproc.put(modelfile, pathfile);
 									}
@@ -612,7 +610,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 														if (doProcess != null) {
 															doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
 														}
-														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock);
+														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock, test);
 													}
 												}
 											}

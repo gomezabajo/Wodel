@@ -27,15 +27,15 @@ class MutaTextGenerator extends AbstractGenerator {
 	private String xmiFileName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
+
 		project = ProjectUtils.getProject()
-		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
+		path = ProjectUtils.getProject.getLocation.toFile.getPath
 
 		for(e: resource.allContents.toIterable.filter(Configuration)) {
 			
 			fileName = resource.URI.lastSegment
 			var xTextFileName = "file:/" + path + "/src/" + fileName
-			xmiFileName = "file:/" + path + '/' + ModelManager.outputFolder + '/' + fileName.replaceAll(".mutatext", "_mutatext.model")
+			xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".mutatext", "_mutatext.model")
 			MutaTextUtils.serialize(xTextFileName, xmiFileName)
 			/* Write the EObject into a file */
 		}

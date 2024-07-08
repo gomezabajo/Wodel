@@ -43,8 +43,6 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
     boolean _tripleNotEquals = (_project != null);
     if (_tripleNotEquals) {
       projectName = ProjectUtils.getProject().getName();
-    } else {
-      projectName = ProjectUtils.projectName;
     }
     return projectName;
   }
@@ -101,12 +99,25 @@ public abstract class WodelAPIGenerator extends AbstractGenerator {
             if (_equals) {
               boolean _equals_1 = file.getName().equals(this.fileName);
               if (_equals_1) {
-                String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(this.getProjectName())).replace("\\", "/");
-                String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath(e);
-                String _plus = ("file:/" + _workspaceAbsolutePath);
-                String _plus_1 = (_plus + "/");
-                String _plus_2 = (_plus_1 + mutatorFolderAndFile);
-                mutatorPath = _plus_2;
+                String _xifexpression = null;
+                int _indexOf = file.getPath().indexOf("/");
+                boolean _notEquals = (_indexOf != (-1));
+                if (_notEquals) {
+                  String _path = file.getPath();
+                  String _projectName = this.getProjectName();
+                  String _plus = ("/" + _projectName);
+                  _xifexpression = file.getPath().substring(_path.lastIndexOf(_plus)).replace("\\", "/");
+                } else {
+                  String _path_1 = file.getPath();
+                  String _projectName_1 = this.getProjectName();
+                  String _plus_1 = ("\\" + _projectName_1);
+                  _xifexpression = file.getPath().substring(_path_1.lastIndexOf(_plus_1)).replace("\\", "/");
+                }
+                String mutatorFolderAndFile = _xifexpression;
+                String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
+                String _plus_2 = ("file:/" + _path_2);
+                String _plus_3 = (_plus_2 + mutatorFolderAndFile);
+                mutatorPath = _plus_3;
               }
             } else {
               mutatorPath = this.getMutatorPath(e, file.listFiles());

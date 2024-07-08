@@ -45,6 +45,7 @@ import edutest.Mode
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
+import wodel.utils.manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -65,8 +66,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
-			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
+			var xmiFileName = projectPath + "/" + outputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
@@ -74,7 +74,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 			val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
 			//val EPackage epackage = mutatorpackages.get(0);
 			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);
-			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
+			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)
 			blocks = ModelManager.getObjectsOfType("Block", mutatormodel)
 
 			for (p : resource.allContents.toIterable.filter(Program)) {
@@ -147,12 +147,13 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «var String solution = diagrams.get(exercise).get(test).get(answersClass) !== null ? diagrams.get(exercise).get(test).get(answersClass).size() > 0 ? diagrams.get(exercise).get(test).get(answersClass).get(0)»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new LinkedHashSet<String>()»
+        «IF diagrams.get(exercise).get(test).get(answersClass) !== null && diagrams.get(exercise).get(test).get(answersClass).size() > 0»
         «{answersSet.addAll(diagrams.get(exercise).get(test).get(answersClass)); ""}»
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
 	    «IF answers.size() > 0»
         <!-- «var String diagram = answers.get(0)»-->
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+        <!--«var File file = new File(projectPath +  "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
         «IF file.isFile && file.exists()»
           <question type="truefalse">
 		    <name>
@@ -200,6 +201,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		  </question>
 		«ENDIF»
 		«ENDIF»
+        «ENDIF»
     	«ENDFOR»
 		«ENDIF»
     	«IF exercise instanceof MultiChoiceDiagram»
@@ -245,7 +247,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «{answersSet.addAll(diagrams.get(exercise).get(test).get(answersClass)); ""}»
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
-           <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
+           <!--«var File file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
            «IF file.isFile && file.exists()»
          <question type="multichoice">
            <name>
@@ -292,7 +294,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <!--«var double fraction = 100.0 / solutions»-->
            «{counter = 0; ""}»
            «FOR String diagram : answers»
-           <!--«file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+           <!--«file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
            «IF file.isFile && file.exists()»
 		   <!-- «uuid = UUID.randomUUID()»-->
 		   «IF diagram.startsWith(answersClass.name) || diagram.contains("/" + answersClass.name) || diagram.contains("\\" + answersClass.name)»
@@ -433,7 +435,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 			«ENDIF»
 			«IF !diagram.equals('')»
 			«{diagram = diagram.substring(0, diagram.lastIndexOf("/") + 1) + answersClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length)}»
-           <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+           <!--«var File file = new File(projectPath +  "/src-gen/html/" + diagram)»-->
            «IF file.isFile && file.exists()»
         <question type="multichoice">
           <name>
@@ -649,7 +651,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!--«var String seed = ''»-->
         <!--«seed = opt.path»-->
         «{seed = seed.substring(0, seed.lastIndexOf("/") + 1) + answersClass.name + "_" + seed.substring(seed.lastIndexOf("/") + 1, seed.length)}»
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + seed)»-->
+        <!--«var File file = new File(projectPath +  "/src-gen/html/" + seed)»-->
         «IF file.isFile && file.exists()»
         <question type="matching">
           <name>
@@ -779,7 +781,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		<!-- «textWithGaps += opWithGaps.trim() + ".<br>"»-->
         «ENDFOR»
 		«{diagram = diagram.substring(0, diagram.lastIndexOf("/") + 1) + answersClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length)}»
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+        <!--«var File file = new File(projectPath + "/src-gen/html/" + diagram)»-->
         «IF file.isFile && file.exists()»
         <question type="gapselect">
           <name>
@@ -867,7 +869,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «{answersSet.addAll(diagrams.get(exercise).get(test).get(answersClass)); ""}»
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
+        <!--«var File file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
         «IF file.isFile && file.exists()»
          <question type="multichoice">
            <name>
@@ -996,7 +998,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
         <!-- «var String diagram = answers.get(0)»-->
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+        <!--«var File file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
         «IF file.isFile && file.exists()»
           <question type="truefalse">
 		    <name>
@@ -1163,7 +1165,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
 		<!-- «textWithGaps += opWithGaps.trim()»-->
         «{diagram = diagram.substring(0, diagram.lastIndexOf("/") + 1) + answersClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length)}»
-        <!--«var File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram)»-->
+        <!--«var File file = new File(projectPath + "/src-gen/html/" + diagram)»-->
         «IF file.isFile && file.exists()»
         <question type="ddwtos">
           <name>

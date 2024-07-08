@@ -24,6 +24,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.ProjectUtils;
 
 public class CleanUpWodelOutputFolder extends AbstractHandler {
 
@@ -39,9 +40,9 @@ public class CleanUpWodelOutputFolder extends AbstractHandler {
 		
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			File projectFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + this.project.getName());
+			File projectFolder = new File(ProjectUtils.getProject().getLocation().toFile().getPath());
 			List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-			String outputWodelFolder = ModelManager.getWorkspaceAbsolutePath() + "/" + this.project.getName() + "/" + ModelManager.getOutputFolder();
+			String outputWodelFolder = ProjectUtils.getProject().getLocation().toFile().getPath() + ModelManager.getOutputFolder();
 			// clean-up output folder preserving xtext auto generated models
 			IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 			IOUtils.deleteFolder(outputWodelFolder, "json", mutatorList);

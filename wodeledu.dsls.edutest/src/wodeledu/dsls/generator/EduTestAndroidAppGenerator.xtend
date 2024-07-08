@@ -28,6 +28,7 @@ import java.util.HashMap
 import edutest.MatchPairs
 import java.util.TreeMap
 import org.eclipse.emf.ecore.EClass
+import wodel.utils.manager.ProjectUtils
 
 class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	
@@ -47,8 +48,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
-			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
+			var xmiFileName = "file:/" + projectPath + "/" + outputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
@@ -121,7 +121,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 				«FOR test : exercise.tests»
 					«IF rand.get(exercise).get(test).size() > 0»
 						«var diagram = rand.get(exercise).get(test).get(0)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+						«IOUtils.copyFile(new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(projectPath + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 						«drawable.put(i,"q" + i + "_enunciado.png")»
 						«{i++; ""}»
 					«ENDIF»
@@ -135,7 +135,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 								«IF opt.text.size > 0»
 									«IF opt.solution == true»
 										«var diagram=opt.path»
-										«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+										«IOUtils.copyFile(new File(projectPath + "/src-gen/html/"+ diagram), new File(projectPath +"/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 										«drawable.put(i,"q" + i + "_enunciado.png")»
 		 								«{i++; ""}»
 									«ENDIF»
@@ -151,7 +151,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 					«var HashMap<Integer,String> diccAux = new HashMap()»
 					«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
 					«FOR String diag : diagrams.get(exercise).get(test).get(eclass)»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
+						«IOUtils.copyFile(new File(projectPath +"/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/"+ diag), new File(projectPath + "/app/mobile/app/src/main/res/drawable/q" + i + "_respuesta"+j+".png"))»
 						«diccAux.put(j, "q" + i + "_respuesta" + j+".png")»
 						«{j++; ""}»
 					«ENDFOR»
@@ -194,7 +194,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 					«ENDIF»
 					«IF opt !== null»
 					    «var diagram=opt.path»
-						«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/src-gen/html/"+ diagram), new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.name + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
+						«IOUtils.copyFile(new File(projectPath + "/src-gen/html/"+ diagram), new File(projectPath + "/app/mobile/app/src/main/res/drawable/q" + i + "_enunciado.png"))»
 						«drawable.put(i,"q" + i + "_enunciado.png")»
 						«{i++; ""}»
 					«ENDIF»

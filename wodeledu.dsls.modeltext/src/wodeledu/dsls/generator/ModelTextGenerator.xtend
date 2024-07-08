@@ -28,15 +28,14 @@ class ModelTextGenerator extends AbstractGenerator {
 	private String xmiFileName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
-		path = ModelManager.getWorkspaceAbsolutePath + '/' + project.name	
+		path = ProjectUtils.getProject.getLocation.toFile.getPath	
 
 		for(e: resource.allContents.toIterable.filter(IdentifyElements)) {
 			
 			fileName = resource.URI.lastSegment
 			var xTextFileName = "file:/" + path + "/src/" + fileName
-			xmiFileName = "file:/" + path + '/' + ModelManager.outputFolder + '/' + fileName.replaceAll(".modeltext", "_modeltext.model")
+			xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".modeltext", "_modeltext.model")
 			ModelTextUtils.serialize(xTextFileName, xmiFileName)
 			/* Write the EObject into a file */
 		}

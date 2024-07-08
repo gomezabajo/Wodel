@@ -37,12 +37,12 @@ class EduTestScopeProvider extends AbstractEduTestScopeProvider {
 	 * MutatorTests.block can refers to any block declared in the .mutator file.
 	 */
 	def IScope scope_MutatorTests_block(MutatorTests mts, EReference ref) {
-		val xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + ProjectUtils.project.name + '/' + ModelManager.getOutputFolder + '/' +  mts.eResource.URI.lastSegment.replaceAll("test", "model")
+		val xmiFileName = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + ModelManager.getOutputFolder + '/' +  mts.eResource.URI.lastSegment.replaceAll("test", "model")
 		val Bundle bundle = Platform.getBundle("wodel.models")
 	   	val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
 		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
-		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
+		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)
 		val List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
 		var List<Block> blocks = new ArrayList<Block>()
 		for (EObject eobject : eobjects) {

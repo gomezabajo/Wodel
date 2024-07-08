@@ -56,7 +56,6 @@ public class MutatorChangeListener implements IResourceChangeListener {
 	
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-		ProjectUtils.resetProject();
 		ProjectUtils.getProject();
 		refreshMutator();
 		//WodelContext.getProject();

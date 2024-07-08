@@ -31,6 +31,7 @@ import java.util.Comparator
 import edutest.Mode
 import edutest.Navigation
 import org.eclipse.emf.ecore.EClass
+import wodel.utils.manager.ProjectUtils
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -51,8 +52,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.name +
-			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
+			var xmiFileName = "file:/" + projectPath + "/" + outputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()

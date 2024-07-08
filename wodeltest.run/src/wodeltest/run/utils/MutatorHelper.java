@@ -2,7 +2,7 @@ package wodeltest.run.utils;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +10,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-
-import wodel.utils.manager.ModelManager;
 
 import java.io.File;
 
@@ -25,7 +23,7 @@ public class MutatorHelper {
 	private IWodelTest test = null;
 
 	private Map<String, Class<?>> getMutators(File folder) {
-		Map<String, Class<?>> mutators = new HashMap<String, Class<?>>();
+		Map<String, Class<?>> mutators = new LinkedHashMap<String, Class<?>>();
 		if (folder.exists() && folder.isDirectory()) {
 			for (File file : folder.listFiles()) {
 				if (file.isFile()) {
@@ -56,7 +54,7 @@ public class MutatorHelper {
 	}
 	
 	public Map<String, Class<?>> getMutators() {
-		Map<String, Class<?>> mutators = new HashMap<String, Class<?>>();
+		Map<String, Class<?>> mutators = new LinkedHashMap<String, Class<?>>();
 		if (source != null && source.exists() && source.isDirectory()) {
 			for (File file : source.listFiles()) {
 				if (file.isFile()) {
@@ -87,7 +85,7 @@ public class MutatorHelper {
 	}
 	
 	public static IWodelTest getTest(IProject project) {
-		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+		String path = project.getLocation().toFile().getPath();
 		String projectNamePath = path + "/data/project.txt";
 		String[] testInfo = WodelTestResultClass.loadProjectInfo(projectNamePath);
 		List<IWodelTest> tests = new ArrayList<IWodelTest>();

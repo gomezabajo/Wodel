@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -90,12 +91,12 @@ public class ATLSemanticValidation extends SemanticValidation {
 		List<Problem> problems = new ArrayList<Problem>();
 		
 		try {
-			File folder = new File(ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getName() + "/temp");
+			String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
+			File folder = new File(projectPath + "/temp");
 			for (File atl_file : folder.listFiles()) {
 				if (atl_file.isFile() && atl_file.getName().endsWith(".atl") && atl_file.length() > 0) {
 					Resource atlTrafo = AtlLoader.load(atl_file.getPath());
 					
-					String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
 					String in = getIn(atl_file.getPath());
 					String inMetamodel = "file:/" + projectPath + "/" + in + ".ecore";
 					String out = getOut(atl_file.getPath());
@@ -145,7 +146,8 @@ public class ATLSemanticValidation extends SemanticValidation {
 			IInjector injector = new EMFInjector();
 			injector.inject(atlModel, "file:/" + path);
 
-			String outputPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/temp/";
+			String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+			String outputPath = projectPath + "/temp/";
 			File outputFolder = new File(outputPath);
 			if (!outputFolder.exists()) {
 				outputFolder.mkdir();

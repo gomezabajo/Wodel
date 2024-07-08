@@ -9,6 +9,10 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.core.runtime.Platform
+import wodel.utils.manager.ProjectUtils
+import wodel.utils.manager.ModelManager
+import wodeledu.dsls.EduTestUtils
+import edutest.Program
 
 /**
  * @author Pablo Gomez-Abajo - Main Wodel-Edu code generator.
@@ -23,24 +27,33 @@ import org.eclipse.core.runtime.Platform
  */
 class EduTestGenerator extends AbstractGenerator {
 
-	@Inject EduTestWebGenerator webGenerator
-	@Inject EduTestMoodleGenerator moodleGenerator
-	@Inject EduTestAndroidAppGenerator androidAppGenerator
-	@Inject EduTestiOSAppGenerator iOSAppGenerator
-
-	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
+	@Inject public EduTestWebGenerator webGenerator
+	@Inject public EduTestMoodleGenerator moodleGenerator
+	@Inject public EduTestAndroidAppGenerator androidAppGenerator
+	@Inject public EduTestiOSAppGenerator iOSAppGenerator
+	
+	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		var String path = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath : null	
+		for(e: resource.allContents.toIterable.filter(Program)) {
+			
+			
+			var String fileName = resource.URI.lastSegment
+			var String xTextFileName = "file:/" + path + "/src/" + fileName
+			var String xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".test", "_test.model")
+			EduTestUtils.serialize(xTextFileName, xmiFileName)
+		}
 		var String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null);
 		if (eduTestMode.equals("Web")) {
-			webGenerator.doGenerate(input, fsa, context)
+			webGenerator.doGenerate(resource, fsa, context)
 		}
 		if (eduTestMode.equals("Moodle")) {
-			moodleGenerator.doGenerate(input, fsa, context)
+			moodleGenerator.doGenerate(resource, fsa, context)
 		}
 		if (eduTestMode.equals("AndroidApp")) {
-			androidAppGenerator.doGenerate(input, fsa, context)
+			androidAppGenerator.doGenerate(resource, fsa, context)
 		}
 		if (eduTestMode.equals("iOSApp")) {
-			iOSAppGenerator.doGenerate(input, fsa, context)
+			iOSAppGenerator.doGenerate(resource, fsa, context)
 		}
 	}
 }

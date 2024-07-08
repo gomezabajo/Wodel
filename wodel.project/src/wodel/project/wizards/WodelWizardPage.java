@@ -3,7 +3,8 @@ package wodel.project.wizards;
 import wodel.extension.generator.IGenerator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -43,7 +44,7 @@ public class WodelWizardPage extends WizardPage {
 	private Text projectText;
 	private Text modelText;
 	private Text mutantText;
-	private HashMap<String, Boolean> wodelExtensions = new HashMap<String, Boolean>();
+	private Map<String, Boolean> wodelExtensions = new LinkedHashMap<String, Boolean>();
 
 	private ISelection selection;
 	
@@ -262,7 +263,7 @@ public class WodelWizardPage extends WizardPage {
 		return projectText.getText();
 	}
 	
-	public HashMap<String, Boolean> getWodelExtensions() {
+	public Map<String, Boolean> getWodelExtensions() {
 		return wodelExtensions;
 	}
 

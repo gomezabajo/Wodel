@@ -69,8 +69,8 @@ public class WodelTest implements IWodelTest {
 	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath) {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		List<WodelTestResultClass> results = globalResult.getResults();
-		String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
-		String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+		String projectPath = project.getLocation().toFile().getPath();
+		String testSuitePath = ResourcesPlugin.getWorkspace().getRoot().getProject(testSuiteProject.getName()).getLocation().toOSString();
 		try {
 			String metamodel = projectPath + "/model/DFAAutomaton.ecore";
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
@@ -168,7 +168,8 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {
-		String targetPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/model/" + className + "/" + folderName + "/" + modelName;
+		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath();
+		String targetPath = projectPath + "/model/" + className + "/" + folderName + "/" + modelName;
 		ModelManager.saveOutModel(model, targetPath);
 		return false;
 	}
@@ -211,8 +212,8 @@ public class WodelTest implements IWodelTest {
 		for (IProject testSuiteProject : testSuitesProjects) {
 			WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName();
-			String testSuitePath = ModelManager.getWorkspaceAbsolutePath() + "/" + testSuiteProject.getName();
+			String projectPath = project.getLocation().toFile().getPath();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath();
 			try {
 				String metamodel = projectPath + "/model/DFAAutomaton.ecore";
 				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);

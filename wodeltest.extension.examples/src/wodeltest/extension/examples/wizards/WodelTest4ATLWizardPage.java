@@ -29,7 +29,7 @@ public class WodelTest4ATLWizardPage extends WizardPage {
 	protected WodelTest4ATLWizardPage(ISelection selection) {
 		super("wizardPage");
 		setTitle("Wodel-Test for ATL Example");
-		setDescription("This wizard creates a new Wodel-Test for ATL Example project.");
+		setDescription("This wizard creates a new Wodel-Test for ATL example project.");
 		this.selection = selection;
 	}
 

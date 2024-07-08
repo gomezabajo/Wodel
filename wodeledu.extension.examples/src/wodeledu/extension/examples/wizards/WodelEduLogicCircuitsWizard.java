@@ -47,7 +47,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodel.dsls.WodelUtils;
 import wodeledu.dsls.ModelTextUtils;
@@ -136,8 +135,6 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 	private void doFinish(String fileName, String projectName,
 			String modelName, String mutantName, IProgressMonitor monitor) throws CoreException {
 
-		ProjectUtils.projectName = projectName;
-		
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
 		folders.add("src-gen");
@@ -168,6 +165,8 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
+		
+		ProjectUtils.setProject(project);
 		
 		monitor.beginTask("Creating data folder", 9);
 		final IFolder dataFolder = project.getFolder(new Path("data"));
@@ -316,8 +315,8 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 			
-		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
-		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
+		String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + fileName;
+		String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + fileName.replaceAll("mutator", "model");
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
 		monitor.beginTask("Creating tests folder", 8);
@@ -466,8 +465,8 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
-		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + idelemsFileName)).getFullPath();
-		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model"))).getFullPath();
+		xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + idelemsFileName;
+		xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model");
 		ModelTextUtils.serialize(xTextFileName, xmiFileName);
 
 		final IFile cfgoptsFile = srcFolder.getFile(new Path(cfgoptsFileName));
@@ -490,8 +489,8 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + cfgoptsFileName)).getFullPath();
-		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + cfgoptsFileName.replaceAll(".mutatext", "_mutatext.model"))).getFullPath();
+		xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + cfgoptsFileName;
+		xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + cfgoptsFileName.replaceAll(".mutatext", "_modeltext.model");
 		MutaTextUtils.serialize(xTextFileName, xmiFileName);
 		
 		final IFile configFile = configFolder.getFile(new Path("config.txt"));

@@ -15,7 +15,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  com.google.guava,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ wodeledu.dsls.modeldraw,
+ wodeledu.dsls.edutest,
+ org.eclipse.xtext.generator,
+ org.eclipse.emf.mwe.core,
+ com.google.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodeledu.extension
 Bundle-ActivationPolicy: lazy

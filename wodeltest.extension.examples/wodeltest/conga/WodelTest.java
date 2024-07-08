@@ -75,6 +75,7 @@ public class WodelTest implements IWodelTest {
 	public static final String RASA_LANGUAGE = "en";
 	public static final String BOTIUM_RASA_MODE_REST_INPUT = "REST_INPUT";
 	public static final String BOTIUM_RASA_MODE_NLU_INPUT = "NLU_INPUT";
+	public static final String CONDA_ENVIRONMENT = "chatbots-test";
 	
 	public static enum TestKind {
 		RASA_TEST,
@@ -165,7 +166,7 @@ public class WodelTest implements IWodelTest {
 	@Override
 	public List<String> artifactPaths(IProject project, String projectPath, File outputFolder, List<String> blockNames) {
 		List<String> artifactPaths = new ArrayList<String>();
-		projectPath = projectPath.replace("\\", "/").replace("//", "/");
+		projectPath = projectPath.replace("\\", "/");
 		String mutantPath = projectPath + "/mutants/zip";
 		File mutantFolder = new File(mutantPath);
 		if (mutantFolder.exists()) {
@@ -266,7 +267,7 @@ public class WodelTest implements IWodelTest {
 			for (String folder : folders) {
 				batwriter.println("cd " + folder);
 			}
-			batwriter.println("call activate chatbots-test");
+			batwriter.println("call activate " + CONDA_ENVIRONMENT);
 			batwriter.println("rasa train");
 			batwriter.println("rasa run -m models --enable-api --cors \"*\" --debug --port " + port);
 			batwriter.close();
@@ -287,7 +288,7 @@ public class WodelTest implements IWodelTest {
 			for (String folder : folders) {
 				batwriter.println("cd " + folder);
 			}
-			batwriter.println("call activate chatbots-test");
+			batwriter.println("call activate " + CONDA_ENVIRONMENT);
 			batwriter.println("rasa train");
 			batwriter.println("rasa test core --stories tests/conversation_tests.md --successes");
 			batwriter.println("exit");
@@ -724,7 +725,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -853,7 +854,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -982,7 +983,7 @@ public class WodelTest implements IWodelTest {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
-			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
 			String chatbotFile = artifactPath;
@@ -1100,7 +1101,7 @@ public class WodelTest implements IWodelTest {
 			List<IProject> rasaTests = new ArrayList<IProject>();
 			List<IProject> botiumTests = new ArrayList<IProject>();
 			for (IProject testSuiteProject : testSuitesProjects) {
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				TestKind testKind = getTestKind(testSuitePath);
 				if (testKind == TestKind.RASA_TEST) {
 					rasaTests.add(testSuiteProject);
@@ -1111,7 +1112,7 @@ public class WodelTest implements IWodelTest {
 			}
 			/*** ejecutar test en rasa ***/
 			for (IProject testSuiteProject : rasaTests) {
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());
 				String mutant = chatbotName; 
 				chatbotName = chatbotName.substring(0, chatbotName.indexOf("/"));
@@ -1181,7 +1182,7 @@ public class WodelTest implements IWodelTest {
 				}
 				for (IProject botiumTestSuiteProject : botiumTests) {
 					/*** aplicar el test ***/
-					String testSuitePath = botiumTestSuiteProject.getLocation().toFile().getPath().toString();
+					String testSuitePath = botiumTestSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 					BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 					String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 					testSuitePath += "/" + chatbotName + "/base";
@@ -1264,7 +1265,7 @@ public class WodelTest implements IWodelTest {
 		List<IProject> rasaTests = new ArrayList<IProject>();
 		List<IProject> botiumTests = new ArrayList<IProject>();
 		for (IProject testSuiteProject : testSuitesProjects) {
-			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 			TestKind testKind = getTestKind(testSuitePath);
 			if (testKind == TestKind.RASA_TEST) {
 				rasaTests.add(testSuiteProject);
@@ -1276,7 +1277,7 @@ public class WodelTest implements IWodelTest {
 		/*** ejecutar test en rasa ***/
 		for (IProject testSuiteProject : rasaTests) {
 			try {
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				String rasaResultsPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				IOUtils.copyFolder(chatbotPath, rasaResultsPath);
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1342,7 +1343,7 @@ public class WodelTest implements IWodelTest {
 		/*** aplicar test de botium ***/
 		for (IProject testSuiteProject : botiumTests) {
 			try {
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 				String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1424,7 +1425,7 @@ public class WodelTest implements IWodelTest {
 		List<IProject> rasaTests = new ArrayList<IProject>();
 		List<IProject> botiumTests = new ArrayList<IProject>();
 		for (IProject testSuiteProject : testSuitesProjects) {
-			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+			String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 			TestKind testKind = getTestKind(testSuitePath);
 			if (testKind == TestKind.RASA_TEST) {
 				rasaTests.add(testSuiteProject);
@@ -1436,7 +1437,7 @@ public class WodelTest implements IWodelTest {
 		for (IProject testSuiteProject : rasaTests) {
 			try {
 				/*** ejecutar test en rasa ***/
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				String rasaResultsPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				IOUtils.copyFolder(chatbotPath, rasaResultsPath);
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1494,7 +1495,7 @@ public class WodelTest implements IWodelTest {
 		/*** aplicar test de botium ***/
 		for (IProject testSuiteProject : botiumTests) {
 			try {
-				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().toString();
+				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				BotiumRasaMode rasaMode = getBotiumRasaMode(testSuitePath);
 				String botiumPath = testSuitePath  + "/" + chatbotName + "/" + mutant;
 				testSuitePath += "/" + chatbotName + "/base";
@@ -1541,8 +1542,7 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public void projectToModel(String projectName, Class<?> cls) {
-		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toOSString();
-		projectPath = projectPath.replace("\\", "/");
+		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
 		String targetPath = ModelManager.getMetaModelPath(cls);
 		File sourceFolder = new File(projectPath + "/zip");
 		for (File source : sourceFolder.listFiles()) {
@@ -1562,7 +1562,7 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public void projectToModel(IProject project, Class<?> cls) {
-		String projectPath = project.getLocation().toFile().toPath().toString();
+		String projectPath = project.getLocation().toFile().toPath().toString().replace("\\", "/");
 		String targetPath = ModelManager.getMetaModelPath(cls);
 		File sourceFolder = new File(projectPath + "/zip");
 		for (File source : sourceFolder.listFiles()) {
@@ -1592,7 +1592,8 @@ public class WodelTest implements IWodelTest {
 		}
 		String seedFile = models.get(0);
 		String seedName = seedFile.substring(seedFile.lastIndexOf("/") + 1, seedFile.length()).replace(".model", "");
-		String outputSeedPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/mutants/zip/" + className + "/" + seedName;
+		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/");
+		String outputSeedPath = projectPath + "/mutants/zip/" + className + "/" + seedName;
 		if (!new File(outputSeedPath).exists()) {
 			try {
 				RasaParserGenerator.doRasaGenerator(seedFile, outputSeedPath, RASA_VERSION);
@@ -1603,7 +1604,7 @@ public class WodelTest implements IWodelTest {
 		}
 		
 		String inputFile = ModelManager.getOutputPath(cls) + "/" + className + "/" + folderName + "/" + modelName;
-		String outputPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/mutants/zip/" + className + "/" + folderName;
+		String outputPath = projectPath + "/mutants/zip/" + className + "/" + folderName;
 		try {
 			RasaParserGenerator.doRasaGenerator(inputFile, outputPath, RASA_VERSION);
 		} catch (Exception e) {
@@ -1626,7 +1627,7 @@ public class WodelTest implements IWodelTest {
 		}
 		String seedFile = models.get(0);
 		String seedName = seedFile.substring(seedFile.lastIndexOf("/") + 1, seedFile.length()).replace(".model", "");
-		String outputSeedPath = project.getLocation().toFile().toPath().toFile() + "/mutants/zip/" + className + "/" + seedName;
+		String outputSeedPath = project.getLocation().toFile().getPath().replace("\\", "/") + "/mutants/zip/" + className + "/" + seedName;
 		if (!new File(outputSeedPath).exists()) {
 			try {
 				RasaParserGenerator.doRasaGenerator(seedFile, outputSeedPath, RASA_VERSION);
@@ -1637,7 +1638,7 @@ public class WodelTest implements IWodelTest {
 		}
 		
 		String inputFile = ModelManager.getOutputPath(cls) + "/" + className + "/" + folderName + "/" + modelName;
-		String outputPath = project.getLocation().toFile().toPath().toFile() + "/mutants/zip/" + className + "/" + folderName;
+		String outputPath = project.getLocation().toFile().getPath().replace("\\", "/") + "/mutants/zip/" + className + "/" + folderName;
 		try {
 			RasaParserGenerator.doRasaGenerator(inputFile, outputPath, RASA_VERSION);
 		} catch (Exception e) {

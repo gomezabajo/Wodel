@@ -37,13 +37,11 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	private List<EClass> roots 
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject();
 		project = ProjectUtils.getProject();
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + project.getName() +
-			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
+			var xmiFileName = "file:/" + projectPath + "/" + outputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
@@ -84,13 +82,13 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 						«FOR test : exercise.tests»
 							«IF rand.get(exercise).get(test).size() > 0»
 								«var diagram = rand.get(exercise).get(test).get(0)»
-								«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
+								«var String diagramFolderName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
 								«var File diagramFolder = new File(diagramFolderName)»
 								«IF diagramFolder.exists() == false»
 								«{diagramFolder.mkdirs(); ""}»
 								«ENDIF»
-								«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
-								//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
+								«var String diagramFileName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
+								//«IOUtils.copyFile(new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram), new File(diagramFileName))»
 								«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
 								//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
 								//«drawable.put(i, "ejercicio" + i + ".png")»
@@ -105,14 +103,14 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 												«FOR opt : options.get(exercise).get(test)»
 													«IF opt.text.size > 0»
 														«IF opt.solution == true»
-														«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
+														«var String diagramFolderName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
 														«var File diagramFolder = new File(diagramFolderName)»
 														«IF diagramFolder.exists() == false»
 															«{diagramFolder.mkdirs(); ""}»
 														«ENDIF»
 															«var diagram=opt.path»
-															«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/enunciado" + i + ".png"»
-															//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram), new File(diagramFileName))»
+															«var String diagramFileName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/enunciado" + i + ".png"»
+															//«IOUtils.copyFile(new File(projectPath + "/src-gen/html/" + diagram), new File(diagramFileName))»
 															«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
 															//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
 															//«drawable.put(i, "ejercicio" + i + ".png")»
@@ -130,13 +128,13 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 										«var TreeMap<Integer,String> diccAux = new TreeMap()»
 										«FOR EClass eclass : diagrams.get(exercise).get(test).keySet()»
 										«FOR String diag : diagrams.get(exercise).get(test).get(eclass)»
-											«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/"»
+											«var String diagramFolderName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/"»
 											«var File diagramFolder = new File(diagramFolderName)»
 											«IF diagramFolder.exists() == false»
 												«{diagramFolder.mkdirs(); ""}»
 											«ENDIF»
-											«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/ejercicio" + i + "respuesta" + j + ".png"»																					
-											//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diag), new File(diagramFileName))»
+											«var String diagramFileName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/ejercicio" + i + "respuesta" + j + ".png"»																					
+											//«IOUtils.copyFile(new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diag), new File(diagramFileName))»
 											«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + "respuesta" + j +".imageset/Contents.json"»
 											//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  															
 											//«diccAux.put(j, "ejercicio" + i + "respuesta" + j+".png")»
@@ -180,14 +178,14 @@ class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 											//«opt = options.get(exercise).get(test).get(index)»
 										«ENDIF»
 										«IF opt !== null»
-											«var String diagramFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
+											«var String diagramFolderName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/"»
 											«var File diagramFolder = new File(diagramFolderName)»
 											«IF diagramFolder.exists() == false»
 												«{diagramFolder.mkdirs(); ""}»
 											«ENDIF»  
 										    «var diagram=opt.path»
-											«var String diagramFileName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
-											//«IOUtils.copyFile(new File(ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/src-gen/html/" + diagram), new File(diagramFileName))»
+											«var String diagramFileName = projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/ejercicio" + i + ".png"»
+											//«IOUtils.copyFile(new File(projectPath + "/src-gen/html/" + diagram), new File(diagramFileName))»
 											«var String jsonDiagramFileName = "../app/ios/tfgApp/Assets.xcassets/ejercicio" + i + ".imageset/Contents.json"»
 											//«fsa.generateFile(jsonDiagramFileName, diagramFileName.substring(diagramFileName.lastIndexOf("/") + 1, diagramFileName.length).compileJsonDiagramFile)»  
 											//«drawable.put(i, "ejercicio" + i + ".png")»

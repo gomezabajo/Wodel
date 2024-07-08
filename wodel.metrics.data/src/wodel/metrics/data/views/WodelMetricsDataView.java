@@ -82,7 +82,7 @@ public class WodelMetricsDataView extends ViewPart implements ISelectionChangedL
 	}
 
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.isReadyProject() != true) {
+		if (ProjectUtils.projectsAreReady() == null) {
 			return;
 		}
 		try {

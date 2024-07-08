@@ -1,20 +1,15 @@
 package wodeltest.extension.examples.utils;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -45,7 +40,6 @@ import org.eclipse.xtext.ui.XtextProjectHelper;
 
 import wodeltest.extension.examples.builder.WodelTestBuilder;
 import wodeltest.extension.examples.builder.WodelTestNature;
-import wodeltest.extension.examples.wizards.WodelTest4CongaWizard;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel project examples creation Eclipse Helper.

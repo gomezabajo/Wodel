@@ -9,11 +9,12 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 
+import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 
@@ -129,7 +130,7 @@ public class RunWodel extends AbstractHandler {
 			Object result = null;
 			try {
 				ob = cls.getDeclaredConstructor().newInstance();
-				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class, HashMap.class});
+				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, Map.class, Map.class});
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "3", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", true, null);
@@ -151,24 +152,28 @@ public class RunWodel extends AbstractHandler {
 				}
 			});
 			
+			String outputPath = ModelManager.getOutputPath();
 			try {
 				File[] files = null;
-				HashMap<String, Resource> hashmap_regpostseed = new HashMap<String, Resource>();
-				HashMap<String, Resource> hashmap_regpostmutant = new HashMap<String, Resource>();
+				Map<String, Resource> hashmap_regpostseed = new LinkedHashMap<String, Resource>();
+				Map<String, Resource> hashmap_regpostmutant = new LinkedHashMap<String, Resource>();
 				List<String> modelpaths = ModelManager.getModels();
 				for (String ecoreURI : modelpaths) {
 					Resource modelfile = ModelManager.loadModel(packages, ecoreURI);
-					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
+					files = new File(outputPath + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 					if (files != null) {
 						for (int i = 0; i < files.length; i++) {
 							if (files[i].isDirectory() == true) {
-								if (files[i].getName().equals("registry") == true) {
+								if (files[i].getName().startsWith("Output") && files[i].getName().endsWith("vs")) {
+									IOUtils.deleteFolder(files[i].getPath());
+								}
+								else if (files[i].getName().equals("registry") == true) {
 									File[] regfiles = files[i].listFiles();
 									for (int j = 0; j < regfiles.length; j++) {
 										String pathfile = regfiles[j].getPath();
 										if (pathfile.endsWith(".model") == true) {
 											hashmap_regpostseed.put(pathfile, modelfile);
-											Resource mutant = ModelManager.loadModel(packages, ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regfiles[j].getName().replace("Registry", "")); 
+											Resource mutant = ModelManager.loadModel(packages, outputPath + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regfiles[j].getName().replace("Registry", "")); 
 											hashmap_regpostmutant.put(pathfile, mutant);
 											try {
 												mutant.unload();
@@ -182,7 +187,10 @@ public class RunWodel extends AbstractHandler {
 									File[] regFilesBlock = files[i].listFiles();
 									for (int j = 0; j < regFilesBlock.length; j++) {
 										if (regFilesBlock[j].isDirectory() == true) {
-											if (regFilesBlock[j].getName().equals("registry") == true) {
+											if (regFilesBlock[j].getName().startsWith("Output") && regFilesBlock[j].getName().endsWith("vs")) {
+												IOUtils.deleteFolder(regFilesBlock[j].getPath());
+											}
+											else if (regFilesBlock[j].getName().equals("registry") == true) {
 												File[] regfiles = regFilesBlock[j].listFiles();
 												for (int k = 0; k < regfiles.length; k++) {
 													String pathfile = regfiles[k].getPath();
@@ -208,7 +216,7 @@ public class RunWodel extends AbstractHandler {
 												}
 											}
 											else {
-												String blockModelFolder = ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regFilesBlock[j].getName();
+												String blockModelFolder = outputPath + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regFilesBlock[j].getName();
 												MutatorUtils.generateRegistryPaths(regFilesBlock[j], packages, hashmap_regpostseed, hashmap_regpostmutant, files[i], blockModelFolder);
 											}
 										}
@@ -249,7 +257,7 @@ public class RunWodel extends AbstractHandler {
 			}
 
 			try {
-				HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
+				Map<Resource, String> hashmap_postproc = new LinkedHashMap<Resource, String>();
 				File[] files = null;
 				List<String> modelpaths = ModelManager.getModels();
 				File[] sourcefiles = new File(metamodelpath).listFiles();
@@ -269,7 +277,7 @@ public class RunWodel extends AbstractHandler {
 					}
 				}
 				for (String ecoreURI : modelpaths) {
-					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
+					files = new File(outputPath + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 					if (files != null) {
 						for (int i = 0; i < files.length; i++) {
 							if (files[i].isFile() == true) {
@@ -355,6 +363,7 @@ public class RunWodel extends AbstractHandler {
 				e.printStackTrace();
 			}
 
+			boolean hasMutApplication = false;
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(
@@ -365,6 +374,7 @@ public class RunWodel extends AbstractHandler {
 								.createExecutableExtension("class");
 						Set<String> wodelExtensions = ModelManager.getExtensions();
 						if (wodelExtensions.contains(src.getName())) {
+							hasMutApplication = true;
 							src.doRun(file);
 						}
 					} catch (CoreException e1) {
@@ -374,6 +384,18 @@ public class RunWodel extends AbstractHandler {
 				}
 			}
 			
+			if (hasMutApplication) {
+				final String textToShowPostProcessing = "Wodel post-processing extension finished succesfully";
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+						MessageBox messageBox = new MessageBox(shell);
+						messageBox.setText("Wodel post-processing extension completed");
+						messageBox.setMessage(textToShowPostProcessing);
+						messageBox.open();
+					}
+				});
+			}
 			try {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			} catch (CoreException ex) {
@@ -391,7 +413,8 @@ public class RunWodel extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
     	try {
     		RunWodelWithProgress runWodelWithProgress = new RunWodelWithProgress(event);
-    		new ProgressMonitorDialog(HandlerUtil.getActiveShell(event)).run(true, true, runWodelWithProgress);
+    		ProgressMonitorDialog monitor = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
+    		monitor.run(true, true, runWodelWithProgress);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<PFSM:PFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:PFSM="http://pfsm/1.0" xmi:id="_DghHEAQUEeepNvJoeelbpw">
+<PFSM:PFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:PFSM="http://pfsm/1.0" xmi:id="_DghHEAQUEeepNvJoeelbpw" name="pfsm">
   <states xmi:id="_h_VZ8AQUEeepNvJoeelbpw" name="s1" isInitial="true"/>
   <states xmi:id="_lYP2gAQUEeepNvJoeelbpw" name="s2"/>
   <states xmi:id="_mW86cAQUEeepNvJoeelbpw" name="s3" isFinal="true"/>

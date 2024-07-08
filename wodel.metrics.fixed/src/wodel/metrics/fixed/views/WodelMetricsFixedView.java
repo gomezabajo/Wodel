@@ -161,7 +161,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 	}
 
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.isReadyProject() != true) {
+		if (ProjectUtils.projectsAreReady() == null) {
 			return;
 		}
 		String metamodel = ModelManager.getMetaModel();

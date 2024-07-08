@@ -66,18 +66,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
     try {
       try {
         int i = 0;
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-        String _plus = ("file:/" + _workspaceAbsolutePath);
-        String _plus_1 = (_plus + "/");
-        String _name = this.project.getName();
-        String _plus_2 = (_plus_1 + _name);
-        String _plus_3 = (_plus_2 + 
-          "/");
-        String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_4 = (_plus_3 + _outputFolder);
-        String _plus_5 = (_plus_4 + "/");
         String _replaceAll = resource.getURI().lastSegment().replaceAll(".test", ".model");
-        String xmiFileName = (_plus_5 + _replaceAll);
+        String xmiFileName = ((((("file:/" + this.projectPath) + "/") + this.outputFolder) + "/") + _replaceAll);
         final Bundle bundle = Platform.getBundle("wodel.models");
         final URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
         final String mutatorecore = FileLocator.resolve(fileURL).getFile();
@@ -89,22 +79,22 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
           {
             if ((i == 0)) {
               String _replaceAll_1 = resource.getURI().lastSegment().replaceAll(".test", "");
-              String _plus_6 = ("html/" + _replaceAll_1);
-              String _plus_7 = (_plus_6 + ".html");
-              this.fileName = _plus_7;
+              String _plus = ("html/" + _replaceAll_1);
+              String _plus_1 = (_plus + ".html");
+              this.fileName = _plus_1;
               String _replaceAll_2 = resource.getURI().lastSegment().replaceAll(".test", "");
-              String _plus_8 = (_replaceAll_2 + ".html");
-              this.pageName = _plus_8;
+              String _plus_2 = (_replaceAll_2 + ".html");
+              this.pageName = _plus_2;
             } else {
               String _replaceAll_3 = resource.getURI().lastSegment().replaceAll(".test", "");
-              String _plus_9 = ("html/" + _replaceAll_3);
-              String _plus_10 = (_plus_9 + Integer.valueOf(i));
-              String _plus_11 = (_plus_10 + ".html");
-              this.fileName = _plus_11;
+              String _plus_3 = ("html/" + _replaceAll_3);
+              String _plus_4 = (_plus_3 + Integer.valueOf(i));
+              String _plus_5 = (_plus_4 + ".html");
+              this.fileName = _plus_5;
               String _replaceAll_4 = resource.getURI().lastSegment().replaceAll(".test", "");
-              String _plus_12 = (_replaceAll_4 + Integer.valueOf(i));
-              String _plus_13 = (_plus_12 + ".html");
-              this.pageName = _plus_13;
+              String _plus_6 = (_replaceAll_4 + Integer.valueOf(i));
+              String _plus_7 = (_plus_6 + ".html");
+              this.pageName = _plus_7;
             }
             ArrayList<EPackage> _arrayList = new ArrayList<EPackage>();
             this.metamodel = _arrayList;

@@ -11,7 +11,7 @@ public class WodelNature implements IProjectNature {
 	/**
 	 * ID of this project nature
 	 */
-	public static final String NATURE_ID = "wodel.project.sampleNature";
+	public static final String NATURE_ID = "wodel.project.wodelNature";
 
 	private IProject project;
 
@@ -46,7 +46,7 @@ public class WodelNature implements IProjectNature {
 				System.arraycopy(commands, i + 1, newCommands, i,
 						commands.length - i - 1);
 				description.setBuildSpec(newCommands);
-				project.setDescription(description, null);
+				project.setDescription(description, null);			
 				return;
 			}
 		}
@@ -61,5 +61,4 @@ public class WodelNature implements IProjectNature {
 	public void setProject(IProject project) {
 		this.project = project;
 	}
-
 }

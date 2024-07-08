@@ -1,9 +1,8 @@
 package wodel.utils.manager;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,8 +31,8 @@ import wodel.utils.manager.MutatorUtils.MutationResults;
 public interface IMutatorExecutor {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry,
 			boolean metrics, boolean debugMetrics, String[] blockNames, IProject project,
-			IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes,
-			HashMap<String, EPackage> registeredPackages)  
+			IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes,
+			Map<String, EPackage> registeredPackages)  
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 				AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 				MetaModelNotFoundException,	ModelNotFoundException, IOException;

@@ -13,7 +13,7 @@ public class ATLSuTAndTestSuiteWizardPage extends WizardPage {
 	
 	protected ATLSuTAndTestSuiteWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for ATL example");
+		setTitle("Wodel-Test for ATL");
 		setDescription("This wizard creates the Wodel-Test for ATL example.");
 		this.selection = selection;
 	}

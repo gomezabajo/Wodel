@@ -55,22 +55,11 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
-      ProjectUtils.resetProject();
       this.project = ProjectUtils.getProject();
       try {
         int i = 0;
-        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-        String _plus = ("file:/" + _workspaceAbsolutePath);
-        String _plus_1 = (_plus + "/");
-        String _name = this.project.getName();
-        String _plus_2 = (_plus_1 + _name);
-        String _plus_3 = (_plus_2 + 
-          "/");
-        String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_4 = (_plus_3 + _outputFolder);
-        String _plus_5 = (_plus_4 + "/");
         String _replaceAll = resource.getURI().lastSegment().replaceAll(".test", ".model");
-        String xmiFileName = (_plus_5 + _replaceAll);
+        String xmiFileName = ((((("file:/" + this.projectPath) + "/") + this.outputFolder) + "/") + _replaceAll);
         final Bundle bundle = Platform.getBundle("wodel.models");
         final URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
         final String mutatorecore = FileLocator.resolve(fileURL).getFile();
@@ -141,13 +130,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       List<String> diagram = this.rand.get(exercise).get(test).get(Integer.valueOf(0));
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
-                      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus = (_workspaceAbsolutePath + "/");
-                      String _name = this.project.getName();
-                      String _plus_1 = (_plus + _name);
-                      String _plus_2 = (_plus_1 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_3 = (_plus_2 + Integer.valueOf(i));
-                      String diagramFolderName = (_plus_3 + ".imageset/");
+                      String diagramFolderName = (((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       File diagramFolder = new File(diagramFolderName);
@@ -167,28 +150,15 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         }
                       }
                       _builder.append("\t\t");
-                      String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_4 = (_workspaceAbsolutePath_1 + "/");
-                      String _name_1 = this.project.getName();
-                      String _plus_5 = (_plus_4 + _name_1);
-                      String _plus_6 = (_plus_5 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_7 = (_plus_6 + Integer.valueOf(i));
-                      String _plus_8 = (_plus_7 + ".imageset/ejercicio");
-                      String _plus_9 = (_plus_8 + Integer.valueOf(i));
-                      String diagramFileName = (_plus_9 + ".png");
+                      String diagramFileName = (((((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/ejercicio") + Integer.valueOf(i)) + ".png");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       _builder.append("//");
-                      String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_10 = (_workspaceAbsolutePath_2 + "/");
-                      String _name_2 = this.project.getName();
-                      String _plus_11 = (_plus_10 + _name_2);
-                      String _plus_12 = (_plus_11 + "/src-gen/html/diagrams/");
                       String _replace = test.getSource().replace(".model", "");
-                      String _plus_13 = (_plus_12 + _replace);
-                      String _plus_14 = (_plus_13 + "/");
-                      String _plus_15 = (_plus_14 + diagram);
-                      File _file = new File(_plus_15);
+                      String _plus = ((this.projectPath + "/src-gen/html/diagrams/") + _replace);
+                      String _plus_1 = (_plus + "/");
+                      String _plus_2 = (_plus_1 + diagram);
+                      File _file = new File(_plus_2);
                       File _file_1 = new File(diagramFileName);
                       IOUtils.copyFile(_file, _file_1);
                       _builder.newLineIfNotEmpty();
@@ -198,8 +168,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       _builder.append("//");
                       int _lastIndexOf = diagramFileName.lastIndexOf("/");
-                      int _plus_16 = (_lastIndexOf + 1);
-                      fsa.generateFile(jsonDiagramFileName, this.compileJsonDiagramFile(diagramFileName.substring(_plus_16, diagramFileName.length())));
+                      int _plus_3 = (_lastIndexOf + 1);
+                      fsa.generateFile(jsonDiagramFileName, this.compileJsonDiagramFile(diagramFileName.substring(_plus_3, diagramFileName.length())));
                       _builder.append("  ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
@@ -242,13 +212,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                   {
                                     if ((opt.solution == true)) {
                                       _builder.append("\t\t");
-                                      String _workspaceAbsolutePath_3 = ModelManager.getWorkspaceAbsolutePath();
-                                      String _plus_17 = (_workspaceAbsolutePath_3 + "/");
-                                      String _name_3 = this.project.getName();
-                                      String _plus_18 = (_plus_17 + _name_3);
-                                      String _plus_19 = (_plus_18 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                                      String _plus_20 = (_plus_19 + Integer.valueOf(i));
-                                      String diagramFolderName_1 = (_plus_20 + ".imageset/");
+                                      String diagramFolderName_1 = (((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t");
                                       File diagramFolder_1 = new File(diagramFolderName_1);
@@ -273,26 +237,12 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t");
                                       _builder.append("\t");
-                                      String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
-                                      String _plus_21 = (_workspaceAbsolutePath_4 + "/");
-                                      String _name_4 = this.project.getName();
-                                      String _plus_22 = (_plus_21 + _name_4);
-                                      String _plus_23 = (_plus_22 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                                      String _plus_24 = (_plus_23 + Integer.valueOf(i));
-                                      String _plus_25 = (_plus_24 + ".imageset/enunciado");
-                                      String _plus_26 = (_plus_25 + Integer.valueOf(i));
-                                      String diagramFileName_1 = (_plus_26 + ".png");
+                                      String diagramFileName_1 = (((((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/enunciado") + Integer.valueOf(i)) + ".png");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t");
                                       _builder.append("\t");
                                       _builder.append("//");
-                                      String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
-                                      String _plus_27 = (_workspaceAbsolutePath_5 + "/");
-                                      String _name_5 = this.project.getName();
-                                      String _plus_28 = (_plus_27 + _name_5);
-                                      String _plus_29 = (_plus_28 + "/src-gen/html/");
-                                      String _plus_30 = (_plus_29 + diagram_1);
-                                      File _file_2 = new File(_plus_30);
+                                      File _file_2 = new File(((this.projectPath + "/src-gen/html/") + diagram_1));
                                       File _file_3 = new File(diagramFileName_1);
                                       IOUtils.copyFile(_file_2, _file_3);
                                       _builder.newLineIfNotEmpty();
@@ -304,8 +254,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                                       _builder.append("\t");
                                       _builder.append("//");
                                       int _lastIndexOf_1 = diagramFileName_1.lastIndexOf("/");
-                                      int _plus_31 = (_lastIndexOf_1 + 1);
-                                      fsa.generateFile(jsonDiagramFileName_1, this.compileJsonDiagramFile(diagramFileName_1.substring(_plus_31, diagramFileName_1.length())));
+                                      int _plus_4 = (_lastIndexOf_1 + 1);
+                                      fsa.generateFile(jsonDiagramFileName_1, this.compileJsonDiagramFile(diagramFileName_1.substring(_plus_4, diagramFileName_1.length())));
                                       _builder.append("  ");
                                       _builder.newLineIfNotEmpty();
                                       _builder.append("\t\t");
@@ -355,15 +305,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                         List<String> _get_2 = this.diagrams.get(exercise).get(test_2).get(eclass);
                         for(final String diag : _get_2) {
                           _builder.append("\t\t");
-                          String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-                          String _plus_32 = (_workspaceAbsolutePath_6 + "/");
-                          String _name_6 = this.project.getName();
-                          String _plus_33 = (_plus_32 + _name_6);
-                          String _plus_34 = (_plus_33 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                          String _plus_35 = (_plus_34 + Integer.valueOf(i));
-                          String _plus_36 = (_plus_35 + "respuesta");
-                          String _plus_37 = (_plus_36 + Integer.valueOf(j));
-                          String diagramFolderName_2 = (_plus_37 + ".imageset/");
+                          String diagramFolderName_2 = (((((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".imageset/");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t\t");
                           File diagramFolder_2 = new File(diagramFolderName_2);
@@ -383,33 +325,16 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                             }
                           }
                           _builder.append("\t\t");
-                          String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-                          String _plus_38 = (_workspaceAbsolutePath_7 + "/");
-                          String _name_7 = this.project.getName();
-                          String _plus_39 = (_plus_38 + _name_7);
-                          String _plus_40 = (_plus_39 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                          String _plus_41 = (_plus_40 + Integer.valueOf(i));
-                          String _plus_42 = (_plus_41 + "respuesta");
-                          String _plus_43 = (_plus_42 + Integer.valueOf(j));
-                          String _plus_44 = (_plus_43 + ".imageset/ejercicio");
-                          String _plus_45 = (_plus_44 + Integer.valueOf(i));
-                          String _plus_46 = (_plus_45 + "respuesta");
-                          String _plus_47 = (_plus_46 + Integer.valueOf(j));
-                          String diagramFileName_2 = (_plus_47 + ".png");
+                          String diagramFileName_2 = (((((((((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".imageset/ejercicio") + Integer.valueOf(i)) + "respuesta") + Integer.valueOf(j)) + ".png");
                           _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t\t");
                           _builder.append("//");
-                          String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
-                          String _plus_48 = (_workspaceAbsolutePath_8 + "/");
-                          String _name_8 = this.project.getName();
-                          String _plus_49 = (_plus_48 + _name_8);
-                          String _plus_50 = (_plus_49 + "/src-gen/html/diagrams/");
                           String _replace_1 = test_2.getSource().replace(".model", "");
-                          String _plus_51 = (_plus_50 + _replace_1);
-                          String _plus_52 = (_plus_51 + "/");
-                          String _plus_53 = (_plus_52 + diag);
-                          File _file_4 = new File(_plus_53);
+                          String _plus_5 = ((this.projectPath + "/src-gen/html/diagrams/") + _replace_1);
+                          String _plus_6 = (_plus_5 + "/");
+                          String _plus_7 = (_plus_6 + diag);
+                          File _file_4 = new File(_plus_7);
                           File _file_5 = new File(diagramFileName_2);
                           IOUtils.copyFile(_file_4, _file_5);
                           _builder.newLineIfNotEmpty();
@@ -419,8 +344,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                           _builder.append("\t\t");
                           _builder.append("//");
                           int _lastIndexOf_2 = diagramFileName_2.lastIndexOf("/");
-                          int _plus_54 = (_lastIndexOf_2 + 1);
-                          fsa.generateFile(jsonDiagramFileName_2, this.compileJsonDiagramFile(diagramFileName_2.substring(_plus_54, diagramFileName_2.length())));
+                          int _plus_8 = (_lastIndexOf_2 + 1);
+                          fsa.generateFile(jsonDiagramFileName_2, this.compileJsonDiagramFile(diagramFileName_2.substring(_plus_8, diagramFileName_2.length())));
                           _builder.append("  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t\t");
@@ -569,13 +494,7 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                   {
                     if ((opt_2 != null)) {
                       _builder.append("\t\t");
-                      String _workspaceAbsolutePath_9 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_55 = (_workspaceAbsolutePath_9 + "/");
-                      String _name_9 = this.project.getName();
-                      String _plus_56 = (_plus_55 + _name_9);
-                      String _plus_57 = (_plus_56 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_58 = (_plus_57 + Integer.valueOf(i));
-                      String diagramFolderName_3 = (_plus_58 + ".imageset/");
+                      String diagramFolderName_3 = (((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       File diagramFolder_3 = new File(diagramFolderName_3);
@@ -598,25 +517,11 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       String diagram_2 = opt_2.path;
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
-                      String _workspaceAbsolutePath_10 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_59 = (_workspaceAbsolutePath_10 + "/");
-                      String _name_10 = this.project.getName();
-                      String _plus_60 = (_plus_59 + _name_10);
-                      String _plus_61 = (_plus_60 + "/app/ios/tfgApp/Assets.xcassets/ejercicio");
-                      String _plus_62 = (_plus_61 + Integer.valueOf(i));
-                      String _plus_63 = (_plus_62 + ".imageset/ejercicio");
-                      String _plus_64 = (_plus_63 + Integer.valueOf(i));
-                      String diagramFileName_3 = (_plus_64 + ".png");
+                      String diagramFileName_3 = (((((this.projectPath + "/app/ios/tfgApp/Assets.xcassets/ejercicio") + Integer.valueOf(i)) + ".imageset/ejercicio") + Integer.valueOf(i)) + ".png");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");
                       _builder.append("//");
-                      String _workspaceAbsolutePath_11 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_65 = (_workspaceAbsolutePath_11 + "/");
-                      String _name_11 = this.project.getName();
-                      String _plus_66 = (_plus_65 + _name_11);
-                      String _plus_67 = (_plus_66 + "/src-gen/html/");
-                      String _plus_68 = (_plus_67 + diagram_2);
-                      File _file_6 = new File(_plus_68);
+                      File _file_6 = new File(((this.projectPath + "/src-gen/html/") + diagram_2));
                       File _file_7 = new File(diagramFileName_3);
                       IOUtils.copyFile(_file_6, _file_7);
                       _builder.newLineIfNotEmpty();
@@ -626,8 +531,8 @@ public class EduTestiOSAppGenerator extends EduTestSuperGenerator {
                       _builder.append("\t\t");
                       _builder.append("//");
                       int _lastIndexOf_3 = diagramFileName_3.lastIndexOf("/");
-                      int _plus_69 = (_lastIndexOf_3 + 1);
-                      fsa.generateFile(jsonDiagramFileName_3, this.compileJsonDiagramFile(diagramFileName_3.substring(_plus_69, diagramFileName_3.length())));
+                      int _plus_9 = (_lastIndexOf_3 + 1);
+                      fsa.generateFile(jsonDiagramFileName_3, this.compileJsonDiagramFile(diagramFileName_3.substring(_plus_9, diagramFileName_3.length())));
                       _builder.append("  ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t");

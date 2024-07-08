@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -30,39 +28,11 @@ import wodel.utils.exceptions.ReferenceNonExistingException;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.WodelTestResultClass;
 
 public class AnnotateMutations {
-	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, List<String> metamodel, Resource model) {
+	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, List<String> metamodel, Resource model, IWodelTest test) {
 		try {
-
-			List<IWodelTest> tests = new ArrayList<IWodelTest>();
-			if (Platform.getExtensionRegistry() != null) {
-				IConfigurationElement[] extensions = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								"wodeltest.extension.MutTesting");
-				for (int j = 0; j < extensions.length; j++) {
-					IWodelTest test = null;
-					try {
-						test = (IWodelTest) extensions[j]
-								.createExecutableExtension("class");
-					} catch (CoreException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					tests.add(test);
-				}
-			}
-			String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
-			String projectNamePath = path + "/data/project.txt";
-			String[] testInfo = WodelTestResultClass.loadProjectInfo(projectNamePath);
-			IWodelTest test = null;
-			for (IWodelTest t : tests) {
-				if (t.getProjectName().equals(testInfo[0])) {
-					test = t;
-					break;
-				}
-			}
+			String path = project.getLocation().toFile().getPath();
 			String testContainerEClassName = test.getContainerEClassName();
 			if (testContainerEClassName != null && testContainerEClassName.length() > 0) {
 				path = model.getURI().toFileString();

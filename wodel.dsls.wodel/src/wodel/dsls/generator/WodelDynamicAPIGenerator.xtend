@@ -22,11 +22,10 @@ import wodel.dsls.WodelUtils
 class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.resetProject()
 		project = ProjectUtils.getProject()
 		
 		standalone = false
-		var projectFolderName = ModelManager.getWorkspaceAbsolutePath(resource)+ "/" + getProjectName + "/"
+		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath + "/"
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
@@ -37,7 +36,7 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 			fileName = resource.URI.lastSegment
 			var String xTextFileName = getMutatorPath(e, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath(resource) + "/" + getProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			xmiFileName = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath + program.output + fileName.replaceAll(".mutator", ".model")
 			try {
 				WodelUtils.serialize(xTextFileName, xmiFileName)
 			} catch (Exception ex) {}

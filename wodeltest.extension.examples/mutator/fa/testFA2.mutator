@@ -1,7 +1,7 @@
 generate 10 mutants
 in "data/out/"
 from "data/model/"
-metamodel "/testFA/data/model/DFAAutomaton.ecore"
+metamodel "/[@**@]/data/model/DFAAutomaton.ecore"
 
 with blocks {
 	ctr {

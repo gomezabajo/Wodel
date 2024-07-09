@@ -134,7 +134,7 @@ public class ModelManager {
 		return projectName;
 	}
 	
-	private static String processURI(String uri) {
+	public static String processURI(String uri) {
 		String processedURI = uri.replace("\\", "/");
 		processedURI = processedURI.startsWith("/") && processedURI.indexOf(":") != -1 ? processedURI.substring(1, processedURI.length()) : processedURI;
 		if (FileSystems.getDefault().getPath(processedURI).isAbsolute()) {
@@ -146,14 +146,41 @@ public class ModelManager {
 		IProject project = ProjectUtils.getProject();
 		if (project != null) {
 			if (!processedURI.startsWith("/" + project.getName())) {
-				processedURI = "/" + project.getName() + processedURI;
+				if (!project.getName().endsWith("_1.0.0")) {
+					processedURI = "/" + project.getName() + processedURI;
+				}
+				if (project.getName().endsWith("_1.0.0")) {
+					String projectName = project.getName().substring(0, project.getName().lastIndexOf("_1.0.0"));
+					if (processedURI.startsWith("/" + projectName)) {
+						String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+						endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+						processedURI = "/" + project.getName() + endURI;
+					}
+					else {
+						processedURI = "/" + project.getName();
+					}
+				}
 			}
 		}
 		else {
 			String projectName = getProjectNameFromWodelTest();
 			if (projectName != null && projectName.length() > 0) {
 				if (!processedURI.startsWith("/" + projectName)) {
-					processedURI = "/" + projectName + processedURI;
+					if (!projectName.endsWith("_1.0.0")) {
+						processedURI = "/" + projectName + processedURI;
+					}
+					if (projectName.endsWith("_1.0.0")) {
+						projectName = projectName.substring(0, projectName.lastIndexOf("_1.0.0"));
+						if (processedURI.startsWith("/" + projectName)) {
+							String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+							endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+							processedURI = "/" + projectName + "_1.0.0" + endURI;
+							
+						}
+						else {
+							processedURI = "/" + projectName + "_1.0.0" + processedURI;
+						}
+					}
 				}
 			}
 		}
@@ -168,28 +195,22 @@ public class ModelManager {
 				String str = subProcessedURI1.substring(subProcessedURI1.indexOf("/" + project.getName()), subProcessedURI1.length());
 				str = str.substring(1, str.length());
 				str = str.substring(str.indexOf("/"), str.length());
-				subProcessedURI1 = "/" + project.getName() + str;
-			}
-		}
-		else {
-			String projectName = getProjectNameFromWodelTest();
-			if (projectName != null && projectName.length() > 0) {
-				if (!subProcessedURI1.startsWith("/" + projectName)) {
-					subProcessedURI1 = "/" + projectName + subProcessedURI1;
+				if (subProcessedURI1.indexOf("_1.0.0/") == -1) {
+					subProcessedURI1 = "/" + project.getName() + str;
+				}
+				else {
+					subProcessedURI1 = "/" + project.getName() + "_1.0.0" + str;
 				}
 			}
 		}
 		String subProcessedURI2 = uri.replace("\\", "/");
 		if (project != null) {
 			if (subProcessedURI2.startsWith("/" + project.getName())) {
-				subProcessedURI2 = subProcessedURI2.substring(("/" + project.getName()).length(), subProcessedURI2.length());
-			}
-		}
-		else {
-			String projectName = getProjectNameFromWodelTest();
-			if (projectName != null && projectName.length() > 0) {
-				if (!subProcessedURI2.startsWith("/" + projectName)) {
-					subProcessedURI2 = "/" + projectName + subProcessedURI2;
+				if (subProcessedURI2.indexOf("_1.0.0/") == -1) {
+					subProcessedURI2 = subProcessedURI2.substring(("/" + project.getName()).length(), subProcessedURI2.length());
+				}
+				else {
+					subProcessedURI2 = subProcessedURI2.substring(("/" + project.getName() + "_1.0.0").length(), subProcessedURI2.length());
 				}
 			}
 		}
@@ -216,14 +237,21 @@ public class ModelManager {
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
-			List<String> subProcessedURI = subProcessURI(uri);
-			fullPath = path + subProcessedURI.get(0);
+			String pluginName = uri.substring(1, uri.length());
+			pluginName = pluginName.substring(0, pluginName.indexOf("/"));
+			String processedURI = "/" + pluginName + "_1.0.0" + uri.substring(("/" + pluginName).length(), uri.length());
+			fullPath = path + processedURI;
 			fmm = new File(fullPath);
 			if (!fmm.exists()) {
-				fullPath = path = subProcessedURI.get(1);
+				List<String> subProcessedURI = subProcessURI(processedURI);
+				fullPath = path + subProcessedURI.get(0);
 				fmm = new File(fullPath);
 				if (!fmm.exists()) {
-					throw new MetaModelNotFoundException(uri);
+					fullPath = path = subProcessedURI.get(1);
+					fmm = new File(fullPath);
+					if (!fmm.exists()) {
+						throw new MetaModelNotFoundException(uri);
+					}
 				}
 			}
 		}
@@ -382,13 +410,23 @@ public class ModelManager {
 				String str = subProcessedURI1.substring(subProcessedURI1.indexOf("/" + projectName), subProcessedURI1.length());
 				str = str.substring(1, str.length());
 				str = str.substring(str.indexOf("/"), str.length());
-				subProcessedURI1 = "/" + projectName + str;
+				if (subProcessedURI1.indexOf("_1.0.0/") == -1) {
+					subProcessedURI1 = "/" + projectName + str;
+				}
+				else {
+					subProcessedURI1 = "/" + projectName + "_1.0.0" + str;
+				}
 			}
 		}
 		String subProcessedURI2 = uri.replace("\\", "/");
 		if (projectName != null) {
 			if (subProcessedURI2.startsWith("/" + projectName)) {
-				subProcessedURI2 = subProcessedURI2.substring(("/" + projectName).length(), subProcessedURI2.length());
+				if (subProcessedURI2.indexOf("_1.0.0/") == -1) {
+					subProcessedURI2 = subProcessedURI2.substring(("/" + projectName).length(), subProcessedURI2.length());
+				}
+				else {
+					subProcessedURI2 = subProcessedURI2.substring(("/" + projectName + "_1.0.0").length(), subProcessedURI2.length());
+				}
 			}
 		}
 		List<String> subProcessedURI = new ArrayList<String>();
@@ -409,14 +447,21 @@ public class ModelManager {
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
-			List<String> subProcessedURI = subProcessURI(uri, cls);
-			fullPath = path + subProcessedURI.get(0);
+			String pluginName = uri.substring(1, uri.length());
+			pluginName = pluginName.substring(0, pluginName.indexOf("/"));
+			String processedURI = "/" + pluginName + "_1.0.0" + uri.substring(("/" + pluginName).length(), uri.length());
+			fullPath = path + processedURI;
 			fmm = new File(fullPath);
 			if (!fmm.exists()) {
-				fullPath = path = subProcessedURI.get(1);
+				List<String> subProcessedURI = subProcessURI(processedURI, cls);
+				fullPath = path + subProcessedURI.get(0);
 				fmm = new File(fullPath);
 				if (!fmm.exists()) {
-					throw new MetaModelNotFoundException(uri);
+					fullPath = path + subProcessedURI.get(1);
+					fmm = new File(fullPath);
+					if (!fmm.exists()) {
+						throw new MetaModelNotFoundException(uri);
+					}
 				}
 			}
 		}
@@ -2205,7 +2250,7 @@ public class ModelManager {
 			fullPath = path + subProcessedURI.get(0);
 			fmm = new File(fullPath);
 			if (!fmm.exists()) {
-				fullPath = path = subProcessedURI.get(1);
+				fullPath = path + subProcessedURI.get(1);
 				fmm = new File(fullPath);
 				if (!fmm.exists()) {
 					return null;
@@ -2226,14 +2271,21 @@ public class ModelManager {
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
-			List<String> subProcessedURI = subProcessURI(uri, cls);
-			fullPath = path + subProcessedURI.get(0);
+			String pluginName = uri.substring(1, uri.length());
+			pluginName = pluginName.substring(0, pluginName.indexOf("/"));
+			String processedURI = "/" + pluginName + "_1.0.0" + uri.substring(("/" + pluginName).length(), uri.length());
+			fullPath = path + processedURI;
 			fmm = new File(fullPath);
 			if (!fmm.exists()) {
-				fullPath = path = subProcessedURI.get(1);
+				List<String> subProcessedURI = subProcessURI(processedURI, cls);
+				fullPath = path + subProcessedURI.get(0);
 				fmm = new File(fullPath);
 				if (!fmm.exists()) {
-					return null;
+					fullPath = path + subProcessedURI.get(1);
+					fmm = new File(fullPath);
+					if (!fmm.exists()) {
+						throw null;
+					}
 				}
 			}
 		}

@@ -28,8 +28,8 @@ public class WodelTest4ChatbotsUpdateSiteWizardPage extends WizardPage {
 
 	protected WodelTest4ChatbotsUpdateSiteWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for chatbots example");
-		setDescription("This wizard creates a new Wodel-Test for chatbots example project.");
+		setTitle("Wodel-Test for Chatbots example");
+		setDescription("This wizard creates a new Wodel-Test for Chatbots example project.");
 		this.selection = selection;
 	}
 

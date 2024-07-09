@@ -68,11 +68,13 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 	public WodelTest4ATLUpdateSiteWizardPage _pageOne;
 
 	private static final String WIZARD_NAME = "Wodel-Test for ATL update-site generator";
+	private static final String CATEGORY_NAME = "Wodel-Test for ATL";
 	
 	private IProject project;
 	
 	private Map<String, String> featureMap;
 	private Map<String, Set<String>> featureIncludedPluginsMap;
+	private Map<String, Set<String>> featureIncludedFeaturesMap;
 
 	public class FeatureProjectRunnableWithProgress implements IRunnableWithProgress {
 
@@ -146,6 +148,7 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 
 		featureMap = new LinkedHashMap<String, String>();
 		featureIncludedPluginsMap = new LinkedHashMap<String, Set<String>>();
+		featureIncludedFeaturesMap = new LinkedHashMap<String, Set<String>>();
 		
 		setDialogSettings(PDEPlugin.getDefault().getDialogSettings());
 		setNeedsProgressMonitor(true);
@@ -201,14 +204,27 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 		}
 		
 		if (project != null) {
-			featureMap.put(project.getName() + ".plugins", "Wodel-Test for chatbots plugins");
+			featureMap.put(project.getName() + ".plugins", "Wodel-Test for ATL plugins");
 			Set<String> includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add(project.getName());
 			featureIncludedPluginsMap.put(project.getName() + ".plugins", includedPlugins);
+			Set<String> includedFeatures = new LinkedHashSet<String>();
+			includedFeatures.add("wodel.additions");
+			includedFeatures.add("wodel.core");
+			includedFeatures.add("wodel.emf.comparison");
+			includedFeatures.add("wodel.emf.validation");
+			includedFeatures.add("wodel.examples");
+			includedFeatures.add("wodel.footprints");
+			includedFeatures.add("wodel.seed.synthesis");
+			includedFeatures.add("wodel.wodeltest");
+			includedFeatures.add("wodeltest.additions");
+			featureIncludedFeaturesMap.put(project.getName() + ".plugins", includedFeatures);
 			featureMap.put("wodel.additions", "Wodel extended features");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.semantic.comparison.dfa");
 			featureIncludedPluginsMap.put("wodel.additions", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.additions", includedFeatures);
 			featureMap.put("wodel.core", "Wodel core");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.dsls.wodel.ui");
@@ -224,19 +240,29 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 			includedPlugins.add("wodel.registry");
 			includedPlugins.add("wodel.semantic.comparison");
 			includedPlugins.add("wodel.syntactic.comparison");
+			includedPlugins.add("wodel.semantic.validation");
+			includedPlugins.add("wodel.syntactic.validation");
 			featureIncludedPluginsMap.put("wodel.core", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.core", includedFeatures);
 			featureMap.put("wodel.emf.comparison", "EMF model comparison");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.syntactic.comparison.emf");
 			featureIncludedPluginsMap.put("wodel.emf.comparison", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.emf.comparison", includedFeatures);
 			featureMap.put("wodel.emf.validation", "EMF model validation");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.syntactic.validation.emf");
 			featureIncludedPluginsMap.put("wodel.emf.validation", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.emf.validation", includedFeatures);
 			featureMap.put("wodel.examples", "Wodel examples");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.project.examples");
 			featureIncludedPluginsMap.put("wodel.examples", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.examples", includedFeatures);
 			featureMap.put("wodel.footprints", "Mutation footprints views");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.metrics.command");
@@ -245,16 +271,22 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 			includedPlugins.add("wodel.metrics.fixed");
 			includedPlugins.add("wodel.metrics.data");
 			featureIncludedPluginsMap.put("wodel.footprints", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.footprints", includedFeatures);
 			featureMap.put("wodel.seed.synthesis", "Seed automated synthesis");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodel.synthesizer");
 			featureIncludedPluginsMap.put("wodel.seed.synthesis", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.seed.synthesis", includedFeatures);
 			featureMap.put("wodel.wodeltest", "Wodel-Test core");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodeltest.extension");
 			includedPlugins.add("wodeltest.run");
 			includedPlugins.add("wodeltest.optimiser");
 			featureIncludedPluginsMap.put("wodel.wodeltest", includedPlugins);
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodel.wodeltest", includedFeatures);
 			featureMap.put("wodeltest.additions", "Wodel-Test extended features");
 			includedPlugins = new LinkedHashSet<String>();
 			includedPlugins.add("wodeltest.extension.examples");
@@ -275,7 +307,9 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 			includedPlugins.add("anatlyzer.atl.optimizer");
 			includedPlugins.add("wodeltest.optimiser.subsumption");
 			featureIncludedPluginsMap.put("wodeltest.additions", includedPlugins);
-	
+			includedFeatures = new LinkedHashSet<String>();
+			featureIncludedFeaturesMap.put("wodeltest.additions", includedFeatures);
+
 			for (String featureName : featureMap.keySet()) {
 				FeatureProjectRunnableWithProgress opCreateFeatureProject = new FeatureProjectRunnableWithProgress(featureName);
 				try {
@@ -288,7 +322,7 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 							realException.getMessage());
 					return false;
 				}
-				IRunnableWithProgress featureOp = new CreateFeatureProjectOperation(opCreateFeatureProject.getProjectFeature(), ResourcesPlugin.getWorkspace().getRoot().getLocation(), getShell(), featureName, featureMap.get(featureName), featureIncludedPluginsMap.get(featureName));
+				IRunnableWithProgress featureOp = new CreateFeatureProjectOperation(opCreateFeatureProject.getProjectFeature(), ResourcesPlugin.getWorkspace().getRoot().getLocation(), getShell(), featureName, featureMap.get(featureName), featureIncludedPluginsMap.get(featureName), featureIncludedFeaturesMap.get(featureName));
 				try {
 					getContainer().run(true, false, featureOp);
 				} catch (InterruptedException e) {
@@ -302,8 +336,10 @@ public class WodelTest4ATLUpdateSiteWizard extends Wizard implements INewWizard 
 				}
 			}
 			
+			includedFeatures = new LinkedHashSet<String>();
+			includedFeatures.add(project.getName() + ".plugins");
 			IProject updateSiteProject = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getName() + ".updatesite");
-			NewSiteProjectCreationOperation updateSiteOp = new NewSiteProjectCreationOperation(getShell().getDisplay(), updateSiteProject, ResourcesPlugin.getWorkspace().getRoot().getLocation(), "web", project.getName() + ".plugins", featureIncludedPluginsMap.keySet());
+			NewSiteProjectCreationOperation updateSiteOp = new NewSiteProjectCreationOperation(getShell().getDisplay(), updateSiteProject, ResourcesPlugin.getWorkspace().getRoot().getLocation(), "web", CATEGORY_NAME, includedFeatures);
 			try {
 				getContainer().run(true, false, updateSiteOp);
 			} catch (InterruptedException e) {

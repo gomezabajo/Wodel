@@ -43,15 +43,15 @@ public class NewSiteProjectCreationOperation extends WorkspaceModifyOperation {
 	private IProject fProject;
 	private IPath fPath;
 	private String fWebLocation;
-	private String projectName;
+	private String categoryName;
 	private Set<String> fFeatures;
 
-	public NewSiteProjectCreationOperation(Display display, IProject project, IPath path, String webLocation, String projectName, Set<String> features) {
+	public NewSiteProjectCreationOperation(Display display, IProject project, IPath path, String webLocation, String categoryName, Set<String> features) {
 		this.fDisplay = display;
 		this.fProject = project;
 		this.fPath = path;
 		this.fWebLocation = webLocation;
-		this.projectName = projectName;
+		this.categoryName = categoryName;
 		this.fFeatures = new LinkedHashSet<String>();
 		this.fFeatures.addAll(features);
 	}
@@ -102,9 +102,11 @@ public class NewSiteProjectCreationOperation extends WorkspaceModifyOperation {
 			InputStream stream = openContentStream();
 			String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 					+ "<site>\n"
-					+ "   <feature url=\"features/" + projectName + "_1.0.0.qualifier.jar\" id=\"" + projectName + "\" version=\"1.0.0.qualifier\"/>\n";
+					+ "<category-def name=\"" + categoryName + "\" label=\"" + categoryName +"\"/>\n";
 			for (String feature : fFeatures) {
-				content += "   <feature url=\"features/" + feature + "_1.0.0.qualifier.jar\" id=\"" + feature + "\" version=\"1.0.0.qualifier\"/>\n";
+				content += "   <feature url=\"features/" + feature + "_1.0.0.qualifier.jar\" id=\"" + feature + "\" version=\"1.0.0.qualifier\">\n";
+				content += "   <category name=\"" + categoryName + "\"/>\n";
+				content += "   </feature>\n";
 			}
 			content += "</site>";
 			stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));

@@ -14,12 +14,18 @@ import org.eclipse.pde.internal.core.ibundle.IBundle;
 import org.eclipse.pde.internal.core.ibundle.IBundlePluginBase;
 import org.eclipse.pde.internal.core.ibundle.IBundlePluginModelBase;
 import org.eclipse.pde.internal.core.ifeature.IFeature;
+import org.eclipse.pde.internal.core.ifeature.IFeatureInfo;
 import org.eclipse.pde.internal.core.ifeature.IFeaturePlugin;
+import org.eclipse.pde.internal.core.ifeature.IFeatureChild;
+import org.eclipse.pde.internal.core.feature.FeatureChild;
 import org.eclipse.pde.internal.core.project.PDEProject;
 import org.eclipse.pde.internal.core.util.CoreUtility;
+import org.eclipse.pde.internal.ui.IPDEUIConstants;
+import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.feature.AbstractCreateFeatureOperation;
 import org.eclipse.pde.internal.ui.wizards.feature.FeatureData;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Constants;
 
 import java.util.Set;
@@ -32,8 +38,9 @@ import org.eclipse.core.resources.IFile;
 public class CreateFeatureProjectOperation extends AbstractCreateFeatureProjectOperation {
 
 	protected IPluginBase[] fPlugins;
+	protected IFeatureChild[] fFeatures;
 
-	public CreateFeatureProjectOperation(IProject project, IPath location, Shell shell, String pluginName, String labelName, Set<String> pluginBaseNames) {
+	public CreateFeatureProjectOperation(IProject project, IPath location, Shell shell, String pluginName, String labelName, Set<String> pluginBaseNames, Set<String> featureNames) {
 		super(project, location, shell, pluginName, labelName);
 		final IFile fragmentXml = PDEProject.getFragmentXml(project);
 		final IFile pluginXml = PDEProject.getPluginXml(project);
@@ -67,21 +74,52 @@ public class CreateFeatureProjectOperation extends AbstractCreateFeatureProjectO
 			}
 			fPlugins[i] = pluginBase;
 		}
+		final List<String> featureNamesList = new ArrayList<String>(featureNames);
+		fFeatures = new IFeatureChild[featureNamesList.size()];
+		final IFile file = PDEProject.getFeatureXml(project);
+		WorkspaceFeatureModel model = new WorkspaceFeatureModel(file);
+		try {
+			for (int i = 0; i < featureNamesList.size(); i++) {
+				FeatureChild fplugin = (FeatureChild) model.getFactory().createChild();
+				fplugin.setLabel(featureNamesList.get(i));
+				fplugin.setId(featureNamesList.get(i));
+				fplugin.setVersion(ICoreConstants.DEFAULT_VERSION);
+				//fplugin.setUnpack(CoreUtility.guessUnpack(fFeaturePlugins[i].getPluginModel().getBundleDescription()));
+				fFeatures[i] = fplugin;
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			createFeature();
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
+	
 	@Override
 	protected void configureFeature(IFeature feature, WorkspaceFeatureModel model) throws CoreException {
-		IFeaturePlugin[] added = new IFeaturePlugin[fPlugins.length];
+		IFeaturePlugin[] addedPlugins = new IFeaturePlugin[fPlugins.length];
 		for (int i = 0; i < fPlugins.length; i++) {
 			IPluginBase plugin = fPlugins[i];
 			FeaturePlugin fplugin = (FeaturePlugin) model.getFactory().createPlugin();
 			fplugin.loadFrom(plugin);
 			fplugin.setVersion(ICoreConstants.DEFAULT_VERSION);
 			fplugin.setUnpack(CoreUtility.guessUnpack(plugin.getPluginModel().getBundleDescription()));
-			added[i] = fplugin;
+			addedPlugins[i] = fplugin;
 		}
-		feature.addPlugins(added);
+		feature.addPlugins(addedPlugins);
+		IFeatureChild[] addedFeatures = new IFeatureChild[fFeatures.length];
+		for (int i = 0; i < fFeatures.length; i++) {
+			FeatureChild fplugin = (FeatureChild) fFeatures[i];
+			fplugin.setLabel(fFeatures[i].getLabel());
+			fplugin.setId(fFeatures[i].getId());
+			fplugin.setVersion(ICoreConstants.DEFAULT_VERSION);
+			//fplugin.setUnpack(CoreUtility.guessUnpack(fFeaturePlugins[i].getPluginModel().getBundleDescription()));
+			addedFeatures[i] = fplugin;
+		}
+		feature.addIncludedFeatures(addedFeatures);
 	}
-
-
 }

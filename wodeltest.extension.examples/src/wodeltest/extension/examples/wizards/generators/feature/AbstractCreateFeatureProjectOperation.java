@@ -45,15 +45,17 @@ public abstract class AbstractCreateFeatureProjectOperation extends WorkspaceMod
 	protected IProject fProject;
 	protected IPath fLocation;
 	private Shell fShell;
-	private String wodelTestPluginName;
-	private String wodelTestLabelName;
+	private String pluginName;
+	private String labelName;
+	
+	public IFeature feature;
 
 	public AbstractCreateFeatureProjectOperation(IProject project, IPath location, Shell shell, String pluginName, String labelName) {
 		fProject = project;
 		fLocation = location;
 		fShell = shell;
-		wodelTestPluginName = pluginName;
-		wodelTestLabelName = labelName;
+		this.pluginName = pluginName;
+		this.labelName = labelName;
 	}
 
 	@Override
@@ -65,6 +67,10 @@ public abstract class AbstractCreateFeatureProjectOperation extends WorkspaceMod
 		} finally {
 			monitor.done();
 		}
+	}
+	
+	public IFeature getFeature() {
+		return this.feature;
 	}
 
 	protected void createFeature(IProgressMonitor monitor) throws CoreException {
@@ -95,10 +101,12 @@ public abstract class AbstractCreateFeatureProjectOperation extends WorkspaceMod
 		WorkspaceFeatureModel model = new WorkspaceFeatureModel();
 		model.setFile(file);
 		IFeature feature = model.getFeature();
-		feature.setLabel(wodelTestLabelName);
-		feature.setId(wodelTestPluginName);
+		feature.setLabel(labelName);
+		feature.setId(pluginName);
 		feature.setVersion("1.0.0.qualifier");
 		feature.setProviderName("");
+		
+		this.feature = feature;
 
 		configureFeature(feature, model);
 

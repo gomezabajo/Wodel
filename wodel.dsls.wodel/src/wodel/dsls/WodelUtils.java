@@ -77,7 +77,6 @@ import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.manager.EMFComparison;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.ProjectUtils;
 
 /**
  * @author Pablo Gomez-Abajo - Utils for serialize and deserialize Wodel programs

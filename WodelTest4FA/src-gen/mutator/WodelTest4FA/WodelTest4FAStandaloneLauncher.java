@@ -1,0 +1,80 @@
+package mutator.WodelTest4FA;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.AbstractMap.SimpleEntry;
+import org.eclipse.core.resources.IProject;
+import wodel.utils.exceptions.AbstractCreationException;
+import wodel.utils.exceptions.MaxSmallerThanMinException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ObjectNoTargetableException;
+import wodel.utils.exceptions.ObjectNotContainedException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.exceptions.WrongAttributeTypeException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EPackage;
+import mutator.testFA1Standalone.testFA1Standalone;
+import mutator.testFA2Standalone.testFA2Standalone;
+import wodel.utils.manager.IMutatorStandaloneExecutor;
+import wodel.utils.manager.IWodelTest;
+import wodel.utils.manager.ModelManager;
+import wodel.utils.manager.MutatorUtils;
+import wodel.utils.manager.MutatorUtils.MutationResults;
+
+public class WodelTest4FAStandaloneLauncher implements IMutatorStandaloneExecutor {
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics,
+			boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject,
+			Map<String, List<String>> classes, Map<String, EPackage> registeredPackages)
+			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
+			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
+			MetaModelNotFoundException, ModelNotFoundException, IOException {
+		IWodelTest test = testObject != null ? (IWodelTest) testObject : null;
+		String ecoreURI = "/WodelTest4FA/data/model/DFAAutomaton.ecore";
+		List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
+		boolean isRegistered = ModelManager.isRegistered(packages);
+		Map<String, EPackage> localRegisteredPackages = null;
+		if (isRegistered == true) {
+			if (registeredPackages != null) {
+				List<EPackage> packageList = new ArrayList<EPackage>();
+				packageList.addAll(registeredPackages.values());
+				ModelManager.unregisterMetaModel(packageList);
+			}
+			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
+		}
+		MutationResults mutationResults = new MutationResults();
+		MutatorUtils muttestFA1 = new testFA1Standalone();
+		MutationResults resultstestFA1 = muttestFA1.execute(maxAttempts, numMutants, registry, metrics, debugMetrics,
+				packages, registeredPackages, localRegisteredPackages, blockNames, monitor, serialize, test, classes);
+		mutationResults.numMutatorsApplied += resultstestFA1.numMutatorsApplied;
+		mutationResults.numMutantsGenerated += resultstestFA1.numMutantsGenerated;
+		if (resultstestFA1.mutatorsApplied != null) {
+			if (mutationResults.mutatorsApplied == null) {
+				mutationResults.mutatorsApplied = new ArrayList<String>();
+			}
+			mutationResults.mutatorsApplied.addAll(resultstestFA1.mutatorsApplied);
+		}
+		MutatorUtils muttestFA2 = new testFA2Standalone();
+		MutationResults resultstestFA2 = muttestFA2.execute(maxAttempts, numMutants, registry, metrics, debugMetrics,
+				packages, registeredPackages, localRegisteredPackages, blockNames, monitor, serialize, test, classes);
+		mutationResults.numMutatorsApplied += resultstestFA2.numMutatorsApplied;
+		mutationResults.numMutantsGenerated += resultstestFA2.numMutantsGenerated;
+		if (resultstestFA2.mutatorsApplied != null) {
+			if (mutationResults.mutatorsApplied == null) {
+				mutationResults.mutatorsApplied = new ArrayList<String>();
+			}
+			mutationResults.mutatorsApplied.addAll(resultstestFA2.mutatorsApplied);
+		}
+		if (isRegistered == true) {
+			ModelManager.registerMetaModel(localRegisteredPackages);
+			if (registeredPackages != null) {
+				ModelManager.registerMetaModel(registeredPackages);
+			}
+		}
+		return mutationResults;
+	}
+}

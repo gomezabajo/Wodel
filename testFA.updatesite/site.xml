@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/testFA.plugins_1.0.0.202406090823.jar" id="testFA.plugins" version="1.0.0.202406090823">
-      <category name="Wodel-Test for FA"/>
-   </feature>
-   <category-def name="Wodel-Test for FA" label="Wodel-Test for FA"/>
-</site>

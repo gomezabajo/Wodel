@@ -1,0 +1,44 @@
+generate 10 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/WodelTest4FA/data/model/DFAAutomaton.ecore"
+
+with blocks {
+	cfs {
+		s = create State with {isFinal = true}
+		create Transition with {tar = s, symbol = one Symbol}
+	}
+	ccs {
+		s = create State with {name = random-string(1, 4)}
+		t = create Transition with {tar = s, symbol = one Symbol}
+	}
+	dtr {
+		remove one Transition
+	}
+	dst {
+		remove one State where {isInitial = false}
+		remove all Transition where {src = null}
+		remove all Transition where {tar = null}
+	}
+	mst {
+		modify target symbol from one Transition to other Symbol
+	}
+	mfs {
+		modify one State where {isFinal = true} with {reverse(isFinal)}
+	}
+	sst {
+		t = select one Transition
+		modify one Transition where {self <> t and src = t->src} with {swapref(symbol, t->symbol)}
+	}
+	rts {
+		s = create State with {name = 'f', isFinal = true}
+		modify target tar from one Transition to s
+	}
+	clt {
+		create Transition
+	}
+	cst {
+		t = select one Transition where {symbol <> null}
+		create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
+	}
+}

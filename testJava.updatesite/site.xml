@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/testJava.plugins_1.0.0.202407090541.jar" id="testJava.plugins" version="1.0.0.202407090541"/>
-   <feature url="features/testJava.plugins_1.0.0.202407090541.jar" id="testJava.plugins" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.additions_1.0.0.202407090541.jar" id="wodel.additions" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.core_1.0.0.202407090541.jar" id="wodel.core" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.emf.comparison_1.0.0.202407090541.jar" id="wodel.emf.comparison" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.emf.validation_1.0.0.202407090541.jar" id="wodel.emf.validation" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.examples_1.0.0.202407090541.jar" id="wodel.examples" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.footprints_1.0.0.202407090541.jar" id="wodel.footprints" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.seed.synthesis_1.0.0.202407090541.jar" id="wodel.seed.synthesis" version="1.0.0.202407090541"/>
-   <feature url="features/wodel.wodeltest_1.0.0.202407090541.jar" id="wodel.wodeltest" version="1.0.0.202407090541"/>
-   <feature url="features/wodeltest.additions_1.0.0.202407090541.jar" id="wodeltest.additions" version="1.0.0.202407090541"/>
+   <feature url="features/testJava.plugins_1.0.0.202407090639.jar" id="testJava.plugins" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.additions_1.0.0.202407090639.jar" id="wodel.additions" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.core_1.0.0.202407090639.jar" id="wodel.core" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.emf.comparison_1.0.0.202407090639.jar" id="wodel.emf.comparison" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.emf.validation_1.0.0.202407090639.jar" id="wodel.emf.validation" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.examples_1.0.0.202407090639.jar" id="wodel.examples" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.footprints_1.0.0.202407090639.jar" id="wodel.footprints" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.seed.synthesis_1.0.0.202407090639.jar" id="wodel.seed.synthesis" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodel.wodeltest_1.0.0.202407090639.jar" id="wodel.wodeltest" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <feature url="features/wodeltest.additions_1.0.0.202407090639.jar" id="wodeltest.additions" version="1.0.0.202407090639">
+      <category name="Wodel-Test for Java"/>
+   </feature>
+   <category-def name="Wodel-Test for Java" label="Wodel-Test for Java"/>
 </site>

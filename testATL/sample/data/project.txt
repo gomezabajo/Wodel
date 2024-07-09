@@ -1,2 +1,0 @@
-testATL
-org.eclipse.m2m.atl.adt.builder.atlNature

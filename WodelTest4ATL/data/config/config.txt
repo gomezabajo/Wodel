@@ -1,0 +1,4 @@
+data/model
+data/out
+WodelTest4ATL.mutator
+Wodel-Test: Generation of a model-based software testing framework

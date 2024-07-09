@@ -1,0 +1,28 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/WodelTest4ATL/data/model/ATL.ecore"
+
+with blocks {
+	cf "Create filter" {
+		p = select one InPattern where {filter is typed OperatorCallExp}
+		opce = select one OperatorCallExp in p->filter
+		feat = select one OclFeature
+		sipe = select one SimpleInPatternElement in p->elements
+		conj = create OperatorCallExp with {operationName = "and"}
+		call = create OperationCallExp in conj->^source with {copy(operationName, feat.name)}
+		exp = create VariableExp in call->^source
+		modify sipe with {variableExp += exp}
+		modify conj with {arguments += opce}
+		modify p with {filter += conj}
+	} 
+	rf "Remove filter" {
+		remove one OclExpression where {container is typed InPattern}
+	}
+	ccf "Condition change filter" {
+		p = select all InPattern where {filter <> null}
+		opce = select one OperationCallExp in p->filter where {operationName <> ['not', 'and', 'or']}
+		feat = select one OclFeature where {name <> opce.operationName}
+		modify opce with {copy(operationName, feat.name)}
+	}
+}

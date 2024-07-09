@@ -1,0 +1,2 @@
+WodelTest4ATL
+org.eclipse.m2m.atl.adt.builder.atlNature

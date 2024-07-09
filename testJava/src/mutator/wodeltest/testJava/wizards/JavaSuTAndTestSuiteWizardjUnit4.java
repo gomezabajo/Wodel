@@ -33,7 +33,7 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 
 	private ISelection selection;
 
-	private static final String WIZARD_NAME = "Wodel-Test for jUnit4 example";
+	private static final String WIZARD_NAME = "Wodel-Test for jUnit4";
 	
 	public JavaSuTAndTestSuiteWizardPagejUnit4 _pageOne;
 
@@ -47,7 +47,7 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 	public void addPages() {
 		super.addPages();
 		_pageOne = new JavaSuTAndTestSuiteWizardPagejUnit4(selection);
-		_pageOne.setTitle("Wodel-Test for jUnit4 Example");
+		_pageOne.setTitle("Wodel-Test for jUnit4");
 		_pageOne.setDescription("Create the Wodel-Test for jUnit4 example");
 		addPage(_pageOne);
 	}
@@ -100,7 +100,6 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 
 		List<String> folders = new ArrayList<String>();
 		folders.add("src");
-		folders.add("src-gen");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
 		List<String> containerEntries = new ArrayList<String>();

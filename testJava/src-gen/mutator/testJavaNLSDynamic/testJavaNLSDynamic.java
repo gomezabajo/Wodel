@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.AbstractMap.SimpleEntry;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
@@ -44,7 +43,7 @@ import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
 
 public class testJavaNLSDynamic extends MutatorUtils {
-	private Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();
+	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
 	private List<EObject> mutatedObjects = null;
 
 	private int mutation1(List<EPackage> packages, Resource model,
@@ -55,7 +54,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -136,7 +135,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -319,7 +318,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -360,12 +359,12 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			EObject container = ModelManager.getContainer(m, objectSelection.getObject());
 			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
 			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificStringConfigurationStrategy("1");
 			;
 			atts.put("tokenValue", attConfig);
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), true,
 					referenceSelection, containerSelection, atts, refs, "NumberLiteral");
 			Mutator mutator = null;
@@ -420,7 +419,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -438,49 +437,49 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		} else {
 			return numMutantsGenerated;
 		}
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection25 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_25 = hmObjects.get("n3");
-		if (entry_n3_25 != null) {
-			refSelection25 = new SpecificObjectSelection(packages, model, entry_n3_25.getKey());
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection1 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_1 = hmObjects.get("n3");
+		if (entry_n3_1 != null) {
+			refSelection1 = new SpecificObjectSelection(packages, model, entry_n3_1.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_25 = hmList.get("n3");
-			if (listEntry_n3_25 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_1 = hmList.get("n3");
+			if (listEntry_n3_1 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_25) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_1) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection25 = new SpecificObjectSelection(packages, model, objs);
+				refSelection1 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection25);
-		ObSelectionStrategy refSelection26 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_26 = hmObjects.get("dec");
-		if (entry_dec_26 != null) {
-			refSelection26 = new SpecificObjectSelection(packages, model, entry_dec_26.getKey());
+		refs.put("leftOperand", refSelection1);
+		ObSelectionStrategy refSelection2 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_2 = hmObjects.get("dec");
+		if (entry_dec_2 != null) {
+			refSelection2 = new SpecificObjectSelection(packages, model, entry_dec_2.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_26 = hmList.get("dec");
-			if (listEntry_dec_26 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_2 = hmList.get("dec");
+			if (listEntry_dec_2 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_26) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_2) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection26 = new SpecificObjectSelection(packages, model, objs);
+				refSelection2 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection26);
+		refs.put("rightOperand", refSelection2);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -498,7 +497,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		}
 		mutator = mut;
 		if (mutator != null) {
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/dnl/Output" + k[0] + ".model";
 			boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 					localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -561,7 +560,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -574,9 +573,9 @@ public class testJavaNLSDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaNLSDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -621,7 +620,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -635,8 +634,8 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -665,7 +664,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -746,7 +745,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -929,7 +928,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -970,12 +969,12 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			EObject container = ModelManager.getContainer(m, objectSelection.getObject());
 			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
 			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificStringConfigurationStrategy("1");
 			;
 			atts.put("tokenValue", attConfig);
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), true,
 					referenceSelection, containerSelection, atts, refs, "NumberLiteral");
 			Mutator mutator = null;
@@ -1030,7 +1029,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1048,49 +1047,49 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		} else {
 			return numMutantsGenerated;
 		}
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection27 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_27 = hmObjects.get("n3");
-		if (entry_n3_27 != null) {
-			refSelection27 = new SpecificObjectSelection(packages, model, entry_n3_27.getKey());
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection3 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_3 = hmObjects.get("n3");
+		if (entry_n3_3 != null) {
+			refSelection3 = new SpecificObjectSelection(packages, model, entry_n3_3.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_27 = hmList.get("n3");
-			if (listEntry_n3_27 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_3 = hmList.get("n3");
+			if (listEntry_n3_3 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_27) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_3) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection27 = new SpecificObjectSelection(packages, model, objs);
+				refSelection3 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection27);
-		ObSelectionStrategy refSelection28 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_28 = hmObjects.get("dec");
-		if (entry_dec_28 != null) {
-			refSelection28 = new SpecificObjectSelection(packages, model, entry_dec_28.getKey());
+		refs.put("leftOperand", refSelection3);
+		ObSelectionStrategy refSelection4 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_4 = hmObjects.get("dec");
+		if (entry_dec_4 != null) {
+			refSelection4 = new SpecificObjectSelection(packages, model, entry_dec_4.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_28 = hmList.get("dec");
-			if (listEntry_dec_28 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_4 = hmList.get("dec");
+			if (listEntry_dec_4 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_28) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_4) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection28 = new SpecificObjectSelection(packages, model, objs);
+				refSelection4 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection28);
+		refs.put("rightOperand", refSelection4);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -1108,7 +1107,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		}
 		mutator = mut;
 		if (mutator != null) {
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/dnr/Output" + k[0] + ".model";
 			boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 					localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -1171,7 +1170,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -1184,9 +1183,9 @@ public class testJavaNLSDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaNLSDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -1231,7 +1230,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -1245,8 +1244,8 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -1275,7 +1274,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1356,7 +1355,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1539,7 +1538,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1580,12 +1579,12 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			EObject container = ModelManager.getContainer(m, objectSelection.getObject());
 			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
 			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificStringConfigurationStrategy("1");
 			;
 			atts.put("tokenValue", attConfig);
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), true,
 					referenceSelection, containerSelection, atts, refs, "NumberLiteral");
 			Mutator mutator = null;
@@ -1640,7 +1639,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1658,49 +1657,49 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		} else {
 			return numMutantsGenerated;
 		}
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection29 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_29 = hmObjects.get("n3");
-		if (entry_n3_29 != null) {
-			refSelection29 = new SpecificObjectSelection(packages, model, entry_n3_29.getKey());
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection5 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_5 = hmObjects.get("n3");
+		if (entry_n3_5 != null) {
+			refSelection5 = new SpecificObjectSelection(packages, model, entry_n3_5.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_29 = hmList.get("n3");
-			if (listEntry_n3_29 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_5 = hmList.get("n3");
+			if (listEntry_n3_5 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_29) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_5) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection29 = new SpecificObjectSelection(packages, model, objs);
+				refSelection5 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection29);
-		ObSelectionStrategy refSelection30 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_30 = hmObjects.get("dec");
-		if (entry_dec_30 != null) {
-			refSelection30 = new SpecificObjectSelection(packages, model, entry_dec_30.getKey());
+		refs.put("leftOperand", refSelection5);
+		ObSelectionStrategy refSelection6 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_6 = hmObjects.get("dec");
+		if (entry_dec_6 != null) {
+			refSelection6 = new SpecificObjectSelection(packages, model, entry_dec_6.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_30 = hmList.get("dec");
-			if (listEntry_dec_30 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_6 = hmList.get("dec");
+			if (listEntry_dec_6 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_30) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_6) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection30 = new SpecificObjectSelection(packages, model, objs);
+				refSelection6 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection30);
+		refs.put("rightOperand", refSelection6);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -1718,7 +1717,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		}
 		mutator = mut;
 		if (mutator != null) {
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/dnrst/Output" + k[0] + ".model";
 			boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 					localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -1781,7 +1780,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -1794,9 +1793,9 @@ public class testJavaNLSDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaNLSDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -1841,7 +1840,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -1855,8 +1854,8 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -1885,7 +1884,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1966,7 +1965,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2149,7 +2148,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2190,12 +2189,12 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			EObject container = ModelManager.getContainer(m, objectSelection.getObject());
 			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, m, container);
 			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, m, null, null);
-			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificStringConfigurationStrategy("1");
 			;
 			atts.put("tokenValue", attConfig);
-			Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 			CloneObjectMutator mut = new CloneObjectMutator(m, packages, objectSelection.getObject(), true,
 					referenceSelection, containerSelection, atts, refs, "NumberLiteral");
 			Mutator mutator = null;
@@ -2250,7 +2249,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2268,49 +2267,49 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		} else {
 			return numMutantsGenerated;
 		}
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection31 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_31 = hmObjects.get("n3");
-		if (entry_n3_31 != null) {
-			refSelection31 = new SpecificObjectSelection(packages, model, entry_n3_31.getKey());
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection7 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n3_7 = hmObjects.get("n3");
+		if (entry_n3_7 != null) {
+			refSelection7 = new SpecificObjectSelection(packages, model, entry_n3_7.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_31 = hmList.get("n3");
-			if (listEntry_n3_31 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n3_7 = hmList.get("n3");
+			if (listEntry_n3_7 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_31) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n3_7) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection31 = new SpecificObjectSelection(packages, model, objs);
+				refSelection7 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection31);
-		ObSelectionStrategy refSelection32 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_32 = hmObjects.get("dec");
-		if (entry_dec_32 != null) {
-			refSelection32 = new SpecificObjectSelection(packages, model, entry_dec_32.getKey());
+		refs.put("leftOperand", refSelection7);
+		ObSelectionStrategy refSelection8 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_dec_8 = hmObjects.get("dec");
+		if (entry_dec_8 != null) {
+			refSelection8 = new SpecificObjectSelection(packages, model, entry_dec_8.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_32 = hmList.get("dec");
-			if (listEntry_dec_32 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_dec_8 = hmList.get("dec");
+			if (listEntry_dec_8 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_32) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_dec_8) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection32 = new SpecificObjectSelection(packages, model, objs);
+				refSelection8 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection32);
+		refs.put("rightOperand", refSelection8);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -2328,7 +2327,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		}
 		mutator = mut;
 		if (mutator != null) {
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/dna/Output" + k[0] + ".model";
 			boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 					localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -2391,7 +2390,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2404,9 +2403,9 @@ public class testJavaNLSDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaNLSDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -2451,7 +2450,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -2465,8 +2464,8 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -2491,7 +2490,7 @@ public class testJavaNLSDynamic extends MutatorUtils {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics,
 			boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages,
 			Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project,
-			IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2507,8 +2506,8 @@ public class testJavaNLSDynamic extends MutatorUtils {
 			totalTasks++;
 		}
 		monitor.beginTask("Generating mutants", totalTasks);
-		Map<String, Set<String>> hashmapMutants = new HashMap<String, Set<String>>();
-		Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		Map<String, Set<String>> hashmapMutants = new LinkedHashMap<String, Set<String>>();
+		Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();
 		List<String> fromNames = null;
 		fromNames = new ArrayList<String>();
 		if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains("dnl") == true)) {

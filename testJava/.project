@@ -31,7 +31,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>wodel.project.sampleBuilder</name>
+			<name>wodel.project.wodelBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>

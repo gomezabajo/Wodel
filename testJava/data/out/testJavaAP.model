@@ -6,12 +6,12 @@
   <blocks name="apmrt" description="Argument propagation">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="stmt">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//ReturnStatement"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//ReturnStatement"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="../model/java.ecore#//ReturnStatement/expression"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//ReturnStatement/expression"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="../model/java.ecore#//MethodInvocation"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
             </value>
           </first>
         </expression>
@@ -19,24 +19,24 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="method">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
-        <refType href="../model/java.ecore#//ReturnStatement/expression"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//ReturnStatement/expression"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="param">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
-        <refType href="../model/java.ecore#//AbstractMethodInvocation/arguments"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//AbstractMethodInvocation/arguments"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//SingleVariableAccess"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//SingleVariableAccess"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="../model/java.ecore#//ReturnStatement/expression"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//ReturnStatement/expression"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
       </references>
     </commands>
@@ -44,12 +44,12 @@
   <blocks name="apmir" description="Argument propagation InfixExpression rightOperand">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/rightOperand"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="../model/java.ecore#//MethodInvocation"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
             </value>
           </first>
         </expression>
@@ -57,24 +57,24 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="method">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
-        <refType href="../model/java.ecore#//InfixExpression/rightOperand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/rightOperand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="param">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1">
-        <refType href="../model/java.ecore#//AbstractMethodInvocation/arguments"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//AbstractMethodInvocation/arguments"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//SingleVariableAccess"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//SingleVariableAccess"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="../model/java.ecore#//InfixExpression/rightOperand"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/rightOperand"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2"/>
       </references>
     </commands>
@@ -82,12 +82,12 @@
   <blocks name="apmil" description="Argument propagation InfixExpression leftOperand">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/leftOperand"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="../model/java.ecore#//MethodInvocation"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
             </value>
           </first>
         </expression>
@@ -95,24 +95,24 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="method">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
-        <refType href="../model/java.ecore#//InfixExpression/leftOperand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/leftOperand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="param">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1">
-        <refType href="../model/java.ecore#//AbstractMethodInvocation/arguments"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//AbstractMethodInvocation/arguments"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//SingleVariableAccess"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//SingleVariableAccess"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="../model/java.ecore#//InfixExpression/leftOperand"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//InfixExpression/leftOperand"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2"/>
       </references>
     </commands>
@@ -120,12 +120,12 @@
   <blocks name="apmas" description="Argument propagation Assignment">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="a">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//Assignment"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//Assignment/rightHandSide"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="../model/java.ecore#//MethodInvocation"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
             </value>
           </first>
         </expression>
@@ -133,24 +133,24 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="method">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
-        <refType href="../model/java.ecore#//Assignment/rightHandSide"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//Assignment/rightHandSide"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//MethodInvocation"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="param">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1">
-        <refType href="../model/java.ecore#//AbstractMethodInvocation/arguments"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//AbstractMethodInvocation/arguments"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/java.ecore#//SingleVariableAccess"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//SingleVariableAccess"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="../model/java.ecore#//Assignment/rightHandSide"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore#//Assignment/rightHandSide"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.2"/>
       </references>
     </commands>

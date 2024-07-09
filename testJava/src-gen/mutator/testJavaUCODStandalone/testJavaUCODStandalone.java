@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.AbstractMap.SimpleEntry;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
@@ -44,7 +43,7 @@ import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
 
 public class testJavaUCODStandalone extends MutatorUtils {
-	private static Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();
+	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
 	private static List<EObject> mutatedObjects = null;
 
 	private int mutation1(List<EPackage> packages, Resource model,
@@ -55,10 +54,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -136,10 +134,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -329,10 +326,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -512,10 +508,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<EObject> objects = new ArrayList<EObject>();
 		ObSelectionStrategy objectSelection = null;
@@ -556,9 +551,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("exp2") != null) {
@@ -597,7 +592,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/cod1/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -660,7 +655,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize,
-			IWodelTest test, TreeMap<String, List<String>> classes)
+			IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -673,9 +668,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -720,7 +715,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -735,8 +730,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages,
 					URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModelNoException(packages,
 					URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModelNoException(packages,
@@ -767,10 +762,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -848,10 +842,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -1041,10 +1034,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -1224,10 +1216,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<EObject> objects = new ArrayList<EObject>();
 		ObSelectionStrategy objectSelection = null;
@@ -1268,9 +1259,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("exp2") != null) {
@@ -1309,7 +1300,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/cod2/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -1372,7 +1363,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize,
-			IWodelTest test, TreeMap<String, List<String>> classes)
+			IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -1385,9 +1376,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -1432,7 +1423,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -1447,8 +1438,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages,
 					URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModelNoException(packages,
 					URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModelNoException(packages,
@@ -1479,10 +1470,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -1560,10 +1550,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -1753,10 +1742,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -1936,10 +1924,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<EObject> objects = new ArrayList<EObject>();
 		ObSelectionStrategy objectSelection = null;
@@ -1980,9 +1967,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("exp2") != null) {
@@ -2021,7 +2008,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/cod3/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -2084,7 +2071,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize,
-			IWodelTest test, TreeMap<String, List<String>> classes)
+			IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2097,9 +2084,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -2144,7 +2131,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -2159,8 +2146,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages,
 					URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModelNoException(packages,
 					URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModelNoException(packages,
@@ -2191,10 +2178,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -2272,10 +2258,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -2465,10 +2450,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<ObSelectionStrategy> containerSelectionList = new ArrayList<ObSelectionStrategy>();
 		List<SpecificReferenceSelection> referenceSelectionList = new ArrayList<SpecificReferenceSelection>();
@@ -2648,10 +2632,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
-			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
-			WrongAttributeTypeException, IOException {
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes) throws ReferenceNonExistingException,
+			MetaModelNotFoundException, ModelNotFoundException, ObjectNotContainedException,
+			ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		List<EObject> objects = new ArrayList<EObject>();
 		ObSelectionStrategy objectSelection = null;
@@ -2692,9 +2675,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("exp2") != null) {
@@ -2733,7 +2716,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/cod4/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -2796,7 +2779,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProgressMonitor monitor, int[] k, boolean serialize,
-			IWodelTest test, TreeMap<String, List<String>> classes)
+			IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2809,9 +2792,9 @@ public class testJavaUCODStandalone extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -2856,7 +2839,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -2871,8 +2854,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			Resource mutatormodel = ModelManager.loadModelNoException(mutatorpackages,
 					URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModelNoException(packages,
 					URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModelNoException(packages,
@@ -2899,7 +2882,7 @@ public class testJavaUCODStandalone extends MutatorUtils {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics,
 			boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages,
 			Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProgressMonitor monitor,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2915,8 +2898,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 			totalTasks++;
 		}
 		monitor.beginTask("Generating mutants", totalTasks);
-		Map<String, Set<String>> hashmapMutants = new HashMap<String, Set<String>>();
-		Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		Map<String, Set<String>> hashmapMutants = new LinkedHashMap<String, Set<String>>();
+		Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();
 		List<String> fromNames = null;
 		fromNames = new ArrayList<String>();
 		if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains("cod1") == true)) {

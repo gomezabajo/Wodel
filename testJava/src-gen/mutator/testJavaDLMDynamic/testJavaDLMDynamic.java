@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.AbstractMap.SimpleEntry;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
@@ -44,7 +43,7 @@ import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
 
 public class testJavaDLMDynamic extends MutatorUtils {
-	private Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>();
+	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
 	private List<EObject> mutatedObjects = null;
 
 	private int mutation1(List<EPackage> packages, Resource model,
@@ -55,7 +54,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -86,7 +85,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
 					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
@@ -94,8 +93,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 					atts.add(attConfig);
 					attsList.put("value", atts);
 				}
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				ModifyInformationMutator mut = new ModifyInformationMutator(obSelection.getModel(),
 						obSelection.getMetaModel(), obSelection, attsList, refsList, objsAttRef, attsRefList);
@@ -114,7 +113,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/bt/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -172,7 +171,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -185,9 +184,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -232,7 +231,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -246,8 +245,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -276,7 +275,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -307,7 +306,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
 					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
@@ -315,8 +314,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 					atts.add(attConfig);
 					attsList.put("value", atts);
 				}
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				ModifyInformationMutator mut = new ModifyInformationMutator(obSelection.getModel(),
 						obSelection.getMetaModel(), obSelection, attsList, refsList, objsAttRef, attsRefList);
@@ -335,7 +334,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/bf/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -393,7 +392,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -406,9 +405,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -453,7 +452,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -467,8 +466,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -497,7 +496,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -528,7 +527,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
 					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
@@ -536,8 +535,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 					atts.add(attConfig);
 					attsList.put("tokenValue", atts);
 				}
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				ModifyInformationMutator mut = new ModifyInformationMutator(obSelection.getModel(),
 						obSelection.getMetaModel(), obSelection, attsList, refsList, objsAttRef, attsRefList);
@@ -556,7 +555,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rnl/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -614,7 +613,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -627,9 +626,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -674,7 +673,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -688,8 +687,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -718,7 +717,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -789,7 +788,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -807,9 +806,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		} else {
 			return numMutantsGenerated;
 		}
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "NullLiteral");
 		Mutator mutator = null;
@@ -827,7 +826,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		}
 		mutator = mut;
 		if (mutator != null) {
-			Map<String, List<String>> rules = new HashMap<String, List<String>>();
+			Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/nrst/Output" + k[0] + ".model";
 			boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 					localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -890,7 +889,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -903,9 +902,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -950,7 +949,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -964,8 +963,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -994,7 +993,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1025,7 +1024,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
 					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
@@ -1033,8 +1032,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 					atts.add(attConfig);
 					attsList.put("tokenValue", atts);
 				}
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				ModifyInformationMutator mut = new ModifyInformationMutator(obSelection.getModel(),
 						obSelection.getMetaModel(), obSelection, attsList, refsList, objsAttRef, attsRefList);
@@ -1053,7 +1052,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rn0/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -1111,7 +1110,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -1124,9 +1123,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -1171,7 +1170,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -1185,8 +1184,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -1215,7 +1214,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1296,7 +1295,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1340,9 +1339,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				EObject refObjectSelected = null;
 				if (hmObjects.get("exp") != null) {
@@ -1468,7 +1467,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1477,31 +1476,31 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		EObject container = containers.get(ModelManager.getRandomIndex(containers));
 		ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 		SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection37 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_37 = hmObjects.get("exp");
-		if (entry_exp_37 != null) {
-			refSelection37 = new SpecificObjectSelection(packages, model, entry_exp_37.getKey(), "leftOperand");
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection9 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_9 = hmObjects.get("exp");
+		if (entry_exp_9 != null) {
+			refSelection9 = new SpecificObjectSelection(packages, model, entry_exp_9.getKey(), "leftOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_37 = hmList.get("exp");
-			if (listEntry_exp_37 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_9 = hmList.get("exp");
+			if (listEntry_exp_9 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_37) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_9) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection37 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
+				refSelection9 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection37);
+		refs.put("operand", refSelection9);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -1582,7 +1581,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1626,9 +1625,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("p") != null) {
@@ -1667,7 +1666,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rnn0/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -1730,7 +1729,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -1743,9 +1742,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -1790,7 +1789,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -1804,8 +1803,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -1834,7 +1833,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1915,7 +1914,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -1959,9 +1958,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				EObject refObjectSelected = null;
 				if (hmObjects.get("exp") != null) {
@@ -2087,7 +2086,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2096,31 +2095,31 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		EObject container = containers.get(ModelManager.getRandomIndex(containers));
 		ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 		SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection38 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_38 = hmObjects.get("exp");
-		if (entry_exp_38 != null) {
-			refSelection38 = new SpecificObjectSelection(packages, model, entry_exp_38.getKey(), "rightOperand");
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection10 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_10 = hmObjects.get("exp");
+		if (entry_exp_10 != null) {
+			refSelection10 = new SpecificObjectSelection(packages, model, entry_exp_10.getKey(), "rightOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_38 = hmList.get("exp");
-			if (listEntry_exp_38 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_10 = hmList.get("exp");
+			if (listEntry_exp_10 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_38) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_10) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection38 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
+				refSelection10 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection38);
+		refs.put("operand", refSelection10);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2201,7 +2200,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2245,9 +2244,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("p") != null) {
@@ -2286,7 +2285,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rnn1/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -2349,7 +2348,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2362,9 +2361,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -2409,7 +2408,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -2423,8 +2422,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -2453,7 +2452,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2534,7 +2533,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2578,9 +2577,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				EObject refObjectSelected = null;
 				if (hmObjects.get("rt") != null) {
@@ -2705,7 +2704,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2714,31 +2713,31 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		EObject container = containers.get(ModelManager.getRandomIndex(containers));
 		ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 		SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection39 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_39 = hmObjects.get("rt");
-		if (entry_rt_39 != null) {
-			refSelection39 = new SpecificObjectSelection(packages, model, entry_rt_39.getKey(), "expression");
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection11 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_11 = hmObjects.get("rt");
+		if (entry_rt_11 != null) {
+			refSelection11 = new SpecificObjectSelection(packages, model, entry_rt_11.getKey(), "expression");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_39 = hmList.get("rt");
-			if (listEntry_rt_39 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_11 = hmList.get("rt");
+			if (listEntry_rt_11 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_39) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_11) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection39 = new SpecificObjectSelection(packages, model, objs, "expression");
+				refSelection11 = new SpecificObjectSelection(packages, model, objs, "expression");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection39);
+		refs.put("operand", refSelection11);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2819,7 +2818,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -2863,9 +2862,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("p") != null) {
@@ -2904,7 +2903,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rnn2/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -2967,7 +2966,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -2980,9 +2979,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -3027,7 +3026,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -3041,8 +3040,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -3071,7 +3070,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -3152,7 +3151,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -3196,9 +3195,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				EObject refObjectSelected = null;
 				if (hmObjects.get("a") != null) {
@@ -3323,7 +3322,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -3332,31 +3331,31 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		EObject container = containers.get(ModelManager.getRandomIndex(containers));
 		ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 		SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-		Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		AttributeConfigurationStrategy attConfig = null;
 		attConfig = new SpecificStringConfigurationStrategy("-");
 		;
 		atts.put("operator", attConfig);
-		Map<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection40 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_40 = hmObjects.get("a");
-		if (entry_a_40 != null) {
-			refSelection40 = new SpecificObjectSelection(packages, model, entry_a_40.getKey(), "rightHandSide");
+		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
+		ObSelectionStrategy refSelection12 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_12 = hmObjects.get("a");
+		if (entry_a_12 != null) {
+			refSelection12 = new SpecificObjectSelection(packages, model, entry_a_12.getKey(), "rightHandSide");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_40 = hmList.get("a");
-			if (listEntry_a_40 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_12 = hmList.get("a");
+			if (listEntry_a_12 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_40) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_12) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection40 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
+				refSelection12 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection40);
+		refs.put("operand", refSelection12);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -3437,7 +3436,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -3481,9 +3480,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				if (obSelection != null && obSelection.getObject() != null) {
 					if (hmObjects.get("p") != null) {
@@ -3522,7 +3521,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rnn3/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -3585,7 +3584,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -3598,9 +3597,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -3645,7 +3644,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -3659,8 +3658,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -3689,7 +3688,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> localRegisteredPackages, Map<String, String> hashmapModelFolders, String ecoreURI,
 			boolean registry, Set<String> hashsetMutantsBlock, List<String> fromNames,
 			Map<String, List<String>> hashmapMutVersions, Mutations muts, IProject project, IProgressMonitor monitor,
-			int[] k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			int[] k, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
 			ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException,
 			WrongAttributeTypeException, IOException {
@@ -3720,7 +3719,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			object = ModelManager.getObject(resource, object);
 			if (object != null) {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
-				Map<String, List<AttributeConfigurationStrategy>> attsList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
 					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
@@ -3728,8 +3727,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 					atts.add(attConfig);
 					attsList.put("escapedValue", atts);
 				}
-				Map<String, List<ReferenceConfigurationStrategy>> refsList = new HashMap<String, List<ReferenceConfigurationStrategy>>();
-				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new HashMap<String, List<AttributeConfigurationStrategy>>();
+				Map<String, List<ReferenceConfigurationStrategy>> refsList = new LinkedHashMap<String, List<ReferenceConfigurationStrategy>>();
+				Map<String, List<AttributeConfigurationStrategy>> attsRefList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				List<EObject> objsAttRef = new ArrayList<EObject>();
 				ModifyInformationMutator mut = new ModifyInformationMutator(obSelection.getModel(),
 						obSelection.getMetaModel(), obSelection, attsList, refsList, objsAttRef, attsRefList);
@@ -3748,7 +3747,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				}
 				mutator = mut;
 				if (mutator != null) {
-					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					Map<String, List<String>> rules = new LinkedHashMap<String, List<String>>();
 					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/rsl/Output" + k[0] + ".model";
 					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages,
 							localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename,
@@ -3806,7 +3805,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			Map<String, EPackage> registeredPackages, Map<String, EPackage> localRegisteredPackages,
 			List<String> fromNames, Map<String, Set<String>> hashmapMutants,
 			Map<String, List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int[] k,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -3819,9 +3818,9 @@ public class testJavaDLMDynamic extends MutatorUtils {
 				.replace("/bin/", "/") + "data/model/";
 		String modelsURI = testJavaDLMDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 				.replace("/bin/", "/") + "data/out/";
-		Map<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		Map<String, String> hashmapModelFolders = new HashMap<String, String>();
-		Map<String, String> seedModelFilenames = new HashMap<String, String>();
+		Map<String, String> hashmapModelFilenames = new LinkedHashMap<String, String>();
+		Map<String, String> hashmapModelFolders = new LinkedHashMap<String, String>();
+		Map<String, String> seedModelFilenames = new LinkedHashMap<String, String>();
 		File[] files = new File(modelURI).listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() == true) {
@@ -3866,7 +3865,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 		for (String modelFilename : modelFilenames) {
 			String seedModelFilename = seedModelFilenames.get(modelFilename);
 			Set<String> hashsetMutantsBlock = null;
-			hashsetMutantsBlock = new HashSet<String>();
+			hashsetMutantsBlock = new LinkedHashSet<String>();
 			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
 				hashsetMutantsBlock.add(seedModelFilename);
 			}
@@ -3880,8 +3879,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFilename).toFileString());
 			Map<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
-			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new LinkedHashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new LinkedHashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
@@ -3906,7 +3905,7 @@ public class testJavaDLMDynamic extends MutatorUtils {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics,
 			boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages,
 			Map<String, EPackage> localRegisteredPackages, String[] blockNames, IProject project,
-			IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			IProgressMonitor monitor, boolean serialize, IWodelTest test, Map<String, List<String>> classes)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
@@ -3922,8 +3921,8 @@ public class testJavaDLMDynamic extends MutatorUtils {
 			totalTasks++;
 		}
 		monitor.beginTask("Generating mutants", totalTasks);
-		Map<String, Set<String>> hashmapMutants = new HashMap<String, Set<String>>();
-		Map<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		Map<String, Set<String>> hashmapMutants = new LinkedHashMap<String, Set<String>>();
+		Map<String, List<String>> hashmapMutVersions = new LinkedHashMap<String, List<String>>();
 		List<String> fromNames = null;
 		fromNames = new ArrayList<String>();
 		if (blockNames == null || (blockNames != null && Arrays.asList(blockNames).contains("bt") == true)) {

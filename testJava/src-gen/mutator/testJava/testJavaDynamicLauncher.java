@@ -2,7 +2,7 @@ package mutator.testJava;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,7 +40,7 @@ import wodel.utils.manager.MutatorUtils.MutationResults;
 public class testJavaDynamicLauncher implements IMutatorExecutor {
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics,
 			boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize,
-			Object testObject, TreeMap<String, List<String>> classes, HashMap<String, EPackage> registeredPackages)
+			Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {

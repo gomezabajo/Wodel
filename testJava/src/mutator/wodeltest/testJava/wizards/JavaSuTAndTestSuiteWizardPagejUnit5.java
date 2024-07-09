@@ -13,7 +13,7 @@ public class JavaSuTAndTestSuiteWizardPagejUnit5 extends WizardPage {
 	
 	protected JavaSuTAndTestSuiteWizardPagejUnit5(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for jUnit5 Example");
+		setTitle("Wodel-Test for jUnit5");
 		setDescription("This wizard creates the Wodel-Test for jUnit5 example.");
 		this.selection = selection;
 	}

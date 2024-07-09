@@ -19,8 +19,8 @@ import mutator.testJavaLO.testJavaLOStandaloneAPI;
 import mutator.testJavaRO.testJavaROStandaloneAPI;
 import mutator.testJavaSO.testJavaSOStandaloneAPI;
 import mutator.testJavaIN.testJavaINStandaloneAPI;
-import mutator.testJavaRest.testJavaRestStandaloneAPI;
 import mutator.testJavaDLM.testJavaDLMStandaloneAPI;
+import mutator.testJavaRest.testJavaRestStandaloneAPI;
 import mutator.testJavaUCOD.testJavaUCODStandaloneAPI;
 import mutator.testJavaCO.testJavaCOStandaloneAPI;
 import mutator.testJavaAP.testJavaAPStandaloneAPI;
@@ -33,15 +33,15 @@ public class testJavaStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication43/testJava/data/model/java.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication3/testJava/data/model/java.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testJavaNLS");
 		mutatorNames.add("testJavaLO");
 		mutatorNames.add("testJavaRO");
 		mutatorNames.add("testJavaSO");
 		mutatorNames.add("testJavaIN");
-		mutatorNames.add("testJavaRest");
 		mutatorNames.add("testJavaDLM");
+		mutatorNames.add("testJavaRest");
 		mutatorNames.add("testJavaUCOD");
 		mutatorNames.add("testJavaCO");
 		mutatorNames.add("testJavaAP");
@@ -79,14 +79,6 @@ public class testJavaStandaloneAPILauncher {
 		mutatorOperatorNamestestJavaIN.add("inst");
 		mutatorOperatorNamestestJavaIN.add("ina");
 		operatorNames.add(mutatorOperatorNamestestJavaIN);
-		List<String> mutatorOperatorNamestestJavaRest = new ArrayList<String>();
-		mutatorOperatorNamestestJavaRest.add("rtr");
-		mutatorOperatorNamestestJavaRest.add("vmr");
-		mutatorOperatorNamestestJavaRest.add("nvmr");
-		mutatorOperatorNamestestJavaRest.add("cir");
-		mutatorOperatorNamestestJavaRest.add("vra");
-		mutatorOperatorNamestestJavaRest.add("rst");
-		operatorNames.add(mutatorOperatorNamestestJavaRest);
 		List<String> mutatorOperatorNamestestJavaDLM = new ArrayList<String>();
 		mutatorOperatorNamestestJavaDLM.add("bt");
 		mutatorOperatorNamestestJavaDLM.add("bf");
@@ -99,6 +91,14 @@ public class testJavaStandaloneAPILauncher {
 		mutatorOperatorNamestestJavaDLM.add("rnn3");
 		mutatorOperatorNamestestJavaDLM.add("rsl");
 		operatorNames.add(mutatorOperatorNamestestJavaDLM);
+		List<String> mutatorOperatorNamestestJavaRest = new ArrayList<String>();
+		mutatorOperatorNamestestJavaRest.add("rtr");
+		mutatorOperatorNamestestJavaRest.add("vmr");
+		mutatorOperatorNamestestJavaRest.add("nvmr");
+		mutatorOperatorNamestestJavaRest.add("cir");
+		mutatorOperatorNamestestJavaRest.add("vra");
+		mutatorOperatorNamestestJavaRest.add("rst");
+		operatorNames.add(mutatorOperatorNamestestJavaRest);
 		List<String> mutatorOperatorNamestestJavaUCOD = new ArrayList<String>();
 		mutatorOperatorNamestestJavaUCOD.add("cod1");
 		mutatorOperatorNamestestJavaUCOD.add("cod2");
@@ -162,7 +162,7 @@ public class testJavaStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication43/testJava/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication3/testJava/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -174,9 +174,9 @@ public class testJavaStandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		File projectFolder = new File(
-				testJavaINStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+				testJavaAOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = testJavaINStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
+		String outputWodelFolder = testJavaAOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
@@ -190,9 +190,9 @@ public class testJavaStandaloneAPILauncher {
 		i++;
 		testJavaINStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
-		testJavaRestStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
 		testJavaDLMStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testJavaRestStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		testJavaUCODStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;

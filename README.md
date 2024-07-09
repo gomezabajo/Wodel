@@ -1,4 +1,4 @@
-# Wodel-Test for Conga
+# Wodel-Test for Chatbots
 
 Wodel-Test is built on top of Wodel, a domain-specific language to define and execute model mutations.
 

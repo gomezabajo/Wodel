@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/WodelTest4Chatbots.plugins_1.0.0.202407091500.jar" id="WodelTest4Chatbots.plugins" version="1.0.0.202407091500">
+      <category name="Wodel-Test for Chatbots"/>
+   </feature>
+   <category-def name="Wodel-Test for Chatbots" label="Wodel-Test for Chatbots"/>
+</site>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/testJava.plugins_1.0.0.202407091205.jar" id="testJava.plugins" version="1.0.0.202407091205">
+   <feature url="features/testJava.plugins_1.0.0.202407091233.jar" id="testJava.plugins" version="1.0.0.202407091233">
       <category name="Wodel-Test for Java"/>
    </feature>
    <category-def name="Wodel-Test for Java" label="Wodel-Test for Java"/>

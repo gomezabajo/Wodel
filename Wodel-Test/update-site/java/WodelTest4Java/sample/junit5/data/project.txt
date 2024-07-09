@@ -1,2 +1,0 @@
-WodelTest4Java
-org.eclipse.jdt.core.javanature

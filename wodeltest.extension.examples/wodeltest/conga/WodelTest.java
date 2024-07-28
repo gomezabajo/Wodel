@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
@@ -1090,7 +1090,7 @@ public class WodelTest implements IWodelTest {
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath) {
 		incrementPort();
-		Map<IProject, WodelTestGlobalResult> globalResultsMap = new HashMap<IProject, WodelTestGlobalResult>();
+		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		try {
 			/*** descomprimir el chatbot ***/
 			artifactPath = artifactPath.replace("\\", "/");
@@ -1244,7 +1244,7 @@ public class WodelTest implements IWodelTest {
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
 			String artifactPath, int port) {
-		Map<IProject, WodelTestGlobalResult> globalResultsMap = new HashMap<IProject, WodelTestGlobalResult>();
+		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());
 		String mutant = chatbotName; 
 		chatbotName = chatbotName.substring(0, chatbotName.indexOf("/"));
@@ -1403,7 +1403,7 @@ public class WodelTest implements IWodelTest {
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
 			String artifactPath, List<Thread> threads) {
 		incrementPort();
-		Map<IProject, WodelTestGlobalResult> globalResultsMap = new HashMap<IProject, WodelTestGlobalResult>();
+		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());
 		String mutant = chatbotName; 
 		chatbotName = chatbotName.substring(0, chatbotName.indexOf("/"));
@@ -1463,6 +1463,9 @@ public class WodelTest implements IWodelTest {
 				rasaProcess.destroyForcibly();
 				
 				/*** recolectar resultados ***/
+				if (globalResultsMap.get(testSuiteProject) == null) {
+					globalResultsMap.put(testSuiteProject, new WodelTestGlobalResult());
+				}
 				WodelTestResult wtr = parseRasaTestResults(globalResultsMap.get(testSuiteProject), artifactPath, rasaResultsPath + "/" + RASA_LANGUAGE);
 				List<WodelTestResultClass> results = globalResultsMap.get(testSuiteProject).getResults();
 				WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, artifactPath);

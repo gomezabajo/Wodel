@@ -17,16 +17,16 @@ with blocks {
 			with {copy(name, cl.name), variableDeclaration = ipe}
 		modify mod with {elements += elem}
 	}
-//	ripe "Remove in pattern" {
-//		remove one InPatternElement
-//	}
-//	ccipe "Class change in pattern" {
-//		sipe = select one SimpleInPatternElement
-//		type = select one OclModelElement in sipe->type
-//		cl = select one EClass from input resources where {name <> type.name}
-//		modify type with {copy(name, cl.name)}
-//	}
-//	ncipe "Name change in pattern" {
-//		modify one InPatternElement with {varName = random-string(4, 6)}
-//	}
+	ripe "Remove in pattern" {
+		remove one InPatternElement
+	}
+	ccipe "Class change in pattern" {
+		sipe = select one SimpleInPatternElement
+		type = select one OclModelElement in sipe->type
+		cl = select one EClass from input resources where {name <> type.name}
+		modify type with {copy(name, cl.name)}
+	}
+	ncipe "Name change in pattern" {
+		modify one InPatternElement with {varName = random-string(4, 6)}
+	}
 }

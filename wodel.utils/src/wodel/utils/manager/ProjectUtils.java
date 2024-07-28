@@ -105,7 +105,7 @@ public class ProjectUtils {
 		            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 		                if (workspaceProjectFolder.isDirectory()) {
 		                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-		                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+		                    if (isWodelProject(workspaceProject)) {
 		                        setProject(workspaceProject);
 		                        return workspaceProject;
 		                    }
@@ -123,8 +123,10 @@ public class ProjectUtils {
 	public static IProject projectsAreReady() {
 		currentProject = null;
        	IProject project = null;
-       	if (isReadyFile() == null) {
-       		return project;
+       	IFile file = null;
+       	if ((file = isReadyFile()) != null) {
+       		currentProject = file.getProject();
+       		return currentProject;
        	}
     	try {
             IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -135,7 +137,7 @@ public class ProjectUtils {
 	            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 	                if (workspaceProjectFolder.isDirectory()) {
 	                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-	                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+	                    if (isWodelProject(workspaceProject)) {
 	                        project = workspaceProject;
 	                        setProject(project);
 	                        return project;
@@ -166,8 +168,8 @@ public class ProjectUtils {
 //	        }
 //	    }
 		IFile file = null;
-	    if (window != null && window.getActivePage() != null && window.getActivePage().getActiveEditor() != null && window.getActivePage().getActiveEditor() instanceof IEditorPart) {
-	    	IEditorReference[] editors = window.getActivePage().getEditorReferences();
+	    if (window != null && window.getPages() != null && window.getPages()[0] != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences().length > 0 && window.getPages()[0].getEditorReferences()[0] instanceof IEditorReference) {
+	    	IEditorReference[] editors = window.getPages()[0].getEditorReferences();
 	    	if (editors != null && editors.length > 0) {
 	    		for (IEditorReference editor : editors) {
 	    			IEditorPart part = editor.getEditor(true);
@@ -179,6 +181,9 @@ public class ProjectUtils {
 	    			}
 	    		}
 	    	}
+	    }
+	    if (file != null && !isWodelProject(file.getProject())) {
+	    	return null;
 	    }
 	    return file;
 	}
@@ -221,13 +226,8 @@ public class ProjectUtils {
 	}
 	
 	public static void setProject(IProject project) {
-		try {
-			if (project != null && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
-				currentProject = project;
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (isWodelProject(project)) {
+			currentProject = project;
 		}
 	}
 	
@@ -314,5 +314,18 @@ public class ProjectUtils {
 			filename = new ArrayList<String>(fileNames).get(0);
 		}
 		return filename;
+	}
+
+	
+	public static boolean isWodelProject(IProject project) {
+		try {
+			if (project != null && project.exists() && project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID) && !project.hasNature("wodeltest.extension.wodelTestSUTNature")) {
+				return true;
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

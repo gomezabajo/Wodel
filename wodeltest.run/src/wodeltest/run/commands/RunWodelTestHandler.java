@@ -280,7 +280,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						testSuitesProjects.add(p);
 					}
 				}
-				String path = sourceProject.getLocation().toFile().getPath().toString();
+				String path = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/");
 				IOUtils.deleteFile(path + "/data/classes.txt");
 				for (IProject testSuiteProject : testSuitesProjects) {
 					File testSuiteResultsFolder = new File(path + "/data/" + testSuiteProject.getName());
@@ -400,7 +400,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				List<EObject> blocks = null;
 				List<String> blockNames = null;
 				MutationResults mutationResults = null;
-				String classesPath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
+				String classesPath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 				Map<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
 				try {
@@ -905,7 +905,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
-						String classpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
+						String classpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 						for (IProject testSuiteProject : testSuitesProjects) {
 						    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
 						    List<String> liveMutantPaths = new ArrayList<String>();
@@ -925,7 +925,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						    	}
 						    }
 							files = null;
-							String equivalentpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
+							String equivalentpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
 							if (doCompare != null) {
 								for (File file : sourcefiles) {
 									if (file.isFile() == true) {

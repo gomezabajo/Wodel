@@ -138,8 +138,8 @@ public class WodelEduAutomataWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("WodelEduFAExample");
-		this.fileText.setText("WodelEduFAExample.mutator");
+		this.projectText.setText("WodelEduFA");
+		this.fileText.setText("WodelEduFA.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

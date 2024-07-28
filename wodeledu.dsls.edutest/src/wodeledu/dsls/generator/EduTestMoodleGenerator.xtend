@@ -59,6 +59,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 	private String fileName
 	private String pageName
 	private List<EObject> blocks
+	private List<EObject> mutators
 	private List<EPackage> metamodel
 	private List<EClass> roots
 
@@ -76,6 +77,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);
 			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)
 			blocks = ModelManager.getObjectsOfType("Block", mutatormodel)
+			mutators = ModelManager.getObjectsOfType("Mutator", mutatormodel)
 
 			for (p : resource.allContents.toIterable.filter(Program)) {
 				if (i == 0) {
@@ -100,7 +102,15 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 	def compile(Program program, Resource resource) '''
 		«{buildOptions(program, resource, blocks, roots, program.class); ""}»
 		<?xml version="1.0" encoding="UTF-8"?>
-		<!--«var List<EPackage> packages = ModelManager.loadMetaModel((blocks.get(0).eContainer as MutatorEnvironment).definition.metamodel)»-->
+		<!--«var EObject main = null»-->
+		«IF blocks.size() > 0»
+		«{main = blocks.get(0); ""}»
+		«ELSE»
+		«IF mutators.size() > 0»
+		«{main = mutators.get(0); ""}»
+		«ENDIF»
+		«ENDIF»
+		<!--«var List<EPackage> packages = ModelManager.loadMetaModel((main.eContainer as MutatorEnvironment).definition.metamodel)»-->
 		<!--«var String domain = packages.get(0).getNsURI().replace("http://", "")»-->
 		<!--«domain = domain.substring(0, domain.lastIndexOf("/")).replace("/", "")»-->
 		<quiz>
@@ -1164,7 +1174,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         <!-- «k++»-->
         <!-- «opWithGaps = opWithGaps.replace(" %" + k, "")»-->
 		<!-- «textWithGaps += opWithGaps.trim()»-->
-        «{diagram = diagram.substring(0, diagram.lastIndexOf("/") + 1) + answersClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length)}»
+        «{diagram = diagram.substring(0, diagram.lastIndexOf("/") + 1) + answersClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length); ""}»
         <!--«var File file = new File(projectPath + "/src-gen/html/" + diagram)»-->
         «IF file.isFile && file.exists()»
         <question type="ddwtos">
@@ -1209,8 +1219,8 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
         «ENDFOR»
         «ENDFOR»
         «ENDFOR»
-        «ENDIF»
         </question>
+        «ENDIF»
         «ENDIF»
 	    «ENDFOR»
         «ENDIF»

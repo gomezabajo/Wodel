@@ -149,7 +149,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				if (test == null) {
 					return;
 				}
-				String path = sourceProject.getLocation().toFile().getPath().toString();
+				String path = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/");
 				File folder = new File(path + "/data/");
 				if (!folder.exists()) {
 					folder.mkdir();
@@ -250,7 +250,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				List<String> blockNames = null;
 				Object ob = null;
 				MutationResults mutationResults = null;
-				String classesPath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
+				String classesPath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 				Map<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
 				try {
@@ -652,7 +652,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
-						String classpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.txt";
+						String classpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 					    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsPath);
 					    List<String> liveMutantPaths = new ArrayList<String>();
 					    for (String packagename : packageClasses.keySet()) {
@@ -671,7 +671,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					    	}
 					    }
 						files = null;
-						String equivalentpath = sourceProject.getLocation().toFile().getPath().toString() + "/data/classes.equivalent.txt";
+						String equivalentpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.equivalent.txt";
 						if (doCompare != null) {
 							for (File file : sourcefiles) {
 								if (file.isFile() == true) {
@@ -805,7 +805,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 					if (mutatorNames.length() > 0) {
 						mutatorNames = mutatorNames.substring(0, mutatorNames.lastIndexOf("|"));
 					}
-					WodelTestUtils.storeFile(sourceProject.getLocation().toFile().getPath().toString() + "/data/mutators.txt", mutatorNames);
+					WodelTestUtils.storeFile(sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/mutators.txt", mutatorNames);
 
 					currentTimeMillis = System.currentTimeMillis() - currentTimeMillis;
 					String globalResultsData = String.format("%d", currentTimeMillis) + "\n";

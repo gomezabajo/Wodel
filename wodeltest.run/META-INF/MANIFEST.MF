@@ -37,7 +37,13 @@ Require-Bundle: org.eclipse.ui,
  junit-platform-commons,
  org.hamcrest.core,
  junit-platform-engine,
- junit-jupiter-api
+ junit-jupiter-api,
+ org.eclipse.pde.core,
+ org.eclipse.debug.core,
+ org.eclipse.ui.cheatsheets,
+ org.eclipse.pde.ui,
+ org.eclipse.pde.build,
+ org.eclipse.jdt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodeltest.run
 Bundle-ActivationPolicy: lazy

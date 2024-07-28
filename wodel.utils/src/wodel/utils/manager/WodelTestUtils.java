@@ -1072,7 +1072,7 @@ public class WodelTestUtils {
 		            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 		                if (workspaceProjectFolder.isDirectory()) {
 		                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-		                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+		                    if (isWodelTestSUTProject(workspaceProject)) {
 		                        setProject(workspaceProject);
 		                        return workspaceProject;
 		                    }
@@ -1090,8 +1090,10 @@ public class WodelTestUtils {
 	public static IProject projectsAreReady() {
 		currentProject = null;
        	IProject project = null;
-       	if (isReadyFile() == null) {
-       		return project;
+       	IFile file = null;
+       	if ((file = isReadyFile()) != null) {
+       		currentProject = file.getProject();
+       		return currentProject;
        	}
     	try {
             IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -1102,7 +1104,7 @@ public class WodelTestUtils {
 	            for (File workspaceProjectFolder : workspaceFolder.listFiles()) {
 	                if (workspaceProjectFolder.isDirectory()) {
 	                    IProject workspaceProject = workspaceRoot.getProject(workspaceProjectFolder.getName());
-	                    if (workspaceProject.exists() && workspaceProject.isOpen() && workspaceProject.hasNature(JavaCore.NATURE_ID) && workspaceProject.hasNature(NATURE_ID)) {
+	                    if (isWodelTestSUTProject(workspaceProject)) {
 	                        project = workspaceProject;
 	                        setProject(project);
 	                        return project;
@@ -1133,21 +1135,36 @@ public class WodelTestUtils {
 //	        }
 //	    }
 		IFile file = null;
-	    if (window != null && window.getActivePage() != null && window.getActivePage().getActiveEditor() != null && window.getActivePage().getActiveEditor() instanceof IEditorPart) {
+	    if (window != null && window.getPages() != null && window.getPages()[0] != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences().length > 0 && window.getPages()[0].getEditorReferences()[0] instanceof IEditorReference) {
 	    	IEditorReference[] editors = window.getActivePage().getEditorReferences();
 	    	if (editors != null && editors.length > 0) {
 	    		for (IEditorReference editor : editors) {
 	    			IEditorPart part = editor.getEditor(true);
 	    			if (part != null) {
 	    				file = getFile(part);
-	    				if (file != null && file.getFileExtension().equals("mutator")) {
+	    				if (file != null) {
 	    					break;
 	    				}
 	    			}
 	    		}
 	    	}
 	    }
+	    if (file != null && !isWodelTestSUTProject(file.getProject())) {
+	    	return null;
+	    }
 	    return file;
+	}
+	
+	public static boolean isWodelTestSUTProject(IProject project) {
+		try {
+			if (project != null && project.exists() && project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
+				return true;
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public static IProject getProject() {
@@ -1162,27 +1179,17 @@ public class WodelTestUtils {
 				project = file.getProject();
 			}
 		}
-		try {
-			if (project == null || !(project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID))) {
-				project = projectsAreReady();
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (file != null && !isWodelTestSUTProject(file.getProject())) {
+			project = projectsAreReady();
 		}
-		try {
-			if (project != null && project.hasNature(JavaCore.NATURE_ID) && project.hasNature(NATURE_ID)) {
-				setProject(project);
-				Set<String> fileNames = ProjectUtils.getFiles("mutator");
-				if (fileNames == null || fileNames.size() == 0) {
-					return project;
-				}
-				String fileName = new ArrayList<String>(fileNames).get(0);
-				file = currentProject.getFolder("src").getFile(fileName);
+		if (isWodelTestSUTProject(project)) {
+			setProject(project);
+			Set<String> fileNames = ProjectUtils.getFiles("mutator");
+			if (fileNames == null || fileNames.size() == 0) {
+				return project;
 			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String fileName = new ArrayList<String>(fileNames).get(0);
+			file = currentProject.getFolder("src").getFile(fileName);
 		}
 		return project;
 	}
@@ -1285,49 +1292,47 @@ public class WodelTestUtils {
 	
 	public static BasicFileAttributes awaitFile(String target, long timeout) 
 		    throws IOException, InterruptedException
-		{
-		    final java.nio.file.Path name = Paths.get(target).getFileName();
-		    final java.nio.file.Path targetDir = Paths.get(target).getParent();
+	{
+	    final java.nio.file.Path name = Paths.get(target).getFileName();
+	    final java.nio.file.Path targetDir = Paths.get(target).getParent();
 
-		    // If path already exists, return early
-		    try {
-		        return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
-		    } catch (NoSuchFileException ex) {}
+	    // If path already exists, return early
+	    try {
+	        return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	    } catch (NoSuchFileException ex) {}
 
-		    final WatchService watchService = FileSystems.getDefault().newWatchService();
-		    try {
-		        final WatchKey watchKey = targetDir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
-		        // The file could have been created in the window between Files.readAttributes and Path.register
-		        try {
-		            return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
-		        } catch (NoSuchFileException ex) {}
-		        // The file is absent: watch events in parent directory 
-		        WatchKey watchKey1 = null;
-		        boolean valid = true;
-		        do {
-		            long t0 = System.currentTimeMillis();
-		            watchKey1 = watchService.poll(timeout, TimeUnit.MILLISECONDS);
-		            if (watchKey1 == null) {
-		                return null; // timed out
-		            }
-		            // Examine events associated with key
-		            for (WatchEvent<?> event: watchKey1.pollEvents()) {
-		            	java.nio.file.Path path1 = (java.nio.file.Path) event.context();
-		                if (path1.getFileName().equals(name)) {
-		                    return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
-		                }
-		            }
-		            // Did not receive an interesting event; re-register key to queue
-		            long elapsed = System.currentTimeMillis() - t0;
-		            timeout = elapsed < timeout? (timeout - elapsed) : 0L;
-		            valid = watchKey1.reset();
-		        } while (valid);
-		    } finally {
-		        watchService.close();
-		    }
+	    final WatchService watchService = FileSystems.getDefault().newWatchService();
+	    try {
+	        final WatchKey watchKey = targetDir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+	        // The file could have been created in the window between Files.readAttributes and Path.register
+	        try {
+	            return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	        } catch (NoSuchFileException ex) {}
+	        // The file is absent: watch events in parent directory 
+	        WatchKey watchKey1 = null;
+	        boolean valid = true;
+	        do {
+	            long t0 = System.currentTimeMillis();
+	            watchKey1 = watchService.poll(timeout, TimeUnit.MILLISECONDS);
+	            if (watchKey1 == null) {
+	                return null; // timed out
+	            }
+	            // Examine events associated with key
+	            for (WatchEvent<?> event: watchKey1.pollEvents()) {
+	            	java.nio.file.Path path1 = (java.nio.file.Path) event.context();
+	                if (path1.getFileName().equals(name)) {
+	                    return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	                }
+	            }
+	            // Did not receive an interesting event; re-register key to queue
+	            long elapsed = System.currentTimeMillis() - t0;
+	            timeout = elapsed < timeout? (timeout - elapsed) : 0L;
+	            valid = watchKey1.reset();
+	        } while (valid);
+	    } finally {
+	        watchService.close();
+	    }
 
-		    return null;
-		}
-
-	
+	    return null;
+	}
 }

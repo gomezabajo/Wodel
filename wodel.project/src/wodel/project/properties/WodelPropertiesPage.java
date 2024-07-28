@@ -82,6 +82,9 @@ public class WodelPropertiesPage extends PropertyPage {
 		if (getElement() instanceof IProject) {
 			project = (IProject) getElement();
 		}
+		if (getElement() instanceof IFile) {
+			project = ((IFile) getElement()).getProject();
+		}
 		if (project != null) {
 			pathValueText.setText(project.getLocation().toFile().toPath().toString());
 		}

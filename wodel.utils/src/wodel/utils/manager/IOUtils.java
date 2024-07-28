@@ -82,6 +82,40 @@ public class IOUtils {
 		}
 	}
 
+	public static void deleteFolderStartingWith(String foldername, String startWith) {
+		File folder = new File(foldername);
+		if (folder != null) {
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					if (file.isFile() && file.getName().startsWith(startWith)) {
+						file.delete();
+					}
+					else if (file.isDirectory()) {
+						deleteFolderStartingWith(file.getPath(), startWith);
+					}
+				}
+			}
+			deleteFolderIfEmpty(foldername);
+		}
+	}
+
+	public static void deleteFolderIfEmpty(String foldername) {
+		File folder = new File(foldername);
+		boolean contents = false;
+		if (folder != null) {
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					if (file.isFile() && file.exists()) {
+						contents = true;
+					}
+				}
+			}
+		}
+		if (contents == false) {
+			deleteFolder(foldername);
+		}
+	}
+
 	public static void deleteFolder(String foldername, List<String> exceptions) {
 		File folder = new File(foldername);
 		if (folder != null) {
@@ -408,6 +442,96 @@ public class IOUtils {
 					writer.close();
 				}
 			}
+		}
+	}
+
+	public static void copyFolderExceptStartingWith(File src, File dest, String startString) throws IOException {
+		
+		if (src.getPath().equals(dest.getPath())) {
+			return;
+		}
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdirs();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				if (!file.startsWith(startString)) {
+					// construct the src and dest file structure
+					File srcFile = new File(src, file);
+					File destFile = new File(dest, file);
+					// recursive copy
+					copyFolderExceptStartingWith(srcFile, destFile, startString);
+				}
+			}
+
+		} else if (!src.getName().startsWith(startString)) {
+			// if file, then copy it
+			// Use bytes stream to support all file types
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			// copy the file content in bytes
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
+		}
+	}
+
+	public static void copyFolderStartingWith(File src, File dest, String startString) throws IOException {
+		
+		if (src.getPath().equals(dest.getPath())) {
+			return;
+		}
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdirs();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				// construct the src and dest file structure
+				if (file.startsWith(startString)) {
+					File srcFile = new File(src, file);
+					File destFile = new File(dest, file);
+					// recursive copy
+					copyFolderStartingWith(srcFile, destFile, startString);
+				}
+			}
+
+		} else if (src.getName().startsWith(startString)) {
+			// if file, then copy it
+			// Use bytes stream to support all file types
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			// copy the file content in bytes
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
 		}
 	}
 }

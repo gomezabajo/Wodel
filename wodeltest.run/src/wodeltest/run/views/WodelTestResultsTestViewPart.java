@@ -44,7 +44,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
-import wodel.utils.manager.ModelManager;
 import wodeltest.run.utils.MutatorHelper;
 import wodeltest.run.utils.JUnitProgressBar.Failure;
 import wodeltest.run.utils.JUnitProgressBar.Ok;
@@ -82,7 +81,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 	private static final Color GREY = new Stopped(Display.getCurrent()).getColor();
 
 	
-	private static int filterIndex = -1;
+	private static Map<String, Integer> filterIndex = new TreeMap<String, Integer>();
 	
 	private static IProject sourceProject = null;
 	private static List<String> testSuiteNames = null;
@@ -106,29 +105,23 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 		}
 	}
 	
-	private class DataFilter extends ViewerFilter {
+	public class DataFilter extends ViewerFilter {
+
+		final private String testSuiteNameDataFilter;
+		
+		public DataFilter(String testSuiteNameDataFilter) {
+			this.testSuiteNameDataFilter = testSuiteNameDataFilter;
+		}
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if (WodelTestUtils.projectsAreReady() == null) {
 				return true;
 			}
-			IProject project = WodelTestUtils.getProject();
-			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
-			String testSuiteName = null;
-			if (testSuiteNames.size() > 0) {
-				testSuiteName = testSuiteNames.get(0);
-			}
-			if (currentTab != null && currentTab.isDisposed() == false) {
-				testSuiteName = currentTab.getText();
-			}
-			if (currentTestSuiteName != null && currentTestSuiteName.length() > 0) {
-				testSuiteName = currentTestSuiteName;
-			}
-			if (filterIndex == -1 || filterIndex == 0) {
+			if (filterIndex.get(this.testSuiteNameDataFilter) == -1 || filterIndex.get(this.testSuiteNameDataFilter) == 0) {
 				return true;
 			}
-			if (filterIndex == 1) {
+			if (filterIndex.get(this.testSuiteNameDataFilter) == 1) {
 				if (element instanceof WodelTestTest) {
 					return true;
 				}
@@ -148,7 +141,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					return result.getValue() && result.getFailure() == false; 
 				}
 			}
-			if (filterIndex == 2) {
+			if (filterIndex.get(this.testSuiteNameDataFilter) == 2) {
 				if (element instanceof WodelTestTest) {
 					return true;
 				}
@@ -168,7 +161,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					return !result.getValue() && result.getFailure() == false; 
 				}
 			}
-			if (filterIndex == 3) {
+			if (filterIndex.get(this.testSuiteNameDataFilter) == 3) {
 				if (element instanceof WodelTestTest) {
 					return true;
 				}
@@ -228,7 +221,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 					m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestTestResultsContentProvider());
 					m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
 					m_treeViewer.get(testSuiteName).setInput(tests.get(testSuiteName));
-					m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+					m_treeViewer.get(testSuiteName).addFilter(new DataFilter(testSuiteName));
 					m_treeViewer.get(testSuiteName).collapseAll();
 					contents.get(testSuiteName).layout();
 					contents.get(testSuiteName).redraw();
@@ -275,7 +268,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 			filterCombo.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					filterIndex = filterCombo.getSelectionIndex();
+					filterIndex.put(testSuiteName, filterCombo.getSelectionIndex());
 					m_treeViewer.get(testSuiteName).collapseAll();
 					m_treeViewer.get(testSuiteName).refresh();
 				}
@@ -338,7 +331,7 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 			m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestTestResultsContentProvider());
 			m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
 			m_treeViewer.get(testSuiteName).setInput(tests.get(testSuiteName));
-			m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+			m_treeViewer.get(testSuiteName).addFilter(new DataFilter(testSuiteName));
 			m_treeViewer.get(testSuiteName).collapseAll();
 		}
 		getSite().getPage().addPartListener(this);
@@ -635,12 +628,15 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 						m_treeViewer.get(testSuiteName).setContentProvider(new WodelTestTestResultsContentProvider());
 						m_treeViewer.get(testSuiteName).setLabelProvider(new TableLabelProvider());
 						m_treeViewer.get(testSuiteName).setInput(tests.get(testSuiteName));
-						m_treeViewer.get(testSuiteName).addFilter(new DataFilter());
+						m_treeViewer.get(testSuiteName).addFilter(new DataFilter(testSuiteName));
 						m_treeViewer.get(testSuiteName).collapseAll();
 					}
 					if (contents.get(testSuiteName) != null) {
 						contents.get(testSuiteName).layout();
 						contents.get(testSuiteName).redraw();
+					}
+					if (filterIndex.get(testSuiteName) != null) {
+						filterIndex.put(testSuiteName, -1);
 					}
 				}
 			}

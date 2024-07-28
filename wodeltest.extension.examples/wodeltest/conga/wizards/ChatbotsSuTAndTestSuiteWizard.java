@@ -338,7 +338,7 @@ public class ChatbotsSuTAndTestSuiteWizard extends Wizard implements INewWizard 
 		createPlugin(monitor, sut);
 		
 		referencedProjects.add(sut);
-		IProject testBotiumAuto = EclipseHelper.createJavaProject("CheckChatbotsBotiumAuto", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), true);
+		IProject testBotiumAuto = EclipseHelper.createJavaProject("CheckChatbotsBotiumAuto", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), false);
 		
 		final IFolder dataTestBotiumAuto = testBotiumAuto.getFolder(new Path("data"));
 		//srcTest.create(true, true, monitor);
@@ -421,7 +421,7 @@ public class ChatbotsSuTAndTestSuiteWizard extends Wizard implements INewWizard 
 		}
 		createPlugin(monitor, testBotiumAuto);
 
-		IProject testBotiumByHand = EclipseHelper.createJavaProject("CheckChatbotsBotiumByHand", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), true);
+		IProject testBotiumByHand = EclipseHelper.createJavaProject("CheckChatbotsBotiumByHand", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), false);
 		
 		final IFolder dataTestBotiumByHand = testBotiumByHand.getFolder(new Path("data"));
 		//srcTest.create(true, true, monitor);
@@ -504,7 +504,7 @@ public class ChatbotsSuTAndTestSuiteWizard extends Wizard implements INewWizard 
 
 		createPlugin(monitor, testBotiumByHand);
 
-		IProject testRasa = EclipseHelper.createJavaProject("CheckChatbotsRasa", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), true);
+		IProject testRasa = EclipseHelper.createJavaProject("CheckChatbotsRasa", folders, referencedProjects, requiredBundles, importPackages, exportedPackages, bundleClasspath, containerEntries, monitor, this.getShell(), false);
 		
 		final IFolder dataTestRasa = testRasa.getFolder(new Path("data"));
 		//srcTest.create(true, true, monitor);

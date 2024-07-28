@@ -205,7 +205,8 @@ public class Generator implements IGenerator {
 		final IFile testsFile = srcPath.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "navigation=free\n"
+			String def = "metamodel \"/"+ project + "/" + modelName + "/" + metamodel + "\"\n\n" 
+					+ "navigation=free\n"
 					+ "AlternativeResponse {\n"
 					+ "\tretry=yes\n"
 					+ "\t//description for 'model1-name.model' = 'Description for model1'\n"

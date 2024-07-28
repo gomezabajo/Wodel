@@ -879,7 +879,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 		    	currentContents.setLayout(new GridLayout());
 			    
 		    	DecimalFormat formatter = new DecimalFormat("###.##%");
-	    		currentContents.setText("#Generated mutants: " + numMutantsGenerated + " - Mutation score: " + formatter.format(mutationScore.get(testSuiteName)) + " - Total running time: " + runningTimes.get(testSuiteName) + " s.; Mutation time: " + mutationTimes.get(testSuiteName) + " s.; Tests execution time: " + (runningTimes.get(testSuiteName) - mutationTimes.get(testSuiteName)) + " s.");
+	    		currentContents.setText("#Generated mutants: " + numMutantsGenerated + " - Mutation score: " + formatter.format(mutationScore.get(testSuiteName)) + " - Total running time: " + runningTimes.get(testSuiteName) + " s. - Mutation time: " + mutationTimes.get(testSuiteName) + " s. - Tests execution time: " + (runningTimes.get(testSuiteName) - mutationTimes.get(testSuiteName)) + " s.");
 			    currentContents.setVisible(true);
 			    currentContents.layout(true, true);
 
@@ -932,14 +932,14 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 				Group testsResults = new Group(currentContents, SWT.FILL);
 			    testsResults.setLayout(new GridLayout());
 				testsResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-			    testsResults.setText("Passed tests/total tests: " + passed + "/" + total);
+			    testsResults.setText("Failed tests/total tests: " + failed + "/" + total);
 			    testsResults.setVisible(true);
 			    testsResults.layout(true, true);
 
 			    final JUnitProgressBar fTestsBar = new JUnitProgressBar(testsResults);
 				fTestsBar.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 				
-			    fTestsBar.reset(false, false, passed, failed, total, total);
+			    fTestsBar.reset(false, false, failed, passed, total, total);
 			    fTestsBar.setVisible(true);
 			    fTestsBar.layout(true, true);
 

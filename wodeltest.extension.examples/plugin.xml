@@ -43,7 +43,7 @@
    <extension point="org.eclipse.ui.newWizards">
       <category
          id="wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
-         name="Wodel-Test update-site generators"
+         name="Wodel-Test update-sites"
          parentCategory="wodel.project.WodelProject">
       </category>
       <wizard

@@ -24,6 +24,11 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            defaultHandler="wodeltest.run.commands.RunWodelTestUpdateSiteGenerator"
+            id="wodeltest.run.commands.wodelTestGenerateUpdateSite"
+            name="Generate Wodel-Test update-site">
+      </command>
+      <command
       		defaultHandler="wodeltest.run.commands.LoadRunWodelTestHandler"
             id="wodeltest.run.commands.wodelTestCommandLoad"
             name="Load Projects and Run Wodel-Test">
@@ -50,6 +55,22 @@
                   icon="icons/wodel4.jpg"
                   label="Load Projects and Run Wodel-Test"
                   style="push">
+               <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                        		property="org.eclipse.core.resources.projectNature"
+                        		value="wodeltest.extension.wodelTestNature">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
             </command>
             <command
                   commandId="wodeltest.run.commands.wodelTestCommandRun"
@@ -65,6 +86,28 @@
                         	<test
                         		property="org.eclipse.core.resources.projectNature"
                         		value="wodeltest.extension.wodelTestSUTNature">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="wodeltest.run.commands.wodelTestGenerateUpdateSite"
+                  icon="icons/wodel4.jpg"
+                  label="Generate Wodel-Test update-site"
+                  style="push">
+               <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                        		property="org.eclipse.core.resources.projectNature"
+                        		value="wodeltest.extension.wodelTestNature">
     						</test>
  						</adapt>
                      </iterate>
@@ -120,5 +163,51 @@
            <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
       </page>
    </extension>
+   
+   	<extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeltest.run.commands.CleanUpWodelTestOutputFolder"
+            id="wodeltest.run.commands.CleanUpWodelTestOutputFolder"
+            name="Wodel output folder clean-up">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodel4.jpg"
+               id="WodelTest.menu1"
+               label="Wodel-Test...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodeltest.run.commands.CleanUpWodelTestOutputFolder"
+                  icon="icons/wodel4.jpg"
+                  label="Wodel-Test clean-up output folder"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodeltest.extension.wodelTestSUTNature">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   
 
 </plugin>

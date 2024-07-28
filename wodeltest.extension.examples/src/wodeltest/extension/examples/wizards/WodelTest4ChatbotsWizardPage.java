@@ -28,8 +28,8 @@ public class WodelTest4ChatbotsWizardPage extends WizardPage {
 
 	protected WodelTest4ChatbotsWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Wodel-Test for Conga Example");
-		setDescription("This wizard creates a new Wodel-Test for Conga Example project.");
+		setTitle("Wodel-Test for Chatbots example");
+		setDescription("This wizard creates a new Wodel-Test for Chatbots example project.");
 		this.selection = selection;
 	}
 
@@ -131,8 +131,8 @@ public class WodelTest4ChatbotsWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("WodelTest4Conga");
-		this.fileText.setText("WodelTest4Conga.mutator");
+		this.projectText.setText("WodelTest4Chatbots");
+		this.fileText.setText("WodelTest4Chatbots.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

@@ -135,4 +135,28 @@
 	natureId="wodeltest.extension.wodelTestSUTNature">
 	</image>
 	</extension>
+	<extension
+	point="org.eclipse.ui.propertyPages">
+	<page
+	icon="icons/wodel4.jpg"
+	class="mutator.wodeltest.WodelTest4FA.properties.WodelTestPropertiesPage"
+	id="mutator.wodeltest.WodelTest4FA.properties.WodelTestPropertiesPage"
+	name="Wodel-Test for FA">
+	<enabledWhen>
+	<adapt
+	type="org.eclipse.jdt.core.IJavaProject">
+	<and>
+	<test
+	value="org.eclipse.jdt.core.javanature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>	<test
+	value="wodeltest.extension.wodelTestSUTNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+
+	</and>
+	</adapt>
+	</enabledWhen>
+	</page>
+	</extension>
 </plugin>

@@ -22,7 +22,7 @@ public class WodelTest4FAStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testFA1");
 		mutatorNames.add("testFA2");
@@ -42,7 +42,6 @@ public class WodelTest4FAStandaloneAPILauncher {
 		List<String> mutatorOperatorNamestestFA2 = new ArrayList<String>();
 		mutatorOperatorNamestestFA2.add("ctr");
 		mutatorOperatorNamestestFA2.add("mis");
-		mutatorOperatorNamestestFA2.add("dtr");
 		mutatorOperatorNamestestFA2.add("sdt");
 		mutatorOperatorNamestestFA2.add("ctr_mis");
 		operatorNames.add(mutatorOperatorNamestestFA2);
@@ -56,7 +55,7 @@ public class WodelTest4FAStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}

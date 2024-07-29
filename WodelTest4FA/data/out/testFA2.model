@@ -3,36 +3,36 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="/WodelTest4FA/data/model/DFAAutomaton.ecore" output="data/out/" num="10">
     <source path="data/model/"/>
   </definition>
-  <blocks name="ctr">
+  <blocks name="ctr" description="Create transition (with symbol)">
     <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-      <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
         <object xsi:type="mutatorenvironment:RandomTypeSelection">
-          <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Symbol"/>
+          <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Symbol"/>
         </object>
       </references>
     </commands>
   </blocks>
-  <blocks name="mis">
+  <blocks name="mis" description="Change initial state">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
         <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
       </attributes>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
@@ -40,72 +40,65 @@
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
         <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
       </attributes>
     </commands>
   </blocks>
-  <blocks name="dtr">
-    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
-      <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
-      </object>
-    </commands>
-  </blocks>
-  <blocks name="sdt">
+  <blocks name="sdt" description="Reverse a transition">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
       </object>
       <references xsi:type="mutatorenvironment:ReferenceSwap">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/src"/>
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/src"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/tar"/>
       </references>
     </commands>
   </blocks>
-  <blocks name="ctr_mis">
+  <blocks name="ctr_mis" description="Add a initial state and connect it to the previous initial state">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeReverse">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
       </attributes>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
-            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0"/>
           </first>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//State/isInitial"/>
         <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
       </attributes>
     </commands>
     <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-      <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/src"/>
-        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.1"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1"/>
       </references>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/tar"/>
-        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0"/>
       </references>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
         <object xsi:type="mutatorenvironment:RandomTypeSelection">
-          <type href="file:/C:/eclipse/runtime-EclipseApplication5/WodelTest4FA/data/model/DFAAutomaton.ecore#//Symbol"/>
+          <type href="file:/C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore#//Symbol"/>
         </object>
       </references>
     </commands>

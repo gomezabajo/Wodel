@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/WodelTest4FA.plugins_1.0.0.202407091456.jar" id="WodelTest4FA.plugins" version="1.0.0.202407091456">
+   <feature url="features/WodelTest4FA.plugins_1.0.0.202407290503.jar" id="WodelTest4FA.plugins" version="1.0.0.202407290503">
       <category name="Wodel-Test for FA"/>
    </feature>
    <category-def name="Wodel-Test for FA" label="Wodel-Test for FA"/>

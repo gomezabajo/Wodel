@@ -10,7 +10,7 @@ with blocks {
 	cmr "Create matched rule" {
 		deep clone one MatchedRule with {name = random-string(4, 6)}
 	}
-//		cmr "Create matched rule" {
+//	cmr "Create matched rule" {
 //		main = select one Module
 //		im = select one OclModel where {name = 'IN'}
 //		imod = select one OclModel in im->^metamodel

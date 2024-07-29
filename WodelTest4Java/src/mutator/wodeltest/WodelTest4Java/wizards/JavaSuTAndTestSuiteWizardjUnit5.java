@@ -248,6 +248,8 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 		exampleTest.create(true, true, monitor);
 		final IFolder toolTest = exampleTest.getFolder(new Path("tool"));
 		toolTest.create(true, true, monitor);
+		final IFolder testJUnit5 = toolTest.getFolder(new Path("test"));
+		testJUnit5.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
@@ -257,9 +259,9 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit5/test/com/example/tool")) {
-							final File f = toolTest.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool", ""));
+						if (entry.getName().startsWith("sample/junit5/test/com/example/tool/test/")) {
+							final File f = testJUnit5.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool/test/", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -276,16 +278,16 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test/com/example/tool";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test/com/example/tool/test/";
 				final File src = new Path(srcName).toFile();
-				final File dest = toolTest.getRawLocation().makeAbsolute().toFile();
+				final File dest = testJUnit5.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}
 			}
 		} catch (IOException e) {
 		}
-		final IFolder internalTest = toolTest.getFolder(new Path("internal"));
+		final IFolder internalTest = testJUnit5.getFolder(new Path("internal"));
 		internalTest.create(true, true, monitor);
 		try {
 			final File jarFile = new File(JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -296,9 +298,9 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				while(entries.hasMoreElements()) {
 					JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("sample/junit5/test/com/example/tool/internal")) {
+						if (entry.getName().startsWith("sample/junit5/test/com/example/tool/test/internal")) {
 							final File f = internalTest.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool/internal", ""));
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("sample/junit5/test/com/example/tool/test/internal", ""));
 							if (!dest.exists()) {
 								dest.getParentFile().mkdirs();
 							}
@@ -315,7 +317,7 @@ public class JavaSuTAndTestSuiteWizardjUnit5 extends Wizard implements INewWizar
 				jar.close();
 			}
 			else {
-				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/sut/com/example/tool/internal";
+				srcName = JavaSuTAndTestSuiteWizardjUnit5.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "sample/junit5/test/com/example/tool/test/internal";
 				final File src = new Path(srcName).toFile();
 				final File dest = internalTest.getRawLocation().makeAbsolute().toFile();
 				if ((src != null) && (dest != null)) {

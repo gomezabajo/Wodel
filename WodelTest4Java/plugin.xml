@@ -21,6 +21,19 @@
 	</builder>
 	</extension>
 	<extension
+	id="wodeltest.extension.wodelTestSplittedJavaProjectNature"
+	name="Wodel-Test Java split/merge Project Nature"
+	point="org.eclipse.core.resources.natures">
+	<runtime>
+	<run
+	class="mutator.wodeltest.WodelTest4Java.builder.WodelTestSplittedJavaProjectNature">
+	</run>
+	</runtime>
+	<builder
+	id="wodeltest.extension.wodelTestSplittedJavaProjectBuilder">
+	</builder>
+	</extension>
+	<extension
 	id="wodeltest.extension.wodelTestSUTBuilder"
 	name="Wodel-Test SUT Project Builder"
 	point="org.eclipse.core.resources.builders">
@@ -28,6 +41,17 @@
 	hasNature="true">
 	<run
 	class="mutator.wodeltest.WodelTest4Java.builder.WodelTestSUTBuilder">
+	</run>
+	</builder>
+	</extension>
+	<extension
+	id="wodeltest.extension.wodelTestSplittedJavaProjectBuilder"
+	name="Wodel-Test Java split/merge project builder"
+	point="org.eclipse.core.resources.builders">
+	<builder
+	hasNature="true">
+	<run
+	class="mutator.wodeltest.WodelTest4Java.builder.WodelTestSplittedJavaProjectBuilder">
 	</run>
 	</builder>
 	</extension>
@@ -42,6 +66,11 @@
 	defaultHandler="mutator.wodeltest.WodelTest4Java.builder.AddRemoveWodelTestSUTNatureHandler"
 	categoryId="wodeltest.extension.wodelTestSUTNature.category"
 	id="wodeltest.extension.addRemoveWodelTestSUTNature">
+	</command>
+	<command
+	name="Split/Merge Java project into SUT project/test suite"
+	defaultHandler="mutator.wodeltest.WodelTest4Java.builder.SplitMergeJavaProjectHandler"
+	id="wodeltest.extension.splitMergeJavaProject">
 	</command>
 	</extension>
 	<extension
@@ -98,6 +127,74 @@
 	</with>
 	</visibleWhen>
 	</command>
+	<command
+	commandId="wodeltest.extension.splitMergeJavaProject"
+	icon="icons/wodel4.jpg"
+	label="Split single Java project into Wodel-Test SUT and Test Suite projects"
+	style="push">
+	<visibleWhen
+	checkEnabled="false">
+	<with
+	variable="selection">
+	<count
+	value="1">
+	</count>
+	<iterate>
+	<adapt
+	type="org.eclipse.core.resources.IProject">
+	<and>
+	<test
+	value="org.eclipse.jdt.core.javanature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>	<test
+	value="wodeltest.extension.wodelTestSUTNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	<not>
+	<test
+	value="wodeltest.extension.wodelTestSplittedJavaProjectNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	</not>
+	</and>
+	</adapt>
+	</iterate>
+	</with>
+	</visibleWhen>
+	</command>
+	<command
+	commandId="wodeltest.extension.splitMergeJavaProject"
+	icon="icons/wodel4.jpg"
+	label="Merge Wodel-Test SUT and Test Suite projects into a single Java project"
+	style="push">
+	<visibleWhen
+	checkEnabled="false">
+	<with
+	variable="selection">
+	<count
+	value="1">
+	</count>
+	<iterate>
+	<adapt
+	type="org.eclipse.core.resources.IProject">
+	<and>
+	<test
+	value="org.eclipse.jdt.core.javanature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>	<test
+	value="wodeltest.extension.wodelTestSUTNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	<test
+	value="wodeltest.extension.wodelTestSplittedJavaProjectNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	</and>
+	</adapt>
+	</iterate>
+	</with>
+	</visibleWhen>
+	</command>
 	</menuContribution>
 	</extension>
 	<extension
@@ -143,5 +240,37 @@
 	id="wodeltest.extension.wodelTestSUTProjectNature"
 	natureId="wodeltest.extension.wodelTestSUTNature">
 	</image>
+	<image
+	icon="icons/wodel4.jpg"
+	id="wodeltest.extension.wodelTestSplittedJavaProjectNature"
+	natureId="wodeltest.extension.wodelTestSplittedJavaProjectNature">
+	</image>
+	</extension>
+	<extension
+	point="org.eclipse.ui.propertyPages">
+	<page
+	icon="icons/wodel4.jpg"
+	class="mutator.wodeltest.WodelTest4Java.properties.WodelTestPropertiesPage"
+	id="mutator.wodeltest.WodelTest4Java.properties.WodelTestPropertiesPage"
+	name="Wodel-Test for Java">
+	<enabledWhen>
+	<adapt
+	type="org.eclipse.jdt.core.IJavaProject">
+	<and>
+	<test
+	value="org.eclipse.jdt.core.javanature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>	<test
+	value="wodeltest.extension.wodelTestSUTNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	<test
+	value="wodeltest.extension.wodelTestSplittedJavaProjectNature"
+	property="org.eclipse.core.resources.projectNature">
+	</test>
+	</and>
+	</adapt>
+	</enabledWhen>
+	</page>
 	</extension>
 </plugin>

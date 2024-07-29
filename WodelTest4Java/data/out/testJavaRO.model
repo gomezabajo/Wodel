@@ -6,10 +6,10 @@
   <blocks name="rorgt" description="Greater than">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>>=</value>
               <value>&lt;</value>
@@ -21,15 +21,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value=">"/>
       </attributes>
     </commands>
@@ -37,10 +37,10 @@
   <blocks name="rorget" description="Greater or equals">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>></value>
               <value>&lt;</value>
@@ -52,15 +52,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value=">="/>
       </attributes>
     </commands>
@@ -68,10 +68,10 @@
   <blocks name="rorlt" description="Lower than">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>></value>
               <value>>=</value>
@@ -83,15 +83,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="&lt;"/>
       </attributes>
     </commands>
@@ -99,10 +99,10 @@
   <blocks name="rorlet" description="Lower or equals">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>></value>
               <value>>=</value>
@@ -114,15 +114,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="&lt;="/>
       </attributes>
     </commands>
@@ -130,10 +130,10 @@
   <blocks name="rore" description="Equals">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>></value>
               <value>>=</value>
@@ -145,15 +145,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="=="/>
       </attributes>
     </commands>
@@ -161,10 +161,10 @@
   <blocks name="rord" description="Distinct">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>></value>
               <value>>=</value>
@@ -176,15 +176,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication3/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="!="/>
       </attributes>
     </commands>

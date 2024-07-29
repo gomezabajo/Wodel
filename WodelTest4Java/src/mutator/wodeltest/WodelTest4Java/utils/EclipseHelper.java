@@ -22,6 +22,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import mutator.wodeltest.WodelTest4Java.builder.WodelTestSUTNature;
+import mutator.wodeltest.WodelTest4Java.builder.WodelTestSplittedJavaProjectNature;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel project examples creation Eclipse Helper.
@@ -95,7 +96,7 @@ public class EclipseHelper {
 			}
 
 			if (sut == true) {
-				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, WodelTestSUTNature.NATURE_ID });
+				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, WodelTestSUTNature.NATURE_ID, WodelTestSplittedJavaProjectNature.NATURE_ID });
 			}
 			else {
 				projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID });

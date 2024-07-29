@@ -152,16 +152,16 @@ public class ModelManager {
 					if (!project.getName().endsWith("_1.0.0")) {
 						processedURI = "/" + project.getName() + processedURI;
 					}
-					if (project.getName().endsWith("_1.0.0")) {
-						String projectName = project.getName().substring(0, project.getName().lastIndexOf("_1.0.0"));
-						if (processedURI.startsWith("/" + projectName)) {
-							String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
-							endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
-							processedURI = "/" + project.getName() + endURI;
-						}
-						else {
-							processedURI = "/" + project.getName() + processedURI;
-						}
+				}
+				if (project.getName().endsWith("_1.0.0")) {
+					String projectName = project.getName().substring(0, project.getName().lastIndexOf("_1.0.0"));
+					if (processedURI.startsWith("/" + projectName)) {
+						String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+						endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+						processedURI = "/" + project.getName() + endURI;
+					}
+					else {
+						processedURI = "/" + project.getName() + processedURI;
 					}
 				}
 			}
@@ -178,17 +178,16 @@ public class ModelManager {
 					if (!projectName.endsWith("_1.0.0")) {
 						processedURI = "/" + projectName + processedURI;
 					}
-					if (projectName.endsWith("_1.0.0")) {
-						projectName = projectName.substring(0, projectName.lastIndexOf("_1.0.0"));
-						if (processedURI.startsWith("/" + projectName)) {
-							String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
-							endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
-							processedURI = "/" + projectName + "_1.0.0" + endURI;
-							
-						}
-						else {
-							processedURI = "/" + projectName + "_1.0.0" + processedURI;
-						}
+				}
+				if (projectName.endsWith("_1.0.0")) {
+					projectName = projectName.substring(0, projectName.lastIndexOf("_1.0.0"));
+					if (processedURI.startsWith("/" + projectName)) {
+						String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+						endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+						processedURI = "/" + projectName + "_1.0.0" + endURI;
+					}
+					else {
+						processedURI = "/" + projectName + "_1.0.0" + processedURI;
 					}
 				}
 			}
@@ -422,13 +421,16 @@ public class ModelManager {
 					if (!project.getName().endsWith("_1.0.0")) {
 						processedURI = "/" + project.getName() + processedURI;
 					}
-					if (project.getName().endsWith("_1.0.0")) {
-						String projectName = project.getName().substring(0, project.getName().lastIndexOf("_1.0.0"));
-						if (processedURI.startsWith("/" + projectName)) {
-							String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
-							endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
-							processedURI = "/" + project.getName() + endURI;
-						}
+				}
+				if (project.getName().endsWith("_1.0.0")) {
+					String projectName = project.getName().substring(0, project.getName().lastIndexOf("_1.0.0"));
+					if (processedURI.startsWith("/" + projectName)) {
+						String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+						endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+						processedURI = "/" + project.getName() + endURI;
+					}
+					else {
+						processedURI = "/" + project.getName() + processedURI;
 					}
 				}
 			}
@@ -437,7 +439,7 @@ public class ModelManager {
 			String projectName = getProjectNameFromWodelTest();
 			if (projectName == null || projectName.length() == 0) {
 				String path = null;
-				path = getWorkspaceAbsolutePath(cls);
+				path = getWorkspaceAbsolutePathWithProjectName(cls);
 				if (path == null) {
 					return processedURI;
 				}
@@ -445,17 +447,27 @@ public class ModelManager {
 				projectName = path.substring(path.lastIndexOf("/") + 1, path.length());
 			}
 			if (projectName != null && projectName.length() > 0) {
-				if (!processedURI.startsWith("/" + projectName)) {
-					if (!projectName.endsWith("_1.0.0")) {
-						processedURI = "/" + projectName + processedURI;
+				String path = null;
+				path = getWorkspaceAbsolutePathWithProjectName(cls);
+				if (path == null) {
+					return processedURI;
+				}
+				path = path.replace("\\", "/");
+				String projectName2 = path.substring(path.lastIndexOf("/") + 1, path.length());
+				if (!processedURI.startsWith("/" + projectName2)) {
+					if (!projectName2.endsWith("_1.0.0")) {
+						processedURI = "/" + projectName2 + processedURI;
 					}
-					if (projectName.endsWith("_1.0.0")) {
-						projectName = projectName.substring(0, projectName.lastIndexOf("_1.0.0"));
-						if (processedURI.startsWith("/" + projectName)) {
-							String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
-							endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
-							processedURI = "/" + projectName + "_1.0.0" + endURI;
-						}
+				}
+				if (projectName2.endsWith("_1.0.0")) {
+					projectName = projectName2.substring(0, projectName2.lastIndexOf("_1.0.0"));
+					if (processedURI.startsWith("/" + projectName)) {
+						String endURI = processedURI.substring(("/" + projectName).length(), processedURI.length());
+						endURI = endURI.substring(endURI.indexOf("/"), endURI.length());
+						processedURI = "/" + projectName2 + endURI;
+					}
+					else {
+						processedURI = "/" + projectName2 + processedURI;
 					}
 				}
 			}
@@ -809,6 +821,46 @@ public class ModelManager {
 		}
 		if (ret.startsWith("/")) {
 			ret = ret.substring(1, ret.length());
+		}
+		return ret;
+	}
+
+	public static String getWorkspaceAbsolutePathWithProjectName(Class<?> cls) {
+		if (cls == null) {
+			return null;
+		}
+		String ret = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+		ret = ret.replaceAll("\\\\", "/");
+		ret = ret.replaceFirst("file:/", "/");
+		int index = ret.indexOf("/bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\bin");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\src");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("/data/out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		index = ret.indexOf("\\data\\out");
+		if (index != -1) {
+			ret = ret.substring(0, index);
+		}
+		if (ret.startsWith("/")) {
+			ret = ret.substring(1, ret.length());
+		}
+		if (ret.endsWith("/")) {
+			ret = ret.substring(0, ret.lastIndexOf("/"));
 		}
 		return ret;
 	}

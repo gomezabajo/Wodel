@@ -6,12 +6,12 @@
   <blocks name="cod1" description="Removes a unary conditional operator">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="if1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//IfStatement"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//IfStatement"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
             </value>
           </first>
         </expression>
@@ -19,30 +19,30 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="pre">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Expression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Expression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//IfStatement/expression"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
       </references>
     </commands>
@@ -50,12 +50,12 @@
   <blocks name="cod2" description="Removes a unary conditional operator">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="rt1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//ReturnStatement"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//ReturnStatement"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
             </value>
           </first>
         </expression>
@@ -63,30 +63,30 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="pre">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Expression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Expression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//ReturnStatement/expression"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2"/>
       </references>
     </commands>
@@ -94,12 +94,12 @@
   <blocks name="cod3" description="Removes a unary conditional operator">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="inf">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
             </value>
           </first>
         </expression>
@@ -107,30 +107,30 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="pre">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Expression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Expression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/rightOperand"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2"/>
       </references>
     </commands>
@@ -138,12 +138,12 @@
   <blocks name="cod4" description="Removes a unary conditional operator">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="inf">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
             </value>
           </first>
         </expression>
@@ -151,30 +151,30 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="pre">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:SpecificStringType" value="!"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="exp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//PrefixExpression/operand"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//Expression"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//Expression"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication17/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
+        <reference href="file:/C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore#//InfixExpression/leftOperand"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.2"/>
       </references>
     </commands>

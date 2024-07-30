@@ -23,8 +23,6 @@ import wodeledu.dsls.MutaTextUtils;
  */
 @SuppressWarnings("all")
 public class MutaTextGenerator extends AbstractGenerator {
-  protected IProject project = null;
-
   private String fileName;
 
   private String path;
@@ -33,8 +31,15 @@ public class MutaTextGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.project = ProjectUtils.getProject();
-    this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
+    String _xifexpression = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      _xifexpression = ProjectUtils.getProject().getLocation().toFile().getPath();
+    } else {
+      _xifexpression = ModelManager.getWorkspaceAbsolutePath();
+    }
+    this.path = _xifexpression;
     Iterable<Configuration> _filter = Iterables.<Configuration>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Configuration.class);
     for (final Configuration e : _filter) {
       {

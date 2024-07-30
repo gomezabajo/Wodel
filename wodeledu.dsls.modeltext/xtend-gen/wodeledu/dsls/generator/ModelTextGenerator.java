@@ -23,8 +23,6 @@ import wodeledu.dsls.ModelTextUtils;
  */
 @SuppressWarnings("all")
 public class ModelTextGenerator extends AbstractGenerator {
-  protected IProject project = null;
-
   private String fileName;
 
   private String path;
@@ -33,8 +31,15 @@ public class ModelTextGenerator extends AbstractGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.project = ProjectUtils.getProject();
-    this.path = ProjectUtils.getProject().getLocation().toFile().getPath();
+    String _xifexpression = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      _xifexpression = ProjectUtils.getProject().getLocation().toFile().getPath();
+    } else {
+      _xifexpression = ModelManager.getWorkspaceAbsolutePath();
+    }
+    this.path = _xifexpression;
     Iterable<IdentifyElements> _filter = Iterables.<IdentifyElements>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), IdentifyElements.class);
     for (final IdentifyElements e : _filter) {
       {

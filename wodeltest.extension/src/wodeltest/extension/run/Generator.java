@@ -315,4 +315,10 @@ public class Generator implements IGenerator {
 		requiredBundles.add("org.eclipse.ui.ide");
 		return requiredBundles;
 	}
+	
+	@Override
+	public List<String> importPackages() {
+		List<String> importPackages = new ArrayList<String>();
+		return importPackages;
+	}
 }

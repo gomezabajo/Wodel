@@ -3,7 +3,6 @@
 package edutest.util;
 
 import edutest.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 

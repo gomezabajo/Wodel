@@ -48,7 +48,7 @@ import org.eclipse.xtext.service.DefaultRuntimeModule;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.ConfigurableIssueCodesProvider;
 import wodeledu.dsls.formatting2.ModelDrawFormatter;
-import wodeledu.dsls.generator.ModelDrawGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
 import wodeledu.dsls.parser.antlr.ModelDrawAntlrTokenFileProvider;
 import wodeledu.dsls.parser.antlr.ModelDrawParser;
 import wodeledu.dsls.parser.antlr.internal.InternalModelDrawLexer;

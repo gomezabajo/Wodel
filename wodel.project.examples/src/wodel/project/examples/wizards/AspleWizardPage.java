@@ -138,8 +138,8 @@ public class AspleWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("ASPLEExample");
-		this.fileText.setText("ASPLEExample.mutator");
+		this.projectText.setText("asple");
+		this.fileText.setText("asple.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

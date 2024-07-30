@@ -166,6 +166,8 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.core.di");
 		
 		List<String> additionalRequiredBundles = new ArrayList<String>();
+		
+		List<String> additionalImportPackages = new ArrayList<String>();
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if (registry != null) {
@@ -185,6 +187,10 @@ public class WodelWizard extends Wizard implements INewWizard {
 							if (bundles != null && bundles.size() > 0) {
 								additionalRequiredBundles.addAll(bundles);
 							}
+							List<String> packages = src.importPackages();
+							if (packages != null && packages.size() > 0) {
+								additionalImportPackages.addAll(packages);
+							}
 						}
 					}
 				} catch (CoreException e1) {
@@ -195,6 +201,9 @@ public class WodelWizard extends Wizard implements INewWizard {
 		}
 		if (additionalRequiredBundles.size() > 0) {
 			requiredBundles.addAll(additionalRequiredBundles);
+		}
+		if (additionalImportPackages.size() > 0) {
+			importPackages.addAll(additionalImportPackages);
 		}
 
 		IProject project = EclipseHelper.createWodelProject(projectName,

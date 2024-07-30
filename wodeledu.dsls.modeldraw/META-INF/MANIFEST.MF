@@ -23,7 +23,7 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.parser.antlr.internal,
  wodeledu.dsls.parser.antlr,
  wodeledu.dsls.validation,
- wodeledu.dsls.generator,
+ wodeledu.dsls.generator.modeldraw,
  wodeledu.dsls.formatting2,
  wodeledu.dsls.serializer
 Import-Package: org.apache.log4j

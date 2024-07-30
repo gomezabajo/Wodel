@@ -19,12 +19,12 @@ Require-Bundle: wodeledu.models,
  wodeledu.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: wodeledu.dsls,
- wodeledu.dsls.scoping,
- wodeledu.dsls.services,
- wodeledu.dsls.parser.antlr.internal,
- wodeledu.dsls.parser.antlr,
- wodeledu.dsls.validation,
- wodeledu.dsls.generator,
  wodeledu.dsls.formatting2,
- wodeledu.dsls.serializer
+ wodeledu.dsls.generator.edutest,
+ wodeledu.dsls.parser.antlr,
+ wodeledu.dsls.parser.antlr.internal,
+ wodeledu.dsls.scoping,
+ wodeledu.dsls.serializer,
+ wodeledu.dsls.services,
+ wodeledu.dsls.validation
 Import-Package: org.apache.log4j

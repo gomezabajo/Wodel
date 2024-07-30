@@ -21,10 +21,8 @@ import mutatorenvironment.Program
  */
 class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		project = ProjectUtils.getProject()
-		
 		standalone = true
-		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath
+		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath + "/" : ModelManager.getWorkspaceAbsolutePath + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
@@ -40,7 +38,6 @@ class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
 			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
 			fileName = mutatorName.replaceAll("[.]", "_") + "StandaloneAPI.java"
 			className = fileName.replaceAll(".java", "")
-			var int i = 1
 			var String key = className.replace("StandaloneAPI", "")
 			for (b : e.blocks) {
 				var List<String> values = new ArrayList<String>()

@@ -20,7 +20,20 @@ Require-Bundle: org.eclipse.ui,
  wodeledu.dsls.edutest,
  org.eclipse.xtext.generator,
  org.eclipse.emf.mwe.core,
- com.google.inject
+ com.google.inject,
+ wodeledu.models
+Export-Package: wodeledu.extension.run.commands
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodeledu.extension
 Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.generator,
+ org.eclipse.xtext.util,
+ wodeledu.dsls.generator.edutest,
+ wodeledu.dsls.generator.modeldraw,
+ edutest,
+ com.google.inject,
+ javax.inject,
+ com.google.common.util.concurrent.internal,
+ org.antlr.runtime,
+ org.eclipse.xtext.xbase.lib

@@ -12,7 +12,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="exercises" upperBound="-1"
         eType="#//MutatorTests" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MutatorTests" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="MutatorTests">
     <eStructuralFeatures xsi:type="ecore:EReference" name="markedBlocks" upperBound="-1"
         eType="#//MarkedBlock" containment="true">
       <eAnnotations source="http://www.eclipse.org/OCL/Collection">

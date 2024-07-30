@@ -4,12 +4,12 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import wodel.utils.manager.ProjectUtils
-import wodel.utils.manager.ModelManager
 import java.io.File
 import mutatorenvironment.MutatorEnvironment
 import mutatorenvironment.Program
 import wodel.utils.manager.JavaUtils
 import java.util.List
+import wodel.utils.manager.ModelManager
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -20,7 +20,6 @@ import java.util.List
 class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		project = ProjectUtils.getProject()
 		
 		standalone = true
 //		try {
@@ -35,7 +34,7 @@ class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 //			mutatorURL = URI.createURI("file:" + ModelManager.getMutatorEnvironmentBundle(resource)).toFileString().replace("\\", "/")
 //		}
 
-		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath
+		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath + "/" : ModelManager.getWorkspaceAbsolutePath + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var MutatorEnvironment mutatorEnvironment = null
@@ -70,5 +69,4 @@ class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
      	}
 		fsa.generateFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneLauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
-	
 }

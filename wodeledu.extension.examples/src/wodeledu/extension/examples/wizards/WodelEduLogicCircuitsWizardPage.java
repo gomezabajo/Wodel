@@ -138,8 +138,8 @@ public class WodelEduLogicCircuitsWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("WodelEduLC");
-		this.fileText.setText("WodelEduLC.mutator");
+		this.projectText.setText("eduLC");
+		this.fileText.setText("eduLC.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

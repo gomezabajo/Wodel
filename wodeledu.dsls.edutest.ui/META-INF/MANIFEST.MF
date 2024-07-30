@@ -19,7 +19,16 @@ Require-Bundle: wodeledu.dsls.edutest,
  org.eclipse.xtext.builder,
  wodel.utils,
  wodeledu.dsls.modeldraw
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.generator,
+ org.eclipse.xtext.util,
+ wodeledu.dsls.generator.modeldraw,
+ wodeledu.dsls.generator.edutest,
+ com.google.inject,
+ javax.inject,
+ com.google.common.util.concurrent.internal,
+ org.antlr.runtime,
+ org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: wodeledu.dsls.edutest.ui.internal,
  wodeledu.dsls.ui.contentassist,

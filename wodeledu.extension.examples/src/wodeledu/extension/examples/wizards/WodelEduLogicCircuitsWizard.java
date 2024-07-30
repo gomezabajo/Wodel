@@ -161,6 +161,20 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.ui.workbench");
 		requiredBundles.add("org.eclipse.e4.ui.model.workbench");
 		requiredBundles.add("org.eclipse.e4.core.di");
+		requiredBundles.add("wodeledu.extension");
+		requiredBundles.add("wodeledu.models");
+
+		importPackages.add("org.apache.log4j");
+		importPackages.add("org.eclipse.xtext.generator");
+		importPackages.add("org.eclipse.xtext.xbase.lib");
+		importPackages.add("org.eclipse.xtext.util");
+		importPackages.add("wodeledu.dsls.generator.edutest");
+		importPackages.add("wodeledu.dsls.generator.modeldraw");
+		importPackages.add("com.google.inject");
+		importPackages.add("com.google.common.util.concurrent.internal");
+		importPackages.add("javax.inject");
+		importPackages.add("org.antlr.runtime");		
+		importPackages.add("edutest");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,

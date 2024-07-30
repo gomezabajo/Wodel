@@ -11,7 +11,6 @@ import wodel.utils.manager.ProjectUtils
 import java.util.ArrayList
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.common.util.URI
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.emf.ecore.EObject
 import mutatorenvironment.Block
@@ -25,6 +24,7 @@ import org.eclipse.emf.ecore.EClass
 import edutest.Program
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.util.EcoreUtil
+import edutest.MarkedBlock
 
 /**
  * @author Pablo Gomez-Abajo
@@ -33,24 +33,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil
  *
  */
 class EduTestScopeProvider extends AbstractEduTestScopeProvider {
-	/**
-	 * MutatorTests.block can refers to any block declared in the .mutator file.
-	 */
-	def IScope scope_MutatorTests_block(MutatorTests mts, EReference ref) {
-		val xmiFileName = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + ModelManager.getOutputFolder + '/' +  mts.eResource.URI.lastSegment.replaceAll("test", "model")
-		val Bundle bundle = Platform.getBundle("wodel.models")
-	   	val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
-	   	val String ecore = FileLocator.resolve(fileURL).getFile()
-		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
-		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)
-		val List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
-		var List<Block> blocks = new ArrayList<Block>()
-		for (EObject eobject : eobjects) {
-			blocks.add(eobject as Block)
-		}
-       	Scopes.scopeFor(blocks)   
-	}	
 	
+	def IScope scope_MarkedBlock_block(MarkedBlock mb, EReference ref) {
+		val List<Block> scope = new ArrayList<Block>()
+		val List<Block> blocks = new ArrayList<Block>()
+		blocks.addAll(getBlocks(mb))
+		scope.addAll(blocks)
+       	Scopes.scopeFor(scope)
+	}
+
 	def IScope scope_TestConfiguration_statement(TestConfiguration test, EReference ref) {
 		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getRootEClasses(((test.eContainer as MutatorTests).eContainer as Program).metamodel))
@@ -61,8 +52,8 @@ class EduTestScopeProvider extends AbstractEduTestScopeProvider {
 		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getRootEClasses(((test.eContainer as MutatorTests).eContainer as Program).metamodel))
        	Scopes.scopeFor(scope)
-	}		
-
+	}
+	
 	/** 
 	 * It returns the list of classes defined in a meta-model.
 	 * @param String file containing the metamodel
@@ -158,6 +149,27 @@ class EduTestScopeProvider extends AbstractEduTestScopeProvider {
 			}
 		}
 		return roots
+	}
+
+	def private List<Block> getBlocks(MarkedBlock mb) {
+		var xmiFileName = ""
+		if (ProjectUtils.getProject !== null) {
+			xmiFileName = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + '/' + ModelManager.getOutputFolder + '/' + mb.eResource.URI.lastSegment.replaceAll(".test", ".model")
+		}
+		else {
+			xmiFileName = ModelManager.getWorkspaceAbsolutePath.replace("\\", "/") + '/' + ModelManager.getOutputFolder + '/' + mb.eResource.URI.lastSegment.replaceAll(".test", ".model")
+		}
+		val Bundle bundle = Platform.getBundle("wodel.models")
+	   	val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+	   	val String ecore = FileLocator.resolve(fileURL).getFile()
+		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
+		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)
+		val List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
+		var List<Block> blocks = new ArrayList<Block>()
+		for (EObject eobject : eobjects) {
+			blocks.add(eobject as Block)
+		}
+		return blocks
 	}
 }
 

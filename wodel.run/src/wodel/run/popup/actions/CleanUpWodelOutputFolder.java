@@ -30,19 +30,18 @@ public class CleanUpWodelOutputFolder extends AbstractHandler {
 
 	private class CleanUpWodelOutputFolderWithProgress implements IRunnableWithProgress {
 
-		private ExecutionEvent event = null;
 		private IProject project = null;
 
-		public CleanUpWodelOutputFolderWithProgress(ExecutionEvent event, IProject project) {
-			this.event = event;
+		public CleanUpWodelOutputFolderWithProgress(IProject project) {
 			this.project = project;
 		}
 		
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			File projectFolder = new File(ProjectUtils.getProject().getLocation().toFile().getPath());
+			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : ModelManager.getWorkspaceAbsolutePath();
+			File projectFolder = new File(path);
 			List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-			String outputWodelFolder = ProjectUtils.getProject().getLocation().toFile().getPath() + ModelManager.getOutputFolder();
+			String outputWodelFolder = path + "/" + ModelManager.getOutputFolder();
 			// clean-up output folder preserving xtext auto generated models
 			IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 			IOUtils.deleteFolder(outputWodelFolder, "json", mutatorList);
@@ -83,7 +82,7 @@ public class CleanUpWodelOutputFolder extends AbstractHandler {
 		
 		IProject project = file.getProject();
     	try {
-    		CleanUpWodelOutputFolderWithProgress cleanUpWodelOutputFolderWithProgress = new CleanUpWodelOutputFolderWithProgress(event, project);
+    		CleanUpWodelOutputFolderWithProgress cleanUpWodelOutputFolderWithProgress = new CleanUpWodelOutputFolderWithProgress(project);
     		new ProgressMonitorDialog(HandlerUtil.getActiveShell(event)).run(true, true, cleanUpWodelOutputFolderWithProgress);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block

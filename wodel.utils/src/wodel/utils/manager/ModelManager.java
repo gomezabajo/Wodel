@@ -2129,6 +2129,9 @@ public class ModelManager {
 				path = ProjectUtils.getProject().getLocation().toFile().getPath();
 			}
 			if (path.length() == 0) {
+				path = ModelManager.getWorkspaceAbsolutePath();
+			}
+			if (path.length() == 0) {
 				return "";
 			}
 
@@ -2391,7 +2394,6 @@ public class ModelManager {
 			path = project.getLocation().toFile().getPath();
 		}
 		path = path.replace("\\", "/");
-		path = path.substring(0, path.lastIndexOf("/"));
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -2514,6 +2516,9 @@ public class ModelManager {
 		
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
+		if (!fm.exists() && fm.isAbsolute()) {
+			return null;
+		}
 		if (fm.exists() == false) {
 			modelURI = getAbsoluteModelURI(modelURI);
 			if (modelURI == null) {
@@ -2565,6 +2570,10 @@ public class ModelManager {
 		
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
+		if (!fm.exists() && fm.isAbsolute()) {
+			return null;
+		}
+
 		if (fm.exists() == false) {
 			modelURI = getAbsoluteModelURI(modelURI, cls);
 			if (modelURI == null) {
@@ -2616,6 +2625,10 @@ public class ModelManager {
 			String strURI) {
 		String modelURI = processURI(strURI);
 		File fm = new File(modelURI);
+		if (!fm.exists() && fm.isAbsolute()) {
+			return null;
+		}
+
 		if (fm.exists() == false) {
 			modelURI = getAbsoluteModelURI(modelURI);
 			if (modelURI == null) {

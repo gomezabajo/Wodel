@@ -3,6 +3,7 @@
  */
 package wodeledu.dsls.scoping;
 
+import edutest.MarkedBlock;
 import edutest.MutatorTests;
 import edutest.Program;
 import edutest.TestConfiguration;
@@ -10,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import mutatorenvironment.Block;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -34,36 +36,16 @@ import wodel.utils.manager.ProjectUtils;
  */
 @SuppressWarnings("all")
 public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
-  /**
-   * MutatorTests.block can refers to any block declared in the .mutator file.
-   */
-  public IScope scope_MutatorTests_block(final MutatorTests mts, final EReference ref) {
-    try {
-      IScope _xblockexpression = null;
-      {
-        String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-        String _plus = (_path + "/");
-        String _outputFolder = ModelManager.getOutputFolder();
-        String _plus_1 = (_plus + _outputFolder);
-        String _plus_2 = (_plus_1 + "/");
-        String _replaceAll = mts.eResource().getURI().lastSegment().replaceAll("test", "model");
-        final String xmiFileName = (_plus_2 + _replaceAll);
-        final Bundle bundle = Platform.getBundle("wodel.models");
-        final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-        final String ecore = FileLocator.resolve(fileURL).getFile();
-        final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
-        final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName);
-        final List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
-        List<Block> blocks = new ArrayList<Block>();
-        for (final EObject eobject : eobjects) {
-          blocks.add(((Block) eobject));
-        }
-        _xblockexpression = Scopes.scopeFor(blocks);
-      }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+  public IScope scope_MarkedBlock_block(final MarkedBlock mb, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final List<Block> scope = new ArrayList<Block>();
+      final List<Block> blocks = new ArrayList<Block>();
+      blocks.addAll(this.getBlocks(mb));
+      scope.addAll(blocks);
+      _xblockexpression = Scopes.scopeFor(scope);
     }
+    return _xblockexpression;
   }
 
   public IScope scope_TestConfiguration_statement(final TestConfiguration test, final EReference ref) {
@@ -213,6 +195,46 @@ public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
         }
       }
       return roots;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  private List<Block> getBlocks(final MarkedBlock mb) {
+    try {
+      String xmiFileName = "";
+      IProject _project = ProjectUtils.getProject();
+      boolean _tripleNotEquals = (_project != null);
+      if (_tripleNotEquals) {
+        String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
+        String _plus = (_replace + "/");
+        String _outputFolder = ModelManager.getOutputFolder();
+        String _plus_1 = (_plus + _outputFolder);
+        String _plus_2 = (_plus_1 + "/");
+        String _replaceAll = mb.eResource().getURI().lastSegment().replaceAll(".test", ".model");
+        String _plus_3 = (_plus_2 + _replaceAll);
+        xmiFileName = _plus_3;
+      } else {
+        String _replace_1 = ModelManager.getWorkspaceAbsolutePath().replace("\\", "/");
+        String _plus_4 = (_replace_1 + "/");
+        String _outputFolder_1 = ModelManager.getOutputFolder();
+        String _plus_5 = (_plus_4 + _outputFolder_1);
+        String _plus_6 = (_plus_5 + "/");
+        String _replaceAll_1 = mb.eResource().getURI().lastSegment().replaceAll(".test", ".model");
+        String _plus_7 = (_plus_6 + _replaceAll_1);
+        xmiFileName = _plus_7;
+      }
+      final Bundle bundle = Platform.getBundle("wodel.models");
+      final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+      final String ecore = FileLocator.resolve(fileURL).getFile();
+      final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
+      final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName);
+      final List<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
+      List<Block> blocks = new ArrayList<Block>();
+      for (final EObject eobject : eobjects) {
+        blocks.add(((Block) eobject));
+      }
+      return blocks;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

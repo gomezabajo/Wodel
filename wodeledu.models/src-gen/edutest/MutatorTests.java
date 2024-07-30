@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see edutest.EdutestPackage#getMutatorTests()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface MutatorTests extends EObject {

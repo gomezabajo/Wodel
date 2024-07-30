@@ -138,8 +138,8 @@ public class PFSMWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("PFSMExample");
-		this.fileText.setText("PFSMExample.mutator");
+		this.projectText.setText("pfsm");
+		this.fileText.setText("pfsm.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

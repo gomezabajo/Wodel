@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -50,23 +51,22 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.osgi.framework.Bundle;
 
-//import wodeledu.dsls.EduTestStandaloneSetup;
+import wodeledu.dsls.EduTestStandaloneSetup;
 import wodeledu.dsls.EduTestUtils;
 import wodeledu.dsls.ModelDrawStandaloneSetup;
 import wodeledu.dsls.ModelDrawUtils;
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
-import wodeledu.dsls.generator.ModelDrawGenerator;
-import wodeledu.dsls.generator.ModelDrawPlantUMLGenerator;
-import wodeledu.dsls.generator.ModelDrawDotGenerator;
-import wodeledu.dsls.generator.ModelDrawCircuitGenerator;
-/*
-import wodeledu.dsls.generator.EduTestGenerator;
-import wodeledu.dsls.generator.EduTestAndroidAppGenerator;
-import wodeledu.dsls.generator.EduTestiOSAppGenerator;
-import wodeledu.dsls.generator.EduTestMoodleGenerator;
-import wodeledu.dsls.generator.EduTestWebGenerator;
-*/
+import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawPlantUMLGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawDotGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawCircuitGenerator;
+import wodeledu.dsls.generator.edutest.EduTestAndroidAppGenerator;
+import wodeledu.dsls.generator.edutest.EduTestGenerator;
+import wodeledu.dsls.generator.edutest.EduTestMoodleGenerator;
+import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
+import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
+
 import wodeledu.extension.builder.WodelEduNature;
 
 import com.google.common.base.Charsets;
@@ -129,7 +129,27 @@ public class Generator implements IGenerator {
 	
 	@Override
 	public List<String> requiredBundles() {
-		return new ArrayList<String>();
+		List<String> requiredBundles = new ArrayList<String>();
+		requiredBundles.add("wodeledu.extension");
+		requiredBundles.add("wodeledu.models");
+		return requiredBundles;
+	}
+	
+	@Override
+	public List<String> importPackages() {
+		List<String> importPackages = new ArrayList<String>();
+		importPackages.add("org.apache.log4j");
+		importPackages.add("org.eclipse.xtext.generator");
+		importPackages.add("org.eclipse.xtext.xbase.lib");
+		importPackages.add("org.eclipse.xtext.util");
+		importPackages.add("wodeledu.dsls.generator.edutest");
+		importPackages.add("wodeledu.dsls.generator.modeldraw");
+		importPackages.add("com.google.inject");
+		importPackages.add("javax.inject");
+		importPackages.add("com.google.common.util.concurrent.internal");
+		importPackages.add("org.antlr.runtime");
+		importPackages.add("edutest");
+		return importPackages;
 	}
 
 	@Override
@@ -552,15 +572,17 @@ public class Generator implements IGenerator {
 			Resource drawmodel = ModelManager.loadModel(drawpackages, xmiFileName);
 			String stringURI = "/resource/" + file.getProject().getName();
 			stringURI = stringURI + "/src/" + file.getName().replace(".mutator", ".draw");
-			drawmodel.setURI(URI.createURI(stringURI));
-			ModelDrawGenerator generator = new ModelDrawGenerator();
-			Injector injector = new ModelDrawStandaloneSetup().createInjectorAndDoEMFRegistration();
-			InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
-			generator.circuitGenerator = new ModelDrawCircuitGenerator();
-			generator.plantUMLGenerator = new ModelDrawPlantUMLGenerator();
-			generator.dotGenerator = new ModelDrawDotGenerator();
-			generator.doGenerate(drawmodel, fsa, null);
-			compile(file.getProject());
+			if (drawmodel != null) {
+				drawmodel.setURI(URI.createURI(stringURI));
+				ModelDrawGenerator generator = new ModelDrawGenerator();
+				Injector injector = new ModelDrawStandaloneSetup().createInjectorAndDoEMFRegistration();
+				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				generator.circuitGenerator = new ModelDrawCircuitGenerator();
+				generator.plantUMLGenerator = new ModelDrawPlantUMLGenerator();
+				generator.dotGenerator = new ModelDrawDotGenerator();
+				generator.doGenerate(drawmodel, fsa, null);
+				compile(file.getProject());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -571,6 +593,41 @@ public class Generator implements IGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		compile(file.getProject());
+		
+		try {
+			String xmiFileName = file.getProject().getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder() + "/" + file.getName().replace(".mutator", "_test.model");
+			Bundle bundle = Platform.getBundle("wodeledu.models");
+	   		URL fileURL = bundle.getEntry("/model/EduTest.ecore");
+	   		String testecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> testpackages = ModelManager.loadMetaModel(testecore);
+			Resource testmodel = ModelManager.loadModel(testpackages, xmiFileName);
+			String stringURI = "/resource/" + file.getProject().getName();
+			stringURI = stringURI + "/src/" + file.getName().replace(".mutator", ".test");
+			if (testmodel != null) {
+				testmodel.setURI(URI.createURI(stringURI));
+				EduTestGenerator generator = new EduTestGenerator();
+				generator.webGenerator = new EduTestWebGenerator();
+				generator.moodleGenerator = new EduTestMoodleGenerator();
+				generator.androidAppGenerator = new EduTestAndroidAppGenerator();
+				generator.iOSAppGenerator = new EduTestiOSAppGenerator();
+				Injector injector = new EduTestStandaloneSetup().createInjectorAndDoEMFRegistration();
+				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				generator.doGenerate(testmodel, fsa, null);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		compile(file.getProject());
 
 		Class<?> cls = null;
 		String mutatorName = file.getProject().getName();
@@ -614,8 +671,8 @@ public class Generator implements IGenerator {
 		Object ob = null;
 		try {
 			ob = cls.getDeclaredConstructor().newInstance();
-			Method m = cls.getMethod("run");
-			m.invoke(ob);
+			Method m = cls.getMethod("run", new Class[]{IProject.class, String.class});
+			m.invoke(ob, file.getProject(), file.getName().replace(".mutator", ".test"));
 			// ime = (IMutatorExecutor)ob;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -625,53 +682,8 @@ public class Generator implements IGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-/*
-		try {
-			String xmiFileName = file.getProject().getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder() + "/" + file.getName().replace(".mutator", "_test.model");
-			Bundle bundle = Platform.getBundle("wodeledu.models");
-	   		URL fileURL = bundle.getEntry("/model/EduTest.ecore");
-	   		String testecore = FileLocator.resolve(fileURL).getFile();
-			List<EPackage> testpackages = ModelManager.loadMetaModel(testecore);
-			Resource testmodel = ModelManager.loadModel(testpackages, xmiFileName);
-			String stringURI = "/resource/" + file.getProject().getName();
-			stringURI = stringURI + "/src/" + file.getName().replace(".mutator", ".test");
-			testmodel.setURI(URI.createURI(stringURI));
-			EduTestGenerator generator = new EduTestGenerator();
-			generator.webGenerator = new EduTestWebGenerator();
-			generator.moodleGenerator = new EduTestMoodleGenerator();
-			generator.androidAppGenerator = new EduTestAndroidAppGenerator();
-			generator.iOSAppGenerator = new EduTestiOSAppGenerator();
-			Injector injector = new EduTestStandaloneSetup().createInjectorAndDoEMFRegistration();
-			InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
-			generator.doGenerate(testmodel, fsa, null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MetaModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/		
-		final IFile testsFile = file.getParent().getFile(new Path(file.getName().replace(".mutator", ".test")));
-		try {
-			InputStream stream = testsFile.getContents();
-			if (testsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-				testsFile.setContents(stream, true, true, null);
-			}
-			else {
-				testsFile.create(stream, true, null);
-			}
-			stream.close();
-		} catch (CoreException e) {
-		} catch (IOException e) {
-		}
-
+		
+		compile(file.getProject());
 	}
 
 	@Override

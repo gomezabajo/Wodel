@@ -1,4 +1,4 @@
-package wodeledu.extension.examples.wizards;
+ package wodeledu.extension.examples.wizards;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -138,8 +138,8 @@ public class WodelEduAutomataWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("WodelEduFA");
-		this.fileText.setText("WodelEduFA.mutator");
+		this.projectText.setText("eduFA");
+		this.fileText.setText("eduFA.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

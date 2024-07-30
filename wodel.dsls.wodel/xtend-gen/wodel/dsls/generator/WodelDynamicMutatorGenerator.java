@@ -8,6 +8,7 @@ import mutatorenvironment.Definition;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.Program;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,6 +16,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.utils.manager.JavaUtils;
+import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 
 /**
@@ -26,9 +28,18 @@ import wodel.utils.manager.ProjectUtils;
 public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.project = ProjectUtils.getProject();
     this.standalone = false;
-    String projectFolderName = ProjectUtils.getProject().getLocation().toFile().getPath();
+    String _xifexpression = null;
+    IProject _project = ProjectUtils.getProject();
+    boolean _tripleNotEquals = (_project != null);
+    if (_tripleNotEquals) {
+      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
+      _xifexpression = (_path + "/");
+    } else {
+      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+      _xifexpression = (_workspaceAbsolutePath + "/");
+    }
+    String projectFolderName = _xifexpression;
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     MutatorEnvironment mutatorEnvironment = null;

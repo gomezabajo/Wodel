@@ -158,8 +158,8 @@ public class WodelTest4FAUpdateSiteWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 		_pageOne = new WodelTest4FAUpdateSiteWizardPage(selection);
-		_pageOne.setTitle("Wodel-Test for FA example");
-		_pageOne.setDescription("Create a Wodel-Test for FA example project");
+		_pageOne.setTitle("Wodel-Test for FA update-site generator");
+		_pageOne.setDescription("Create a Wodel-Test for FA update-site generator");
 		addPage(_pageOne);
 	}
 

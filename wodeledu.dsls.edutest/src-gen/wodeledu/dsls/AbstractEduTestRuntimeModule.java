@@ -48,7 +48,7 @@ import org.eclipse.xtext.service.DefaultRuntimeModule;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.ConfigurableIssueCodesProvider;
 import wodeledu.dsls.formatting2.EduTestFormatter;
-import wodeledu.dsls.generator.EduTestGenerator;
+import wodeledu.dsls.generator.edutest.EduTestGenerator;
 import wodeledu.dsls.parser.antlr.EduTestAntlrTokenFileProvider;
 import wodeledu.dsls.parser.antlr.EduTestParser;
 import wodeledu.dsls.parser.antlr.internal.InternalEduTestLexer;

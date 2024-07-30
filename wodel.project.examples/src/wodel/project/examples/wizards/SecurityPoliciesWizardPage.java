@@ -133,8 +133,8 @@ public class SecurityPoliciesWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("SecurityPoliciesExample");
-		this.fileText.setText("SecurityPoliciesExample.mutator");
+		this.projectText.setText("secPol");
+		this.fileText.setText("secPol.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

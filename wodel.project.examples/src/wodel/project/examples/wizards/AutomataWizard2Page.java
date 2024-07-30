@@ -138,8 +138,8 @@ public class AutomataWizard2Page extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("FAExample2");
-		this.fileText.setText("FAExample2.mutator");
+		this.projectText.setText("fa2");
+		this.fileText.setText("fa2.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

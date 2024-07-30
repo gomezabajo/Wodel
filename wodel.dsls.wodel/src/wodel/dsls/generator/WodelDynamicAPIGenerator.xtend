@@ -22,21 +22,18 @@ import wodel.dsls.WodelUtils
 class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		project = ProjectUtils.getProject()
-		
 		standalone = false
-		var projectFolderName = ProjectUtils.getProject.getLocation.toFile.getPath + "/"
+		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath + "/" : ModelManager.getWorkspaceAbsolutePath + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
 		//var List<String> mutators = getMutators(files)
-		var MutatorEnvironment mutatorEnvironment = null
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
 			fileName = resource.URI.lastSegment
 			var String xTextFileName = getMutatorPath(e, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath + program.output + fileName.replaceAll(".mutator", ".model")
+			xmiFileName = "file:/" + projectFolderName + program.output + fileName.replaceAll(".mutator", ".model")
 			try {
 				WodelUtils.serialize(xTextFileName, xmiFileName)
 			} catch (Exception ex) {}
@@ -46,7 +43,6 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
 			fileName = mutatorName.replaceAll("[.]", "_") + "DynamicAPI.java"
 			className = fileName.replaceAll(".java", "")
-			var int i = 1
 			var String key = className.replace("DynamicAPI", "")
 			for (b : e.blocks) {
 				var List<String> values = new ArrayList<String>()
@@ -62,7 +58,6 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 				fsa.deleteFile("mutator/" + mutatorName + "/" + fileName)
      		}
      		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(mutatorName, className), false))
-     		mutatorEnvironment = e
 		}
 		//if (fsa.isFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "APILauncher.java")) {
 		//	fsa.deleteFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "APILauncher.java")

@@ -19,6 +19,8 @@ public interface IGenerator extends IExecutableExtension {
 	
 	public List<String> requiredBundles();
 	
+	public List<String> importPackages();
+	
 	public boolean doGenerate(String fileName,
 			String metamodel, String project,
 			String outputPath, IProject mutProject,

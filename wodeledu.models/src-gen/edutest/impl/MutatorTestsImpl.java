@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container implements MutatorTests {
+public class MutatorTestsImpl extends MinimalEObjectImpl.Container implements MutatorTests {
 	/**
 	 * The cached value of the '{@link #getMarkedBlocks() <em>Marked Blocks</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

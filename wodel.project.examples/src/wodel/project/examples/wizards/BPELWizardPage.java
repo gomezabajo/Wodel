@@ -138,8 +138,8 @@ public class BPELWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("BPELExample");
-		this.fileText.setText("BPELExample.mutator");
+		this.projectText.setText("bpel");
+		this.fileText.setText("bpel.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

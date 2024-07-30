@@ -20,16 +20,13 @@ import wodeledu.dsls.MutaTextUtils
  */
 class MutaTextGenerator extends AbstractGenerator {
 
-	protected IProject project = null
-	
 	private String fileName
 	private String path
 	private String xmiFileName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 
-		project = ProjectUtils.getProject()
-		path = ProjectUtils.getProject.getLocation.toFile.getPath
+		path = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath : ModelManager.getWorkspaceAbsolutePath	
 
 		for(e: resource.allContents.toIterable.filter(Configuration)) {
 			

@@ -348,7 +348,7 @@ public class RunWodel extends AbstractHandler {
 						Object postprocessing =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(postprocessing).equals(extensionName) ) {
-							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{List.class, List.class, Resource.class, String.class});
+							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, List.class, Resource.class, String.class});
 							Set<Resource> resources = hashmap_postproc.keySet();
 							for (Resource r : resources) {
 								File f = new File(hashmap_postproc.get(r));

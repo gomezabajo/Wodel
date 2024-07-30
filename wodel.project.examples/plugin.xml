@@ -13,7 +13,7 @@
             class="wodel.project.examples.wizards.AutomataWizard"
             icon="icons/wodel4.jpg"
             id="wodel.project.examples.wizards.AutomataWizard"
-            name="Finite Automata"
+            name="Finite Automata (1)"
             project="true">
       </wizard>
    </extension>

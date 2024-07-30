@@ -7,8 +7,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -33,8 +42,17 @@ import com.google.inject.Injector;
 
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
+import wodeledu.dsls.EduTestStandaloneSetup;
 import wodeledu.dsls.ModelDrawStandaloneSetup;
-import wodeledu.dsls.generator.ModelDrawGenerator;
+import wodeledu.dsls.generator.edutest.EduTestAndroidAppGenerator;
+import wodeledu.dsls.generator.edutest.EduTestGenerator;
+import wodeledu.dsls.generator.edutest.EduTestMoodleGenerator;
+import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
+import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawCircuitGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawDotGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
+import wodeledu.dsls.generator.modeldraw.ModelDrawPlantUMLGenerator;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel-Edu General preferences page
@@ -49,6 +67,23 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 	private Button button = null;
 	private Composite composite = null;
 	
+	private void compile(IProject project) {
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, new NullProgressMonitor());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationCanceledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
     @Override
     protected void createFieldEditors() {
     	composite = getFieldEditorParent();
@@ -137,16 +172,25 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			IPreferenceStore preferenceStore = doGetPreferenceStore();
 	    	preferenceStore.setDefault("Model-Draw renderer path", folder != null ? folder : null);
 
+	    	IProject project = null;
+	    	if (ProjectUtils.getProject() != null) {
+	    		project = ProjectUtils.getProject();
+	    	}
+	    	
+	    	if (project == null) {
+	    		return;
+	    	}
+			
 	    	String outputPath = ModelManager.getOutputPath();
 			Bundle bundle = Platform.getBundle("wodeledu.models");
 			URL wodelURL = bundle.getEntry("/model/ModelDraw.ecore");
 			Resource program = null;
 			String wodelecore;
-			List<EPackage> wodelpackages;
+			List<EPackage> wodelpackages = null;
 			try {
 				wodelecore = FileLocator.resolve(wodelURL).getFile();
 				wodelpackages = ModelManager.loadMetaModel(wodelecore);
-				program = ModelManager.loadModel(wodelpackages, outputPath + "/" + ProjectUtils.getProject().getName() + "_draw.model");
+				program = ModelManager.loadModel(wodelpackages, outputPath + "/" + project.getName() + "_draw.model");
 			} catch (ModelNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -160,7 +204,32 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			Injector injector = new ModelDrawStandaloneSetup().createInjectorAndDoEMFRegistration();
 			InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
 			ModelDrawGenerator modelDrawGenerator = new ModelDrawGenerator();
+			modelDrawGenerator.circuitGenerator = new ModelDrawCircuitGenerator();
+			modelDrawGenerator.plantUMLGenerator = new ModelDrawPlantUMLGenerator();
+			modelDrawGenerator.dotGenerator = new ModelDrawDotGenerator();
 			modelDrawGenerator.doGenerate(program, fsa, null);
+			
+/*
+			bundle = Platform.getBundle("wodeledu.models");
+			wodelURL = bundle.getEntry("/model/EduTest.ecore");
+			program = null;
+			try {
+				program = ModelManager.loadModel(wodelpackages, outputPath + "/" + project.getName() + "_test.model");
+			} catch (ModelNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			injector = new EduTestStandaloneSetup().createInjectorAndDoEMFRegistration();
+			fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+			EduTestGenerator eduTestGenerator = new EduTestGenerator();
+			eduTestGenerator.webGenerator = new EduTestWebGenerator();
+			eduTestGenerator.moodleGenerator = new EduTestMoodleGenerator();
+			eduTestGenerator.androidAppGenerator = new EduTestAndroidAppGenerator();
+			eduTestGenerator.iOSAppGenerator = new EduTestiOSAppGenerator();
+			eduTestGenerator.doGenerate(program, fsa, null);
+
+			compile(project);
+*/
 		}
 	}
 }

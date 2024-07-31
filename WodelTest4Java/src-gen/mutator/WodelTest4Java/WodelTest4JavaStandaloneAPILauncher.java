@@ -23,8 +23,8 @@ import mutator.testJavaDLM.testJavaDLMStandaloneAPI;
 import mutator.testJavaRest.testJavaRestStandaloneAPI;
 import mutator.testJavaUCOD.testJavaUCODStandaloneAPI;
 import mutator.testJavaCO.testJavaCOStandaloneAPI;
-import mutator.testJavaAP.testJavaAPStandaloneAPI;
 import mutator.testJavaASO.testJavaASOStandaloneAPI;
+import mutator.testJavaAP.testJavaAPStandaloneAPI;
 import mutator.testJavaAO.testJavaAOStandaloneAPI;
 import mutator.testJavaCOD.testJavaCODStandaloneAPI;
 
@@ -33,7 +33,7 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model/java.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testJavaNLS");
 		mutatorNames.add("testJavaLO");
@@ -44,8 +44,8 @@ public class WodelTest4JavaStandaloneAPILauncher {
 		mutatorNames.add("testJavaRest");
 		mutatorNames.add("testJavaUCOD");
 		mutatorNames.add("testJavaCO");
-		mutatorNames.add("testJavaAP");
 		mutatorNames.add("testJavaASO");
+		mutatorNames.add("testJavaAP");
 		mutatorNames.add("testJavaAO");
 		mutatorNames.add("testJavaCOD");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
@@ -110,12 +110,6 @@ public class WodelTest4JavaStandaloneAPILauncher {
 		mutatorOperatorNamestestJavaCO.add("coro");
 		mutatorOperatorNamestestJavaCO.add("corx");
 		operatorNames.add(mutatorOperatorNamestestJavaCO);
-		List<String> mutatorOperatorNamestestJavaAP = new ArrayList<String>();
-		mutatorOperatorNamestestJavaAP.add("apmrt");
-		mutatorOperatorNamestestJavaAP.add("apmir");
-		mutatorOperatorNamestestJavaAP.add("apmil");
-		mutatorOperatorNamestestJavaAP.add("apmas");
-		operatorNames.add(mutatorOperatorNamestestJavaAP);
 		List<String> mutatorOperatorNamestestJavaASO = new ArrayList<String>();
 		mutatorOperatorNamestestJavaASO.add("asrsp");
 		mutatorOperatorNamestestJavaASO.add("asrsm");
@@ -129,6 +123,12 @@ public class WodelTest4JavaStandaloneAPILauncher {
 		mutatorOperatorNamestestJavaASO.add("asrssrr");
 		mutatorOperatorNamestestJavaASO.add("asrssl");
 		operatorNames.add(mutatorOperatorNamestestJavaASO);
+		List<String> mutatorOperatorNamestestJavaAP = new ArrayList<String>();
+		mutatorOperatorNamestestJavaAP.add("apmrt");
+		mutatorOperatorNamestestJavaAP.add("apmir");
+		mutatorOperatorNamestestJavaAP.add("apmil");
+		mutatorOperatorNamestestJavaAP.add("apmas");
+		operatorNames.add(mutatorOperatorNamestestJavaAP);
 		List<String> mutatorOperatorNamestestJavaAO = new ArrayList<String>();
 		mutatorOperatorNamestestJavaAO.add("aorbp");
 		mutatorOperatorNamestestJavaAO.add("aorbm");
@@ -162,7 +162,7 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication24/WodelTest4Java/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -174,9 +174,9 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		File projectFolder = new File(
-				testJavaUCODStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+				testJavaCOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = testJavaUCODStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
+		String outputWodelFolder = testJavaCOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
@@ -198,9 +198,9 @@ public class WodelTest4JavaStandaloneAPILauncher {
 		i++;
 		testJavaCOStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
-		testJavaAPStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
 		testJavaASOStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testJavaAPStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		testJavaAOStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;

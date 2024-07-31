@@ -21,7 +21,7 @@ public class WodelTest4ChatbotsStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication15/WodelTest4Chatbots/data/model/Annotation.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication10/WodelTest4Chatbots/data/model/Annotation.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testBotGenerator");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
@@ -56,7 +56,7 @@ public class WodelTest4ChatbotsStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication15/WodelTest4Chatbots/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication10/WodelTest4Chatbots/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}

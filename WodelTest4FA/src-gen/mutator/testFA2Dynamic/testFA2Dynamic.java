@@ -59,13 +59,13 @@ public class testFA2Dynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		RandomTypeSelection refRts30 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject30 = refRts30.getObject();
-		ObSelectionStrategy refSelection30 = null;
-		if (refObject30 != null) {
-			refSelection30 = new SpecificObjectSelection(packages, model, refObject30);
+		RandomTypeSelection refRts8 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject8 = refRts8.getObject();
+		ObSelectionStrategy refSelection8 = null;
+		if (refObject8 != null) {
+			refSelection8 = new SpecificObjectSelection(packages, model, refObject8);
 		}
-		refs.put("symbol", refSelection30);
+		refs.put("symbol", refSelection8);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -214,10 +214,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l66 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l18 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l66 != null) {
-							for (Mutator mut : l66) {
+						if (l18 != null) {
+							for (Mutator mut : l18) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -534,10 +534,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls067 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls019 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls067 != null) {
-							for (Mutator mut : ls067) {
+						if (ls019 != null) {
+							for (Mutator mut : ls019) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -558,10 +558,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls168 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls120 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls168 != null) {
-							for (Mutator mut : ls168) {
+						if (ls120 != null) {
+							for (Mutator mut : ls120) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -796,10 +796,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l69 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l21 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l69 != null) {
-							for (Mutator mut : l69) {
+						if (l21 != null) {
+							for (Mutator mut : l21) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1031,49 +1031,49 @@ public class testFA2Dynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection31 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_31 = hmObjects.get("s1");
-		if (entry_s1_31 != null) {
-			refSelection31 = new SpecificObjectSelection(packages, model, entry_s1_31.getKey());
+		ObSelectionStrategy refSelection9 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_9 = hmObjects.get("s1");
+		if (entry_s1_9 != null) {
+			refSelection9 = new SpecificObjectSelection(packages, model, entry_s1_9.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_31 = hmList.get("s1");
-			if (listEntry_s1_31 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_9 = hmList.get("s1");
+			if (listEntry_s1_9 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_31) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_9) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection31 = new SpecificObjectSelection(packages, model, objs);
+				refSelection9 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("src", refSelection31);
-		ObSelectionStrategy refSelection32 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_32 = hmObjects.get("s0");
-		if (entry_s0_32 != null) {
-			refSelection32 = new SpecificObjectSelection(packages, model, entry_s0_32.getKey());
+		refs.put("src", refSelection9);
+		ObSelectionStrategy refSelection10 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_10 = hmObjects.get("s0");
+		if (entry_s0_10 != null) {
+			refSelection10 = new SpecificObjectSelection(packages, model, entry_s0_10.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_32 = hmList.get("s0");
-			if (listEntry_s0_32 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_10 = hmList.get("s0");
+			if (listEntry_s0_10 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_32) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_10) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection32 = new SpecificObjectSelection(packages, model, objs);
+				refSelection10 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("tar", refSelection32);
-		RandomTypeSelection refRts33 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject33 = refRts33.getObject();
-		ObSelectionStrategy refSelection33 = null;
-		if (refObject33 != null) {
-			refSelection33 = new SpecificObjectSelection(packages, model, refObject33);
+		refs.put("tar", refSelection10);
+		RandomTypeSelection refRts11 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject11 = refRts11.getObject();
+		ObSelectionStrategy refSelection11 = null;
+		if (refObject11 != null) {
+			refSelection11 = new SpecificObjectSelection(packages, model, refObject11);
 		}
-		refs.put("symbol", refSelection33);
+		refs.put("symbol", refSelection11);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -1222,10 +1222,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls070 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls022 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls070 != null) {
-							for (Mutator mut : ls070) {
+						if (ls022 != null) {
+							for (Mutator mut : ls022) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1246,10 +1246,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls171 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls123 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls171 != null) {
-							for (Mutator mut : ls171) {
+						if (ls123 != null) {
+							for (Mutator mut : ls123) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1270,10 +1270,10 @@ public class testFA2Dynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l72 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l24 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l72 != null) {
-							for (Mutator mut : l72) {
+						if (l24 != null) {
+							for (Mutator mut : l24) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {

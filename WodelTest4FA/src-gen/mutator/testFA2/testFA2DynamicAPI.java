@@ -27,7 +27,7 @@ public class testFA2DynamicAPI extends MutatorAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testFA2");
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication18/WodelTest4FA/data/model/DFAAutomaton.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication8/WodelTest4FA/data/model/DFAAutomaton.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());

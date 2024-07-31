@@ -3,10 +3,15 @@ package wodeledu.dsls.ui.customize;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -15,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -38,6 +44,8 @@ import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
 import org.eclipse.xtext.ui.editor.preferences.fields.LabelFieldEditor;
 import org.osgi.framework.Bundle;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import com.google.inject.Injector;
 
 import wodel.utils.exceptions.MetaModelNotFoundException;
@@ -53,6 +61,7 @@ import wodeledu.dsls.generator.modeldraw.ModelDrawCircuitGenerator;
 import wodeledu.dsls.generator.modeldraw.ModelDrawDotGenerator;
 import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
 import wodeledu.dsls.generator.modeldraw.ModelDrawPlantUMLGenerator;
+import wodeledu.utils.manager.WodelEduUtils;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel-Edu General preferences page
@@ -180,7 +189,83 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 	    	if (project == null) {
 	    		return;
 	    	}
+	    	
+			String projectName = project.getName();
+			String filename = projectName + ".draw";
+
+			IFile generatedCodeFile = project.getFile(new Path("/src-gen/mutator/" + project.getName() + "/" + filename.replace(".draw", "Draw.java")));
+
+			try {
+				if (generatedCodeFile.exists() == true) {
+					generatedCodeFile.delete(true, new NullProgressMonitor());
+				}
+				final IFolder src = project.getFolder(new Path("src"));
+				if (src.exists() == false) {
+					return;
+				}
+				final IFile dslFile = src.getFile(new Path(filename));
+				InputStream stream = dslFile.getContents();
+				if (dslFile.exists()) {
+					String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+					stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+					dslFile.setContents(stream, true, true, null);
+				}
+				else {
+					dslFile.create(stream, true, null);
+				}
+				stream.close();
+
+				/*
+				String path = project.getLocation().toFile().getPath().replace("\\", "/");
+				String modelname = projectName + "_draw.model";
+				String xmiFileName = path + "/" + ModelManager.getOutputFolder() + "/" + modelname;
+				Bundle bundle = Platform.getBundle("wodeledu.models");
+		   		URL fileURL = bundle.getEntry("/model/ModelDraw.ecore");
+		   		String drawecore = FileLocator.resolve(fileURL).getFile();
+				List<EPackage> drawpackages = ModelManager.loadMetaModel(drawecore);
+				Resource drawmodel = ModelManager.loadModel(drawpackages, xmiFileName);
+				String stringURI = "/resource/" + projectName;
+				stringURI = stringURI + "/src/" + filename;
+				if (drawmodel != null) {
+					drawmodel.setURI(URI.createURI(stringURI));
+					//ModelDrawGenerator generator = new ModelDrawGenerator();
+					Injector injector = new ModelDrawStandaloneSetup().createInjectorAndDoEMFRegistration();
+					InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+					String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
+					ModelDrawCircuitGenerator circuitGenerator = new ModelDrawCircuitGenerator();
+					ModelDrawPlantUMLGenerator plantUMLGenerator = new ModelDrawPlantUMLGenerator();
+					ModelDrawDotGenerator dotGenerator = new ModelDrawDotGenerator();
+					if (modelDrawMode.equals("Dot")) {
+						dotGenerator.doGenerate(drawmodel, fsa, null);
+					}
+					if (modelDrawMode.equals("Circuit")) {
+						circuitGenerator.doGenerate(drawmodel, fsa, null);
+					}
+					if (modelDrawMode.equals("PlantUML")) {
+						plantUMLGenerator.doGenerate(drawmodel, fsa, null);
+					}
+					//generator.doGenerate(drawmodel, fsa, null);
+				}
+				*/
+			} catch (CoreException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			String generatedCode = generatedCodeFile.getLocation().toFile().getPath().replace("\\", "/");
 			
+			try {
+				WodelEduUtils.awaitFile(generatedCode, 10000);
+			} catch (IOException | InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+
+/*			
 	    	String outputPath = ModelManager.getOutputPath();
 			Bundle bundle = Platform.getBundle("wodeledu.models");
 			URL wodelURL = bundle.getEntry("/model/ModelDraw.ecore");
@@ -208,7 +293,7 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			modelDrawGenerator.plantUMLGenerator = new ModelDrawPlantUMLGenerator();
 			modelDrawGenerator.dotGenerator = new ModelDrawDotGenerator();
 			modelDrawGenerator.doGenerate(program, fsa, null);
-			
+*/			
 /*
 			bundle = Platform.getBundle("wodeledu.models");
 			wodelURL = bundle.getEntry("/model/EduTest.ecore");

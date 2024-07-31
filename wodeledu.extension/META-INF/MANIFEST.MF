@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.generator,
  org.eclipse.emf.mwe.core,
  com.google.inject,
- wodeledu.models
+ wodeledu.models,
+ wodeledu.utils
 Export-Package: wodeledu.extension.run.commands
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodeledu.extension

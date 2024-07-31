@@ -18,7 +18,8 @@ Require-Bundle: wodeledu.dsls.edutest,
  org.eclipse.compare,
  org.eclipse.xtext.builder,
  wodel.utils,
- wodeledu.dsls.modeldraw
+ wodeledu.dsls.modeldraw,
+ wodeledu.utils
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.util,

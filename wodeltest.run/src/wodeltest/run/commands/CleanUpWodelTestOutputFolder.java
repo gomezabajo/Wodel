@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -98,10 +99,13 @@ public class CleanUpWodelTestOutputFolder extends AbstractHandler {
 	        {
 	            sProject = (IProject)((IAdaptable) selection.getFirstElement()).getAdapter(IProject.class);
 	        }
-			if (selection.getFirstElement() instanceof IProject) {
+			if (sProject == null && selection.getFirstElement() instanceof IProject) {
 				sProject = (IProject) selection.getFirstElement();
 			}
-			if (selection.getFirstElement() instanceof IJavaProject) {
+			if (sProject == null && selection.getFirstElement() instanceof IFile) {
+				sProject = ((IFile) selection.getFirstElement()).getProject();
+			}
+			if (sProject == null && selection.getFirstElement() instanceof IJavaProject) {
 				sProject = ((IJavaProject) selection.getFirstElement()).getProject();
 			}
 			

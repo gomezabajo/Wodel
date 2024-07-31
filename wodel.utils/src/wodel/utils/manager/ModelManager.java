@@ -2389,6 +2389,9 @@ public class ModelManager {
 			if (projectName != null) {
 				path = getWorkspaceAbsolutePath(cls).replace("\\", "/") + "/" + projectName;
 			}
+			else {
+				path = getWorkspaceAbsolutePath().replace("\\", "/");
+			}
 		}
 		else {
 			path = project.getLocation().toFile().getPath();

@@ -71,6 +71,8 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 public class WodelTest implements IWodelTest {
 	
 	private static JUnitVersion jUnitVersion = JUnitVersion.UNKNOWN;
+	private static final int MAX_ITERATIONS = 5;
+	private static final int TIME_SLEEP = 2000;
 	
 	private enum JUnitVersion {
 		UNKNOWN(-1),
@@ -372,13 +374,17 @@ public class WodelTest implements IWodelTest {
 					}
 				}
 			}
-			WodelTestUtils.awaitFile(newSrcPath, 2000);
+			WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 			File newSrc = new File(newSrcPath);
-			while (!newSrc.exists()) {
-				WodelTestUtils.awaitFile(newSrcPath, 2000);
+			int k = MAX_ITERATIONS;
+			while (k > 0 && !newSrc.exists()) {
+				k--;
+				WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 			}
-			IOUtils.copyFile(newSrcPath, srcJavaFilePath);
-			IOUtils.deleteFile(newSrcPath);
+			if (newSrc.exists()) {
+				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+				IOUtils.deleteFile(newSrcPath);
+			}
 			current.setContextClassLoader(oldLoader);
 		} catch (JavaModelException e) {
 			// TODO Auto-generated catch block
@@ -642,13 +648,17 @@ public class WodelTest implements IWodelTest {
 						}
 					}
 				}
-				WodelTestUtils.awaitFile(newSrcPath, 2000);
+				WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 				File newSrc = new File(newSrcPath);
-				while (!newSrc.exists()) {
-					WodelTestUtils.awaitFile(newSrcPath, 2000);
+				int k = MAX_ITERATIONS;
+				while (k > 0 && !newSrc.exists()) {
+					k--;
+					WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 				}
-				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
-				IOUtils.deleteFile(newSrcPath);
+				if (newSrc.exists()) {
+					IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+					IOUtils.deleteFile(newSrcPath);
+				}
 				current.setContextClassLoader(oldLoader);
 				globalResultMap.put(testSuiteProject, globalResult);
 			}

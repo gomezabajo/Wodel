@@ -225,7 +225,7 @@ public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
         xmiFileName = _plus_7;
       }
       final Bundle bundle = Platform.getBundle("wodel.models");
-      final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+      final URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
       final String ecore = FileLocator.resolve(fileURL).getFile();
       final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
       final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName);

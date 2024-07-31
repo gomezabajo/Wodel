@@ -39,6 +39,10 @@ import wodel.project.builder.WodelNature;
 public class JavaSemanticComparison extends SemanticComparison {
 	
 	private static int MAX_SIZE = 32768;
+	
+	private static final int MAX_ITERATIONS = 5;
+	private static final int TIME_SLEEP = 2000;
+
 
 	private void compile(IProject project) {
 		try {
@@ -115,14 +119,18 @@ public class JavaSemanticComparison extends SemanticComparison {
 			File srcFile = new File(path);
 			if (srcFile.isFile()) {
 				String bytecodePath = getBytecodePath(project, javaProject, srcFile, packageName);
-				WodelTestUtils.awaitFile(bytecodePath, 2000);
+				WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
 				File bytecode = new File(bytecodePath);
-				while (!bytecode.exists()) {
-					WodelTestUtils.awaitFile(bytecodePath, 2000);
+				int k = MAX_ITERATIONS;
+				while (k > 0 && !bytecode.exists()) {
+					k--;
+					WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
 				}
 				String classname = bytecodePath.substring(bytecodePath.lastIndexOf("/") + 1, bytecodePath.lastIndexOf("."));
 				String tmpBytecodeName1 = project.getLocation().toFile().getPath() + "/temp/class/" + classname + "." + modelName.replace(".model", "") + ".tmp";
-				IOUtils.copyFile(bytecode.getPath(), tmpBytecodeName1);
+				if (bytecode.exists()) {
+					IOUtils.copyFile(bytecode.getPath(), tmpBytecodeName1);
+				}
 				File tmpBytecode = new File(tmpBytecodeName1);
 				byteArray = getBytesFromFile(tmpBytecode);
 			}

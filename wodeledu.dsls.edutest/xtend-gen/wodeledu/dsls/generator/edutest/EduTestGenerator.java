@@ -26,16 +26,16 @@ import wodeledu.dsls.EduTestUtils;
 @SuppressWarnings("all")
 public class EduTestGenerator extends AbstractGenerator {
   @Inject
-  public EduTestWebGenerator webGenerator;
+  private EduTestWebGenerator webGenerator;
 
   @Inject
-  public EduTestMoodleGenerator moodleGenerator;
+  private EduTestMoodleGenerator moodleGenerator;
 
   @Inject
-  public EduTestAndroidAppGenerator androidAppGenerator;
+  private EduTestAndroidAppGenerator androidAppGenerator;
 
   @Inject
-  public EduTestiOSAppGenerator iOSAppGenerator;
+  private EduTestiOSAppGenerator iOSAppGenerator;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {

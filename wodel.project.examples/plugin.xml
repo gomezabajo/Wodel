@@ -109,7 +109,7 @@
             class="wodel.project.examples.wizards.BPELWizard"
             icon="icons/wodel4.jpg"
             id="wodel.project.examples.wizards.BPELWizard"
-            name="BPEL Example"
+            name="BPEL"
             project="true">
       </wizard>
    </extension>

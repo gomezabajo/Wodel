@@ -1,10 +1,21 @@
 package wodeledu.utils.manager;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import modeltext.Element;
 import modeltext.ModeltextFactory;
@@ -346,5 +357,51 @@ public class WodelEduUtils {
 			}
 		}
 		return null;
+	}
+
+	public static BasicFileAttributes awaitFile(String target, long timeout) 
+		    throws IOException, InterruptedException
+	{
+	    final java.nio.file.Path name = Paths.get(target).getFileName();
+	    final java.nio.file.Path targetDir = Paths.get(target).getParent();
+
+	    // If path already exists, return early
+	    try {
+	        return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	    } catch (NoSuchFileException ex) {}
+
+	    final WatchService watchService = FileSystems.getDefault().newWatchService();
+	    try {
+	        final WatchKey watchKey = targetDir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+	        // The file could have been created in the window between Files.readAttributes and Path.register
+	        try {
+	            return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	        } catch (NoSuchFileException ex) {}
+	        // The file is absent: watch events in parent directory 
+	        WatchKey watchKey1 = null;
+	        boolean valid = true;
+	        do {
+	            long t0 = System.currentTimeMillis();
+	            watchKey1 = watchService.poll(timeout, TimeUnit.MILLISECONDS);
+	            if (watchKey1 == null) {
+	                return null; // timed out
+	            }
+	            // Examine events associated with key
+	            for (WatchEvent<?> event: watchKey1.pollEvents()) {
+	            	java.nio.file.Path path1 = (java.nio.file.Path) event.context();
+	                if (path1.getFileName().equals(name)) {
+	                    return Files.readAttributes(Paths.get(target), BasicFileAttributes.class);
+	                }
+	            }
+	            // Did not receive an interesting event; re-register key to queue
+	            long elapsed = System.currentTimeMillis() - t0;
+	            timeout = elapsed < timeout? (timeout - elapsed) : 0L;
+	            valid = watchKey1.reset();
+	        } while (valid);
+	    } finally {
+	        watchService.close();
+	    }
+
+	    return null;
 	}
 }

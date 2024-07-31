@@ -24,9 +24,9 @@ import org.eclipse.core.resources.IProject
  */
 class ModelDrawGenerator extends AbstractGenerator {
 
-	@Inject public ModelDrawDotGenerator dotGenerator
-	@Inject public ModelDrawCircuitGenerator circuitGenerator
-	@Inject public ModelDrawPlantUMLGenerator plantUMLGenerator
+	@Inject ModelDrawDotGenerator dotGenerator
+	@Inject ModelDrawCircuitGenerator circuitGenerator
+	@Inject ModelDrawPlantUMLGenerator plantUMLGenerator
 	
 	private String fileName
 	private String path
@@ -42,7 +42,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 			xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".draw", "_draw.model")
 			ModelDrawUtils.serialize(xTextFileName, xmiFileName)
 		}
-		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null);
+		var String modelDrawMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw mode", "Dot", null)
 		if (modelDrawMode.equals("Dot")) {
 			dotGenerator.doGenerate(resource, fsa, context)
 		}

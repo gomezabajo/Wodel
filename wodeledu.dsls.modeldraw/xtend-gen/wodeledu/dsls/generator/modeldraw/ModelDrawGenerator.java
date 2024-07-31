@@ -27,13 +27,13 @@ import wodeledu.dsls.ModelDrawUtils;
 @SuppressWarnings("all")
 public class ModelDrawGenerator extends AbstractGenerator {
   @Inject
-  public ModelDrawDotGenerator dotGenerator;
+  private ModelDrawDotGenerator dotGenerator;
 
   @Inject
-  public ModelDrawCircuitGenerator circuitGenerator;
+  private ModelDrawCircuitGenerator circuitGenerator;
 
   @Inject
-  public ModelDrawPlantUMLGenerator plantUMLGenerator;
+  private ModelDrawPlantUMLGenerator plantUMLGenerator;
 
   private String fileName;
 

@@ -111,6 +111,102 @@
          </command>
       </menuContribution>
    </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeledu.extension.run.commands.GenerateEduTestCode"
+            id="wodeledu.extension.run.commands.GenerateEduTestCode"
+            name="Generate eduTest code">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodeledu_edutest.jpg"
+               id="WodelEdu.menu1"
+               label="Wodel-Edu...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodeledu.extension.run.commands.GenerateEduTestCode"
+                  icon="icons/wodeledu_edutest.jpg"
+                  label="Generate eduTest code"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodeledu.extension.wodelEduNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.test">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodeledu.extension.run.commands.GenerateModelDrawCode"
+            id="wodeledu.extension.run.commands.GenerateModelDrawCode"
+            name="Generate eduTest code">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodeledu_edutest.jpg"
+               id="WodelEdu.menu1"
+               label="Wodel-Edu...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodeledu.extension.run.commands.GenerateModelDrawCode"
+                  icon="icons/wodeledu_edutest.jpg"
+                  label="Generate modelDraw code"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodeledu.extension.wodelEduNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.draw">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 <!--
    <extension
          point="org.eclipse.ui.commands">

@@ -160,7 +160,7 @@ class EduTestScopeProvider extends AbstractEduTestScopeProvider {
 			xmiFileName = ModelManager.getWorkspaceAbsolutePath.replace("\\", "/") + '/' + ModelManager.getOutputFolder + '/' + mb.eResource.URI.lastSegment.replaceAll(".test", ".model")
 		}
 		val Bundle bundle = Platform.getBundle("wodel.models")
-	   	val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+	   	val URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore")
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
 		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
 		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, xmiFileName)

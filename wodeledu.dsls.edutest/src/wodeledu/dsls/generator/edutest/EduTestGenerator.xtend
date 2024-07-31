@@ -27,10 +27,10 @@ import edutest.Program
  */
 class EduTestGenerator extends AbstractGenerator {
 
-	@Inject public EduTestWebGenerator webGenerator
-	@Inject public EduTestMoodleGenerator moodleGenerator
-	@Inject public EduTestAndroidAppGenerator androidAppGenerator
-	@Inject public EduTestiOSAppGenerator iOSAppGenerator
+	@Inject EduTestWebGenerator webGenerator
+	@Inject EduTestMoodleGenerator moodleGenerator
+	@Inject EduTestAndroidAppGenerator androidAppGenerator
+	@Inject EduTestiOSAppGenerator iOSAppGenerator
 	
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var String path = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath : null	
@@ -42,7 +42,7 @@ class EduTestGenerator extends AbstractGenerator {
 			var String xmiFileName = "file:/" + path + "/" + ModelManager.outputFolder + '/' + fileName.replaceAll(".test", "_test.model")
 			EduTestUtils.serialize(xTextFileName, xmiFileName)
 		}
-		var String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null);
+		var String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null)
 		if (eduTestMode.equals("Web")) {
 			webGenerator.doGenerate(resource, fsa, context)
 		}

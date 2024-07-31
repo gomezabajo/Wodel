@@ -68,6 +68,7 @@ import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
 import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
 
 import wodeledu.extension.builder.WodelEduNature;
+import wodeledu.utils.manager.WodelEduUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
@@ -562,7 +563,8 @@ public class Generator implements IGenerator {
 	
 	@Override
 	public void doRun(IFile file) {
-		
+
+		/*
 		try {
 			String xmiFileName = file.getProject().getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder() + "/" + file.getName().replace(".mutator", "_draw.model");
 			Bundle bundle = Platform.getBundle("wodeledu.models");
@@ -628,6 +630,49 @@ public class Generator implements IGenerator {
 		}
 		
 		compile(file.getProject());
+		*/
+		
+		String projectName = file.getProject().getName();
+		String filename = projectName + ".draw";
+
+		IFile generatedCodeFile = file.getProject().getFile(new Path("/src-gen/mutator/" + file.getProject().getName() + "/" + filename.replace(".draw", "Draw.java")));
+
+		try {
+			if (generatedCodeFile.exists() == true) {
+				generatedCodeFile.delete(true, new NullProgressMonitor());
+			}
+			final IFolder src = file.getProject().getFolder(new Path("src"));
+			if (src.exists() == false) {
+				return;
+			}
+			final IFile dslFile = src.getFile(new Path(filename));
+			InputStream stream = dslFile.getContents();
+			if (dslFile.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				dslFile.setContents(stream, true, true, null);
+			}
+			else {
+				dslFile.create(stream, true, null);
+			}
+			stream.close();
+
+		} catch (CoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		String generatedCode = generatedCodeFile.getLocation().toFile().getPath().replace("\\", "/");
+		
+		try {
+			WodelEduUtils.awaitFile(generatedCode, 10000);
+		} catch (IOException | InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		Class<?> cls = null;
 		String mutatorName = file.getProject().getName();
@@ -683,7 +728,70 @@ public class Generator implements IGenerator {
 			e.printStackTrace();
 		}
 		
-		compile(file.getProject());
+		filename = projectName + ".test";
+		
+		generatedCodeFile = file.getProject().getFile(new Path("/src-gen/xml/" + file.getProject().getName() + ".xml"));
+
+		try {
+			if (generatedCodeFile.exists() == true) {
+				generatedCodeFile.delete(true, new NullProgressMonitor());
+			}
+			final IFolder src = file.getProject().getFolder(new Path("src"));
+			if (src.exists() == false) {
+				return;
+			}
+			final IFile dslFile = src.getFile(new Path(filename));
+			InputStream stream = dslFile.getContents();
+			if (dslFile.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				dslFile.setContents(stream, true, true, null);
+			}
+			else {
+				dslFile.create(stream, true, null);
+			}
+			stream.close();
+
+			/*
+			String path = project.getLocation().toFile().getPath().replace("\\", "/");
+			String modelname = projectName + "_test.model";
+			String xmiFileName = path + "/" + ModelManager.getOutputFolder() + "/" + modelname;
+			Bundle bundle = Platform.getBundle("wodeledu.models");
+	   		URL fileURL = bundle.getEntry("/model/EduTest.ecore");
+	   		String testecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> testpackages = ModelManager.loadMetaModel(testecore);
+			Resource testmodel = ModelManager.loadModel(testpackages, xmiFileName);
+			String stringURI = "/resource/" + projectName;
+			stringURI = stringURI + "/src/" + filename;
+			if (testmodel != null) {
+				testmodel.setURI(URI.createURI(stringURI));
+				EduTestGenerator generator = new EduTestGenerator();
+				generator.webGenerator = new EduTestWebGenerator();
+				generator.moodleGenerator = new EduTestMoodleGenerator();
+				generator.androidAppGenerator = new EduTestAndroidAppGenerator();
+				generator.iOSAppGenerator = new EduTestiOSAppGenerator();
+				Injector injector = new EduTestStandaloneSetup().createInjectorAndDoEMFRegistration();
+				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				generator.doGenerate(testmodel, fsa, null);
+			}
+			*/
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		generatedCode = generatedCodeFile.getLocation().toFile().getPath().replace("\\", "/");
+		
+		try {
+			WodelEduUtils.awaitFile(generatedCode, 10000);
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

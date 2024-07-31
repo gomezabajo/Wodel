@@ -12,10 +12,10 @@
   <blocks name="cmr" description="Create matched rule">
     <commands xsi:type="mutatorenvironment:CloneObjectMutator" contents="true">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication13/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication9/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication13/WodelTest4ATL/data/model/ATL.ecore#/0/Rule/name"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication9/WodelTest4ATL/data/model/ATL.ecore#/0/Rule/name"/>
         <value xsi:type="mutatorenvironment:RandomStringType" min="4" max="6"/>
       </attributes>
     </commands>
@@ -23,17 +23,17 @@
   <blocks name="rmr" description="Remove matched rule">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication13/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication9/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
       </object>
     </commands>
   </blocks>
   <blocks name="ncmr" description="Name change matched rule">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication13/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication9/WodelTest4ATL/data/model/ATL.ecore#/0/MatchedRule"/>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication13/WodelTest4ATL/data/model/ATL.ecore#/0/Rule/name"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication9/WodelTest4ATL/data/model/ATL.ecore#/0/Rule/name"/>
         <value xsi:type="mutatorenvironment:RandomStringType" min="4" max="6"/>
       </attributes>
     </commands>

@@ -201,10 +201,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l55 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l112 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l55 != null) {
-							for (Mutator mut : l55) {
+						if (l112 != null) {
+							for (Mutator mut : l112) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -396,10 +396,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l56 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l113 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l56 != null) {
-							for (Mutator mut : l56) {
+						if (l113 != null) {
+							for (Mutator mut : l113) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -613,10 +613,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l57 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l114 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l57 != null) {
-							for (Mutator mut : l57) {
+						if (l114 != null) {
+							for (Mutator mut : l114) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {

@@ -10,7 +10,7 @@ This MT tool parses the program representing it as a model conformant to the lan
 
 You can access the following link to learn more about this solution and the tool support provided: 
 
-- [Wodel-Test Website](https://gomezabajo.github.io/Wodel/Wodel-Test/)
+- [Wodel-Test Website](https://gomezabajo.github.io/Wodel-Test/)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]

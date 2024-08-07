@@ -57,6 +57,8 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.representer.Representer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import es.main.RasaParserGenerator;
 
 public class WodelTest implements IWodelTest {
@@ -720,7 +722,7 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor) {
 		incrementPort();
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
@@ -850,7 +852,7 @@ public class WodelTest implements IWodelTest {
 	}
 	
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port, IProgressMonitor monitor) {
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			List<WodelTestResultClass> results = globalResult.getResults();
@@ -978,7 +980,7 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads, IProgressMonitor monitor) {
 		incrementPort();
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
@@ -1088,7 +1090,7 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
-	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath) {
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, IProgressMonitor monitor) {
 		incrementPort();
 		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		try {
@@ -1243,7 +1245,7 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, int port) {
+			String artifactPath, int port, IProgressMonitor monitor) {
 		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());
 		String mutant = chatbotName; 
@@ -1401,7 +1403,7 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, List<Thread> threads) {
+			String artifactPath, List<Thread> threads, IProgressMonitor monitor) {
 		incrementPort();
 		Map<IProject, WodelTestGlobalResult> globalResultsMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		String chatbotName = artifactPath.substring(artifactPath.indexOf("/mutants/zip/") + "/mutants/zip/".length(), artifactPath.length());

@@ -33,7 +33,7 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testJavaNLS");
 		mutatorNames.add("testJavaLO");
@@ -162,7 +162,7 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -174,9 +174,9 @@ public class WodelTest4JavaStandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		File projectFolder = new File(
-				testJavaCOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+				testJavaNLSStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = testJavaCOStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
+		String outputWodelFolder = testJavaNLSStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;

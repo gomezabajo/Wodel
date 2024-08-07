@@ -6,10 +6,10 @@
   <blocks name="rtr" description="Transforms a NumberLiteral to a random number">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//NumberLiteral"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//NumberLiteral"/>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//NumberLiteral/tokenValue"/>
+        <attribute href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//NumberLiteral/tokenValue"/>
         <value xsi:type="mutatorenvironment:RandomStringNumberType" max="9"/>
       </attributes>
     </commands>
@@ -17,14 +17,14 @@
   <blocks name="vmr" description="Deletes a call to a void method">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//MethodInvocation"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//AbstractMethodInvocation/method"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//MethodDeclaration/returnType"/>
-            <refRefName href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//TypeAccess/type"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//AbstractMethodInvocation/method"/>
+            <refName href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//MethodDeclaration/returnType"/>
+            <refRefName href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//TypeAccess/type"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//PrimitiveTypeVoid"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//PrimitiveTypeVoid"/>
             </value>
           </first>
         </expression>
@@ -34,14 +34,14 @@
   <blocks name="nvmr" description="Deletes a call to a non-void method">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//MethodInvocation"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//MethodInvocation"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="not">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//AbstractMethodInvocation/method"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//MethodDeclaration/returnType"/>
-            <refRefName href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//TypeAccess/type"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//AbstractMethodInvocation/method"/>
+            <refName href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//MethodDeclaration/returnType"/>
+            <refRefName href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//TypeAccess/type"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//PrimitiveTypeVoid"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//PrimitiveTypeVoid"/>
             </value>
           </first>
         </expression>
@@ -51,33 +51,33 @@
   <blocks name="cir" description="Replaces a call to a constructor by null">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="a">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//ClassInstanceCreation"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//ClassInstanceCreation"/>
             </value>
           </first>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-      <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//NullLiteral"/>
+      <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//NullLiteral"/>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+        <refType href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
       </container>
     </commands>
   </blocks>
   <blocks name="vra" description="Replace an assignment to a variable by the Java default values">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//NumberLiteral"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//NumberLiteral"/>
             </value>
           </first>
         </expression>
@@ -87,11 +87,11 @@
   <blocks name="rst" description="Removes one Statement">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//Statement"/>
+        <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//Statement"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="not" self="true">
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication7/WodelTest4Java/data/model/java.ecore#//VariableDeclarationStatement"/>
+              <type href="file:/C:/eclipse/runtime-EclipseApplication36/WodelTest4Java/data/model/java.ecore#//VariableDeclarationStatement"/>
             </value>
           </first>
         </expression>

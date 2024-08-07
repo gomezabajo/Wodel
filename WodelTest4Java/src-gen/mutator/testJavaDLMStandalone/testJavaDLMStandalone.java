@@ -1486,24 +1486,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection17 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_17 = hmObjects.get("exp");
-		if (entry_exp_17 != null) {
-			refSelection17 = new SpecificObjectSelection(packages, model, entry_exp_17.getKey(), "leftOperand");
+		ObSelectionStrategy refSelection13 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_13 = hmObjects.get("exp");
+		if (entry_exp_13 != null) {
+			refSelection13 = new SpecificObjectSelection(packages, model, entry_exp_13.getKey(), "leftOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_17 = hmList.get("exp");
-			if (listEntry_exp_17 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_13 = hmList.get("exp");
+			if (listEntry_exp_13 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_17) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_13) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection17 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
+				refSelection13 = new SpecificObjectSelection(packages, model, objs, "leftOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection17);
+		refs.put("operand", refSelection13);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2099,24 +2099,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection18 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_18 = hmObjects.get("exp");
-		if (entry_exp_18 != null) {
-			refSelection18 = new SpecificObjectSelection(packages, model, entry_exp_18.getKey(), "rightOperand");
+		ObSelectionStrategy refSelection14 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp_14 = hmObjects.get("exp");
+		if (entry_exp_14 != null) {
+			refSelection14 = new SpecificObjectSelection(packages, model, entry_exp_14.getKey(), "rightOperand");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_18 = hmList.get("exp");
-			if (listEntry_exp_18 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp_14 = hmList.get("exp");
+			if (listEntry_exp_14 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_18) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp_14) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection18 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
+				refSelection14 = new SpecificObjectSelection(packages, model, objs, "rightOperand");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection18);
+		refs.put("operand", refSelection14);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -2711,24 +2711,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection19 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_19 = hmObjects.get("rt");
-		if (entry_rt_19 != null) {
-			refSelection19 = new SpecificObjectSelection(packages, model, entry_rt_19.getKey(), "expression");
+		ObSelectionStrategy refSelection15 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_rt_15 = hmObjects.get("rt");
+		if (entry_rt_15 != null) {
+			refSelection15 = new SpecificObjectSelection(packages, model, entry_rt_15.getKey(), "expression");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_19 = hmList.get("rt");
-			if (listEntry_rt_19 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_rt_15 = hmList.get("rt");
+			if (listEntry_rt_15 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_19) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_rt_15) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection19 = new SpecificObjectSelection(packages, model, objs, "expression");
+				refSelection15 = new SpecificObjectSelection(packages, model, objs, "expression");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection19);
+		refs.put("operand", refSelection15);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;
@@ -3323,24 +3323,24 @@ public class testJavaDLMStandalone extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection20 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_20 = hmObjects.get("a");
-		if (entry_a_20 != null) {
-			refSelection20 = new SpecificObjectSelection(packages, model, entry_a_20.getKey(), "rightHandSide");
+		ObSelectionStrategy refSelection16 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_a_16 = hmObjects.get("a");
+		if (entry_a_16 != null) {
+			refSelection16 = new SpecificObjectSelection(packages, model, entry_a_16.getKey(), "rightHandSide");
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_20 = hmList.get("a");
-			if (listEntry_a_20 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_a_16 = hmList.get("a");
+			if (listEntry_a_16 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_20) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_a_16) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection20 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
+				refSelection16 = new SpecificObjectSelection(packages, model, objs, "rightHandSide");
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("operand", refSelection20);
+		refs.put("operand", refSelection16);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "PrefixExpression");
 		Mutator mutator = null;

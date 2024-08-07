@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.SubMonitor;
 //import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EClass;
@@ -68,6 +69,8 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 public class WodelTest implements IWodelTest {
 	
 	private static JUnitVersion jUnitVersion = JUnitVersion.UNKNOWN;
@@ -91,6 +94,7 @@ public class WodelTest implements IWodelTest {
 		public MyJUnitCore() {
 			super();
 		}
+		@SuppressWarnings("deprecation")
 		@Override
 		public void finalize() throws Throwable {
 			super.finalize();
@@ -201,6 +205,11 @@ public class WodelTest implements IWodelTest {
 	
 	private void runTest(WodelTestGlobalResult globalResult, Class<?> clazz, List<Object> tests, IProject project, String folderPath, String artifactPath, boolean initial) {
 		List<WodelTestResultClass> results = globalResult.getResults();
+		String clazzName = clazz.getName();
+		if (clazzName.indexOf(".") != -1) {
+			clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
+			clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
+		}
 
 		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT3 || WodelTest.jUnitVersion == JUnitVersion.JUNIT4) {
 			Class<?>[] classRunner = new Class<?>[1];
@@ -224,11 +233,6 @@ public class WodelTest implements IWodelTest {
 			}
 			List<Failure> failures = result.getFailures();
 
-			String clazzName = clazz.getName();
-			if (clazzName.indexOf(".") != -1) {
-				clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
-				clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
-			}
 			for (Failure failure : failures) {
 				if (failure.getTestHeader() != null && failure.getMessage() != null) {
 					WodelTestInfo info = new WodelTestInfo(failure.getDescription().getMethodName(), true, failure.getTestHeader(), failure.getMessage().replace("\n", "-").replace("\r", ""));
@@ -252,11 +256,6 @@ public class WodelTest implements IWodelTest {
 			globalResult.setStatus(Status.OK);
 		}
 		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT5) {
-			String clazzName = clazz.getName();
-			if (clazzName.indexOf(".") != -1) {
-				clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1, clazzName.length());
-				clazzName = clazzName.substring(0, 1).toLowerCase() + clazzName.substring(1, clazzName.length());
-			}
 			long testsFoundCount = 0;
 			long testsFailedCount = 0;
 
@@ -311,8 +310,39 @@ public class WodelTest implements IWodelTest {
 		}
 	}
 
+	private int getTotalWork(List<IProject> testSuitesProjects) {
+		int totalWork = 0;
+		for (IProject testSuiteProject : testSuitesProjects) {
+			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
+			WodelTest.setJUnitVersion(classes);
+			for (Class<?> clazz : classes) {
+				List<Object> tests = new ArrayList<Object>();
+				switch(WodelTest.jUnitVersion) {
+				case JUNIT5: 
+					tests.addAll(WodelTest.getTestsJUnit5(clazz));
+					break;
+				case JUNIT4: 
+					tests.addAll(WodelTest.getTestsJUnit4(clazz));
+					break;
+				case JUNIT3: 
+					tests.addAll(WodelTest.getTestsJUnit3(clazz));
+					break;
+				case UNKNOWN: 
+					break;
+				}
+				totalWork += tests.size();
+			}
+		}
+		return totalWork;
+	}
+
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor) {
+		List<IProject> testSuitesProjects = new ArrayList<IProject>();
+		testSuitesProjects.add(testSuiteProject);
+		int totalWork = getTotalWork(testSuitesProjects);
+		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
+		subMonitor.beginTask("Processing test cases in " + testSuiteProject.getName(), totalWork);
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			IJavaProject javaProject = JavaCore.create(project);
@@ -352,6 +382,8 @@ public class WodelTest implements IWodelTest {
 			compile(project);
 			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
 			WodelTest.setJUnitVersion(classes);
+			List<Integer> worked = new ArrayList<Integer>();
+			List<List<Object>> clazzObject = new ArrayList<List<Object>>();
 			for (Class<?> clazz : classes) {
 				List<Object> tests = new ArrayList<Object>();
 				switch(WodelTest.jUnitVersion) {
@@ -367,12 +399,23 @@ public class WodelTest implements IWodelTest {
 				case UNKNOWN: 
 					break;
 				}
+				worked.add(tests.size());
+				clazzObject.add(tests);
+			}
+			int count = 0;
+			int i = 0;
+			for (Class<?> clazz : classes) {
+				count++;
+				List<Object> tests = clazzObject.get(i);
+				subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + clazz.getName() + "(" + count + "/" + classes.length + ")");
 				if (tests.size() > 0) {
 					runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 					if (globalResult.getStatus() != Status.OK) {
 						break;
 					}
 				}
+				subMonitor.worked(worked.get(i));
+				i++;
 			}
 			WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 			File newSrc = new File(newSrcPath);
@@ -569,22 +612,25 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath,
-			List<Thread> threads) {
+			List<Thread> threads, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath) {
-		Map<IProject, WodelTestGlobalResult> globalResultMap = new HashMap<IProject, WodelTestGlobalResult>();
+			String artifactPath, IProgressMonitor monitor) {
+		int totalWork = getTotalWork(testSuitesProjects);
+		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
+		subMonitor.beginTask("Processing test cases for " + project.getName(), totalWork);
+		Map<IProject, WodelTestGlobalResult> globalResultMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		try {
 			for (IProject testSuiteProject : testSuitesProjects) {
 				WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
@@ -625,7 +671,8 @@ public class WodelTest implements IWodelTest {
 				compile(project);
 				Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
 				WodelTest.setJUnitVersion(classes);
-				WodelTest.setJUnitVersion(classes);
+				List<Integer> worked = new ArrayList<Integer>();
+				List<List<Object>> clazzObject = new ArrayList<List<Object>>();
 				for (Class<?> clazz : classes) {
 					List<Object> tests = new ArrayList<Object>();
 					switch(WodelTest.jUnitVersion) {
@@ -641,12 +688,21 @@ public class WodelTest implements IWodelTest {
 					case UNKNOWN: 
 						break;
 					}
+					worked.add(tests.size());
+					clazzObject.add(tests);
+				}
+				int i = 0;
+				for (Class<?> clazz : classes) {
+					i++;
+					List<Object> tests = clazzObject.get(i - 1);
+					subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + clazz.getName() + "(" + i + "/" + classes.length + ")");
 					if (tests.size() > 0) {
 						runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 						if (globalResult.getStatus() != Status.OK) {
 							break;
 						}
 					}
+					subMonitor.worked(worked.get(i - 1));
 				}
 				WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 				File newSrc = new File(newSrcPath);
@@ -683,14 +739,14 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, int port) {
+			String artifactPath, int port, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, List<Thread> threads) {
+			String artifactPath, List<Thread> threads, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}

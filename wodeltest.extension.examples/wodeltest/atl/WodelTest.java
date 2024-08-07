@@ -1,6 +1,7 @@
 package mutator.wodeltest.[@**@];
 
 import wodel.utils.manager.IWodelTest;
+
 import wodel.utils.manager.WodelTestGlobalResult;
 import wodel.utils.manager.WodelTestGlobalResult.Status;
 import wodel.utils.manager.WodelTestInfo;
@@ -23,6 +24,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -50,6 +52,8 @@ import org.eclipse.m2m.atl.engine.parser.AtlSourceManager;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 
 public class WodelTest implements IWodelTest {
 
@@ -289,11 +293,30 @@ public class WodelTest implements IWodelTest {
 			globalResult.setStatus(status);
 		}
 	}
+	
+	private int getTotalWork(IProject project, List<IProject> testSuitesProjects) {
+		String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
+		String workspacePath = projectPath.substring(0, projectPath.lastIndexOf("/" + project.getName()));
+		int totalWork = 0;
+		for (IProject testSuiteProject : testSuitesProjects) {
+			String testSuitePath = workspacePath + "/" + testSuiteProject.getName();
+			List<Object> tests = getTests(testSuitePath);
+			totalWork += tests.size();
+		}
+		return totalWork;
+	}
 
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor) {
+		List<IProject> testSuitesProjects = new ArrayList<IProject>();
+		testSuitesProjects.add(testSuiteProject);
+		int totalWork = getTotalWork(project, testSuitesProjects);
+		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
+		subMonitor.beginTask("Processing test cases in " + testSuiteProject.getName(), totalWork);
+
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
+			int i = 0;
 			List<WodelTestResultClass> results = globalResult.getResults();
 			String projectPath = project.getLocation().toFile().getPath().replace("\\", "/");
 			String workspacePath = projectPath.substring(0, projectPath.lastIndexOf("/" + project.getName()));
@@ -304,13 +327,16 @@ public class WodelTest implements IWodelTest {
 			String testSuitePath = workspacePath + "/" + testSuiteProject.getName();
 			List<Object> tests = getTests(testSuitePath);
 			for (Object test : tests) {
+				i++;
 				String inModel = (String) test;
 				String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
 				String modelPath = artifactPath.replace("\\", "/").substring(0, artifactPath.replace("\\", "/").indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
+				subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + testSuiteProject.getName() + "(" + i + "/" + totalWork + ")");
 				runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
 				String blockName = artifactPath.substring(artifactPath.indexOf("\\" + project.getName() + "/") + ("\\" + project.getName() + "/").length(), artifactPath.length());
 				blockName = blockName.substring(0, blockName.indexOf("/"));
 				runHelper(globalResult, results, project, tests, test, artifactPath, blockName, in, inMetamodel, out, outMetamodel, projectPath);
+				subMonitor.worked(tests.size());
 			}
 		} catch (SecurityException e) {
 			// 	TODO Auto-generated catch block
@@ -431,24 +457,29 @@ public class WodelTest implements IWodelTest {
 	}
 
 	@Override
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath,
-			List<Thread> threads) {
+			List<Thread> threads, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath) {
+			String artifactPath, IProgressMonitor monitor) {
 		Map<IProject, WodelTestGlobalResult> globalResultMap = new HashMap<IProject, WodelTestGlobalResult>();
+		int totalWork = getTotalWork(project, testSuitesProjects);
+		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
+		subMonitor.beginTask("Processing test cases for " + project.getName(), totalWork);
+		int i = 0;
 		for (IProject testSuiteProject : testSuitesProjects) {
 			WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
+			subMonitor.subTask("Processing test cases in " + testSuiteProject.getName());
 			try {
 				List<WodelTestResultClass> results = globalResult.getResults();
 				String projectPath = project.getLocation().toFile().getPath();
@@ -459,13 +490,16 @@ public class WodelTest implements IWodelTest {
 				String testSuitePath = testSuiteProject.getLocation().toFile().getPath().replace("\\", "/");
 				List<Object> tests = getTests(testSuitePath);
 				for (Object test : tests) {
+					i++;
 					String inModel = (String) test;
 					String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
 					String modelPath = artifactPath.replace("\\", "/").substring(0, artifactPath.indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
+					subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + testSuiteProject.getName() + "(" + i + "/" + totalWork + ")");
 					runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
 					String blockName = artifactPath.replace("\\", "/").substring(artifactPath.replace("\\", "/").indexOf("/" + project.getName() + "/") + ("/" + project.getName() + "/").length(), artifactPath.replace("\\", "/").length());
 					blockName = blockName.substring(0, blockName.indexOf("/"));
 					runHelper(globalResult, results, project, tests, test, artifactPath, blockName, in, inMetamodel, out, outMetamodel, projectPath);
+					subMonitor.worked(tests.size());
 				}
 				globalResultMap.put(testSuiteProject, globalResult);
 			} catch (SecurityException e) {
@@ -479,14 +513,14 @@ public class WodelTest implements IWodelTest {
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, int port) {
+			String artifactPath, int port, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
-			String artifactPath, List<Thread> threads) {
+			String artifactPath, List<Thread> threads, IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		return null;
 	}

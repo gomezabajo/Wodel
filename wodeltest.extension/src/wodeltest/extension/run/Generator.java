@@ -99,23 +99,24 @@ public class Generator implements IGenerator {
 						"import org.eclipse.emf.ecore.EObject;\n" +
 						"import org.eclipse.emf.ecore.EPackage;\n\n" +
 						"import org.eclipse.emf.ecore.resource.Resource;\n\n" +
+						"import org.eclipse.core.runtime.IProgressMonitor;\n\n" +
 						"public class WodelTest implements IWodelTest {\n\n\t@Override\n" +
 						"\tpublic String getProjectName() {\n\t\treturn \"" + mutProject.getName() + "\";\n\t}\n\n\t@Override\n" +
 						"\tpublic String getNatureId() {\n\t\treturn \"\";\n\t}\n\n\t@Override\n" +
 						"\tpublic void compile(IProject project) {\n\t}\n\n\t@Override\n" +
 						"\tpublic List<String> artifactPaths(IProject project, String projectPath, File outputFolder, List<String> blockNames) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
-						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
 						"\tpublic void projectToModel(String projectName, Class<?> cls) {\n\t}\n\n\t@Override\n" +
 						"\tpublic void projectToModel(IProject project, Class<?> cls) {\n\t}\n\n\t@Override\n" +
 						"\tpublic boolean modelToProject(String className, Resource model, String folderName, String modelName, String projectName, Class<?> cls) {\n\t\treturn false;\n\t}\n\n\t@Override\n" +
 						"\tpublic boolean modelToProject(String className, Resource model, String folderName, String modelName, IProject project, Class<?> cls) {\n\t\treturn false;\n\t}\n\n\t@Override\n" +
 						"\tpublic String getContainerEClassName() {\n\t\treturn \"\";\n\t}\n\n\t@Override\n" +
 						"\tpublic boolean annotateMutation(Resource model, EObject container, String annotation) {\n\t\treturn false;\n\t}\n\t@Override\n" +
-						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port) {\n\treturn null;\n\t}\n\n\t@Override\n" +
-						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
-						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
-						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, int port) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
-						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads) {\n\t\treturn null;\n\t}\n" +
+						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port, IProgressMonitor monitor) {\n\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads, IProgressMonitor monitor) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, IProgressMonitor monitor) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, int port, IProgressMonitor monitor) {\n\t\treturn null;\n\t}\n\n\t@Override\n" +
+						"\tpublic Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads, IProgressMonitor monitor) {\n\t\treturn null;\n\t}\n" +
 						"}";
 				if (file.exists()) {
 					String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));

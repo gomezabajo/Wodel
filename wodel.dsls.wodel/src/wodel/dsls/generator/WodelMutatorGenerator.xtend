@@ -6844,6 +6844,7 @@ public class «className» extends MutatorUtils {
 	   		mutationResults.mutatorsApplied = new ArrayList<String>();
 	   	}
 	   	mutationResults.mutatorsApplied.add("");
+	   	
 	   	return mutationResults;
 	}
 }

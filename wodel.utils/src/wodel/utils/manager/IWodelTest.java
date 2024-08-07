@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -21,17 +22,17 @@ public interface IWodelTest {
 	
 	public List<String> artifactPaths(IProject project, String projectPath, File outputFolder, List<String> blockNames);
 	
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath);
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor);
 
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port);
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, int port, IProgressMonitor monitor);
 
-	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads);
+	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, List<Thread> threads, IProgressMonitor monitor);
 	
-	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath);
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, IProgressMonitor monitor);
 
-	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, int port);
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, int port, IProgressMonitor monitor);
 
-	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads);
+	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects, String artifactPath, List<Thread> threads, IProgressMonitor monitor);
 
 	public void projectToModel(IProject project, Class<?> cls);
 	

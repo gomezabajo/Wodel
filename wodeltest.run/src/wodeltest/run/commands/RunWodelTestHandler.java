@@ -37,11 +37,12 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -118,8 +119,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 			private Map<IProject, String> testsResultsPath = null;
 			private int[] numMutantsGenerated = null;
 			private int[] numMutantsNonCompiling = null;
+			private IProgressMonitor monitor = null;
 			
-			public DynamicParallelWodelTestRunner(Counter counter, IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling) {
+			public DynamicParallelWodelTestRunner(Counter counter, IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling, IProgressMonitor monitor) {
 				this.counter = counter;
 				this.test = test;
 				this.sourceProject = sourceProject;
@@ -130,6 +132,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				this.testsResultsPath = testsResultsPath;
 				this.numMutantsGenerated = numMutantsGenerated;
 				this.numMutantsNonCompiling = numMutantsNonCompiling;
+				this.monitor = monitor;
 			}
 
 			@Override
@@ -137,7 +140,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				int k = 0;
 				while (counter.canContinue()) {
 					k = counter.next();
-					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, this.partArtifacts.get(k), this.partPorts.get(k));
+					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, this.partArtifacts.get(k), this.partPorts.get(k), monitor);
 					if (globalResultMap != null) {
 						this.numMutantsGenerated[0]++;
 						boolean status = false;
@@ -167,8 +170,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 			private Map<IProject, String> testsResultsPath = null;
 			private int[] numMutantsGenerated = null;
 			private int[] numMutantsNonCompiling = null;
+			private IProgressMonitor monitor = null;
 			
-			public StaticParallelWodelTestRunner(IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling) {
+			public StaticParallelWodelTestRunner(IWodelTest test, IProject sourceProject, List<IProject> testSuitesProjects, List<String> partArtifacts, List<Integer> partPorts, Map<IProject, String> resultsPath, Map<IProject, String> testsResultsPath, int[] numMutantsGenerated, int[] numMutantsNonCompiling, IProgressMonitor monitor) {
 				this.test = test;
 				this.sourceProject = sourceProject;
 				this.testSuitesProjects = testSuitesProjects;
@@ -178,13 +182,14 @@ public class RunWodelTestHandler extends AbstractHandler {
 				this.testsResultsPath = testsResultsPath;
 				this.numMutantsGenerated = numMutantsGenerated;
 				this.numMutantsNonCompiling = numMutantsNonCompiling;
+				this.monitor = monitor;
 			}
 
 			@Override
 			public void run() {
 				int k = 0;
 				for (String artifact : this.partArtifacts) {
-					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, artifact, this.partPorts.get(k));
+					Map<IProject, WodelTestGlobalResult> globalResultMap = this.test.run(this.sourceProject, this.testSuitesProjects, artifact, this.partPorts.get(k), monitor);
 					if (globalResultMap != null) {
 						this.numMutantsGenerated[0]++;
 						boolean status = false;
@@ -431,6 +436,18 @@ public class RunWodelTestHandler extends AbstractHandler {
 					e.printStackTrace();
 					return;
 				}
+				
+				final String textToShow = "Wodel mutants generation process finished succesfully";
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+						MessageBox messageBox = new MessageBox(shell);
+						messageBox.setText("Wodel mutants generation process completed");
+						messageBox.setMessage(textToShow);
+						messageBox.open();
+					}
+				});
+
 				//if (isRegistered == true) {
 				//	ModelManager.registerMetaModel(registeredPackages);
 				//}
@@ -686,7 +703,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							if (found != true) {
 								continue;
 							}
-							Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath);
+							Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath, monitor);
 							if (globalResultMap != null) {
 								numMutantsGenerated++;
 								boolean st = false;
@@ -724,7 +741,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 								if (found != true) {
 									continue;
 								}
-								Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath, threads);
+								Map<IProject, WodelTestGlobalResult> globalResultMap = test.run(sourceProject, testSuitesProjects, artifactPath, threads, monitor);
 								globalResultsMaps.add(globalResultMap);
 								k++;
 								if (k % maximumParallel == 0) {
@@ -809,7 +826,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							int[] arrNumMutantsGenerated = new int[] {0};
 							int[] arrNumMutantsNonCompiling = new int[] {0};
 							for (int i = 0; i < partitionedArtifacts.size(); i++) {
-								StaticParallelWodelTestRunner wodelTestRunner = new StaticParallelWodelTestRunner(test, sourceProject, testSuitesProjects, partitionedArtifacts.get(i), artifactPorts.get(i), resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling);
+								StaticParallelWodelTestRunner wodelTestRunner = new StaticParallelWodelTestRunner(test, sourceProject, testSuitesProjects, partitionedArtifacts.get(i), artifactPorts.get(i), resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling, monitor);
 								Thread thread = new Thread(wodelTestRunner);
 								thread.start();
 								threads.add(thread);
@@ -845,7 +862,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							int[] arrNumMutantsNonCompiling = new int[] {0};
 							Counter counter = new Counter(processedArtifacts.size());
 							for (int i = 0; i < maximumParallel; i++) {
-								DynamicParallelWodelTestRunner wodelTestRunner = new DynamicParallelWodelTestRunner(counter, test, sourceProject, testSuitesProjects, processedArtifacts, artifactPorts, resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling);
+								DynamicParallelWodelTestRunner wodelTestRunner = new DynamicParallelWodelTestRunner(counter, test, sourceProject, testSuitesProjects, processedArtifacts, artifactPorts, resultsProjectsPath, testsResultsProjectsPath, arrNumMutantsGenerated, arrNumMutantsNonCompiling, monitor);
 								Thread thread = new Thread(wodelTestRunner);
 								threads.add(thread);
 							}
@@ -861,6 +878,17 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					test.compile(sourceProject);
 					
+					final String textToShowPostProcessing = "Wodel-Test extension finished succesfully";
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+							MessageBox messageBox = new MessageBox(shell);
+							messageBox.setText("Wodel-Test extension completed");
+							messageBox.setMessage(textToShowPostProcessing);
+							messageBox.open();
+						}
+					});
+
 					//test.artifactPaths(sourceProject, projectPath, outputFolder, blockNames)
 					//WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, outputFolder, blockNames);
 					
@@ -1134,7 +1162,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 		try {
 			RunWodelTestWithProgress runWodelTestWithProgress = new RunWodelTestWithProgress(event);
 			Thread.currentThread().getThreadGroup().setDaemon(true);
-			new ProgressMonitorDialog(HandlerUtil.getActiveShell(event)).run(true, true, runWodelTestWithProgress);
+			ProgressMonitorDialog monitor = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
+			monitor.setCancelable(true);
+			monitor.run(true, true, runWodelTestWithProgress);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

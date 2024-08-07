@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
@@ -28,6 +29,8 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -60,20 +63,49 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 		URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window == null) {
+			window = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+		}
 		IProject project = null;
-	    if (window != null)
+		if (window != null) {
+			if (window != null && window.getPages() != null && window.getPages()[0] != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences().length > 0 && window.getPages()[0].getEditorReferences()[0] instanceof IEditorReference) {
+		    	IEditorReference[] editors = window.getActivePage().getEditorReferences();
+		    	if (editors != null && editors.length > 0) {
+		    		for (IEditorReference editor : editors) {
+		    			IEditorPart part = editor.getEditor(true);
+		    			if (part != null) {
+		    				IFile file = (IFile) part.getEditorInput().getAdapter(IFile.class);
+		    				if (file != null) {
+		    					project = file.getProject();
+		    					break;
+		    				}
+		    			}
+		    		}
+		    	}
+			}
+		}
+	    if (project == null && window != null)
 	    {
 	        IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
+	        if (selection == null) {
+	        	return;
+	        }
 	        Object firstElement = selection.getFirstElement();
 	        if (firstElement instanceof IAdaptable)
 	        {
 	            project = (IProject)((IAdaptable)firstElement).getAdapter(IProject.class);
 	        }
-			if (selection.getFirstElement() instanceof IProject) {
+			if (project == null && selection.getFirstElement() instanceof IProject) {
 				project = (IProject) selection.getFirstElement();
 			}
-			if (selection.getFirstElement() instanceof IJavaProject) {
+			if (project == null && selection.getFirstElement() instanceof IFile) {
+				project = ((IFile) selection.getFirstElement()).getProject();
+			}
+			if (project == null && selection.getFirstElement() instanceof IJavaProject) {
 				project = ((IJavaProject) selection.getFirstElement()).getProject();
+			}
+			if (project == null) {
+				return;
 			}
 	    }
 	    final IProject sourceProject = project;

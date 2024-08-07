@@ -1311,8 +1311,8 @@ public class WodelTestUtils {
 	        // The file is absent: watch events in parent directory 
 	        WatchKey watchKey1 = null;
 	        boolean valid = true;
+            long t0 = System.currentTimeMillis();
 	        do {
-	            long t0 = System.currentTimeMillis();
 	            watchKey1 = watchService.poll(timeout, TimeUnit.MILLISECONDS);
 	            if (watchKey1 == null) {
 	                return null; // timed out
@@ -1328,11 +1328,10 @@ public class WodelTestUtils {
 	            long elapsed = System.currentTimeMillis() - t0;
 	            timeout = elapsed < timeout? (timeout - elapsed) : 0L;
 	            valid = watchKey1.reset();
-	        } while (valid);
+	        } while (timeout > 0 && valid);
 	    } finally {
 	        watchService.close();
 	    }
-
 	    return null;
 	}
 }

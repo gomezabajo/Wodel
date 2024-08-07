@@ -40,6 +40,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -56,7 +57,6 @@ import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.ProjectUtils;
 import wodel.utils.manager.MutatorUtils.MutationResults;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;
@@ -277,6 +277,18 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				final String textToShow = "Wodel mutants generation process finished succesfully";
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+						MessageBox messageBox = new MessageBox(shell);
+						messageBox.setText("Wodel mutants generation process completed");
+						messageBox.setMessage(textToShow);
+						messageBox.open();
+					}
+				});
+
 				//if (isRegistered == true) {
 				//	ModelManager.registerMetaModel(registeredPackages);
 				//}
@@ -534,7 +546,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 							if (found != true) {
 								continue;
 							}
-							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath);
+							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath, monitor);
 							if (globalResult != null) {
 								numMutantsGenerated++;
 								if (globalResult.getStatus() == WodelTestGlobalResult.Status.OK) {
@@ -567,7 +579,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 							if (found != true) {
 								continue;
 							}
-							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath, threads);
+							WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, artifactPath, threads, monitor);
 							globalResults.add(globalResult);
 							k++;
 							if (k % maximumParallel == 0) {
@@ -611,6 +623,17 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 						}
 					}
 					test.compile(sourceProject);
+					final String textToShowPostProcessing = "Wodel-Test extension finished succesfully";
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+							MessageBox messageBox = new MessageBox(shell);
+							messageBox.setText("Wodel-Test extension completed");
+							messageBox.setMessage(textToShowPostProcessing);
+							messageBox.open();
+						}
+					});
+
 					boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
 					Method doCompare = null;
 					Object equivalence = null;
@@ -875,7 +898,9 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			LoadRunWodelTestWithProgress loadRunWodelTestWithProgress = new LoadRunWodelTestWithProgress();
-			new ProgressMonitorDialog(HandlerUtil.getActiveShell(event)).run(true, true, loadRunWodelTestWithProgress);
+			ProgressMonitorDialog monitor = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
+			monitor.setCancelable(true);
+			monitor.run(true, true, loadRunWodelTestWithProgress);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

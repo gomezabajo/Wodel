@@ -172,7 +172,7 @@
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/wodeledu_edutest.jpg"
+               icon="icons/wodeledu_modeldraw.jpg"
                id="WodelEdu.menu1"
                label="Wodel-Edu...">
             <separator

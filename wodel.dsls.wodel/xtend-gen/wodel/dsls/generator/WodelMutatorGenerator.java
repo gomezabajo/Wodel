@@ -25732,6 +25732,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("mutationResults.mutatorsApplied.add(\"\");");
             _builder.newLine();
             _builder.append("\t   \t");
+            _builder.newLine();
+            _builder.append("\t   \t");
             _builder.append("return mutationResults;");
             _builder.newLine();
             _builder.append("\t");

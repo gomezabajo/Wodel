@@ -414,7 +414,9 @@ public class RunWodel extends AbstractHandler {
     	try {
     		RunWodelWithProgress runWodelWithProgress = new RunWodelWithProgress(event);
     		ProgressMonitorDialog monitor = new ProgressMonitorDialog(HandlerUtil.getActiveShell(event));
+    		monitor.setCancelable(true);
     		monitor.run(true, true, runWodelWithProgress);
+    		monitor.getProgressMonitor().done();
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

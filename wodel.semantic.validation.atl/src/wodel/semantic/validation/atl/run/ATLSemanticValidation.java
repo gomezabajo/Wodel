@@ -35,7 +35,6 @@ import anatlyzer.atl.tests.api.AtlLoader;
 import anatlyzer.atl.tests.api.AtlLoader.LoadException;
 import anatlyzer.atl.tests.api.StandaloneUSEWitnessFinder;
 import wodel.semantic.validation.run.SemanticValidation;
-import wodel.utils.manager.ModelManager;
 
 public class ATLSemanticValidation extends SemanticValidation {
 

@@ -156,6 +156,7 @@ public class EclipseHelper {
 			
 			if (projectKind == ProjectKind.JAVA) {
 				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/5")));
+				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/4")));
 /*
 				String[] jUnit5Libraries = new String[] {
 						"lib/junit-jupiter-api_5.9.2.jar",

@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -574,13 +575,40 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 					}
 					//HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
+					int totalWork = 0;
+					if (outputFolder.isDirectory()) {
+						for (File modelFolder : outputFolder.listFiles()) {
+							if (modelFolder.isDirectory()) {
+								for (File modelFile : modelFolder.listFiles()) {
+									if (blocks.size() > 0) {
+										if (modelFile.isDirectory() && blockNames.contains(modelFile.getName())) {
+											for (File blockModelFile : modelFile.listFiles()) {
+												if (blockModelFile.isFile() && blockModelFile.getName().endsWith(".model")) {
+													totalWork++;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					
 					File[] files = null;
 					List<String> modelpaths = ModelManager.getModels(cls);
-					File[] sourcefiles = new File(metamodelpath).listFiles();
+					//File[] sourcefiles = new File(metamodelpath).listFiles();
+					SubMonitor subMonitor = SubMonitor.convert(monitor, "Annotations of performed mutation operations", totalWork);
+					subMonitor.setWorkRemaining(totalWork);
+					subMonitor.beginTask("Annotations of performed mutation operations", totalWork);
+					int countMut = 0;
+					/* We do not need to annotate the seed models */
+					/*
 					for (File file : sourcefiles) {
 						if (file.isFile() == true) {
 							String pathfile = file.getPath();
 							if (pathfile.endsWith(".model") == true) {
+								countMut++;
+								subMonitor.subTask("Annotation of " + file.getName() + "  (" + countMut + "/" + totalWork + ")");
 								Resource modelfile = ModelManager.loadModel(packages, pathfile);
 								String targetfile = new File(metamodelpath + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
 								File f = new File(targetfile);
@@ -590,10 +618,12 @@ public class RunWodelTestHandler extends AbstractHandler {
 									}
 									AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile, test);
 								}
+								subMonitor.worked(1);
 								//hashmap_postproc.put(modelfile, targetfile);
 							}
 						}
 					}
+					*/
 					for (String ecoreURI : modelpaths) {
 						files = new File(ModelManager.getOutputPath(cls) + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 						if (files != null) {
@@ -601,6 +631,8 @@ public class RunWodelTestHandler extends AbstractHandler {
 								if (files[i].isFile() == true) {
 									String pathfile = files[i].getPath();
 									if (pathfile.endsWith(".model") == true) {
+										countMut++;
+										subMonitor.subTask("Annotation of " + files[i].getName() + "  (" + countMut + "/" + totalWork + ")");
 										Resource modelfile = ModelManager.loadModel(packages,
 												pathfile);
 										File f = new File(pathfile);
@@ -608,31 +640,37 @@ public class RunWodelTestHandler extends AbstractHandler {
 											if (doProcess != null) {
 												doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfile, pathfile);
 											}
-											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile, test);
+											AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfile, pathfile, test);
 										}
+										subMonitor.worked(1);
 										//hashmap_postproc.put(modelfile, pathfile);
 									}
 								}
 								else {
 									if (files[i].getName().equals("registry") != true) {
 										File[] filesBlock = files[i].listFiles();
-										for (int j = 0; j < filesBlock.length; j++) {
-											if (filesBlock[j].isFile() == true) {
-												String pathfileblock = filesBlock[j].getPath();
-												if (pathfileblock.endsWith(".model") == true) {
-													Resource modelfileblock = ModelManager.loadModel(packages,  pathfileblock);
-													//hashmap_postproc.put(modelfileblock, pathfileblock);
-													File f = new File(pathfileblock);
-													if(!f.isDirectory()) {
-														if (doProcess != null) {
-															doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
+										if (filesBlock != null) {
+											for (int j = 0; j < filesBlock.length; j++) {
+												if (filesBlock[j].isFile() == true) {
+													String pathfileblock = filesBlock[j].getPath();
+													if (pathfileblock.endsWith(".model") == true) {
+														countMut++;
+														subMonitor.subTask("Annotation of " + filesBlock[j].getName() + "  (" + countMut + "/" + totalWork + ")");
+														Resource modelfileblock = ModelManager.loadModel(packages,  pathfileblock);
+														//hashmap_postproc.put(modelfileblock, pathfileblock);
+														File f = new File(pathfileblock);
+														if(!f.isDirectory()) {
+															if (doProcess != null) {
+																doProcess.invoke(postprocessing, metamodelpath, metamodels, modelfileblock, pathfileblock);
+															}
+															AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock, pathfileblock, test);
 														}
-														AnnotateMutations.annotateMutationsProcess(sourceProject, metamodelpath, metamodels, modelfileblock, test);
+														subMonitor.worked(1);
 													}
 												}
-											}
-											else {
-												MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodels);
+												else {
+													MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, doProcess, postprocessing, metamodelpath, metamodels);
+												}
 											}
 										}
 									}
@@ -642,31 +680,66 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 
 					if (serialize == true) {
+						int countMutTotal = 0;
 						if (outputFolder.isDirectory()) {
 							for (File modelFolder : outputFolder.listFiles()) {
 								if (modelFolder.isDirectory()) {
+									countMutTotal++;
+								}
+							}
+						}
+						countMut = 0;
+						if (outputFolder.isDirectory()) {
+							for (File modelFolder : outputFolder.listFiles()) {
+								if (modelFolder.isDirectory()) {
+									countMut++;
+									int count = 0;
+									int workRemaining = 0;
 									for (File modelFile : modelFolder.listFiles()) {
-										if (blocks.size() > 0) {
+										if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+											workRemaining++;
+										}
+									}
+									subMonitor = SubMonitor.convert(monitor, countMutTotal + " mutants to domain artifacts transformation", workRemaining);
+									subMonitor.beginTask(countMutTotal + " mutants to domain artifacts transformation transformation", workRemaining);
+									subMonitor.setTaskName("Model " + modelFolder.getName() + " to domain artifact transformation (" + countMut + "/" + countMutTotal + ")");
+									subMonitor.setWorkRemaining(workRemaining);
+									for (File modelFile : modelFolder.listFiles()) {
+										if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+											count++;
+											subMonitor.subTask("Processing " + workRemaining + " mutants generated by the operator " + modelFile.getName() + " (" + count + "/" + workRemaining + ")");
+											Resource model = ModelManager.loadModel(packages, modelFile.getPath());
+											boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), sourceProject, cls);
+											subMonitor.worked(1);
+											if (value && classes.size() > 0) {
+												String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
+												WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
+											}
+										}
+										else if (blocks.size() > 0) {
 											if (modelFile.isDirectory() && blockNames.contains(modelFile.getName())) {
+												workRemaining = 0;
+												for (File blockModelFile : modelFile.listFiles()) {
+													if (blockModelFile.isFile() && blockModelFile.getName().endsWith(".model")) {
+														workRemaining++;
+													}
+												}
+												count+= workRemaining;
+												subMonitor = SubMonitor.convert(monitor, "Model mutants to domain artifacts transformation", workRemaining);
+												subMonitor.beginTask("Model mutants to domain artifacts transformation transformation", workRemaining);
+												subMonitor.setTaskName("Model " + modelFolder.getName() + " to domain artifact transformation (" + countMut + "/" + countMutTotal + ")");
+												subMonitor.subTask("Processing " + workRemaining + " mutants generated by the operator " + modelFile.getName() + " (" + count + "/" + totalWork + ")");
+												subMonitor.setWorkRemaining(workRemaining);
 												for (File blockModelFile : modelFile.listFiles()) {
 													if (blockModelFile.isFile() && blockModelFile.getName().endsWith(".model")) {
 														Resource model = ModelManager.loadModel(packages, blockModelFile.getPath());
 														boolean value = test.modelToProject(modelFolder.getName(), model, modelFile.getName(), blockModelFile.getName(), sourceProject, cls);
+														subMonitor.worked(1);
 														if (value && classes.size() > 0) {
 															String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName() + "/" + blockModelFile.getName().replace(".model", "") + "/src/";
 															WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 														}
 													}
-												}
-											}
-										}
-										else {
-											if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
-												Resource model = ModelManager.loadModel(packages, modelFile.getPath());
-												boolean value = test.modelToProject(modelFolder.getName(), model, modelFolder.getName(), modelFile.getName(), sourceProject, cls);
-												if (value && classes.size() > 0) {
-													String projectPath = path + "/" + modelFolder.getName() + "/" + modelFile.getName().replace(".model", "") + "/src/";
-													WodelTestUtils.addPathToClasses(sourceProject.getName(), classes, projectPath);
 												}
 											}
 										}
@@ -677,7 +750,17 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					test.compile(sourceProject);
 					WodelTestUtils.storeClasses(classesPath, classes);
-					
+
+					final String textToShowModelToProject = "Wodel-Test model mutants transformation into domain artifacts completed succesfully";
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+							MessageBox messageBox = new MessageBox(shell);
+							messageBox.setText("Wodel-Test mutants transformation into domain artifacts completed");
+							messageBox.setMessage(textToShowModelToProject);
+							messageBox.open();
+						}
+					});
 //					List<IProject> testSuitesProjects = new ArrayList<IProject>();
 //					for (String testSuiteName : testSuitesNames) {
 //						IProject testSuiteP = workspaceRoot.getProject(testSuiteName);
@@ -878,20 +961,23 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					test.compile(sourceProject);
 					
-					final String textToShowPostProcessing = "Wodel-Test extension finished succesfully";
+					final String textToShowTestSuitesProcessing = "Wodel-Test test suite(s) processed succesfully";
 					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 						public void run() {
 							Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
 							MessageBox messageBox = new MessageBox(shell);
-							messageBox.setText("Wodel-Test extension completed");
-							messageBox.setMessage(textToShowPostProcessing);
+							messageBox.setText("Wodel-Test test suite(s) processed succesfully");
+							messageBox.setMessage(textToShowTestSuitesProcessing);
 							messageBox.open();
 						}
 					});
 
 					//test.artifactPaths(sourceProject, projectPath, outputFolder, blockNames)
 					//WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, outputFolder, blockNames);
-					
+					/*
+					 * The mutant semantic equivalences checker needs to be debugged more deeply
+					 * 
+					 * 
 					boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
 					Method doCompare = null;
 					Object equivalence = null;
@@ -953,6 +1039,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						    	}
 						    }
 							files = null;
+							List<String> modelpaths = ModelManager.getModels(cls);
 							String equivalentpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
 							if (doCompare != null) {
 								for (File file : sourcefiles) {
@@ -1036,7 +1123,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 						}
 					}
-
+*/
 					boolean optimize = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Optimise mutants", false, null);
 					Method doOptimize = null;
 					Object optimizer = null;
@@ -1153,6 +1240,18 @@ public class RunWodelTestHandler extends AbstractHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+
+			final String textToShowPostProcessing = "Wodel-Test MuT process completed succesfully";
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					Shell shell = PlatformUI.getWorkbench().getDisplay().getShells()[0];
+					MessageBox messageBox = new MessageBox(shell);
+					messageBox.setText("Wodel-Test MuT process completed");
+					messageBox.setMessage(textToShowPostProcessing);
+					messageBox.open();
+				}
+			});
 		}
 	}
 

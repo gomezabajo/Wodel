@@ -103,6 +103,7 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
 		List<String> containerEntries = new ArrayList<String>();
+		containerEntries.add("org.eclipse.jdt.junit.JUNIT_CONTAINER/4");
 		
 		IProject sut = EclipseHelper.createJavaProject("calc", folders, referencedProjects, containerEntries, monitor, this.getShell(), true);
 
@@ -194,7 +195,6 @@ public class JavaSuTAndTestSuiteWizardjUnit4 extends Wizard implements INewWizar
 
 		
 		referencedProjects.add(sut);
-		containerEntries.add("org.eclipse.jdt.junit.JUNIT_CONTAINER/4");
 		IProject test = EclipseHelper.createJavaProject("calc-test", folders, referencedProjects, containerEntries, monitor, this.getShell(), false);
 		
 		final IFolder srcTest = test.getFolder(new Path("src"));

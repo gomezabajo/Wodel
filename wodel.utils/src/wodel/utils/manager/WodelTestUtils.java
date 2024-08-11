@@ -25,7 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.Executors;
+//import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -1290,6 +1294,67 @@ public class WodelTestUtils {
 		return filename;
 	}
 	
+	private static class NonBlockingWaitOnFileWithCounter implements Runnable {
+		private final ExecutorService executor;
+		private final String filename;
+		private final int limit;
+		private AtomicInteger count;
+		
+		public NonBlockingWaitOnFileWithCounter(ExecutorService executor, String filename, int limit) {
+			this.executor = executor;
+			this.filename = filename;
+			this.limit = limit;
+			this.count = new AtomicInteger(0);
+		}
+
+		public NonBlockingWaitOnFileWithCounter(ExecutorService executor, String filename) {
+			this(executor, filename, 1);
+		}
+
+		@Override
+		public void run() {
+			if (this.count.incrementAndGet() >= this.limit) {
+				this.executor.shutdown();
+			}
+			File file = new File(this.filename);
+			if (file != null && file.exists() == true) {
+				this.executor.shutdown();
+			}
+		}
+	}
+	
+	public static boolean awaitFile(String filename, long timeout) {
+		boolean ret = false;
+		try {
+			/*
+			 * ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+			 * NonBlockingWaitOnFileWithCounter nonBlockingWaitOnFileWithCounter = new NonBlockingWaitOnFileWithCounter(executor, filename); 
+			 * executor.scheduleWithFixedDelay(nonBlockingWaitOnFileWithCounter, 0, timeout, TimeUnit.MILLISECONDS);
+			 * //if you need to block current thread
+			 * ret = executor.awaitTermination(timeout, TimeUnit.MILLISECONDS);
+			 */
+			ExecutorService executor = Executors.newSingleThreadExecutor();
+			NonBlockingWaitOnFileWithCounter nonBlockingWaitOnFileWithCounter = new NonBlockingWaitOnFileWithCounter(executor, filename); 
+			executor.execute(nonBlockingWaitOnFileWithCounter);
+			//if you need to block current thread
+			ret = executor.awaitTermination(timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	
+	/* ATTENTION: This method locks the directory in Windows. See: 	
+	 * 
+	 * https://stackoverflow.com/questions/63844886/java-watchservice-locks-directory-on-windows
+	 * 
+	 * So avoid to use it.
+	 * 
+	 * This method was used in a previous version of Wodel-Test for Java.
+	 */
+	/*
 	public static BasicFileAttributes awaitFile(String target, long timeout) 
 		    throws IOException, InterruptedException
 	{
@@ -1334,4 +1399,5 @@ public class WodelTestUtils {
 	    }
 	    return null;
 	}
+	*/
 }

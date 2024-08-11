@@ -38,10 +38,8 @@ import wodel.project.builder.WodelNature;
 
 public class JavaSemanticComparison extends SemanticComparison {
 	
-	private static int MAX_SIZE = 32768;
-	
-	private static final int MAX_ITERATIONS = 5;
-	private static final int TIME_SLEEP = 2000;
+	private static final int MAX_SIZE = 32768;
+	private static final int TIME_SLEEP = 100;
 
 
 	private void compile(IProject project) {
@@ -114,32 +112,24 @@ public class JavaSemanticComparison extends SemanticComparison {
 	}
 	
 	private byte[] getBytecode(IProject project, IJavaProject javaProject, Resource model, String folderName, String modelName, String path, String packageName) {
-		byte[] byteArray = null;
-		try {
-			File srcFile = new File(path);
-			if (srcFile.isFile()) {
-				String bytecodePath = getBytecodePath(project, javaProject, srcFile, packageName);
-				WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
-				File bytecode = new File(bytecodePath);
-				int k = MAX_ITERATIONS;
-				while (k > 0 && !bytecode.exists()) {
-					k--;
-					WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
-				}
-				String classname = bytecodePath.substring(bytecodePath.lastIndexOf("/") + 1, bytecodePath.lastIndexOf("."));
-				String tmpBytecodeName1 = project.getLocation().toFile().getPath() + "/temp/class/" + classname + "." + modelName.replace(".model", "") + ".tmp";
-				if (bytecode.exists()) {
-					IOUtils.copyFile(bytecode.getPath(), tmpBytecodeName1);
-				}
-				File tmpBytecode = new File(tmpBytecodeName1);
+		byte[] byteArray = new byte[0];
+		File srcFile = new File(path);
+		if (srcFile.isFile()) {
+			String bytecodePath = getBytecodePath(project, javaProject, srcFile, packageName);
+			boolean bytecodeGenerated = WodelTestUtils.awaitFile(bytecodePath, TIME_SLEEP);
+			if (!bytecodeGenerated) {
+				return byteArray;
+			}
+			File bytecode = new File(bytecodePath);
+			String classname = bytecodePath.substring(bytecodePath.lastIndexOf("/") + 1, bytecodePath.lastIndexOf("."));
+			String tmpBytecodeName1 = project.getLocation().toFile().getPath() + "/temp/class/" + classname + "." + modelName.replace(".model", "") + ".tmp";
+			if (bytecode != null && bytecode.exists()) {
+				IOUtils.copyFile(bytecode.getPath(), tmpBytecodeName1);
+			}
+			File tmpBytecode = new File(tmpBytecodeName1);
+			if (tmpBytecode != null && tmpBytecode.exists()) {
 				byteArray = getBytesFromFile(tmpBytecode);
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return byteArray;
 	}

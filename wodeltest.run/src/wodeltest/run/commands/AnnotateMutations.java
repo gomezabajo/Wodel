@@ -30,7 +30,7 @@ import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 
 public class AnnotateMutations {
-	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, List<String> metamodel, Resource model, IWodelTest test) {
+	public static boolean annotateMutationsProcess(IProject project, String metamodelpath, List<String> metamodel, Resource model, String pathfile, IWodelTest test) {
 		try {
 			String path = project.getLocation().toFile().getPath();
 			String testContainerEClassName = test.getContainerEClassName();
@@ -90,7 +90,7 @@ public class AnnotateMutations {
 								}
 								if (found == true) {
 									EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-									String annotation = "modify information mutator: ";
+									String annotation = pathfile != null && pathfile.length() > 0 ? pathfile + " -> modify information mutator: " : "modify information mutator: ";
 									List<AttributeChanged> attChanges = mut.getAttChanges();
 									for (AttributeChanged attChange : attChanges) {
 										annotation += attChange.getOldVal() + " replaced by " + attChange.getNewVal();
@@ -133,7 +133,7 @@ public class AnnotateMutations {
 									}
 									if (found == true) {
 										EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-										String annotation = "remove object mutator: ";
+										String annotation = pathfile != null && pathfile.length() > 0 ? pathfile + " -> remove object mutator: " : "remove object mutator: ";
 										annotation += mut.getType().getName() + " object removed";
 										test.annotateMutation(model, modelContainer, annotation);
 										break;
@@ -168,7 +168,7 @@ public class AnnotateMutations {
 									}
 									if (found == true) {
 										EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-										String annotation = "create object mutator: ";
+										String annotation = pathfile != null && pathfile.length() > 0 ? pathfile + " -> create object mutator: " : "create object mutator: ";
 										annotation += mut.getObject().get(0).eClass().getName() + " object created";
 										test.annotateMutation(model, modelContainer, annotation);
 										break;
@@ -204,7 +204,7 @@ public class AnnotateMutations {
 									}
 									if (found == true) {
 										EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-										String annotation = "modify information mutator: ";
+										String annotation =  pathfile != null && pathfile.length() > 0 ? pathfile + " -> modify information mutator: " : "modify information mutator: ";
 										List<EObject> attChanges = ModelManager.getReferences("attChanges", mutation);
 										for (EObject attChange : attChanges) {
 											annotation += ModelManager.getAttribute("oldValue", attChange) + " replaced by " + ModelManager.getAttribute("newValue", attChange);
@@ -247,7 +247,7 @@ public class AnnotateMutations {
 										}
 										if (found == true) {
 											EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-											String annotation = "remove object mutator: ";
+											String annotation = pathfile != null && pathfile.length() > 0 ? pathfile + " -> remove object mutator: " : "remove object mutator: ";
 											annotation += registryObject.eClass().getName() + " object removed";
 											test.annotateMutation(model, modelContainer, annotation);
 											break;
@@ -282,7 +282,7 @@ public class AnnotateMutations {
 										}
 										if (found == true) {
 											EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
-											String annotation = "create object mutator: ";
+											String annotation = pathfile != null && pathfile.length() > 0 ? pathfile + " -> create object mutator: " : "create object mutator: ";
 											annotation += registryObject.eClass().getName() + " object created";
 											test.annotateMutation(model, modelContainer, annotation);
 											break;

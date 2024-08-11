@@ -50,6 +50,7 @@ import wodel.utils.manager.LockRegistry;
 import wodel.utils.manager.ModelManager;
 import wodel.project.builder.WodelNature;
 
+@SuppressWarnings("restriction")
 public class ATLSemanticComparison extends SemanticComparison {
 
 	@Override

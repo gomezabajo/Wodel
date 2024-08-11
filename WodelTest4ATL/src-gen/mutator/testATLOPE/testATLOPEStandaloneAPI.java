@@ -28,7 +28,7 @@ public class testATLOPEStandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testATLOPE");
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication33/WodelTest4ATL/data/model/ATL.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication81/WodelTest4ATL/data/model/ATL.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, testATLOPEStandaloneAPI.class);

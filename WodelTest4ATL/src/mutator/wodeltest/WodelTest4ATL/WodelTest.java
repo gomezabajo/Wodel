@@ -311,8 +311,13 @@ public class WodelTest implements IWodelTest {
 		List<IProject> testSuitesProjects = new ArrayList<IProject>();
 		testSuitesProjects.add(testSuiteProject);
 		int totalWork = getTotalWork(project, testSuitesProjects);
-		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
-		subMonitor.beginTask("Processing test cases in " + testSuiteProject.getName(), totalWork);
+		String mutantName = artifactPath.replace("\\", "/");
+		if (mutantName.indexOf("/") != -1) {
+			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length());
+		}
+		SubMonitor subMonitor = SubMonitor.convert(monitor, "Processing test suite " + testSuiteProject.getName() + " for " + mutantName, totalWork);
+		subMonitor.setWorkRemaining(totalWork);
+		subMonitor.beginTask("Processing test suite " + testSuiteProject.getName() + " for " + mutantName, totalWork);
 
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
@@ -327,16 +332,16 @@ public class WodelTest implements IWodelTest {
 			String testSuitePath = workspacePath + "/" + testSuiteProject.getName();
 			List<Object> tests = getTests(testSuitePath);
 			for (Object test : tests) {
-				i++;
+				i += tests.size();
 				String inModel = (String) test;
 				String modelName = inModel.substring(inModel.lastIndexOf("/") + 1, inModel.length());
 				String modelPath = artifactPath.replace("\\", "/").substring(0, artifactPath.replace("\\", "/").indexOf(project.getName() + "/") + (project.getName() + "/").length()) + "out/out_" + modelName; 
 				subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + testSuiteProject.getName() + "(" + i + "/" + totalWork + ")");
+				subMonitor.worked(tests.size());
 				runTest(in, inMetamodel, inModel, out, outMetamodel, modelPath, projectPath, artifactPath.replace(".atl", ""));
 				String blockName = artifactPath.substring(artifactPath.indexOf("\\" + project.getName() + "/") + ("\\" + project.getName() + "/").length(), artifactPath.length());
 				blockName = blockName.substring(0, blockName.indexOf("/"));
 				runHelper(globalResult, results, project, tests, test, artifactPath, blockName, in, inMetamodel, out, outMetamodel, projectPath);
-				subMonitor.worked(tests.size());
 			}
 		} catch (SecurityException e) {
 			// 	TODO Auto-generated catch block

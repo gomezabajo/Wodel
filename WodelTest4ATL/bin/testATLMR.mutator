@@ -1,0 +1,44 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/WodelTest4ATL/data/model/ATL.ecore"
+with resources from
+	{input="data/model/in" metamodel="/WodelTest4ATL/data/model/MyEcore.ecore"},
+	{output="data/model/out" metamodel="/WodelTest4ATL/data/model/MyEcore.ecore"}
+
+with blocks {
+	cmr "Create matched rule" {
+		deep clone one MatchedRule with {name = random-string(4, 6)}
+	}
+//	cmr "Create matched rule" {
+//		main = select one Module
+//		im = select one OclModel where {name = 'IN'}
+//		imod = select one OclModel in im->^metamodel
+//		incl = select one EClass from input resources
+//		mr = create MatchedRule in main->elements with {name = random-string(4, 6)}
+//		ip = create InPattern in mr->inPattern
+//		sipe = create SimpleInPatternElement in ip->elements with {varName = random-string(2, 4)}
+//		ielem = create OclModelElement in imod->elements with {copy(name, incl.name), variableDeclaration = sipe}
+//		modify imod with {elements += ielem}
+//		feat = select one OclFeature
+//		opce = create OperationCallExp in ip->filter with {copy(operationName, feat.name)}
+//		exp = create VariableExp in opce->^source
+//		modify sipe with {variableExp += exp}
+//		om = select one OclModel where {name = 'OUT'}
+//		omod = select one OclModel in om->^metamodel
+//		outcl = select one EClass from output resources
+//		op = create OutPattern in mr->outPattern
+//		sope = create SimpleOutPatternElement in op->elements with {varName = random-string(2, 4)}
+//		oelem = create OclModelElement in omod->elements with {copy(name, outcl.name), variableDeclaration = sope}
+//		modify sope with {type = oelem}
+//		att = select one EAttribute in outcl->eAllAttributes
+//		b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+//		create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+//	}
+	rmr "Remove matched rule" {
+		remove one MatchedRule
+	}
+	ncmr "Name change matched rule" {
+		modify one MatchedRule with {name = random-string(4, 6)}
+    }
+}

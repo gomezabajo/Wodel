@@ -10,7 +10,6 @@ import wodel.utils.manager.WodelTestUtils;
 //import wodeltest.extension.utils.MyGenerateJavaExtended;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -46,8 +45,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.modisco.infra.discovery.core.exception.DiscoveryException;
 import org.eclipse.modisco.java.discoverer.DiscoverJavaModelFromJavaProject;
-import org.junit.runner.Computer;
-import org.junit.runner.JUnitCore;
+import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
+import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
@@ -57,49 +56,13 @@ import wodel.utils.manager.AcceleoUtils;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 
-import org.junit.jupiter.engine.JupiterTestEngine;
-import org.junit.platform.launcher.Launcher;
-import org.junit.platform.launcher.LauncherDiscoveryRequest;
-import org.junit.platform.launcher.TestPlan;
-import org.junit.platform.launcher.core.LauncherConfig;
-import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
-import org.junit.platform.launcher.core.LauncherFactory;
-import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
-import org.junit.platform.launcher.listeners.TestExecutionSummary;
-
-import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 
 public class WodelTest implements IWodelTest {
 	
 	private static JUnitVersion jUnitVersion = JUnitVersion.UNKNOWN;
-	private static final int MAX_ITERATIONS = 5;
-	private static final int TIME_SLEEP = 2000;
-	
-	private enum JUnitVersion {
-		UNKNOWN(-1),
-		JUNIT3(3),
-		JUNIT4(4),
-		JUNIT5(5);
-		
-		private int id;
-		
-		private JUnitVersion(int id) {
-			this.id = id;
-		}
-	}
-	
-	private class MyJUnitCore extends JUnitCore {
-		public MyJUnitCore() {
-			super();
-		}
-		@SuppressWarnings("deprecation")
-		@Override
-		public void finalize() throws Throwable {
-			super.finalize();
-		}
-	}
+	private static final int TIME_SLEEP = 100;
+	private static final int TEST_TIMEOUT = 300;
 	
 	private SummaryGeneratingListener listener;
 
@@ -212,26 +175,15 @@ public class WodelTest implements IWodelTest {
 		}
 
 		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT3 || WodelTest.jUnitVersion == JUnitVersion.JUNIT4) {
-			Class<?>[] classRunner = new Class<?>[1];
-			classRunner[0] = clazz;
-			List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
-			Computer computer = new Computer();
-			MyJUnitCore jUnitCore = new MyJUnitCore();
-			Result result = null;
-			try {
-				result = jUnitCore.run(computer, classRunner);
-			} catch (Exception e) {
+			
+			Object ret = JUnitRunnerHelper.runJUnit4WithTimeout(WodelTest.jUnitVersion, clazz, TEST_TIMEOUT);
+			if (ret == null || !(ret instanceof Result)) {
 				globalResult.setStatus(Status.EXCEPTION);
 				return;
 			}
-			
-			try {
-				jUnitCore.finalize();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Result result = (Result) ret;
 			List<Failure> failures = result.getFailures();
+			List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
 
 			for (Failure failure : failures) {
 				if (failure.getTestHeader() != null && failure.getMessage() != null) {
@@ -256,28 +208,16 @@ public class WodelTest implements IWodelTest {
 			globalResult.setStatus(Status.OK);
 		}
 		if (WodelTest.jUnitVersion == JUnitVersion.JUNIT5) {
+			Object ret = JUnitRunnerHelper.runJUnit5WithTimeout(WodelTest.jUnitVersion, clazz, this.listener, TEST_TIMEOUT);
+			if (ret == null || !(ret instanceof TestExecutionSummary)) {
+				globalResult.setStatus(Status.EXCEPTION);
+				return;
+			}
+
 			long testsFoundCount = 0;
 			long testsFailedCount = 0;
 
-			JupiterTestEngine testEngine = new JupiterTestEngine();
-			LauncherConfig config = LauncherConfig.builder()
-				    .enableTestExecutionListenerAutoRegistration(false)
-				    .enableTestEngineAutoRegistration(false)
-				    .enablePostDiscoveryFilterAutoRegistration(false)
-				    .addTestEngines(testEngine)
-				    .addTestExecutionListeners(listener)
-				    .build();
-			Launcher launcher = LauncherFactory.create(config);
-
-			LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder
-					.request()
-					.selectors(selectClass(clazz))
-					.build();
-			TestPlan testPlan = launcher.discover(request);
-			launcher.registerTestExecutionListeners(listener);
-			launcher.execute(request);
-			
-			TestExecutionSummary result = this.listener.getSummary();
+			TestExecutionSummary result = (TestExecutionSummary) ret;
 			result.printTo(new PrintWriter(System.out));
 			
 			testsFoundCount += result.getTestsSucceededCount() + result.getTestsFailedCount();
@@ -314,35 +254,20 @@ public class WodelTest implements IWodelTest {
 		int totalWork = 0;
 		for (IProject testSuiteProject : testSuitesProjects) {
 			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
-			WodelTest.setJUnitVersion(classes);
-			for (Class<?> clazz : classes) {
-				List<Object> tests = new ArrayList<Object>();
-				switch(WodelTest.jUnitVersion) {
-				case JUNIT5: 
-					tests.addAll(WodelTest.getTestsJUnit5(clazz));
-					break;
-				case JUNIT4: 
-					tests.addAll(WodelTest.getTestsJUnit4(clazz));
-					break;
-				case JUNIT3: 
-					tests.addAll(WodelTest.getTestsJUnit3(clazz));
-					break;
-				case UNKNOWN: 
-					break;
-				}
-				totalWork += tests.size();
-			}
+			totalWork += classes.length;
 		}
 		return totalWork;
 	}
-
+	
 	@Override
 	public WodelTestGlobalResult run(IProject project, IProject testSuiteProject, String artifactPath, IProgressMonitor monitor) {
 		List<IProject> testSuitesProjects = new ArrayList<IProject>();
 		testSuitesProjects.add(testSuiteProject);
 		int totalWork = getTotalWork(testSuitesProjects);
-		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
-		subMonitor.beginTask("Processing test cases in " + testSuiteProject.getName(), totalWork);
+		String mutantName = artifactPath.replace("\\", "/");
+		if (mutantName.indexOf("/") != -1) {
+			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length());
+		}
 		WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
 		try {
 			IJavaProject javaProject = JavaCore.create(project);
@@ -382,7 +307,6 @@ public class WodelTest implements IWodelTest {
 			compile(project);
 			Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
 			WodelTest.setJUnitVersion(classes);
-			List<Integer> worked = new ArrayList<Integer>();
 			List<List<Object>> clazzObject = new ArrayList<List<Object>>();
 			for (Class<?> clazz : classes) {
 				List<Object> tests = new ArrayList<Object>();
@@ -399,32 +323,27 @@ public class WodelTest implements IWodelTest {
 				case UNKNOWN: 
 					break;
 				}
-				worked.add(tests.size());
 				clazzObject.add(tests);
 			}
-			int count = 0;
 			int i = 0;
+			SubMonitor subMonitor = SubMonitor.convert(monitor, "Processing test suite " + testSuiteProject.getName() + " for " + mutantName + " (" + classes.length + "/" + totalWork + ")", classes.length);
+			subMonitor.setWorkRemaining(classes.length);
+			subMonitor.beginTask("Processing test suite " + testSuiteProject.getName() + " for " + mutantName + " (" + classes.length + "/" + totalWork + ")", classes.length);
 			for (Class<?> clazz : classes) {
-				count++;
-				List<Object> tests = clazzObject.get(i);
-				subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + clazz.getName() + "(" + count + "/" + classes.length + ")");
+				i++;
+				List<Object> tests = clazzObject.get(i - 1);
+				subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + clazz.getName() + "(" + i + "/" + classes.length + ")");
+				subMonitor.worked(1);
 				if (tests.size() > 0) {
 					runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 					if (globalResult.getStatus() != Status.OK) {
 						break;
 					}
 				}
-				subMonitor.worked(worked.get(i));
-				i++;
 			}
 			WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 			File newSrc = new File(newSrcPath);
-			int k = MAX_ITERATIONS;
-			while (k > 0 && !newSrc.exists()) {
-				k--;
-				WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
-			}
-			if (newSrc.exists()) {
+			if (newSrc != null && newSrc.exists()) {
 				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
 				IOUtils.deleteFile(newSrcPath);
 			}
@@ -436,12 +355,6 @@ public class WodelTest implements IWodelTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -628,8 +541,10 @@ public class WodelTest implements IWodelTest {
 	public Map<IProject, WodelTestGlobalResult> run(IProject project, List<IProject> testSuitesProjects,
 			String artifactPath, IProgressMonitor monitor) {
 		int totalWork = getTotalWork(testSuitesProjects);
-		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test cases for " + project.getName(), totalWork);
-		subMonitor.beginTask("Processing test cases for " + project.getName(), totalWork);
+		String mutantName = artifactPath.replace("\\", "/");
+		if (mutantName.indexOf("/") != -1) {
+			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length());
+		}
 		Map<IProject, WodelTestGlobalResult> globalResultMap = new LinkedHashMap<IProject, WodelTestGlobalResult>();
 		try {
 			for (IProject testSuiteProject : testSuitesProjects) {
@@ -671,7 +586,6 @@ public class WodelTest implements IWodelTest {
 				compile(project);
 				Class<?>[] classes = WodelTestUtils.loadClasses(testSuiteProject, this, null);
 				WodelTest.setJUnitVersion(classes);
-				List<Integer> worked = new ArrayList<Integer>();
 				List<List<Object>> clazzObject = new ArrayList<List<Object>>();
 				for (Class<?> clazz : classes) {
 					List<Object> tests = new ArrayList<Object>();
@@ -688,30 +602,27 @@ public class WodelTest implements IWodelTest {
 					case UNKNOWN: 
 						break;
 					}
-					worked.add(tests.size());
 					clazzObject.add(tests);
 				}
 				int i = 0;
+				SubMonitor subMonitor = SubMonitor.convert(monitor, "Processing test suite " + testSuiteProject.getName() + " for " + mutantName + " (" + classes.length + "/" + totalWork + ")", classes.length);
+				subMonitor.setWorkRemaining(classes.length);
+				subMonitor.beginTask("Processing test suite " + testSuiteProject.getName() + " for " + mutantName + " (" + classes.length + "/" + totalWork + ")", classes.length);
 				for (Class<?> clazz : classes) {
 					i++;
 					List<Object> tests = clazzObject.get(i - 1);
 					subMonitor.subTask("Processing " + tests.size() + " test cases found in '" + clazz.getName() + "(" + i + "/" + classes.length + ")");
+					subMonitor.worked(1);
 					if (tests.size() > 0) {
 						runTest(globalResult, clazz, tests, project, folderPath, artifactPath, false);
 						if (globalResult.getStatus() != Status.OK) {
 							break;
 						}
 					}
-					subMonitor.worked(worked.get(i - 1));
 				}
 				WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
 				File newSrc = new File(newSrcPath);
-				int k = MAX_ITERATIONS;
-				while (k > 0 && !newSrc.exists()) {
-					k--;
-					WodelTestUtils.awaitFile(newSrcPath, TIME_SLEEP);
-				}
-				if (newSrc.exists()) {
+				if (newSrc != null && newSrc.exists()) {
 					IOUtils.copyFile(newSrcPath, srcJavaFilePath);
 					IOUtils.deleteFile(newSrcPath);
 				}
@@ -725,12 +636,6 @@ public class WodelTest implements IWodelTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

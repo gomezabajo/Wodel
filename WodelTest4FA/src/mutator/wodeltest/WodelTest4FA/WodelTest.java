@@ -59,13 +59,11 @@ public class WodelTest implements IWodelTest {
 	}
 	
 	public static void runWodelTestWithProgress(File testsFolder, WodelTestGlobalResult globalResult, Resource model, String mutantPath, List<WodelTestResultClass> testResults, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		int testSuitesCount = 0;
 		List<Integer> testCasesByTestSuite = new ArrayList<Integer>();
 		int totalWork = 0;
 		try {
 
 			for (File testFile : testsFolder.listFiles()) {
-				testSuitesCount++;
 				int testCasesCurrentTestSuite = 0;
 				FileReader reader = new FileReader(testFile);
 				BufferedReader br = new BufferedReader(reader);
@@ -90,12 +88,17 @@ public class WodelTest implements IWodelTest {
 			e.printStackTrace();
 		}
 
-		IProgressMonitor subMonitor = SubMonitor.convert(monitor, "Processing test suites in " + testsFolder.getName(), totalWork);
+		String mutantName = mutantPath.replace("\\", "/");
+		if (mutantName.indexOf("/") != -1) {
+			mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length());
+		}
+
+		SubMonitor subMonitor = SubMonitor.convert(monitor, "Processing test suite " + testsFolder.getName() + " for " + mutantName + " (" + testsFolder.listFiles().length + "/" + totalWork + ")", testsFolder.listFiles().length);
+		subMonitor.setWorkRemaining(testsFolder.listFiles().length);
 		subMonitor.beginTask("Processing test suites in " + testsFolder.getName(), totalWork);
 		int k = 0;
 		for (File testFile : testsFolder.listFiles()) {
 			k++;
-			subMonitor.subTask("Processing test suite '" + testFile.getName() + "' (" + k + "/" + testSuitesCount + ")");
 			try {
 				FileReader reader = new FileReader(testFile);
 				BufferedReader br = new BufferedReader(reader);
@@ -114,7 +117,7 @@ public class WodelTest implements IWodelTest {
 					String input = data[0];
 					String result = data[1];
 					String type = result.equals("yes") ? "accept" : "reject";
-					subMonitor.subTask("Processing test case '" + testFile.getName() + "/" + input + "/" + type + "' (" + j + "/" + testCasesByTestSuite.get(k - 1) + ")");
+					subMonitor.subTask("Processing test case '" + testFile.getName() + "/" + input + "/" + type + "' for " + mutantName + "' (" + j + "/" + testCasesByTestSuite.get(k - 1) + ")");
 					boolean accepted = FAUtils.process(input);
 					boolean value = false;
 					if (!((accepted == true && result.equals("yes")) || (accepted == false && result.equals("no")))) {

@@ -6,10 +6,10 @@
   <blocks name="asrsp" description="Addition assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>-=</value>
               <value>*=</value>
@@ -20,15 +20,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="+="/>
       </attributes>
     </commands>
@@ -36,10 +36,10 @@
   <blocks name="asrsm" description="Subtraction assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>+=</value>
               <value>*=</value>
@@ -50,15 +50,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="-="/>
       </attributes>
     </commands>
@@ -66,10 +66,10 @@
   <blocks name="asrst" description="Times assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>+=</value>
               <value>-=</value>
@@ -80,15 +80,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="*="/>
       </attributes>
     </commands>
@@ -96,10 +96,10 @@
   <blocks name="asrsd" description="Division assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>+=</value>
               <value>-=</value>
@@ -110,15 +110,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="/="/>
       </attributes>
     </commands>
@@ -126,10 +126,10 @@
   <blocks name="asrsr" description="Modulus assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>+=</value>
               <value>-=</value>
@@ -140,15 +140,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="%="/>
       </attributes>
     </commands>
@@ -156,10 +156,10 @@
   <blocks name="asrsa" description="And assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>|=</value>
               <value>^=</value>
@@ -168,15 +168,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="&amp;="/>
       </attributes>
     </commands>
@@ -184,10 +184,10 @@
   <blocks name="asrso" description="Or assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>&amp;=</value>
               <value>^=</value>
@@ -196,15 +196,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="|="/>
       </attributes>
     </commands>
@@ -212,10 +212,10 @@
   <blocks name="asrsx" description="Xor assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>&amp;=</value>
               <value>|=</value>
@@ -224,15 +224,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="^="/>
       </attributes>
     </commands>
@@ -240,10 +240,10 @@
   <blocks name="asrssr" description="Right shift assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>>>>=</value>
               <value>&lt;&lt;=</value>
@@ -252,15 +252,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value=">>="/>
       </attributes>
     </commands>
@@ -268,10 +268,10 @@
   <blocks name="asrssrr" description="Unsigned right shift assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>>>=</value>
               <value>&lt;&lt;=</value>
@@ -280,15 +280,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value=">>>="/>
       </attributes>
     </commands>
@@ -296,10 +296,10 @@
   <blocks name="asrssl" description="Left shift assignment">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment"/>
+        <type href="../model/java.ecore#//Assignment"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+            <name href="../model/java.ecore#//Assignment/operator"/>
             <value xsi:type="mutatorenvironment:ListStringType" operator="in">
               <value>>>=</value>
               <value>>>>=</value>
@@ -308,15 +308,15 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/leftHandSide"/>
+            <name href="../model/java.ecore#//Assignment/leftHandSide"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/rightHandSide"/>
+            <name href="../model/java.ecore#//Assignment/rightHandSide"/>
           </second>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore#//Assignment/operator"/>
+        <attribute href="../model/java.ecore#//Assignment/operator"/>
         <value xsi:type="mutatorenvironment:SpecificStringType" value="&lt;&lt;="/>
       </attributes>
     </commands>

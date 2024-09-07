@@ -28,7 +28,7 @@ public class testJavaCOStandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testJavaCO");
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication75/WodelTest4Java/data/model/java.ecore";
+		String ecoreURI = "C:/eclipse/runtime-EclipseApplication5/WodelTest4Java/data/model/java.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, testJavaCOStandaloneAPI.class);

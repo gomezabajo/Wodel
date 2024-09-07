@@ -36,8 +36,8 @@ public class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
       String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
       _xifexpression = (_path + "/");
     } else {
-      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-      _xifexpression = (_workspaceAbsolutePath + "/");
+      String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
+      _xifexpression = (_workspaceAbsolutePathWithProjectName + "/");
     }
     String projectFolderName = _xifexpression;
     File projectFolder = new File(projectFolderName);

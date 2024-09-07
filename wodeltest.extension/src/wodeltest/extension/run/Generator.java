@@ -1,12 +1,20 @@
 package wodeltest.extension.run;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -28,6 +36,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.extension.generator.IGenerator;
+import wodel.utils.manager.IOUtils;
 import wodeltest.extension.builder.WodelTestNature;
 
 public class Generator implements IGenerator {
@@ -151,6 +160,130 @@ public class Generator implements IGenerator {
 				description.setNatureIds(newNatures);
 				mutProject.setDescription(description, null);
 			}
+			
+			SimpleEntry<String, String> replacement = new SimpleEntry<String, String>("[@**@]", mutProject.getName());
+			List<SimpleEntry<String, String>> replacements = new ArrayList<SimpleEntry<String, String>>();
+			replacements.add(replacement);
+			
+			try {
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("wodeltest/default")) {
+							final String name = entry.getName();
+							final File f = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/default", ""));
+							if (!dest.exists()) {
+								dest.getParentFile().mkdirs();
+							}
+							InputStream input = jar.getInputStream(entry);
+							InputStreamReader isr = new InputStreamReader(input);
+							BufferedReader br = new BufferedReader(isr);
+							FileOutputStream output = new FileOutputStream(dest);
+							OutputStreamWriter osw = new OutputStreamWriter(output); 
+							for (SimpleEntry<String, String> rep: replacements) {
+								String line = null;
+								while ((line = br.readLine()) != null) {
+									if (line.indexOf(rep.getKey()) != -1) {
+										line = line.replace(rep.getKey(), rep.getValue());
+									}
+									osw.write(line + "\n");
+								}
+							}
+							osw.close();
+							output.close();
+							br.close();
+							isr.close();
+							input.close();
+						}
+		    		}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/default";
+				final File src = new Path(srcName).toFile();
+				final File dest = wodeltestPackage.getRawLocation().makeAbsolute().toFile();
+				if ((src != null) && (dest != null)) {
+					IOUtils.copyFolderWithReplacements(src, dest, replacements);
+				}
+			}
+			} catch (IOException e) {
+			}
+
+			monitor.beginTask("Creating data folder", 9);
+			final IFolder dataFolder = mutProject.getFolder(new Path("data"));
+			if (!dataFolder.exists()) {
+				dataFolder.create(true, true, monitor);
+			}
+			
+			monitor.beginTask("Creating config folder", 8);
+			final IFolder configFolder = dataFolder.getFolder(new Path("config"));
+			if (!configFolder.exists()) {
+				configFolder.create(true, true, monitor);
+			}
+			final IFile test = configFolder.getFile(new Path("test.txt"));
+			try {
+				InputStream stream = openTestStream();
+				if (test.exists()) {
+					test.setContents(stream, true, true, monitor);
+				} else {
+					test.create(stream, true, monitor);
+				}
+				stream.close();
+			} catch (IOException e) {
+			}
+			monitor.worked(1);
+			
+			final IFolder iconsFolder = mutProject.getFolder(new Path("icons"));
+			iconsFolder.create(true, true, monitor);
+			
+			try {
+				final File jarFile = new File(Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+				String srcName = "";
+				if (jarFile.isFile()) {
+					final JarFile jar = new JarFile(jarFile);
+					final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+					while(entries.hasMoreElements()) {
+						JarEntry entry = entries.nextElement();
+						if (! entry.isDirectory()) {
+							if (entry.getName().startsWith("icons")) {
+								final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
+								File path = new File(f.getPath() + '/' + entry.getName().replace("icons", "").split("/")[0]);
+								if (!path.exists()) {
+									path.mkdir();
+								}
+								File dest = new File(f.getPath() + '/' + entry.getName().replace("icons", ""));
+								InputStream input = jar.getInputStream(entry);
+								FileOutputStream output = new FileOutputStream(dest);
+								while (input.available() > 0) {
+									output.write(input.read());
+								}
+								output.close();
+								input.close();
+							}
+						}
+					}
+					jar.close();
+				}
+				else {
+					srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "icons";
+					final File src = new Path(srcName).toFile();
+					final File dest = iconsFolder.getRawLocation().makeAbsolute().toFile();
+					if ((src != null) && (dest != null)) {
+						IOUtils.copyFolder(src, dest);
+					}
+				}
+			} catch (IOException e) {
+			}
+
 			
 			//final IFolder metaInf = mutProject.getFolder("META-INF");
 			//addTextToFile(metaInf, "MANIFEST.MF", "Export-Package: mutator." + mutProject.getName() + ",\n mutator.wodeltest." + mutProject.getName() + "\n", monitor);
@@ -284,6 +417,26 @@ public class Generator implements IGenerator {
 		return file;
 	}
 	
+	/**
+	 * We will initialize file contents with the name of the model folder and
+	 * the name of the mutants folder.
+	 */
+
+	private InputStream openConfigStream(String modelName, String mutantName, IProject project) {
+		String contents = modelName + "\n" + mutantName + "\n" + project.getName() + ".mutator\nWodel-Test: Generation of a model-based software testing framework\n";
+		return new ByteArrayInputStream(contents.getBytes());
+	}
+
+	/**
+	 * We will initialize file contents with a sample text.
+	 */
+
+	private InputStream openTestStream() {
+		String contents = "";
+		return new ByteArrayInputStream(contents.getBytes());
+	}
+	
+	
 	private static void createPlugin(final IProgressMonitor progressMonitor, final IProject project) {
 		final StringBuilder pContent = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		pContent.append("\n");
@@ -300,6 +453,278 @@ public class Generator implements IGenerator {
 		pContent.append("\t\t\tclass=\"mutator.wodeltest." + project.getName() + ".WodelTest\">");
 		pContent.append("\n");
 		pContent.append("\t\t</wodeltest>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\tname=\"Wodel-Test SUT Project Nature\"");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.core.resources.natures\">");
+		pContent.append("\n");
+		pContent.append("\t<runtime>");
+		pContent.append("\n");
+		pContent.append("\t<run");
+		pContent.append("\n");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.WodelTestSUTNature\">");
+		pContent.append("\n");
+		pContent.append("\t</run>");
+		pContent.append("\n");
+		pContent.append("\t</runtime>");
+		pContent.append("\n");
+		pContent.append("\t<builder");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTBuilder\">");
+		pContent.append("\n");
+		pContent.append("\t</builder>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTBuilder\"");
+		pContent.append("\n");
+		pContent.append("\tname=\"Wodel-Test SUT Project Builder\"");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.core.resources.builders\">");
+		pContent.append("\n");
+		pContent.append("\t<builder");
+		pContent.append("\n");
+		pContent.append("\thasNature=\"true\">");
+		pContent.append("\n");
+		pContent.append("\t<run");
+		pContent.append("\n");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".builder.WodelTestSUTBuilder\">");
+		pContent.append("\n");
+		pContent.append("\t</run>");
+		pContent.append("\n");
+		pContent.append("\t</builder>");
+		pContent.append("\n");
+  		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.commands\">");
+		pContent.append("\n");
+		pContent.append("\t<category");
+		pContent.append("\n");
+		pContent.append("\tname=\"Wodel-Test SUT Project Nature commands\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTNature.category\">");
+		pContent.append("\n");
+		pContent.append("\t</category>");
+		pContent.append("\n");
+		pContent.append("\t<command");
+		pContent.append("\n");
+		pContent.append("\tname=\"Add/Remove Wodel-Test SUT Project Nature\"");
+		pContent.append("\n");
+		pContent.append("\tdefaultHandler=\"mutator.wodeltest." + project.getName() + ".builder.AddRemoveWodelTestSUTNatureHandler\"");
+		pContent.append("\n");
+		pContent.append("\tcategoryId=\"wodeltest.extension.wodelTestSUTNature.category\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.addRemoveWodelTestSUTNature\">");
+		pContent.append("\n");
+		pContent.append("\t</command>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.menus\">");
+		pContent.append("\n");
+		pContent.append("\t<menuContribution");
+		pContent.append("\n");
+		pContent.append("\tlocationURI=\"popup:org.eclipse.ui.projectConfigure?after=additions\">");
+		pContent.append("\n");
+		pContent.append("\t<command");
+		pContent.append("\n");
+		pContent.append("\tcommandId=\"wodeltest.extension.addRemoveWodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tlabel=\"Disable Wodel-Test SUT Nature\"");
+		pContent.append("\n");
+		pContent.append("\tstyle=\"push\">");
+		pContent.append("\n");
+		pContent.append("\t<visibleWhen");
+		pContent.append("\n");
+		pContent.append("\tcheckEnabled=\"false\">");
+		pContent.append("\n");
+		pContent.append("\t<with");
+		pContent.append("\n");
+		pContent.append("\tvariable=\"selection\">");
+		pContent.append("\n");
+		pContent.append("\t<count");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"1\">");
+		pContent.append("\n");
+		pContent.append("\t</count>");
+		pContent.append("\n");
+		pContent.append("\t<iterate>");
+		pContent.append("\n");
+		pContent.append("\t<adapt");
+		pContent.append("\n");
+		pContent.append("\ttype=\"org.eclipse.core.resources.IProject\">");
+		pContent.append("\n");
+		pContent.append("\t<test");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"wodeltest.extension.wodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
+		pContent.append("\n");
+		pContent.append("\t</test>");
+		pContent.append("\n");
+		pContent.append("\t</adapt>");
+		pContent.append("\n");
+		pContent.append("\t</iterate>");
+		pContent.append("\n");
+		pContent.append("\t</with>");
+		pContent.append("\n");
+		pContent.append("\t</visibleWhen>");
+		pContent.append("\n");
+		pContent.append("\t</command>");
+		pContent.append("\n");
+		pContent.append("\t<command");
+		pContent.append("\n");
+		pContent.append("\tcommandId=\"wodeltest.extension.addRemoveWodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tlabel=\"Enable Wodel-Test SUT Nature\"");
+		pContent.append("\n");
+		pContent.append("\tstyle=\"push\">");
+		pContent.append("\n");
+		pContent.append("\t<visibleWhen");
+		pContent.append("\n");
+		pContent.append("\tcheckEnabled=\"false\">");
+		pContent.append("\n");
+		pContent.append("\t<with");
+		pContent.append("\n");
+		pContent.append("\tvariable=\"selection\">");
+		pContent.append("\n");
+		pContent.append("\t<count");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"1\">");
+		pContent.append("\n");
+		pContent.append("\t</count>");
+		pContent.append("\n");
+		pContent.append("\t<iterate>");
+		pContent.append("\n");
+		pContent.append("\t<adapt");
+		pContent.append("\n");
+		pContent.append("\ttype=\"org.eclipse.core.resources.IProject\">");
+		pContent.append("\n");
+		pContent.append("\t<not>");
+		pContent.append("\n");
+		pContent.append("\t<test");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"wodeltest.extension.wodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
+		pContent.append("\n");
+		pContent.append("\t</test>");
+		pContent.append("\n");
+		pContent.append("\t</not>");
+		pContent.append("\n");
+		pContent.append("\t</adapt>");
+		pContent.append("\n");
+		pContent.append("\t</iterate>");
+		pContent.append("\n");
+		pContent.append("\t</with>");
+		pContent.append("\n");
+		pContent.append("\t</visibleWhen>");
+		pContent.append("\n");
+		pContent.append("\t</command>");
+		pContent.append("\n");
+		pContent.append("\t</menuContribution>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tid=\"xmlProblem\"");
+		pContent.append("\n");
+		pContent.append("\tname=\"XML Problem\"");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.core.resources.markers\">");
+		pContent.append("\n");
+		pContent.append("\t<super");
+		pContent.append("\n");
+		pContent.append("\ttype=\"org.eclipse.core.resources.problemmarker\">");
+		pContent.append("\n");
+		pContent.append("\t</super>");
+		pContent.append("\n");
+		pContent.append("\t<persistent");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"true\">");
+		pContent.append("\n");
+		pContent.append("\t</persistent>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.ide.projectNatureImages\">");
+		pContent.append("\n");
+		pContent.append("\t<image");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"wodeltest.extension.wodelTestSUTProjectNature\"");
+		pContent.append("\n");
+		pContent.append("\tnatureId=\"wodeltest.extension.wodelTestSUTNature\">");
+		pContent.append("\n");
+		pContent.append("\t</image>");
+		pContent.append("\n");
+		pContent.append("\t</extension>");
+		pContent.append("\n");
+		pContent.append("\t<extension");
+		pContent.append("\n");
+		pContent.append("\tpoint=\"org.eclipse.ui.propertyPages\">");
+		pContent.append("\n");
+		pContent.append("\t<page");
+		pContent.append("\n");
+		pContent.append("\ticon=\"icons/wodel4.jpg\"");
+		pContent.append("\n");
+		pContent.append("\tclass=\"mutator.wodeltest." + project.getName() + ".properties.WodelTestPropertiesPage\"");
+		pContent.append("\n");
+		pContent.append("\tid=\"mutator.wodeltest." + project.getName() + ".properties.WodelTestPropertiesPage\"");
+		pContent.append("\n");
+		pContent.append("\tname=\"Wodel-Test for " + project.getName() + "\">");
+		pContent.append("\n");
+		pContent.append("\t<enabledWhen>");
+		pContent.append("\n");
+		pContent.append("\t<adapt");
+		pContent.append("\n");
+		pContent.append("\ttype=\"org.eclipse.jdt.core.IJavaProject\">");
+		pContent.append("\n");
+		pContent.append("\t<and>");
+		pContent.append("\n");
+		pContent.append("\t<test");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"org.eclipse.jdt.core.javanature\"");
+		pContent.append("\n");
+		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
+		pContent.append("\n");
+		pContent.append("\t</test>");
+		pContent.append("\t<test");
+		pContent.append("\n");
+		pContent.append("\tvalue=\"wodeltest.extension.wodelTestSUTNature\"");
+		pContent.append("\n");
+		pContent.append("\tproperty=\"org.eclipse.core.resources.projectNature\">");
+		pContent.append("\n");
+		pContent.append("\t</test>");
+		pContent.append("\n");
+		pContent.append("\n");
+		pContent.append("\t</and>");
+		pContent.append("\n");
+		pContent.append("\t</adapt>");
+		pContent.append("\n");
+		pContent.append("\t</enabledWhen>");
+		pContent.append("\n");
+		pContent.append("\t</page>");
 		pContent.append("\n");
 		pContent.append("\t</extension>");
 		pContent.append("\n");

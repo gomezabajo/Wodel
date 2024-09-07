@@ -114,8 +114,9 @@ class WodelUseGenerator extends AbstractGenerator {
 				if (file !== null) {
 				 	if (file.isFile == true) {
 						if (file.getName().equals(fileName)) {
-							var mutatorFolderAndFile = file.path.indexOf("/") != - 1 ? file.path.substring(file.path.lastIndexOf("/" + getProjectName)).replace("\\", "/") : file.path.substring(file.path.lastIndexOf("\\" + getProjectName)).replace("\\", "/") 
-							mutatorPath = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath + mutatorFolderAndFile
+							var path = file.path.replace("\\", "/")
+							var mutatorFolderAndFile = path.substring(path.lastIndexOf("/" + getProjectName + "/") + ("/" + projectName).length)
+							mutatorPath = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + mutatorFolderAndFile
 						}
 					}
 					else  {
@@ -126,6 +127,7 @@ class WodelUseGenerator extends AbstractGenerator {
 		}
 		return mutatorPath
 	}
+
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		project = ProjectUtils.getProject()

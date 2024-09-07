@@ -41,7 +41,7 @@ class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
 			
 			fileName = resource.URI.lastSegment
 			program = (e as MutatorEnvironment).definition as Program
-
+			
 			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
 			fileName = fileName.replaceAll(".mutator", "Dynamic.java")

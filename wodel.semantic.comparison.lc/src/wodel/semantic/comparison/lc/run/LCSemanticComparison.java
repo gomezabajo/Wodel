@@ -30,31 +30,39 @@ public class LCSemanticComparison extends SemanticComparison {
 		Resource resource2 = null;
 		model1 = model1.replace("\\\\", "/");
 		model2 = model2.replace("\\\\", "/");
-		LogicalCircuit c1 = null;
-		LogicalCircuit c2 = null;
+		String boolExpC1 = null;
+		String boolExpC2 = null;
 		boolean ret = false;
 		try {
+			System.out.println("Warning:");
+			System.out.println("This comparison extension can only be used in the tester instance.");
+			System.out.println("Using default semantic comparison.");
 			List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
-			resource1 = ModelManager.loadModel(packages, model1);
+			if (this.getSeedPath() == null) {
+				this.setSeedPath(model1);
+				resource1 = ModelManager.loadModel(packages, this.getSeedPath());
+				LogicalCircuit c1 = CircuitUtils.convertToLC(packages, resource1);
+				boolExpC1 = CircuitUtils.toBoolExp(c1);
+				if (c1 != null) {
+					this.setSeedCompiled(boolExpC1);
+				}
+				resource1.unload();
+			}
+			
+			boolExpC1 = this.getSeedCompiled() != null ? (String) this.getSeedCompiled() : null;
 			resource2 = ModelManager.loadModel(packages, model2);
-			c1 = CircuitUtils.convertToLC(packages, resource1);
-			c2 = CircuitUtils.convertToLC(packages, resource2);
+			LogicalCircuit c2 = CircuitUtils.convertToLC(packages, resource2);
+			resource2.unload();
 			
 			//If they are not valid logical circuits
-			if (c1 == null || c2 == null) {
+			if (boolExpC1 == null || c2 == null) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");
 				ret = ModelManager.compareModels(resource1, resource2);
 			}
-			String boolExpC1 = CircuitUtils.toBoolExp(c1);
-			String boolExpC2 = CircuitUtils.toBoolExp(c2);
+			boolExpC2 = CircuitUtils.toBoolExp(c2);
 			ret = boolExpC1.equals(boolExpC2);
-			try {
-				resource2.unload();
-				resource1.unload();
-			} catch (Exception e) {
-			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -257,24 +257,67 @@ public class ATLSemanticComparison extends SemanticComparison {
 		return isRepeated;
 	}
 
+	public boolean applyTCE(String model2, IProject project) {
+		boolean isRepeated = false;
+		try {
+			final IFolder iFolder = project.getFolder(new Path("temp"));
+			if (iFolder.exists() == false) {
+				iFolder.create(true, true, new NullProgressMonitor());
+			}
+			// GET XML FOR FIRST PROGRAM
+			File modelFile1 = new File(this.getSeedPath());
+			boolean done = modelToProject(modelFile1, project.getName());
+			if (!done) return false;
+			compile(project);
+			String xml1 = getXML(modelFile1, project.getName());
+			//GET XML FOR SECOND PROGRAM
+			File modelFile2 = new File(model2);
+			done = modelToProject(modelFile2, project.getName());
+			if (!done) return false;
+			compile(project);
+			String xml2 = getXML(modelFile2, project.getName());
+			//isRepeated = doCompare(xml1, xml2);
+			if (!xml1.equals("") && !xml2.equals("")) {
+				isRepeated = doCompare(xml1, xml2);
+			}
+			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
+			iFolder.delete(true, new NullProgressMonitor());
+			LockRegistry.INSTANCE.release(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
+		} catch (@SuppressWarnings("restriction") ResourceException e) {
+			
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return isRepeated;
+	}
+
 	@Override
 	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
+		boolean ret = false;
+		Resource resource1 = null;
+		Resource resource2 = null;
 		try {
+			List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
+			if (this.getSeedPath() == null) {
+				this.setSeedPath(model1);
+			}
 			//If it is a Wodel project
 			if (project.hasNature(JavaCore.NATURE_ID) && project.hasNature(WodelNature.NATURE_ID)) {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using default syntactic comparison.");
-				List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
-				Resource resource1 = ModelManager.loadModel(packages, model1);
-				Resource resource2 = ModelManager.loadModel(packages, model2);
-				boolean ret = ModelManager.compareModels(resource1, resource2);
-				try {
-					resource2.unload();
-					resource1.unload();
-				} catch (Exception e) {
-				}
-				return ret;
+				resource1 = ModelManager.loadModel(packages, this.getSeedPath());
+				resource2 = ModelManager.loadModel(packages, model2);
+				ret = ModelManager.compareModels(resource1, resource2);
+				resource2.unload();
+				resource1.unload();
+			}
+			else {
+				System.out.println("Warning:");
+				System.out.println("This comparison extension can only be used in the tester instance.");
+				System.out.println("Using semantic XML comparison.");
+				ret = applyTCE(model2, project);
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -286,6 +329,6 @@ public class ATLSemanticComparison extends SemanticComparison {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return applyTCE(model1, model2, project);
+		return ret;
 	}
 }

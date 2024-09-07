@@ -289,8 +289,10 @@ public class CircuitUtils {
     		for (LogicalNode n : nodes) {
     			List<LogicalInputPin> inputPins = n.getInputPins();
     			for (LogicalInputPin inputPin : inputPins) {
-    				if (inputPin.getSource().equals(outputPin)) {
-    					return n;
+    				if (inputPin.getSource() != null) {
+    					if (inputPin.getSource().equals(outputPin)) {
+    						return n;
+    					}
     				}
     			}
     		}

@@ -142,7 +142,7 @@ public class ModelManager {
 		if (FileSystems.getDefault().getPath(processedURI).isAbsolute()) {
 			return processedURI;
 		}
-		if (!processedURI.startsWith("/")) {
+		if (!processedURI.startsWith("/") && !processedURI.startsWith("./")) {
 			processedURI = "/" + processedURI;
 		}
 		IProject project = ProjectUtils.getProject();
@@ -167,7 +167,7 @@ public class ModelManager {
 			}
 		}
 		else {
-			String path = getWorkspaceAbsolutePath();
+			String path = getWorkspaceAbsolutePathWithProjectName();
 			if (path == null) {
 				return processedURI;
 			}
@@ -231,18 +231,21 @@ public class ModelManager {
 	private static String getAbsoluteMetaModelURI(String uri) throws MetaModelNotFoundException {
 		IProject project = ProjectUtils.getProject();
 		String path = "";
-		if (project == null) {
-			String projectName = getProjectNameFromWodelTest();
+		String projectName = getProjectNameFromWodelTest();
+		if (project == null && projectName != null) {
 			Class<?> cls = getClassFromWodelTest();
-			if (projectName != null) {
-				path = getWorkspaceAbsolutePath(cls).replace("\\", "/");
+			path = getWorkspaceAbsolutePath(cls).replace("\\", "/");
+		}
+		if (path != null && path.length() > 0) {
+			path = path.substring(0, path.lastIndexOf("/"));
+			String fullPath = path + uri.replace("\\", "/");
+			File fmm = new File(fullPath);
+			if (fmm.exists()) {
+				return fullPath;
 			}
 		}
-		else {
-			path = project.getLocation().toFile().getPath();
-			path = path.replace("\\", "/");
-			path = path.substring(0, path.lastIndexOf("/"));
-		}
+		path = getWorkspaceAbsolutePath();
+		path = path.replace("\\", "/");
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -778,6 +781,44 @@ public class ModelManager {
 		}
 		if (ret != null && ret.startsWith("/")) {
 			ret = ret.substring(1, ret.length());
+		}
+		return ret;
+	}
+	
+	public static String getWorkspaceAbsolutePathWithProjectName() {
+		String ret = null;
+		if (ProjectUtils.projectsAreReady() != null) {
+			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : null; 
+			if (path != null) {
+				URI uri = URI.createFileURI(path);
+				ret = uri.toString();
+				ret = ret.replaceFirst("file:/", "/");
+				if (ret.indexOf(":") != -1) {
+					ret = ret.replaceFirst("/", "");
+				}
+			}
+		}
+		if (ret == null || ret.equals("")) {
+			IWodelTest test = getTest();
+			if (test != null) {
+				String path = test.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+				path = path.replace("\\", "/");
+				int index = path.lastIndexOf("/bin");
+				if (index == -1) {
+					index = path.lastIndexOf("/");
+				}
+				path = path.substring(0, index);
+				ret = path;
+			}
+		}
+		if (ret == null || ret.equals("")) {
+			String path = Platform.getLocation().toFile().getPath();
+			URI uri = URI.createFileURI(path);
+			ret = uri.toString();
+			ret = ret.replaceFirst("file:/", "/");
+			if (ret.indexOf(":") != -1) {
+				ret = ret.replaceFirst("/", "");
+			}
 		}
 		return ret;
 	}

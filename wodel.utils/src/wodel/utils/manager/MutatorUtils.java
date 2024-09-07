@@ -6810,7 +6810,7 @@ public class MutatorUtils {
 	 */
 	public static void generateLiveMutantPaths(File block,
 			List<EPackage> packages,
-			Map<Resource, String> hashmap_postproc, List<String> liveMutantPaths)
+			Map<Resource, String> hashmap_postproc, Set<String> liveMutantPaths)
 			throws ModelNotFoundException {
 		if (block.getName().equals("registry") != true) {
 			File[] folderBlock = block.listFiles();
@@ -6850,7 +6850,7 @@ public class MutatorUtils {
 	 * @throws IllegalAccessException 
 	 */
 	public static String generateLiveMutantPaths(File block,
-			List<EPackage> packages, List<String> liveMutantPaths, Method doCompare, Object equivalence, List<String> metamodels, String targetfile, IProject sourceProject, String outputPath)
+			List<EPackage> packages, Set<String> liveMutantPaths, Method doCompare, Object equivalence, List<String> metamodels, String targetfile, IProject sourceProject, String outputPath)
 			throws ModelNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String equivalentPaths = "";
 		if (block.getName().equals("registry") != true) {
@@ -9866,7 +9866,7 @@ public class MutatorUtils {
 					// VERIFY IF MUTANT IS EQUIVALENT
 					List<String> metamodels = new ArrayList<String>();
 					metamodels.add(metamodel);
-					isEquivalent = equivalent(metamodels, mutFilename, modelFilename, project, cls);
+					isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
 					if (isEquivalent == true) {
 						IOUtils.deleteFile(mutFilename);
 						isRepeated = true;
@@ -10845,7 +10845,7 @@ public class MutatorUtils {
 					}
 					List<String> metamodels = new ArrayList<String>();
 					metamodels.add(metamodel);
-					isEquivalent = equivalent(metamodels, mutFilename, modelFilename, project, cls);
+					isEquivalent = equivalent(metamodels, modelFilename, mutFilename, project, cls);
 					if (localRegisteredPackages != null) {
 						List<EPackage> localRegistered = new ArrayList<EPackage>();
 						localRegistered.addAll(localRegisteredPackages.values());

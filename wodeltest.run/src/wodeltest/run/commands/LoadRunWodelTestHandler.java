@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -706,10 +708,6 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 							messageBox.open();
 						}
 					});
-					/*
-					 * The mutant semantic equivalences checker needs to be debugged more deeply
-					 * 
-					 * 
 					boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
 					Method doCompare = null;
 					Object equivalence = null;
@@ -752,26 +750,36 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
 						String classpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
-					    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsPath);
-					    List<String> liveMutantPaths = new ArrayList<String>();
-					    for (String packagename : packageClasses.keySet()) {
-					    	List<WodelTestClass> values = packageClasses.get(packagename);
-					    	for (WodelTestClass value : values) {
-					    		for (WodelTestClassInfo valueInfo : value.info) {
-					    			if (valueInfo.getNumFailedTests() == 0) {
-					    				if (!liveMutantPaths.contains(valueInfo.path)) {
-					    					liveMutantPaths.add(valueInfo.path);
-					    				}
-					    			}
-					    			else {
-					    				liveMutantPaths.remove(valueInfo.path);
-					    			}
-					    		}
-					    	}
+						Map<String, List<WodelTestClass>> pckClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsPath);
+						Map<String, List<WodelTestClass>> clss = new LinkedHashMap<String, List<WodelTestClass>>();
+						for (String pckName : pckClasses.keySet()) {
+					    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(pckClasses, pckName, sourceProject.getName(), classpath, resultsPath);
+					    	clss.put(pckName, pckclasses);
 					    }
+						Set<String> liveMutantPaths = new LinkedHashSet<String>();
+						for (String key : clss.keySet()) {
+							List<WodelTestClass> wtcl = clss.get(key);
+							for (WodelTestClass wtc : wtcl) {
+								for (WodelTestClassInfo info : wtc.info) {
+									if (info.getNumFailedTests() == 0) {
+										liveMutantPaths.add(info.path);
+										totalWork++;
+									}
+									else {
+										liveMutantPaths.remove(info.path);
+					    			}
+								}
+							}
+						}
+
+						totalWork = liveMutantPaths.size();
+						subMonitor = SubMonitor.convert(monitor, "Check semantic equivalent mutants", totalWork);
+						subMonitor.setWorkRemaining(totalWork);
+						subMonitor.beginTask("Check semantic equivalent mutants", totalWork);
+						countMut = 0;
 						files = null;
-						List<String> modelpaths = ModelManager.getModels(cls);
 						String equivalentpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.equivalent.txt";
+						File[] sourcefiles = new File(metamodelpath).listFiles();
 						if (doCompare != null) {
 							for (File file : sourcefiles) {
 								if (file.isFile() == true) {
@@ -794,12 +802,15 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 																if (liveMutantPath.contains(mutantPath)) {
 																	File f = new File(mutpathfile);
 																	if(!f.isDirectory() && !f.getName().contains("_")) { 
+																		subMonitor.subTask("Check equivalent mutant " + mutpathfile.substring(mutpathfile.lastIndexOf("/"), mutpathfile.lastIndexOf(".")) + " (" + countMut + "/" + totalWork + ")");
 																		boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, mutpathfile, sourceProject, cls);
 																		if (result == true) {
 																			String equivalentPath = mutpathfile.replaceAll("\\\\", "/");
 																			equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
 																			equivalentPaths += equivalentPath + "|";
 																		}
+																		countMut++;
+																		subMonitor.worked(1);
 																	}
 																	//hashmap_mutants.put(mutantfile, mutpathfile);
 																	break;
@@ -822,12 +833,15 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 																			if (liveMutantPath.contains(mutantPath)) {
 																				File f = new File(pathfileblock);
 																				if(!f.isDirectory() && !f.getName().contains("_")) { 
+																					subMonitor.subTask("Check equivalent mutant " + pathfileblock.substring(pathfileblock.lastIndexOf("/"), pathfileblock.lastIndexOf(".")) + " (" + countMut + "/" + totalWork + ")");
 																					boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject, cls);
 																					if (result == true) {
 																						String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
 																						equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
 																						equivalentPaths += equivalentPath + "|";
 																					}
+																					countMut++;
+																					subMonitor.worked(1);
 																				}
 																				//hashmap_mutants.put(modelfileblock, pathfileblock);
 																				break;
@@ -852,7 +866,7 @@ public class LoadRunWodelTestHandler extends AbstractHandler {
 								}
 							}
 						}
-*/
+					}
 					boolean optimize = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Optimise mutants", false, null);
 					Method doOptimize = null;
 					Object optimizer = null;

@@ -10,6 +10,7 @@ import mutatorenvironment.Program
 import wodel.utils.manager.JavaUtils
 import java.util.List
 import wodel.utils.manager.ModelManager
+import wodel.dsls.WodelUtils
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -42,6 +43,10 @@ class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 			
 			fileName = resource.URI.lastSegment
 			program = (e as MutatorEnvironment).definition as Program
+			var String xTextFileName = getMutatorPath(e, files)
+			var String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePathWithProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			WodelUtils.serialize(xTextFileName, xmiFileName)
+			
 			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
 			fileName = fileName.replaceAll(".mutator", "Standalone.java")

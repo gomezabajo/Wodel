@@ -153,25 +153,19 @@ public class WodelUseGenerator extends AbstractGenerator {
             if (_equals) {
               boolean _equals_1 = file.getName().equals(this.fileName);
               if (_equals_1) {
-                String _xifexpression = null;
-                int _indexOf = file.getPath().indexOf("/");
-                boolean _notEquals = (_indexOf != (-1));
-                if (_notEquals) {
-                  String _path = file.getPath();
-                  String _projectName = this.getProjectName();
-                  String _plus = ("/" + _projectName);
-                  _xifexpression = file.getPath().substring(_path.lastIndexOf(_plus)).replace("\\", "/");
-                } else {
-                  String _path_1 = file.getPath();
-                  String _projectName_1 = this.getProjectName();
-                  String _plus_1 = ("\\" + _projectName_1);
-                  _xifexpression = file.getPath().substring(_path_1.lastIndexOf(_plus_1)).replace("\\", "/");
-                }
-                String mutatorFolderAndFile = _xifexpression;
-                String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
-                String _plus_2 = ("file:/" + _path_2);
-                String _plus_3 = (_plus_2 + mutatorFolderAndFile);
-                mutatorPath = _plus_3;
+                String path = file.getPath().replace("\\", "/");
+                String _projectName = this.getProjectName();
+                String _plus = ("/" + _projectName);
+                String _plus_1 = (_plus + "/");
+                int _lastIndexOf = path.lastIndexOf(_plus_1);
+                String _projectName_1 = this.getProjectName();
+                int _length = ("/" + _projectName_1).length();
+                int _plus_2 = (_lastIndexOf + _length);
+                String mutatorFolderAndFile = path.substring(_plus_2);
+                String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
+                String _plus_3 = ("file:/" + _replace);
+                String _plus_4 = (_plus_3 + mutatorFolderAndFile);
+                mutatorPath = _plus_4;
               }
             } else {
               mutatorPath = this.getMutatorPath(e, file.listFiles());

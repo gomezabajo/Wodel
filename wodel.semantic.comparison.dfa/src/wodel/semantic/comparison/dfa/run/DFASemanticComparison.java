@@ -483,23 +483,30 @@ public class DFASemanticComparison extends SemanticComparison {
 	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
 		boolean isRepeated = false;
 		try {
+			System.out.println("Warning:");
+			System.out.println("This comparison extension can only be used in the tester instance.");
+			System.out.println("Using default semantic comparison.");
 			//metamodel = "C:\\eclipse\\workspace\\wodel.automata\\models\\DFAAutomaton.ecore";
 			//model1 = "C:\\eclipse\\workspace\\wodel.automata\\models\\dfa1.model";
 			//model2 = "C:\\eclipse\\workspace\\wodel.automata\\models\\dfa2.model";
 			List<EPackage> packages = ModelManager.loadMetaModels(metamodels, cls);
-			Resource ndfa1 = ModelManager.loadModel(packages, model1);
+			if (this.getSeedPath() == null) {
+				this.setSeedPath(model1);
+				Resource ndfa1 = ModelManager.loadModel(packages, this.getSeedPath());
+				List<List<Object>> dfa1 = convertToDFA(packages, ndfa1);
+				if (dfa1 != null) {
+					this.setSeedCompiled(dfa1);
+				}
+				ndfa1.unload();
+			}
 			Resource ndfa2 = ModelManager.loadModel(packages, model2);
 			//isRepeated = ModelManager.compareModels(resource1, resource2);
 
-			List<List<Object>> dfa1 = convertToDFA(packages, ndfa1);
+			List<List<Object>> dfa1 = this.getSeedCompiled() != null ? (List<List<Object>>) this.getSeedCompiled() : null;
 			List<List<Object>> dfa2 = convertToDFA(packages, ndfa2);
+			ndfa2.unload();
 
 			isRepeated = compareDFAs(dfa1, dfa2);
-			try {
-				ndfa2.unload();
-				ndfa1.unload();
-			} catch (Exception e) {
-			}
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

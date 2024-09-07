@@ -23,7 +23,7 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		standalone = false
-		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath + "/" : ModelManager.getWorkspaceAbsolutePath + "/"	
+		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
@@ -33,10 +33,9 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 			fileName = resource.URI.lastSegment
 			var String xTextFileName = getMutatorPath(e, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + projectFolderName + program.output + fileName.replaceAll(".mutator", ".model")
-			try {
-				WodelUtils.serialize(xTextFileName, xmiFileName)
-			} catch (Exception ex) {}
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePathWithProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			WodelUtils.serialize(xTextFileName, xmiFileName)
+
 
 			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */

@@ -13,6 +13,26 @@ import org.eclipse.core.runtime.IExecutableExtension;
  */
 
 public abstract class SemanticComparison implements IExecutableExtension {
+	
+	private String seedPath;
+	private Object seedCompiled;
+	
+	public String getSeedPath() {
+		return this.seedPath;
+	}
+	
+	public void setSeedPath(String seedPath) {
+		this.seedPath = seedPath;
+	}
+	
+	public Object getSeedCompiled() {
+		return this.seedCompiled;
+	}
+	
+	public void setSeedCompiled(Object seedCompiled) {
+		this.seedCompiled = seedCompiled;
+	}
+	
 	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {

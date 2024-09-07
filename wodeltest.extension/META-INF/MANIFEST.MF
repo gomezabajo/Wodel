@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.acceleo.model,
  org.eclipse.acceleo.engine,
  org.eclipse.modisco.infra.common.core,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ wodel.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: wodeltest.project
 Bundle-ActivationPolicy: lazy

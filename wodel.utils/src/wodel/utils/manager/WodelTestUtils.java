@@ -557,8 +557,8 @@ public class WodelTestUtils {
 				}
 				if (wodelTestClass == null) {
 					wodelTestClass = new WodelTestClass();
-					currentClasses.add(wodelTestClass);
 				}
+				currentClasses.add(wodelTestClass);
 				wodelTestClass.depth = false;
 				wodelTestClass.classname = data[0];
 				if (wodelTestClass.info == null) {

@@ -68,6 +68,9 @@ import wodeltest.run.sut.builder.WodelTestSUTNature;
 import wodeltest.run.utils.MutatorHelper;
 import wodeltest.run.views.WodelTestGlobalGraphicalResultsViewPart;
 
+import java.util.Set;
+import java.util.LinkedHashSet;
+
 public class RunWodelTestHandler extends AbstractHandler {
 	
 	private static int PORT = 5005;
@@ -596,7 +599,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 					
 					File[] files = null;
 					List<String> modelpaths = ModelManager.getModels(cls);
-					//File[] sourcefiles = new File(metamodelpath).listFiles();
 					SubMonitor subMonitor = SubMonitor.convert(monitor, "Annotations of performed mutation operations", totalWork);
 					subMonitor.setWorkRemaining(totalWork);
 					subMonitor.beginTask("Annotations of performed mutation operations", totalWork);
@@ -974,10 +976,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 
 					//test.artifactPaths(sourceProject, projectPath, outputFolder, blockNames)
 					//WodelTestGlobalResult globalResult = test.run(sourceProject, testSuiteProject, outputFolder, blockNames);
-					/*
-					 * The mutant semantic equivalences checker needs to be debugged more deeply
-					 * 
-					 * 
 					boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
 					Method doCompare = null;
 					Object equivalence = null;
@@ -1019,28 +1017,38 @@ public class RunWodelTestHandler extends AbstractHandler {
 						}
 						//HashMap<Resource, String> hashmap_seeds = new HashMap<Resource, String>();
 						//HashMap<Resource, String> hashmap_mutants = new HashMap<Resource, String>();
+						totalWork = 0;
 						String classpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/classes.txt";
 						for (IProject testSuiteProject : testSuitesProjects) {
-						    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
-						    List<String> liveMutantPaths = new ArrayList<String>();
-						    for (String packagename : packageClasses.keySet()) {
-						    	List<WodelTestClass> values = packageClasses.get(packagename);
-						    	for (WodelTestClass value : values) {
-						    		for (WodelTestClassInfo valueInfo : value.info) {
-						    			if (valueInfo.getNumFailedTests() == 0) {
-						    				if (!liveMutantPaths.contains(valueInfo.path)) {
-						    					liveMutantPaths.add(valueInfo.path);
-						    				}
-						    			}
-						    			else {
-						    				liveMutantPaths.remove(valueInfo.path);
-						    			}
-						    		}
-						    	}
+							Map<String, List<WodelTestClass>> pckClasses = WodelTestUtils.getPackageClasses(test, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
+							Map<String, List<WodelTestClass>> clss = new LinkedHashMap<String, List<WodelTestClass>>();
+							for (String pckName : pckClasses.keySet()) {
+						    	List<WodelTestClass> pckclasses = WodelTestUtils.getClasses(pckClasses, pckName, sourceProject.getName(), classpath, resultsProjectsPath.get(testSuiteProject));
+						    	clss.put(pckName, pckclasses);
 						    }
+							Set<String> liveMutantPaths = new LinkedHashSet<String>();
+							for (String key : clss.keySet()) {
+								List<WodelTestClass> wtcl = clss.get(key);
+								for (WodelTestClass wtc : wtcl) {
+									for (WodelTestClassInfo info : wtc.info) {
+										if (info.getNumFailedTests() == 0) {
+											liveMutantPaths.add(info.path);
+											totalWork++;
+										}
+										else {
+											liveMutantPaths.remove(info.path);
+						    			}
+									}
+								}
+							}
+							totalWork = liveMutantPaths.size();
+							subMonitor = SubMonitor.convert(monitor, "Check semantic equivalent mutants", totalWork);
+							subMonitor.setWorkRemaining(totalWork);
+							subMonitor.beginTask("Check semantic equivalent mutants", totalWork);
+							countMut = 0;
 							files = null;
-							List<String> modelpaths = ModelManager.getModels(cls);
 							String equivalentpath = sourceProject.getLocation().toFile().getPath().toString().replace("\\", "/") + "/data/" + testSuiteProject.getName() + "/classes.equivalent.txt";
+							File[] sourcefiles = new File(metamodelpath).listFiles();
 							if (doCompare != null) {
 								for (File file : sourcefiles) {
 									if (file.isFile() == true) {
@@ -1053,9 +1061,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 												if (files != null) {
 													for (int i = 0; i < files.length; i++) {
 														if (files[i].isFile() == true) {
-															String mutpathfile = files[i].getPath();
-															if (mutpathfile.endsWith(".model") == true && !mutpathfile.substring(mutpathfile.lastIndexOf("\\"), mutpathfile.length()).contains("_")) {
-																String mutantName = pathfile.substring(mutpathfile.lastIndexOf("\\"));
+															String mutpathfile = files[i].getPath().replace("\\", "/");
+															if (mutpathfile.endsWith(".model") == true && !mutpathfile.substring(mutpathfile.lastIndexOf("/"), mutpathfile.length()).contains("_")) {
+																String mutantName = pathfile.substring(mutpathfile.lastIndexOf("/"));
 																mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
 																String mutatorName = files[i].getName();
 																String mutantPath = mutatorName + "/" + mutantName;
@@ -1063,12 +1071,15 @@ public class RunWodelTestHandler extends AbstractHandler {
 																	if (liveMutantPath.contains(mutantPath)) {
 																		File f = new File(mutpathfile);
 																		if(!f.isDirectory() && !f.getName().contains("_")) { 
+																			subMonitor.subTask("Check equivalent mutant " + mutpathfile.substring(mutpathfile.lastIndexOf("/"), mutpathfile.lastIndexOf(".")) + " (" + countMut + "/" + totalWork + ")");
 																			boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, mutpathfile, sourceProject, cls);
 																			if (result == true) {
-																				String equivalentPath = mutpathfile.replaceAll("\\\\", "/");
+																				String equivalentPath = mutpathfile;
 																				equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
 																				equivalentPaths += equivalentPath + "|";
 																			}
+																			countMut++;
+																			subMonitor.worked(1);
 																		}
 																		//hashmap_mutants.put(mutantfile, mutpathfile);
 																		break;
@@ -1081,9 +1092,9 @@ public class RunWodelTestHandler extends AbstractHandler {
 																File[] filesBlock = files[i].listFiles();
 																for (int j = 0; j < filesBlock.length; j++) {
 																	if (filesBlock[j].isFile() == true) {
-																		String pathfileblock = filesBlock[j].getPath();
-																		if (pathfileblock.endsWith(".model") == true && !pathfileblock.substring(pathfileblock.lastIndexOf("\\"), pathfileblock.length()).contains("_")) {
-																			String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("\\"));
+																		String pathfileblock = filesBlock[j].getPath().replace("\\", "/");
+																		if (pathfileblock.endsWith(".model") == true && !pathfileblock.substring(pathfileblock.lastIndexOf("/"), pathfileblock.length()).contains("_")) {
+																			String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("/"));
 																			mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
 																			String mutatorName = files[i].getName();
 																			String mutantPath = mutatorName + "/" + mutantName;
@@ -1091,12 +1102,15 @@ public class RunWodelTestHandler extends AbstractHandler {
 																				if (liveMutantPath.contains(mutantPath)) {
 																					File f = new File(pathfileblock);
 																					if(!f.isDirectory() && !f.getName().contains("_")) { 
+																						subMonitor.subTask("Check equivalent mutant " + pathfileblock.substring(pathfileblock.lastIndexOf("/"), pathfileblock.lastIndexOf(".")) + " (" + countMut + "/" + totalWork + ")");
 																						boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject, cls);
 																						if (result == true) {
-																							String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
+																							String equivalentPath = pathfileblock;
 																							equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
 																							equivalentPaths += equivalentPath + "|";
 																						}
+																						countMut++;
+																						subMonitor.worked(1);
 																					}
 																					//hashmap_mutants.put(modelfileblock, pathfileblock);
 																					break;
@@ -1123,7 +1137,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 						}
 					}
-*/
 					boolean optimize = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Optimise mutants", false, null);
 					Method doOptimize = null;
 					Object optimizer = null;

@@ -9,16 +9,16 @@
   <blocks name="dp_max" description="Delete training phrase (max similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentValue"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/intent"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
             </value>
           </first>
         </expression>
@@ -26,22 +26,22 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/max1"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/max1"/>
             </value>
           </first>
         </expression>
@@ -51,16 +51,16 @@
   <blocks name="dp_min" description="Delete training phrase (min similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentValue"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/intent"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
             </value>
           </first>
         </expression>
@@ -68,22 +68,22 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/min1"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/min1"/>
             </value>
           </first>
         </expression>
@@ -93,10 +93,10 @@
   <blocks name="dpwp" description="Delete training phrases with required parameter">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter"/>
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter/required"/>
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
@@ -104,11 +104,11 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <refName href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0"/>
           </first>
         </expression>
@@ -116,10 +116,10 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </first>
         </expression>
       </object>
@@ -128,17 +128,17 @@
   <blocks name="dpwl" description="Delete training phrases with literal">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="input">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//SimpleInput"/>
+        <type href="../model/BotGenerator.ecore#//SimpleInput"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="prt">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterReferenceToken"/>
+        <type href="../model/BotGenerator.ecore#//ParameterReferenceToken"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterReferenceToken/textReference"/>
+            <name href="../model/BotGenerator.ecore#//ParameterReferenceToken/textReference"/>
             <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.3/@commands.0">
-              <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//SimpleInput/values"/>
+              <attribute href="../model/BotGenerator.ecore#//SimpleInput/values"/>
             </value>
           </first>
         </expression>
@@ -146,10 +146,10 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1"/>
           </first>
         </expression>
@@ -159,16 +159,16 @@
   <blocks name="k2p_max" description="Keep two training phrases (max similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentValue"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/intent"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
             </value>
           </first>
         </expression>
@@ -176,34 +176,34 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp0">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/max1"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/max1"/>
             </value>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/max2"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/max2"/>
             </value>
           </first>
           <operator/>
@@ -213,12 +213,12 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.3"/>
@@ -230,15 +230,15 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.4/@commands.3"/>
@@ -254,16 +254,16 @@
   <blocks name="k2p_min" description="Keep two training phrases (min similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tpi">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentValue"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/intent"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/intent"/>
             </value>
           </first>
         </expression>
@@ -271,34 +271,34 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp0">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/min1"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/min1"/>
             </value>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentValue/min2"/>
+              <refType href="../model/Annotation.ecore#//IntentValue/min2"/>
             </value>
           </first>
           <operator/>
@@ -308,12 +308,12 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.3"/>
@@ -325,15 +325,15 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.3"/>
@@ -349,27 +349,27 @@
   <blocks name="mp_max" description="Move training phrase (max similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
           </first>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="iiv">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentIntentValue"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/intent1"/>
+            <name href="../model/Annotation.ecore#//IntentIntentValue/intent1"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/max1Value"/>
+            <name href="../model/Annotation.ecore#//IntentIntentValue/max1Value"/>
             <value xsi:type="mutatorenvironment:MaxValueType">
-              <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/max1Value"/>
+              <attribute href="../model/Annotation.ecore#//IntentIntentValue/max1Value"/>
             </value>
           </second>
         </expression>
@@ -377,15 +377,15 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i2">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.1">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/intent2"/>
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/intent2"/>
             </value>
           </second>
         </expression>
@@ -393,52 +393,52 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </second>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.1">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/max1"/>
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/max1"/>
             </value>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.3">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.5"/>
@@ -446,13 +446,13 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.4"/>
       <references xsi:type="mutatorenvironment:ReferenceAdd">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <reference href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.5"/>
       </references>
     </commands>
@@ -460,27 +460,27 @@
   <blocks name="mp_min" description="Move training phrase (min similarity)">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
           </first>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="iiv">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="annotation">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue"/>
+        <type href="../model/Annotation.ecore#//IntentIntentValue"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/intent1"/>
+            <name href="../model/Annotation.ecore#//IntentIntentValue/intent1"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.0"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/min1Value"/>
+            <name href="../model/Annotation.ecore#//IntentIntentValue/min1Value"/>
             <value xsi:type="mutatorenvironment:MinValueType">
-              <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/min1Value"/>
+              <attribute href="../model/Annotation.ecore#//IntentIntentValue/min1Value"/>
             </value>
           </second>
         </expression>
@@ -488,15 +488,15 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i2">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.1">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/intent2"/>
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/intent2"/>
             </value>
           </second>
         </expression>
@@ -504,52 +504,52 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="li2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.2">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//Intent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </second>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.1">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/Annotation.ecore#//IntentIntentValue/min1"/>
+              <refType href="../model/Annotation.ecore#//IntentIntentValue/min1"/>
             </value>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="tp2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.3">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <refType href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.5"/>
@@ -557,13 +557,13 @@
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.4"/>
       <references xsi:type="mutatorenvironment:ReferenceAdd">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+        <reference href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.5"/>
       </references>
     </commands>
@@ -571,16 +571,16 @@
   <blocks name="dip" description="Delete intent parameter">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter"/>
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase"/>
+        <type href="../model/BotGenerator.ecore#//TrainingPhrase"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <name href="../model/BotGenerator.ecore#//TrainingPhrase/tokens"/>
+            <refName href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.8/@commands.0"/>
           </first>
         </expression>
@@ -588,10 +588,10 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken"/>
+        <type href="../model/BotGenerator.ecore#//ParameterToken"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken/parameter"/>
+            <name href="../model/BotGenerator.ecore#//ParameterToken/parameter"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.8/@commands.0"/>
           </first>
         </expression>
@@ -602,10 +602,10 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent"/>
+        <type href="../model/BotGenerator.ecore#//LanguageIntent"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
           </first>
         </expression>
       </object>
@@ -614,10 +614,10 @@
   <blocks name="dpp" description="Delete parameter prompt">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter"/>
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter/required"/>
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
@@ -625,26 +625,26 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//LanguagePrompt"/>
+        <type href="../model/BotGenerator.ecore#//LanguagePrompt"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.9/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter/prompts"/>
+        <refType href="../model/BotGenerator.ecore#//Parameter/prompts"/>
       </container>
     </commands>
   </blocks>
   <blocks name="spo" description="Set required parameter to optional">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter"/>
+        <type href="../model/BotGenerator.ecore#//Parameter"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter/required"/>
+            <name href="../model/BotGenerator.ecore#//Parameter/required"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Parameter/required"/>
+        <attribute href="../model/BotGenerator.ecore#//Parameter/required"/>
         <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
       </attributes>
     </commands>
@@ -652,14 +652,14 @@
   <blocks name="cre" description="Change regular expression">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//RegexInput"/>
+        <type href="../model/BotGenerator.ecore#//RegexInput"/>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//RegexInput/expresion"/>
+        <attribute href="../model/BotGenerator.ecore#//RegexInput/expresion"/>
         <value xsi:type="mutatorenvironment:CatStartStringType" value="[^"/>
       </attributes>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//RegexInput/expresion"/>
+        <attribute href="../model/BotGenerator.ecore#//RegexInput/expresion"/>
         <value xsi:type="mutatorenvironment:CatEndStringType" value="]"/>
       </attributes>
     </commands>
@@ -667,17 +667,17 @@
   <blocks name="dle" description="Delete literal from entity">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//SimpleInput"/>
+        <type href="../model/BotGenerator.ecore#//SimpleInput"/>
       </object>
     </commands>
   </blocks>
   <blocks name="dfi" description="Delete fallback intent">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent"/>
+        <type href="../model/BotGenerator.ecore#//Intent"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Intent/fallbackIntent"/>
+            <name href="../model/BotGenerator.ecore#//Intent/fallbackIntent"/>
             <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
           </first>
         </expression>
@@ -685,10 +685,10 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction"/>
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/intent"/>
+            <name href="../model/BotGenerator.ecore#//UserInteraction/intent"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.13/@commands.0"/>
           </first>
         </expression>
@@ -701,32 +701,32 @@
   <blocks name="da" description="Delete actions">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
           </first>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//Action"/>
+        <type href="../model/BotGenerator.ecore#//Action"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.14/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
       </container>
     </commands>
   </blocks>
   <blocks name="dpr" description="Delete a parameter used in a response">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="text">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TextInput"/>
+        <type href="../model/BotGenerator.ecore#//TextInput"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TextInput/tokens"/>
+            <name href="../model/BotGenerator.ecore#//TextInput/tokens"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken"/>
+              <type href="../model/BotGenerator.ecore#//ParameterToken"/>
             </value>
           </first>
         </expression>
@@ -734,45 +734,45 @@
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//ParameterToken"/>
+        <type href="../model/BotGenerator.ecore#//ParameterToken"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.15/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//TextInput/tokens"/>
+        <refType href="../model/BotGenerator.ecore#//TextInput/tokens"/>
       </container>
     </commands>
   </blocks>
   <blocks name="so" description="Swap outputs">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi1">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <refName href="../model/BotGenerator.ecore#//UserInteraction/target"/>
           </second>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui1">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+            <name href="../model/BotGenerator.ecore#//UserInteraction/target"/>
           </first>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction"/>
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi2">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.1">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+        <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0"/>
@@ -780,25 +780,25 @@
           <operator/>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0">
-              <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+              <refType href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
             </value>
           </second>
         </expression>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.0"/>
       <references xsi:type="mutatorenvironment:ReferenceSwap">
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
-        <reference href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/actions"/>
+        <reference href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+        <reference href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.16/@commands.2"/>
       </references>
     </commands>
@@ -806,14 +806,14 @@
   <blocks name="dcs" description="Delete conversation step">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui0">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction"/>
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="is">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
-            <refName href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
-            <refRefName href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+            <name href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+            <refName href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <refRefName href="../model/BotGenerator.ecore#//UserInteraction/target"/>
             <value xsi:type="mutatorenvironment:TypedSelection">
-              <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+              <type href="../model/BotGenerator.ecore#//BotInteraction"/>
             </value>
           </first>
         </expression>
@@ -821,16 +821,16 @@
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi0">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
-        <refRefType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
-        <refRefRefType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+        <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+        <refRefType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <refRefRefType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
-      <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction/target"/>
+      <refType href="../model/BotGenerator.ecore#//UserInteraction/target"/>
       <source xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.0"/>
       <newTarget xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.17/@commands.1"/>
     </commands>
@@ -838,28 +838,28 @@
   <blocks name="dcb" description="Delete conversation bifurcation">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="bi">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction"/>
+        <type href="../model/BotGenerator.ecore#//BotInteraction"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-            <name href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
           </first>
         </expression>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ui">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction"/>
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//UserInteraction"/>
+        <type href="../model/BotGenerator.ecore#//UserInteraction"/>
       </object>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.0">
-        <refType href="file:/C:/eclipse/runtime-EclipseApplication82/WodelTest4Chatbots/data/model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+        <refType href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different" self="true">
             <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.18/@commands.1"/>

@@ -33,6 +33,14 @@
       </wizard>
       <wizard
             category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
+            class="wodeltest.extension.examples.wizards.WodelTest4LCWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.WodelTest4LC"
+            name="LC"
+            project="true">
+      </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestExamples"
             class="wodeltest.extension.examples.wizards.WodelTest4ChatbotsWizard"
             icon="icons/wodel4.jpg"
             id="wodeltest.extension.examples.WodelTest4Chatbots"
@@ -68,6 +76,14 @@
             icon="icons/wodel4.jpg"
             id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4FAUpdateSiteWizard"
             name="Wodel-Test for FA"
+            project="true">
+      </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeltest.extension.WodelTestProjectExamplesUpdatesiteGenerators"
+            class="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4LCUpdateSiteWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeltest.extension.examples.wizards.generators.updatesite.WodelTest4LCUpdateSiteWizard"
+            name="Wodel-Test for LC"
             project="true">
       </wizard>
       <wizard

@@ -49,7 +49,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;

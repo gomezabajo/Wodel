@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<families:Family xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="http://families/1.0" xmi:id="_PS-twCOtEemrMIvIGxfM-g" lastName="Brown">
-  <father xmi:id="_RJ6aMCOtEemrMIvIGxfM-g" firstName="Andrew"/>
-  <mother xmi:id="_ShR1wCOtEemrMIvIGxfM-g" firstName="Sophia"/>
-  <daughters xmi:id="_Xd6H0COtEemrMIvIGxfM-g" firstName="Olivia"/>
-</families:Family>

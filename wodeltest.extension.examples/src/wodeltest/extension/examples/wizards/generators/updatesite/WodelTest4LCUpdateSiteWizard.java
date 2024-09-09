@@ -220,7 +220,7 @@ public class WodelTest4LCUpdateSiteWizard extends Wizard implements INewWizard {
 			featureIncludedFeaturesMap.put(project.getName() + ".plugins", includedFeatures);
 			featureMap.put("wodel.additions", "Wodel extended features");
 			includedPlugins = new LinkedHashSet<String>();
-			includedPlugins.add("wodel.semantic.comparison.dfa");
+			includedPlugins.add("wodel.semantic.comparison.lc");
 			featureIncludedPluginsMap.put("wodel.additions", includedPlugins);
 			includedFeatures = new LinkedHashSet<String>();
 			featureIncludedFeaturesMap.put("wodel.additions", includedFeatures);

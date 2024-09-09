@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -264,6 +265,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 								numMutantsEquivalent = equivalentMutants.get(testSuiteName).length;
 							}
 							mutationScore.put(testSuiteName, numMutantsCompiling > 0 ? 1.0 * numMutantsKilled / (numMutantsCompiling - numMutantsEquivalent) : 0);
+							Locale.setDefault(new Locale ("en", "US"));
 							DecimalFormat formatter = new DecimalFormat("###.##%");
 							entries.put(testSuiteName, new ArrayList<GlobalResult>());
 							GlobalResult entry = new GlobalResult();

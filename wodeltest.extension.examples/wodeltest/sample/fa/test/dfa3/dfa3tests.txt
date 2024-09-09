@@ -1,9 +1,0 @@
-;no
-a;no
-aa;no
-aab;no
-ab;no
-b;no
-ba;no
-bb;no
-bba;no

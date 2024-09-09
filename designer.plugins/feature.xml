@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="wodel.footprints"
-      label="Mutation footprints views"
+      id="designer.plugins"
+      label="Wodel-Test for ATL plugins"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -16,32 +16,40 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="wodel.metrics.command"
-         download-size="0"
-         install-size="0"
+   <includes
+         id="wodel.additions"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.core"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.emf.comparison"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.emf.validation"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.examples"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.footprints"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.seed.synthesis"
+         version="0.0.0"/>
+
+   <includes
+         id="wodel.wodeltest"
          version="0.0.0"/>
 
    <plugin
-         id="wodel.metrics.debug"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="wodel.metrics.dynamic"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="wodel.metrics.fixed"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="wodel.metrics.data"
+         id="designer"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

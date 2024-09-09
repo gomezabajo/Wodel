@@ -1,7 +1,0 @@
-greet
-
-#me
-greet
-
-#bot
-INTENT greet

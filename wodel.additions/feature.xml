@@ -17,7 +17,7 @@
    </license>
 
    <plugin
-         id="wodel.semantic.comparison.dfa"
+         id="wodel.semantic.comparison.lc"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

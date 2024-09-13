@@ -33,7 +33,7 @@ public class designerStandaloneLauncher implements IMutatorStandaloneExecutor {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		IWodelTest test = testObject != null ? (IWodelTest) testObject : null;
-		String ecoreURI = "/designer/data/model/DFAAutomaton.ecore";
+		String ecoreURI = "/designer/data/model/LogicCircuit.ecore";
 		List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
 		boolean isRegistered = ModelManager.isRegistered(packages);
 		Map<String, EPackage> localRegisteredPackages = null;

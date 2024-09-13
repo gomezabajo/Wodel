@@ -1,9 +1,129 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="/designer/data/model/DFAAutomaton.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/designer/data/model/LogicCircuit.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-    <type href="../model/DFAAutomaton.ecore#//Automaton"/>
-  </commands>
+  <blocks name="mtg" description="Retype a two-pinned gate as a two-pinned gate of a different type">
+    <commands xsi:type="mutatorenvironment:RetypeObjectMutator">
+      <types href="../model/LogicCircuit.ecore#//AND"/>
+      <types href="../model/LogicCircuit.ecore#//OR"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <types href="../model/LogicCircuit.ecore#//AND"/>
+        <types href="../model/LogicCircuit.ecore#//OR"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="rnot" description="Removes a NOT gate">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="n0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//NOT"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/LogicCircuit.ecore#//Gate/input"/>
+            <refName href="../model/LogicCircuit.ecore#//InputPin/src"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/LogicCircuit.ecore#//Gate/output"/>
+            <refName href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+        <refType href="../model/LogicCircuit.ecore#//Gate/output"/>
+        <refRefType href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//InputPin"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="o0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+        <refType href="../model/LogicCircuit.ecore#//Gate/input"/>
+        <refRefType href="../model/LogicCircuit.ecore#//InputPin/src"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//OutputPin"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/LogicCircuit.ecore#//InputPin/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="anot" description="Adds a NOT gate">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="g0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//Gate"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/LogicCircuit.ecore#//Gate/input"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="../model/LogicCircuit.ecore#//Gate/output"/>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="n1">
+      <type href="../model/LogicCircuit.ecore#//NOT"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="o0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
+        <refType href="../model/LogicCircuit.ecore#//Gate/output"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//OutputPin"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="i0">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2">
+        <refType href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/LogicCircuit.ecore#//InputPin"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="../model/LogicCircuit.ecore#//OutputPin"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1">
+        <refType href="../model/LogicCircuit.ecore#//Gate/output"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.3"/>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="../model/LogicCircuit.ecore#//InputPin"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1">
+        <refType href="../model/LogicCircuit.ecore#//Gate/input"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/LogicCircuit.ecore#//InputPin/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2"/>
+      </references>
+    </commands>
+  </blocks>
 </mutatorenvironment:MutatorEnvironment>

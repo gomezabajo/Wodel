@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbpmn:BusinessProcess xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sbpmn="http://eclipse.org/eugenia/simplebpmn" xsi:schemaLocation="http://eclipse.org/eugenia/simplebpmn simplebpmn.ecore" xmi:id="_AJlocHfjEe-cPoc9DaAOdg">
+  <elements xsi:type="sbpmn:StartEv" xmi:id="_CvxLEHfkEe-cPoc9DaAOdg" name="hunger noticed"/>
+  <elements xsi:type="sbpmn:Sequence" xmi:id="_Lxvh4HfkEe-cPoc9DaAOdg" from="_CvxLEHfkEe-cPoc9DaAOdg" to="_F2jV0HfkEe-cPoc9DaAOdg"/>
+  <elements xsi:type="sbpmn:Activity" xmi:id="_F2jV0HfkEe-cPoc9DaAOdg" name="buy groceries"/>
+  <elements xsi:type="sbpmn:Sequence" xmi:id="_PP2ngHfkEe-cPoc9DaAOdg" from="_F2jV0HfkEe-cPoc9DaAOdg" to="_Qb1ScHfkEe-cPoc9DaAOdg"/>
+  <elements xsi:type="sbpmn:Activity" xmi:id="_Qb1ScHfkEe-cPoc9DaAOdg" name="cook"/>
+  <elements xsi:type="sbpmn:Sequence" xmi:id="_R4I4YHfkEe-cPoc9DaAOdg" from="_Qb1ScHfkEe-cPoc9DaAOdg" to="_TdNYwHfkEe-cPoc9DaAOdg"/>
+  <elements xsi:type="sbpmn:IntermediateEv" xmi:id="_TdNYwHfkEe-cPoc9DaAOdg" name="meal ready"/>
+  <elements xsi:type="sbpmn:Activity" xmi:id="_X4fRQHfkEe-cPoc9DaAOdg" name="eat meal"/>
+  <elements xsi:type="sbpmn:EndEv" xmi:id="_b8NlYHfkEe-cPoc9DaAOdg" name="hunger satisfied"/>
+</sbpmn:BusinessProcess>

@@ -113,4 +113,20 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.BPMNWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.BPMNWizard"
+            name="BPMN"
+            project="true">
+      </wizard>
+   </extension>
 </plugin>

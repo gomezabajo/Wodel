@@ -605,7 +605,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   				«attributeOperation.add("objectSelection")»
+	   				«attributeOperation.add("objectSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.SUBTRACT»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -615,7 +615,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   				«attributeOperation.subtract("objectSelection")»
+	   				«attributeOperation.subtract("objectSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.MULTIPLY»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -625,7 +625,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					else {
 						atts = new ArrayList<AttributeConfigurationStrategy>();
 					}
-	   				«attributeOperation.multiply("objectSelection")»
+	   				«attributeOperation.multiply("objectSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.DIVIDE»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -635,7 +635,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   			«attributeOperation.divide("objectSelection")»
+	   			«attributeOperation.divide("objectSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.MODULE»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -645,7 +645,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					else {
 						atts = new ArrayList<AttributeConfigurationStrategy>();
 					}
-	   				«attributeOperation.module("objectSelection")»
+	   				«attributeOperation.module("objectSelection", counter)»
 	   			«ENDIF»
 	   			}
 			«ELSE»
@@ -883,7 +883,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 							attsRef = new ArrayList<AttributeConfigurationStrategy>();
 						}
 						AttributeConfigurationStrategy attConfig = null;
-						«referenceAtt.value.method(true, false, "objectSelection")»
+						«referenceAtt.value.method(true, 0, false, "objectSelection")»
 						attsRef.add(attConfig);
 						attsRefList.put("«attributeName»", attsRef);
 					}
@@ -1239,7 +1239,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   				«attributeOperation.add("obSelection")»
+	   				«attributeOperation.add("obSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.SUBTRACT»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -1249,7 +1249,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   				«attributeOperation.subtract("obSelection")»
+	   				«attributeOperation.subtract("obSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.MULTIPLY»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -1259,7 +1259,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					else {
 						atts = new ArrayList<AttributeConfigurationStrategy>();
 					}
-	   				«attributeOperation.multiply("obSelection")»
+	   				«attributeOperation.multiply("obSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.DIVIDE»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -1269,7 +1269,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   				else {
 	   					atts = new ArrayList<AttributeConfigurationStrategy>();
 	   				}
-	   			«attributeOperation.divide("obSelection")»
+	   			«attributeOperation.divide("obSelection", counter)»
 	   			«ENDIF»
 	   			«IF attributeOperation.operator == ArithmeticOperator.MODULE»
 	   				List<AttributeConfigurationStrategy> atts = null;
@@ -1279,7 +1279,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					else {
 						atts = new ArrayList<AttributeConfigurationStrategy>();
 					}
-	   				«attributeOperation.module("obSelection")»
+	   				«attributeOperation.module("obSelection", counter)»
 	   			«ENDIF»
 	   			«ENDIF»
 				if (obSelection != null) {
@@ -1531,7 +1531,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 							attsRef = new ArrayList<AttributeConfigurationStrategy>();
 						}
 						AttributeConfigurationStrategy attConfig = null;
-						«referenceAtt.value.method(true, true, "obSelection")»
+						«referenceAtt.value.method(true, 0, true, "obSelection")»
 						attsRef.add(attConfig);
 						attsRefList.put("«attributeName»", attsRef);
 					}
@@ -5080,6 +5080,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			«ENDIF»
 			numMutantsGenerated = k[0];
 			}
+			}
+			}
 			«ENDIF»
 			«IF last == true»
 			// MUTANT COMPLETION AND REGISTRY
@@ -7116,10 +7118,7 @@ public class «className» extends MutatorUtils {
    '''
 
     def method(AttributeSet e, boolean flag, boolean isList, int counter, boolean exhaustive, String obSelectionVariableName) '''
-    	«IF counter == 1»
-		AttributeConfigurationStrategy attConfig = null;
-		«ENDIF»
-   		«IF isList == true»
+    	«IF isList == true»
     	«IF e.attribute.get(0) !== null»
 		«val EAttribute attribute = e.attribute.get(0)»
 		«IF counter > 1»
@@ -7138,22 +7137,32 @@ public class «className» extends MutatorUtils {
 		//NAME:«attributeName = ""»
 		«ENDIF»
 		«IF e instanceof AttributeScalar»
-		«e.value.method(flag, exhaustive, obSelectionVariableName)»
+		«e.value.method(flag, counter, exhaustive, obSelectionVariableName)»
 		atts.add(attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
 		atts.add(attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeReverse»
+		«IF counter == 1»
+   		AttributeConfigurationStrategy attConfig = new ReverseBooleanConfigurationStrategy("«attributeName»");
+   		«ELSE»
    		attConfig = new ReverseBooleanConfigurationStrategy("«attributeName»"); 
+		«ENDIF»
 		atts.add(attConfig);
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e.object instanceof RandomTypeSelection»
 		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»"); 
 		atts.add(attConfig);
    		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF exhaustive == false»
 		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), hmObjects.get("«(e.object as SpecificObjectSelection).objSel.name»").getKey(), "«attributeName»", "«e.getAttribute().get(1).name»"); 
 		«ELSE»
@@ -7171,10 +7180,13 @@ public class «className» extends MutatorUtils {
 		//NAME:«attributeName = ""»
 		«ENDIF»
 		«IF e instanceof AttributeScalar»
-		«e.value.method(flag, exhaustive, obSelectionVariableName)»;
+		«e.value.method(flag, counter, exhaustive, obSelectionVariableName)»;
 		atts.put("«attributeName»", attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
    		atts.put("«attributeName»", attConfig);
    		«ENDIF»
    		«IF e instanceof AttributeReverse»
@@ -7182,6 +7194,9 @@ public class «className» extends MutatorUtils {
    		atts.put("«attributeName»", attConfig);
    		«ENDIF»
 		«IF e instanceof AttributeCopy»
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e.object instanceof RandomTypeSelection»
 		attConfig = new CopyAttributeConfigurationStrategy((«obSelectionVariableName» != null ? «obSelectionVariableName».getObject() : null), "«(e.object as RandomTypeSelection).type.name»", "«attributeName»", "«e.getAttribute().get(1).name»");
 		atts.put("«attributeName»", attConfig);
@@ -7211,35 +7226,38 @@ public class «className» extends MutatorUtils {
    		refs.put("«referenceName»", refSelection«nReference»);
    		«ENDIF»
 	'''	
-	def method(AttributeType e, boolean flag, boolean exhaustive, String obSelectionVariableName) '''
+	def method(AttributeType e, boolean flag, int counter, boolean exhaustive, String obSelectionVariableName) '''
 	«IF e instanceof StringType»
-		«(e as StringType).method(exhaustive)»
+		«(e as StringType).method(exhaustive, counter)»
 	«ELSEIF e instanceof DoubleType»
-		«(e as DoubleType).method(exhaustive)»
+		«(e as DoubleType).method(exhaustive, counter)»
 	«ELSEIF e instanceof BooleanType»
-		«(e as BooleanType).method(exhaustive)»
+		«(e as BooleanType).method(exhaustive, counter)»
 	«ELSEIF e instanceof IntegerType»
-		«(e as IntegerType).method(exhaustive)»
+		«(e as IntegerType).method(exhaustive, counter)»
 	«ELSEIF e instanceof ListStringType»
-		«(e as ListStringType).method(flag, exhaustive, obSelectionVariableName)»
+		«(e as ListStringType).method(flag, exhaustive, counter, obSelectionVariableName)»
 	«ELSEIF e instanceof ListType»
-		«(e as ListType).method(flag, exhaustive, obSelectionVariableName)»
+		«(e as ListType).method(flag, exhaustive, counter, obSelectionVariableName)»
 	«ELSEIF e instanceof RandomType»
-		«(e as RandomType).method(flag, exhaustive, obSelectionVariableName)»
+		«(e as RandomType).method(flag, exhaustive, counter, obSelectionVariableName)»
 	«ELSEIF e instanceof MinValueType»
-		«(e as MinValueType).method(exhaustive)»
+		«(e as MinValueType).method(exhaustive, counter)»
 	«ELSEIF e instanceof MaxValueType»
-		«(e as MaxValueType).method(exhaustive)»
+		«(e as MaxValueType).method(exhaustive, counter)»
 	«ELSEIF e instanceof RandomIntegerNumberType»
-		«(e as RandomIntegerNumberType).method(exhaustive)»
+		«(e as RandomIntegerNumberType).method(exhaustive, counter)»
 	«ELSEIF e instanceof RandomDoubleNumberType»
-		«(e as RandomDoubleNumberType).method(exhaustive)»
+		«(e as RandomDoubleNumberType).method(exhaustive, counter)»
 	«ENDIF»
 	'''
 	
 	//********************
 	//DATA TYPES COMPILES
-	def method(StringType e, boolean exhaustive) ''' 
+	def method(StringType e, boolean exhaustive, int counter) ''' 
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof SpecificStringType»
 			attConfig = new SpecificStringConfigurationStrategy("«(e as SpecificStringType).value»");
 		«ELSEIF e instanceof RandomStringType»
@@ -7271,7 +7289,10 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 	'''
 				
-	def method(DoubleType e, boolean exhaustive) ''' 
+	def method(DoubleType e, boolean exhaustive, int counter) ''' 
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof SpecificDoubleType»
 			attConfig = new SpecificDoubleConfigurationStrategy(«(e as SpecificDoubleType).value»);
 		«ELSEIF e instanceof RandomDoubleType»
@@ -7279,14 +7300,20 @@ public class «className» extends MutatorUtils {
 			attConfig = new RandomDoubleConfigurationStrategy(«r.min», «r.max», false);
 		«ENDIF»
 	'''	
-	def method(BooleanType e, boolean exhaustive) ''' 
+	def method(BooleanType e, boolean exhaustive, int counter) ''' 
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof SpecificBooleanType»
 			attConfig = new SpecificBooleanConfigurationStrategy(«(e as SpecificBooleanType).value»);
 		«ELSEIF e instanceof RandomBooleanType»
 			attConfig = new RandomBooleanConfigurationStrategy();
 		«ENDIF»
 		'''	
-	def method(IntegerType e, boolean exhaustive) '''
+	def method(IntegerType e, boolean exhaustive, int counter) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof SpecificIntegerType» 		
 			attConfig = new SpecificIntegerConfigurationStrategy(«(e as SpecificIntegerType).value»);
 		«ELSEIF e instanceof RandomIntegerType»
@@ -7294,7 +7321,10 @@ public class «className» extends MutatorUtils {
 			attConfig = new RandomIntegerConfigurationStrategy(«r.min», «r.max», false);		
 		«ENDIF»
 		'''
-	def method(ListStringType e, boolean flag, boolean exhaustive, String obSelectionVariableName) '''
+	def method(ListStringType e, boolean flag, boolean exhaustive, int counter, String obSelectionVariableName) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof ListStringType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
@@ -7306,7 +7336,10 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 		'''
 		
-	def method(ListType e, boolean flag, boolean exhaustive, String obSelectionVariableName) '''
+	def method(ListType e, boolean flag, boolean exhaustive, int counter, String obSelectionVariableName) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof ListType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
@@ -7319,7 +7352,10 @@ public class «className» extends MutatorUtils {
 			«ENDIF»
 		«ENDIF»
 		'''
-	def method(RandomType e, boolean flag, boolean exhaustive, String obSelectionVariableName) '''
+	def method(RandomType e, boolean flag, boolean exhaustive, int counter, String obSelectionVariableName) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e instanceof RandomType»
 			«IF !attributeName.equals("")»
 				«IF flag == false»
@@ -7332,13 +7368,22 @@ public class «className» extends MutatorUtils {
 			«ENDIF»
 		«ENDIF»
 		'''
-	def method(MinValueType e, boolean exhaustive) '''
+	def method(MinValueType e, boolean exhaustive, int counter) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		attConfig = new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»");
 		'''
-	def method(MaxValueType e, boolean exhaustive) '''
+	def method(MaxValueType e, boolean exhaustive, int counter) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		attConfig = new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getTypeName(e)»", "«e.attribute.name»");
 		'''
-	def method(RandomIntegerNumberType e, boolean exhaustive) '''
+	def method(RandomIntegerNumberType e, boolean exhaustive, int counter) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
 		«IF exhaustive == false»
@@ -7348,34 +7393,37 @@ public class «className» extends MutatorUtils {
 		«ENDIF»
 		«ENDIF»
 		'''
-	def method(RandomDoubleNumberType e, boolean exhaustive) '''
+	def method(RandomDoubleNumberType e, boolean exhaustive, int counter) '''
+		«IF counter == 1»
+		AttributeConfigurationStrategy attConfig = null;
+		«ENDIF»
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
 		attConfig = new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false);
 		«ENDIF»
 	'''
 
-	def add(AttributeOperation op, String obSelectionVariableName) '''
+	def add(AttributeOperation op, String obSelectionVariableName, int counter) '''
 		atts.add(new AddOperationConfigurationStrategy(«obSelectionVariableName».getMetaModel(), «obSelectionVariableName».getModel(), "«MutatorUtils.getTypeName(op)»", "«attributeName»", «obSelectionVariableName».getObject(), value));
 		attsList.put("«attributeName»", atts); 
 	'''
 
-	def subtract(AttributeOperation op, String obSelectionVariableName) '''
+	def subtract(AttributeOperation op, String obSelectionVariableName, int counter) '''
 		atts.add(new SubtractOperationConfigurationStrategy(«obSelectionVariableName».getMetaModel(), «obSelectionVariableName».getModel(), "«MutatorUtils.getTypeName(op)»", "«attributeName»", «obSelectionVariableName».getObject(), value));
 		attsList.put("«attributeName»", atts); 
 	'''
 
-	def multiply(AttributeOperation op, String obSelectionVariableName) '''
+	def multiply(AttributeOperation op, String obSelectionVariableName, int counter) '''
 		atts.add(new MultiplyOperationConfigurationStrategy(«obSelectionVariableName».getMetaModel(), «obSelectionVariableName».getModel(), "«MutatorUtils.getTypeName(op)»", "«attributeName»", «obSelectionVariableName».getObject(), value));
 		attsList.put("«attributeName»", atts); 
 	'''
 
-	def divide(AttributeOperation op, String obSelectionVariableName) '''
+	def divide(AttributeOperation op, String obSelectionVariableName, int counter) '''
 		atts.add(new DivideOperationConfigurationStrategy(«obSelectionVariableName».getMetaModel(), «obSelectionVariableName».getModel(), "«MutatorUtils.getTypeName(op)»", "«attributeName»", «obSelectionVariableName».getObject(), value));
 		attsList.put("«attributeName»", atts); 
 	'''
 
-	def module(AttributeOperation op, String obSelectionVariableName) '''
+	def module(AttributeOperation op, String obSelectionVariableName, int counter) '''
 		atts.add(new ModuleOperationConfigurationStrategy(«obSelectionVariableName».getMetaModel(), «obSelectionVariableName».getModel(), "«MutatorUtils.getTypeName(op)»", "«attributeName»", «obSelectionVariableName».getObject(), value));
 		attsList.put("«attributeName»", atts); 
 	'''

@@ -56,18 +56,20 @@
 <pre><code>    s = select one Sequence where {^to not typed EndEv}
     f = select one FlowObject in s->^to
     a = create Activity with {name = 'newActivity'}
-    modify target ^to from s to a
+    modify s with {^to = a}
     create Sequence with {name = 'newSeq', ^from = a, ^to = f}
 </code></pre>
 
 <p>Remove activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>    s0 = select one Sequence where {^to is typed Activity}
-    a = select one Activity in s0->^to
-    s1 = select one Sequence where {^from = a}
-    f = select one FlowObject in s1->^to
-    remove a, s1
-    modify target ^to from s0 to f
+<pre><code>    a = select one Activity
+    s0 = select one Sequence where {^to = a and ^from <> null}
+    s1 = select one Sequence where {^from = a and ^to <> null}
+    o = select one FlowObject where {self = s1->^to}
+    s2 = select one Sequence where {^from = o and ^to <> null}
+    modify s0 with {^to = o}
+    modify s1 with {^from = o, ^to = a}
+    modify s2 with {^from = a}
 </code></pre>
 
 <p>Move activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
@@ -77,9 +79,9 @@
     s1 = select one Sequence where {^from = a and ^to <> null}
     o = select one FlowObject where {self = s1->^to}
     s2 = select one Sequence where {^from = o and ^to <> null}
-    modify s0 with {^to = o},
-           s1 with {^from = o, ^to = a},
-           s2 with {^from = a}
+    modify s0 with {^to = o}
+    modify s1 with {^from = o, ^to = a}
+    modify s2 with {^from = a}
 </code></pre>
 
 <p>Replace activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
@@ -90,11 +92,18 @@
     a1 = select one Activity where {self <> a0}
     src1 = select one Sequence where {^to = a1}
     tar1 = select one Sequence where {^from = a1}
-    modify src0 with {^to = a1}, tar0 with {^from = a1},
-           src1 with {^to = a0}, tar1 with {^from = a0}
+    modify src0 with {^to = a1}
+    modify tar0 with {^from = a1}
+    modify src1 with {^to = a0}
+    modify tar1 with {^from = a0}
 </code></pre>
 
 <p>Retype activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+
+<pre><code>    retype one [StartEv, IntermediateEv, EndEv] as [Activity]
+</code></pre>
+
+<p>Retype gateway [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    retype one [AND, OR, XOR] as [AND, OR, XOR]
 </code></pre>

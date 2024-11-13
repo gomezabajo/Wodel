@@ -18,92 +18,62 @@
 
    <plugin
          id="wodel.dsls.wodel.ui"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.dsls.wodel"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.postprocessor"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.dsls.wodel.ide"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.registry.reduce"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.utils"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.extension"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.models"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.project"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.run"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.registry"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.comparison"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.syntactic.comparison"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.validation"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.syntactic.validation"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
 </feature>

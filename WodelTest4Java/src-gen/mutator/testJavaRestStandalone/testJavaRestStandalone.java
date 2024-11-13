@@ -76,8 +76,8 @@ public class testJavaRestStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new RandomStringNumberConfigurationStrategy(0, 9, false);
 					atts.add(attConfig);
 					attsList.put("tokenValue", atts);

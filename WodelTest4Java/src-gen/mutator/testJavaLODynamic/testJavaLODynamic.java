@@ -108,8 +108,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("&");
 					atts.add(attConfig);
 					attsList.put("operator", atts);
@@ -350,8 +350,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("|");
 					atts.add(attConfig);
 					attsList.put("operator", atts);
@@ -592,8 +592,8 @@ public class testJavaLODynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("^");
 					atts.add(attConfig);
 					attsList.put("operator", atts);

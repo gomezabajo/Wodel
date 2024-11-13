@@ -18,8 +18,6 @@
 
    <plugin
          id="wodel.semantic.comparison.dfa"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
 </feature>

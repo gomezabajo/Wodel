@@ -107,7 +107,7 @@ public class CreateFeatureProjectOperation extends AbstractCreateFeatureProjectO
 			FeaturePlugin fplugin = (FeaturePlugin) model.getFactory().createPlugin();
 			fplugin.loadFrom(plugin);
 			fplugin.setVersion(ICoreConstants.DEFAULT_VERSION);
-			fplugin.setUnpack(CoreUtility.guessUnpack(plugin.getPluginModel().getBundleDescription()));
+			//fplugin.setUnpack(CoreUtility.guessUnpack(plugin.getPluginModel().getBundleDescription()));
 			addedPlugins[i] = fplugin;
 		}
 		feature.addPlugins(addedPlugins);

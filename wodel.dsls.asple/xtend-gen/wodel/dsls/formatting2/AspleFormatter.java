@@ -15,6 +15,7 @@ import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 import wodel.dsls.services.ASPLEGrammarAccess;
 
 @SuppressWarnings("all")
@@ -41,6 +42,7 @@ public class ASPLEFormatter extends AbstractFormatter2 {
     }
   }
 
+  @XbaseGenerated
   public void format(final Object declaration, final IFormattableDocument document) {
     if (declaration instanceof XtextResource) {
       _format((XtextResource)declaration, document);

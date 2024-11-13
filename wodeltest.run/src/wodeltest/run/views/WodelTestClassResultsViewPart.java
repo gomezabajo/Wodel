@@ -328,6 +328,9 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 	        filterCombo.add("All");
 	        filterCombo.add("Failed");
 	        filterCombo.add("Passed");
+	        if (filterIndex.get(testSuiteName) == null) {
+	        	filterIndex.put(testSuiteName, 0);
+	        }
 	        if (withErrors.get(testSuiteName) == true) {
 	        	filterCombo.add("Error");
 	        }

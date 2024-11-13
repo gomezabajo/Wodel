@@ -265,6 +265,9 @@ public class WodelTestResultsTestViewPart extends ViewPart implements IPartListe
 	        if (withErrors.get(testSuiteName) == true) {
 	        	filterCombo.add("Error");
 	        }
+	        if (filterIndex.get(testSuiteName) == null) {
+	        	filterIndex.put(testSuiteName, 0);
+	        }
 			filterCombo.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {

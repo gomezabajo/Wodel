@@ -20,6 +20,7 @@ import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 import wodel.dsls.services.WodelGrammarAccess;
 
 @SuppressWarnings("all")
@@ -56,6 +57,7 @@ public class WodelFormatter extends AbstractFormatter2 {
     }
   }
 
+  @XbaseGenerated
   public void format(final Object program, final IFormattableDocument document) {
     if (program instanceof XtextResource) {
       _format((XtextResource)program, document);

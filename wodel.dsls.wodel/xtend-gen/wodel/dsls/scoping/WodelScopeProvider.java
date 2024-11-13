@@ -1,10 +1,10 @@
 package wodel.dsls.scoping;
 
-import com.google.common.base.Objects;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
@@ -72,13 +72,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.ProjectUtils;
 
 @SuppressWarnings("all")
-public class WodelScopeProvider extends AbstractWodelScopeProvider {
+public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   /**
    * ObjectEmitter.type can contain any EClass from the input meta-model.
    * Except the RetypeObjectMutator that can contain any compatible EClass.
@@ -450,12 +451,12 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             metamodel = this.getMetamodel(definition, com.getType().getName());
           }
           ObSelectionStrategy _source = mutator.getSource();
-          boolean _equals = Objects.equal(_source, com);
+          boolean _equals = Objects.equals(_source, com);
           if (_equals) {
             scope.addAll(this.getESources(definition, mutator.getRefType().getName()));
           } else {
             ObSelectionStrategy _newTarget = mutator.getNewTarget();
-            boolean _equals_1 = Objects.equal(_newTarget, com);
+            boolean _equals_1 = Objects.equals(_newTarget, com);
             if (_equals_1) {
               scope.addAll(this.getETargets(definition, mutator.getRefType().getName()));
             }
@@ -471,12 +472,12 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
               metamodel = this.getMetamodel(definition, com.getType().getName());
             }
             ObSelectionStrategy _source_1 = mutator_1.getSource();
-            boolean _equals_2 = Objects.equal(_source_1, com);
+            boolean _equals_2 = Objects.equals(_source_1, com);
             if (_equals_2) {
               scope.addAll(this.getESources(definition, mutator_1.getRefType().getName()));
             } else {
               ObSelectionStrategy _target = mutator_1.getTarget();
-              boolean _equals_3 = Objects.equal(_target, com);
+              boolean _equals_3 = Objects.equals(_target, com);
               if (_equals_3) {
                 scope.addAll(this.getETargets(definition, mutator_1.getRefType().getName()));
               }
@@ -520,7 +521,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final List<Mutator> commands = this.getCommands(mutator);
           IScope _xifexpression_1 = null;
           ObSelectionStrategy _source = mutator.getSource();
-          boolean _equals = Objects.equal(_source, com);
+          boolean _equals = Objects.equals(_source, com);
           if (_equals) {
             IScope _xblockexpression_2 = null;
             {
@@ -542,7 +543,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           } else {
             IScope _xifexpression_2 = null;
             ObSelectionStrategy _newTarget = mutator.getNewTarget();
-            boolean _equals_1 = Objects.equal(_newTarget, com);
+            boolean _equals_1 = Objects.equals(_newTarget, com);
             if (_equals_1) {
               IScope _xblockexpression_3 = null;
               {
@@ -578,7 +579,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             final List<Mutator> commands = this.getCommands(mutator);
             IScope _xifexpression_2 = null;
             ObSelectionStrategy _source = mutator.getSource();
-            boolean _equals = Objects.equal(_source, com);
+            boolean _equals = Objects.equals(_source, com);
             if (_equals) {
               IScope _xblockexpression_3 = null;
               {
@@ -600,7 +601,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             } else {
               IScope _xifexpression_3 = null;
               ObSelectionStrategy _target = mutator.getTarget();
-              boolean _equals_1 = Objects.equal(_target, com);
+              boolean _equals_1 = Objects.equals(_target, com);
               if (_equals_1) {
                 IScope _xblockexpression_4 = null;
                 {
@@ -652,7 +653,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           final List<Mutator> commands = this.getCommands(mutator);
           IScope _xifexpression_1 = null;
           ObSelectionStrategy _source = mutator.getSource();
-          boolean _equals = Objects.equal(_source, com);
+          boolean _equals = Objects.equals(_source, com);
           if (_equals) {
             IScope _xblockexpression_2 = null;
             {
@@ -674,7 +675,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
           } else {
             IScope _xifexpression_2 = null;
             ObSelectionStrategy _newTarget = mutator.getNewTarget();
-            boolean _equals_1 = Objects.equal(_newTarget, com);
+            boolean _equals_1 = Objects.equals(_newTarget, com);
             if (_equals_1) {
               IScope _xblockexpression_3 = null;
               {
@@ -710,7 +711,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             final List<Mutator> commands = this.getCommands(mutator);
             IScope _xifexpression_2 = null;
             ObSelectionStrategy _source = mutator.getSource();
-            boolean _equals = Objects.equal(_source, com);
+            boolean _equals = Objects.equals(_source, com);
             if (_equals) {
               IScope _xblockexpression_3 = null;
               {
@@ -732,7 +733,7 @@ public class WodelScopeProvider extends AbstractWodelScopeProvider {
             } else {
               IScope _xifexpression_3 = null;
               ObSelectionStrategy _target = mutator.getTarget();
-              boolean _equals_1 = Objects.equal(_target, com);
+              boolean _equals_1 = Objects.equals(_target, com);
               if (_equals_1) {
                 IScope _xblockexpression_4 = null;
                 {

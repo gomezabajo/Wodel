@@ -54,7 +54,7 @@ import wodeltest.extension.examples.builder.WodelTestNature;
 import wodeltest.extension.examples.utils.EclipseHelper;
 import wodeltest.extension.examples.utils.ProjectKind;
 import wodel.dsls.WodelUtils;
-
+import wodeltest.extension.examples.wizards.WodelTest4LCWizard;
 import wodeltest.extension.examples.wizards.generators.feature.CreateFeatureProjectOperation;
 
 import java.util.Map;
@@ -648,11 +648,14 @@ public class WodelTest4LCUpdateSiteWizard extends Wizard implements INewWizard {
 		
 		final IFolder sampleFolder = project.getFolder(new Path("sample"));
 		sampleFolder.create(true, true, monitor);
-
+		
+		final IFolder sampleDataFolder = sampleFolder.getFolder(new Path("data"));
+		sampleDataFolder.create(true, true, monitor);
+		
 		try {
 		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 		//URL fileURL = bundle.getEntry("content");
-		final File jarFile = new File(WodelTest4LCUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		final File jarFile = new File(WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		String srcName = "";
 		if (jarFile.isFile()) {
 			final JarFile jar = new JarFile(jarFile);
@@ -660,10 +663,10 @@ public class WodelTest4LCUpdateSiteWizard extends Wizard implements INewWizard {
 		    while(entries.hasMoreElements()) {
 		    	JarEntry entry = entries.nextElement();
 				if (! entry.isDirectory()) {
-					if (entry.getName().startsWith("wodeltest/sample/lc")) {
+					if (entry.getName().startsWith("wodeltest/sample/lc/data")) {
 						final String name = entry.getName();
-						final File f = sampleFolder.getRawLocation().makeAbsolute().toFile();
-						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/lc", ""));
+						final File f = sampleDataFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/lc/data", ""));
 						if (!dest.exists()) {
 							dest.getParentFile().mkdirs();
 						}
@@ -692,9 +695,9 @@ public class WodelTest4LCUpdateSiteWizard extends Wizard implements INewWizard {
 		    jar.close();
 		}
 		else {
-			srcName = WodelTest4LCUpdateSiteWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/lc";
-			final File src = new Path(srcName).toFile();
-			final File dest = sampleFolder.getRawLocation().makeAbsolute().toFile();
+			srcName = WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/lc/data";
+			File src = new Path(srcName).toFile();
+			File dest = sampleDataFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
 				IOUtils.copyFolderWithReplacements(src, dest, replacements);
 			}
@@ -702,6 +705,164 @@ public class WodelTest4LCUpdateSiteWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
+		final IFolder sampleTestFolder = sampleFolder.getFolder(new Path("test"));
+		sampleTestFolder.create(true, true, monitor);
+		
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/sample/lc/test")) {
+						final String name = entry.getName();
+						final File f = sampleTestFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/lc/test", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
+    		}
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/lc/test";
+			File src = new Path(srcName).toFile();
+			File dest = sampleTestFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolderWithReplacements(src, dest, replacements);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
+		final IFolder sampleSUTFolder = sampleFolder.getFolder(new Path("sut"));
+		sampleSUTFolder.create(true, true, monitor);
+		
+		final IFolder sampleSUTModelFolder = sampleSUTFolder.getFolder(new Path("model"));
+		sampleSUTModelFolder.create(true, true, monitor);
+		
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/sample/lc/sut/model")) {
+						final String name = entry.getName();
+						final File f = sampleSUTModelFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/lc/sut/model", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+				}
+    		}
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/lc/sut/model";
+			File src = new Path(srcName).toFile();
+			File dest = sampleSUTModelFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolderWithReplacements(src, dest, replacements);
+			}
+		}
+		} catch (IOException e) {
+		}
+
+		final IFolder sampleSUTImagesFolder = sampleSUTFolder.getFolder(new Path("images"));
+		sampleSUTImagesFolder.create(true, true, monitor);
+		
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("wodeltest/sample/lc/sut/images")) {
+						final String name = entry.getName();
+						final File f = sampleSUTModelFolder.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("wodeltest/sample/lc/sut/images", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						FileOutputStream output = new FileOutputStream(dest);
+						while (input.available() > 0) {
+							output.write(input.read());
+						}
+						output.close();
+						input.close();
+					}
+				}
+    		}
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4LCWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "wodeltest/sample/lc/sut/images";
+			File src = new Path(srcName).toFile();
+			File dest = sampleSUTImagesFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolder(src, dest);
+			}
+		}
+		} catch (IOException e) {
+		}
 		final IFolder iconsFolder = project.getFolder(new Path("icons"));
 		iconsFolder.create(true, true, monitor);
 		

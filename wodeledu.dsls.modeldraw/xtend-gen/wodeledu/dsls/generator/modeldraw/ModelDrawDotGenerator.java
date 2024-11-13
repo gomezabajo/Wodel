@@ -1,9 +1,9 @@
 package wodeledu.dsls.generator.modeldraw;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import modeldraw.Content;
 import modeldraw.Decoration;
 import modeldraw.Edge;
@@ -445,7 +445,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     }
     {
       Decoration _tar_decoration = rel.getTar_decoration();
-      boolean _notEquals = (!Objects.equal(_tar_decoration, Decoration.NONE));
+      boolean _notEquals = (!Objects.equals(_tar_decoration, Decoration.NONE));
       if (_notEquals) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
@@ -463,14 +463,14 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           Decoration _tar_decoration_1 = rel.getTar_decoration();
-          boolean _equals = Objects.equal(_tar_decoration_1, Decoration.TRIANGLE);
+          boolean _equals = Objects.equals(_tar_decoration_1, Decoration.TRIANGLE);
           if (_equals) {
             _builder.append("parameters.put(\"arrowhead\", \"empty\");");
             _builder.newLine();
           } else {
             {
               Decoration _tar_decoration_2 = rel.getTar_decoration();
-              boolean _notEquals_1 = (!Objects.equal(_tar_decoration_2, Decoration.EMPTY));
+              boolean _notEquals_1 = (!Objects.equals(_tar_decoration_2, Decoration.EMPTY));
               if (_notEquals_1) {
                 _builder.append("parameters.put(\"arrowhead\", \"");
                 Decoration _tar_decoration_3 = rel.getTar_decoration();
@@ -517,7 +517,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     }
     {
       Decoration _src_decoration = rel.getSrc_decoration();
-      boolean _notEquals_2 = (!Objects.equal(_src_decoration, Decoration.NONE));
+      boolean _notEquals_2 = (!Objects.equals(_src_decoration, Decoration.NONE));
       if (_notEquals_2) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
@@ -535,14 +535,14 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           Decoration _src_decoration_1 = rel.getSrc_decoration();
-          boolean _equals_1 = Objects.equal(_src_decoration_1, Decoration.TRIANGLE);
+          boolean _equals_1 = Objects.equals(_src_decoration_1, Decoration.TRIANGLE);
           if (_equals_1) {
             _builder.append("parameters.put(\"arrowtail\", \"empty\");");
             _builder.newLine();
           } else {
             {
               Decoration _src_decoration_2 = rel.getSrc_decoration();
-              boolean _notEquals_3 = (!Objects.equal(_src_decoration_2, Decoration.EMPTY));
+              boolean _notEquals_3 = (!Objects.equals(_src_decoration_2, Decoration.EMPTY));
               if (_notEquals_3) {
                 _builder.append("parameters.put(\"arrowtail\", \"");
                 Decoration _src_decoration_3 = rel.getSrc_decoration();
@@ -842,7 +842,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         _builder.newLine();
                         {
                           NodeType _type = node.getType();
-                          boolean _equals_1 = Objects.equal(_type, NodeType.MARKEDNODE);
+                          boolean _equals_1 = Objects.equals(_type, NodeType.MARKEDNODE);
                           if (_equals_1) {
                             _builder.append("\t");
                             _builder.append("style = new LabelStyle();");
@@ -883,7 +883,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             _builder.append("style.border = \"0\";");
                             _builder.newLine();
                             {
-                              if (((!Objects.equal(node.getShape(), NodeShape.LOAD)) && (!Objects.equal(node.getShape(), NodeShape.LOGIC)))) {
+                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                 _builder.append("\t");
                                 _builder.append("style.shape = \"shape = ");
                                 NodeShape _shape = node.getShape();
@@ -894,7 +894,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             }
                             {
                               NodeShape _shape_1 = node.getShape();
-                              boolean _equals_2 = Objects.equal(_shape_1, NodeShape.LOGIC);
+                              boolean _equals_2 = Objects.equals(_shape_1, NodeShape.LOGIC);
                               if (_equals_2) {
                                 _builder.append("\t");
                                 _builder.append("style.path = \"C:/eclipse/workspace/wodel.wodeledu/content/images/logic_\" + typeName.toLowerCase() + \".png\";");
@@ -903,7 +903,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             }
                             {
                               NodeShape _shape_2 = node.getShape();
-                              boolean _equals_3 = Objects.equal(_shape_2, NodeShape.LOAD);
+                              boolean _equals_3 = Objects.equals(_shape_2, NodeShape.LOAD);
                               if (_equals_3) {
                                 _builder.append("\t");
                                 _builder.append("style.path = \"");
@@ -926,7 +926,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         }
                         {
                           NodeType _type_1 = node.getType();
-                          boolean _equals_4 = Objects.equal(_type_1, NodeType.NODE);
+                          boolean _equals_4 = Objects.equals(_type_1, NodeType.NODE);
                           if (_equals_4) {
                             _builder.append("\t");
                             _builder.append("if (dotnodes.containsKey(node) == false) {");
@@ -955,7 +955,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             _builder.append("style.border = \"0\";");
                             _builder.newLine();
                             {
-                              if (((!Objects.equal(node.getShape(), NodeShape.LOAD)) && (!Objects.equal(node.getShape(), NodeShape.LOGIC)))) {
+                              if (((!Objects.equals(node.getShape(), NodeShape.LOAD)) && (!Objects.equals(node.getShape(), NodeShape.LOGIC)))) {
                                 _builder.append("\t");
                                 _builder.append("style.shape = \"shape = ");
                                 NodeShape _shape_3 = node.getShape();
@@ -966,7 +966,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             }
                             {
                               NodeShape _shape_4 = node.getShape();
-                              boolean _equals_5 = Objects.equal(_shape_4, NodeShape.LOGIC);
+                              boolean _equals_5 = Objects.equals(_shape_4, NodeShape.LOGIC);
                               if (_equals_5) {
                                 _builder.append("\t");
                                 _builder.append("style.path = \"C:/eclipse/workspace/wodel.wodeledu/content/images/logic_\" + typeName.toLowerCase() + \".png\";");
@@ -975,7 +975,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             }
                             {
                               NodeShape _shape_5 = node.getShape();
-                              boolean _equals_6 = Objects.equal(_shape_5, NodeShape.LOAD);
+                              boolean _equals_6 = Objects.equals(_shape_5, NodeShape.LOAD);
                               if (_equals_6) {
                                 _builder.append("\t");
                                 _builder.append("style.path = \"");
@@ -992,7 +992,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                         }
                         {
                           NodeShape _shape_6 = node.getShape();
-                          boolean _equals_7 = Objects.equal(_shape_6, NodeShape.RECORD);
+                          boolean _equals_7 = Objects.equals(_shape_6, NodeShape.RECORD);
                           if (_equals_7) {
                             _builder.append("\t");
                             _builder.append("if (dotnodes.containsKey(node) == false) {");
@@ -1019,7 +1019,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             _builder.newLine();
                             {
                               NodeStyle _style = node.getStyle();
-                              boolean _equals_8 = Objects.equal(_style, NodeStyle.ITALIC);
+                              boolean _equals_8 = Objects.equals(_style, NodeStyle.ITALIC);
                               if (_equals_8) {
                                 _builder.append("\t");
                                 _builder.append("style.style = \"I\";");
@@ -1028,7 +1028,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                             }
                             {
                               NodeStyle _style_1 = node.getStyle();
-                              boolean _equals_9 = Objects.equal(_style_1, NodeStyle.UNDERLINE);
+                              boolean _equals_9 = Objects.equals(_style_1, NodeStyle.UNDERLINE);
                               if (_equals_9) {
                                 _builder.append("\t");
                                 _builder.append("style.style = \"U\";");
@@ -1101,7 +1101,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     _builder.newLine();
                                     {
                                       NodeType _type_2 = node.getType();
-                                      boolean _equals_11 = Objects.equal(_type_2, NodeType.MARKEDNODE);
+                                      boolean _equals_11 = Objects.equals(_type_2, NodeType.MARKEDNODE);
                                       if (_equals_11) {
                                         _builder.append("\t");
                                         _builder.append("\t\t");
@@ -1155,7 +1155,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeShape _shape_7 = node.getShape();
-                                          boolean _notEquals = (!Objects.equal(_shape_7, NodeShape.LOAD));
+                                          boolean _notEquals = (!Objects.equals(_shape_7, NodeShape.LOAD));
                                           if (_notEquals) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1168,7 +1168,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_9 = node.getShape();
-                                          boolean _equals_12 = Objects.equal(_shape_9, NodeShape.LOAD);
+                                          boolean _equals_12 = Objects.equals(_shape_9, NodeShape.LOAD);
                                           if (_equals_12) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1195,7 +1195,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     }
                                     {
                                       NodeType _type_3 = node.getType();
-                                      boolean _equals_13 = Objects.equal(_type_3, NodeType.NODE);
+                                      boolean _equals_13 = Objects.equals(_type_3, NodeType.NODE);
                                       if (_equals_13) {
                                         _builder.append("\t");
                                         _builder.append("\t\t");
@@ -1233,7 +1233,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeShape _shape_10 = node.getShape();
-                                          boolean _notEquals_1 = (!Objects.equal(_shape_10, NodeShape.LOAD));
+                                          boolean _notEquals_1 = (!Objects.equals(_shape_10, NodeShape.LOAD));
                                           if (_notEquals_1) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1246,7 +1246,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_12 = node.getShape();
-                                          boolean _equals_14 = Objects.equal(_shape_12, NodeShape.LOAD);
+                                          boolean _equals_14 = Objects.equals(_shape_12, NodeShape.LOAD);
                                           if (_equals_14) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1265,7 +1265,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                     }
                                     {
                                       NodeShape _shape_13 = node.getShape();
-                                      boolean _equals_15 = Objects.equal(_shape_13, NodeShape.RECORD);
+                                      boolean _equals_15 = Objects.equals(_shape_13, NodeShape.RECORD);
                                       if (_equals_15) {
                                         _builder.append("\t");
                                         _builder.append("\t\t");
@@ -1299,7 +1299,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeStyle _style_2 = node.getStyle();
-                                          boolean _equals_16 = Objects.equal(_style_2, NodeStyle.ITALIC);
+                                          boolean _equals_16 = Objects.equals(_style_2, NodeStyle.ITALIC);
                                           if (_equals_16) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1309,7 +1309,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeStyle _style_3 = node.getStyle();
-                                          boolean _equals_17 = Objects.equal(_style_3, NodeStyle.UNDERLINE);
+                                          boolean _equals_17 = Objects.equals(_style_3, NodeStyle.UNDERLINE);
                                           if (_equals_17) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1374,7 +1374,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_4 = node.getType();
-                                          boolean _equals_18 = Objects.equal(_type_4, NodeType.MARKEDNODE);
+                                          boolean _equals_18 = Objects.equals(_type_4, NodeType.MARKEDNODE);
                                           if (_equals_18) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1428,7 +1428,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_14 = node.getShape();
-                                              boolean _notEquals_2 = (!Objects.equal(_shape_14, NodeShape.LOAD));
+                                              boolean _notEquals_2 = (!Objects.equals(_shape_14, NodeShape.LOAD));
                                               if (_notEquals_2) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1441,7 +1441,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_16 = node.getShape();
-                                              boolean _equals_19 = Objects.equal(_shape_16, NodeShape.LOAD);
+                                              boolean _equals_19 = Objects.equals(_shape_16, NodeShape.LOAD);
                                               if (_equals_19) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1468,7 +1468,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_5 = node.getType();
-                                          boolean _equals_20 = Objects.equal(_type_5, NodeType.NODE);
+                                          boolean _equals_20 = Objects.equals(_type_5, NodeType.NODE);
                                           if (_equals_20) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1506,7 +1506,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_17 = node.getShape();
-                                              boolean _notEquals_3 = (!Objects.equal(_shape_17, NodeShape.LOAD));
+                                              boolean _notEquals_3 = (!Objects.equals(_shape_17, NodeShape.LOAD));
                                               if (_notEquals_3) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1519,7 +1519,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_19 = node.getShape();
-                                              boolean _equals_21 = Objects.equal(_shape_19, NodeShape.LOAD);
+                                              boolean _equals_21 = Objects.equals(_shape_19, NodeShape.LOAD);
                                               if (_equals_21) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1538,7 +1538,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_20 = node.getShape();
-                                          boolean _equals_22 = Objects.equal(_shape_20, NodeShape.RECORD);
+                                          boolean _equals_22 = Objects.equals(_shape_20, NodeShape.RECORD);
                                           if (_equals_22) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1572,7 +1572,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_4 = node.getStyle();
-                                              boolean _equals_23 = Objects.equal(_style_4, NodeStyle.ITALIC);
+                                              boolean _equals_23 = Objects.equals(_style_4, NodeStyle.ITALIC);
                                               if (_equals_23) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1582,7 +1582,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_5 = node.getStyle();
-                                              boolean _equals_24 = Objects.equal(_style_5, NodeStyle.UNDERLINE);
+                                              boolean _equals_24 = Objects.equals(_style_5, NodeStyle.UNDERLINE);
                                               if (_equals_24) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1668,7 +1668,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_6 = node.getType();
-                                          boolean _equals_26 = Objects.equal(_type_6, NodeType.MARKEDNODE);
+                                          boolean _equals_26 = Objects.equals(_type_6, NodeType.MARKEDNODE);
                                           if (_equals_26) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1722,7 +1722,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_21 = node.getShape();
-                                              boolean _notEquals_4 = (!Objects.equal(_shape_21, NodeShape.LOAD));
+                                              boolean _notEquals_4 = (!Objects.equals(_shape_21, NodeShape.LOAD));
                                               if (_notEquals_4) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1735,7 +1735,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_23 = node.getShape();
-                                              boolean _equals_27 = Objects.equal(_shape_23, NodeShape.LOAD);
+                                              boolean _equals_27 = Objects.equals(_shape_23, NodeShape.LOAD);
                                               if (_equals_27) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1762,7 +1762,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_7 = node.getType();
-                                          boolean _equals_28 = Objects.equal(_type_7, NodeType.NODE);
+                                          boolean _equals_28 = Objects.equals(_type_7, NodeType.NODE);
                                           if (_equals_28) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1800,7 +1800,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_24 = node.getShape();
-                                              boolean _notEquals_5 = (!Objects.equal(_shape_24, NodeShape.LOAD));
+                                              boolean _notEquals_5 = (!Objects.equals(_shape_24, NodeShape.LOAD));
                                               if (_notEquals_5) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1813,7 +1813,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_26 = node.getShape();
-                                              boolean _equals_29 = Objects.equal(_shape_26, NodeShape.LOAD);
+                                              boolean _equals_29 = Objects.equals(_shape_26, NodeShape.LOAD);
                                               if (_equals_29) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1832,7 +1832,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_27 = node.getShape();
-                                          boolean _equals_30 = Objects.equal(_shape_27, NodeShape.RECORD);
+                                          boolean _equals_30 = Objects.equals(_shape_27, NodeShape.RECORD);
                                           if (_equals_30) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1866,7 +1866,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_6 = node.getStyle();
-                                              boolean _equals_31 = Objects.equal(_style_6, NodeStyle.ITALIC);
+                                              boolean _equals_31 = Objects.equals(_style_6, NodeStyle.ITALIC);
                                               if (_equals_31) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1876,7 +1876,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_7 = node.getStyle();
-                                              boolean _equals_32 = Objects.equal(_style_7, NodeStyle.UNDERLINE);
+                                              boolean _equals_32 = Objects.equals(_style_7, NodeStyle.UNDERLINE);
                                               if (_equals_32) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -1936,7 +1936,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_8 = node.getType();
-                                          boolean _equals_33 = Objects.equal(_type_8, NodeType.MARKEDNODE);
+                                          boolean _equals_33 = Objects.equals(_type_8, NodeType.MARKEDNODE);
                                           if (_equals_33) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -1990,7 +1990,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_28 = node.getShape();
-                                              boolean _notEquals_6 = (!Objects.equal(_shape_28, NodeShape.LOAD));
+                                              boolean _notEquals_6 = (!Objects.equals(_shape_28, NodeShape.LOAD));
                                               if (_notEquals_6) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2003,7 +2003,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_30 = node.getShape();
-                                              boolean _equals_34 = Objects.equal(_shape_30, NodeShape.LOAD);
+                                              boolean _equals_34 = Objects.equals(_shape_30, NodeShape.LOAD);
                                               if (_equals_34) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2030,7 +2030,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_9 = node.getType();
-                                          boolean _equals_35 = Objects.equal(_type_9, NodeType.NODE);
+                                          boolean _equals_35 = Objects.equals(_type_9, NodeType.NODE);
                                           if (_equals_35) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2068,7 +2068,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_31 = node.getShape();
-                                              boolean _notEquals_7 = (!Objects.equal(_shape_31, NodeShape.LOAD));
+                                              boolean _notEquals_7 = (!Objects.equals(_shape_31, NodeShape.LOAD));
                                               if (_notEquals_7) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2081,7 +2081,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_33 = node.getShape();
-                                              boolean _equals_36 = Objects.equal(_shape_33, NodeShape.LOAD);
+                                              boolean _equals_36 = Objects.equals(_shape_33, NodeShape.LOAD);
                                               if (_equals_36) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2100,7 +2100,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_34 = node.getShape();
-                                          boolean _equals_37 = Objects.equal(_shape_34, NodeShape.RECORD);
+                                          boolean _equals_37 = Objects.equals(_shape_34, NodeShape.RECORD);
                                           if (_equals_37) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2134,7 +2134,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_8 = node.getStyle();
-                                              boolean _equals_38 = Objects.equal(_style_8, NodeStyle.ITALIC);
+                                              boolean _equals_38 = Objects.equals(_style_8, NodeStyle.ITALIC);
                                               if (_equals_38) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2144,7 +2144,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_9 = node.getStyle();
-                                              boolean _equals_39 = Objects.equal(_style_9, NodeStyle.UNDERLINE);
+                                              boolean _equals_39 = Objects.equals(_style_9, NodeStyle.UNDERLINE);
                                               if (_equals_39) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2245,7 +2245,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_10 = node.getType();
-                                          boolean _equals_41 = Objects.equal(_type_10, NodeType.MARKEDNODE);
+                                          boolean _equals_41 = Objects.equals(_type_10, NodeType.MARKEDNODE);
                                           if (_equals_41) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2299,7 +2299,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_35 = node.getShape();
-                                              boolean _notEquals_8 = (!Objects.equal(_shape_35, NodeShape.LOAD));
+                                              boolean _notEquals_8 = (!Objects.equals(_shape_35, NodeShape.LOAD));
                                               if (_notEquals_8) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2312,7 +2312,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_37 = node.getShape();
-                                              boolean _equals_42 = Objects.equal(_shape_37, NodeShape.LOAD);
+                                              boolean _equals_42 = Objects.equals(_shape_37, NodeShape.LOAD);
                                               if (_equals_42) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2339,7 +2339,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_11 = node.getType();
-                                          boolean _equals_43 = Objects.equal(_type_11, NodeType.NODE);
+                                          boolean _equals_43 = Objects.equals(_type_11, NodeType.NODE);
                                           if (_equals_43) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2377,7 +2377,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_38 = node.getShape();
-                                              boolean _notEquals_9 = (!Objects.equal(_shape_38, NodeShape.LOAD));
+                                              boolean _notEquals_9 = (!Objects.equals(_shape_38, NodeShape.LOAD));
                                               if (_notEquals_9) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2390,7 +2390,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_40 = node.getShape();
-                                              boolean _equals_44 = Objects.equal(_shape_40, NodeShape.LOAD);
+                                              boolean _equals_44 = Objects.equals(_shape_40, NodeShape.LOAD);
                                               if (_equals_44) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2409,7 +2409,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_41 = node.getShape();
-                                          boolean _equals_45 = Objects.equal(_shape_41, NodeShape.RECORD);
+                                          boolean _equals_45 = Objects.equals(_shape_41, NodeShape.RECORD);
                                           if (_equals_45) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2443,7 +2443,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_10 = node.getStyle();
-                                              boolean _equals_46 = Objects.equal(_style_10, NodeStyle.ITALIC);
+                                              boolean _equals_46 = Objects.equals(_style_10, NodeStyle.ITALIC);
                                               if (_equals_46) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2453,7 +2453,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_11 = node.getStyle();
-                                              boolean _equals_47 = Objects.equal(_style_11, NodeStyle.UNDERLINE);
+                                              boolean _equals_47 = Objects.equals(_style_11, NodeStyle.UNDERLINE);
                                               if (_equals_47) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2513,7 +2513,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         _builder.newLine();
                                         {
                                           NodeType _type_12 = node.getType();
-                                          boolean _equals_48 = Objects.equal(_type_12, NodeType.MARKEDNODE);
+                                          boolean _equals_48 = Objects.equals(_type_12, NodeType.MARKEDNODE);
                                           if (_equals_48) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2567,7 +2567,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_42 = node.getShape();
-                                              boolean _notEquals_10 = (!Objects.equal(_shape_42, NodeShape.LOAD));
+                                              boolean _notEquals_10 = (!Objects.equals(_shape_42, NodeShape.LOAD));
                                               if (_notEquals_10) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2580,7 +2580,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_44 = node.getShape();
-                                              boolean _equals_49 = Objects.equal(_shape_44, NodeShape.LOAD);
+                                              boolean _equals_49 = Objects.equals(_shape_44, NodeShape.LOAD);
                                               if (_equals_49) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2607,7 +2607,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeType _type_13 = node.getType();
-                                          boolean _equals_50 = Objects.equal(_type_13, NodeType.NODE);
+                                          boolean _equals_50 = Objects.equals(_type_13, NodeType.NODE);
                                           if (_equals_50) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2645,7 +2645,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeShape _shape_45 = node.getShape();
-                                              boolean _notEquals_11 = (!Objects.equal(_shape_45, NodeShape.LOAD));
+                                              boolean _notEquals_11 = (!Objects.equals(_shape_45, NodeShape.LOAD));
                                               if (_notEquals_11) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2658,7 +2658,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeShape _shape_47 = node.getShape();
-                                              boolean _equals_51 = Objects.equal(_shape_47, NodeShape.LOAD);
+                                              boolean _equals_51 = Objects.equals(_shape_47, NodeShape.LOAD);
                                               if (_equals_51) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2677,7 +2677,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                         }
                                         {
                                           NodeShape _shape_48 = node.getShape();
-                                          boolean _equals_52 = Objects.equal(_shape_48, NodeShape.RECORD);
+                                          boolean _equals_52 = Objects.equals(_shape_48, NodeShape.RECORD);
                                           if (_equals_52) {
                                             _builder.append("\t");
                                             _builder.append("\t\t");
@@ -2711,7 +2711,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             _builder.newLine();
                                             {
                                               NodeStyle _style_12 = node.getStyle();
-                                              boolean _equals_53 = Objects.equal(_style_12, NodeStyle.ITALIC);
+                                              boolean _equals_53 = Objects.equals(_style_12, NodeStyle.ITALIC);
                                               if (_equals_53) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");
@@ -2721,7 +2721,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
                                             }
                                             {
                                               NodeStyle _style_13 = node.getStyle();
-                                              boolean _equals_54 = Objects.equal(_style_13, NodeStyle.UNDERLINE);
+                                              boolean _equals_54 = Objects.equals(_style_13, NodeStyle.UNDERLINE);
                                               if (_equals_54) {
                                                 _builder.append("\t");
                                                 _builder.append("\t\t");

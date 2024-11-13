@@ -28,7 +28,8 @@ import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.build.WorkspaceBuildModel;
 import org.eclipse.pde.internal.core.feature.WorkspaceFeatureModel;
 import org.eclipse.pde.internal.core.ifeature.*;
-import org.eclipse.pde.internal.core.natures.PDE;
+import org.eclipse.pde.internal.core.natures.FeatureProject;
+//import org.eclipse.pde.internal.core.natures.PDE;
 import org.eclipse.pde.internal.core.project.PDEProject;
 import org.eclipse.pde.internal.core.util.CoreUtility;
 import org.eclipse.pde.internal.ui.*;
@@ -138,8 +139,10 @@ public abstract class AbstractCreateFeatureProjectOperation extends WorkspaceMod
 		fProject.open(monitor);
 		IProjectDescription desc = fProject.getWorkspace().newProjectDescription(fProject.getName());
 		desc.setLocation(fLocation);
-		if (!fProject.hasNature(PDE.FEATURE_NATURE))
-			CoreUtility.addNatureToProject(fProject, PDE.FEATURE_NATURE, monitor);
+//		if (!fProject.hasNature(PDE.FEATURE_NATURE))
+		if (!fProject.hasNature(FeatureProject.NATURE))
+			//CoreUtility.addNatureToProject(fProject, PDE.FEATURE_NATURE, monitor);
+			CoreUtility.addNatureToProject(fProject, FeatureProject.NATURE, monitor);
 		if (!fProject.hasNature(JavaCore.NATURE_ID))
 			CoreUtility.addNatureToProject(fProject, JavaCore.NATURE_ID, monitor);
 		

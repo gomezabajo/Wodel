@@ -1,11 +1,11 @@
 package wodel.dsls.generator;
 
-import com.google.common.base.Objects;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import mutatorenvironment.ArithmeticOperator;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
@@ -1684,7 +1684,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator = attributeOperation.getOperator();
-                  boolean _equals = Objects.equal(_operator, ArithmeticOperator.ADD);
+                  boolean _equals = Objects.equals(_operator, ArithmeticOperator.ADD);
                   if (_equals) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -1713,7 +1713,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_1 = attributeOperation.getOperator();
-                  boolean _equals_1 = Objects.equal(_operator_1, ArithmeticOperator.SUBTRACT);
+                  boolean _equals_1 = Objects.equals(_operator_1, ArithmeticOperator.SUBTRACT);
                   if (_equals_1) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -1742,7 +1742,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_2 = attributeOperation.getOperator();
-                  boolean _equals_2 = Objects.equal(_operator_2, ArithmeticOperator.MULTIPLY);
+                  boolean _equals_2 = Objects.equals(_operator_2, ArithmeticOperator.MULTIPLY);
                   if (_equals_2) {
                     _builder.append("\t   \t\t\t\t");
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
@@ -1773,7 +1773,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_3 = attributeOperation.getOperator();
-                  boolean _equals_3 = Objects.equal(_operator_3, ArithmeticOperator.DIVIDE);
+                  boolean _equals_3 = Objects.equals(_operator_3, ArithmeticOperator.DIVIDE);
                   if (_equals_3) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -1803,7 +1803,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_4 = attributeOperation.getOperator();
-                  boolean _equals_4 = Objects.equal(_operator_4, ArithmeticOperator.MODULE);
+                  boolean _equals_4 = Objects.equals(_operator_4, ArithmeticOperator.MODULE);
                   if (_equals_4) {
                     _builder.append("\t   \t\t\t\t");
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
@@ -4174,7 +4174,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator = attributeOperation.getOperator();
-                  boolean _equals = Objects.equal(_operator, ArithmeticOperator.ADD);
+                  boolean _equals = Objects.equals(_operator, ArithmeticOperator.ADD);
                   if (_equals) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -4203,7 +4203,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_1 = attributeOperation.getOperator();
-                  boolean _equals_1 = Objects.equal(_operator_1, ArithmeticOperator.SUBTRACT);
+                  boolean _equals_1 = Objects.equals(_operator_1, ArithmeticOperator.SUBTRACT);
                   if (_equals_1) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -4232,7 +4232,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_2 = attributeOperation.getOperator();
-                  boolean _equals_2 = Objects.equal(_operator_2, ArithmeticOperator.MULTIPLY);
+                  boolean _equals_2 = Objects.equals(_operator_2, ArithmeticOperator.MULTIPLY);
                   if (_equals_2) {
                     _builder.append("\t   \t\t\t\t");
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
@@ -4263,7 +4263,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_3 = attributeOperation.getOperator();
-                  boolean _equals_3 = Objects.equal(_operator_3, ArithmeticOperator.DIVIDE);
+                  boolean _equals_3 = Objects.equals(_operator_3, ArithmeticOperator.DIVIDE);
                   if (_equals_3) {
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
                     _builder.newLine();
@@ -4293,7 +4293,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
                 {
                   ArithmeticOperator _operator_4 = attributeOperation.getOperator();
-                  boolean _equals_4 = Objects.equal(_operator_4, ArithmeticOperator.MODULE);
+                  boolean _equals_4 = Objects.equals(_operator_4, ArithmeticOperator.MODULE);
                   if (_equals_4) {
                     _builder.append("\t   \t\t\t\t");
                     _builder.append("List<AttributeConfigurationStrategy> atts = null;");
@@ -13596,7 +13596,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           SampleClause _clause = mut.getClause();
-          boolean _equals = Objects.equal(_clause, SampleClause.EQUALS);
+          boolean _equals = Objects.equals(_clause, SampleClause.EQUALS);
           if (_equals) {
             _builder.append("boolean equals = true;");
             _builder.newLine();
@@ -13604,7 +13604,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         }
         {
           SampleClause _clause_1 = mut.getClause();
-          boolean _equals_1 = Objects.equal(_clause_1, SampleClause.DISTINCT);
+          boolean _equals_1 = Objects.equals(_clause_1, SampleClause.DISTINCT);
           if (_equals_1) {
             _builder.append("boolean equals = false;");
             _builder.newLine();
@@ -14342,7 +14342,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             {
               SampleClause _clause_2 = mut.getClause();
-              boolean _equals_3 = Objects.equal(_clause_2, SampleClause.EQUALS);
+              boolean _equals_3 = Objects.equals(_clause_2, SampleClause.EQUALS);
               if (_equals_3) {
                 _builder.append("boolean equals = true;");
                 _builder.newLine();
@@ -14350,7 +14350,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             }
             {
               SampleClause _clause_3 = mut.getClause();
-              boolean _equals_4 = Objects.equal(_clause_3, SampleClause.DISTINCT);
+              boolean _equals_4 = Objects.equals(_clause_3, SampleClause.DISTINCT);
               if (_equals_4) {
                 _builder.append("boolean equals = false;");
                 _builder.newLine();
@@ -26550,14 +26550,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           Repeat _repeat = b.getRepeat();
-          boolean _equals = Objects.equal(_repeat, Repeat.YES);
+          boolean _equals = Objects.equals(_repeat, Repeat.YES);
           if (_equals) {
             _builder.append("\t");
             _builder.append("hashsetMutantsBlock = new LinkedHashSet<String>();");
             _builder.newLine();
           } else {
             Repeat _repeat_1 = b.getRepeat();
-            boolean _equals_1 = Objects.equal(_repeat_1, Repeat.NO);
+            boolean _equals_1 = Objects.equals(_repeat_1, Repeat.NO);
             if (_equals_1) {
               _builder.append("\t");
               _builder.append("if (seedModelFilename != null) {");
@@ -31615,7 +31615,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     }
     {
       Repeat _repeat = b.getRepeat();
-      boolean _equals_2 = Objects.equal(_repeat, Repeat.YES);
+      boolean _equals_2 = Objects.equals(_repeat, Repeat.YES);
       if (_equals_2) {
         _builder.append("   \t\t");
         _builder.append("hashmapMutants.put(modelFilename, hashsetMutantsBlock);");

@@ -117,11 +117,11 @@ public class WodelTest implements IWodelTest {
 					}
 					String input = data[0];
 					String result = data[1];
-					String type = result.equals("yes") ? "accept" : "reject";
+					String type = result.equals("1") ? "accept" : "reject";
 					subMonitor.subTask("Processing test case '" + testFile.getName() + "/" + input + "/" + type + "' for " + mutantName + "' (" + j + "/" + testCasesByTestSuite.get(k - 1) + ")");
 					boolean accepted = LCUtils.process(input, "1");
 					boolean value = false;
-					if (!((accepted == true && result.equals("yes")) || (accepted == false && result.equals("no")))) {
+					if (!((accepted == true && result.equals("1")) || (accepted == false && result.equals("0")))) {
 						value = true;
 						testValue = false;
 					}

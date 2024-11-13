@@ -14,6 +14,7 @@ import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 import wodeledu.dsls.services.MutaTextGrammarAccess;
 
 @SuppressWarnings("all")
@@ -34,6 +35,7 @@ public class MutaTextFormatter extends AbstractFormatter2 {
     document.<Text>format(option.getInvalid());
   }
 
+  @XbaseGenerated
   public void format(final Object configuration, final IFormattableDocument document) {
     if (configuration instanceof XtextResource) {
       _format((XtextResource)configuration, document);

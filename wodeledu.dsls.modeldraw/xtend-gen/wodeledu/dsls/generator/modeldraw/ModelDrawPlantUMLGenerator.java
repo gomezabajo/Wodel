@@ -1,9 +1,9 @@
 package wodeledu.dsls.generator.modeldraw;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import modeldraw.Edge;
 import modeldraw.MutatorDraw;
 import modeldraw.MutatorInstance;
@@ -689,7 +689,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                                 _builder.newLine();
                                 {
                                   NodeStyle _style = node.getStyle();
-                                  boolean _equals_3 = Objects.equal(_style, NodeStyle.ITALIC);
+                                  boolean _equals_3 = Objects.equals(_style, NodeStyle.ITALIC);
                                   if (_equals_3) {
                                     _builder.append("\t");
                                     _builder.append("\t");

@@ -3,7 +3,6 @@
  */
 package wodeledu.dsls.generator.edutest;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import edutest.AlternativeResponse;
 import edutest.Mode;
@@ -22,6 +21,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -381,14 +381,14 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
             }
             {
               Order _order = ((MultiChoiceEmendation)exercise_1).getConfig().getOrder();
-              boolean _equals = Objects.equal(_order, Order.FIXED);
+              boolean _equals = Objects.equals(_order, Order.FIXED);
               if (_equals) {
                 _builder.newLine();
               }
             }
             {
               Order _order_1 = ((MultiChoiceEmendation)exercise_1).getConfig().getOrder();
-              boolean _equals_1 = Objects.equal(_order_1, Order.RANDOM);
+              boolean _equals_1 = Objects.equals(_order_1, Order.RANDOM);
               if (_equals_1) {
                 _builder.append("//");
                 Collections.shuffle(ltests);
@@ -397,7 +397,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
             }
             {
               Order _order_2 = ((MultiChoiceEmendation)exercise_1).getConfig().getOrder();
-              boolean _equals_2 = Objects.equal(_order_2, Order.ASCENDING);
+              boolean _equals_2 = Objects.equals(_order_2, Order.ASCENDING);
               if (_equals_2) {
                 _builder.append("//");
                 Collections.<Test>sort(ltests, new Comparator<Test>() {
@@ -416,7 +416,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
             }
             {
               Order _order_3 = ((MultiChoiceEmendation)exercise_1).getConfig().getOrder();
-              boolean _equals_3 = Objects.equal(_order_3, Order.DESCENDING);
+              boolean _equals_3 = Objects.equals(_order_3, Order.DESCENDING);
               if (_equals_3) {
                 _builder.append("//");
                 Collections.<Test>sort(ltests, new Comparator<Test>() {
@@ -1372,7 +1372,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 _builder.newLine();
                 {
                   Mode _mode = ((MultiChoiceEmendation)exercise_1).getConfig().getMode();
-                  boolean _equals_7 = Objects.equal(_mode, Mode.CHECKBOX);
+                  boolean _equals_7 = Objects.equals(_mode, Mode.CHECKBOX);
                   if (_equals_7) {
                     _builder.append("var checkboxes = document.getElementsByName(\'checkbox-");
                     _builder.append(this.num);
@@ -1451,7 +1451,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                     _builder.newLine();
                   } else {
                     Mode _mode_1 = ((MultiChoiceEmendation)exercise_1).getConfig().getMode();
-                    boolean _equals_8 = Objects.equal(_mode_1, Mode.RADIOBUTTON);
+                    boolean _equals_8 = Objects.equals(_mode_1, Mode.RADIOBUTTON);
                     if (_equals_8) {
                       _builder.append("var radiobuttons = document.getElementsByName(\'radiobutton-");
                       _builder.append(this.num);
@@ -1793,7 +1793,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
           if (_tripleNotEquals_6) {
             {
               Navigation _navigation = program.getConfig().getNavigation();
-              boolean _equals_10 = Objects.equal(_navigation, Navigation.FREE);
+              boolean _equals_10 = Objects.equals(_navigation, Navigation.FREE);
               if (_equals_10) {
                 {
                   if ((part > 1)) {
@@ -2855,7 +2855,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               for(final EduTestSuperGenerator.TestOption opt_1 : _get_5) {
                 {
                   Mode _mode = sc.getConfig().getMode();
-                  boolean _equals_2 = Objects.equal(_mode, Mode.CHECKBOX);
+                  boolean _equals_2 = Objects.equals(_mode, Mode.CHECKBOX);
                   if (_equals_2) {
                     {
                       int _size = opt_1.text.size();
@@ -2895,7 +2895,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                     }
                   } else {
                     Mode _mode_1 = sc.getConfig().getMode();
-                    boolean _equals_3 = Objects.equal(_mode_1, Mode.RADIOBUTTON);
+                    boolean _equals_3 = Objects.equals(_mode_1, Mode.RADIOBUTTON);
                     if (_equals_3) {
                       _builder.append("<tr>");
                       _builder.newLine();

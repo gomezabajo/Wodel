@@ -35,6 +35,7 @@ import org.eclipse.sirius.business.api.session.DefaultLocalSessionCreationOperat
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionCreationOperation;
 import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.business.internal.session.SessionTransientAttachment;
 import org.eclipse.sirius.diagram.ArrangeConstraint;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DEdge;
@@ -1071,12 +1072,15 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		//Create Session
 			oper.execute();
 			Session createdSession = oper.getCreatedSession();
-
-		//Add Default Representation
 			//Adding the resource also to Sirius session
 			AddSemanticResourceCommand addCommandToSession = new AddSemanticResourceCommand(createdSession,anfileURI,monitor);
 			createdSession.getTransactionalEditingDomain().getCommandStack().execute(addCommandToSession);
+			EObject rootObject = createdSession.getSemanticResources().iterator().next().getContents().get(0);
+			rootObject.eAdapters().add(new SessionTransientAttachment(createdSession));
 			createdSession.save(monitor); 	
+
+		//Add Default Representation
+			
 			//END
 			//Add View
 			TransactionalEditingDomain domain = createdSession.getTransactionalEditingDomain();
@@ -1097,8 +1101,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			createdSession.save(monitor); 
 			//END		
 				
-		//Create Representation
-			EObject rootObject = createdSession.getSemanticResources().iterator().next().getContents().get(0);
+		//Initialize Representation
 			Collection<RepresentationDescription> descriptions = DialectManager.INSTANCE.getAvailableRepresentationDescriptions(createdSession.getSelectedViewpoints(false),  rootObject );
 			if(descriptions.isEmpty())
 				throw new Exception("Could not found representation description for object: " + rootObject);
@@ -1110,7 +1113,6 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 					  description, rootObject, "Default " + name + " Diagram", monitor);
 			createdSession.getTransactionalEditingDomain().getCommandStack().execute(createViewCommand);
 			
-		//Initialize Representation
 			//Get the DRepresentation
 			DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
 			List<DView> dViews = root.getOwnedViews();
@@ -1125,7 +1127,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 				return;
 			}
 			//DRepresentation dRepresentation = dView.getOwnedRepresentationDescriptors().get(0); <-- Works on Sirius 3.1.7
-			DRepresentationDescriptor dRepresentationDescriptor = dView.getOwnedRepresentationDescriptors().get(0);
+			DRepresentationDescriptor dRepresentationDescriptor = new ArrayList<DRepresentationDescriptor>(DialectManager.INSTANCE.getRepresentationDescriptors(rootObject, createdSession)).get(0);
 			DRepresentation dRepresentation = dRepresentationDescriptor.getRepresentation();
 			
 			IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(createdSession, dRepresentation, monitor);

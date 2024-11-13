@@ -402,6 +402,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 	        if (withErrors.get(testSuiteName) == true) {
 	        	filterCombo.add("Error");
 	        }
+	        if (filterIndex.get(testSuiteName) == null) {
+	        	filterIndex.put(testSuiteName, 0);
+	        }
 	        filterCombo.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {

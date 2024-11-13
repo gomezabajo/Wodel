@@ -1,8 +1,8 @@
 package wodel.dsls.validation;
 
-import com.google.common.base.Objects;
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeReverse;
 import mutatorenvironment.AttributeScalar;
@@ -162,7 +162,7 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att1 = ((AttributeSwap)attset).getAttribute().get(1);
           Class<?> _instanceClass = att0.getEType().getInstanceClass();
           Class<?> _instanceClass_1 = att1.getEType().getInstanceClass();
-          boolean _notEquals_1 = (!Objects.equal(_instanceClass, _instanceClass_1));
+          boolean _notEquals_1 = (!Objects.equals(_instanceClass, _instanceClass_1));
           if (_notEquals_1) {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_SWAP);
           }
@@ -172,7 +172,7 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att1_1 = ((AttributeCopy)attset).getAttribute().get(1);
           Class<?> _instanceClass_2 = att0_1.getEType().getInstanceClass();
           Class<?> _instanceClass_3 = att1_1.getEType().getInstanceClass();
-          boolean _notEquals_2 = (!Objects.equal(_instanceClass_2, _instanceClass_3));
+          boolean _notEquals_2 = (!Objects.equals(_instanceClass_2, _instanceClass_3));
           if (_notEquals_2) {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_COPY);
           }
@@ -240,7 +240,7 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att1 = ((AttributeSwap)attset).getAttribute().get(1);
           Class<?> _instanceClass = att0.getEType().getInstanceClass();
           Class<?> _instanceClass_1 = att1.getEType().getInstanceClass();
-          boolean _notEquals_1 = (!Objects.equal(_instanceClass, _instanceClass_1));
+          boolean _notEquals_1 = (!Objects.equals(_instanceClass, _instanceClass_1));
           if (_notEquals_1) {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_SWAP);
           }
@@ -250,7 +250,7 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att1_1 = ((AttributeCopy)attset).getAttribute().get(1);
           Class<?> _instanceClass_2 = att0_1.getEType().getInstanceClass();
           Class<?> _instanceClass_3 = att1_1.getEType().getInstanceClass();
-          boolean _notEquals_2 = (!Objects.equal(_instanceClass_2, _instanceClass_3));
+          boolean _notEquals_2 = (!Objects.equals(_instanceClass_2, _instanceClass_3));
           if (_notEquals_2) {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_COPY);
           }

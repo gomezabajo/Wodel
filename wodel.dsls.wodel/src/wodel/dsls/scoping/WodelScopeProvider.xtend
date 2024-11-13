@@ -71,8 +71,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 import java.util.Set
 import java.util.HashSet
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 
-class WodelScopeProvider extends AbstractWodelScopeProvider {
+class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	/**
 	 * ObjectEmitter.type can contain any EClass from the input meta-model.

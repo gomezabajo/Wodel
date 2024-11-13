@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="wodel.semantic.validation" default="build.jars" basedir=".">
+
+	<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo"/>
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>
+	<property name="bundleId" value="wodel.semantic.validation"/>
+	<property name="bundleVersion" value="1.0.0.202411131924"/>
+	<property name="p2.publishonerror" value="false"/>
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="logExtension" value=".log"/>
+	<property name="compilerArg" value=""/>
+	<property name="compilation.prereq.log" value="${buildDirectory}/prereqErrors.log"/>
+	<property name="javacSource" value="1.8"/>
+	<property name="javacTarget" value="1.8"/>
+	<condition property="dir_bootclasspath" value="${java.home}/../Classes">
+		<and>
+			<os family="mac"/>
+			<available file="${java.home}/../Classes" type="dir"/>
+		</and>
+	</condition>
+	<property name="dir_bootclasspath" value="${java.home}/lib"/>
+	<path id="path_bootclasspath">
+		<fileset dir="${dir_bootclasspath}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<property name="bootclasspath" refid="path_bootclasspath"/>
+	<condition property="bundleBootClasspath" value="${JavaSE-11}"	>
+		<isset property="JavaSE-11"/>
+	</condition>
+	<condition property="bundleJavacSource" value="11"	>
+		<isset property="JavaSE-11"/>
+	</condition>
+	<property name="bundleJavacSource" value="${javacSource}"/>
+	<property name="bundleJavacTarget" value="${javacTarget}"/>
+	<property name="bundleBootClasspath" value="${bootclasspath}"/>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins"		>
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/wodel.semantic.validation_1.0.0.202411131924"		>
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+		<condition property="p2.publish.parts" value="true"		>
+			<istrue value="${p2.gathering}"/>
+		</condition>
+		<property name="compilation.problem.marker" value="${build.result.folder}/compilation.problem"/>
+		<condition property="compilation.problem.marker.exists" value="true"		>
+			<and>
+			<available file="${compilation.problem.marker}"/>
+			<isfalse value="${p2.publishonerror}"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: wodel.semantic.validation for an update site.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<jar destfile="${plugin.destination}/wodel.semantic.validation_1.0.0.202411131924.jar" basedir="${temp.folder}/wodel.semantic.validation_1.0.0.202411131924" filesetmanifest="merge"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="@dot.nestedJars">
+	</target>
+	<target name="@dot" depends="init,@dot.nestedJars" unless="@dot" description="Create jar: wodel.semantic.validation @dot.">
+		<delete dir="${build.result.folder}/@dot"/>
+		<mkdir dir="${build.result.folder}/@dot"/>
+		<path id="@dot.classpath">
+			<pathelement path="../../plugins/org.eclipse.core.runtime_3.31.100.v20240524-2010.jar"/>
+			<pathelement path="../../plugins/org.eclipse.osgi_3.21.0.v20240717-2103.jar"/>
+			<pathelement path="../../plugins/org.eclipse.osgi.compatibility.state_1.2.1000.v20240213-1057.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.common_3.19.100.v20240524-2011.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.jobs_3.15.400.v20240619-0602.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.registry_3.12.100.v20240524-2011.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.preferences_3.11.100.v20240327-0645.jar"/>
+			<pathelement path="../../plugins/org.osgi.service.prefs_1.1.2.202109301733.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.contenttype_3.9.500.v20240708-0707.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.app_1.7.200.v20240722-2103.jar"/>
+			<pathelement path="../../plugins/org.osgi.service.event_1.4.1.202109301733.jar"/>
+			<pathelement path="../../plugins/org.eclipse.jface_3.35.0.v20240820-2045.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt_3.127.0.v20240903-0618.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt.win32.win32.x86_64_3.127.0.v20240903-0618.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.commands_3.12.200.v20240627-1019.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.bidi_1.5.100.v20240321-1445.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui_3.206.100.v20240720-1232.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench_3.133.0.v20240818-1923.jar"/>
+			<pathelement path="../../plugins/com.ibm.icu_67.1.0.v20200706-1749.jar"/>
+			<pathelement path="../../plugins/jakarta.annotation-api_2.1.1.jar"/>
+			<pathelement path="../../plugins/jakarta.inject.jakarta.inject-api_2.0.1.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.commands_1.1.400.v20240424-0444.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.expressions_3.9.400.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.contexts_1.12.600.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.di_1.9.500.v20240606-1236.jar"/>
+			<pathelement path="../../plugins/javax.inject_1.0.0.v20220405-0441.jar"/>
+			<pathelement path="../../plugins/javax.annotation_1.3.5.v20200909-1856.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.di.annotations_1.8.400.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.services_2.4.400.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.workbench_1.15.500.v20240730-1919.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.model.workbench_2.4.300.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore_2.37.0.v20240721-0802.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.common_2.31.0.v20240731-0952.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources_3.21.0.v20240805-1607.jar"/>
+			<pathelement path="../../plugins/com.sun.jna_5.14.0.v20231211-1200"/>
+			<pathelement path="../../plugins/org.eclipse.ant.core_3.7.400.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.variables_3.6.500.v20240702-1152.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.filesystem_1.11.0.v20240824-0952.jar"/>
+			<pathelement path="../../plugins/com.sun.jna.platform_5.14.0.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.emf.xpath_0.4.300.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.apache.commons.jxpath_1.2.0.v20080604-1500.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.services_1.6.300.v20231201-1637.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.di_1.5.400.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.di.extensions.supplier_0.17.500.v20240419-1233.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.core.di.extensions_0.18.300.v20240413-1529.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore.change_2.17.0.v20240604-0832.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.38.0.v20240721-0634.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.workbench.renderers.swt_0.16.500.v20240727-1037.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.workbench.swt_0.17.500.v20240807-0911.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.dialogs_1.5.0.v20240424-0957.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.databinding_1.13.300.v20240424-0444.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.databinding.observable_1.13.300.v20240424-0444.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.databinding.property_1.10.300.v20240424-0444.jar"/>
+			<pathelement path="../../plugins/org.eclipse.jface.databinding_1.15.300.v20240424-0444.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.css.core_0.14.500.v20240606-0949.jar"/>
+			<pathelement path="../../plugins/org.eclipse.orbit.xml-apis-ext_1.0.0.v20230923-0644.jar"/>
+			<pathelement path="../../plugins/org.apache.batik.css_1.17.0.v20231215-1130.jar"/>
+			<pathelement path="../../plugins/org.apache.xmlgraphics_2.9.0.v20230916-1600.jar"/>
+			<pathelement path="../../plugins/org.apache.commons.commons-io_2.16.1.jar"/>
+			<pathelement path="../../plugins/org.apache.commons.logging_1.2.0.v20180409-1502.jar"/>
+			<pathelement path="../../plugins/org.apache.log4j_1.2.25.jar"/>
+			<pathelement path="../../plugins/org.eclipse.xtext.logging_2.36.0.v20240825-0714.jar"/>
+			<pathelement path="../../plugins/org.eclipse.jetty.servlet-api_4.0.6.jar"/>
+			<pathelement path="../../plugins/org.apache.batik.i18n_1.17.0.v20231215-1130.jar"/>
+			<pathelement path="../../plugins/org.apache.batik.util_1.17.0.v20231215-1130.jar"/>
+			<pathelement path="../../plugins/org.apache.batik.constants_1.17.0.v20231215-1130.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.css.swt_0.15.400.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.bindings_0.14.400.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.workbench3_0.17.400.v20240321-1245.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.css.swt.theme_0.14.400.v20240424-0956.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.swt.win32_1.2.300.v20240416-0658.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.widgets_1.4.200.v20240801-0837.jar"/>
+			<pathelement path="../../plugins/org.eclipse.urischeme_1.3.400.v20240606-1412.jar"/>
+			<pathelement path="../../plugins/org.eclipse.help_3.10.400.v20240415-0528.jar"/>
+			<pathelement path="../../plugins/org.eclipse.e4.ui.workbench.addons.swt_1.5.500.v20240620-1945.jar"/>
+			<pathelement path="bin"/>
+			<pathelement path="${build.result.folder}/../wodel.semantic.validation_1.0.0.202411131924/bin"/>
+		</path>
+		<!-- compile the source code -->
+		<javac destdir="${build.result.folder}/@dot" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<compilerarg line="${compilerArg}" compiler="${build.compiler}"/>
+			<classpath refid="@dot.classpath" />
+			<src path="src/"			/>
+			<compilerarg value="@${basedir}/javaCompiler...args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"			/>
+			<compilerarg line="-log &apos;${build.result.folder}/@dot${logExtension}&apos;" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"			/>
+		</javac>
+		<antcall target="checkCompilationResults"/>
+		<!-- Copy necessary resources -->
+		<copy todir="${build.result.folder}/@dot" failonerror="true" overwrite="false">
+			<fileset dir="src/">
+				<exclude name="**/*.java"/>
+				<exclude name="**/package.htm*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="src.zip" depends="init" unless="src.zip">
+		<mkdir dir="${build.result.folder}"/>
+		<antcall target="zip.src.zip"/>
+	</target>
+	<target name="zip.src.zip">
+		<zip destfile="${build.result.folder}/src.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</zip>
+	</target>
+	<target name="copy.src.zip">
+		<copy todir="${source.destination.folder}/" failonerror="true" overwrite="true">
+			<fileset dir="src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: wodel.semantic.validation.">
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+		<available property="@dot" file="${build.result.folder}/@dot"/>
+		<antcall target="@dot"/>
+	</target>
+
+	<target name="checkCompilationResults" if="compilation.error.occured">
+		<echo file="${compilation.problem.marker}" message="wodel.semantic.validation_1.0.0.202411131924${line.separator}compilation.error.occured=${compilation.error.occured}"/>
+		<eclipse.logCompileError log="${compilation.prereq.log}" bundle="wodel.semantic.validation_1.0.0.202411131924">
+		</eclipse.logCompileError>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="src.zip" file="${build.result.folder}/src.zip"/>
+		<antcall target="src.zip"/>
+	</target>
+
+	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
+		<mkdir dir="${build.result.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="META-INF/MANIFEST.MF"/>
+				<include name="plugin.xml"/>
+				<include name="fragment.xml"/>
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${build.result.folder}" version="1.0.0.202411131924"/>
+		<antcall target="apitools.generation">
+			<param name="projectLocation" value="${basedir}"/>
+			<param name="binary.folders" value="${build.result.folder}/@dot;C:\eclipse\workspace\wodel.semantic.validation/bin"/>
+			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
+			<param name="target.folder" value="${build.result.folder}"/>
+		</antcall>
+		<eclipse.gatherBundle 
+		   metadataRepository="${p2.build.repo}"
+		   artifactRepository="${p2.build.repo}"
+		   buildResultFolder="${build.result.folder}"
+		   unpack="true"
+		   baseDirectory="${basedir}"
+		/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		<copy todir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924" failonerror="true" overwrite="false">
+			<fileset dir="${build.result.folder}/@dot">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy todir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="META-INF/"/>
+				<include name="plugin.xml"/>
+				<include name="schema/"/>
+				<include name="bin/"/>
+			</fileset>
+		</copy>
+		<eclipse.versionReplacer path="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924" version="1.0.0.202411131924"/>
+		<antcall target="apitools.generation">
+			<param name="projectLocation" value="${basedir}"/>
+			<param name="binary.folders" value="${build.result.folder}/@dot;C:\eclipse\workspace\wodel.semantic.validation/bin"/>
+			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
+			<param name="target.folder" value="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		</antcall>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924" failonerror="false" overwrite="false"/>
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		</antcall>
+	</target>
+
+	<target name="gather.individual.sources" depends="init">
+		<antcall target="copy.src.zip">
+			<param name="source.destination.folder" value="${destination.temp.folder}"/>
+		</antcall>
+		<antcall target="copy.src.includes">
+			<param name="source.destination.folder" value="${destination.temp.folder}"/>
+		</antcall>
+	</target>
+
+	<target name="copy.src.includes" depends="init">
+		<copy todir="${source.destination.folder}" failonerror="false" overwrite="false">
+			<fileset dir="${basedir}">
+				<include name="src/"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924"/>
+		<copy todir="${destination.temp.folder}/wodel.semantic.validation_1.0.0.202411131924" failonerror="false" overwrite="false">
+			<fileset dir="${build.result.folder}">
+				<include name="@dot${logExtension}"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: wodel.semantic.validation of all the zips, jars and logs created.">
+		<delete dir="${build.result.folder}/@dot"/>
+		<delete file="${build.result.folder}/src.zip"/>
+		<delete file="${plugin.destination}/wodel.semantic.validation_1.0.0.202411131924.jar"/>
+		<delete file="${plugin.destination}/wodel.semantic.validation_1.0.0.202411131924.zip"/>
+		<delete dir="${temp.folder}"/>
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="C:/eclipse/workspace/wodel.semantic.validation" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: wodel.semantic.validation.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}">
+				<include name="**/*.bin${logExtension}"/>
+			</fileset>
+		</delete>
+		<zip destfile="${plugin.destination}/wodel.semantic.validation_1.0.0.202411131924.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="apitools.generation" if="generateAPIDescription">
+		<apitooling.apigeneration  projectName="${projectName}" project="${projectLocation}" binary="${binary.folders}" target="${target.folder}" extramanifests="${extraManifests}" allownonapiproject="${allowNonApiProject}"		/>
+	</target>
+
+</project>

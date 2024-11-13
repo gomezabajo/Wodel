@@ -17,6 +17,7 @@ import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 import wodeledu.dsls.services.EduTestGrammarAccess;
 
 @SuppressWarnings("all")
@@ -41,6 +42,7 @@ public class EduTestFormatter extends AbstractFormatter2 {
     }
   }
 
+  @XbaseGenerated
   public void format(final Object alternativeResponse, final IFormattableDocument document) {
     if (alternativeResponse instanceof XtextResource) {
       _format((XtextResource)alternativeResponse, document);

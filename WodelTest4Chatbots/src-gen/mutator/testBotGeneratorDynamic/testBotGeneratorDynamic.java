@@ -7900,8 +7900,8 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificBooleanConfigurationStrategy(false);
 					atts.add(attConfig);
 					attsList.put("required", atts);
@@ -8111,15 +8111,15 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new CatStartStringConfigurationStrategy("[^", "expresion");
 					atts.add(attConfig);
 					attsList.put("expresion", atts);
 				}
 				if (obSelection != null) {
-					AttributeConfigurationStrategy attConfig = null;
 					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new CatEndStringConfigurationStrategy("]", "expresion");
 					atts.add(attConfig);
 					attsList.put("expresion", atts);

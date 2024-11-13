@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-<category-def name="Wodel-Test for custom project" label="Wodel-Test for custom project"/>
-   <feature url="features/designer.plugins_1.0.0.qualifier.jar" id="designer.plugins" version="1.0.0.qualifier">
-   <category name="Wodel-Test for custom project"/>
+   <feature url="features/designer.plugins_1.0.0.202411132003.jar" id="designer.plugins" version="1.0.0.202411132003">
+      <category name="Wodel-Test for custom project"/>
    </feature>
+   <category-def name="Wodel-Test for custom project" label="Wodel-Test for custom project"/>
 </site>

@@ -461,8 +461,8 @@ public class testATLMRStandalone extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			AttributeConfigurationStrategy attConfig = null;
 			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new RandomStringConfigurationStrategy(4, 6, false);
 			atts.add(attConfig);
 			attsList.put("name", atts);

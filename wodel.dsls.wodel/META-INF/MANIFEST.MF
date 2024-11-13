@@ -17,7 +17,7 @@ Require-Bundle: wodel.models,
  org.eclipse.core.resources,
  wodel.utils,
  wodel.models
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: wodel.dsls.parser.antlr.internal,
  wodel.dsls.formatting2,
  wodel.dsls.services,

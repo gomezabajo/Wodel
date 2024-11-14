@@ -21,7 +21,7 @@ public class designerStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication21/designer/data/model/LogicCircuit.ecore";
+		String ecoreURI = "C:/eclipse/workspace/designer/data/model/LogicCircuit.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("designer");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
@@ -40,7 +40,7 @@ public class designerStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-EclipseApplication21/designer/data/model";
+		String inputWodelFolder = "C:/eclipse/workspace/designer/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}

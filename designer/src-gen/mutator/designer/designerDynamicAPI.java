@@ -27,7 +27,7 @@ public class designerDynamicAPI extends MutatorAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: designer");
-		String ecoreURI = "C:/eclipse/runtime-EclipseApplication21/designer/data/model/LogicCircuit.ecore";
+		String ecoreURI = "C:/eclipse/workspace/designer/data/model/LogicCircuit.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());

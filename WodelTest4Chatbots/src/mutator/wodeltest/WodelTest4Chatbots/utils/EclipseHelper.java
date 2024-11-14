@@ -161,7 +161,7 @@ public class EclipseHelper {
 					 "wodeltest/lib/conga/winp-1.28.jar"
 			};
 			for (String congaLibrary : congaLibraries) {
-				classpathEntries.add(JavaCore.newLibraryEntry(new Path("/C:/eclipse/workspace/wodeltest.extension.examples/" + congaLibrary), null, null));
+				classpathEntries.add(JavaCore.newLibraryEntry(new Path("/C:/eclipse/plugins/wodeltest.extension.examples_1.0.0.202411132041/" + congaLibrary), null, null));
 			}
 */
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),

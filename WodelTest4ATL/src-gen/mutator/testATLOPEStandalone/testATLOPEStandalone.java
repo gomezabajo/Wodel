@@ -361,24 +361,24 @@ public class testATLOPEStandalone extends MutatorUtils {
 				"name");
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection1 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ope_1 = hmObjects.get("ope");
-		if (entry_ope_1 != null) {
-			refSelection1 = new SpecificObjectSelection(packages, model, entry_ope_1.getKey());
+		ObSelectionStrategy refSelection2 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ope_2 = hmObjects.get("ope");
+		if (entry_ope_2 != null) {
+			refSelection2 = new SpecificObjectSelection(packages, model, entry_ope_2.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ope_1 = hmList.get("ope");
-			if (listEntry_ope_1 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ope_2 = hmList.get("ope");
+			if (listEntry_ope_2 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ope_1) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ope_2) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection1 = new SpecificObjectSelection(packages, model, objs);
+				refSelection2 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("variableDeclaration", refSelection1);
+		refs.put("variableDeclaration", refSelection2);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "OclModelElement");
 		if (mut != null) {
@@ -621,10 +621,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl19 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl31 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl19 != null) {
-							for (Mutator mut : lcl19) {
+						if (lcl31 != null) {
+							for (Mutator mut : lcl31) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -646,10 +646,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lp20 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lp32 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lp20 != null) {
-							for (Mutator mut : lp20) {
+						if (lp32 != null) {
+							for (Mutator mut : lp32) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -671,10 +671,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lmod21 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lmod33 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lmod21 != null) {
-							for (Mutator mut : lmod21) {
+						if (lmod33 != null) {
+							for (Mutator mut : lmod33) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -696,10 +696,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lope22 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lope34 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lope22 != null) {
-							for (Mutator mut : lope22) {
+						if (lope34 != null) {
+							for (Mutator mut : lope34) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -727,10 +727,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lelem23 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lelem35 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lelem23 != null) {
-							for (Mutator mut : lelem23) {
+						if (lelem35 != null) {
+							for (Mutator mut : lelem35) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -758,10 +758,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l24 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l36 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l24 != null) {
-							for (Mutator mut : l24) {
+						if (l36 != null) {
+							for (Mutator mut : l36) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -954,10 +954,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l25 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l37 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l25 != null) {
-							for (Mutator mut : l25) {
+						if (l37 != null) {
+							for (Mutator mut : l37) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1415,10 +1415,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lp26 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lp38 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lp26 != null) {
-							for (Mutator mut : lp26) {
+						if (lp38 != null) {
+							for (Mutator mut : lp38) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1440,10 +1440,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ltype27 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ltype39 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ltype27 != null) {
-							for (Mutator mut : ltype27) {
+						if (ltype39 != null) {
+							for (Mutator mut : ltype39) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1465,10 +1465,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl28 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl40 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl28 != null) {
-							for (Mutator mut : lcl28) {
+						if (lcl40 != null) {
+							for (Mutator mut : lcl40) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1490,10 +1490,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l29 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l41 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l29 != null) {
-							for (Mutator mut : l29) {
+						if (l41 != null) {
+							for (Mutator mut : l41) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1708,10 +1708,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l30 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l42 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l30 != null) {
-							for (Mutator mut : l30) {
+						if (l42 != null) {
+							for (Mutator mut : l42) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {

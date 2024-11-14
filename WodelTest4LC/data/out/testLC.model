@@ -100,10 +100,10 @@
     <commands xsi:type="mutatorenvironment:CreateObjectMutator">
       <type href="../model/LogicCircuit.ecore#//OutputPin"/>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1">
-        <refType href="../model/LogicCircuit.ecore#//Gate/output"/>
+        <refType href="../../src/testLC.mutator#|34"/>
       </container>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="../model/LogicCircuit.ecore#//NamedItem/name"/>
+        <attribute href="../../src/testLC.mutator#|35"/>
         <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
       </attributes>
       <references xsi:type="mutatorenvironment:ReferenceInit">

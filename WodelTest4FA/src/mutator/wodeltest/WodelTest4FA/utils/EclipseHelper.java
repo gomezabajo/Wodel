@@ -122,7 +122,7 @@ public class EclipseHelper {
 			classpathEntries
 					.add(JavaCore
 							.newContainerEntry(new Path(
-									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11")));
+									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 			
 			for (String containerEntry : containerEntries) {

@@ -209,10 +209,10 @@ public class testLCDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l13 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l1 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l13 != null) {
-							for (Mutator mut : l13) {
+						if (l1 != null) {
+							for (Mutator mut : l1) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -760,10 +760,10 @@ public class testLCDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ln014 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ln02 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ln014 != null) {
-							for (Mutator mut : ln014) {
+						if (ln02 != null) {
+							for (Mutator mut : ln02) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -785,10 +785,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> li015 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> li03 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (li015 != null) {
-							for (Mutator mut : li015) {
+						if (li03 != null) {
+							for (Mutator mut : li03) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -810,10 +810,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lo016 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lo04 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lo016 != null) {
-							for (Mutator mut : lo016) {
+						if (lo04 != null) {
+							for (Mutator mut : lo04) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -835,10 +835,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l17 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l5 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l17 != null) {
-							for (Mutator mut : l17) {
+						if (l5 != null) {
+							for (Mutator mut : l5) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -859,10 +859,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l18 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l6 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l18 != null) {
-							for (Mutator mut : l18) {
+						if (l6 != null) {
+							for (Mutator mut : l6) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1244,24 +1244,24 @@ public class testLCDynamic extends MutatorUtils {
 		;
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection3 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_i0_3 = hmObjects.get("i0");
-		if (entry_i0_3 != null) {
-			refSelection3 = new SpecificObjectSelection(packages, model, entry_i0_3.getKey());
+		ObSelectionStrategy refSelection1 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_i0_1 = hmObjects.get("i0");
+		if (entry_i0_1 != null) {
+			refSelection1 = new SpecificObjectSelection(packages, model, entry_i0_1.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_i0_3 = hmList.get("i0");
-			if (listEntry_i0_3 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_i0_1 = hmList.get("i0");
+			if (listEntry_i0_1 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_i0_3) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_i0_1) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection3 = new SpecificObjectSelection(packages, model, objs);
+				refSelection1 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("tar", refSelection3);
+		refs.put("tar", refSelection1);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "OutputPin");
 		if (mut != null) {
@@ -1336,24 +1336,24 @@ public class testLCDynamic extends MutatorUtils {
 		;
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection4 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_o0_4 = hmObjects.get("o0");
-		if (entry_o0_4 != null) {
-			refSelection4 = new SpecificObjectSelection(packages, model, entry_o0_4.getKey());
+		ObSelectionStrategy refSelection2 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_o0_2 = hmObjects.get("o0");
+		if (entry_o0_2 != null) {
+			refSelection2 = new SpecificObjectSelection(packages, model, entry_o0_2.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_o0_4 = hmList.get("o0");
-			if (listEntry_o0_4 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_o0_2 = hmList.get("o0");
+			if (listEntry_o0_2 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_o0_4) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_o0_2) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection4 = new SpecificObjectSelection(packages, model, objs);
+				refSelection2 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("src", refSelection4);
+		refs.put("src", refSelection2);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InputPin");
 		if (mut != null) {
@@ -1502,10 +1502,10 @@ public class testLCDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lg019 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lg07 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lg019 != null) {
-							for (Mutator mut : lg019) {
+						if (lg07 != null) {
+							for (Mutator mut : lg07) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1527,10 +1527,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ln120 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ln18 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ln120 != null) {
-							for (Mutator mut : ln120) {
+						if (ln18 != null) {
+							for (Mutator mut : ln18) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1558,10 +1558,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lo021 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lo09 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lo021 != null) {
-							for (Mutator mut : lo021) {
+						if (lo09 != null) {
+							for (Mutator mut : lo09) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1583,10 +1583,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> li022 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> li010 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (li022 != null) {
-							for (Mutator mut : li022) {
+						if (li010 != null) {
+							for (Mutator mut : li010) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1608,10 +1608,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l23 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l11 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l23 != null) {
-							for (Mutator mut : l23) {
+						if (l11 != null) {
+							for (Mutator mut : l11) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1632,10 +1632,10 @@ public class testLCDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l24 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l12 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l24 != null) {
-							for (Mutator mut : l24) {
+						if (l12 != null) {
+							for (Mutator mut : l12) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {

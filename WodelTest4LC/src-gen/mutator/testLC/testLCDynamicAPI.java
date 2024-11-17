@@ -44,8 +44,8 @@ public class testLCDynamicAPI extends MutatorAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 3;
-		int numMutants = 3;
+		int maxAttempts = 5;
+		int numMutants = 5;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

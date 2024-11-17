@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.File;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.MutatorUtils;
-import mutator.designer.designerStandaloneAPI;
 
 public class designerStandaloneAPILauncher {
 	public static void createMutants(String inputFolder, String outputFolder)
@@ -23,13 +22,7 @@ public class designerStandaloneAPILauncher {
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		String ecoreURI = "C:/eclipse/workspace/designer/data/model/LogicCircuit.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
-		mutatorNames.add("designer");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
-		List<String> mutatorOperatorNamesdesigner = new ArrayList<String>();
-		mutatorOperatorNamesdesigner.add("mtg");
-		mutatorOperatorNamesdesigner.add("rnot");
-		mutatorOperatorNamesdesigner.add("anot");
-		operatorNames.add(mutatorOperatorNamesdesigner);
 		String[] arrMutatorNames = new String[mutatorNames.size()];
 		mutatorNames.toArray(arrMutatorNames);
 		String[][] arrOperatorNames = new String[mutatorNames.size()][];
@@ -58,8 +51,6 @@ public class designerStandaloneAPILauncher {
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
-		designerStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
 		File mutantWodelFolder = new File(outputWodelFolder);
 		File outputCustomizedFolder = new File(outputFolder);
 		try {

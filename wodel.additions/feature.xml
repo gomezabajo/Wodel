@@ -22,9 +22,10 @@
 
    <plugin
          id="wodel.semantic.comparison.dfa"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
+
+   <plugin
+         id="wodel.semantic.comparison.lc"
+         version="0.0.0"/>
 
 </feature>

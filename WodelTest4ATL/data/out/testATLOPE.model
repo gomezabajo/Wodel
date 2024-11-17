@@ -12,53 +12,53 @@
   <blocks name="cope" description="Create out pattern">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="output">
-        <type href="../model/MyEcore.ecore#//EClass"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/MyEcore.ecore#//EClass"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/0/OutPattern"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPattern"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="mod">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
-        <refType href="../model/ATL.ecore#/0/OutPattern/elements"/>
-        <refRefType href="../model/ATL.ecore#/1/VariableDeclaration/type"/>
-        <refRefRefType href="../model/ATL.ecore#/1/OclModelElement/model"/>
+        <refType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPattern/elements"/>
+        <refRefType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/VariableDeclaration/type"/>
+        <refRefRefType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclModelElement/model"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/1/OclModel"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclModel"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="ope">
-      <type href="../model/ATL.ecore#/0/SimpleOutPatternElement"/>
+      <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/SimpleOutPatternElement"/>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1">
-        <refType href="../model/ATL.ecore#/0/OutPattern/elements"/>
+        <refType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPattern/elements"/>
       </container>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="../model/ATL.ecore#/1/VariableDeclaration/varName"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/VariableDeclaration/varName"/>
         <value xsi:type="mutatorenvironment:RandomStringType" min="2" max="4"/>
       </attributes>
     </commands>
     <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="elem">
-      <type href="../model/ATL.ecore#/1/OclModelElement"/>
+      <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclModelElement"/>
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.3">
-        <refType href="../model/ATL.ecore#/1/VariableDeclaration/type"/>
+        <refType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/VariableDeclaration/type"/>
       </container>
       <attributes xsi:type="mutatorenvironment:AttributeCopy">
-        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
-        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/name"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/name"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
       </attributes>
       <references xsi:type="mutatorenvironment:ReferenceInit">
-        <reference href="../model/ATL.ecore#/1/OclType/variableDeclaration"/>
+        <reference href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/variableDeclaration"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.3"/>
       </references>
     </commands>
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
       <references xsi:type="mutatorenvironment:ReferenceAdd">
-        <reference href="../model/ATL.ecore#/1/OclModel/elements"/>
+        <reference href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclModel/elements"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.4"/>
       </references>
     </commands>
@@ -66,33 +66,33 @@
   <blocks name="rope" description="Remove out pattern">
     <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/0/OutPatternElement"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPatternElement"/>
       </object>
     </commands>
   </blocks>
   <blocks name="ccope" description="Class change out pattern">
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/0/OutPattern"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPattern"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="type">
       <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
-        <refType href="../model/ATL.ecore#/0/OutPattern/elements"/>
-        <refRefType href="../model/ATL.ecore#/1/VariableDeclaration/type"/>
+        <refType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPattern/elements"/>
+        <refRefType href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/VariableDeclaration/type"/>
       </container>
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/1/OclModelElement"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclModelElement"/>
       </object>
     </commands>
     <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
       <object xsi:type="mutatorenvironment:RandomTypeSelection" resource="output">
-        <type href="../model/MyEcore.ecore#//EClass"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/MyEcore.ecore#//EClass"/>
         <expression>
           <first xsi:type="mutatorenvironment:AttributeEvaluation">
-            <name href="../model/MyEcore.ecore#//ENamedElement/name"/>
+            <name href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/MyEcore.ecore#//ENamedElement/name"/>
             <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.2/@commands.1" operator="different">
-              <attribute href="../model/ATL.ecore#/1/OclType/name"/>
+              <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/name"/>
             </value>
           </first>
         </expression>
@@ -101,8 +101,8 @@
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.1"/>
       <attributes xsi:type="mutatorenvironment:AttributeCopy">
-        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
-        <attribute href="../model/ATL.ecore#/1/OclType/name"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/name"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/OclType/name"/>
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.2"/>
       </attributes>
     </commands>
@@ -110,10 +110,10 @@
   <blocks name="ncope" description="Name change out pattern">
     <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
       <object xsi:type="mutatorenvironment:RandomTypeSelection">
-        <type href="../model/ATL.ecore#/0/OutPatternElement"/>
+        <type href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/0/OutPatternElement"/>
       </object>
       <attributes xsi:type="mutatorenvironment:AttributeScalar">
-        <attribute href="../model/ATL.ecore#/1/VariableDeclaration/varName"/>
+        <attribute href="file:/C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore#/1/VariableDeclaration/varName"/>
         <value xsi:type="mutatorenvironment:RandomStringType" min="4" max="6"/>
       </attributes>
     </commands>

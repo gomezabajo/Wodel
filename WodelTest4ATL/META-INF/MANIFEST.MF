@@ -5,7 +5,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: WodelTest4ATL
 Bundle-SymbolicName: WodelTest4ATL; singleton:=true
 Bundle-Version: 1.0.0
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle:  wodel.utils,
  wodel.models,
  org.eclipse.emf.ecore.xmi,

@@ -434,24 +434,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection17 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_17 = hmObjects.get("exp1");
-		if (entry_exp1_17 != null) {
-			refSelection17 = new SpecificObjectSelection(packages, model, entry_exp1_17.getKey());
+		ObSelectionStrategy refSelection21 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_21 = hmObjects.get("exp1");
+		if (entry_exp1_21 != null) {
+			refSelection21 = new SpecificObjectSelection(packages, model, entry_exp1_21.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_17 = hmList.get("exp1");
-			if (listEntry_exp1_17 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_21 = hmList.get("exp1");
+			if (listEntry_exp1_21 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_17) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_21) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection17 = new SpecificObjectSelection(packages, model, objs);
+				refSelection21 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection17);
+		refs.put("expression", refSelection21);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -1021,24 +1021,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection18 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_18 = hmObjects.get("exp1");
-		if (entry_exp1_18 != null) {
-			refSelection18 = new SpecificObjectSelection(packages, model, entry_exp1_18.getKey());
+		ObSelectionStrategy refSelection22 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_22 = hmObjects.get("exp1");
+		if (entry_exp1_22 != null) {
+			refSelection22 = new SpecificObjectSelection(packages, model, entry_exp1_22.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_18 = hmList.get("exp1");
-			if (listEntry_exp1_18 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_22 = hmList.get("exp1");
+			if (listEntry_exp1_22 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_18) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_22) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection18 = new SpecificObjectSelection(packages, model, objs);
+				refSelection22 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection18);
+		refs.put("expression", refSelection22);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -1608,24 +1608,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection19 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_19 = hmObjects.get("exp1");
-		if (entry_exp1_19 != null) {
-			refSelection19 = new SpecificObjectSelection(packages, model, entry_exp1_19.getKey());
+		ObSelectionStrategy refSelection23 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_23 = hmObjects.get("exp1");
+		if (entry_exp1_23 != null) {
+			refSelection23 = new SpecificObjectSelection(packages, model, entry_exp1_23.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_19 = hmList.get("exp1");
-			if (listEntry_exp1_19 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_23 = hmList.get("exp1");
+			if (listEntry_exp1_23 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_19) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_23) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection19 = new SpecificObjectSelection(packages, model, objs);
+				refSelection23 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection19);
+		refs.put("expression", refSelection23);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;
@@ -2195,24 +2195,24 @@ public class testJavaCODDynamic extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection20 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_20 = hmObjects.get("exp1");
-		if (entry_exp1_20 != null) {
-			refSelection20 = new SpecificObjectSelection(packages, model, entry_exp1_20.getKey());
+		ObSelectionStrategy refSelection24 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_exp1_24 = hmObjects.get("exp1");
+		if (entry_exp1_24 != null) {
+			refSelection24 = new SpecificObjectSelection(packages, model, entry_exp1_24.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_20 = hmList.get("exp1");
-			if (listEntry_exp1_20 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_exp1_24 = hmList.get("exp1");
+			if (listEntry_exp1_24 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_20) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_exp1_24) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection20 = new SpecificObjectSelection(packages, model, objs);
+				refSelection24 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("expression", refSelection20);
+		refs.put("expression", refSelection24);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "ParenthesizedExpression");
 		Mutator mutator = null;

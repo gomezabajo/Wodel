@@ -17,7 +17,7 @@ Require-Bundle: wodeledu.models,
  wodel.utils,
  org.eclipse.core.resources,
  wodeledu.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.formatting2,
  wodeledu.dsls.generator.edutest,

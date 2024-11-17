@@ -747,4 +747,10 @@ public class Generator implements IGenerator {
 		List<String> importPackages = new ArrayList<String>();
 		return importPackages;
 	}
+
+	@Override
+	public List<String> bundleClasspath() {
+		List<String> bundleClasspath = new ArrayList<String>();
+		return bundleClasspath;
+	}
 }

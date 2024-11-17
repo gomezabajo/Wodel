@@ -1,44 +1,13 @@
 package wodeledu.extension.run.commands;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.List;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
-import org.osgi.framework.Bundle;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-import com.google.inject.Injector;
-
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
-import wodel.utils.manager.ModelManager;
-import wodeledu.dsls.EduTestStandaloneSetup;
-import wodeledu.dsls.generator.edutest.EduTestAndroidAppGenerator;
-import wodeledu.dsls.generator.edutest.EduTestGenerator;
-import wodeledu.dsls.generator.edutest.EduTestMoodleGenerator;
-import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
-import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
-
-import org.eclipse.core.runtime.Path;
 
 /**
  * @author Pablo Gomez-Abajo

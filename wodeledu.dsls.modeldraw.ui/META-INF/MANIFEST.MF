@@ -18,7 +18,7 @@ Require-Bundle: wodeledu.dsls.modeldraw,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: wodeledu.dsls.ui.contentassist,
  wodeledu.dsls.ui.quickfix,
  wodeledu.dsls.modeldraw.ui.internal

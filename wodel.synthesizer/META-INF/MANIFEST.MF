@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.models,
  wodel.dsls.wodel,
  org.eclipse.xtext
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodel.synthesizer
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: bin/,

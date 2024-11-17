@@ -146,6 +146,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		Set<String> requiredBundles = new LinkedHashSet<String>();
 		Set<String> importPackages = new LinkedHashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
+		List<String> bundleClasspath = new ArrayList<String>();
 
 		requiredBundles.add("wodel.utils");
 		requiredBundles.add("wodel.models");
@@ -165,9 +166,13 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.ui.model.workbench");
 		requiredBundles.add("org.eclipse.e4.core.di");
 		
+		String extensionName = null;
+		
 		List<String> additionalRequiredBundles = new ArrayList<String>();
 		
 		List<String> additionalImportPackages = new ArrayList<String>();
+		
+		List<String> additionalBundleClasspath = new ArrayList<String>();
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if (registry != null) {
@@ -191,6 +196,11 @@ public class WodelWizard extends Wizard implements INewWizard {
 							if (packages != null && packages.size() > 0) {
 								additionalImportPackages.addAll(packages);
 							}
+							List<String> classpath = src.bundleClasspath();
+							if (classpath != null && classpath.size() > 0) {
+								additionalBundleClasspath.addAll(classpath);
+							}
+							extensionName = src.getName();
 						}
 					}
 				} catch (CoreException e1) {
@@ -205,10 +215,13 @@ public class WodelWizard extends Wizard implements INewWizard {
 		if (additionalImportPackages.size() > 0) {
 			importPackages.addAll(additionalImportPackages);
 		}
+		if (additionalBundleClasspath.size() > 0) {
+			bundleClasspath.addAll(additionalBundleClasspath);
+		}
 
-		IProject project = EclipseHelper.createWodelProject(projectName,
+		IProject project = EclipseHelper.createWodelProject(extensionName, projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, monitor, this.getShell());
+				exportedPackages, bundleClasspath, monitor, this.getShell());
 		
 		ProjectUtils.setProject(project);
 

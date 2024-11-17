@@ -30,7 +30,7 @@ Import-Package: org.apache.log4j,
  com.google.common.util.concurrent.internal,
  org.antlr.runtime,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: wodeledu.dsls.edutest.ui.internal,
  wodeledu.dsls.ui.contentassist,
  wodeledu.dsls.ui.quickfix

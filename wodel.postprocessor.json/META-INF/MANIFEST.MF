@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emfjson.jackson,
  com.fasterxml.jackson.core.jackson-databind,
  com.fasterxml.jackson.core.jackson-core
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodel.postprocessor.json
 Bundle-ActivationPolicy: lazy

@@ -9,6 +9,6 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.utils,
  wodel.models,
  wodel.registry
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodel.registry.reduce
 Bundle-ActivationPolicy: lazy

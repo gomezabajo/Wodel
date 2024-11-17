@@ -3,6 +3,7 @@ package wodeledu.extension.examples.wizards;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -140,9 +141,10 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		folders.add("src-gen");
 
 		List<IProject> referencedProjects = new ArrayList<IProject>();
-		Set<String> requiredBundles = new HashSet<String>();
-		Set<String> importPackages = new HashSet<String>();
+		Set<String> requiredBundles = new LinkedHashSet<String>();
+		Set<String> importPackages = new LinkedHashSet<String>();
 		List<String> exportedPackages = new ArrayList<String>();
+		List<String> bundleClasspath = new ArrayList<String>();
 
 		requiredBundles.add("wodel.utils");
 		requiredBundles.add("wodel.models");
@@ -175,10 +177,12 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		importPackages.add("javax.inject");
 		importPackages.add("org.antlr.runtime");		
 		importPackages.add("edutest");
+		
+		bundleClasspath.add("lib/plantuml-epl-1.2023.13.jar");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, monitor, this.getShell());
+				exportedPackages, bundleClasspath, monitor, this.getShell());
 		
 		ProjectUtils.setProject(project);
 		
@@ -687,6 +691,52 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		}
 		} catch (IOException e) {
 		}
+		
+		try {
+			
+			final IFolder libFolder = project.getFolder(new Path("lib"));
+			libFolder.create(true, true, monitor);
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduLogicCircuitsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = libFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 		createPlugin(monitor, project);
 		

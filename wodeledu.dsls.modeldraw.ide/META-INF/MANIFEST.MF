@@ -11,6 +11,6 @@ Require-Bundle: wodeledu.dsls.modeldraw,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: wodeledu.dsls.ide.contentassist.antlr,
  wodeledu.dsls.ide.contentassist.antlr.internal

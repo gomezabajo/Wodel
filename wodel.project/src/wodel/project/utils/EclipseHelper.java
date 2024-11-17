@@ -26,7 +26,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -69,9 +71,9 @@ public class EclipseHelper {
 		}
 	}
 
-	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
+	public static IProject createWodelProject(final String extensionName, final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final Shell theShell) {
+			final List<String> exportedPackages, final List<String> bundleClasspath, final IProgressMonitor progressMonitor, final Shell theShell) {
 		IProject project = null;
 		try {
 			progressMonitor.beginTask("", 10);
@@ -145,8 +147,24 @@ public class EclipseHelper {
 			classpathEntries
 					.add(JavaCore
 							.newContainerEntry(new Path(
-									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11")));
+//									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11")));
+									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
+			if (extensionName.equals("Wodel-Edu: Environment for the automated generation and evaluation of exercises")) {
+				String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
+				//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
+				@SuppressWarnings("restriction")
+				IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+				        IPackageFragmentRoot.K_BINARY,
+				        IClasspathEntry.CPE_LIBRARY, project.getFile(plantUMLlib).getProjectRelativePath(),
+				        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+				        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+				        null, null, null, // specific output folder
+				        false, // exported
+				        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+				        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+				classpathEntries.add(relativeLibraryEntry);
+			}
 
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
 					new SubProgressMonitor(progressMonitor, 1));
@@ -221,7 +239,7 @@ public class EclipseHelper {
 		maniContent.append("Bundle-Name: " + projectName + "\n");
 		maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");
 		maniContent.append("Bundle-Version: 1.0.0\n");
-		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-11\n");
+		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-17\n");
 		// maniContent.append("Bundle-Localization: plugin\n");
 		int nBundles = 0;
 		maniContent.append("Require-Bundle: ");

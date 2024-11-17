@@ -4,7 +4,7 @@ Bundle-Name: Aql
 Bundle-SymbolicName: efinder.aql
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: esolver.aql
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: efinder.aql
 Require-Bundle: org.eclipse.sirius.diagram,
  org.eclipse.sirius.common;bundle-version="6.0.2",

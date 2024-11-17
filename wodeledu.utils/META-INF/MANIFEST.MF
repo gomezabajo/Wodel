@@ -7,7 +7,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  wodeledu.models,
  wodel.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodeledu.utils
 Bundle-ActivationPolicy: lazy
 Export-Package: wodeledu.utils.manager

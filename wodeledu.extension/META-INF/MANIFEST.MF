@@ -24,7 +24,7 @@ Require-Bundle: org.eclipse.ui,
  wodeledu.models,
  wodeledu.utils
 Export-Package: wodeledu.extension.run.commands
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodeledu.extension
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,

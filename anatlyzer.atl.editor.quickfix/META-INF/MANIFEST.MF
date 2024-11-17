@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: anatlyzer.atl.editor.quickfix
 Bundle-Name: anATLyzer. Editor Quickfixes
 Bundle-SymbolicName: anatlyzer.atl.editor.quickfix;singleton:=true
 Bundle-Version: 0.7.1.qualifier
@@ -18,7 +19,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  org.eclipse.m2m.atl.adt.editor,
  org.eclipse.m2m.atl.engine
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.quickfix.dialog,

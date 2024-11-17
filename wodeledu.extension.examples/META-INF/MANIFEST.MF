@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.ui,
  wodel.dsls.wodel,
  wodeledu.dsls.modeltext,
  wodeledu.dsls.mutatext
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodeledu.project.examples
 Bundle-ActivationPolicy: lazy

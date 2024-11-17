@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: anatlyzer.visualizer
 Bundle-Name: Visualizer
 Bundle-SymbolicName: anatlyzer.visualizer;singleton:=true
 Bundle-Version: 0.7.1.qualifier
@@ -14,5 +15,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.swt,
  org.eclipse.jface.text;bundle-version="3.0",
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy

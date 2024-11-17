@@ -4,7 +4,7 @@ Bundle-Name: Utils
 Bundle-SymbolicName: wodel.utils
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: wodel.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.acceleo.common,
  org.eclipse.core.runtime,

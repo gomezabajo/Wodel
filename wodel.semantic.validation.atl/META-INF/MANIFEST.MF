@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.atl.common,
  anatlyzer.atl.standalone.api,
  anatlyzer.atl.typing
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: wodel.semantic.validation.atl
 Bundle-ActivationPolicy: lazy

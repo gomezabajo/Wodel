@@ -2,6 +2,7 @@ package wodeledu.extension.run;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -30,51 +30,32 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
-import org.osgi.framework.Bundle;
 
-import wodeledu.dsls.EduTestStandaloneSetup;
 import wodeledu.dsls.EduTestUtils;
-import wodeledu.dsls.ModelDrawStandaloneSetup;
 import wodeledu.dsls.ModelDrawUtils;
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
-import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawPlantUMLGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawDotGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawCircuitGenerator;
-import wodeledu.dsls.generator.edutest.EduTestAndroidAppGenerator;
-import wodeledu.dsls.generator.edutest.EduTestGenerator;
-import wodeledu.dsls.generator.edutest.EduTestMoodleGenerator;
-import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
-import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
 
 import wodeledu.extension.builder.WodelEduNature;
 import wodeledu.utils.manager.WodelEduUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import com.google.inject.Injector;
 import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.extension.generator.IGenerator;
 
 /**
@@ -151,6 +132,13 @@ public class Generator implements IGenerator {
 		importPackages.add("org.antlr.runtime");
 		importPackages.add("edutest");
 		return importPackages;
+	}
+
+	@Override
+	public List<String> bundleClasspath() {
+		List<String> bundleClasspath = new ArrayList<String>();
+		bundleClasspath.add("lib/plantuml-epl-1.2023.13.jar");
+		return bundleClasspath;
 	}
 
 	@Override
@@ -526,6 +514,52 @@ public class Generator implements IGenerator {
 		}
 		} catch (IOException e) {
 		}
+		
+		try {
+		
+			final IFolder libFolder = mutProject.getFolder(new Path("lib"));
+			libFolder.create(true, true, monitor);
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = libFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 		try {
 

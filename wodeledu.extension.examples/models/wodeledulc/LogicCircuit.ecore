@@ -22,6 +22,10 @@
         <details key="nullFree" value="false"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputValues" upperBound="-1"
+        eType="#//InputValue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputValues" upperBound="-1"
+        eType="#//OutputValue" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedItem" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -31,6 +35,9 @@
         eType="#//OutputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" upperBound="2"
         eType="#//InputPin" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputValue" upperBound="-1"
+        eType="#//InputValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputValue" eType="#//OutputValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InputPin" eSuperTypes="#//NamedItem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="#//OutputPin"
@@ -64,4 +71,6 @@
       <details key="not_one_input_pin" value="self.input->asSet()->size() = 1"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputValue" eSuperTypes="#//NamedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputValue" eSuperTypes="#//NamedItem"/>
 </ecore:EPackage>

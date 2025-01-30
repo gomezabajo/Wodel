@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import java.util.Arrays;
 import modeltext.Element;
 import modeltext.IdentifyElements;
+import modeltext.MutatorInstance;
 import modeltext.ValuedFeature;
 import modeltext.Word;
 import org.eclipse.emf.common.util.EList;
@@ -25,9 +26,12 @@ public class ModelTextFormatter extends AbstractFormatter2 {
   private ModelTextGrammarAccess _modelTextGrammarAccess;
 
   protected void _format(final IdentifyElements identifyElements, @Extension final IFormattableDocument document) {
-    EList<Element> _elements = identifyElements.getElements();
-    for (final Element element : _elements) {
-      document.<Element>format(element);
+    EList<MutatorInstance> _instances = identifyElements.getInstances();
+    for (final MutatorInstance instance : _instances) {
+      EList<Element> _elements = instance.getElements();
+      for (final Element element : _elements) {
+        document.<Element>format(element);
+      }
     }
   }
 

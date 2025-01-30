@@ -70,6 +70,7 @@ public class MacroImpl extends WordImpl implements Macro {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MacroItem getItem() {
 		return item;
 	}
@@ -79,6 +80,7 @@ public class MacroImpl extends WordImpl implements Macro {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setItem(MacroItem newItem) {
 		MacroItem oldItem = item;
 		item = newItem == null ? ITEM_EDEFAULT : newItem;

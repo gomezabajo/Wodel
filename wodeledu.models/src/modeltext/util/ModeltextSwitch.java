@@ -66,9 +66,22 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case ModeltextPackage.ITEM: {
+				Item item = (Item)theEObject;
+				T result = caseItem(item);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ModeltextPackage.IDENTIFY_ELEMENTS: {
 				IdentifyElements identifyElements = (IdentifyElements)theEObject;
 				T result = caseIdentifyElements(identifyElements);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModeltextPackage.MUTATOR_INSTANCE: {
+				MutatorInstance mutatorInstance = (MutatorInstance)theEObject;
+				T result = caseMutatorInstance(mutatorInstance);
+				if (result == null) result = caseItem(mutatorInstance);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -116,6 +129,21 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Item</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseItem(Item object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Identify Elements</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -127,6 +155,21 @@ public class ModeltextSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIdentifyElements(IdentifyElements object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Mutator Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Mutator Instance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMutatorInstance(MutatorInstance object) {
 		return null;
 	}
 

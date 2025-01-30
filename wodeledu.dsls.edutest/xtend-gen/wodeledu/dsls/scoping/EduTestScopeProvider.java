@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.osgi.framework.Bundle;
 import wodel.utils.manager.ModelManager;
@@ -35,7 +36,7 @@ import wodel.utils.manager.ProjectUtils;
  * Scope provider for the eduTest language.
  */
 @SuppressWarnings("all")
-public class EduTestScopeProvider extends AbstractEduTestScopeProvider {
+public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
   public IScope scope_MarkedBlock_block(final MarkedBlock mb, final EReference ref) {
     IScope _xblockexpression = null;
     {

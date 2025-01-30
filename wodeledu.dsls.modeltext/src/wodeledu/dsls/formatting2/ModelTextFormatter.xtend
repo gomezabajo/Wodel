@@ -16,8 +16,10 @@ class ModelTextFormatter extends AbstractFormatter2 {
 
 	def dispatch void format(IdentifyElements identifyElements, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (element : identifyElements.elements) {
-			element.format
+		for (instance : identifyElements.instances) {
+			for (element : instance.elements) {
+				element.format
+			}
 		}
 	}
 

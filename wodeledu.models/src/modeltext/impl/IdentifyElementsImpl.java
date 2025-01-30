@@ -3,11 +3,9 @@
 package modeltext.impl;
 
 import java.util.Collection;
-
-import modeltext.Element;
 import modeltext.IdentifyElements;
 import modeltext.ModeltextPackage;
-
+import modeltext.MutatorInstance;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -31,7 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link modeltext.impl.IdentifyElementsImpl#getMetamodel <em>Metamodel</em>}</li>
- *   <li>{@link modeltext.impl.IdentifyElementsImpl#getElements <em>Elements</em>}</li>
+ *   <li>{@link modeltext.impl.IdentifyElementsImpl#getInstances <em>Instances</em>}</li>
  * </ul>
  *
  * @generated
@@ -58,14 +56,14 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	protected String metamodel = METAMODEL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
+	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getElements()
+	 * @see #getInstances()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Element> elements;
+	protected EList<MutatorInstance> instances;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,6 +89,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMetamodel() {
 		return metamodel;
 	}
@@ -100,6 +99,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMetamodel(String newMetamodel) {
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;
@@ -112,11 +112,12 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Element> getElements() {
-		if (elements == null) {
-			elements = new EObjectContainmentEList<Element>(Element.class, this, ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS);
+	@Override
+	public EList<MutatorInstance> getInstances() {
+		if (instances == null) {
+			instances = new EObjectContainmentEList<MutatorInstance>(MutatorInstance.class, this, ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES);
 		}
-		return elements;
+		return instances;
 	}
 
 	/**
@@ -127,8 +128,8 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
-				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
+			case ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES:
+				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -143,8 +144,8 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 		switch (featureID) {
 			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				return getMetamodel();
-			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
-				return getElements();
+			case ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES:
+				return getInstances();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,9 +162,9 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				setMetamodel((String)newValue);
 				return;
-			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
-				getElements().clear();
-				getElements().addAll((Collection<? extends Element>)newValue);
+			case ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES:
+				getInstances().clear();
+				getInstances().addAll((Collection<? extends MutatorInstance>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,8 +181,8 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				setMetamodel(METAMODEL_EDEFAULT);
 				return;
-			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
-				getElements().clear();
+			case ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES:
+				getInstances().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -197,8 +198,8 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 		switch (featureID) {
 			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				return METAMODEL_EDEFAULT == null ? metamodel != null : !METAMODEL_EDEFAULT.equals(metamodel);
-			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
-				return elements != null && !elements.isEmpty();
+			case ModeltextPackage.IDENTIFY_ELEMENTS__INSTANCES:
+				return instances != null && !instances.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

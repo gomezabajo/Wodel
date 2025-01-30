@@ -124,7 +124,7 @@ public class Generator implements IGenerator {
 		importPackages.add("org.eclipse.xtext.generator");
 		importPackages.add("org.eclipse.xtext.xbase.lib");
 		importPackages.add("org.eclipse.xtext.util");
-		importPackages.add("wodeledu.dsls.generator.edutest");
+		importPackages.add("wodeledu.dsls.generator");
 		importPackages.add("wodeledu.dsls.generator.modeldraw");
 		importPackages.add("com.google.inject");
 		importPackages.add("javax.inject");

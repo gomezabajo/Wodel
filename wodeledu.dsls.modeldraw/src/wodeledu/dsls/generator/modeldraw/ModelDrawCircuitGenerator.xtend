@@ -7,7 +7,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import modeldraw.MutatorDraw
 import wodel.utils.manager.ModelManager
 import wodel.utils.manager.JavaUtils
-import org.eclipse.core.resources.IProject
 import wodel.utils.manager.ProjectUtils
 import org.eclipse.core.runtime.Platform
 import org.eclipse.xtext.generator.AbstractGenerator
@@ -400,7 +399,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 							«ENDFOR»
 							batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 							batwriter.println("cd batik");
-							batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+							batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 							batwriter.println("exit");
 							batwriter.close();
 						} catch (UnsupportedEncodingException e) {
@@ -508,7 +507,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 								«ENDFOR»
 								batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 								batwriter.println("cd batik");
-								batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+								batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 								batwriter.println("exit");
 								batwriter.close();
 							} catch (UnsupportedEncodingException e) {
@@ -596,7 +595,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 										«ENDFOR»
 										batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 										batwriter.println("cd batik");
-										batwriter.println("java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+										batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 										batwriter.println("exit");
 										batwriter.close();
 									} catch (UnsupportedEncodingException e) {

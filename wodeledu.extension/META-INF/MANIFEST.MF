@@ -30,7 +30,7 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.util,
- wodeledu.dsls.generator.edutest,
+ wodeledu.dsls.generator,
  wodeledu.dsls.generator.modeldraw,
  edutest,
  com.google.inject,

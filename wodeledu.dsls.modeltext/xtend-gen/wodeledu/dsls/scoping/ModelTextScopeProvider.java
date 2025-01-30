@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import modeltext.Element;
 import modeltext.IdentifyElements;
+import modeltext.MutatorInstance;
 import modeltext.ValuedFeature;
 import modeltext.Variable;
 import org.eclipse.emf.common.util.EList;
@@ -16,6 +17,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.utils.manager.ModelManager;
 
@@ -25,12 +27,33 @@ import wodel.utils.manager.ModelManager;
  * Scope provider for the modelText language.
  */
 @SuppressWarnings("all")
-public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
+public class ModelTextScopeProvider extends AbstractDeclarativeScopeProvider {
+  public IScope scope_Item_name(final IdentifyElements elements, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final List<EClass> scope = new ArrayList<EClass>();
+      scope.addAll(this.getEClasses(elements.getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+
+  public IScope scope_MutatorInstance_name(final MutatorInstance instance, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EClass> scope = new ArrayList<EClass>();
+      EObject _eContainer = instance.eContainer();
+      scope.addAll(this.getEClasses(((IdentifyElements) _eContainer).getMetamodel()));
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+
   public IScope scope_Element_type(final Element element, final EReference ref) {
     IScope _xblockexpression = null;
     {
       final ArrayList<EClass> scope = new ArrayList<EClass>();
-      EObject _eContainer = element.eContainer();
+      EObject _eContainer = element.eContainer().eContainer();
       scope.addAll(this.getEClasses(((IdentifyElements) _eContainer).getMetamodel()));
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -44,7 +67,7 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
       EClass _type = element.getType();
       boolean _tripleNotEquals = (_type != null);
       if (_tripleNotEquals) {
-        EObject _eContainer = element.eContainer();
+        EObject _eContainer = element.eContainer().eContainer();
         scope.addAll(this.getEReferences(((IdentifyElements) _eContainer).getMetamodel(), element.getType().getName()));
       }
       _xblockexpression = Scopes.scopeFor(scope);
@@ -59,14 +82,14 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
       EReference _ref = variable.getRef();
       boolean _tripleEquals = (_ref == null);
       if (_tripleEquals) {
-        EObject _eContainer = variable.eContainer().eContainer();
+        EObject _eContainer = variable.eContainer().eContainer().eContainer();
         EObject _eContainer_1 = variable.eContainer();
         scope.addAll(this.getEAttributes(((IdentifyElements) _eContainer).getMetamodel(), ((Element) _eContainer_1).getType().getName()));
       }
       EReference _ref_1 = variable.getRef();
       boolean _tripleNotEquals = (_ref_1 != null);
       if (_tripleNotEquals) {
-        EObject _eContainer_2 = variable.eContainer().eContainer();
+        EObject _eContainer_2 = variable.eContainer().eContainer().eContainer();
         EReference _ref_2 = variable.getRef();
         scope.addAll(this.getEAttributes(((IdentifyElements) _eContainer_2).getMetamodel(), ((EReference) _ref_2).getEType().getName()));
       }
@@ -79,7 +102,7 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
     IScope _xblockexpression = null;
     {
       final ArrayList<EReference> scope = new ArrayList<EReference>();
-      EObject _eContainer = variable.eContainer().eContainer();
+      EObject _eContainer = variable.eContainer().eContainer().eContainer();
       EObject _eContainer_1 = variable.eContainer();
       scope.addAll(this.getEReferences(((IdentifyElements) _eContainer).getMetamodel(), ((Element) _eContainer_1).getType().getName()));
       _xblockexpression = Scopes.scopeFor(scope);
@@ -91,7 +114,7 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
     IScope _xblockexpression = null;
     {
       final ArrayList<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
-      EObject _eContainer = element.eContainer();
+      EObject _eContainer = element.eContainer().eContainer();
       scope.addAll(this.getEStructuralFeatures(((IdentifyElements) _eContainer).getMetamodel(), element.getType().getName()));
       _xblockexpression = Scopes.scopeFor(scope);
     }
@@ -106,7 +129,7 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
       if (((element.getFeature() != null) && (element.getFeature().size() > 0))) {
         EList<ValuedFeature> _feature = element.getFeature();
         for (final ValuedFeature feature : _feature) {
-          EObject _eContainer = element.eContainer();
+          EObject _eContainer = element.eContainer().eContainer();
           features.addAll(this.getEStructuralFeatures(((IdentifyElements) _eContainer).getMetamodel(), feature.getFeat().getEType().getName()));
         }
       }
@@ -121,15 +144,59 @@ public class ModelTextScopeProvider extends AbstractModelTextScopeProvider {
    * @param String file containing the metamodel
    * @return List<EClass>
    */
+  private List<EClass> getEClassesSubpackages(final EPackage pck) {
+    final List<EClass> classes = new ArrayList<EClass>();
+    EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+    for (final EClassifier cl : _eClassifiers) {
+      if ((cl instanceof EClass)) {
+        classes.add(((EClass) cl));
+      }
+    }
+    EList<EPackage> _eSubpackages = pck.getESubpackages();
+    for (final EPackage spck : _eSubpackages) {
+      {
+        final List<EClass> classesSubpackage = this.getEClassesSubpackages(spck);
+        for (final EClass cl_1 : classesSubpackage) {
+          boolean _contains = classes.contains(cl_1);
+          boolean _not = (!_contains);
+          if (_not) {
+            classes.add(cl_1);
+          }
+        }
+      }
+    }
+    return classes;
+  }
+
+  /**
+   * It returns the list of classes defined in a meta-model.
+   * @param String file containing the metamodel
+   * @return List<EClass>
+   */
   private List<EClass> getEClasses(final String metamodelFile) {
     try {
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       final List<EClass> classes = new ArrayList<EClass>();
       for (final EPackage pck : metamodel) {
-        EList<EClassifier> _eClassifiers = pck.getEClassifiers();
-        for (final EClassifier cl : _eClassifiers) {
-          if ((cl instanceof EClass)) {
-            classes.add(((EClass) cl));
+        {
+          EList<EClassifier> _eClassifiers = pck.getEClassifiers();
+          for (final EClassifier cl : _eClassifiers) {
+            if ((cl instanceof EClass)) {
+              classes.add(((EClass) cl));
+            }
+          }
+          EList<EPackage> _eSubpackages = pck.getESubpackages();
+          for (final EPackage spck : _eSubpackages) {
+            {
+              final List<EClass> classesSubpackage = this.getEClassesSubpackages(spck);
+              for (final EClass cl_1 : classesSubpackage) {
+                boolean _contains = classes.contains(cl_1);
+                boolean _not = (!_contains);
+                if (_not) {
+                  classes.add(cl_1);
+                }
+              }
+            }
           }
         }
       }

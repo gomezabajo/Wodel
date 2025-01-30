@@ -21,12 +21,14 @@ import modeltext.Element;
 import modeltext.ModeltextFactory;
 import modeltext.ValuedFeature;
 import mutatext.Option;
+import mutatext.Text;
 import mutatext.Variable;
 import mutatext.Word;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -66,15 +68,35 @@ public class WodelEduUtils {
 			if (type.equals("TargetReferenceChanged")) {
 				Word w = mutatext.MutatextFactory.eINSTANCE.createConstant();
 				ModelManager.setStringAttribute("value", w, "Change");
-				opt.getValid().getWords().add(w);
+				Text t = mutatext.MutatextFactory.eINSTANCE.createText();
+				t.getWords().add(w);
+				opt.setValid(t);
 				Variable v = mutatext.MutatextFactory.eINSTANCE.createVariable();
 				//v.
 				//v.setType(value);
 				
 				//COMPLETE
-
-				opt.getInvalid().getWords().add(w);
+				Text it = mutatext.MutatextFactory.eINSTANCE.createText();
+				it.getWords().add(w);
+				opt.setInvalid(it);
 				
+			}
+			if (type.equals("ReferenceChanged")) {
+				Word w = mutatext.MutatextFactory.eINSTANCE.createConstant();
+				ModelManager.setStringAttribute("value", w, "Change");
+				Text t = mutatext.MutatextFactory.eINSTANCE.createText();
+				t.getWords().add(w);
+				opt.setValid(t);
+				//v.
+				//v.setType(value);
+				
+				//COMPLETE
+				
+				
+				
+				Text it = mutatext.MutatextFactory.eINSTANCE.createText();
+				it.getWords().add(w);
+				opt.setInvalid(it);
 			}
 		}
 		
@@ -85,30 +107,50 @@ public class WodelEduUtils {
 	 * Gets the corresponding element of the given object - DSL modelText
 	 */
 	public static Element getElement(EObject object, Resource model) {
+		EClass type = object.eClass();
 		List<EClass> types = new ArrayList<EClass>();
 		types.add(object.eClass());
 		types.addAll(object.eClass().getEAllSuperTypes());
 		
-		Iterator<EObject> objects = model.getAllContents();
 
+		Element element = null;
 		if (object != null) {
-			objects = model.getAllContents();
-			while (objects.hasNext()) {
+			Iterator<EObject> objects = model.getAllContents();
+			while (objects.hasNext() && element == null) {
 				EObject obj = objects.next();
 				if (obj instanceof Element) {
-					Element element = (Element) obj;
-					EClass type = element.getType();
-					for (EClass t : types) { 
-						if (type.getName().equals(t.getName())) {
-							if (element.getFeature() == null || element.getFeature().size() == 0) {
-								return element;
+					Element it = (Element) obj;
+					EClass t = it.getType();
+					if (type.getName().equals(t.getName())) {
+						if (it.getFeature() == null || it.getFeature().size() == 0) {
+							element = it;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (element == null) {
+			if (object != null) {
+				Iterator<EObject> objects = model.getAllContents();
+				while (objects.hasNext() && element == null) {
+					EObject obj = objects.next();
+					if (obj instanceof Element) {
+						Element it = (Element) obj;
+						EClass t = it.getType();
+						for (EClass ts : types) { 
+							if (ts.getName().equals(t.getName())) {
+								if (it.getFeature() == null || it.getFeature().size() == 0) {
+									element = it;
+									break;
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-		return null;
+		return element;
 	}
 	
 	/**
@@ -324,9 +366,13 @@ public class WodelEduUtils {
 	 * DSL modelText
 	 */
 	public static Element getRefElement(EObject object, EStructuralFeature feature, Resource model) {
+		EObject o = object;
+		if (object.eIsProxy()) {
+			o = EcoreUtil.resolve(object, model.getResourceSet());
+		}
 		List<EClass> types = new ArrayList<EClass>();
-		types.add(object.eClass());
-		types.addAll(object.eClass().getEAllSuperTypes());
+		types.add(o.eClass());
+		types.addAll(o.eClass().getEAllSuperTypes());
 
 		Iterator<EObject> objects = model.getAllContents();
 
@@ -335,14 +381,14 @@ public class WodelEduUtils {
 			EObject obj = objects.next();
 			if (obj instanceof Element) {
 				Element element = (Element) obj;
-				if (EcoreUtil.equals(element.getType(), object.eClass())) {
+				if (element.getType().getName().equals(o.eClass().getName())) {
 					EClass type = element.getType();
 					for (EClass t : types) { 
 						if (type.getName().equals(t.getName())) {
 							if (element.getFeature() == null || element.getFeature().size() == 0) {
 								if (feature != null) {
 									if (element.getRef() != null) {
-										if (EcoreUtil.equals(element.getRef().getEReferenceType(), feature.getEType())) {
+										if (element.getRef().getEReferenceType().getName().equals(feature.getEType().getName())) {
 											return element;
 										}
 									}
@@ -351,6 +397,13 @@ public class WodelEduUtils {
 									return element;
 								}
 							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : o.eClass().getEAllReferences()) {
+						if (element.getType().getName().equals(ref.getEReferenceType().getName())) {
+							return element;
 						}
 					}
 				}

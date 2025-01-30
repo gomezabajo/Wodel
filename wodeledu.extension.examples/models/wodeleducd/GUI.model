@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 http://ObjectDiagram/1.0" xmi:id="_jBHycMczEe6bCsCUAOtlyA">
+  <classdiagram xmi:id="_cTdOUMc4Ee6bCsCUAOtlyA">
+    <classes xmi:id="_dLOj0Mc4Ee6bCsCUAOtlyA" name="GUIElement" abstract="true" subclasses="_hkMvMMc4Ee6bCsCUAOtlyA _fZ4zwMc4Ee6bCsCUAOtlyA"/>
+    <classes xmi:id="_fZ4zwMc4Ee6bCsCUAOtlyA" name="Widget" abstract="true" superclass="_dLOj0Mc4Ee6bCsCUAOtlyA" subclasses="_jVS5YMc4Ee6bCsCUAOtlyA _mAD2gMc4Ee6bCsCUAOtlyA _nlKMEMc4Ee6bCsCUAOtlyA" />
+    <classes xmi:id="_hkMvMMc4Ee6bCsCUAOtlyA" name="Window" superclass="_dLOj0Mc4Ee6bCsCUAOtlyA" />
+    <classes xmi:id="_jVS5YMc4Ee6bCsCUAOtlyA" name="Label" superclass="_fZ4zwMc4Ee6bCsCUAOtlyA"/>
+    <classes xmi:id="_mAD2gMc4Ee6bCsCUAOtlyA" name="Button" superclass="_fZ4zwMc4Ee6bCsCUAOtlyA" subclasses="_rgR90Mc4Ee6bCsCUAOtlyA _XdPbYMc6Ee6bCsCUAOtlyA"/>
+    <classes xmi:id="_nlKMEMc4Ee6bCsCUAOtlyA" name="GroupBox" superclass="_fZ4zwMc4Ee6bCsCUAOtlyA" />
+    <classes xmi:id="_rgR90Mc4Ee6bCsCUAOtlyA" name="RadioButton" superclass="_mAD2gMc4Ee6bCsCUAOtlyA"/>
+    <classes xmi:id="_XdPbYMc6Ee6bCsCUAOtlyA" name="CheckButton" superclass="_mAD2gMc4Ee6bCsCUAOtlyA"/>
+    <compositions xmi:id="_VAYM0Mc5Ee6bCsCUAOtlyA" name="widgets" constituent="_hkMvMMc4Ee6bCsCUAOtlyA" composite="_fZ4zwMc4Ee6bCsCUAOtlyA" multiplicitySource="*" multiplicityTarget="*"/>
+    <aggregations xmi:id="_gR9OwMc5Ee6bCsCUAOtlyA" name="composite" source="_nlKMEMc4Ee6bCsCUAOtlyA" target="_fZ4zwMc4Ee6bCsCUAOtlyA" multiplicitySource="*" multiplicityTarget="*"/>
+  </classdiagram>
+</umldiagram:UMLDiagram>

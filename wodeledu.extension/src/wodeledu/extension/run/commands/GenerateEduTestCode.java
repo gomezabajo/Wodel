@@ -46,11 +46,11 @@ import java.util.List;
 
 
 import wodeledu.dsls.EduTestStandaloneSetup;
-import wodeledu.dsls.generator.edutest.EduTestAndroidAppGenerator;
-import wodeledu.dsls.generator.edutest.EduTestGenerator;
-import wodeledu.dsls.generator.edutest.EduTestMoodleGenerator;
-import wodeledu.dsls.generator.edutest.EduTestWebGenerator;
-import wodeledu.dsls.generator.edutest.EduTestiOSAppGenerator;
+import wodeledu.dsls.generator.EduTestAndroidAppGenerator;
+import wodeledu.dsls.generator.EduTestGenerator;
+import wodeledu.dsls.generator.EduTestMoodleGenerator;
+import wodeledu.dsls.generator.EduTestWebGenerator;
+import wodeledu.dsls.generator.EduTestiOSAppGenerator;
 import wodeledu.utils.manager.WodelEduUtils;
 
 public class GenerateEduTestCode extends AbstractHandler {

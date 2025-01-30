@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -25,6 +26,7 @@ public class SpecificReferenceConfigurationStrategy extends
 	protected EObject object;
 	protected EObject target;
 	protected EObject obj;
+	protected EObject refObj;
 	protected List<EObject> o;
 	protected Object value = null;
 	protected boolean removal = false;
@@ -77,8 +79,11 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 				}
 				if (this.object.eGet(reference) instanceof EObject) {
-                    try { 
+                    try {
                         this.obj = EMFCopier.copy(this.object);
+                        this.refObj = EMFCopier.copy((EObject)this.object.eGet(this.reference, true));
+                        EStructuralFeature feat = (this.refObj.eClass().getEStructuralFeature("name"));
+                        System.out.println(this.refObj.eClass().eGet(feat));
                     } catch (Exception ex) {
                         this.obj = this.object;
                     }
@@ -109,8 +114,8 @@ public class SpecificReferenceConfigurationStrategy extends
 					}
 					this.o.add(this.target);
 				}
+				this.srcRefType = this.reference.getName();
 			}
-			this.srcRefType = this.reference.getName();
 		}
 	}
 	
@@ -182,8 +187,8 @@ public class SpecificReferenceConfigurationStrategy extends
 						}
 					}
 				}
+				this.srcRefType = this.reference.getName();
 			}
-			this.srcRefType = this.reference.getName();
 		}
 	}
 	
@@ -204,8 +209,8 @@ public class SpecificReferenceConfigurationStrategy extends
 	}
 	
 	public Object getPrevious() {
-		if (obj != null) {
-			return obj.eGet(reference);
+		if (this.refObj != null) {
+			return this.refObj;
 		}
 		return null;
 	}

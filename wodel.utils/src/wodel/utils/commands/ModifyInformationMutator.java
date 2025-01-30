@@ -21,6 +21,7 @@ import wodel.utils.commands.strategies.AttributeConfigurationStrategy;
 import wodel.utils.commands.strategies.CopyReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.RandomReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.ReferenceConfigurationStrategy;
+import wodel.utils.commands.strategies.SpecificReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.SwapAttributeConfigurationStrategy;
 import wodel.utils.commands.strategies.SwapReferenceConfigurationStrategy;
 import wodel.utils.exceptions.ReferenceNonExistingException;
@@ -296,16 +297,16 @@ public class ModifyInformationMutator extends Mutator {
 							if (p instanceof List<?>) {
 								prev = ((List<EObject>) p).get(0);
 							}
-							previous.put(e.getKey(), prev);
+							previous.put(e.getKey(), EMFCopier.copy(prev));
 							Object n = srcf.getNext(object);
 							EObject nxt = null;
 							if (n instanceof EObject) {
-								nxt = (EObject) p;
+								nxt = (EObject) n;
 							}
 							if (n instanceof List<?>) {
 								nxt = ((List<EObject>) n).get(0);
 							}
-							next.put(e.getKey(), nxt);
+							next.put(e.getKey(), EMFCopier.copy(nxt));
 							oldRefValue.put(e.getKey(), srcf.getOtherSource());
 							oldRefNameValue.put(e.getKey(), srcf.getOtherSourceName());
 							newRefValue.put(e.getKey(), srcf.getOtherTarget());
@@ -323,75 +324,73 @@ public class ModifyInformationMutator extends Mutator {
 								if (p instanceof List<?>) {
 									prev = ((List<EObject>) p).get(0);
 								}
-								previous.put(e.getKey(), prev);
+								previous.put(e.getKey(), EMFCopier.copy(prev));
 								Object n = crcf.getNext(eobjref);
 								EObject nxt = null;
 								if (n instanceof EObject) {
-									nxt = (EObject) p;
+									nxt = (EObject) n;
 								}
 								if (n instanceof List<?>) {
 									nxt = ((List<EObject>) n).get(0);
 								}
-								next.put(e.getKey(), nxt);
+								next.put(e.getKey(), EMFCopier.copy(nxt));
+							}
+							else if (refConfig instanceof RandomReferenceConfigurationStrategy) {
+								RandomReferenceConfigurationStrategy rrcf = (RandomReferenceConfigurationStrategy) refConfig;
+								if (rrcf.getPrevious() instanceof List<?>) {
+									List<EObject> prev = (List<EObject>) rrcf.getPrevious();
+									if (prev != null) {
+										if (prev.size() > 0) {
+											previous.put(e.getKey(), prev.get(0));
+										}
+									}
+								}
+								if (rrcf.getPrevious() instanceof EObject) {
+									previous.put(e.getKey(), (EObject) rrcf.getPrevious());
+								}
+								if (rrcf.getNext() instanceof List<?>) {
+									List<EObject> nxt = (List<EObject>) rrcf.getNext();
+									if (nxt != null) {
+										if (nxt.size() > 0) {
+											next.put(e.getKey(), nxt.get(0));
+										}
+									}
+								}
+								if (rrcf.getNext() instanceof EObject) {
+									next.put(e.getKey(), (EObject) rrcf.getNext());
+								}
+								srcRefType = rrcf.getSrcRefType(); 
+								eobjref = EMFCopier.copy(object);
 							}
 							else {
-								if (refConfig instanceof RandomReferenceConfigurationStrategy) {
-									RandomReferenceConfigurationStrategy rrcf = (RandomReferenceConfigurationStrategy) refConfig;
-									if (rrcf.getPrevious() instanceof List<?>) {
-										List<EObject> prev = (List<EObject>) rrcf.getPrevious();
-										if (prev != null) {
-											if (prev.size() > 0) {
-												previous.put(e.getKey(), prev.get(0));
-											}
-										}
+								if (refConfig instanceof SpecificReferenceConfigurationStrategy) {
+									SpecificReferenceConfigurationStrategy srcs = (SpecificReferenceConfigurationStrategy) refConfig;
+									Object p = srcs.getPrevious();
+									EObject prev = null;
+									if (p instanceof EObject) {
+										prev = (EObject) p;
 									}
-									if (rrcf.getPrevious() instanceof EObject) {
-										previous.put(e.getKey(), (EObject) rrcf.getPrevious());
+									if (p instanceof List<?>) {
+										prev = ((List<EObject>) p).get(0);
 									}
-									if (rrcf.getNext() instanceof List<?>) {
-										List<EObject> nxt = (List<EObject>) rrcf.getNext();
-										if (nxt != null) {
-											if (nxt.size() > 0) {
-												next.put(e.getKey(), nxt.get(0));
-											}
-										}
+									previous.put(e.getKey(), EMFCopier.copy(prev));
+									Object n = srcs.getNext();
+									EObject nxt = null;
+									if (n instanceof EObject) {
+										nxt = (EObject) n;
 									}
-									if (rrcf.getNext() instanceof EObject) {
-										next.put(e.getKey(), (EObject) rrcf.getNext());
+									if (n instanceof List<?>) {
+										nxt = ((List<EObject>) n).get(0);
 									}
-									srcRefType = rrcf.getSrcRefType(); 
+									next.put(e.getKey(), EMFCopier.copy(nxt));
+									srcRefType = srcs.getSrcRefType();
 								}
-								eobjref = EMFCopier.copy(object);
 							}
 						}
 						if (refConfig == null) {
 							ModelManager.unsetReference(e.getKey(), object);
 							next.put(e.getKey(), null);
 						} else {
-							EReference r = (EReference) ModelManager.getReferenceByName(e.getKey(), object);
-							Object ob = object.eGet(r, true);
-							if (ob instanceof EObject) {
-								List<EObject> list = new ArrayList<EObject>();
-								list.add((EObject) ob);
-								if (refConfig.getValue(object) instanceof EObject) {
-									list.add((EObject) refConfig.getValue(object));
-								}
-								if (refConfig.getValue(object) instanceof List<?>) {
-									list.addAll((List<EObject>) refConfig.getValue(object));
-								}
-								next.put(e.getKey(), list);
-							}
-							if (ob instanceof List<?>) {
-								List<EObject> list = new ArrayList<EObject>();
-								list.addAll((List<EObject>) ob);
-								if (refConfig.getValue(object) instanceof EObject) {
-									list.add((EObject) refConfig.getValue(object));
-								}
-								if (refConfig.getValue(object) instanceof List<?>) {
-									list.addAll((List<EObject>) refConfig.getValue(object));
-								}
-								next.put(e.getKey(), list);
-							}
 						}
 					}
 				}
@@ -510,7 +509,7 @@ public class ModifyInformationMutator extends Mutator {
 				if (previous.get(refName) instanceof EObject) {
 					return (EObject) previous.get(refName);
 				}
-				else if (previous.get(refName) instanceof List<?>){
+				else if (previous.get(refName) instanceof List<?> && ((List<EObject>) previous.get(refName)).size() > 0){
 					return ((List<EObject>) previous.get(refName)).get(0);
 				}
 			}
@@ -524,7 +523,7 @@ public class ModifyInformationMutator extends Mutator {
 				if (next.get(refName) instanceof EObject) {
 					return (EObject) next.get(refName);
 				}
-				else if (next.get(refName) instanceof List<?>){
+				else if (next.get(refName) instanceof List<?> && ((List<EObject>) next.get(refName)).size() > 0){
 					return ((List<EObject>) next.get(refName)).get(0);
 				}
 			}

@@ -59,6 +59,43 @@ public interface ModeltextPackage extends EPackage {
 	ModeltextPackage eINSTANCE = modeltext.impl.ModeltextPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link modeltext.impl.ItemImpl <em>Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeltext.impl.ItemImpl
+	 * @see modeltext.impl.ModeltextPackageImpl#getItem()
+	 * @generated
+	 */
+	int ITEM = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITEM__NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>Item</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITEM_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Item</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITEM_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link modeltext.impl.IdentifyElementsImpl <em>Identify Elements</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,7 +103,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getIdentifyElements()
 	 * @generated
 	 */
-	int IDENTIFY_ELEMENTS = 0;
+	int IDENTIFY_ELEMENTS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Metamodel</b></em>' attribute.
@@ -78,13 +115,13 @@ public interface ModeltextPackage extends EPackage {
 	int IDENTIFY_ELEMENTS__METAMODEL = 0;
 
 	/**
-	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDENTIFY_ELEMENTS__ELEMENTS = 1;
+	int IDENTIFY_ELEMENTS__INSTANCES = 1;
 
 	/**
 	 * The number of structural features of the '<em>Identify Elements</em>' class.
@@ -105,6 +142,52 @@ public interface ModeltextPackage extends EPackage {
 	int IDENTIFY_ELEMENTS_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link modeltext.impl.MutatorInstanceImpl <em>Mutator Instance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see modeltext.impl.MutatorInstanceImpl
+	 * @see modeltext.impl.ModeltextPackageImpl#getMutatorInstance()
+	 * @generated
+	 */
+	int MUTATOR_INSTANCE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__NAME = ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE__ELEMENTS = ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Mutator Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE_FEATURE_COUNT = ITEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Mutator Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR_INSTANCE_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link modeltext.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,7 +195,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getValuedFeature()
 	 * @generated
 	 */
-	int VALUED_FEATURE = 1;
+	int VALUED_FEATURE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' reference.
@@ -185,7 +268,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getElement()
 	 * @generated
 	 */
-	int ELEMENT = 2;
+	int ELEMENT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -249,7 +332,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getWord()
 	 * @generated
 	 */
-	int WORD = 3;
+	int WORD = 5;
 
 	/**
 	 * The number of structural features of the '<em>Word</em>' class.
@@ -277,7 +360,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getConstant()
 	 * @generated
 	 */
-	int CONSTANT = 4;
+	int CONSTANT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -314,7 +397,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getVariable()
 	 * @generated
 	 */
-	int VARIABLE = 5;
+	int VARIABLE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference.
@@ -360,7 +443,7 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getMacro()
 	 * @generated
 	 */
-	int MACRO = 6;
+	int MACRO = 8;
 
 	/**
 	 * The feature id for the '<em><b>Item</b></em>' attribute.
@@ -397,8 +480,29 @@ public interface ModeltextPackage extends EPackage {
 	 * @see modeltext.impl.ModeltextPackageImpl#getMacroItem()
 	 * @generated
 	 */
-	int MACRO_ITEM = 7;
+	int MACRO_ITEM = 9;
 
+
+	/**
+	 * Returns the meta object for class '{@link modeltext.Item <em>Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Item</em>'.
+	 * @see modeltext.Item
+	 * @generated
+	 */
+	EClass getItem();
+
+	/**
+	 * Returns the meta object for the reference '{@link modeltext.Item#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Name</em>'.
+	 * @see modeltext.Item#getName()
+	 * @see #getItem()
+	 * @generated
+	 */
+	EReference getItem_Name();
 
 	/**
 	 * Returns the meta object for class '{@link modeltext.IdentifyElements <em>Identify Elements</em>}'.
@@ -422,15 +526,36 @@ public interface ModeltextPackage extends EPackage {
 	EAttribute getIdentifyElements_Metamodel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link modeltext.IdentifyElements#getElements <em>Elements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link modeltext.IdentifyElements#getInstances <em>Instances</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Elements</em>'.
-	 * @see modeltext.IdentifyElements#getElements()
+	 * @return the meta object for the containment reference list '<em>Instances</em>'.
+	 * @see modeltext.IdentifyElements#getInstances()
 	 * @see #getIdentifyElements()
 	 * @generated
 	 */
-	EReference getIdentifyElements_Elements();
+	EReference getIdentifyElements_Instances();
+
+	/**
+	 * Returns the meta object for class '{@link modeltext.MutatorInstance <em>Mutator Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mutator Instance</em>'.
+	 * @see modeltext.MutatorInstance
+	 * @generated
+	 */
+	EClass getMutatorInstance();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link modeltext.MutatorInstance#getElements <em>Elements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Elements</em>'.
+	 * @see modeltext.MutatorInstance#getElements()
+	 * @see #getMutatorInstance()
+	 * @generated
+	 */
+	EReference getMutatorInstance_Elements();
 
 	/**
 	 * Returns the meta object for class '{@link modeltext.ValuedFeature <em>Valued Feature</em>}'.
@@ -669,6 +794,24 @@ public interface ModeltextPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link modeltext.impl.ItemImpl <em>Item</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeltext.impl.ItemImpl
+		 * @see modeltext.impl.ModeltextPackageImpl#getItem()
+		 * @generated
+		 */
+		EClass ITEM = eINSTANCE.getItem();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ITEM__NAME = eINSTANCE.getItem_Name();
+
+		/**
 		 * The meta object literal for the '{@link modeltext.impl.IdentifyElementsImpl <em>Identify Elements</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -687,12 +830,30 @@ public interface ModeltextPackage extends EPackage {
 		EAttribute IDENTIFY_ELEMENTS__METAMODEL = eINSTANCE.getIdentifyElements_Metamodel();
 
 		/**
+		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IDENTIFY_ELEMENTS__INSTANCES = eINSTANCE.getIdentifyElements_Instances();
+
+		/**
+		 * The meta object literal for the '{@link modeltext.impl.MutatorInstanceImpl <em>Mutator Instance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see modeltext.impl.MutatorInstanceImpl
+		 * @see modeltext.impl.ModeltextPackageImpl#getMutatorInstance()
+		 * @generated
+		 */
+		EClass MUTATOR_INSTANCE = eINSTANCE.getMutatorInstance();
+
+		/**
 		 * The meta object literal for the '<em><b>Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference IDENTIFY_ELEMENTS__ELEMENTS = eINSTANCE.getIdentifyElements_Elements();
+		EReference MUTATOR_INSTANCE__ELEMENTS = eINSTANCE.getMutatorInstance_Elements();
 
 		/**
 		 * The meta object literal for the '{@link modeltext.impl.ValuedFeatureImpl <em>Valued Feature</em>}' class.

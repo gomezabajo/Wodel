@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -52,7 +53,21 @@ public class LCModel2Text extends Model2Text {
 			e.printStackTrace();
 		}
 		//Resource model = ModelManager.loadModel(packages, URI.createURI("file://" + ModelManager.getModelsFolder() + "/" + fileName).toFileString());
-		String booleanExpression = CircuitUtils.toBoolExp(CircuitUtils.convertToLC(packages, resource));
+		try {
+			if (resource == null) {
+				if (model.indexOf(":") != -1) {
+					model = model.substring(model.indexOf(":") + 1, model.length());
+				}
+				resource = ModelManager.loadModel(packages, URI.createURI("file://" + model).toFileString());
+			}
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String booleanExpression = "";
+		if (resource != null) {
+			booleanExpression = CircuitUtils.toBoolExp(CircuitUtils.convertToLC(packages, resource));
+		}
 		return booleanExpression;
 	}
 }

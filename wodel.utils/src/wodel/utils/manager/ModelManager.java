@@ -3836,27 +3836,34 @@ public class ModelManager {
 	 * @return EObject
 	 */
 	public static EObject getObject(Resource model, EObject eobj) {
+		EObject eo = eobj;
+		if (eo == null) {
+			return null;
+		}
+		if (eo.eIsProxy()) {
+			eo = EcoreUtil.resolve(eo, model.getResourceSet());
+		}
 		EObject ob = null;
 		if (eobj != null) {
 			List<EObject> objs = getAllObjects(model);
 
 			for (EObject obj : objs) {
-				if (EcoreUtil.equals(obj, eobj)) {
+				if (EcoreUtil.equals(obj, eo)) {
 					ob = obj;
 					break;
 				}
 			}
 			if (ob == null) {
-				ob = getObjectByURI(model, EcoreUtil.getURI(eobj));
+				ob = getObjectByURI(model, EcoreUtil.getURI(eo));
 			}
 			if (ob == null) {
-				ob = getObjectByURIEnding(model, EcoreUtil.getURI(eobj));
+				ob = getObjectByURIEnding(model, EcoreUtil.getURI(eo));
 			}
 			if (ob == null) {
-				ob = getObjectByID(model, EcoreUtil.getIdentification(eobj));
+				ob = getObjectByID(model, EcoreUtil.getIdentification(eo));
 			}
 			if (ob == null) {
-				ob = getObjectByPartialID(model, EcoreUtil.getIdentification(eobj));
+				ob = getObjectByPartialID(model, EcoreUtil.getIdentification(eo));
 			}
 		}
 		return ob;
@@ -4027,10 +4034,19 @@ public class ModelManager {
 	public static EObject getObjectByPartialID(Resource model, String identification) {
 		List<EObject> objs = getAllObjects(model);
 
-		String objectType = identification.substring(identification.indexOf("#"), identification.indexOf("@"));
-		String objectURI = identification.substring(identification.lastIndexOf("#/") + 2, identification.indexOf("}"));
+		String partID = identification;
+		if (partID.indexOf("{") != -1) {
+			partID = partID.substring(partID.indexOf("{") + 1 , partID.length());
+		}
+		partID = partID.substring(partID.indexOf("#//@"), partID.length());
+		if (partID.indexOf("}") != -1) {
+			partID = partID.substring(0, partID.indexOf("}"));
+		}
+		String objectURI = partID;
+		String objectType = objectURI.substring("#//@".length(), objectURI.length());
+		objectType = objectType.substring(0, objectType.indexOf("."));
 		String uriToFind = getURIToFind(objectURI);
-		//String partialID = identification.substring(identification.indexOf("#"), identification.indexOf("{"));
+		//String partialID = partID.substring(partID.indexOf("#"), partID.indexOf("{"));
 		for (EObject obj : objs) {
 			String objID = EcoreUtil.getIdentification(obj);
 			String objType = objID.substring(objID.indexOf("#"), objID.indexOf("@"));

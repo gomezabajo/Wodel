@@ -27,4 +27,5 @@ Export-Package: wodel.dsls.parser.antlr.internal,
  wodel.dsls.generator,
  wodel.dsls,
  wodel.dsls.serializer
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging

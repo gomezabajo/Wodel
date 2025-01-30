@@ -58,6 +58,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModeltextPackage.IDENTIFY_ELEMENTS: return createIdentifyElements();
+			case ModeltextPackage.MUTATOR_INSTANCE: return createMutatorInstance();
 			case ModeltextPackage.VALUED_FEATURE: return createValuedFeature();
 			case ModeltextPackage.ELEMENT: return createElement();
 			case ModeltextPackage.CONSTANT: return createConstant();
@@ -103,6 +104,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IdentifyElements createIdentifyElements() {
 		IdentifyElementsImpl identifyElements = new IdentifyElementsImpl();
 		return identifyElements;
@@ -113,6 +115,18 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public MutatorInstance createMutatorInstance() {
+		MutatorInstanceImpl mutatorInstance = new MutatorInstanceImpl();
+		return mutatorInstance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public ValuedFeature createValuedFeature() {
 		ValuedFeatureImpl valuedFeature = new ValuedFeatureImpl();
 		return valuedFeature;
@@ -123,6 +137,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Element createElement() {
 		ElementImpl element = new ElementImpl();
 		return element;
@@ -133,6 +148,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Constant createConstant() {
 		ConstantImpl constant = new ConstantImpl();
 		return constant;
@@ -143,6 +159,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Variable createVariable() {
 		VariableImpl variable = new VariableImpl();
 		return variable;
@@ -153,6 +170,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Macro createMacro() {
 		MacroImpl macro = new MacroImpl();
 		return macro;
@@ -183,6 +201,7 @@ public class ModeltextFactoryImpl extends EFactoryImpl implements ModeltextFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModeltextPackage getModeltextPackage() {
 		return (ModeltextPackage)getEPackage();
 	}

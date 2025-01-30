@@ -170,7 +170,7 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		importPackages.add("org.eclipse.xtext.generator");
 		importPackages.add("org.eclipse.xtext.xbase.lib");
 		importPackages.add("org.eclipse.xtext.util");
-		importPackages.add("wodeledu.dsls.generator.edutest");
+		importPackages.add("wodeledu.dsls.generator");
 		importPackages.add("wodeledu.dsls.generator.modeldraw");
 		importPackages.add("com.google.inject");
 		importPackages.add("com.google.common.util.concurrent.internal");
@@ -463,13 +463,15 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		try {
 			InputStream stream = openContentStream();
 			String def = "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
-			def += ">Gate: %type gate\n";
-			def += ">Gate(input->src == null): input\n";
-			def += ">Gate(output->tar == null): output\n";
-			def += ">InputPin: input pin %name\n";
-			def += ">OutputPin: output pin %name\n";
-			def += ">InputPin.src: source\n";
-			def += ">OutputPin.tar: target\n";
+			def += "LogicCircuit {\n";
+			def += "\t>Gate: %type gate\n";
+			def += "\t>Gate(input->src == null): input\n";
+			def += "\t>Gate(output->tar == null): output\n";
+			def += "\t>InputPin: input pin %name\n";
+			def += "\t>OutputPin: output pin %name\n";
+			def += "\t>InputPin.src: source\n";
+			def += "\t>OutputPin.tar: target\n";
+			def += "}\n";
 			if (idelemsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;
@@ -736,6 +738,186 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		final IFolder dpicFolder = project.getFolder(new Path("dpic"));
+		dpicFolder.create(true, true, monitor);
+
+		try {
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("dpic")) {
+							final String name = entry.getName();
+							final File f = dpicFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("dpic".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = dpicFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (f.isFile()) {
+						final IFile dest = dpicFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final IFolder batikFolder = dpicFolder.getFolder(new Path("batik"));
+		batikFolder.create(true, true, monitor);
+
+		try {
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("batik")) {
+							final String name = entry.getName();
+							final File f = batikFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("batik".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = batikFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = batikFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		final IFolder batikExtensionsFolder = batikFolder.getFolder(new Path("extensions"));
+		batikExtensionsFolder.create(true, true, monitor);
+
+		try {
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("extensions")) {
+							final String name = entry.getName();
+							final File f = batikExtensionsFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("extensions".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = batikExtensionsFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik/extensions";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = batikExtensionsFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		final IFolder batikLibFolder = batikFolder.getFolder(new Path("lib"));
+		batikLibFolder.create(true, true, monitor);
+
+		try {
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib")) {
+							final String name = entry.getName();
+							final File f = batikLibFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = batikLibFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik/lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					final IFile dest = batikLibFolder.getFile(new Path(f.getName()));
+					dest.create(new FileInputStream(f), true, monitor);
+					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 
 		createPlugin(monitor, project);

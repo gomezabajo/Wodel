@@ -5,10 +5,12 @@ package modeltext.impl;
 import modeltext.Constant;
 import modeltext.Element;
 import modeltext.IdentifyElements;
+import modeltext.Item;
 import modeltext.Macro;
 import modeltext.MacroItem;
 import modeltext.ModeltextFactory;
 import modeltext.ModeltextPackage;
+import modeltext.MutatorInstance;
 import modeltext.ValuedFeature;
 import modeltext.Variable;
 import modeltext.Word;
@@ -33,7 +35,21 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass itemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass identifyElementsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mutatorInstanceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,6 +165,27 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EClass getItem() {
+		return itemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getItem_Name() {
+		return (EReference)itemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getIdentifyElements() {
 		return identifyElementsEClass;
 	}
@@ -158,6 +195,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIdentifyElements_Metamodel() {
 		return (EAttribute)identifyElementsEClass.getEStructuralFeatures().get(0);
 	}
@@ -167,7 +205,8 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIdentifyElements_Elements() {
+	@Override
+	public EReference getIdentifyElements_Instances() {
 		return (EReference)identifyElementsEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -176,6 +215,27 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EClass getMutatorInstance() {
+		return mutatorInstanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMutatorInstance_Elements() {
+		return (EReference)mutatorInstanceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getValuedFeature() {
 		return valuedFeatureEClass;
 	}
@@ -185,6 +245,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getValuedFeature_Name() {
 		return (EReference)valuedFeatureEClass.getEStructuralFeatures().get(0);
 	}
@@ -194,6 +255,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getValuedFeature_Negation() {
 		return (EAttribute)valuedFeatureEClass.getEStructuralFeatures().get(1);
 	}
@@ -203,6 +265,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getValuedFeature_Feat() {
 		return (EReference)valuedFeatureEClass.getEStructuralFeatures().get(2);
 	}
@@ -212,6 +275,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getValuedFeature_RefFeature() {
 		return (EReference)valuedFeatureEClass.getEStructuralFeatures().get(3);
 	}
@@ -221,6 +285,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getValuedFeature_Value() {
 		return (EAttribute)valuedFeatureEClass.getEStructuralFeatures().get(4);
 	}
@@ -230,6 +295,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getElement() {
 		return elementEClass;
 	}
@@ -239,6 +305,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Type() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(0);
 	}
@@ -248,6 +315,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Ref() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(1);
 	}
@@ -257,6 +325,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Words() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(2);
 	}
@@ -266,6 +335,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getElement_Feature() {
 		return (EReference)elementEClass.getEStructuralFeatures().get(3);
 	}
@@ -275,6 +345,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWord() {
 		return wordEClass;
 	}
@@ -284,6 +355,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConstant() {
 		return constantEClass;
 	}
@@ -293,6 +365,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConstant_Value() {
 		return (EAttribute)constantEClass.getEStructuralFeatures().get(0);
 	}
@@ -302,6 +375,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariable() {
 		return variableEClass;
 	}
@@ -311,6 +385,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariable_Ref() {
 		return (EReference)variableEClass.getEStructuralFeatures().get(0);
 	}
@@ -320,6 +395,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariable_Id() {
 		return (EReference)variableEClass.getEStructuralFeatures().get(1);
 	}
@@ -329,6 +405,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMacro() {
 		return macroEClass;
 	}
@@ -338,6 +415,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMacro_Item() {
 		return (EAttribute)macroEClass.getEStructuralFeatures().get(0);
 	}
@@ -347,6 +425,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getMacroItem() {
 		return macroItemEEnum;
 	}
@@ -356,6 +435,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModeltextFactory getModeltextFactory() {
 		return (ModeltextFactory)getEFactoryInstance();
 	}
@@ -379,9 +459,15 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 		isCreated = true;
 
 		// Create classes and their features
+		itemEClass = createEClass(ITEM);
+		createEReference(itemEClass, ITEM__NAME);
+
 		identifyElementsEClass = createEClass(IDENTIFY_ELEMENTS);
 		createEAttribute(identifyElementsEClass, IDENTIFY_ELEMENTS__METAMODEL);
-		createEReference(identifyElementsEClass, IDENTIFY_ELEMENTS__ELEMENTS);
+		createEReference(identifyElementsEClass, IDENTIFY_ELEMENTS__INSTANCES);
+
+		mutatorInstanceEClass = createEClass(MUTATOR_INSTANCE);
+		createEReference(mutatorInstanceEClass, MUTATOR_INSTANCE__ELEMENTS);
 
 		valuedFeatureEClass = createEClass(VALUED_FEATURE);
 		createEReference(valuedFeatureEClass, VALUED_FEATURE__NAME);
@@ -440,14 +526,21 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		mutatorInstanceEClass.getESuperTypes().add(this.getItem());
 		constantEClass.getESuperTypes().add(this.getWord());
 		variableEClass.getESuperTypes().add(this.getWord());
 		macroEClass.getESuperTypes().add(this.getWord());
 
 		// Initialize classes, features, and operations; add parameters
+		initEClass(itemEClass, Item.class, "Item", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getItem_Name(), ecorePackage.getEClass(), null, "name", null, 0, 1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(identifyElementsEClass, IdentifyElements.class, "IdentifyElements", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIdentifyElements_Metamodel(), ecorePackage.getEString(), "metamodel", null, 1, 1, IdentifyElements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIdentifyElements_Elements(), this.getElement(), null, "elements", null, 0, -1, IdentifyElements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIdentifyElements_Instances(), this.getMutatorInstance(), null, "instances", null, 1, -1, IdentifyElements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mutatorInstanceEClass, MutatorInstance.class, "MutatorInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMutatorInstance_Elements(), this.getElement(), null, "elements", null, 0, -1, MutatorInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(valuedFeatureEClass, ValuedFeature.class, "ValuedFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getValuedFeature_Name(), ecorePackage.getEClass(), null, "name", null, 0, 1, ValuedFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

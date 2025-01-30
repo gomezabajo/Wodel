@@ -398,6 +398,9 @@ public class CircuitUtils {
     
     public static LogicalCircuit convertToLC(List<EPackage> packages, Resource model) {
     	LogicalCircuit logicalCircuit = new LogicalCircuit();
+    	if (packages == null || model == null) {
+    		return logicalCircuit;
+    	}
     	try {
     		EObject root = ModelManager.getRoot(model);
 			List<EObject> gates = ModelManager.getReferences("gates", root);

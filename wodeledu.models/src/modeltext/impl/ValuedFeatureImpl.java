@@ -126,6 +126,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getName() {
 		if (name != null && name.eIsProxy()) {
 			InternalEObject oldName = (InternalEObject)name;
@@ -152,6 +153,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(EClass newName) {
 		EClass oldName = name;
 		name = newName;
@@ -164,6 +166,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isNegation() {
 		return negation;
 	}
@@ -173,6 +176,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNegation(boolean newNegation) {
 		boolean oldNegation = negation;
 		negation = newNegation;
@@ -185,6 +189,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getFeat() {
 		if (feat != null && feat.eIsProxy()) {
 			InternalEObject oldFeat = (InternalEObject)feat;
@@ -211,6 +216,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFeat(EStructuralFeature newFeat) {
 		EStructuralFeature oldFeat = feat;
 		feat = newFeat;
@@ -223,6 +229,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getRefFeature() {
 		if (refFeature != null && refFeature.eIsProxy()) {
 			InternalEObject oldRefFeature = (InternalEObject)refFeature;
@@ -249,6 +256,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefFeature(EStructuralFeature newRefFeature) {
 		EStructuralFeature oldRefFeature = refFeature;
 		refFeature = newRefFeature;
@@ -261,6 +269,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -270,6 +279,7 @@ public class ValuedFeatureImpl extends MinimalEObjectImpl.Container implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;

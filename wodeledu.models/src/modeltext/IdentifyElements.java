@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link modeltext.IdentifyElements#getMetamodel <em>Metamodel</em>}</li>
- *   <li>{@link modeltext.IdentifyElements#getElements <em>Elements</em>}</li>
+ *   <li>{@link modeltext.IdentifyElements#getInstances <em>Instances</em>}</li>
  * </ul>
  *
  * @see modeltext.ModeltextPackage#getIdentifyElements()
@@ -47,15 +47,15 @@ public interface IdentifyElements extends EObject {
 	void setMetamodel(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
-	 * The list contents are of type {@link modeltext.Element}.
+	 * Returns the value of the '<em><b>Instances</b></em>' containment reference list.
+	 * The list contents are of type {@link modeltext.MutatorInstance}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Elements</em>' containment reference list.
-	 * @see modeltext.ModeltextPackage#getIdentifyElements_Elements()
-	 * @model containment="true"
+	 * @return the value of the '<em>Instances</em>' containment reference list.
+	 * @see modeltext.ModeltextPackage#getIdentifyElements_Instances()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<Element> getElements();
+	EList<MutatorInstance> getInstances();
 
 } // IdentifyElements

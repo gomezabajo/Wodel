@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="umldiagram" nsURI="http://UMLDiagram/1.0" nsPrefix="umldiagram">
+  <eClassifiers xsi:type="ecore:EClass" name="UMLDiagram">
+    <eAnnotations source="gmf.diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classdiagram" eType="#//classdiagram/ClassDiagram"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectdiagram" eType="#//objectdiagram/ObjectDiagram"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//TypedElement">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicitySource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicityTarget" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//TypedElement">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterTypes" upperBound="-1"
+        eType="#//Typeable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Typeable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="public" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Typeable" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="#//Typeable"/>
+  <eSubpackages name="classdiagram" nsURI="http://ClassDiagram/1.0" nsPrefix="classdiagram">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassDiagram">
+      <eAnnotations source="gmf.diagram"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+          eType="#//classdiagram/Class" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+          eType="#//classdiagram/ClassDependency" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="associations" upperBound="-1"
+          eType="#//classdiagram/ClassAssociation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="datatypes" upperBound="-1"
+          eType="#//DataType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="compositions" upperBound="-1"
+          eType="#//classdiagram/ClassComposition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="aggregations" upperBound="-1"
+          eType="#//classdiagram/ClassAggregation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Typeable">
+      <eAnnotations source="gmf.node">
+        <details key="label" value="name"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ownedAttributes" upperBound="-1"
+          eType="#//Attribute" containment="true">
+        <eAnnotations source="gmf.compartment">
+          <details key="layout" value="list"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ownedOperations" upperBound="-1"
+          eType="#//Operation" containment="true">
+        <eAnnotations source="gmf.compartment">
+          <details key="layout" value="list"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nestedIn" eType="#//classdiagram/Class"
+          eOpposite="#//classdiagram/Class/nested">
+        <eAnnotations source="gmf.link">
+          <details key="target.decoration" value="square"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nested" upperBound="-1"
+          eType="#//classdiagram/Class" eOpposite="#//classdiagram/Class/nestedIn"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superclass" eType="#//classdiagram/Class"
+          eOpposite="#//classdiagram/Class/subclasses">
+        <eAnnotations source="gmf.link">
+          <details key="target.decoration" value="closedarrow"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subclasses" upperBound="-1"
+          eType="#//classdiagram/Class" eOpposite="#//classdiagram/Class/superclass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassDependency">
+      <eAnnotations source="gmf.link">
+        <details key="source" value="dependee"/>
+        <details key="target" value="depender"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="dash"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dependee" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="depender" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+          <details key="derivation" value="if depender.oclIsUndefined() or dependee.oclIsUndefined() then '' else depender.name.concat(' 2 ').concat(dependee.name) endif"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassAssociation" eSuperTypes="#//Connection">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="name"/>
+        <details key="label.icon" value="true"/>
+        <details key="source" value="source"/>
+        <details key="target" value="target"/>
+        <details key="target.decoration" value="arrow"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassComposition" eSuperTypes="#//Connection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constituent" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="composite" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassAggregation" eSuperTypes="#//Connection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//classdiagram/Class"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="objectdiagram" nsURI="http://ObjectDiagram/1.0" nsPrefix="objectdiagram">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectDiagram">
+      <eAnnotations source="gmf.diagram"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+          eType="#//objectdiagram/Object" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+          eType="#//objectdiagram/ObjectDependency" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="associations" upperBound="-1"
+          eType="#//objectdiagram/ObjectAssociation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="datatypes" upperBound="-1"
+          eType="#//DataType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="compositions" upperBound="-1"
+          eType="#//objectdiagram/ObjectComposition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//Typeable">
+      <eAnnotations source="gmf.node">
+        <details key="label" value="name"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedAttributeValues"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedOperationValues"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nestedIn" eType="#//objectdiagram/Object"
+          eOpposite="#//objectdiagram/Object/nested">
+        <eAnnotations source="gmf.link">
+          <details key="target.decoration" value="square"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nested" upperBound="-1"
+          eType="#//objectdiagram/Object" eOpposite="#//objectdiagram/Object/nestedIn"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="class" eType="#//classdiagram/Class">
+        <eAnnotations source="gmf.link">
+          <details key="target.decoration" value="closedarrow"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectDependency">
+      <eAnnotations source="gmf.link">
+        <details key="source" value="dependee"/>
+        <details key="target" value="depender"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="dash"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dependee" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="depender" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+          <details key="derivation" value="if depender.oclIsUndefined() or dependee.oclIsUndefined() then '' else depender.name.concat(' 2 ').concat(dependee.name) endif"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectAssociation" eSuperTypes="#//Connection">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="name"/>
+        <details key="label.icon" value="true"/>
+        <details key="source" value="source"/>
+        <details key="target" value="target"/>
+        <details key="target.decoration" value="arrow"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectComposition" eSuperTypes="#//Connection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constituent" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="composite" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectAggregation" eSuperTypes="#//Connection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//objectdiagram/Object"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

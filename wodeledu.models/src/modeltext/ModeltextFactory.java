@@ -31,6 +31,15 @@ public interface ModeltextFactory extends EFactory {
 	IdentifyElements createIdentifyElements();
 
 	/**
+	 * Returns a new object of class '<em>Mutator Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Mutator Instance</em>'.
+	 * @generated
+	 */
+	MutatorInstance createMutatorInstance();
+
+	/**
 	 * Returns a new object of class '<em>Valued Feature</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

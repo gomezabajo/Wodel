@@ -24,5 +24,13 @@
             name="Logic Circuits"
             project="true">
       </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeledu.extension.WodelEduExamples"
+            class="wodeledu.extension.examples.wizards.WodelEduUMLCDWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeledu.extension.examples.wizards.WodelEduUMLCDWizard"
+            name="UML Class Diagrams"
+            project="true">
+      </wizard>
    </extension>
 </plugin>

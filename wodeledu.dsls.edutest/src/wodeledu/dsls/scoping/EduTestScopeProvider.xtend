@@ -25,6 +25,7 @@ import edutest.Program
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.util.EcoreUtil
 import edutest.MarkedBlock
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 
 /**
  * @author Pablo Gomez-Abajo
@@ -32,7 +33,7 @@ import edutest.MarkedBlock
  * Scope provider for the eduTest language.
  *
  */
-class EduTestScopeProvider extends AbstractEduTestScopeProvider {
+class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_MarkedBlock_block(MarkedBlock mb, EReference ref) {
 		val List<Block> scope = new ArrayList<Block>()

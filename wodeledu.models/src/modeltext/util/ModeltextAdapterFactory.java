@@ -68,8 +68,16 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 	protected ModeltextSwitch<Adapter> modelSwitch =
 		new ModeltextSwitch<Adapter>() {
 			@Override
+			public Adapter caseItem(Item object) {
+				return createItemAdapter();
+			}
+			@Override
 			public Adapter caseIdentifyElements(IdentifyElements object) {
 				return createIdentifyElementsAdapter();
+			}
+			@Override
+			public Adapter caseMutatorInstance(MutatorInstance object) {
+				return createMutatorInstanceAdapter();
 			}
 			@Override
 			public Adapter caseValuedFeature(ValuedFeature object) {
@@ -116,6 +124,20 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
+	 * Creates a new adapter for an object of class '{@link modeltext.Item <em>Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see modeltext.Item
+	 * @generated
+	 */
+	public Adapter createItemAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link modeltext.IdentifyElements <em>Identify Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -126,6 +148,20 @@ public class ModeltextAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIdentifyElementsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link modeltext.MutatorInstance <em>Mutator Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see modeltext.MutatorInstance
+	 * @generated
+	 */
+	public Adapter createMutatorInstanceAdapter() {
 		return null;
 	}
 

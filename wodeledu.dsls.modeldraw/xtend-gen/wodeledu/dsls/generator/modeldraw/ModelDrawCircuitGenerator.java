@@ -1044,7 +1044,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");
@@ -1394,7 +1394,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");
@@ -1686,7 +1686,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"java -Djava.awt.headless=true -jar batik-rasterizer.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");

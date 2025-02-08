@@ -4038,13 +4038,26 @@ public class ModelManager {
 		if (partID.indexOf("{") != -1) {
 			partID = partID.substring(partID.indexOf("{") + 1 , partID.length());
 		}
-		partID = partID.substring(partID.indexOf("#//@"), partID.length());
+		if (partID.indexOf("#//@") != -1) {
+			partID = partID.substring(partID.indexOf("#//@"), partID.length());
+		}
+		else if (partID.indexOf("#") != -1) {
+			partID = partID.substring(partID.indexOf("#"), partID.length());
+		}
 		if (partID.indexOf("}") != -1) {
 			partID = partID.substring(0, partID.indexOf("}"));
 		}
 		String objectURI = partID;
-		String objectType = objectURI.substring("#//@".length(), objectURI.length());
-		objectType = objectType.substring(0, objectType.indexOf("."));
+		int start = 0;
+		if (objectURI.indexOf("#//@") != -1) {
+			start = "#//@".length();
+		}
+		String objectType = objectURI.substring(start, objectURI.length());
+		int end = objectType.length();
+		if (objectType.indexOf(".") != -1) {
+			end = objectType.indexOf(".");
+		}
+		objectType = objectType.substring(0, end);
 		String uriToFind = getURIToFind(objectURI);
 		//String partialID = partID.substring(partID.indexOf("#"), partID.indexOf("{"));
 		for (EObject obj : objs) {

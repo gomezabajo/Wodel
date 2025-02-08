@@ -6,7 +6,6 @@ import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.GridLayoutAlgorithm;
 
-import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.dialog.ImpactInformation;
 import anatlyzer.atl.errors.Problem;

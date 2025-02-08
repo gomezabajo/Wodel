@@ -1,5 +1,7 @@
 package wodeltest.extension.run;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,9 +33,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.JavaModelException;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
 
 import wodel.extension.generator.IGenerator;
 import wodel.utils.manager.IOUtils;

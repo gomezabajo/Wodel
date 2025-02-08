@@ -27,4 +27,3 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.serializer
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
-

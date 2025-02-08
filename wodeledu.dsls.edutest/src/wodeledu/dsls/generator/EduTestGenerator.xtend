@@ -29,6 +29,8 @@ class EduTestGenerator extends AbstractGenerator {
 
 	@Inject EduTestWebGenerator webGenerator
 	@Inject EduTestMoodleGenerator moodleGenerator
+	@Inject EduTestHotPotatoesGenerator hotPotatoesGenerator
+	@Inject EduTestPolyglotJsonGenerator hotPolyglotJsonGenerator
 	@Inject EduTestAndroidAppGenerator androidAppGenerator
 	@Inject EduTestiOSAppGenerator iOSAppGenerator
 	
@@ -48,6 +50,12 @@ class EduTestGenerator extends AbstractGenerator {
 		}
 		if (eduTestMode.equals("Moodle")) {
 			moodleGenerator.doGenerate(resource, fsa, context)
+		}
+		if (eduTestMode.equals("HotPotatoes")) {
+			hotPotatoesGenerator.doGenerate(resource, fsa, context)
+		}
+		if (eduTestMode.equals("PoLyGloT")) {
+			hotPolyglotJsonGenerator.doGenerate(resource, fsa, context)
 		}
 		if (eduTestMode.equals("AndroidApp")) {
 			androidAppGenerator.doGenerate(resource, fsa, context)

@@ -1,7 +1,5 @@
 package wodeledu.dsls.scoping
 
-import wodeledu.dsls.scoping.AbstractModelDrawScopeProvider
-
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.scoping.Scopes
@@ -25,8 +23,9 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import modeldraw.ValuedFeature
 import modeldraw.MutatorInstance
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 
-class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
+class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
 	def IScope scope_Item_name(MutatorDraw draw, EReference ref) {
 		val List<EClass> scope = new ArrayList<EClass>()
 		scope.addAll(getEClasses(draw.metamodel))

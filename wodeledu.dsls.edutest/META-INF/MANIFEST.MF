@@ -16,7 +16,12 @@ Require-Bundle: wodeledu.models,
  org.eclipse.core.runtime,
  wodel.utils,
  org.eclipse.core.resources,
- wodeledu.utils
+ wodeledu.utils,
+ org.emfjson.jackson,
+ org.emfjson.core,
+ com.fasterxml.jackson.core.jackson-core,
+ com.fasterxml.jackson.core.jackson-annotations,
+ com.fasterxml.jackson.core.jackson-databind
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.formatting2,
@@ -30,4 +35,3 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.generator
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
-

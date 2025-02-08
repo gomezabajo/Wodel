@@ -45,10 +45,10 @@ import java.util.List;
 
 
 import wodeledu.dsls.ModelDrawStandaloneSetup;
-import wodeledu.dsls.generator.modeldraw.ModelDrawCircuitGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawDotGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawGenerator;
-import wodeledu.dsls.generator.modeldraw.ModelDrawPlantUMLGenerator;
+import wodeledu.dsls.generator.ModelDrawCircuitGenerator;
+import wodeledu.dsls.generator.ModelDrawDotGenerator;
+import wodeledu.dsls.generator.ModelDrawGenerator;
+import wodeledu.dsls.generator.ModelDrawPlantUMLGenerator;
 import wodeledu.utils.manager.WodelEduUtils;
 
 public class GenerateModelDrawCode extends AbstractHandler {

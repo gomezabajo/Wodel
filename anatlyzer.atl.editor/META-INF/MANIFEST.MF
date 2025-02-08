@@ -14,14 +14,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.7.0",
  org.eclipse.ui.editors;bundle-version="3.7.0",
  org.eclipse.m2m.atl.common;bundle-version="3.3.0",
- anatlyzer.atl.typing;visibility:=reexport,
  org.eclipse.emf.ecore,
  org.eclipse.jface,
  org.eclipse.swt,
  org.eclipse.m2m.atl.core.emf,
- anatlyzer.use.witness,
  org.eclipse.ui.workbench,
- org.eclipse.osgi
+ org.eclipse.osgi,
+ anatlyzer.atl.typing,
+ anatlyzer.use.witness
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: anatlyzer.atl.analysisext,

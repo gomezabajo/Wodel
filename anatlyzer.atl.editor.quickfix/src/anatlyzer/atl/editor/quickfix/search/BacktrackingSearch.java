@@ -1,7 +1,6 @@
 package anatlyzer.atl.editor.quickfix.search;
 
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
@@ -11,21 +10,9 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
 import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_AddBinding;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarExpression;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarFeature;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
-import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.witness.IWitnessFinder;
 
 public class BacktrackingSearch extends AbstractSearch {

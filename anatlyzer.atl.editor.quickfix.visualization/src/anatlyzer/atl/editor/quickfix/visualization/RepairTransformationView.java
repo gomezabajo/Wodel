@@ -50,11 +50,7 @@ import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.ISearchListener;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
 import anatlyzer.atl.editor.quickfix.search.SearchStrategyAll;
 import anatlyzer.atl.editor.quickfix.search.SearchStrategyLessProblems;
-import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.witness.IWitnessFinder;
-import anatlyzer.atl.witness.UseWitnessFinder;
-import anatlyzer.atl.witness.WitnessUtil;
-import anatlyzer.ui.configuration.TransformationConfiguration;
 
 public class RepairTransformationView extends ViewPart implements ISearchListener, IZoomableWorkbenchPart{
 	private static final String LESS_PROBLEMS_CMB = "Less problems";

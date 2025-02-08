@@ -83,6 +83,7 @@ import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.actions.ActionIds;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
@@ -1194,7 +1195,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						.getActiveWorkbenchWindow().getActivePage()
 						.getActiveEditor();
 					DiagramEditPart graphicalPart = diagramEditor.getDiagramEditPart();
-					Iterator<EditPart> children = graphicalPart.getChildren().iterator();
+					Iterator<? extends GraphicalEditPart> children = graphicalPart.getChildren().iterator();
 					while (children.hasNext()) {
 						EditPart editPart = (EditPart) children.next();
 						//org.eclipse.gmf.runtime.notation.impl.NodeImpl

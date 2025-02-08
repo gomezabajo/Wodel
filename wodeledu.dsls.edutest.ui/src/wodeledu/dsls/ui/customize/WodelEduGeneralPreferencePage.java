@@ -87,17 +87,21 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     	}
     	
     	composite = getFieldEditorParent();
-		String[][] values = new String[5][2];
+		String[][] values = new String[7][2];
 		values[0][0] = "";
 		values[0][1] = "";
 		values[1][0] = "Web";
 		values[1][1] = "Web";
 		values[2][0] = "Moodle";
 		values[2][1] = "Moodle";
-		values[3][0] = "AndroidApp";
-		values[3][1] = "AndroidApp";
-		values[4][0] = "iOSApp";
-		values[4][1] = "iOSApp";
+		values[3][0] = "HotPotatoes";
+		values[3][1] = "HotPotatoes";
+		values[4][0] = "PoLyGloT";
+		values[4][1] = "PoLyGloT";
+		values[5][0] = "AndroidApp";
+		values[5][1] = "AndroidApp";
+		values[6][0] = "iOSApp";
+		values[6][1] = "iOSApp";
 	    	
     	new LabelFieldEditor("Wodel-Edu mode", composite);
     	ComboFieldEditor combo = new ComboFieldEditor("Wodel-Edu mode", "", values, composite);

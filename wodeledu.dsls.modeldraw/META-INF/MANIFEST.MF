@@ -23,7 +23,6 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.parser.antlr.internal,
  wodeledu.dsls.parser.antlr,
  wodeledu.dsls.validation,
- wodeledu.dsls.generator.modeldraw,
  wodeledu.dsls.formatting2,
  wodeledu.dsls.serializer,
  wodeledu.dsls.generator

@@ -27,4 +27,6 @@ Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.quickfix.search,
  anatlyzer.atl.editor.quickfix.warnings,
  anatlyzer.atl.quickfixast
-Import-Package: org.eclipse.emf.ecore.xmi.impl
+Import-Package: anatlyzer.atl.analyser,
+ anatlyzer.atlext.OCL,
+ org.eclipse.emf.ecore.xmi.impl

@@ -32,6 +32,12 @@ public class EduTestGenerator extends AbstractGenerator {
   private EduTestMoodleGenerator moodleGenerator;
 
   @Inject
+  private EduTestHotPotatoesGenerator hotPotatoesGenerator;
+
+  @Inject
+  private EduTestPolyglotJsonGenerator hotPolyglotJsonGenerator;
+
+  @Inject
   private EduTestAndroidAppGenerator androidAppGenerator;
 
   @Inject
@@ -70,12 +76,20 @@ public class EduTestGenerator extends AbstractGenerator {
     if (_equals_1) {
       this.moodleGenerator.doGenerate(resource, fsa, context);
     }
-    boolean _equals_2 = eduTestMode.equals("AndroidApp");
+    boolean _equals_2 = eduTestMode.equals("HotPotatoes");
     if (_equals_2) {
+      this.hotPotatoesGenerator.doGenerate(resource, fsa, context);
+    }
+    boolean _equals_3 = eduTestMode.equals("PoLyGloT");
+    if (_equals_3) {
+      this.hotPolyglotJsonGenerator.doGenerate(resource, fsa, context);
+    }
+    boolean _equals_4 = eduTestMode.equals("AndroidApp");
+    if (_equals_4) {
       this.androidAppGenerator.doGenerate(resource, fsa, context);
     }
-    boolean _equals_3 = eduTestMode.equals("iOSApp");
-    if (_equals_3) {
+    boolean _equals_5 = eduTestMode.equals("iOSApp");
+    if (_equals_5) {
       this.iOSAppGenerator.doGenerate(resource, fsa, context);
     }
   }

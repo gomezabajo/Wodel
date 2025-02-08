@@ -24,11 +24,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.utils.manager.ModelManager;
 
 @SuppressWarnings("all")
-public class ModelDrawScopeProvider extends AbstractModelDrawScopeProvider {
+public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
   public IScope scope_Item_name(final MutatorDraw draw, final EReference ref) {
     IScope _xblockexpression = null;
     {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
+<feature 
       id="wodel.emf.comparison"
       label="EMF model comparison"
       version="1.0.0.qualifier">

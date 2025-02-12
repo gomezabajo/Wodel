@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wodel-Edu: An MDE Solution for the Generation and Evaluation of Exercises</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  </head>
+  <body>
+<!--
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-61793148-3', 'auto');
+	ga('send', 'pageview');
+	
+	</script>
+-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61793148-4"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-61793148-4');
+	</script>
+    <section class="page-header">
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html" style="color: #FFFFEE;"><img src="images/wodelEdu.png" width="120" height="140"/><br />Wodel-Edu</a></h1>
+      <h2 class="project-tagline">An MDE Solution for the Generation and Evaluation of Exercises</h2>
+      <a href="https://github.com/gomezabajo/Wodel" class="btn">View on GitHub</a>
+	  <a href="https://github.com/gomezabajo/Wodel/wiki/2.-Get-Started-with-Wodel-Edu" class="btn">Get Started</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-video.html" class="btn">Wodel-Edu video demo</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-eval.html" class="btn">Wodel-Edu user evaluation</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-samples.html" class="btn">Wodel-Edu sample exercises</a>
+	  <a href="https://gomezabajo.github.io/Wodel/update-site" class="btn">Update site</a>
+	  <a href="https://www.dropbox.com/scl/fi/0kt6menthzsb5rz9uelvq/eclipse.zip?rlkey=i22wvj3888juh45y5qx5wle1e&dl=0" class="btn">Standalone Eclipse+Wodel</a>
+	  <a href="https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0" class="btn">Win7 VirtualBox VM+Wodel</a>
+      <a href="https://github.com/gomezabajo/Wodel/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/gomezabajo/Wodel/tarball/master" class="btn">Download .tar.gz</a>
+	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
+      <a href="https://gomezabajo.github.io/Wodel" class="btn">Wodel</a>
+    </section>
+
+    <section class="main-content">
+
+<h3 id="wodel-edu">Wodel-Edu: an MDE solution for the generation and evaluation of exercises</h3>
+
+<p><strong>Wodel-Edu</strong> is an extension to Wodel for the automated generation of exercises. It generates seven kinds of exercises:</p>
+
+<ul>
+<li>Alternative response: the student has to tell if the diagram or the textual representation is correct or not.</li>
+<li>Multiple diagram choice: the student has to tell which of the shown diagrams is correct.</li>
+<li>Multiple text choice: the student has to tell which of the shown textual representations is correct.</li>
+<li>Multiple emendation choice: the student has to tell which text options fix the shown diagram.</li>
+<li>Match pairs choice: the student has to match the statement on the left with the correct option of the drop-down list.</li>
+<li>Missing words choice: the student has to complete the gaps of the text shown with the correct options in the drop-down lists to match the statement.</li>
+<li>Text drag and drop: the student has to complete the gaps of the text shown with the correct options of the set of texts presented as labels in categories to match the statement.</li>
+</ul>
+
+<p>With this purpose, Wodel-Edu provides 4 DSLs along with <a target="_blank" href="https://gomezabajo.github.io/Wodel">Wodel</a>:</p>
+
+<p><strong>eduTest</strong>: DSL for the configuration of the questionnaire, and the exercises' definition:</p>
+
+<pre><code>navigation=free
+MultiChoiceDiagram simple {
+    retry=no
+    description for 'exercise4.model' = 'Select which of these automata
+                                         accepts only "a*bab*"'
+}
+MultiChoiceEmendation complex {
+    retry=no, weighted=no, penalty=0.0,
+    order=options-descending, mode=checkbox
+    description for 'exercise5.model' = 'Select the required changes so that
+                                         the automaton accepts only "a+b+"'
+}
+MatchPairs rfs1, mts2, rfs2 {
+    retry=no
+    description for 'exercise6.model' = 'Select which of these options modifies
+                                         the above automaton to accept only
+                                         the language defined by ' %text('reg-exp')
+}
+MissingWords mtsrfs1 {
+    retry=no
+    description for 'exercise7.model' = 'Complete the following text with the
+                                         options for each gap that modify this automaton
+                                         to accept only the language defined by "ab(ba)*"'
+}
+</code></pre>
+
+<p><strong>modelDraw</strong>: DSL for the models' graphical visualization. It uses alternatively <a target="_blank" href="https://www.graphviz.org/">Graphviz</a> and <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> for model renderization:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+Automaton: diagram {
+    State(isInitial): markednode
+    State(not isFinal): node shape=circle
+    State(isFinal): node shape=doublecircle
+    Transition(src, tar): edge label=symbol.symbol
+}
+</code></pre>
+
+<p><strong>modelText</strong>: DSL for the configuration of models elements text identification (optional):</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;State: State %name
+&gt;State(isFinal): final
+&gt;State(isInitial): initial
+&gt;Transition: Transition %symbol.symbol
+&gt;Transition.tar: target
+&gt;Transition.src: source
+</code></pre>
+
+<p><strong>mutaText</strong>: DSL for the configuration of text options shown in the multiple emendation choice, match pairs, missing words, and text drag and drop test exercise kinds (optional):</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;TargetReferenceChanged: Change %object from %fromObject
+                         to %toObject with new %refName %oldToObject /
+                         Change %object from %fromObject to %oldToObject
+                         with new %refName %toObject
+&gt;AttributeChanged: Change %object to %oldValue /
+                   Change %object to %value
+</code></pre>
+
+<p>You can view an example of a test exercises web application generated with Wodel-Edu at <a target="_blank" href="http://www.wodel.eu/">www.wodel.eu</a>.</p>
+
+<p>We are currently working on the generation of exercises for the Moodle platform. You can access our private Moodle here and see: <a target="_blank" href="http://moodle.wodel.eu/">moodle.wodel.eu</a> (user: demo; password: Wodel-Edu4Moodle).</p>
+
+<p>This is a short video demo of Wodel and Wodel-Edu:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pFFDBRddzb8" frameborder="0" allowfullscreen></iframe>
+
+<p><strong>New</strong>: Automated generation and correction of diagram-based exercises for Moodle with Wodel-Edu:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/39L6Y6kZ42g" frameborder="0" allowfullscreen></iframe>
+
+<p>Here you can download an example of Wodel-Edu.<br />
+
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/WodelEduSamples">Wodel-Edu samples .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/WodelEduSamples">Wodel-Edu samples .tar.gz</a>
+</p>	
+
+<p><strong>New</strong>: Automated generation and correction of gamified diagram-based exercises for Moodle with Wodel-Edu and SGAME (w/ <a href="https://portalcientifico.upm.es/es/ipublic/researcher/306683">Daniel L&oacute;pez</a>):</p>
+
+<iframe width="1020" height="630" src="https://sgame.etsisi.upm.es/games/25404" frameborder="0" allowfullscreen></iframe>
+
+<h3 id="acknowledgements">Acknowledgements</h3>
+
+<p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel-Edu</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

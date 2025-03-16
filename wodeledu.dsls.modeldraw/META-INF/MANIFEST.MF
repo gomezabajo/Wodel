@@ -15,8 +15,10 @@ Require-Bundle: wodeledu.models,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.eclipse.core.runtime,
  wodel.utils,
- org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+ org.eclipse.core.resources,
+ slf4j.simple,
+ slf4j.api
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.scoping,
  wodeledu.dsls.services,
@@ -27,4 +29,5 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.serializer,
  wodeledu.dsls.generator
 Import-Package: org.apache.log4j,
- org.apache.commons.logging
+ org.apache.commons.logging,
+ org.slf4j

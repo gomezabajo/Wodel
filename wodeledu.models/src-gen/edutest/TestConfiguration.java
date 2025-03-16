@@ -2,6 +2,7 @@
  */
 package edutest;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -73,47 +74,27 @@ public interface TestConfiguration extends Configuration {
 	void setMode(Mode value);
 
 	/**
-	 * Returns the value of the '<em><b>Statement</b></em>' reference.
+	 * Returns the value of the '<em><b>Statement</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EClass}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Statement</em>' reference.
-	 * @see #setStatement(EClass)
+	 * @return the value of the '<em>Statement</em>' reference list.
 	 * @see edutest.EdutestPackage#getTestConfiguration_Statement()
 	 * @model
 	 * @generated
 	 */
-	EClass getStatement();
+	EList<EClass> getStatement();
 
 	/**
-	 * Sets the value of the '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}' reference.
+	 * Returns the value of the '<em><b>Answers</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EClass}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Statement</em>' reference.
-	 * @see #getStatement()
-	 * @generated
-	 */
-	void setStatement(EClass value);
-
-	/**
-	 * Returns the value of the '<em><b>Answers</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Answers</em>' reference.
-	 * @see #setAnswers(EClass)
+	 * @return the value of the '<em>Answers</em>' reference list.
 	 * @see edutest.EdutestPackage#getTestConfiguration_Answers()
 	 * @model
 	 * @generated
 	 */
-	EClass getAnswers();
-
-	/**
-	 * Sets the value of the '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Answers</em>' reference.
-	 * @see #getAnswers()
-	 * @generated
-	 */
-	void setAnswers(EClass value);
+	EList<EClass> getAnswers();
 
 } // TestConfiguration

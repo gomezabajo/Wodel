@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  wodel.utils,
  com.google.guava_18.0
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeltest.project
 Bundle-ActivationPolicy: lazy
 Export-Package: wodeltest.extension.run,

@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.sirius.diagram.model,
  wodel.dsls.wodel
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.metrics.fixed
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.sirius.business.api.session

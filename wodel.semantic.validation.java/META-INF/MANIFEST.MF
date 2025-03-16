@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.java,
  org.eclipse.modisco.java.generation,
  org.eclipse.jdt.core.compiler.batch
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.semantic.validation.java
 Bundle-ActivationPolicy: lazy

@@ -35,22 +35,18 @@ import java.util.Set
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
-import com.fasterxml.jackson.databind.ObjectMapper
 import java.io.OutputStream
-import com.fasterxml.jackson.databind.ObjectWriter
+
 import java.io.FileOutputStream
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.JsonNode
-
-import com.fasterxml.jackson.databind.module.SimpleModule
 import java.io.FileInputStream
 import java.io.InputStream
 import java.util.Scanner
-import org.emfjson.EMFJs
-import java.util.LinkedHashMap
-import org.emfjson.jackson.JacksonOptions.Builder
-import org.emfjson.jackson.JacksonOptions
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectWriter
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -96,17 +92,11 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
 				metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
 				roots = new ArrayList<EClass>()
 				roots.addAll(ModelManager.getRootEClasses(metamodel))
-				var Map<String, Boolean> options = new LinkedHashMap<String, Boolean>()
-				options.put(EMFJs.OPTION_USE_ID, false)
-				options.put(EMFJs.OPTION_INDENT_OUTPUT, true)
 
-				var Builder builder = new Builder()
-				var JacksonOptions jacksonOptions = builder.build(options)
 				var SimpleModule module = new SimpleModule("PoLyGloT");
 				var ObjectMapper mapper = new ObjectMapper()
 					.registerModule(module)
 					.configure(SerializationFeature.INDENT_OUTPUT, true)
-					
 					
 				var JsonNode content = mapper.valueToTree(p.compile(resource))
 				var ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter()
@@ -159,15 +149,19 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
        	«var EClass answersClass = null»
        	«var EClass statementClass = null»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -212,15 +206,19 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
        	«var EClass answersClass = null»
        	«var EClass statementClass = null»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -420,15 +418,19 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
        	«var EClass answersClass = null»
        	«var EClass statementClass = null»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -464,12 +466,12 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
         «IF exercise instanceof MissingWords»
         «FOR test : exercise.tests»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«ENDIF»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«ENDIF»
 		«ENDIF»
 		«ENDFOR»
@@ -488,15 +490,19 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
        	«var EClass answersClass = null»
        	«var EClass statementClass = null»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»

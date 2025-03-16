@@ -17,12 +17,9 @@ Require-Bundle: wodeledu.models,
  wodel.utils,
  org.eclipse.core.resources,
  wodeledu.utils,
- org.emfjson.jackson,
- org.emfjson.core,
- com.fasterxml.jackson.core.jackson-core,
- com.fasterxml.jackson.core.jackson-annotations,
- com.fasterxml.jackson.core.jackson-databind
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+ slf4j.simple,
+ slf4j.api
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.formatting2,
  wodeledu.dsls.generator,
@@ -34,4 +31,15 @@ Export-Package: wodeledu.dsls,
  wodeledu.dsls.validation,
  wodeledu.dsls.generator
 Import-Package: org.apache.log4j,
- org.apache.commons.logging
+ org.apache.commons.logging,
+ org.slf4j
+Bundle-ClassPath: ./,
+ bin/,
+ lib/com.fasterxml.jackson.core.jackson-annotations_2.12.1.jar,
+ lib/com.fasterxml.jackson.core.jackson-annotations.source_2.12.1.jar,
+ lib/com.fasterxml.jackson.core.jackson-core_2.12.1.jar,
+ lib/com.fasterxml.jackson.core.jackson-core.source_2.12.1.jar,
+ lib/com.fasterxml.jackson.core.jackson-databind_2.12.1.jar,
+ lib/org.eclipse.emfcloud.emfjson-jackson_2.0.0.jar,
+ lib/org.eclipse.emfcloud.emfjson-jackson.source_2.0.0.jar
+

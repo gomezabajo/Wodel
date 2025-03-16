@@ -20,6 +20,7 @@ import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -34,11 +35,19 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	private String className
 	private List<EPackage> metamodel
 	private List<EClass> roots
+	private IProject project
+	private String projectName
+	private String workspacePath
+	
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		ProjectUtils.setProject(null)
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
+		project = ProjectUtils.getProject()
+		projectName = project !== null ? project.getName() : null
+		workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
 			if (i == 0) {
 				fileName = fileName.replace(".draw", "") + 'Draw.java'
@@ -208,7 +217,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					}
 				}
 				
-							«var String folder = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/"»
+							«var String folder = workspacePath + "/" + projectName + "/"»
 				private void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {
 					// COUNTER: «var int counter = 0»
 					Map<EObject, List<LabelStyle>> localnodes = null;
@@ -658,7 +667,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 								if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
 									File[] filesBlock = file.listFiles();
 									for (File fileBlock : filesBlock) {
-										generateUMLGraphs(fileBlock, folder + file.getName(), packages, exercise, projectName, monitor);
+										generateUMLGraphs(fileBlock, folder.replace("\\", "/") + "/" + file.getName().replace("\\", "/"), packages, exercise, projectName, monitor);
 									}
 								}
 							}
@@ -809,7 +818,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 												File[] filesBlock = file.listFiles();
 												for (File fileBlock : filesBlock) {
 													try {
-														generateUMLGraphs(fileBlock, file.getName(), packages, exercise, projectName, monitor);
+														generateUMLGraphs(fileBlock, file.getName().replace("\\", "/"), packages, exercise, projectName, monitor);
 													} catch (UnsupportedEncodingException e) {
 														continue;
 													}

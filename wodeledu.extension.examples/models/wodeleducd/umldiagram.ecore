@@ -27,17 +27,17 @@
       <details key="label" value="name"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterTypes" upperBound="-1"
-        eType="#//Typeable"/>
+        eType="#//Instantiable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Typeable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypedElement"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="public" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Typeable" abstract="true" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Instantiable" abstract="true" eSuperTypes="#//TypedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="#//Typeable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="#//TypedElement"/>
   <eSubpackages name="classdiagram" nsURI="http://ClassDiagram/1.0" nsPrefix="classdiagram">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
@@ -59,7 +59,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="aggregations" upperBound="-1"
           eType="#//classdiagram/ClassAggregation" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Typeable">
+    <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Instantiable">
       <eAnnotations source="gmf.node">
         <details key="label" value="name"/>
       </eAnnotations>
@@ -156,7 +156,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="compositions" upperBound="-1"
           eType="#//objectdiagram/ObjectComposition" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//Typeable">
+    <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//TypedElement">
       <eAnnotations source="gmf.node">
         <details key="label" value="name"/>
       </eAnnotations>

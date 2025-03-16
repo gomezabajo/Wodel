@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +45,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import org.emfjson.EMFJs;
-import org.emfjson.jackson.JacksonOptions;
 import org.osgi.framework.Bundle;
 import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.ModelManager;
@@ -114,11 +111,6 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
             ArrayList<EClass> _arrayList_1 = new ArrayList<EClass>();
             this.roots = _arrayList_1;
             this.roots.addAll(ModelManager.getRootEClasses(this.metamodel));
-            Map<String, Boolean> options = new LinkedHashMap<String, Boolean>();
-            options.put(EMFJs.OPTION_USE_ID, Boolean.valueOf(false));
-            options.put(EMFJs.OPTION_INDENT_OUTPUT, Boolean.valueOf(true));
-            JacksonOptions.Builder builder = new JacksonOptions.Builder();
-            JacksonOptions jacksonOptions = builder.build(options);
             SimpleModule module = new SimpleModule("PoLyGloT");
             ObjectMapper mapper = new ObjectMapper().registerModule(module).configure(SerializationFeature.INDENT_OUTPUT, true);
             JsonNode content = mapper.<JsonNode>valueToTree(this.compile(p, resource));
@@ -238,11 +230,9 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 for(final EClass root : this.roots) {
                   {
-                    EClass _answers = ((AlternativeResponse)exercise).getConfig().getAnswers();
-                    boolean _tripleNotEquals = (_answers != null);
-                    if (_tripleNotEquals) {
+                    if (((((AlternativeResponse)exercise).getConfig().getAnswers() != null) && (((AlternativeResponse)exercise).getConfig().getAnswers().size() > 0))) {
                       {
-                        boolean _equals = ((AlternativeResponse)exercise).getConfig().getAnswers().getName().equals(root.getName());
+                        boolean _equals = ((AlternativeResponse)exercise).getConfig().getAnswers().get(0).getName().equals(root.getName());
                         if (_equals) {
                           String _xblockexpression_4 = null;
                           {
@@ -253,23 +243,41 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                         }
                       }
+                    } else {
+                      if (((((AlternativeResponse)exercise).getConfig().getAnswers() != null) && (((AlternativeResponse)exercise).getConfig().getAnswers().size() == 0))) {
+                        String _xblockexpression_5 = null;
+                        {
+                          answersClass = root;
+                          _xblockexpression_5 = "";
+                        }
+                        _builder.append(_xblockexpression_5);
+                        _builder.newLineIfNotEmpty();
+                      }
                     }
                   }
                   {
-                    EClass _statement = ((AlternativeResponse)exercise).getConfig().getStatement();
-                    boolean _tripleNotEquals_1 = (_statement != null);
-                    if (_tripleNotEquals_1) {
+                    if (((((AlternativeResponse)exercise).getConfig().getStatement() != null) && (((AlternativeResponse)exercise).getConfig().getStatement().size() > 0))) {
                       {
-                        boolean _equals_1 = ((AlternativeResponse)exercise).getConfig().getStatement().getName().equals(root.getName());
+                        boolean _equals_1 = ((AlternativeResponse)exercise).getConfig().getStatement().get(0).getName().equals(root.getName());
                         if (_equals_1) {
-                          String _xblockexpression_5 = null;
+                          String _xblockexpression_6 = null;
                           {
                             statementClass = root;
-                            _xblockexpression_5 = "";
+                            _xblockexpression_6 = "";
                           }
-                          _builder.append(_xblockexpression_5);
+                          _builder.append(_xblockexpression_6);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((AlternativeResponse)exercise).getConfig().getStatement() != null) && (((AlternativeResponse)exercise).getConfig().getStatement().size() == 0))) {
+                        String _xblockexpression_7 = null;
+                        {
+                          statementClass = root;
+                          _xblockexpression_7 = "";
+                        }
+                        _builder.append(_xblockexpression_7);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
@@ -277,14 +285,14 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               }
               {
                 if ((answersClass == null)) {
-                  String _xblockexpression_6 = null;
+                  String _xblockexpression_8 = null;
                   {
                     int _size_2 = this.roots.size();
                     int _minus = (_size_2 - 1);
                     answersClass = this.roots.get(_minus);
-                    _xblockexpression_6 = "";
+                    _xblockexpression_8 = "";
                   }
-                  _builder.append(_xblockexpression_6);
+                  _builder.append(_xblockexpression_8);
                   _builder.newLineIfNotEmpty();
                 }
               }
@@ -294,20 +302,20 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                     int _size_2 = this.roots.size();
                     boolean _greaterThan_2 = (_size_2 > 1);
                     if (_greaterThan_2) {
-                      String _xblockexpression_7 = null;
+                      String _xblockexpression_9 = null;
                       {
                         statementClass = this.roots.get(1);
-                        _xblockexpression_7 = "";
+                        _xblockexpression_9 = "";
                       }
-                      _builder.append(_xblockexpression_7);
+                      _builder.append(_xblockexpression_9);
                       _builder.newLineIfNotEmpty();
                     } else {
-                      String _xblockexpression_8 = null;
+                      String _xblockexpression_10 = null;
                       {
                         statementClass = this.roots.get(0);
-                        _xblockexpression_8 = "";
+                        _xblockexpression_10 = "";
                       }
-                      _builder.append(_xblockexpression_8);
+                      _builder.append(_xblockexpression_10);
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -319,12 +327,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 EList<Test> _tests = ((AlternativeResponse)exercise).getTests();
                 for(final Test test : _tests) {
-                  String _xblockexpression_9 = null;
+                  String _xblockexpression_11 = null;
                   {
                     String _xifexpression = null;
                     List<String> _get = this.diagrams.get(exercise).get(test).get(answersClass);
-                    boolean _tripleNotEquals_2 = (_get != null);
-                    if (_tripleNotEquals_2) {
+                    boolean _tripleNotEquals = (_get != null);
+                    if (_tripleNotEquals) {
                       String _xifexpression_1 = null;
                       int _size_3 = this.diagrams.get(exercise).get(test).get(answersClass).size();
                       boolean _greaterThan_3 = (_size_3 > 0);
@@ -334,9 +342,9 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _xifexpression = _xifexpression_1;
                     }
                     solution = _xifexpression;
-                    _xblockexpression_9 = "";
+                    _xblockexpression_11 = "";
                   }
-                  _builder.append(_xblockexpression_9);
+                  _builder.append(_xblockexpression_11);
                   _builder.newLineIfNotEmpty();
                   List<String> answers = new ArrayList<String>();
                   _builder.newLineIfNotEmpty();
@@ -345,28 +353,28 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                   {
                     if (((this.diagrams.get(exercise).get(test).get(answersClass) != null) && (this.diagrams.get(exercise).get(test).get(answersClass).size() > 0))) {
                       _builder.append("        ");
-                      String _xblockexpression_10 = null;
-                      {
-                        answersSet.addAll(this.diagrams.get(exercise).get(test).get(answersClass));
-                        _xblockexpression_10 = "";
-                      }
-                      _builder.append(_xblockexpression_10, "        ");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("        ");
-                      String _xblockexpression_11 = null;
-                      {
-                        answers.addAll(answersSet);
-                        _xblockexpression_11 = "";
-                      }
-                      _builder.append(_xblockexpression_11, "        ");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("        ");
                       String _xblockexpression_12 = null;
                       {
-                        Collections.shuffle(answers);
+                        answersSet.addAll(this.diagrams.get(exercise).get(test).get(answersClass));
                         _xblockexpression_12 = "";
                       }
                       _builder.append(_xblockexpression_12, "        ");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("        ");
+                      String _xblockexpression_13 = null;
+                      {
+                        answers.addAll(answersSet);
+                        _xblockexpression_13 = "";
+                      }
+                      _builder.append(_xblockexpression_13, "        ");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("        ");
+                      String _xblockexpression_14 = null;
+                      {
+                        Collections.shuffle(answers);
+                        _xblockexpression_14 = "";
+                      }
+                      _builder.append(_xblockexpression_14, "        ");
                       _builder.newLineIfNotEmpty();
                       {
                         int _size_3 = answers.size();
@@ -410,12 +418,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min > counter)) {
-                          String _xblockexpression_13 = null;
+                          String _xblockexpression_15 = null;
                           {
                             min = counter;
-                            _xblockexpression_13 = "";
+                            _xblockexpression_15 = "";
                           }
-                          _builder.append(_xblockexpression_13);
+                          _builder.append(_xblockexpression_15);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -432,38 +440,54 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 for(final EClass root_1 : this.roots) {
                   {
-                    EClass _answers_1 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers();
-                    boolean _tripleNotEquals_2 = (_answers_1 != null);
-                    if (_tripleNotEquals_2) {
+                    if (((((MultiChoiceDiagram)exercise).getConfig().getAnswers() != null) && (((MultiChoiceDiagram)exercise).getConfig().getAnswers().size() > 0))) {
                       {
-                        boolean _equals_2 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers().getName().equals(root_1.getName());
+                        boolean _equals_2 = ((MultiChoiceDiagram)exercise).getConfig().getAnswers().get(0).getName().equals(root_1.getName());
                         if (_equals_2) {
-                          String _xblockexpression_14 = null;
+                          String _xblockexpression_16 = null;
                           {
                             answersClass_1 = root_1;
-                            _xblockexpression_14 = "";
+                            _xblockexpression_16 = "";
                           }
-                          _builder.append(_xblockexpression_14);
+                          _builder.append(_xblockexpression_16);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MultiChoiceDiagram)exercise).getConfig().getAnswers() != null) && (((MultiChoiceDiagram)exercise).getConfig().getAnswers().size() == 0))) {
+                        String _xblockexpression_17 = null;
+                        {
+                          answersClass_1 = root_1;
+                          _xblockexpression_17 = "";
+                        }
+                        _builder.append(_xblockexpression_17);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
                   {
-                    EClass _statement_1 = ((MultiChoiceDiagram)exercise).getConfig().getStatement();
-                    boolean _tripleNotEquals_3 = (_statement_1 != null);
-                    if (_tripleNotEquals_3) {
+                    if (((((MultiChoiceDiagram)exercise).getConfig().getStatement() != null) && (((MultiChoiceDiagram)exercise).getConfig().getStatement().size() > 0))) {
                       {
-                        boolean _equals_3 = ((MultiChoiceDiagram)exercise).getConfig().getStatement().getName().equals(root_1.getName());
+                        boolean _equals_3 = ((MultiChoiceDiagram)exercise).getConfig().getStatement().get(0).getName().equals(root_1.getName());
                         if (_equals_3) {
-                          String _xblockexpression_15 = null;
+                          String _xblockexpression_18 = null;
                           {
                             statementClass_1 = root_1;
-                            _xblockexpression_15 = "";
+                            _xblockexpression_18 = "";
                           }
-                          _builder.append(_xblockexpression_15);
+                          _builder.append(_xblockexpression_18);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MultiChoiceDiagram)exercise).getConfig().getStatement() != null) && (((MultiChoiceDiagram)exercise).getConfig().getStatement().size() == 0))) {
+                        String _xblockexpression_19 = null;
+                        {
+                          statementClass_1 = root_1;
+                          _xblockexpression_19 = "";
+                        }
+                        _builder.append(_xblockexpression_19);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
@@ -471,14 +495,14 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               }
               {
                 if ((answersClass_1 == null)) {
-                  String _xblockexpression_16 = null;
+                  String _xblockexpression_20 = null;
                   {
                     int _size_4 = this.roots.size();
                     int _minus = (_size_4 - 1);
                     answersClass_1 = this.roots.get(_minus);
-                    _xblockexpression_16 = "";
+                    _xblockexpression_20 = "";
                   }
-                  _builder.append(_xblockexpression_16);
+                  _builder.append(_xblockexpression_20);
                   _builder.newLineIfNotEmpty();
                 }
               }
@@ -488,20 +512,20 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                     int _size_4 = this.roots.size();
                     boolean _greaterThan_4 = (_size_4 > 1);
                     if (_greaterThan_4) {
-                      String _xblockexpression_17 = null;
+                      String _xblockexpression_21 = null;
                       {
                         statementClass_1 = this.roots.get(1);
-                        _xblockexpression_17 = "";
+                        _xblockexpression_21 = "";
                       }
-                      _builder.append(_xblockexpression_17);
+                      _builder.append(_xblockexpression_21);
                       _builder.newLineIfNotEmpty();
                     } else {
-                      String _xblockexpression_18 = null;
+                      String _xblockexpression_22 = null;
                       {
                         statementClass_1 = this.roots.get(0);
-                        _xblockexpression_18 = "";
+                        _xblockexpression_22 = "";
                       }
-                      _builder.append(_xblockexpression_18);
+                      _builder.append(_xblockexpression_22);
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -513,12 +537,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 EList<Test> _tests_2 = ((MultiChoiceDiagram)exercise).getTests();
                 for(final Test test_2 : _tests_2) {
-                  String _xblockexpression_19 = null;
+                  String _xblockexpression_23 = null;
                   {
                     String _xifexpression = null;
                     List<String> _get = this.diagrams.get(exercise).get(test_2).get(statementClass_1);
-                    boolean _tripleNotEquals_4 = (_get != null);
-                    if (_tripleNotEquals_4) {
+                    boolean _tripleNotEquals = (_get != null);
+                    if (_tripleNotEquals) {
                       String _xifexpression_1 = null;
                       int _size_5 = this.diagrams.get(exercise).get(test_2).get(statementClass_1).size();
                       boolean _greaterThan_5 = (_size_5 > 0);
@@ -532,16 +556,16 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _xifexpression = null;
                     }
                     statement = _xifexpression;
-                    _xblockexpression_19 = "";
+                    _xblockexpression_23 = "";
                   }
-                  _builder.append(_xblockexpression_19);
+                  _builder.append(_xblockexpression_23);
                   _builder.newLineIfNotEmpty();
-                  String _xblockexpression_20 = null;
+                  String _xblockexpression_24 = null;
                   {
                     String _xifexpression = null;
                     List<String> _get = this.diagrams.get(exercise).get(test_2).get(answersClass_1);
-                    boolean _tripleNotEquals_4 = (_get != null);
-                    if (_tripleNotEquals_4) {
+                    boolean _tripleNotEquals = (_get != null);
+                    if (_tripleNotEquals) {
                       String _xifexpression_1 = null;
                       int _size_5 = this.diagrams.get(exercise).get(test_2).get(answersClass_1).size();
                       boolean _greaterThan_5 = (_size_5 > 0);
@@ -551,42 +575,42 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _xifexpression = _xifexpression_1;
                     }
                     solution_1 = _xifexpression;
-                    _xblockexpression_20 = "";
+                    _xblockexpression_24 = "";
                   }
-                  _builder.append(_xblockexpression_20);
+                  _builder.append(_xblockexpression_24);
                   _builder.newLineIfNotEmpty();
-                  String _xblockexpression_21 = null;
+                  String _xblockexpression_25 = null;
                   {
                     ArrayList<String> _arrayList = new ArrayList<String>();
                     answers_1 = _arrayList;
-                    _xblockexpression_21 = "";
+                    _xblockexpression_25 = "";
                   }
-                  _builder.append(_xblockexpression_21);
+                  _builder.append(_xblockexpression_25);
                   _builder.newLineIfNotEmpty();
                   Set<String> answersSet_1 = new LinkedHashSet<String>();
                   _builder.newLineIfNotEmpty();
                   {
                     if (((this.diagrams.get(exercise).get(test_2).get(answersClass_1) != null) && (this.diagrams.get(exercise).get(test_2).get(answersClass_1).size() > 0))) {
-                      String _xblockexpression_22 = null;
+                      String _xblockexpression_26 = null;
                       {
                         answersSet_1.addAll(this.diagrams.get(exercise).get(test_2).get(answersClass_1));
-                        _xblockexpression_22 = "";
+                        _xblockexpression_26 = "";
                       }
-                      _builder.append(_xblockexpression_22);
+                      _builder.append(_xblockexpression_26);
                       _builder.newLineIfNotEmpty();
-                      String _xblockexpression_23 = null;
+                      String _xblockexpression_27 = null;
                       {
                         answers_1.addAll(answersSet_1);
-                        _xblockexpression_23 = "";
+                        _xblockexpression_27 = "";
                       }
-                      _builder.append(_xblockexpression_23);
+                      _builder.append(_xblockexpression_27);
                       _builder.newLineIfNotEmpty();
-                      String _xblockexpression_24 = null;
+                      String _xblockexpression_28 = null;
                       {
                         Collections.shuffle(answers_1);
-                        _xblockexpression_24 = "";
+                        _xblockexpression_28 = "";
                       }
-                      _builder.append(_xblockexpression_24);
+                      _builder.append(_xblockexpression_28);
                       _builder.newLineIfNotEmpty();
                       _builder.append("   ");
                       String _replace_1 = test_2.getSource().replace(".model", "");
@@ -618,17 +642,17 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                               double fraction = (100.0 / solutions);
                               _builder.newLineIfNotEmpty();
                               _builder.append("          ");
-                              String _xblockexpression_25 = null;
+                              String _xblockexpression_29 = null;
                               {
                                 counter_1 = 0;
-                                _xblockexpression_25 = "";
+                                _xblockexpression_29 = "";
                               }
-                              _builder.append(_xblockexpression_25, "          ");
+                              _builder.append(_xblockexpression_29, "          ");
                               _builder.newLineIfNotEmpty();
                               {
                                 for(final String diagram_1 : answers_1) {
                                   _builder.append("          ");
-                                  String _xblockexpression_26 = null;
+                                  String _xblockexpression_30 = null;
                                   {
                                     String _replace_2 = test_2.getSource().replace(".model", "");
                                     String _plus_6 = ((this.projectPath + "/src-gen/html/diagrams/") + _replace_2);
@@ -636,18 +660,18 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                     String _plus_8 = (_plus_7 + diagram_1);
                                     File _file = new File(_plus_8);
                                     file_1 = _file;
-                                    _xblockexpression_26 = "";
+                                    _xblockexpression_30 = "";
                                   }
-                                  _builder.append(_xblockexpression_26, "          ");
+                                  _builder.append(_xblockexpression_30, "          ");
                                   _builder.newLineIfNotEmpty();
                                   {
                                     if ((file_1.isFile() && file_1.exists())) {
-                                      String _xblockexpression_27 = null;
+                                      String _xblockexpression_31 = null;
                                       {
                                         uuid = UUID.randomUUID();
-                                        _xblockexpression_27 = "";
+                                        _xblockexpression_31 = "";
                                       }
-                                      _builder.append(_xblockexpression_27);
+                                      _builder.append(_xblockexpression_31);
                                       _builder.newLineIfNotEmpty();
                                       {
                                         if (((diagram_1.startsWith(answersClass_1.getName()) || diagram_1.contains(("/" + answersClass_1.getName()))) || diagram_1.contains(("\\" + answersClass_1.getName())))) {
@@ -658,12 +682,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                             for(final String sol : _get) {
                                               {
                                                 if ((((diagram_1.startsWith((sol + "/")) || diagram_1.startsWith((sol + "\\"))) || diagram_1.contains((((sol + "/") + answersClass_1.getName()) + "_"))) || diagram_1.contains((((sol + "\\") + answersClass_1.getName()) + "_")))) {
-                                                  String _xblockexpression_28 = null;
+                                                  String _xblockexpression_32 = null;
                                                   {
                                                     s = true;
-                                                    _xblockexpression_28 = "";
+                                                    _xblockexpression_32 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_28);
+                                                  _builder.append(_xblockexpression_32);
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -673,19 +697,19 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                             if ((s == true)) {
                                               {
                                                 if ((counter_1 < (min - 1))) {
-                                                  String _xblockexpression_29 = null;
+                                                  String _xblockexpression_33 = null;
                                                   {
                                                     counter_1++;
-                                                    _xblockexpression_29 = "";
+                                                    _xblockexpression_33 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_29);
+                                                  _builder.append(_xblockexpression_33);
                                                   _builder.newLineIfNotEmpty();
-                                                  String _xblockexpression_30 = null;
+                                                  String _xblockexpression_34 = null;
                                                   {
                                                     solutions++;
-                                                    _xblockexpression_30 = "";
+                                                    _xblockexpression_34 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_30);
+                                                  _builder.append(_xblockexpression_34);
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -712,31 +736,31 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                               _builder.newLineIfNotEmpty();
                                               {
                                                 if ((counter_1 < (min - 1))) {
-                                                  String _xblockexpression_31 = null;
+                                                  String _xblockexpression_35 = null;
                                                   {
                                                     counter_1++;
-                                                    _xblockexpression_31 = "";
+                                                    _xblockexpression_35 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_31);
+                                                  _builder.append(_xblockexpression_35);
                                                   _builder.newLineIfNotEmpty();
-                                                  String _xblockexpression_32 = null;
+                                                  String _xblockexpression_36 = null;
                                                   {
                                                     s = false;
-                                                    _xblockexpression_32 = "";
+                                                    _xblockexpression_36 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_32);
+                                                  _builder.append(_xblockexpression_36);
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     List<String> _get_1 = this.solutionsMap.get(exercise);
                                                     for(final String sol_1 : _get_1) {
                                                       {
                                                         if ((((diagram_1.startsWith((sol_1 + "/")) || diagram_1.startsWith((sol_1 + "\\"))) || diagram_1.contains((((sol_1 + "/") + answersClass_1.getName()) + "_"))) || diagram_1.contains((((sol_1 + "\\") + answersClass_1.getName()) + "_")))) {
-                                                          String _xblockexpression_33 = null;
+                                                          String _xblockexpression_37 = null;
                                                           {
                                                             s = true;
-                                                            _xblockexpression_33 = "";
+                                                            _xblockexpression_37 = "";
                                                           }
-                                                          _builder.append(_xblockexpression_33);
+                                                          _builder.append(_xblockexpression_37);
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -787,7 +811,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           {
                             for(final String diagram_2 : answers_1) {
                               _builder.append("          ");
-                              String _xblockexpression_34 = null;
+                              String _xblockexpression_38 = null;
                               {
                                 String _replace_5 = test_3.getSource().replace(".model", "");
                                 String _plus_15 = ((this.projectPath + "/src-gen/html/diagrams/") + _replace_5);
@@ -795,9 +819,9 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                 String _plus_17 = (_plus_16 + diagram_2);
                                 File _file = new File(_plus_17);
                                 file_2 = _file;
-                                _xblockexpression_34 = "";
+                                _xblockexpression_38 = "";
                               }
-                              _builder.append(_xblockexpression_34, "          ");
+                              _builder.append(_xblockexpression_38, "          ");
                               _builder.newLineIfNotEmpty();
                               {
                                 if ((file_2.isFile() && file_2.exists())) {
@@ -812,12 +836,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                           {
                                             if ((((diagram_2.startsWith((sol_2 + "/")) || diagram_2.startsWith((sol_2 + "\\"))) || diagram_2.contains((((sol_2 + "/") + answersClass_1.getName()) + "_"))) || diagram_2.contains((((sol_2 + "\\") + answersClass_1.getName()) + "_")))) {
                                               _builder.append("           ");
-                                              String _xblockexpression_35 = null;
+                                              String _xblockexpression_39 = null;
                                               {
                                                 s_1 = true;
-                                                _xblockexpression_35 = "";
+                                                _xblockexpression_39 = "";
                                               }
-                                              _builder.append(_xblockexpression_35, "           ");
+                                              _builder.append(_xblockexpression_39, "           ");
                                               _builder.newLineIfNotEmpty();
                                             }
                                           }
@@ -837,31 +861,31 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                           {
                                             if ((counter_2 < (min - 1))) {
                                               _builder.append("           ");
-                                              String _xblockexpression_36 = null;
+                                              String _xblockexpression_40 = null;
                                               {
                                                 counter_2++;
-                                                _xblockexpression_36 = "";
+                                                _xblockexpression_40 = "";
                                               }
-                                              _builder.append(_xblockexpression_36, "           ");
+                                              _builder.append(_xblockexpression_40, "           ");
                                               _builder.newLineIfNotEmpty();
                                               _builder.append("           ");
-                                              String _xblockexpression_37 = null;
+                                              String _xblockexpression_41 = null;
                                               {
                                                 solutions_1++;
-                                                _xblockexpression_37 = "";
+                                                _xblockexpression_41 = "";
                                               }
-                                              _builder.append(_xblockexpression_37, "           ");
+                                              _builder.append(_xblockexpression_41, "           ");
                                               _builder.newLineIfNotEmpty();
                                             }
                                           }
                                         }
                                       }
-                                      String _xblockexpression_38 = null;
+                                      String _xblockexpression_42 = null;
                                       {
                                         String _xifexpression = null;
                                         List<String> _get_3 = this.diagrams.get(exercise).get(test_3).get(answersClass_1);
-                                        boolean _tripleNotEquals_4 = (_get_3 != null);
-                                        if (_tripleNotEquals_4) {
+                                        boolean _tripleNotEquals = (_get_3 != null);
+                                        if (_tripleNotEquals) {
                                           String _xifexpression_1 = null;
                                           int _size_7 = this.diagrams.get(exercise).get(test_3).get(answersClass_1).size();
                                           boolean _greaterThan_7 = (_size_7 > 0);
@@ -871,9 +895,9 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                           _xifexpression = _xifexpression_1;
                                         }
                                         solution_1 = _xifexpression;
-                                        _xblockexpression_38 = "";
+                                        _xblockexpression_42 = "";
                                       }
-                                      _builder.append(_xblockexpression_38);
+                                      _builder.append(_xblockexpression_42);
                                       _builder.newLineIfNotEmpty();
                                       {
                                         if ((s_1 || diagram_2.equals(solution_1))) {
@@ -889,20 +913,20 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                       {
                                         if ((counter_2 < (min - 1))) {
                                           _builder.append("           ");
-                                          String _xblockexpression_39 = null;
+                                          String _xblockexpression_43 = null;
                                           {
                                             counter_2++;
-                                            _xblockexpression_39 = "";
+                                            _xblockexpression_43 = "";
                                           }
-                                          _builder.append(_xblockexpression_39, "           ");
+                                          _builder.append(_xblockexpression_43, "           ");
                                           _builder.newLineIfNotEmpty();
                                           _builder.append("           ");
-                                          String _xblockexpression_40 = null;
+                                          String _xblockexpression_44 = null;
                                           {
                                             s_1 = false;
-                                            _xblockexpression_40 = "";
+                                            _xblockexpression_44 = "";
                                           }
-                                          _builder.append(_xblockexpression_40, "           ");
+                                          _builder.append(_xblockexpression_44, "           ");
                                           _builder.newLineIfNotEmpty();
                                           {
                                             List<String> _get_3 = this.solutionsMap.get(exercise);
@@ -910,12 +934,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                               {
                                                 if ((((diagram_2.startsWith((sol_3 + "/")) || diagram_2.startsWith((sol_3 + "\\"))) || diagram_2.contains((((sol_3 + "/") + answersClass_1.getName()) + "_"))) || diagram_2.contains((((sol_3 + "\\") + answersClass_1.getName()) + "_")))) {
                                                   _builder.append("           ");
-                                                  String _xblockexpression_41 = null;
+                                                  String _xblockexpression_45 = null;
                                                   {
                                                     s_1 = true;
-                                                    _xblockexpression_41 = "";
+                                                    _xblockexpression_45 = "";
                                                   }
-                                                  _builder.append(_xblockexpression_41, "           ");
+                                                  _builder.append(_xblockexpression_45, "           ");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -997,19 +1021,19 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                         boolean _contains = textOptions.contains(text);
                                         boolean _not = (!_contains);
                                         if (_not) {
-                                          String _xblockexpression_42 = null;
+                                          String _xblockexpression_46 = null;
                                           {
                                             counter_3++;
-                                            _xblockexpression_42 = "";
+                                            _xblockexpression_46 = "";
                                           }
-                                          _builder.append(_xblockexpression_42);
+                                          _builder.append(_xblockexpression_46);
                                           _builder.newLineIfNotEmpty();
-                                          String _xblockexpression_43 = null;
+                                          String _xblockexpression_47 = null;
                                           {
                                             textOptions.add(text);
-                                            _xblockexpression_43 = "";
+                                            _xblockexpression_47 = "";
                                           }
-                                          _builder.append(_xblockexpression_43);
+                                          _builder.append(_xblockexpression_47);
                                           _builder.newLineIfNotEmpty();
                                         }
                                       }
@@ -1021,28 +1045,28 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           }
                           {
                             if ((counter_3 > max)) {
-                              String _xblockexpression_44 = null;
+                              String _xblockexpression_48 = null;
                               {
                                 max = counter_3;
-                                _xblockexpression_44 = "";
+                                _xblockexpression_48 = "";
                               }
-                              _builder.append(_xblockexpression_44);
+                              _builder.append(_xblockexpression_48);
                               _builder.newLineIfNotEmpty();
-                              String _xblockexpression_45 = null;
+                              String _xblockexpression_49 = null;
                               {
                                 index = k;
-                                _xblockexpression_45 = "";
+                                _xblockexpression_49 = "";
                               }
-                              _builder.append(_xblockexpression_45);
+                              _builder.append(_xblockexpression_49);
                               _builder.newLineIfNotEmpty();
                             }
                           }
-                          String _xblockexpression_46 = null;
+                          String _xblockexpression_50 = null;
                           {
                             k++;
-                            _xblockexpression_46 = "";
+                            _xblockexpression_50 = "";
                           }
-                          _builder.append(_xblockexpression_46);
+                          _builder.append(_xblockexpression_50);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -1084,19 +1108,19 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                                     boolean _contains_1 = textOptions_1.contains(text_1);
                                     boolean _not_1 = (!_contains_1);
                                     if (_not_1) {
-                                      String _xblockexpression_47 = null;
+                                      String _xblockexpression_51 = null;
                                       {
                                         counter_4++;
-                                        _xblockexpression_47 = "";
+                                        _xblockexpression_51 = "";
                                       }
-                                      _builder.append(_xblockexpression_47);
+                                      _builder.append(_xblockexpression_51);
                                       _builder.newLineIfNotEmpty();
-                                      String _xblockexpression_48 = null;
+                                      String _xblockexpression_52 = null;
                                       {
                                         textOptions_1.add(text_1);
-                                        _xblockexpression_48 = "";
+                                        _xblockexpression_52 = "";
                                       }
-                                      _builder.append(_xblockexpression_48);
+                                      _builder.append(_xblockexpression_52);
                                       _builder.newLineIfNotEmpty();
                                     }
                                   }
@@ -1106,15 +1130,15 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                               _builder.newLineIfNotEmpty();
                               {
                                 for(final String textOption : textOptions_1) {
-                                  String _xblockexpression_49 = null;
+                                  String _xblockexpression_53 = null;
                                   {
                                     String _pairOptions = pairOptions;
                                     String _replace_6 = textOption.trim().replace("  ", " ").replace(" ", "+");
                                     String _plus_18 = (_replace_6 + ".<br>");
                                     pairOptions = (_pairOptions + _plus_18);
-                                    _xblockexpression_49 = "";
+                                    _xblockexpression_53 = "";
                                   }
-                                  _builder.append(_xblockexpression_49);
+                                  _builder.append(_xblockexpression_53);
                                   _builder.newLineIfNotEmpty();
                                 }
                               }
@@ -1126,21 +1150,21 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                           {
                             if ((min_1 > counter_4)) {
-                              String _xblockexpression_50 = null;
+                              String _xblockexpression_54 = null;
                               {
                                 min_1 = counter_4;
-                                _xblockexpression_50 = "";
+                                _xblockexpression_54 = "";
                               }
-                              _builder.append(_xblockexpression_50);
+                              _builder.append(_xblockexpression_54);
                               _builder.newLineIfNotEmpty();
                             }
                           }
-                          String _xblockexpression_51 = null;
+                          String _xblockexpression_55 = null;
                           {
                             k_1++;
-                            _xblockexpression_51 = "";
+                            _xblockexpression_55 = "";
                           }
-                          _builder.append(_xblockexpression_51);
+                          _builder.append(_xblockexpression_55);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -1157,39 +1181,56 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 for(final EClass root_2 : this.roots) {
                   {
-                    EClass _answers_2 = ((MatchPairs)exercise).getConfig().getAnswers();
-                    boolean _tripleNotEquals_4 = (_answers_2 != null);
-                    if (_tripleNotEquals_4) {
+                    if (((((MatchPairs)exercise).getConfig().getAnswers() != null) && (((MatchPairs)exercise).getConfig().getAnswers().size() > 0))) {
                       {
-                        boolean _equals_4 = ((MatchPairs)exercise).getConfig().getAnswers().getName().equals(root_2.getName());
+                        boolean _equals_4 = ((MatchPairs)exercise).getConfig().getAnswers().get(0).getName().equals(root_2.getName());
                         if (_equals_4) {
-                          String _xblockexpression_52 = null;
+                          String _xblockexpression_56 = null;
                           {
                             answersClass_2 = root_2;
-                            _xblockexpression_52 = "";
+                            _xblockexpression_56 = "";
                           }
-                          _builder.append(_xblockexpression_52);
+                          _builder.append(_xblockexpression_56);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MatchPairs)exercise).getConfig().getAnswers() != null) && (((MatchPairs)exercise).getConfig().getAnswers().size() == 0))) {
+                        String _xblockexpression_57 = null;
+                        {
+                          answersClass_2 = root_2;
+                          _xblockexpression_57 = "";
+                        }
+                        _builder.append(_xblockexpression_57);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
                   {
-                    EClass _statement_2 = ((MatchPairs)exercise).getConfig().getStatement();
-                    boolean _tripleNotEquals_5 = (_statement_2 != null);
-                    if (_tripleNotEquals_5) {
+                    if (((((MatchPairs)exercise).getConfig().getStatement() != null) && (((MatchPairs)exercise).getConfig().getStatement().size() > 0))) {
                       {
-                        boolean _equals_5 = ((MatchPairs)exercise).getConfig().getStatement().getName().equals(root_2.getName());
+                        boolean _equals_5 = ((MatchPairs)exercise).getConfig().getStatement().get(0).getName().equals(root_2.getName());
                         if (_equals_5) {
                           _builder.append("\t\t");
-                          String _xblockexpression_53 = null;
+                          String _xblockexpression_58 = null;
                           {
                             statementClass_2 = root_2;
-                            _xblockexpression_53 = "";
+                            _xblockexpression_58 = "";
                           }
-                          _builder.append(_xblockexpression_53, "\t\t");
+                          _builder.append(_xblockexpression_58, "\t\t");
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MatchPairs)exercise).getConfig().getStatement() != null) && (((MatchPairs)exercise).getConfig().getStatement().size() == 0))) {
+                        _builder.append("\t\t");
+                        String _xblockexpression_59 = null;
+                        {
+                          statementClass_2 = root_2;
+                          _xblockexpression_59 = "";
+                        }
+                        _builder.append(_xblockexpression_59, "\t\t");
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
@@ -1198,14 +1239,14 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 if ((answersClass_2 == null)) {
                   _builder.append("\t\t");
-                  String _xblockexpression_54 = null;
+                  String _xblockexpression_60 = null;
                   {
                     int _size_9 = this.roots.size();
                     int _minus = (_size_9 - 1);
                     answersClass_2 = this.roots.get(_minus);
-                    _xblockexpression_54 = "";
+                    _xblockexpression_60 = "";
                   }
-                  _builder.append(_xblockexpression_54, "\t\t");
+                  _builder.append(_xblockexpression_60, "\t\t");
                   _builder.newLineIfNotEmpty();
                 }
               }
@@ -1216,21 +1257,21 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan_9 = (_size_9 > 1);
                     if (_greaterThan_9) {
                       _builder.append("\t\t");
-                      String _xblockexpression_55 = null;
+                      String _xblockexpression_61 = null;
                       {
                         statementClass_2 = this.roots.get(1);
-                        _xblockexpression_55 = "";
+                        _xblockexpression_61 = "";
                       }
-                      _builder.append(_xblockexpression_55, "\t\t");
+                      _builder.append(_xblockexpression_61, "\t\t");
                       _builder.newLineIfNotEmpty();
                     } else {
                       _builder.append("\t\t");
-                      String _xblockexpression_56 = null;
+                      String _xblockexpression_62 = null;
                       {
                         statementClass_2 = this.roots.get(0);
-                        _xblockexpression_56 = "";
+                        _xblockexpression_62 = "";
                       }
-                      _builder.append(_xblockexpression_56, "\t\t");
+                      _builder.append(_xblockexpression_62, "\t\t");
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -1255,12 +1296,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       {
                         if (((this.options.get(exercise).get(test_6) != null) && (this.options.get(exercise).get(test_6).get(rndIndex_2).size() > index))) {
                           _builder.append("        ");
-                          String _xblockexpression_57 = null;
+                          String _xblockexpression_63 = null;
                           {
                             opt_2 = this.options.get(exercise).get(test_6).get(rndIndex_2).get(index);
-                            _xblockexpression_57 = "";
+                            _xblockexpression_63 = "";
                           }
-                          _builder.append(_xblockexpression_57, "        ");
+                          _builder.append(_xblockexpression_63, "        ");
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -1270,12 +1311,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           String seed = "";
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
-                          String _xblockexpression_58 = null;
+                          String _xblockexpression_64 = null;
                           {
                             seed = opt_2.path;
-                            _xblockexpression_58 = "";
+                            _xblockexpression_64 = "";
                           }
-                          _builder.append(_xblockexpression_58, "        ");
+                          _builder.append(_xblockexpression_64, "        ");
                           _builder.newLineIfNotEmpty();
                           _builder.append("        ");
                           int _lastIndexOf = seed.lastIndexOf("/");
@@ -1296,12 +1337,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           {
                             if ((file_3.isFile() && file_3.exists())) {
                               _builder.append("        ");
-                              String _xblockexpression_59 = null;
+                              String _xblockexpression_65 = null;
                               {
                                 k_2++;
-                                _xblockexpression_59 = "";
+                                _xblockexpression_65 = "";
                               }
-                              _builder.append(_xblockexpression_59, "        ");
+                              _builder.append(_xblockexpression_65, "        ");
                               _builder.newLineIfNotEmpty();
                             }
                           }
@@ -1321,22 +1362,18 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                   {
                     for(final EClass root_3 : this.roots) {
                       {
-                        EClass _answers_3 = ((MissingWords)exercise).getConfig().getAnswers();
-                        boolean _tripleNotEquals_6 = (_answers_3 != null);
-                        if (_tripleNotEquals_6) {
+                        if (((((MissingWords)exercise).getConfig().getAnswers() != null) && (((MissingWords)exercise).getConfig().getAnswers().size() > 0))) {
                           {
-                            boolean _equals_6 = ((MissingWords)exercise).getConfig().getAnswers().getName().equals(root_3.getName());
+                            boolean _equals_6 = ((MissingWords)exercise).getConfig().getAnswers().get(0).getName().equals(root_3.getName());
                             if (_equals_6) {
                             }
                           }
                         }
                       }
                       {
-                        EClass _statement_3 = ((MissingWords)exercise).getConfig().getStatement();
-                        boolean _tripleNotEquals_7 = (_statement_3 != null);
-                        if (_tripleNotEquals_7) {
+                        if (((((MissingWords)exercise).getConfig().getStatement() != null) && (((MissingWords)exercise).getConfig().getStatement().size() > 0))) {
                           {
-                            boolean _equals_7 = ((MissingWords)exercise).getConfig().getStatement().getName().equals(root_3.getName());
+                            boolean _equals_7 = ((MissingWords)exercise).getConfig().getStatement().get(0).getName().equals(root_3.getName());
                             if (_equals_7) {
                             }
                           }
@@ -1363,12 +1400,12 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       {
                         if ((min_2 > counter_5)) {
-                          String _xblockexpression_60 = null;
+                          String _xblockexpression_66 = null;
                           {
                             min_2 = counter_5;
-                            _xblockexpression_60 = "";
+                            _xblockexpression_66 = "";
                           }
-                          _builder.append(_xblockexpression_60);
+                          _builder.append(_xblockexpression_66);
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -1385,38 +1422,54 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               {
                 for(final EClass root_4 : this.roots) {
                   {
-                    EClass _answers_4 = ((MultiChoiceText)exercise).getConfig().getAnswers();
-                    boolean _tripleNotEquals_8 = (_answers_4 != null);
-                    if (_tripleNotEquals_8) {
+                    if (((((MultiChoiceText)exercise).getConfig().getAnswers() != null) && (((MultiChoiceText)exercise).getConfig().getAnswers().size() > 0))) {
                       {
-                        boolean _equals_8 = ((MultiChoiceText)exercise).getConfig().getAnswers().getName().equals(root_4.getName());
+                        boolean _equals_8 = ((MultiChoiceText)exercise).getConfig().getAnswers().get(0).getName().equals(root_4.getName());
                         if (_equals_8) {
-                          String _xblockexpression_61 = null;
+                          String _xblockexpression_67 = null;
                           {
                             answersClass_3 = root_4;
-                            _xblockexpression_61 = "";
+                            _xblockexpression_67 = "";
                           }
-                          _builder.append(_xblockexpression_61);
+                          _builder.append(_xblockexpression_67);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MultiChoiceText)exercise).getConfig().getAnswers() != null) && (((MultiChoiceText)exercise).getConfig().getAnswers().size() == 0))) {
+                        String _xblockexpression_68 = null;
+                        {
+                          answersClass_3 = root_4;
+                          _xblockexpression_68 = "";
+                        }
+                        _builder.append(_xblockexpression_68);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
                   {
-                    EClass _statement_4 = ((MultiChoiceText)exercise).getConfig().getStatement();
-                    boolean _tripleNotEquals_9 = (_statement_4 != null);
-                    if (_tripleNotEquals_9) {
+                    if (((((MultiChoiceText)exercise).getConfig().getStatement() != null) && (((MultiChoiceText)exercise).getConfig().getStatement().size() > 0))) {
                       {
-                        boolean _equals_9 = ((MultiChoiceText)exercise).getConfig().getStatement().getName().equals(root_4.getName());
+                        boolean _equals_9 = ((MultiChoiceText)exercise).getConfig().getStatement().get(0).getName().equals(root_4.getName());
                         if (_equals_9) {
-                          String _xblockexpression_62 = null;
+                          String _xblockexpression_69 = null;
                           {
                             statementClass_3 = root_4;
-                            _xblockexpression_62 = "";
+                            _xblockexpression_69 = "";
                           }
-                          _builder.append(_xblockexpression_62);
+                          _builder.append(_xblockexpression_69);
                           _builder.newLineIfNotEmpty();
                         }
+                      }
+                    } else {
+                      if (((((MultiChoiceText)exercise).getConfig().getStatement() != null) && (((MultiChoiceText)exercise).getConfig().getStatement().size() == 0))) {
+                        String _xblockexpression_70 = null;
+                        {
+                          statementClass_3 = root_4;
+                          _xblockexpression_70 = "";
+                        }
+                        _builder.append(_xblockexpression_70);
+                        _builder.newLineIfNotEmpty();
                       }
                     }
                   }
@@ -1424,14 +1477,14 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
               }
               {
                 if ((answersClass_3 == null)) {
-                  String _xblockexpression_63 = null;
+                  String _xblockexpression_71 = null;
                   {
                     int _size_11 = this.roots.size();
                     int _minus = (_size_11 - 1);
                     answersClass_3 = this.roots.get(_minus);
-                    _xblockexpression_63 = "";
+                    _xblockexpression_71 = "";
                   }
-                  _builder.append(_xblockexpression_63);
+                  _builder.append(_xblockexpression_71);
                   _builder.newLineIfNotEmpty();
                 }
               }
@@ -1441,20 +1494,20 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                     int _size_11 = this.roots.size();
                     boolean _greaterThan_11 = (_size_11 > 1);
                     if (_greaterThan_11) {
-                      String _xblockexpression_64 = null;
+                      String _xblockexpression_72 = null;
                       {
                         statementClass_3 = this.roots.get(1);
-                        _xblockexpression_64 = "";
+                        _xblockexpression_72 = "";
                       }
-                      _builder.append(_xblockexpression_64);
+                      _builder.append(_xblockexpression_72);
                       _builder.newLineIfNotEmpty();
                     } else {
-                      String _xblockexpression_65 = null;
+                      String _xblockexpression_73 = null;
                       {
                         statementClass_3 = this.roots.get(0);
-                        _xblockexpression_65 = "";
+                        _xblockexpression_73 = "";
                       }
-                      _builder.append(_xblockexpression_65);
+                      _builder.append(_xblockexpression_73);
                       _builder.newLineIfNotEmpty();
                     }
                   }
@@ -1465,8 +1518,8 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                 for(final Test test_9 : _tests_9) {
                   String _xifexpression = null;
                   List<String> _get_7 = this.diagrams.get(exercise).get(test_9).get(statementClass_3);
-                  boolean _tripleNotEquals_10 = (_get_7 != null);
-                  if (_tripleNotEquals_10) {
+                  boolean _tripleNotEquals = (_get_7 != null);
+                  if (_tripleNotEquals) {
                     String _xifexpression_1 = null;
                     int _size_12 = this.diagrams.get(exercise).get(test_9).get(statementClass_3).size();
                     boolean _greaterThan_12 = (_size_12 > 0);
@@ -1479,13 +1532,13 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                   } else {
                     _xifexpression = null;
                   }
-                  String _statement_5 = statement = _xifexpression;
-                  _builder.append(_statement_5);
+                  String _statement = statement = _xifexpression;
+                  _builder.append(_statement);
                   _builder.newLineIfNotEmpty();
                   String _xifexpression_2 = null;
                   List<String> _get_8 = this.diagrams.get(exercise).get(test_9).get(answersClass_3);
-                  boolean _tripleNotEquals_11 = (_get_8 != null);
-                  if (_tripleNotEquals_11) {
+                  boolean _tripleNotEquals_1 = (_get_8 != null);
+                  if (_tripleNotEquals_1) {
                     String _xifexpression_3 = null;
                     int _size_13 = this.diagrams.get(exercise).get(test_9).get(answersClass_3).size();
                     boolean _greaterThan_13 = (_size_13 > 0);
@@ -1503,28 +1556,28 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                   {
                     if (((this.diagrams.get(exercise).get(test_9).get(answersClass_3) != null) && (this.diagrams.get(exercise).get(test_9).get(answersClass_3).size() > 0))) {
                       _builder.append("        ");
-                      String _xblockexpression_66 = null;
+                      String _xblockexpression_74 = null;
                       {
                         answersSet_2.addAll(this.diagrams.get(exercise).get(test_9).get(answersClass_3));
-                        _xblockexpression_66 = "";
+                        _xblockexpression_74 = "";
                       }
-                      _builder.append(_xblockexpression_66, "        ");
+                      _builder.append(_xblockexpression_74, "        ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
-                      String _xblockexpression_67 = null;
+                      String _xblockexpression_75 = null;
                       {
                         answers_2.addAll(answersSet_2);
-                        _xblockexpression_67 = "";
+                        _xblockexpression_75 = "";
                       }
-                      _builder.append(_xblockexpression_67, "        ");
+                      _builder.append(_xblockexpression_75, "        ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
-                      String _xblockexpression_68 = null;
+                      String _xblockexpression_76 = null;
                       {
                         Collections.shuffle(answers_2);
-                        _xblockexpression_68 = "";
+                        _xblockexpression_76 = "";
                       }
-                      _builder.append(_xblockexpression_68, "        ");
+                      _builder.append(_xblockexpression_76, "        ");
                       _builder.newLineIfNotEmpty();
                       _builder.append("        ");
                       String _replace_6 = test_9.getSource().replace(".model", "");
@@ -1540,15 +1593,15 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                           _builder.newLineIfNotEmpty();
                           {
                             if ((file_4.isFile() && file_4.exists())) {
-                              String _xblockexpression_69 = null;
+                              String _xblockexpression_77 = null;
                               {
                                 int _indexOf = diagram_3.indexOf("/src-gen/html/");
                                 int _length_1 = "/src-gen/html/".length();
                                 int _plus_25 = (_indexOf + _length_1);
                                 diagram_3 = diagram_3.substring(_plus_25, diagram_3.length());
-                                _xblockexpression_69 = "";
+                                _xblockexpression_77 = "";
                               }
-                              _builder.append(_xblockexpression_69);
+                              _builder.append(_xblockexpression_77);
                               _builder.newLineIfNotEmpty();
                             }
                           }

@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils
-Bundle-SymbolicName: wodel.utils
+Bundle-SymbolicName: wodel.utils;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: wodel.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.acceleo.common,
  org.eclipse.core.runtime,
@@ -28,12 +28,13 @@ Require-Bundle: org.eclipse.emf.ecore,
  wodel.registry,
  org.eclipse.emf.common,
  org.eclipse.core.filesystem
-Export-Package: wodel.utils.commands,
+Export-Package: .,
+ wodel.utils.commands,
+ wodel.utils.commands.log,
+ wodel.utils.commands.selection,
  wodel.utils.commands.selection.strategies,
  wodel.utils.commands.strategies,
  wodel.utils.exceptions,
  wodel.utils.manager
 Bundle-ClassPath: .,
  lib/jython-standalone-2.7.2.jar
- 
- 

@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: anatlyzer.atl.optimizer
 Bundle-Name: ATL Optimizer
 Bundle-SymbolicName: anatlyzer.atl.optimizer
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: anatlyzer.atl.typing

@@ -299,7 +299,7 @@ public interface EdutestPackage extends EPackage {
 	int TEST_CONFIGURATION__MODE = CONFIGURATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' reference.
+	 * The feature id for the '<em><b>Statement</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -308,7 +308,7 @@ public interface EdutestPackage extends EPackage {
 	int TEST_CONFIGURATION__STATEMENT = CONFIGURATION_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' reference.
+	 * The feature id for the '<em><b>Answers</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -363,7 +363,7 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__MODE = TEST_CONFIGURATION__MODE;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' reference.
+	 * The feature id for the '<em><b>Statement</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -372,7 +372,7 @@ public interface EdutestPackage extends EPackage {
 	int MULTI_CHOICE_EM_CONFIG__STATEMENT = TEST_CONFIGURATION__STATEMENT;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' reference.
+	 * The feature id for the '<em><b>Answers</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -454,7 +454,7 @@ public interface EdutestPackage extends EPackage {
 	int TEXT_CONFIGURATION__MODE = TEST_CONFIGURATION__MODE;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' reference.
+	 * The feature id for the '<em><b>Statement</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -463,7 +463,7 @@ public interface EdutestPackage extends EPackage {
 	int TEXT_CONFIGURATION__STATEMENT = TEST_CONFIGURATION__STATEMENT;
 
 	/**
-	 * The feature id for the '<em><b>Answers</b></em>' reference.
+	 * The feature id for the '<em><b>Answers</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1203,10 +1203,10 @@ public interface EdutestPackage extends EPackage {
 	EAttribute getTestConfiguration_Mode();
 
 	/**
-	 * Returns the meta object for the reference '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}'.
+	 * Returns the meta object for the reference list '{@link edutest.TestConfiguration#getStatement <em>Statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Statement</em>'.
+	 * @return the meta object for the reference list '<em>Statement</em>'.
 	 * @see edutest.TestConfiguration#getStatement()
 	 * @see #getTestConfiguration()
 	 * @generated
@@ -1214,10 +1214,10 @@ public interface EdutestPackage extends EPackage {
 	EReference getTestConfiguration_Statement();
 
 	/**
-	 * Returns the meta object for the reference '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}'.
+	 * Returns the meta object for the reference list '{@link edutest.TestConfiguration#getAnswers <em>Answers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Answers</em>'.
+	 * @return the meta object for the reference list '<em>Answers</em>'.
 	 * @see edutest.TestConfiguration#getAnswers()
 	 * @see #getTestConfiguration()
 	 * @generated
@@ -1704,7 +1704,7 @@ public interface EdutestPackage extends EPackage {
 		EAttribute TEST_CONFIGURATION__MODE = eINSTANCE.getTestConfiguration_Mode();
 
 		/**
-		 * The meta object literal for the '<em><b>Statement</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Statement</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1712,7 +1712,7 @@ public interface EdutestPackage extends EPackage {
 		EReference TEST_CONFIGURATION__STATEMENT = eINSTANCE.getTestConfiguration_Statement();
 
 		/**
-		 * The meta object literal for the '<em><b>Answers</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Answers</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

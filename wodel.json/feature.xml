@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature 
+<feature
       id="wodel.json"
       label="Generate mutants in .json format"
       version="1.0.0.qualifier">
@@ -28,4 +28,5 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
 </feature>

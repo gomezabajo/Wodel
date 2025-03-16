@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodel.extension.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.extension
 Bundle-ActivationPolicy: lazy
 Export-Package: wodel.extension.generator

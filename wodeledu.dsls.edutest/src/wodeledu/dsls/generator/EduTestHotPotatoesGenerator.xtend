@@ -19,7 +19,6 @@ import java.util.List
 import wodeledu.dsls.generator.EduTestSuperGenerator.TestOption
 import wodeledu.dsls.generator.EduTestSuperGenerator.Registry
 import mutatorenvironment.MutatorEnvironment
-import java.util.UUID
 import java.util.AbstractMap.SimpleEntry
 import java.util.HashMap
 import edutest.Test
@@ -37,6 +36,7 @@ import java.util.Set
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -72,11 +72,11 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 
 			for (p : resource.allContents.toIterable.filter(Program)) {
 				if (i == 0) {
-					fileName = 'xml/' + resource.URI.lastSegment.replaceAll(".test", "") + '.xml'
-					pageName = resource.URI.lastSegment.replaceAll(".test", "") + '.xml'
+					fileName = 'xml/' + resource.URI.lastSegment.replaceAll(".test", "") + '.jqz'
+					pageName = resource.URI.lastSegment.replaceAll(".test", "") + '.jqz'
 				} else {
-					fileName = 'xml/' + resource.URI.lastSegment.replaceAll(".test", "") + i + '.xml'
-					pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.xml'
+					fileName = 'xml/' + resource.URI.lastSegment.replaceAll(".test", "") + i + '.jqz'
+					pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.jqz'
 				}
 				var EObject main = null
 				if (blocks.size() > 0) {
@@ -102,7 +102,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 					metamodel.addAll(ModelManager.loadMetaModel(p.metamodel))
 					roots = new ArrayList<EClass>()
 					roots.addAll(ModelManager.getRootEClasses(metamodel))
-					fsa.generateFile(fileName.replace(".xml", k + ".xml"), p.compile(resource, exercise))
+					fsa.generateFile(fileName.replace(".jqz", k + ".jqz"), p.compile(resource, exercise))
 					k++
 				}
 			}
@@ -134,6 +134,8 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 </reading>
 <questions>
 <question-record>
+
+
 		<!--«var EObject main = null»-->
 		«IF blocks.size() > 0»
 		«{main = blocks.get(0); ""}»
@@ -150,15 +152,19 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
        	<!-- «var EClass answersClass = null»-->
        	<!-- «var EClass statementClass = null»-->
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -172,7 +178,7 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 		«ENDIF»
 		«ENDIF»
 		«FOR Test test : exercise.tests»
-        «var String solution = diagrams.get(exercise).get(test).get(answersClass) !== null ? diagrams.get(exercise).get(test).get(answersClass).size() > 0 ? diagrams.get(exercise).get(test).get(answersClass).get(0)»
+        «var String statement = diagrams.get(exercise).get(test).get(statementClass) !== null ? diagrams.get(exercise).get(test).get(statementClass).size() > 0 ? diagrams.get(exercise).get(test).get(statementClass).get(0) : null : null»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new LinkedHashSet<String>()»
         «IF diagrams.get(exercise).get(test).get(answersClass) !== null && diagrams.get(exercise).get(test).get(answersClass).size() > 0»
@@ -180,13 +186,63 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
         «{answers.addAll(answersSet); ""}»
         «{Collections.shuffle(answers); ""}»
 	    «IF answers.size() > 0»
-        <!-- «var String diagram = answers.get(0)»-->
-        <!--«var File file = new File(projectPath +  "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+        <!--«var File file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
         «IF file.isFile && file.exists()»
-		«ENDIF»
-		«ENDIF»
+        <question>«test.question.replace("\"", "'").trim()»
+        &amp;#x003C;img src="«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement»" alt=&quot;statement.png&quot; title=&quot;statement&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;
+        </question><clue></clue><category></category>
+        <weighting>100</weighting><fixed>0</fixed><question-type>1</question-type><answers>
+		«var int countTrue = 1»
+		«var int countFalse = 1»
+           «FOR String diagram : answers»
+           <!--«file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
+           «IF file.isFile && file.exists()»
+		   «IF diagram.startsWith(answersClass.name) || diagram.contains("/" + answersClass.name) || diagram.contains("\\" + answersClass.name)»
+           <!--«var boolean w = false»-->
+           «FOR String sol : solutionsMap.get(exercise)»
+           «IF diagram.startsWith(sol + "/") 
+           || diagram.startsWith(sol + "\\")
+           || diagram.contains(sol + "/" + answersClass.name + "_")
+           || diagram.contains(sol + "\\" + answersClass.name + "_")»
+           «{w = true; ""}»
+           «ENDIF»
+           «ENDFOR»
+           «IF w »
+            «IF countFalse > 0»
+            «{countFalse--; "<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>"}»
+			«ENDIF»
+            «ELSE»
+           «IF countTrue > 0»
+           «{countTrue--; "<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options></answer>"}»
+			«ENDIF»
+           «ENDIF»
+           <!--«w = false»-->
+           «FOR String sol : solutionsMap.get(exercise)»
+           «IF diagram.startsWith(sol + "/") 
+           || diagram.startsWith(sol + "\\")
+           || diagram.contains(sol + "/" + answersClass.name + "_")
+           || diagram.contains(sol + "\\" + answersClass.name + "_")»
+           «{w = true; ""}»
+           «ENDIF»
+           «ENDFOR»
+           «IF w »
+           «IF countFalse > 0»
+           «{countFalse--; "<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>"}»
+           «ENDIF»
+           «ELSE»
+           «IF countTrue > 0»
+           «{countTrue--; "<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options></answer>"}»
+           «ENDIF»
+           «ENDIF»
+           «ENDIF»
+           «ENDIF»
+           «ENDFOR»
         «ENDIF»
-    	«ENDFOR»
+		«ENDIF»
+		«ENDIF»
+</answers>
+</question-record></questions>
+		«ENDFOR»
 		«ENDIF»
     	«IF exercise instanceof MultiChoiceDiagram»
         «var int min = Integer.MAX_VALUE»
@@ -201,15 +257,19 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
        	<!-- «var EClass answersClass = null»-->
        	<!-- «var EClass statementClass = null»-->
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -233,19 +293,17 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
         «{Collections.shuffle(answers); ""}»
            <!--«var File file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement)»-->
            «IF file.isFile && file.exists()»
-  <!--«var UUID uuid = UUID.randomUUID()»-->
-  <!--«var int nNodes = 0»-->
 <question>Select which of the following object diagrams is a valid instance of the class diagram shown below:
 &amp;#x003C;img src="«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + statement»" alt=&quot;statement.png&quot; title=&quot;statement&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;</question><clue></clue><category></category><weighting>100</weighting><fixed>0</fixed><question-type>1</question-type>
 <answers>
            <!--«var int counter = 0»-->
            <!--«var int solutions = 1»-->
-           <!--«var double fraction = 100.0 / solutions»-->
+		«var int countTrue = 1»
+		«var int countFalse = 3»
            «{counter = 0; ""}»
            «FOR String diagram : answers»
            <!--«file = new File(projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram)»-->
            «IF file.isFile && file.exists()»
-		   <!-- «uuid = UUID.randomUUID()»-->
 		   «IF diagram.startsWith(answersClass.name) || diagram.contains("/" + answersClass.name) || diagram.contains("\\" + answersClass.name)»
            <!--«var boolean s = false»-->
            «FOR String sol : solutionsMap.get(exercise)»
@@ -263,13 +321,14 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
            «ENDIF»
            «ENDIF»
            «IF s || diagram.equals(solution)»
-<answer>
-<text>&amp;#x003C;img src=&quot;«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram»&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options>
-</answer>
+           «IF countTrue > 0»
+           «{countTrue--;"<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram +"&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options></answer>"}»
+           «ENDIF»
            «ELSE»
-<answer>
-<text>&amp;#x003C;img src=&quot;«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram»&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct>
-</answer>
+           «IF countFalse > 0»
+           «{countFalse--;"<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>"}»
+           «ENDIF»
+           «ENDIF»
            «IF counter < min - 1»
            «{counter++; ""}»
            <!--«s = false»-->
@@ -282,27 +341,23 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
            «ENDIF»
            «ENDFOR»
           «IF s || diagram.equals(solution)»
-<answer>
-<text>&amp;#x003C;img src=&quot;«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram»&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options>
-</answer>
+          «IF countTrue > 0»
+          «{countTrue--; "<answer><text>&amp;#x003C;img src=&quot;"+ projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; alt=&quot;op1.png&quot; title=&quot;op1&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options></answer>"}»
+          «ENDIF»
            «ELSE»
-<answer>
-<text>&amp;#x003C;img src=&quot;«projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram»&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct>
-</answer>
+           «IF countFalse > 0»
+           «{countFalse--; "<answer><text>&amp;#x003C;img src=&quot;" + projectPath + "/src-gen/html/diagrams/" + test.source.replace('.model', '') + "/" + diagram + "&quot; width=&quot;355&quot; height=&quot;220&quot; style=&quot;float: left;&quot;/&amp;#x003E;</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>"}»
            «ENDIF»
            «ENDIF»
            «ENDIF»
            «ENDIF»
            «ENDIF»
-<!---->
            «ENDFOR»
   		«ENDIF»
 		«ENDIF»
-<!--->
-<feedback></feedback><correct>0</correct><percent-correct>0</percent-correct><include-in-mc-options>1</include-in-mc-options>
+        «ENDFOR»
 </answers>
 </question-record></questions>
-        «ENDFOR»
           «ENDIF»
 		«var Map<Test, List<SimpleEntry<String, Boolean>>> mapTextOptions = new HashMap<Test, List<SimpleEntry<String, Boolean>>>()»
 		«IF exercise instanceof MultiChoiceEmendation»
@@ -338,19 +393,25 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «ENDIF»
         «ENDIF»
        	<!-- «var EClass answersClass = null»-->
-       	<!-- «var EClass statementClass = null»-->
+       	<!-- «var List<EClass> statementClass = new ArrayList<EClass>()»-->
 <questions>
 <question-record>
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
-		«{statementClass = root; ""}»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«FOR EClass st : exercise.config.statement»
+		«IF st.name.equals(root.name)»
+		«{statementClass.add(root); ""}»
 		«ENDIF»
+		«ENDFOR»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass.add(root); ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -358,14 +419,17 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 		«ENDIF»
 		«IF statementClass === null»
 		«IF roots.size() > 1»
-		«{statementClass = roots.get(1); ""}»
+		«{statementClass.add(roots.get(1)); ""}»
 		«ELSE»
-		«{statementClass = roots.get(0); ""}»
+		«{statementClass.add(roots.get(0)); ""}»
 		«ENDIF»
 		«ENDIF»
 		«IF options.get(exercise) !== null && options.get(exercise).get(t) !== null»
 			<!--«var List<String> diagrams = new ArrayList<String>()»-->
 			<!--«var List<TestOption> answersOptions = new ArrayList<TestOption>()»-->
+			<!--«var List<String> wrongDiagrams = new ArrayList<String>()»-->
+			<!--«var List<TestOption> wrongOptions = new ArrayList<TestOption>()»-->
+			<!--«var List<TestOption> selectedOptions = new ArrayList<TestOption>()»-->
 			«IF (options.get(exercise).get(t) !== null)»
 			«IF options.get(exercise).get(t).size() > 0»
             «FOR TestOption opt : options.get(exercise).get(t).get(rndIndex)»
@@ -376,50 +440,72 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
 			«ENDIF»
 			«ENDIF»
 			«ENDFOR»
+            «FOR TestOption opt : options.get(exercise).get(t).get(rndIndex)»
+			«IF opt.text.size > 0»
+			«IF opt.solution == false»
+				<!--«wrongDiagrams.add(opt.path)»-->
+				<!--«wrongOptions.add(opt)»-->
 			«ENDIF»
 			«ENDIF»
+			«ENDFOR»
+			«ENDIF»
+			«ENDIF»
+			«{{selectedOptions.addAll(answersOptions)}; ""}»
+			«{{selectedOptions.addAll(wrongOptions)}; ""}»
+			«{Collections.shuffle(selectedOptions); ""}»
 			«IF diagrams.size() > 0»
 			<!--«var int rndSolution = -1»-->
 			«{rndSolution = ModelManager.getRandomIndex(diagrams); ""}»
-            <!--«var String diagram = diagrams.get(rndSolution)»-->
-			«IF diagram.length > 0»
-			<!--«var String data = diagram.substring(diagram.indexOf("/data/out/") + ("/data/out/").length, diagram.lastIndexOf("/"))»-->
+            <!--«var List<String> diagram = new ArrayList<String>()»-->
+            <!--«var String d = diagrams.get(rndSolution)»-->
+			«IF d.length > 0»w
+			<!--«var String data = d.substring(d.indexOf("/data/out/") + ("/data/out/").length, d.lastIndexOf("/"))»-->
 			<!--«var String model = data.substring(0, data.lastIndexOf("/"))»-->
 			<!--«var String mutOperator = data.substring(data.indexOf(model + "/") + (model + "/").length(), data.length())»-->
-			<!--«{diagram = "diagrams/" + model + "/" + mutOperator + "/" + statementClass.name + "_" + diagram.substring(diagram.lastIndexOf("/") + 1, diagram.length())}»-->
-           <!--«var File file = new File(projectPath +  "/src-gen/html/" + diagram)»-->
+			<!--«var String checkd = "diagrams/" + model + "/" + mutOperator + "/" + statementClass.get(0).name + "_" + d.substring(d.lastIndexOf("/") + 1, d.length())»-->
+            «FOR EClass stClass : statementClass»
+			<!--«data = d.substring(d.indexOf("/data/out/") + ("/data/out/").length, d.lastIndexOf("/"))»-->
+			<!--«model = data.substring(0, data.lastIndexOf("/"))»-->
+			<!--«mutOperator = data.substring(data.indexOf(model + "/") + (model + "/").length(), data.length())»-->
+			<!--«{diagram.add("diagrams/" + model + "/" + mutOperator + "/" + stClass.name + "_" + d.substring(d.lastIndexOf("/") + 1, d.length()))}»-->
+			«ENDFOR»
+           <!--«var File file = new File(workspacePath + "/" + projectName + "/src-gen/html/" + checkd)»-->
            «IF file.isFile && file.exists()»
 			<question>
-            «IF statementClass !== null && answersClass === null»
-&amp;#x003C;img src=&quot;«projectPath +  "/src-gen/html/" + diagram»&quot; alt=&quot;cd.png&quot; title=&quot;cd&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;
+            «IF statementClass !== null && statementClass.size() > 0 && answersClass === null»
+            «FOR String diag : diagram»
+&amp;#x003C;img src=&quot;«workspacePath + "/" + projectName + "/src-gen/html/" + diag»&quot; alt=&quot;cd.png&quot; title=&quot;cd&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;
+			«ENDFOR»
             «ENDIF»
-            «IF statementClass !== null && answersClass !== null»
-&amp;#x003C;img src=&quot;«projectPath +  "/src-gen/html/" + diagram»&quot; alt=&quot;cd_od.png&quot; title=&quot;cd&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;
+            «IF statementClass !== null && statementClass.size() > 0 && answersClass !== null»
+            «FOR String diag : diagram»
+&amp;#x003C;img src=&quot;«workspacePath + "/" + projectName + "/src-gen/html/" + diag»&quot; alt=&quot;cd_od.png&quot; title=&quot;cd&quot; width=&quot;222&quot; height=&quot;364&quot; style=&quot;float: right;&quot;/&amp;#x003E;
+			«ENDFOR»
             «ENDIF»
   </question>
             «ENDIF»
-  <!--«var UUID uuid = UUID.randomUUID()»-->
-  <!--«var int nNodes = 0»-->
-          «var int solutions = 0»
+          «var List<String> solutions = new ArrayList<String>()»
           «IF (options.get(exercise).get(t) !== null)»
           «IF options.get(exercise).get(t).size() > 0»
-          «FOR TestOption opt : answersOptions»
+          «FOR TestOption opt : selectedOptions»
           «var List<String> textOptions = new ArrayList<String>()»
           «IF opt.text.size > 0»
           «IF opt.solution == true»
           «FOR String key : opt.text.keySet()»
           «FOR String text : opt.text.get(key)»
-          «IF !textOptions.contains(text)»
-                «{solutions ++; ""}»
-                «{textOptions.add(text); ""}»
+          <!--«var String value = text.trim()»-->
+          «IF !textOptions.contains(value)»
+          		«{solutions.add(value); ""}»
+          		«{textOptions.add(value); ""}»
           «ENDIF»
           «ENDFOR»
           «ENDFOR»
           «ELSE»
           «FOR String key : opt.text.keySet()»
           «FOR String text : opt.text.get(key)»
-          «IF !textOptions.contains(text)»
-                «{textOptions.add(text); ""}»
+          <!--«var String value = text.trim()»-->
+          «IF !textOptions.contains(value)»
+            «{textOptions.add(value); ""}»
           «ENDIF»
           «ENDFOR»
           «ENDFOR»
@@ -428,9 +514,10 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «ENDFOR»
           «ENDIF»
           «IF options.get(exercise).get(t).size() > 0»
-          «FOR TestOption opt : answersOptions»
-          «IF opt.solution == true»
+          «FOR TestOption opt : selectedOptions»
           «IF opt.text.size > 0»
+          «IF opt.solution == true»
+          «var int counter = 0»
           «FOR String key : opt.text.keySet()»
           «FOR String text : opt.text.get(key)»
           «var boolean found = false»
@@ -440,24 +527,17 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «{entry.setValue(true); ""}»
           «ENDIF»
           «ENDFOR»
-<answer>
+
           «IF found == true»
-<text>«text.trim()»</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options>
-          «ELSE»
-<text>«text.trim()»</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>
+          «IF counter < min - solutions.size() + 1»
+<answer><text>«text.trim()»</text><feedback></feedback><correct>1</correct><percent-correct>100</percent-correct><include-in-mc-options>1</include-in-mc-options></answer>
+          «{counter++; ""}»
         «ENDIF»
-</answer>
+        «ENDIF»
           «ENDFOR»
             «ENDFOR»
-          «ENDIF»
-          «ENDIF»
-          «ENDFOR»
-          «ENDIF»
-          «IF options.get(exercise).get(t).size() > 0»
-          «FOR TestOption opt : options.get(exercise).get(t).get(rndIndex)»
-          «IF opt.solution == false»
+            «ELSEIF opt.solution == false»
           «var int counter = 0»
-          «IF opt.text.size > 0»
           «FOR String key : opt.text.keySet()»
           «FOR String text : opt.text.get(key)»
           «var boolean found = false»
@@ -468,7 +548,8 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           «ENDIF»
           «ENDFOR»
           «IF found == true»
-          «IF counter < min - solutions + 1»
+          «IF counter < min - solutions.size() + 1»
+<answer><text>«text.trim()»</text><feedback></feedback><correct>0</correct><percent-correct>0</percent-correct></answer>         
           «{counter++; ""}»
           «ENDIF»
           «ENDIF»
@@ -549,15 +630,19 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
        	<!-- «var EClass answersClass = null»-->
        	<!-- «var EClass statementClass = null»-->
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»
@@ -593,12 +678,12 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
         «IF exercise instanceof MissingWords»
         «FOR test : exercise.tests»
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«ENDIF»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«ENDIF»
 		«ENDIF»
 		«ENDFOR»
@@ -617,15 +702,19 @@ class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
        	<!-- «var EClass answersClass = null»-->
        	<!-- «var EClass statementClass = null»-->
 		«FOR EClass root : roots»
-        «IF exercise.config.answers !== null»
-		«IF exercise.config.answers.name.equals(root.name)»
+        «IF exercise.config.answers !== null && exercise.config.answers.size() > 0»
+		«IF exercise.config.answers.get(0).name.equals(root.name)»
 		«{answersClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.answers !== null && exercise.config.answers.size() === 0»
+		«{answersClass = root; ""}»
 		«ENDIF»
-		«IF exercise.config.statement !== null»
-		«IF exercise.config.statement.name.equals(root.name)»
+		«IF exercise.config.statement !== null && exercise.config.statement.size() > 0»
+		«IF exercise.config.statement.get(0).name.equals(root.name)»
 		«{statementClass = root; ""}»
 		«ENDIF»
+		«ELSEIF exercise.config.statement !== null && exercise.config.statement.size() === 0»
+		«{statementClass = root; ""}»
 		«ENDIF»
 		«ENDFOR»
 		«IF answersClass === null»

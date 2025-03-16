@@ -44,7 +44,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.pde.ui,
  org.eclipse.pde.build,
  org.eclipse.jdt.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeltest.run
 Bundle-ActivationPolicy: lazy
 Export-Package: wodeltest.run.utils

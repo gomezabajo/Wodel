@@ -868,10 +868,10 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTestConfiguration_Mode(), this.getMode(), "mode", null, 0, 1, TestConfiguration.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTestConfiguration_Statement(), ecorePackage.getEClass(), null, "statement", null, 0, 1,
+		initEReference(getTestConfiguration_Statement(), ecorePackage.getEClass(), null, "statement", null, 0, -1,
 				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTestConfiguration_Answers(), ecorePackage.getEClass(), null, "answers", null, 0, 1,
+		initEReference(getTestConfiguration_Answers(), ecorePackage.getEClass(), null, "answers", null, 0, -1,
 				TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

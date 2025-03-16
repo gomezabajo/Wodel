@@ -148,7 +148,8 @@ public class EclipseHelper {
 					.add(JavaCore
 							.newContainerEntry(new Path(
 //									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11")));
-									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));
+//									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));
+									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 			if (extensionName.equals("Wodel-Edu: Environment for the automated generation and evaluation of exercises")) {
 				String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
@@ -239,7 +240,7 @@ public class EclipseHelper {
 		maniContent.append("Bundle-Name: " + projectName + "\n");
 		maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");
 		maniContent.append("Bundle-Version: 1.0.0\n");
-		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-17\n");
+		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-21\n");
 		// maniContent.append("Bundle-Localization: plugin\n");
 		int nBundles = 0;
 		maniContent.append("Require-Bundle: ");

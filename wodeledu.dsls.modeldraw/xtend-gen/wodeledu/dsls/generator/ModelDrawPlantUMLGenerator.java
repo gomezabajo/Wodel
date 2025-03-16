@@ -11,6 +11,8 @@ import modeldraw.Node;
 import modeldraw.NodeStyle;
 import modeldraw.Relation;
 import modeldraw.ValuedFeature;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -42,14 +44,30 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 
   private List<EClass> roots;
 
+  private IProject project;
+
+  private String projectName;
+
+  private String workspacePath;
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
+      ProjectUtils.setProject(null);
       int i = 0;
       this.fileName = resource.getURI().lastSegment();
       String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
       String _plus = (_replaceAll + ".draw");
       this.fileName = _plus;
+      this.project = ProjectUtils.getProject();
+      String _xifexpression = null;
+      if ((this.project != null)) {
+        _xifexpression = this.project.getName();
+      } else {
+        _xifexpression = null;
+      }
+      this.projectName = _xifexpression;
+      this.workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
       Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
       for (final MutatorDraw e : _filter) {
         {
@@ -467,8 +485,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
-    String folder = (_replace + "/");
+    String folder = (((this.workspacePath + "/") + this.projectName) + "/");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("private void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {");
@@ -2118,7 +2135,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t\t");
-        _builder.append("generateUMLGraphs(fileBlock, folder + file.getName(), packages, exercise, projectName, monitor);");
+        _builder.append("generateUMLGraphs(fileBlock, folder.replace(\"\\\\\", \"/\") + \"/\" + file.getName().replace(\"\\\\\", \"/\"), packages, exercise, projectName, monitor);");
         _builder.newLine();
         _builder.append("\t\t\t\t");
         _builder.append("\t\t");
@@ -2150,8 +2167,8 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("String metamodel = \"");
-    String _replace_1 = ModelManager.getMetaModel().replace("\\", "/");
-    _builder.append(_replace_1, "\t\t\t\t\t");
+    String _replace = ModelManager.getMetaModel().replace("\\", "/");
+    _builder.append(_replace, "\t\t\t\t\t");
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
@@ -2755,7 +2772,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("\t\t\t\t\t\t\t");
         _builder.append("\t\t\t\t");
-        _builder.append("generateUMLGraphs(fileBlock, file.getName(), packages, exercise, projectName, monitor);");
+        _builder.append("generateUMLGraphs(fileBlock, file.getName().replace(\"\\\\\", \"/\"), packages, exercise, projectName, monitor);");
         _builder.newLine();
         _builder.append("\t\t\t\t\t\t\t");
         _builder.append("\t\t\t");

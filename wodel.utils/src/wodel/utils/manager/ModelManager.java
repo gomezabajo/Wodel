@@ -776,7 +776,12 @@ public class ModelManager {
 			ret = uri.toString();
 			ret = ret.replaceFirst("file:/", "/");
 			if (ret.indexOf(":") != -1) {
-				ret = ret.replaceFirst("/", "");
+				if (ret.indexOf("/") != -1) {
+					ret = ret.substring(1, ret.lastIndexOf("/"));
+				}
+				else {
+					ret = ret.substring(1, ret.length());
+				}
 			}
 		}
 		if (ret != null && ret.startsWith("/")) {
@@ -817,7 +822,12 @@ public class ModelManager {
 			ret = uri.toString();
 			ret = ret.replaceFirst("file:/", "/");
 			if (ret.indexOf(":") != -1) {
-				ret = ret.replaceFirst("/", "");
+				if (ret.indexOf("/") != -1) {
+					ret = ret.substring(1, ret.lastIndexOf("/"));
+				}
+				else {
+					ret = ret.substring(1, ret.length());
+				}
 			}
 		}
 		return ret;

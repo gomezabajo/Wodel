@@ -6,12 +6,13 @@ import edutest.EdutestPackage;
 import edutest.Mode;
 import edutest.TestConfiguration;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -71,24 +72,24 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	protected Mode mode = MODE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' reference.
+	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getStatement()
 	 * @generated
 	 * @ordered
 	 */
-	protected EClass statement;
+	protected EList<EClass> statement;
 
 	/**
-	 * The cached value of the '{@link #getAnswers() <em>Answers</em>}' reference.
+	 * The cached value of the '{@link #getAnswers() <em>Answers</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAnswers()
 	 * @generated
 	 * @ordered
 	 */
-	protected EClass answers;
+	protected EList<EClass> answers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -158,15 +159,10 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStatement() {
-		if (statement != null && statement.eIsProxy()) {
-			InternalEObject oldStatement = (InternalEObject) statement;
-			statement = (EClass) eResolveProxy(oldStatement);
-			if (statement != oldStatement) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							EdutestPackage.TEST_CONFIGURATION__STATEMENT, oldStatement, statement));
-			}
+	public EList<EClass> getStatement() {
+		if (statement == null) {
+			statement = new EObjectResolvingEList<EClass>(EClass.class, this,
+					EdutestPackage.TEST_CONFIGURATION__STATEMENT);
 		}
 		return statement;
 	}
@@ -176,61 +172,11 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass basicGetStatement() {
-		return statement;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setStatement(EClass newStatement) {
-		EClass oldStatement = statement;
-		statement = newStatement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST_CONFIGURATION__STATEMENT,
-					oldStatement, statement));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getAnswers() {
-		if (answers != null && answers.eIsProxy()) {
-			InternalEObject oldAnswers = (InternalEObject) answers;
-			answers = (EClass) eResolveProxy(oldAnswers);
-			if (answers != oldAnswers) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							EdutestPackage.TEST_CONFIGURATION__ANSWERS, oldAnswers, answers));
-			}
+	public EList<EClass> getAnswers() {
+		if (answers == null) {
+			answers = new EObjectResolvingEList<EClass>(EClass.class, this, EdutestPackage.TEST_CONFIGURATION__ANSWERS);
 		}
 		return answers;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass basicGetAnswers() {
-		return answers;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAnswers(EClass newAnswers) {
-		EClass oldAnswers = answers;
-		answers = newAnswers;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST_CONFIGURATION__ANSWERS,
-					oldAnswers, answers));
 	}
 
 	/**
@@ -246,13 +192,9 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 		case EdutestPackage.TEST_CONFIGURATION__MODE:
 			return getMode();
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			if (resolve)
-				return getStatement();
-			return basicGetStatement();
+			return getStatement();
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			if (resolve)
-				return getAnswers();
-			return basicGetAnswers();
+			return getAnswers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -262,6 +204,7 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -272,10 +215,12 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 			setMode((Mode) newValue);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			setStatement((EClass) newValue);
+			getStatement().clear();
+			getStatement().addAll((Collection<? extends EClass>) newValue);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			setAnswers((EClass) newValue);
+			getAnswers().clear();
+			getAnswers().addAll((Collection<? extends EClass>) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -296,10 +241,10 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 			setMode(MODE_EDEFAULT);
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			setStatement((EClass) null);
+			getStatement().clear();
 			return;
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			setAnswers((EClass) null);
+			getAnswers().clear();
 			return;
 		}
 		super.eUnset(featureID);
@@ -318,9 +263,9 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 		case EdutestPackage.TEST_CONFIGURATION__MODE:
 			return mode != MODE_EDEFAULT;
 		case EdutestPackage.TEST_CONFIGURATION__STATEMENT:
-			return statement != null;
+			return statement != null && !statement.isEmpty();
 		case EdutestPackage.TEST_CONFIGURATION__ANSWERS:
-			return answers != null;
+			return answers != null && !answers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

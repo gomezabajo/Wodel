@@ -11,10 +11,11 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.models,
  wodel.dsls.wodel,
  org.eclipse.xtext
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.synthesizer
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: bin/,
+Bundle-ClassPath: ./,
+ bin/,
  lib/ModelValidatorPlugin-5.1.0-r1.jar,
  lib/use.jar,
  lib/use-runtime.jar,

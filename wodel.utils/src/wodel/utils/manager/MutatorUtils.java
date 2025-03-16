@@ -6427,12 +6427,12 @@ public class MutatorUtils {
 							// ...evaluate invariant in the object
 							Object context = eObject;
 							String invariant = an.getDetails().get(key);
-							OCL ocl = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
+							OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
 							OCLHelper helper = ocl.createOCLHelper();
 							helper.setInstanceContext(context);
 							try {
 								OCLExpression exp = helper.createQuery(invariant);
-								Query<?, ?, ?> query = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
+								Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
 								Object eval = query.evaluate(context);
 
 								// check if the constraint failed
@@ -6451,12 +6451,12 @@ public class MutatorUtils {
 					for (String invariant : rules.get(cl.getName())) {
 						// ...evaluate invariant in the object
 						Object context = eObject;
-						OCL ocl = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
+						OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
 						OCLHelper helper = ocl.createOCLHelper();
 						helper.setInstanceContext(context);
 						try {
 							OCLExpression exp = helper.createQuery(invariant);
-							Query<?, ?, ?> query = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
+							Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
 							Object eval = query.evaluate(context);
 
 							// check if the constraint failed

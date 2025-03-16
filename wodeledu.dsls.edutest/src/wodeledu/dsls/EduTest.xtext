@@ -84,12 +84,12 @@ ProgramConfiguration returns ProgramConfiguration:
 
 TestConfiguration returns TestConfiguration:
 	{TestConfiguration}
-	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
+	'retry' '=' retry?=('yes' | 'no') (',' 'mode' '=' mode=Mode)? (',' 'statement' '=' statement += [ecore::EClass|ID] (',' statement+= [ecore::EClass|ID])* )? (',' 'answers' '=' answers += [ecore::EClass|ID] (',' answers += [ecore::EClass|ID])* )?
 ;
 
 MultiChoiceEmConfig returns MultiChoiceEmConfig:
 	{MultiChoiceEmConfig}
-	'retry' '=' retry?=('yes' | 'no') ',' 'weighted' '=' weighted?=('yes' | 'no') ',' 'penalty' '=' penalty=EDouble ',' 'order' '=' order=Order ',' 'mode' '=' mode=Mode (',' 'statement' '=' statement = [ecore::EClass|ID] )? (',' 'answers' '=' answers = [ecore::EClass|ID] )?
+	'retry' '=' retry?=('yes' | 'no') ',' 'weighted' '=' weighted?=('yes' | 'no') ',' 'penalty' '=' penalty=EDouble ',' 'order' '=' order=Order ',' 'mode' '=' mode=Mode (',' 'statement' '=' statement += [ecore::EClass|ID] (',' statement+= [ecore::EClass|ID])* )? (',' 'answers' '=' answers += [ecore::EClass|ID] (',' answers += [ecore::EClass|ID])* )?
 ;
 
 TextConfiguration returns TextConfiguration:

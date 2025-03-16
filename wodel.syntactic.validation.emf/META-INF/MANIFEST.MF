@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.syntactic.validation,
  wodel.utils,
  org.eclipse.emf.ecore
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.syntactic.validation.emf
 Bundle-ActivationPolicy: lazy

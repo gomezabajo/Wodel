@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  wodel.utils,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.syntactic.comparison.emf
 Bundle-ActivationPolicy: lazy

@@ -8,5 +8,5 @@ Require-Bundle: org.eclipse.ui.workbench,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore
 Automatic-Module-Name: wodel.registry
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodel.registry.run

@@ -4,6 +4,13 @@ Bundle-Name: Extension
 Bundle-SymbolicName: wodeledu.extension;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodeledu.extension.Activator
+Export-Package: wodeledu.extension,
+ wodeledu.extension.builder,
+ wodeledu.extension.run,
+ wodeledu.extension.run.commands
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: wodeledu.extension
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  wodel.extension,
@@ -22,10 +29,6 @@ Require-Bundle: org.eclipse.ui,
  com.google.inject,
  wodeledu.models,
  wodeledu.utils
-Export-Package: wodeledu.extension.run.commands
-Bundle-RequiredExecutionEnvironment: JavaSE-17
-Automatic-Module-Name: wodeledu.extension
-Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.util,

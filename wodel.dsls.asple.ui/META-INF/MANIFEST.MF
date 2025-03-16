@@ -18,7 +18,7 @@ Require-Bundle: wodel.dsls.asple,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodel.dsls.asple.ui.internal,
  wodel.dsls.ui.quickfix,
  wodel.dsls.ui.contentassist

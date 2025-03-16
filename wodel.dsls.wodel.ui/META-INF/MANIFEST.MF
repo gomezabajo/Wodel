@@ -21,7 +21,7 @@ Require-Bundle: wodel.dsls.wodel,
  wodel.registry,
  wodel.postprocessor
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodel.dsls.wodel.ui.internal,
  wodel.dsls.ui.quickfix,
  wodel.dsls.ui.contentassist

@@ -1,4 +1,4 @@
-package anatlyzer.atl.dialogs; 
+package anatlyzer.atl.dialogs;
 
 
 import org.eclipse.jface.action.IMenuManager;

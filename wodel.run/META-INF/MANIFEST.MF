@@ -18,6 +18,6 @@ Require-Bundle: org.eclipse.ui,
  wodel.extension,
  wodel.registry,
  org.eclipse.xtext
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.run
 Bundle-ActivationPolicy: lazy

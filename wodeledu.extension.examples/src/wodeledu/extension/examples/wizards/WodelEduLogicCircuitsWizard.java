@@ -171,7 +171,6 @@ public class WodelEduLogicCircuitsWizard extends Wizard implements INewWizard {
 		importPackages.add("org.eclipse.xtext.xbase.lib");
 		importPackages.add("org.eclipse.xtext.util");
 		importPackages.add("wodeledu.dsls.generator");
-		importPackages.add("wodeledu.dsls.generator.modeldraw");
 		importPackages.add("com.google.inject");
 		importPackages.add("com.google.common.util.concurrent.internal");
 		importPackages.add("javax.inject");

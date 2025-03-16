@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 http://ObjectDiagram/1.0" xmi:id="_EQruoMc0Ee6bCsCUAOtlyA">
-  <classdiagram xmi:id="_JVGDsMc0Ee6bCsCUAOtlyA">
-    <classes xmi:id="_J1pMAMc0Ee6bCsCUAOtlyA" name="Company"/>
-    <classes xmi:id="_OaeCEMc0Ee6bCsCUAOtlyA" name="Car"/>
-    <classes xmi:id="_QO7CQMc0Ee6bCsCUAOtlyA" name="Client"/>
-    <classes xmi:id="_R7q38Mc0Ee6bCsCUAOtlyA" name="CarRental"/>
-    <compositions xmi:id="_f7SYAMc1Ee6bCsCUAOtlyA" name="companycar" multiplicitySource="*" multiplicityTarget="*" constituent="_J1pMAMc0Ee6bCsCUAOtlyA" composite="_OaeCEMc0Ee6bCsCUAOtlyA"/>
-    <compositions xmi:id="_l7Bs4Mc1Ee6bCsCUAOtlyA" name="companyclient" multiplicitySource="*" multiplicityTarget="*" constituent="_J1pMAMc0Ee6bCsCUAOtlyA" composite="_QO7CQMc0Ee6bCsCUAOtlyA"/>
-    <compositions xmi:id="_qhQRIMc1Ee6bCsCUAOtlyA" name="companycarrental" multiplicitySource="*" multiplicityTarget="*" constituent="_J1pMAMc0Ee6bCsCUAOtlyA" composite="_R7q38Mc0Ee6bCsCUAOtlyA"/>
-    <aggregations xmi:id="_QT_6EMc1Ee6bCsCUAOtlyA" name="carrentalcar" multiplicitySource="1" multiplicityTarget="1" source="_R7q38Mc0Ee6bCsCUAOtlyA" target="_OaeCEMc0Ee6bCsCUAOtlyA"/>
-    <aggregations xmi:id="_ZmRWsMc1Ee6bCsCUAOtlyA" name="carrentalclient" multiplicitySource="1" multiplicityTarget="1" source="_R7q38Mc0Ee6bCsCUAOtlyA" target="_QO7CQMc0Ee6bCsCUAOtlyA"/>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_FWlhgOqREe-xmJSiRSx9Aw">
+  <classdiagram xmi:id="_JLMbkOqREe-xmJSiRSx9Aw">
+    <classes xmi:id="_Jr-NYOqREe-xmJSiRSx9Aw" name="Company"/>
+    <classes xmi:id="_LmZ5wOqREe-xmJSiRSx9Aw" name="Car"/>
+    <classes xmi:id="_L6esUOqREe-xmJSiRSx9Aw" name="Client"/>
+    <classes xmi:id="_MRNKQOqREe-xmJSiRSx9Aw" name="CarRental"/>
+    <compositions xmi:id="_RfqzMOqREe-xmJSiRSx9Aw" name="companycar" multiplicitySource="*" multiplicityTarget="*" constituent="_Jr-NYOqREe-xmJSiRSx9Aw" composite="_LmZ5wOqREe-xmJSiRSx9Aw"/>
+    <compositions xmi:id="_cR5msOqREe-xmJSiRSx9Aw" name="companyclient" multiplicitySource="*" multiplicityTarget="*" constituent="_Jr-NYOqREe-xmJSiRSx9Aw" composite="_L6esUOqREe-xmJSiRSx9Aw"/>
+    <compositions xmi:id="_iHkZkOqREe-xmJSiRSx9Aw" name="companycarrental" multiplicitySource="*" multiplicityTarget="*" constituent="_Jr-NYOqREe-xmJSiRSx9Aw" composite="_MRNKQOqREe-xmJSiRSx9Aw"/>
+    <aggregations xmi:id="_RWJOUOqSEe-xmJSiRSx9Aw" name="carrentalcar" multiplicitySource="1" multiplicityTarget="1" source="_MRNKQOqREe-xmJSiRSx9Aw" target="_LmZ5wOqREe-xmJSiRSx9Aw"/>
+    <aggregations xmi:id="_RxiJ0OqSEe-xmJSiRSx9Aw" name="carrentalclient" multiplicitySource="1" multiplicityTarget="1" source="_MRNKQOqREe-xmJSiRSx9Aw" target="_L6esUOqREe-xmJSiRSx9Aw"/>
   </classdiagram>
 </umldiagram:UMLDiagram>

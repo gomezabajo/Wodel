@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  wodeledu.model2text,
  org.eclipse.emf.ecore,
  wodel.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeledu.model2text.lc
 Bundle-ActivationPolicy: lazy

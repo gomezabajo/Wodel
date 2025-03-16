@@ -18,7 +18,7 @@ Require-Bundle: wodeledu.dsls.mutatext,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls.ui.contentassist,
  wodeledu.dsls.mutatext.ui.internal,
  wodeledu.dsls.ui.quickfix

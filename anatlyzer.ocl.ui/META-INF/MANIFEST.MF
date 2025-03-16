@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.atl.editor,
  org.eclipse.m2m.atl.core.emf,
  anatlyzer.atl.typing
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.ocl.ui

@@ -16,8 +16,10 @@ Require-Bundle: wodel.models,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  wodel.utils,
- wodel.models
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+ wodel.models,
+ slf4j.simple,
+ slf4j.api
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodel.dsls.parser.antlr.internal,
  wodel.dsls.formatting2,
  wodel.dsls.services,
@@ -28,4 +30,5 @@ Export-Package: wodel.dsls.parser.antlr.internal,
  wodel.dsls,
  wodel.dsls.serializer
 Import-Package: org.apache.log4j,
- org.apache.commons.logging
+ org.apache.commons.logging,
+ org.slf4j

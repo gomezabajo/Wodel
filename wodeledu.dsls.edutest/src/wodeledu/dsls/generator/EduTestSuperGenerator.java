@@ -24,6 +24,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
@@ -84,6 +85,8 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected IProject project = null;
 	protected String projectPath = null;
 	protected String outputFolder = null;
+	protected String projectName = null;
+	protected String workspacePath = null;
 	protected Map<MutatorTests, List<Test>> tests = new LinkedHashMap<MutatorTests, List<Test>>();
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
@@ -95,9 +98,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected Map<MutatorTests, List<String>> solutionsMap = new LinkedHashMap<MutatorTests, List<String>>();
 	
 	public EduTestSuperGenerator() {
+		ProjectUtils.setProject(null);
 		project = ProjectUtils.getProject();
 		projectPath = project != null ? project.getLocation().toFile().getPath() : null;
 		outputFolder = ModelManager.getOutputFolder();
+		projectName = project != null ? project.getName() : null;
+		workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
 	}
 
 	private class Registry {
@@ -399,7 +405,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 											if (f.getName().startsWith("Output") && !f.getName().endsWith("vs")) {
 												File ss = f;
 												String mutantPath = blockPath;
-												while (ss.isFile() == false || ss == null) {
+												while (ss != null && ss.isFile() == false) {
 													if (!ss.getName().startsWith("Output")) {
 														break;
 													}
@@ -443,6 +449,41 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 															}
 														}
 													}
+													if (s.isDirectory() == true) {
+														f = s;
+														mutantPath += s.getName(); 
+														for (File sss : f.listFiles()) {
+															if (sss.isDirectory() == true) {
+																if (sss.getName().startsWith("Output") && !sss.getName().endsWith("vs")) {
+																	File g = sss;
+																	mutantPath += "/" + g.getName();
+																	for (File ssss : g.listFiles()) {
+																		if (ssss.getName().endsWith(".model") && ! ssss.getName().contains("_") && !g.getName().equals("Reverse.model")) {
+																			Registry wrongRegistry = new Registry();
+																			wrongRegistry.seed = registry.seed ;
+																			wrongRegistry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+																			wrongRegistry.history = new ArrayList<Resource>();
+																			wrongRegistry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + '/' + ssss.getName()), null));
+																			for (File r : g.listFiles()) {
+																				if (r.getName().equals("registry")) {
+																					for (File reg : r.listFiles()) {
+																						if (reg.getName().endsWith(".model")) {
+																							if (reg.getName().startsWith(ssss.getName().replace(".model", ""))) {
+																								wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + "/registry/" + reg.getName()));
+																							}
+																						}
+																					}
+																				}
+																			}
+																			if (wrongRegistry.mutants.size() > 0) {
+																				registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()).add(wrongRegistry);
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
 												}
 											}
 										}
@@ -483,7 +524,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 												if (f.getName().startsWith("Output") && !f.getName().endsWith("vs")) {
 													File ss = f;
 													String mutantPath = blockPath;
-													while (ss.isFile() == false || ss == null) {
+													while (ss != null && ss.isFile() == false) {
 														if (!ss.getName().startsWith("Output")) {
 															break;
 														}
@@ -527,6 +568,41 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 																}
 															}
 														}
+														if (s.isDirectory() == true) {
+															f = s;
+															mutantPath += s.getName();
+															for (File sss : f.listFiles()) {
+																if (sss.isDirectory() == true) {
+																	if (sss.getName().startsWith("Output") && !sss.getName().endsWith("vs")) {
+																		File g = sss;
+																		mutantPath += "/" + g.getName();
+																		for (File ssss : g.listFiles()) {
+																			if (ssss.getName().endsWith(".model") && ! ssss.getName().contains("_") && !g.getName().equals("Reverse.model")) {
+																				Registry wrongRegistry = new Registry();
+																				wrongRegistry.seed = registry.seed;
+																				wrongRegistry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+																				wrongRegistry.history = new ArrayList<Resource>();
+																				wrongRegistry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + '/' + ssss.getName()), null));
+																				for (File r : g.listFiles()) {
+																					if (r.getName().equals("registry")) {
+																						for (File reg : r.listFiles()) {
+																							if (reg.getName().endsWith(".model")) {
+																								if (reg.getName().startsWith(ssss.getName().replace(".model", ""))) {
+																									wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + "/registry/" + reg.getName()));
+																								}
+																							}
+																						}
+																					}
+																				}
+																				if (wrongRegistry.mutants.size() > 0) {
+																					registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()).add(wrongRegistry);
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
 													}
 												}
 											}
@@ -551,7 +627,38 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			}
 		}
 
-		return registry;
+		Registry retRegistry = new Registry();
+		retRegistry.seed = ModelManager.loadModel(packages, modelPath);
+		retRegistry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+		retRegistry.history = new ArrayList<Resource>();
+		retRegistry.wrong = new LinkedHashMap<Resource, List<Registry>>();
+		for (int i = 0; i < registry.mutants.size(); i++) {
+			if (registry.mutants.get(i).getKey() == null) {
+				continue;
+			}
+			retRegistry.mutants.add(registry.mutants.get(i));
+			retRegistry.history.add(registry.history.get(i));
+			for (Resource r : registry.wrong.keySet()) {
+				List<Registry> retWrongList = new ArrayList<Registry>();
+				for (Registry wrong : registry.wrong.get(r)) {
+					Registry retWrong = new Registry();
+					List<SimpleEntry<Resource, Resource>> wrongMutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+					for (int k = 0; k < wrong.mutants.size(); k++) {
+						if (wrong.mutants.get(k).getKey() == null) {
+							continue;
+						}
+						wrongMutants.add(wrong.mutants.get(k));
+					}
+					retWrong.seed = wrong.seed;
+					retWrong.mutants = wrongMutants;
+					retWrong.history = wrong.history;
+					retWrongList.add(retWrong);
+				}
+				retRegistry.wrong.put(r, retWrongList);
+			}
+		}
+
+		return retRegistry;
 	}
 	
 	protected String getText(String identifier, String fileName, Resource resource) throws ModelNotFoundException {
@@ -1901,7 +2008,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 */
 	private String getReferenceChangedOptionNewerOlder(Text t, EObject object, EObject from, Element fromValues, EObject to, Element toValues, Element element, Element fromElement, Element toElement, Element refTarElement, Element refSrcElement, Resource seed, Resource mutant) {
 		String text = "";
+		int i = 0;
 		for (Word w : t.getWords()) {
+			text = text.trim() + (i > 0 ? " " : "");
 			if (w instanceof Constant) {
 				text += ((Constant) w).getValue() + " ";
 			}
@@ -2196,6 +2305,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 				}
 			}
+			i++;
 		}
 		return text;
 	}
@@ -5383,28 +5493,30 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					opt.solution = true;
 					List<TestOption> opts = new ArrayList<TestOption>();
 					opts.add(opt);
-					for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(i).getKey())) {
-						if (wrongRegistry.mutants.size() > 0) {
-							List<Integer> sorted = new ArrayList<Integer>();
-							int size = wrongRegistry.mutants.size();
-							for (int k = 0; k < size; k++) {
-								sorted.add(k);
-							}
-							List<Integer> random = new ArrayList<Integer>();
-							for (int k = 0; k < size; k++) {
-								int rndIndex = ModelManager.getRandomIndex(sorted);
-								int rnd = sorted.get(rndIndex);
-								random.add(rnd);
-								sorted.remove(rndIndex);
-							}
-							for (int k = 0; k < wrongRegistry.mutants.size(); k++) {
-								opt = new TestOption();
-								opt.path = "diagrams" + wrongRegistry.mutants.get(random.get(k)).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
-								opt.resource = wrongRegistry.history.get(random.get(k));
-								opt.seed = wrongRegistry.seed;
-								opt.solution = false;
-								opt.mutant = reg.mutants.get(k).getKey();
-								opts.add(opt);
+					if (dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(i).getKey()) != null) {
+						for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(i).getKey())) {
+							if (wrongRegistry.mutants.size() > 0) {
+								List<Integer> sorted = new ArrayList<Integer>();
+								int size = wrongRegistry.mutants.size();
+								for (int k = 0; k < size; k++) {
+									sorted.add(k);
+								}
+								List<Integer> random = new ArrayList<Integer>();
+								for (int k = 0; k < size; k++) {
+									int rndIndex = ModelManager.getRandomIndex(sorted);
+									int rnd = sorted.get(rndIndex);
+									random.add(rnd);
+									sorted.remove(rndIndex);
+								}
+								for (int k = 0; k < wrongRegistry.mutants.size(); k++) {
+									opt = new TestOption();
+									opt.path = "diagrams" + wrongRegistry.mutants.get(random.get(k)).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+									opt.resource = wrongRegistry.history.get(random.get(k));
+									opt.seed = wrongRegistry.seed;
+									opt.solution = false;
+									opt.mutant = reg.mutants.get(k).getKey();
+									opts.add(opt);
+								}
 							}
 						}
 					}

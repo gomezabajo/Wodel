@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.ui,
  wodel.utils,
  wodel.models,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.metrics.command
 Bundle-ActivationPolicy: lazy

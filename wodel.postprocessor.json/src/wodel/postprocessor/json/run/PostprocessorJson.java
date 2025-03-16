@@ -1,13 +1,13 @@
 package wodel.postprocessor.json.run;
 
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
-
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper.Builder;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,16 +21,14 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.emfjson.EMFJs;
-import org.emfjson.jackson.JacksonOptions;
-import org.emfjson.jackson.JacksonOptions.Builder;
-import org.emfjson.jackson.module.EMFModule;
-import org.emfjson.jackson.resource.JsonResourceFactory;
+import org.eclipse.emfcloud.jackson.annotations.JsonAnnotations;
+import org.eclipse.emfcloud.jackson.module.EMFModule;
+import org.eclipse.emfcloud.jackson.resource.JsonResource;
+import org.eclipse.emfcloud.jackson.resource.JsonResourceFactory;
 
 import wodel.postprocessor.run.IPostprocessor;
 
@@ -68,26 +66,45 @@ public class PostprocessorJson implements IPostprocessor {
 				model.load(xmlOptions);
 			}
 			
-			Map<String, Boolean> options = new LinkedHashMap<String, Boolean>();
-			options.put(EMFJs.OPTION_USE_ID, false);
-			options.put(EMFJs.OPTION_INDENT_OUTPUT, true);
 
-			Builder builder = new Builder();
-			JacksonOptions jacksonOptions = builder.build(options);
 			
-			EMFModule module = new EMFModule(model.getResourceSet(), jacksonOptions);
+			
+//			EMFModule module = new EMFModule(model.getResourceSet(), jacksonOptions);
 
-			ObjectMapper mapper = new ObjectMapper()
+//			Map<String, Boolean> options = new LinkedHashMap<String, Boolean>();
+//			options.put(EMFJs.OPTION_USE_ID, false);
+//			options.put(EMFJs.OPTION_INDENT_OUTPUT, true);
+			
+//			Builder builder = new Builder();
+//			Options jacksonOptions = builder.withID(true).build(options);
+			
+			JsonFactory jsonFactory = JsonFactory.builder()
+					.configure(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES, true)
+					.build();
+			
+			SimpleModule module = new EMFModule()
+					.configure(EMFModule.Feature.OPTION_USE_ID, false);
+			
+			ObjectMapper jsonMapper = EMFModule.setupDefaultMapper(jsonFactory)
 					.registerModule(module)
 					.configure(SerializationFeature.INDENT_OUTPUT, true);
 
+/*
+			Builder builder = new Builder(jsonMapper);
+			builder.addModule(module).
+
+			JsonAnnotations jacksonOptions = builder.build(options);
+*/
+			JsonResourceFactory jsonResourceFactory = new JsonResourceFactory(jsonMapper);		
+
+			
 			ResourceSet jsonResourceSet = model.getResourceSet();
-			jsonResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("json", new JsonResourceFactory());
+			jsonResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("json", jsonResourceFactory);
 			Resource jsonResource = jsonResourceSet.createResource(URI.createURI(model.getURI().toString().replace(".model", ".json")));
 			jsonResource.getContents().addAll(model.getContents());
 			
-			JsonNode contents = mapper.valueToTree(jsonResource);
-			ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter();
+			JsonNode contents = jsonMapper.valueToTree(jsonResource);
+			ObjectWriter writer = jsonMapper.writerWithDefaultPrettyPrinter();
 			
 			//JsonNode contents = mapper.valueToTree(model);
 			

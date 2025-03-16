@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  wodel.utils,
  wodeltest.run
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeltest.optimiser.subsumption
 Bundle-ActivationPolicy: lazy

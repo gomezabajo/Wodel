@@ -172,7 +172,6 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 		importPackages.add("org.eclipse.xtext.xbase.lib");
 		importPackages.add("org.eclipse.xtext.util");
 		importPackages.add("wodeledu.dsls.generator");
-		importPackages.add("wodeledu.dsls.generator.modeldraw");
 		importPackages.add("com.google.inject");
 		importPackages.add("javax.inject");
 		importPackages.add("com.google.common.util.concurrent.internal");
@@ -363,7 +362,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			def += "\t\tobject = select one Object where {class = subClass}\n";
 			def += "\t\tmodify object with {class = abstractClass}\n";
 			def += "\t} [4]\n";
-			def += "\tcconcrete2AbstractInstanceThird from concrete2AbstractInstanceFirst repeat = no {\n";
+			def += "\tconcrete2AbstractInstanceThird from concrete2AbstractInstanceFirst repeat = no {\n";
 			def += "\t\tabstractClass = select one Class where {abstract = true}\n";
 			def += "\t\tsubClass = select one Class where {superclass = abstractClass and abstract = false}\n";
 			def += "\t\tobject = select one Object where {class = subClass}\n";
@@ -484,27 +483,42 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			InputStream stream = openContentStream();
 			String def = "metamodel \"/"+ projectName + "/" + modelName + "/" + metamodel + "\"\n\n" 
 					+ "navigation=free\n"
+					+ "AlternativeResponse concrete2AbstractInstanceFirst = solution {\n"
+					+ "\tretry=yes, statement=ClassDiagram, answers=ObjectDiagram\n"
+					+ "\tdescription for 'VehicleShop.model' = 'Select the object diagram that is a valid instance of the class diagram shown below'\n"
+					+ "}\n"
+					+ "AlternativeResponse concrete2AbstractInstanceFirst = solution {\n"
+					+ "\tretry=yes, statement=ClassDiagram, answers=ObjectDiagram\n"
+					+ "\tdescription for 'CoffeeShop.model' = 'Select the object diagram that is a valid instance of the class diagram shown below'\n"
+					+ "}\n"
 					+ "MultiChoiceDiagram concrete2AbstractInstanceFirst {\n"
-					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram\n"
+					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ObjectDiagram\n"
 					+ "\tdescription for 'VehicleShop.model' = 'Select which of the following object diagrams is a valid instance of the class diagram shown below'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram modAssociation1=solution, delAssociation, modAssociation2 {\n"
-					+ "\tretry=yes, mode=checkbox, statement=ClassDiagram\n"
+					+ "\tretry=yes, mode=checkbox, statement=ClassDiagram, answers=ObjectDiagram\n"
 					+ "\tdescription for 'CoffeeShop.model' = 'Select which of the following object diagrams are valid instances of the class diagram shown below'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram aggregation2CompositionFirst, swapComposition {\n"
-					+ "\tretry=yes, mode=radiobutton, answers=ClassDiagram\n"
+					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ClassDiagram\n"
 					+ "\tdescription for 'GUI.model' = 'Select which of the following class diagrams is correct'\n"
+					+ "}\n"
+					+ "MultiChoiceDiagram aggregation2CompositionFirst, swapComposition {\n"
+					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ClassDiagram\n"
 					+ "\tdescription for 'CarRental.model' = 'Select which of the following class diagrams is correct'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram intAtt2String, concrete2AbstractInstanceFirst, breakCardinality {\n"
-					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram\n"
+					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ClassDiagram\n"
 					+ "\tdescription for 'Person2Course.model' = 'Select which of the following object diagrams is a valid instance of the class diagram shown below'\n"
 					+ "}\n"
-					+ "MultiChoiceEmendation concrete2AbstractInstanceFirst = solution {\n"
+					+ "MultiChoiceEmendation concrete2AbstractInstanceFirst = solution, concrete2AbstractInstanceSecond, concrete2AbstractInstanceThird, concrete2AbstractInstanceFourth {\n"
 					+ "\tretry=no, weighted=no, penalty=0.0,\n"
 					+ "\torder=options-descending, mode=checkbox, statement=ClassDiagram, answers=ObjectDiagram\n"
 					+ "\tdescription for 'Person2Course.model' = 'Which changes shall be applied to this object diagram to match the class diagram shown below'\n"
+					+ "}\n"
+					+ "MultiChoiceEmendation concrete2AbstractInstanceFirst = solution, concrete2AbstractInstanceSecond, concrete2AbstractInstanceThird, concrete2AbstractInstanceFourth {\n"
+					+ "\tretry=no, weighted=no, penalty=0.0,\n"
+					+ "\torder=options-descending, mode=checkbox, statement=ClassDiagram, answers=ObjectDiagram\n"
 					+ "\tdescription for 'VehicleShop.model' = 'Which changes shall be applied to this object diagram to match the class diagram shown below'\n"
 					+ "}";
 			if (testsFile.exists()) {
@@ -526,8 +540,8 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			String def = "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "ClassDiagram {\n";
 			def += "\t>Class: %name\n";
-			def += "\t>Class(abstract): abstract %name\n";
 			def += "\t>Class(not abstract): concrete %name\n";
+			def += "\t>Class(abstract): abstract %name\n";
 			def += "\t>ClassAggregation: aggregation from %source.name to %target.name\n";
 			def += "\t>ClassComposition: composition from %constituent.name to %composite.name\n";
 			def += "\t>ClassAssociation: association from %source.name to %target.name\n";
@@ -561,7 +575,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			def += ">ObjectRetyped: Change %object to %toObject /\n";
 			def += "\tChange %toObject to %object\n";
 			def += ">ReferenceChanged: Change %toObject to %fromObject /\n";
-			def += "\tChange %toObject to %fromObject\n";
+			def += "\tChange %fromObject to %toObject\n";
 			if (cfgoptsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;

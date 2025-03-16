@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.atl.typing,
  anatlyzer.use.witness
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.atl.editor,
  anatlyzer.atl.editor.builder,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 http://ObjectDiagram/1.0" xmi:id="_BX47EM1fEe6B7-1ys0yCrQ">
-  <classdiagram xmi:id="_Cy9K4M1fEe6B7-1ys0yCrQ">
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_Qu3SQOqaEe-xmJSiRSx9Aw">
+  <classdiagram xmi:id="_RN2UUOqaEe-xmJSiRSx9Aw">
     <classes xmi:id="_DjczsM1fEe6B7-1ys0yCrQ" name="Person" abstract="true" subclasses="_E4R4oM1fEe6B7-1ys0yCrQ _HAgJYM1fEe6B7-1ys0yCrQ">
       <ownedAttributes xmi:id="_LX9R0M1fEe6B7-1ys0yCrQ" name="name" type="__1nvsM1hEe6B7-1ys0yCrQ"/>
       <ownedAttributes xmi:id="_NvHWcM1fEe6B7-1ys0yCrQ" name="age" type="_CyUxYM1iEe6B7-1ys0yCrQ"/>
@@ -17,7 +17,7 @@
     <datatypes xmi:id="__1nvsM1hEe6B7-1ys0yCrQ" name="String"/>
     <datatypes xmi:id="_CyUxYM1iEe6B7-1ys0yCrQ" name="int"/>
   </classdiagram>
-  <objectdiagram xmi:id="_VXLCEM1hEe6B7-1ys0yCrQ">
+  <objectdiagram xmi:id="_RiBNgOqaEe-xmJSiRSx9Aw">
     <objects xmi:id="_aG6HoM1hEe6B7-1ys0yCrQ" name="" class="_HAgJYM1fEe6B7-1ys0yCrQ">
       <ownedAttributeValues>Ann Martin</ownedAttributeValues>
       <ownedAttributeValues>23</ownedAttributeValues>

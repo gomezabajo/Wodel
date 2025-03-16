@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="MutTesting" name="Wodel-Test extension point" schema="schema/wodeltest.extension.exsd"/>
    <extension
          point="wodel.extension.MutApplication">
       <generator
             class="wodeltest.extension.run.Generator">
       </generator>
    </extension>
+   <extension-point id="MutTesting" name="Wodel-Test extension point" schema="schema/wodeltest.extension.exsd"/>
    <extension
          id="wodeltest.extension.wodelTestBuilder"
          name="Wodel-Test Project Builder"

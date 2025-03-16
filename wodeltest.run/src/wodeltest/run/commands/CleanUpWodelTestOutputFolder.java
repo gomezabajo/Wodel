@@ -77,8 +77,7 @@ public class CleanUpWodelTestOutputFolder extends AbstractHandler {
 		List<IWodelTest> tests = new ArrayList<IWodelTest>();
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
-					.getExtensionRegistry().getConfigurationElementsFor(
-							"wodeltest.extension.MutTesting");
+					.getExtensionRegistry().getConfigurationElementsFor("wodeltest.extension", "MutTesting");
 			for (int j = 0; j < extensions.length; j++) {
 				IWodelTest currentTest = null;
 				try {

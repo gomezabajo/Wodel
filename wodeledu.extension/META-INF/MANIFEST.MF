@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Extension
+Bundle-Name: Wodel-Edu Extension
 Bundle-SymbolicName: wodeledu.extension;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodeledu.extension.Activator

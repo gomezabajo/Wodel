@@ -248,10 +248,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 				if ((src != null) && (dest != null)) {
 					IOUtils.copyFolder(src, dest);
 				}
-				for (File f: src.listFiles()) {
-					if (f.getName().endsWith(".ecore")) {
-						srcMetamodel = f.getPath();
-						break;
+				if (src != null) {
+					for (File f: src.listFiles()) {
+						if (f.getName().endsWith(".ecore")) {
+							srcMetamodel = f.getPath();
+							break;
+						}
 					}
 				}
 			}
@@ -842,10 +844,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
 				final File src = new Path(srcName).toFile();
-				for (File f : src.listFiles()) {
-					final IFile dest = libFolder.getFile(new Path(f.getName()));
-					dest.create(new FileInputStream(f), true, monitor);
-					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				if (src != null) {
+					for (File f : src.listFiles()) {
+						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -887,11 +891,13 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic";
 				final File src = new Path(srcName).toFile();
-				for (File f : src.listFiles()) {
-					if (f.isFile()) {
-						final IFile dest = dpicFolder.getFile(new Path(f.getName()));
-						dest.create(new FileInputStream(f), true, monitor);
-						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				if (src != null) {
+					for (File f : src.listFiles()) {
+						if (f.isFile()) {
+							final IFile dest = dpicFolder.getFile(new Path(f.getName()));
+							dest.create(new FileInputStream(f), true, monitor);
+							dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+						}
 					}
 				}
 			}
@@ -933,10 +939,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik";
 				final File src = new Path(srcName).toFile();
-				for (File f : src.listFiles()) {
-					final IFile dest = batikFolder.getFile(new Path(f.getName()));
-					dest.create(new FileInputStream(f), true, monitor);
-					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				if (src != null) {
+					for (File f : src.listFiles()) {
+						final IFile dest = batikFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -978,10 +986,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik/extensions";
 				final File src = new Path(srcName).toFile();
-				for (File f : src.listFiles()) {
-					final IFile dest = batikExtensionsFolder.getFile(new Path(f.getName()));
-					dest.create(new FileInputStream(f), true, monitor);
-					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				if (src != null) {
+					for (File f : src.listFiles()) {
+						final IFile dest = batikExtensionsFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -1022,10 +1032,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "dpic/batik/lib";
 				final File src = new Path(srcName).toFile();
-				for (File f : src.listFiles()) {
-					final IFile dest = batikLibFolder.getFile(new Path(f.getName()));
-					dest.create(new FileInputStream(f), true, monitor);
-					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+				if (src != null) {
+					for (File f : src.listFiles()) {
+						final IFile dest = batikLibFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
 				}
 			}
 		} catch (IOException e) {

@@ -225,9 +225,20 @@ public class Generator implements IGenerator {
 			
 			monitor.beginTask("Creating config folder", 8);
 			final IFolder configFolder = dataFolder.getFolder(new Path("config"));
-			if (!configFolder.exists()) {
+			final IFile config = configFolder.getFile(new Path("config.txt"));
+			try {
+				InputStream stream = openConfigStream();
+				if (config.exists()) {
+					config.appendContents(stream, true, true, monitor);
+				} else {
+					config.create(stream, true, monitor);
+				}
+				stream.close();
+			} catch (IOException e) {
+			}			if (!configFolder.exists()) {
 				configFolder.create(true, true, monitor);
 			}
+			monitor.worked(1);
 			final IFile test = configFolder.getFile(new Path("test.txt"));
 			try {
 				InputStream stream = openTestStream();
@@ -421,8 +432,8 @@ public class Generator implements IGenerator {
 	 * the name of the mutants folder.
 	 */
 
-	private InputStream openConfigStream(String modelName, String mutantName, IProject project) {
-		String contents = modelName + "\n" + mutantName + "\n" + project.getName() + ".mutator\nWodel-Test: Generation of a model-based software testing framework\n";
+	private InputStream openConfigStream() {
+		String contents = "\nWodel-Test: Generation of a model-based software testing framework\n";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

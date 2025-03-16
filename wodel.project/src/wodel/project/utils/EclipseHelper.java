@@ -151,20 +151,22 @@ public class EclipseHelper {
 //									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));
 									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
-			if (extensionName.equals("Wodel-Edu: Environment for the automated generation and evaluation of exercises")) {
-				String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
-				//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
-				@SuppressWarnings("restriction")
-				IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
-				        IPackageFragmentRoot.K_BINARY,
-				        IClasspathEntry.CPE_LIBRARY, project.getFile(plantUMLlib).getProjectRelativePath(),
-				        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
-				        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
-				        null, null, null, // specific output folder
-				        false, // exported
-				        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
-				        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
-				classpathEntries.add(relativeLibraryEntry);
+			if (extensionName != null) {
+				if (extensionName.equals("Wodel-Edu: Environment for the automated generation and evaluation of exercises")) {
+					String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
+					//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
+					@SuppressWarnings("restriction")
+					IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+					        IPackageFragmentRoot.K_BINARY,
+					        IClasspathEntry.CPE_LIBRARY, project.getFile(plantUMLlib).getProjectRelativePath(),
+					        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+					        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+					        null, null, null, // specific output folder
+					        false, // exported
+					        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+					        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+					classpathEntries.add(relativeLibraryEntry);
+				}
 			}
 
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),

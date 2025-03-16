@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Project
+Bundle-Name: Wodel-Test Extension
 Bundle-SymbolicName: wodeltest.extension;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodeltest.extension.Activator
@@ -15,11 +15,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.infra.common.core,
  org.eclipse.jface.text,
  wodel.utils,
- com.google.guava_18.0
+ com.google.guava,
+ org.eclipse.modisco.java.generation
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeltest.project
 Bundle-ActivationPolicy: lazy
-Export-Package: wodeltest.extension.run,
+Export-Package: wodeltest.extension,
+ wodeltest.extension.builder,
+ wodeltest.extension.run,
+ wodeltest.extension.run.commands,
  wodeltest.extension.utils
-Bundle-ClassPath: .,
- lib/org.eclipse.modisco.java.generation_1.5.5.v20240826-1153.jar

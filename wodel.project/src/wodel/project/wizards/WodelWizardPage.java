@@ -141,8 +141,7 @@ public class WodelWizardPage extends WizardPage {
 
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
-					.getExtensionRegistry().getConfigurationElementsFor(
-							"wodel.extension.MutApplication");
+					.getExtensionRegistry().getConfigurationElementsFor("wodel.extension", "MutApplication");
 			for (int j = 0; j < extensions.length; j++) {
 				try {
 					final IGenerator src = (IGenerator) extensions[j]

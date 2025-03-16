@@ -10,3 +10,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.extension
 Bundle-ActivationPolicy: lazy
 Export-Package: wodel.extension.generator
+

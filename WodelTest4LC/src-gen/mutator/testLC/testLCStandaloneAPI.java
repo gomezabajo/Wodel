@@ -28,7 +28,7 @@ public class testLCStandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testLC");
-		String ecoreURI = "C:/eclipse/workspace/WodelTest4LC/data/model/LogicCircuit.ecore";
+		String ecoreURI = "C:/eclipse/workspace5/WodelTest4LC/data/model/LogicCircuit.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, testLCStandaloneAPI.class);
@@ -45,8 +45,8 @@ public class testLCStandaloneAPI extends MutatorStandaloneAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 5;
-		int numMutants = 5;
+		int maxAttempts = 8;
+		int numMutants = 8;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

@@ -39,8 +39,8 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
-		<nature>wodeltest.extension.wodelTestNature</nature>
 		<nature>wodel.project.wodelNature</nature>
+		<nature>wodeltest.extension.wodelTestNature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 	</natures>
 </projectDescription>

@@ -28,7 +28,7 @@ public class designerStandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: designer");
-		String ecoreURI = "C:/eclipse/workspace/designer/data/model/LogicCircuit.ecore";
+		String ecoreURI = "C:/eclipse/workspace6/designer/data/model/LogicCircuit.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, designerStandaloneAPI.class);
@@ -45,8 +45,8 @@ public class designerStandaloneAPI extends MutatorStandaloneAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 5;
-		int numMutants = 5;
+		int maxAttempts = 8;
+		int numMutants = 8;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

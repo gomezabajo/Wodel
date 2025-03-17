@@ -16,16 +16,35 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import feature="wodel.core" version="1.0.0.qualifier"/>
+      <import plugin="org.eclipse.acceleo.common"/>
+      <import plugin="org.eclipse.acceleo.model"/>
+      <import plugin="org.eclipse.modisco.java.generation"/>
+      <import plugin="org.eclipse.acceleo.engine"/>
+      <import plugin="org.eclipse.modisco.infra.common.core"/>
+      <import plugin="org.eclipse.jface.text"/>
+   </requires>
+
    <plugin
          id="wodeltest.extension"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="wodeltest.run"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="wodeltest.optimiser"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

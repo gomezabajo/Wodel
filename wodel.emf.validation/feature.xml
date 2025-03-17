@@ -16,8 +16,15 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import feature="wodel.core" version="1.0.0.qualifier"/>
+   </requires>
+
    <plugin
          id="wodel.syntactic.validation.emf"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

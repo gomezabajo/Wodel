@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.File;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.MutatorUtils;
+import mutator.testATLOPE.testATLOPEStandaloneAPI;
 import mutator.testATLF.testATLFStandaloneAPI;
 import mutator.testATLB.testATLBStandaloneAPI;
 import mutator.testATLIPE.testATLIPEStandaloneAPI;
@@ -26,11 +27,18 @@ public class WodelTest4ATLStandaloneAPILauncher {
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		String ecoreURI = "C:/eclipse/workspace/WodelTest4ATL/data/model/ATL.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
+		mutatorNames.add("testATLOPE");
 		mutatorNames.add("testATLF");
 		mutatorNames.add("testATLB");
 		mutatorNames.add("testATLIPE");
 		mutatorNames.add("testATLMR");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
+		List<String> mutatorOperatorNamestestATLOPE = new ArrayList<String>();
+		mutatorOperatorNamestestATLOPE.add("cope");
+		mutatorOperatorNamestestATLOPE.add("rope");
+		mutatorOperatorNamestestATLOPE.add("ccope");
+		mutatorOperatorNamestestATLOPE.add("ncope");
+		operatorNames.add(mutatorOperatorNamestestATLOPE);
 		List<String> mutatorOperatorNamestestATLF = new ArrayList<String>();
 		mutatorOperatorNamestestATLF.add("cf");
 		mutatorOperatorNamestestATLF.add("rf");
@@ -75,12 +83,14 @@ public class WodelTest4ATLStandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		File projectFolder = new File(
-				testATLBStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+				testATLFStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = testATLBStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
+		String outputWodelFolder = testATLFStandaloneAPI.class.getProtectionDomain().getCodeSource().getLocation()
 				.getPath() + "data/out";
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
+		testATLOPEStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
 		testATLFStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		testATLBStandaloneAPI.createMutants(arrOperatorNames[i]);

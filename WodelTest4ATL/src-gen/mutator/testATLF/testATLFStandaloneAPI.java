@@ -45,8 +45,8 @@ public class testATLFStandaloneAPI extends MutatorStandaloneAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 3;
-		int numMutants = 3;
+		int maxAttempts = 8;
+		int numMutants = 8;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

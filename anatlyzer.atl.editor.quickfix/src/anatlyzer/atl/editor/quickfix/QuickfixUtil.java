@@ -1,24 +1,10 @@
 package anatlyzer.atl.editor.quickfix;
 
-import java.util.function.Supplier;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
-import anatlyzer.atl.types.Type;
-import anatlyzer.atl.types.TypesFactory;
-import anatlyzer.atl.types.Unknown;
-import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ATLPackage;
-import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.OCL.IteratorExp;
-import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.PropertyCallExp;
 
 public abstract class QuickfixUtil {
 	protected boolean checkProblemType(IMarker marker, Class<?> class1) {

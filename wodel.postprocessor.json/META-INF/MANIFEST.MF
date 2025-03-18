@@ -3,7 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Static
 Bundle-SymbolicName: wodel.postprocessor.json;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Import-Package: org.eclipse.emf.ecore.resource
+Import-Package: com.fasterxml.jackson.core,
+ com.fasterxml.jackson.databind,
+ org.eclipse.emf.ecore.resource
 Bundle-Activator: wodel.postprocessor.json.Activator
 Require-Bundle: org.eclipse.core.runtime,
  wodel.postprocessor,
@@ -12,17 +14,14 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.utils,
  org.eclipse.emf.ecore.xmi,
  org.apache.commons.lang3,
- com.google.guava
+ com.google.guava,
+ org.eclipse.emfcloud.emfjson-jackson,
+ com.fasterxml.jackson.core.jackson-core,
+ com.fasterxml.jackson.core.jackson-annotations,
+ com.fasterxml.jackson.core.jackson-databind
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.postprocessor.json
 Bundle-ActivationPolicy: lazy
-Bundle-Classpath: ./,
- bin/,
- lib/com.fasterxml.jackson.core.jackson-annotations_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-annotations.source_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-core_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-core.source_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-databind_2.12.1.jar,
- lib/org.eclipse.emfcloud.emfjson-jackson_2.0.0.jar,
- lib/org.eclipse.emfcloud.emfjson-jackson.source_2.0.0.jar
+Export-Package: wodel.postprocessor.json,
+ wodel.postprocessor.json.run
 

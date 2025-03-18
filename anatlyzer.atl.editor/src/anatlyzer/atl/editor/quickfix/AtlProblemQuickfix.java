@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
-import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 
 public interface AtlProblemQuickfix extends ICompletionProposal, AtlCompletionProposal {

@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  *
  * @generated
  */
+
 public class GenerateJava extends AbstractAcceleoGenerator {
     /**
      * The name of the module.

@@ -12,13 +12,17 @@ Require-Bundle: wodeledu.models,
  org.eclipse.equinox.common;bundle-version="3.16.0",
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
  org.eclipse.xtext.util,
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.antlr.runtime;bundle-version="4.7.2",
  org.eclipse.core.runtime,
  wodel.utils,
  org.eclipse.core.resources,
  wodeledu.utils,
  slf4j.simple,
- slf4j.api
+ slf4j.api,
+ org.eclipse.emfcloud.emfjson-jackson,
+ com.fasterxml.jackson.core.jackson-core,
+ com.fasterxml.jackson.core.jackson-annotations,
+ com.fasterxml.jackson.core.jackson-databind
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.formatting2,
@@ -33,13 +37,4 @@ Export-Package: wodeledu.dsls,
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.slf4j
-Bundle-ClassPath: ./,
- bin/,
- lib/com.fasterxml.jackson.core.jackson-annotations_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-annotations.source_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-core_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-core.source_2.12.1.jar,
- lib/com.fasterxml.jackson.core.jackson-databind_2.12.1.jar,
- lib/org.eclipse.emfcloud.emfjson-jackson_2.0.0.jar,
- lib/org.eclipse.emfcloud.emfjson-jackson.source_2.0.0.jar
 

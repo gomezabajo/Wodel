@@ -49,18 +49,21 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.registry.MutRegistryPostprocessor");
-			for (int j = 0; j < extensions.length; j++) {
-				IRegistryPostprocessor src = null;
-				try {
-					src = (IRegistryPostprocessor) extensions[j]
-							.createExecutableExtension("class");
-				} catch (CoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					.getConfigurationElementsFor("wodel.registry", "MutRegistryPostprocessor");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					IRegistryPostprocessor src = null;
+					try {
+						src = (IRegistryPostprocessor) extensions[j]
+								.createExecutableExtension("class");
+					} catch (CoreException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (src != null) {
+						addField(new BooleanFieldEditor(src.getName(), src.getName(), composite));
+					}
 				}
-				addField(new BooleanFieldEditor(src.getName(), src.getName(), composite));
 			}
 		}
 
@@ -72,45 +75,46 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.postprocessor.MutPostprocessor");
-			for (int j = 0; j < extensions.length; j++) {
-				String value = "";
-				String uriValue = "";
-				try {
-					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
-					Method method = extensionClass.getDeclaredMethod("getName");
-					value = (String) method.invoke(comparison);
-					method = extensionClass.getDeclaredMethod("getURI");
-					uriValue = (String) method.invoke(comparison);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (value.length() > 0) {
-					valueMap.put(value, uriValue);
+					.getConfigurationElementsFor("wodel.postprocessor", "MutPostprocessor");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					String value = "";
+					String uriValue = "";
+					try {
+						Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
+						Method method = extensionClass.getDeclaredMethod("getName");
+						value = (String) method.invoke(comparison);
+						method = extensionClass.getDeclaredMethod("getURI");
+						uriValue = (String) method.invoke(comparison);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidRegistryObjectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (value.length() > 0) {
+						valueMap.put(value, uriValue);
+					}
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
@@ -153,45 +157,46 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.syntactic.validation.MutSyntacticValidation");
-			for (int j = 0; j < extensions.length; j++) {
-				String value = "";
-				String uriValue = "";
-				try {
-					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object validation =  extensionClass.getDeclaredConstructor().newInstance();
-					Method method = extensionClass.getDeclaredMethod("getName");
-					value = (String) method.invoke(validation);
-					method = extensionClass.getDeclaredMethod("getURI");
-					uriValue = (String) method.invoke(validation);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (value.length() > 0) {
-					valueMap.put(value, uriValue);
+					.getConfigurationElementsFor("wodel.syntactic.validation" , "MutSyntacticValidation");
+			if (extensions != null) { 
+				for (int j = 0; j < extensions.length; j++) {
+					String value = "";
+					String uriValue = "";
+					try {
+						Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+						Object validation =  extensionClass.getDeclaredConstructor().newInstance();
+						Method method = extensionClass.getDeclaredMethod("getName");
+						value = (String) method.invoke(validation);
+						method = extensionClass.getDeclaredMethod("getURI");
+						uriValue = (String) method.invoke(validation);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidRegistryObjectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (value.length() > 0) {
+						valueMap.put(value, uriValue);
+					}
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
@@ -258,45 +263,46 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.syntactic.comparison.MutSyntacticComparison");
-			for (int j = 0; j < extensions.length; j++) {
-				String value = "";
-				String uriValue = "";
-				try {
-					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
-					Method method = extensionClass.getDeclaredMethod("getName");
-					value = (String) method.invoke(comparison);
-					method = extensionClass.getDeclaredMethod("getURI");
-					uriValue = (String) method.invoke(comparison);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (value.length() > 0) {
-					valueMap.put(value, uriValue);
+					.getConfigurationElementsFor("wodel.syntactic.comparison", "MutSyntacticComparison");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					String value = "";
+					String uriValue = "";
+					try {
+						Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
+						Method method = extensionClass.getDeclaredMethod("getName");
+						value = (String) method.invoke(comparison);
+						method = extensionClass.getDeclaredMethod("getURI");
+						uriValue = (String) method.invoke(comparison);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidRegistryObjectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (value.length() > 0) {
+						valueMap.put(value, uriValue);
+					}
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
@@ -334,45 +340,47 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
     		IConfigurationElement[] extensions = Platform
     				.getExtensionRegistry()
-    				.getConfigurationElementsFor("wodel.semantic.comparison.MutSemanticComparison");
-    		for (int j = 0; j < extensions.length; j++) {
-    			String value = "";
-    			String uriValue = "";
-    			try {
-    				Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-    				Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
-    				Method method = extensionClass.getDeclaredMethod("getName");
-    				value = (String) method.invoke(comparison);
-    				method = extensionClass.getDeclaredMethod("getURI");
-    				uriValue = (String) method.invoke(comparison);
-    			} catch (InstantiationException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (IllegalAccessException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (ClassNotFoundException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (InvalidRegistryObjectException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (NoSuchMethodException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (SecurityException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (IllegalArgumentException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			} catch (InvocationTargetException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-    			if (value.length() > 0) {
-    				valueMap.put(value, uriValue);
-    			}
+    				.getConfigurationElementsFor("wodel.semantic.comparison", "MutSemanticComparison");
+    		if (extensions != null) {
+        		for (int j = 0; j < extensions.length; j++) {
+        			String value = "";
+        			String uriValue = "";
+        			try {
+        				Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+        				Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
+        				Method method = extensionClass.getDeclaredMethod("getName");
+        				value = (String) method.invoke(comparison);
+        				method = extensionClass.getDeclaredMethod("getURI");
+        				uriValue = (String) method.invoke(comparison);
+        			} catch (InstantiationException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (IllegalAccessException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (ClassNotFoundException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (InvalidRegistryObjectException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (NoSuchMethodException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (SecurityException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (IllegalArgumentException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			} catch (InvocationTargetException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			}
+        			if (value.length() > 0) {
+        				valueMap.put(value, uriValue);
+        			}
+        		}
     		}
     		List<String> valueList = new ArrayList<String>();
 			valueList.add("");
@@ -412,45 +420,46 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.semantic.validation.MutSemanticValidation");
-			for (int j = 0; j < extensions.length; j++) {
-				String value = "";
-				String uriValue = "";
-				try {
-					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
-					Method method = extensionClass.getDeclaredMethod("getName");
-					value = (String) method.invoke(comparison);
-					method = extensionClass.getDeclaredMethod("getURI");
-					uriValue = (String) method.invoke(comparison);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (value.length() > 0) {
-					valueMap.put(value, uriValue);
+					.getConfigurationElementsFor("wodel.semantic.validation", "MutSemanticValidation");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					String value = "";
+					String uriValue = "";
+					try {
+						Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
+						Method method = extensionClass.getDeclaredMethod("getName");
+						value = (String) method.invoke(comparison);
+						method = extensionClass.getDeclaredMethod("getURI");
+						uriValue = (String) method.invoke(comparison);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidRegistryObjectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (value.length() > 0) {
+						valueMap.put(value, uriValue);
+					}
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
@@ -483,45 +492,46 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodeltest.optimiser.MutTestingOptimiser");
-			for (int j = 0; j < extensions.length; j++) {
-				String value = "";
-				String uriValue = "";
-				try {
-					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
-					Method method = extensionClass.getDeclaredMethod("getName");
-					value = (String) method.invoke(comparison);
-					method = extensionClass.getDeclaredMethod("getURI");
-					uriValue = (String) method.invoke(comparison);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidRegistryObjectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (value.length() > 0) {
-					valueMap.put(value, uriValue);
+					.getConfigurationElementsFor("wodeltest.optimiser", "MutTestingOptimiser");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					String value = "";
+					String uriValue = "";
+					try {
+						Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
+						Object comparison =  extensionClass.getDeclaredConstructor().newInstance();
+						Method method = extensionClass.getDeclaredMethod("getName");
+						value = (String) method.invoke(comparison);
+						method = extensionClass.getDeclaredMethod("getURI");
+						uriValue = (String) method.invoke(comparison);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidRegistryObjectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (value.length() > 0) {
+						valueMap.put(value, uriValue);
+					}
 				}
 			}
 			List<String> valueList = new ArrayList<String>();
@@ -557,20 +567,23 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.postprocessor.MutPostprocessor");
-			for (int j = 0; j < extensions.length; j++) {
-				IPostprocessor src = null;
-				try {
-					src = (IPostprocessor) extensions[j]
-							.createExecutableExtension("class");
-				} catch (CoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					.getConfigurationElementsFor("wodel.postprocessor", "MutPostprocessor");
+			if (extensions != null) {
+				for (int j = 0; j < extensions.length; j++) {
+					IPostprocessor src = null;
+					try {
+						src = (IPostprocessor) extensions[j]
+								.createExecutableExtension("class");
+					} catch (CoreException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (src != null) {
+						getPreferenceStore().setDefault(src.getName(), false);
+					}
 				}
-				getPreferenceStore().setDefault(src.getName(), false);
 			}
-		}
+    	}
     	getPreferenceStore().setDefault("Discard semantic equivalent mutants", false);
     	getPreferenceStore().setDefault("Serialize models", true);
     }

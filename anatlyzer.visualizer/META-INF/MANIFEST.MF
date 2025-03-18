@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.m2m.atl.common.Problem

@@ -216,7 +216,12 @@ public class ProjectUtils {
 					return project;
 				}
 				String fileName = new ArrayList<String>(fileNames).get(0);
-				file = currentProject.getFolder("src").getFile(fileName);
+				if (currentProject != null) {
+					file = currentProject.getFolder("src").getFile(fileName);
+				}
+				else {
+					file = project.getFolder("src").getFile(fileName);
+				}
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

@@ -5,18 +5,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.ecore.resource.Resource;
 
-import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.model.TypeUtils;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
-import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
@@ -49,10 +43,8 @@ import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
-import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LoopExp;
-import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.OclContextDefinition;

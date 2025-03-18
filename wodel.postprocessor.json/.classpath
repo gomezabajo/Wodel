@@ -7,12 +7,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jackson-annotations_2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jackson-annotations.source_2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jackson-core_2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jackson-core.source_2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jackson-databind_2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.emfcloud.emfjson-jackson_2.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.emfcloud.emfjson-jackson.source_2.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

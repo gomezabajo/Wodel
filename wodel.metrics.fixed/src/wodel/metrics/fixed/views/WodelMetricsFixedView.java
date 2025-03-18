@@ -527,6 +527,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
         		URI anfileURI = converter.normalize(URI.createFileURI(file.getAbsolutePath()));
         		String metamodel = file.getPath();
         		ExecuteAndInitializeAfterCreateFile(anfileURI, metamodel);
+
         	}
         };
         showFixedVisualMetrics.setImageDescriptor(getImageDescriptor("wodel4.jpg"));
@@ -1181,16 +1182,18 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 				diagramEditPart = diagramEditor.getDiagramEditPart();
 			}
 			
+			
 			ArrangeRequest arrangeRequest = new ArrangeRequest(ActionIds.ACTION_ARRANGE_ALL);
 			List<Object> partsToArrange = new ArrayList<Object>(1);
-			partsToArrange.add(diagramEditPart);
-			arrangeRequest.setPartsToArrange(partsToArrange);
-			diagramEditPart.performRequest(arrangeRequest);
+			if (diagramEditPart != null) {
+				partsToArrange.add(diagramEditPart);
+				arrangeRequest.setPartsToArrange(partsToArrange);
+				diagramEditPart.performRequest(arrangeRequest);
+			}
 
 			RecordingCommand updatePosition = new RecordingCommand(domain) {
 				@Override
 				protected void doExecute() {
-					@SuppressWarnings("unchecked")
 					DiagramEditor diagramEditor = (DiagramEditor) PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getActivePage()
 						.getActiveEditor();
@@ -1342,10 +1345,13 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 				}
 			};
 			domain.getCommandStack().execute(includeMetricsCommand);
-
+			
 			SessionManager.INSTANCE.notifyRepresentationCreated(createdSession);
+
 			createdSession.save(monitor);
 			
+			editor.setFocus();
+
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

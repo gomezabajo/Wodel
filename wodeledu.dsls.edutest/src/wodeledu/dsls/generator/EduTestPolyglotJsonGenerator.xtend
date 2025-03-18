@@ -35,7 +35,6 @@ import java.util.Set
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
-import java.io.OutputStream
 
 import java.io.FileOutputStream
 
@@ -44,9 +43,11 @@ import java.io.InputStream
 import java.util.Scanner
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectWriter
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializationFeature
+import java.io.OutputStream
+import com.fasterxml.jackson.databind.SequenceWriter
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -93,16 +94,17 @@ class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
 				roots = new ArrayList<EClass>()
 				roots.addAll(ModelManager.getRootEClasses(metamodel))
 
-				var SimpleModule module = new SimpleModule("PoLyGloT");
+				var SimpleModule module = new SimpleModule("PoLyGloT")
 				var ObjectMapper mapper = new ObjectMapper()
 					.registerModule(module)
 					.configure(SerializationFeature.INDENT_OUTPUT, true)
 					
-				var JsonNode content = mapper.valueToTree(p.compile(resource))
+				var JsonNode contents = mapper.valueToTree(p.compile(resource))
 				var ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter()
 				
 				var OutputStream os = new FileOutputStream("./dump.bak")
-				writer.writeValue(os, content)
+				var SequenceWriter sq = writer.writeValues(os)
+				sq.write(contents)
 				os.close()
 
 				var InputStream is = new FileInputStream("./dump.bak");

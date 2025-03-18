@@ -7,15 +7,13 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
 import org.eclipse.m2m.atl.adt.ui.text.AtlSourceViewerConfiguration;
 import org.eclipse.m2m.atl.adt.ui.text.AtlTextTools;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 import anatlyzer.atl.editor.quickfix.AnalysisQuickAssistAssistant;
 
-public class AtlSourceViewerConfigurationExt extends
-		AtlSourceViewerConfiguration {
+public class AtlSourceViewerConfigurationExt extends AtlSourceViewerConfiguration {
 
 	public AtlSourceViewerConfigurationExt(AtlTextTools tools,
-			ITextEditor editor) {
+			AtlEditorExt editor) {
 		super(tools, editor);
 		
 		// TODO Auto-generated constructor stub

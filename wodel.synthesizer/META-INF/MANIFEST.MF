@@ -14,9 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.synthesizer
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: ./,
- bin/,
- lib/ModelValidatorPlugin-5.1.0-r1.jar,
+Bundle-ClassPath: lib/ModelValidatorPlugin-5.1.0-r1.jar,
  lib/use.jar,
  lib/use-runtime.jar,
  lib/antlr-3.4-complete.jar

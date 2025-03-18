@@ -5,16 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper.Builder;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.emfcloud.jackson.annotations.JsonAnnotations;
 import org.eclipse.emfcloud.jackson.module.EMFModule;
-import org.eclipse.emfcloud.jackson.resource.JsonResource;
 import org.eclipse.emfcloud.jackson.resource.JsonResourceFactory;
 
 import wodel.postprocessor.run.IPostprocessor;
@@ -82,7 +78,7 @@ public class PostprocessorJson implements IPostprocessor {
 					.configure(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES, true)
 					.build();
 			
-			SimpleModule module = new EMFModule()
+			EMFModule module = new EMFModule()
 					.configure(EMFModule.Feature.OPTION_USE_ID, false);
 			
 			ObjectMapper jsonMapper = EMFModule.setupDefaultMapper(jsonFactory)

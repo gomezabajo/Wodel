@@ -39,3 +39,4 @@ Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.ui.configuration,
  anatlyzer.ui.preferences,
  anatlyzer.ui.util
+Import-Package: anatlyzer.atlext.ATL

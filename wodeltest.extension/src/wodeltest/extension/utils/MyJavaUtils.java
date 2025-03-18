@@ -12,7 +12,6 @@ import org.eclipse.modisco.java.generation.Messages;
 /**
  * Util Class for formatting Java code.
  *
- * @author fgiquel
  *
  */
 public final class MyJavaUtils {
@@ -27,6 +26,7 @@ public final class MyJavaUtils {
 	 *
 	 * @param directory
 	 */
+	@SuppressWarnings("restriction")
 	public static void formatJavaCode(final File directory) {
 		File[] files = directory.listFiles();
 		for (File file : files) {

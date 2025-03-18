@@ -9,15 +9,17 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  wodel.utils,
  wodel.models,
- org.eclipse.sirius,
- org.eclipse.sirius.ecore.extender,
- org.eclipse.sirius.common,
- org.eclipse.sirius.diagram.ui,
+ org.eclipse.sirius;bundle-version="7.4.6",
+ org.eclipse.sirius.ecore.extender;bundle-version="7.4.6",
+ org.eclipse.sirius.common;bundle-version="7.4.6",
+ org.eclipse.sirius.diagram.ui;bundle-version="7.4.6",
  org.eclipse.gmf.runtime.diagram.ui,
  org.eclipse.ui.ide,
- org.eclipse.sirius.diagram.model,
- wodel.dsls.wodel
+ org.eclipse.sirius.diagram.model;bundle-version="7.4.6",
+ wodel.dsls.wodel,
+ org.eclipse.jdt.ui,
+ org.eclipse.pde.core
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.metrics.fixed
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.sirius.business.api.session
+Import-Package: org.eclipse.sirius.business.api.session;bundle-version="7.4.6"

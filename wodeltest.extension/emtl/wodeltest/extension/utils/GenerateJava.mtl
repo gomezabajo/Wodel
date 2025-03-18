@@ -7,11 +7,12 @@
 
  Contributors:
     Fabien Giquel (Mia-Software) - initial API and implementation/]
+    
+[comment encoding = UTF-8 /]
 [module GenerateJava('http://www.eclipse.org/MoDisco/Java/0.2.incubation/java')/]
 
 [template public write(c : CompilationUnit)]
-[comment @main/]
-	[file (c.qualifiedPath(), false)]
+	[file (c.qualifiedName(), false)]
 [c.wc()/][if (not c._package.oclIsUndefined())][c._package.write()/][/if]
 
 [for (i : ImportDeclaration | c.imports)][i.write()/][/for]
@@ -29,16 +30,23 @@
 [o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
 [/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
 /][if (o.typeParameters->notEmpty())]
-<[for (t : TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]>[/if][S()
-/][o.writeReturnType()/][o.name/]([for (p : SingleVariableDeclaration | o.parameters) separator (', ')][p.write()/][/for])[S()
-/][for (t : TypeAccess | o.thrownExceptions) before (' throws ') separator (',')][t.write()/][/for][S()
-/][if (o._body.oclIsUndefined())];
+<[for (t : TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]>
+[/if]
+[S()/]
+[o.writeReturnType()/]
+[o.name/]
+([for (p : SingleVariableDeclaration | o.parameters) separator (', ')][p.write()/][/for])[S()/]
+[for (t : TypeAccess | o.thrownExceptions) before (' throws ') separator (',')][t.write()/][/for]
+[S()/]
+[if (o._body.oclIsUndefined())];
 [else]
 [o._body.write()/]
-[/if][o.wca()/]
+[/if]
+[o.wca()/]
+[/template]
 
-[/template][comment superType : BodyDeclaration /][comment subTypes : ConstructorDeclaration MethodDeclaration/]
 
+[comment superType : BodyDeclaration /][comment subTypes : ConstructorDeclaration MethodDeclaration/]
 [template public write(o : AbstractMethodInvocation)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : ClassInstanceCreation ConstructorInvocation MethodInvocation SuperConstructorInvocation SuperMethodInvocation /]
@@ -710,9 +718,10 @@ finally [o.finally.write()/]
 [/if]
 [/template]
 
-[query public commentsInside(element : ASTNode) : Sequence(Comment) = element.comments->select(cm | cm.enclosedByParent) /]
+[query public commentsInside(element : ASTNode) : OrderedSet(Comment) = element.comments->select(cm | cm.enclosedByParent) /]
 
 [comment to manage comments after the element/]
+
 [template public wca(o : ASTNode)]
 [for (cm : Comment | o.comments) ? (not(cm.enclosedByParent) and not(cm.prefixOfParent))]
 

@@ -118,10 +118,12 @@ This MT tool parses the program representing it as a model conformant to the lan
 You can access the following link to learn more about this solution and the tool support provided: 
 
 - [Wodel-Test Website](https://gomezabajo.github.io/Wodel/Wodel-Test/)
+- [Wodel-Test designer Tutorial(https://github.com/gomezabajo/Wodel-Test/wiki/Get-Started-with-Wodel%E2%80%90Test-Designer)
 
 ## Wodel-Test plugins
 
 - [wodel.wodeltest](https://github.com/gomezabajo/Wodel/tree/master/wodel.wodeltest)
+    - [wodeltest.designer](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.designer)
     - [wodeltest.extension](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.extension)
     - [wodeltest.optimiser](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.optimiser)
     - [wodeltest.run](https://github.com/gomezabajo/Wodel/tree/master/wodeltest.run)

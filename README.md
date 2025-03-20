@@ -139,7 +139,7 @@ You can access the following link to learn more about this solution and the tool
 This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "[FORTE](https://antares.sip.ucm.es/forte-cm/)"). 
 
 #### Wodel, Wodel-EDU & Wodel-TEST
-#### By Esther Guerra, Pablo Gómez-Abajo et al.
+#### By Juan de Lara, Esther Guerra, Pablo Gómez-Abajo et al.
 
 [contributors-shield]: https://img.shields.io/github/contributors/gomezabajo/Wodel?style=for-the-badge
 [contributors-url]: https://github.com/gomezabajo/Wodel/graphs/contributors

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/wodel.additions_1.0.0.202411171532.jar" id="wodel.additions" version="1.0.0.202411171532">
+   <feature url="features/wodel.additions_1.0.0.202503200548.jar" id="wodel.additions" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.core_1.0.0.202411171532.jar" id="wodel.core" version="1.0.0.202411171532">
+   <feature url="features/wodel.core_1.0.0.202503200548.jar" id="wodel.core" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.emf.comparison_1.0.0.202411171532.jar" id="wodel.emf.comparison" version="1.0.0.202411171532">
+   <feature url="features/wodel.emf.comparison_1.0.0.202503200548.jar" id="wodel.emf.comparison" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.emf.validation_1.0.0.202411171532.jar" id="wodel.emf.validation" version="1.0.0.202411171532">
+   <feature url="features/wodel.emf.validation_1.0.0.202503200548.jar" id="wodel.emf.validation" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.examples_1.0.0.202411171532.jar" id="wodel.examples" version="1.0.0.202411171532">
+   <feature url="features/wodel.examples_1.0.0.202503200548.jar" id="wodel.examples" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.footprints_1.0.0.202411171532.jar" id="wodel.footprints" version="1.0.0.202411171532">
+   <feature url="features/wodel.footprints_1.0.0.202503200548.jar" id="wodel.footprints" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.seed.synthesis_1.0.0.202411171532.jar" id="wodel.seed.synthesis" version="1.0.0.202411171532">
+   <feature url="features/wodel.seed.synthesis_1.0.0.202503200548.jar" id="wodel.seed.synthesis" version="1.0.0.202503200548">
       <category name="Wodel"/>
    </feature>
-   <feature url="features/wodel.wodeltest_1.0.0.202411171532.jar" id="wodel.wodeltest" version="1.0.0.202411171532">
+   <feature url="features/wodel.wodeltest_1.0.0.202503200548.jar" id="wodel.wodeltest" version="1.0.0.202503200548">
       <category name="Wodel-Test"/>
    </feature>
    <category-def name="Wodel" label="Wodel"/>

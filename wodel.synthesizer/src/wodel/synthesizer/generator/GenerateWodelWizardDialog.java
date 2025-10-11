@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -440,7 +441,7 @@ public class GenerateWodelWizardDialog extends TitleAreaDialog implements IWizar
 	private void loadPressed(SelectionEvent e) {
 		GenerateWodelWizard.configurationFile = null;
 		FileDialog dlg = new FileDialog(e.widget.getDisplay().getActiveShell(), SWT.OPEN);
-		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
+		dlg.setFilterPath(Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
 		GenerateWodelWizard.configurationFile = dlg.open();
 		GenerateWodelWizard.mainPage.setControls();
 		GenerateWodelWizard.secondPage.setControls();
@@ -450,7 +451,7 @@ public class GenerateWodelWizardDialog extends TitleAreaDialog implements IWizar
 	private void savePressed(SelectionEvent e) {
 		GenerateWodelWizard.configurationFile = null;
 		FileDialog dlg = new FileDialog(e.widget.getDisplay().getActiveShell(), SWT.SAVE);
-		dlg.setFilterPath(ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
+		dlg.setFilterPath(Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + ProjectUtils.getProject().getName() + "/data/configurations");
 		GenerateWodelWizard.configurationFile = dlg.open();
 		if (GenerateWodelWizard.configurationFile != null) {
 			try {

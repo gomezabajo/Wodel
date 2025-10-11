@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -485,8 +486,8 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
-		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + idelemsFileName)).getFullPath();
-		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model"))).getFullPath();
+		xTextFileName = "file:/" + Platform.getLocation().toFile().getPath().replace("\\", "/") +'/' + project.getFolder(new Path("/src/" + idelemsFileName)).getFullPath();
+		xmiFileName = "file:/" + Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + project.getFolder(new Path('/' + mutantName + '/' + idelemsFileName.replaceAll(".modeltext", "_modeltext.model"))).getFullPath();
 		ModelTextUtils.serialize(xTextFileName, xmiFileName);
 
 		final IFile cfgoptsFile = srcFolder.getFile(new Path(cfgoptsFileName));
@@ -513,8 +514,8 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + cfgoptsFileName)).getFullPath();
-		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + cfgoptsFileName.replaceAll(".mutatext", "_mutatext.model"))).getFullPath();
+		xTextFileName = "file:/" + Platform.getLocation().toFile().getPath().replace("\\", "/") +'/' + project.getFolder(new Path("/src/" + cfgoptsFileName)).getFullPath();
+		xmiFileName = "file:/" + Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + project.getFolder(new Path('/' + mutantName + '/' + cfgoptsFileName.replaceAll(".mutatext", "_mutatext.model"))).getFullPath();
 		MutaTextUtils.serialize(xTextFileName, xmiFileName);
 		
 		final IFile configFile = configFolder.getFile(new Path("config.txt"));

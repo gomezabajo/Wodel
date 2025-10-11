@@ -1,5 +1,3 @@
-/**
- */
 package mutatorenvironment;
 
 import java.util.Arrays;

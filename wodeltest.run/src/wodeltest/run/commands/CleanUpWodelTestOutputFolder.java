@@ -45,9 +45,9 @@ public class CleanUpWodelTestOutputFolder extends AbstractHandler {
 		
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			File projectFolder = new File(ModelManager.getWorkspaceAbsolutePath());
+			File projectFolder = new File(Platform.getLocation().toFile().getPath().replace("\\", "/"));
 			List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-			String outputWodelFolder = ModelManager.getWorkspaceAbsolutePath() + "/" + ModelManager.getOutputFolder();
+			String outputWodelFolder = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + ModelManager.getOutputFolder();
 			// clean-up output folder preserving xtext auto generated models
 			IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 			IOUtils.deleteFolder(outputWodelFolder, "json", mutatorList);

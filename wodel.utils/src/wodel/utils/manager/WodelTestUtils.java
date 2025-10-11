@@ -8,15 +8,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1140,18 +1131,10 @@ public class WodelTestUtils {
 //	    }
 		IFile file = null;
 	    if (window != null && window.getPages() != null && window.getPages()[0] != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences().length > 0 && window.getPages()[0].getEditorReferences()[0] instanceof IEditorReference) {
-	    	IEditorReference[] editors = window.getActivePage().getEditorReferences();
-	    	if (editors != null && editors.length > 0) {
-	    		for (IEditorReference editor : editors) {
-	    			IEditorPart part = editor.getEditor(true);
-	    			if (part != null) {
-	    				file = getFile(part);
-	    				if (file != null) {
-	    					break;
-	    				}
-	    			}
-	    		}
-	    	}
+	    	IsReadyFileRunnable readyFileRunnable = new IsReadyFileRunnable(window);
+	    	PlatformUI.getWorkbench().getDisplay().asyncExec(readyFileRunnable);
+	    	readyFileRunnable.run();
+	    	file = readyFileRunnable.getfFile();
 	    }
 	    if (file != null && !isWodelTestSUTProject(file.getProject())) {
 	    	return null;

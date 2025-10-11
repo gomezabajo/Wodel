@@ -81,7 +81,7 @@ public class JavaSemanticValidation extends SemanticValidation {
 		try {
 			JavaPackage.eINSTANCE.eClass();
 			AcceleoUtils.SwitchSuccessNotification(false);
-			String folder = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath() + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
+			String folder = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getLocation().toFile().getPath().replace("\\", "/") + "/temp/" + folderName + "/" + modelName.replace(".model", "") + "/src/";
 			//boolean serialized = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Serialize models", true, null);
 			GenerateJavaExtended javaGenerator = new GenerateJavaExtended(model.getURI(),
 				new File(folder), new ArrayList<Object>()); //serialized);

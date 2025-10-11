@@ -992,6 +992,39 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
+		case MutatorenvironmentPackage.NULL_SELECTION: {
+			NullSelection nullSelection = (NullSelection) theEObject;
+			T result = caseNullSelection(nullSelection);
+			if (result == null)
+				result = caseObSelectionStrategy(nullSelection);
+			if (result == null)
+				result = caseObjectEmitter(nullSelection);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
+		case MutatorenvironmentPackage.NULL_TYPE_SELECTION: {
+			NullTypeSelection nullTypeSelection = (NullTypeSelection) theEObject;
+			T result = caseNullTypeSelection(nullTypeSelection);
+			if (result == null)
+				result = caseNullSelection(nullTypeSelection);
+			if (result == null)
+				result = caseObSelectionStrategy(nullTypeSelection);
+			if (result == null)
+				result = caseObjectEmitter(nullTypeSelection);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
+		case MutatorenvironmentPackage.REFERENCE_UNSET: {
+			ReferenceUnset referenceUnset = (ReferenceUnset) theEObject;
+			T result = caseReferenceUnset(referenceUnset);
+			if (result == null)
+				result = caseReferenceSet(referenceUnset);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
 		default:
 			return defaultCase(theEObject);
 		}
@@ -2284,6 +2317,51 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseResource(Resource object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Null Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Null Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNullSelection(NullSelection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Null Type Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Null Type Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNullTypeSelection(NullTypeSelection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Unset</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Unset</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceUnset(ReferenceUnset object) {
 		return null;
 	}
 

@@ -5842,6 +5842,252 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RESOURCE_OPERATION_COUNT = DEFINITION_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.NullSelectionImpl <em>Null Selection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.NullSelectionImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getNullSelection()
+	 * @generated
+	 */
+	int NULL_SELECTION = 86;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__TYPE = OB_SELECTION_STRATEGY__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
+
+	/**
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__REF_TYPE = OB_SELECTION_STRATEGY__REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Null Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION_FEATURE_COUNT = OB_SELECTION_STRATEGY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Null Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_SELECTION_OPERATION_COUNT = OB_SELECTION_STRATEGY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.NullTypeSelectionImpl <em>Null Type Selection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.NullTypeSelectionImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getNullTypeSelection()
+	 * @generated
+	 */
+	int NULL_TYPE_SELECTION = 87;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__TYPE = NULL_SELECTION__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__NAME = NULL_SELECTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__TYPES = NULL_SELECTION__TYPES;
+
+	/**
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__REF_TYPE = NULL_SELECTION__REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__EXPRESSION = NULL_SELECTION__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__RESOURCE = NULL_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__REF_REF_TYPE = NULL_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION__REF_REF_REF_TYPE = NULL_SELECTION__REF_REF_REF_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Null Type Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION_FEATURE_COUNT = NULL_SELECTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Null Type Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_TYPE_SELECTION_OPERATION_COUNT = NULL_SELECTION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.ReferenceUnsetImpl <em>Reference Unset</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.ReferenceUnsetImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceUnset()
+	 * @generated
+	 */
+	int REFERENCE_UNSET = 88;
+
+	/**
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_UNSET__REFERENCE = REFERENCE_SET__REFERENCE;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_UNSET__OBJECT = REFERENCE_SET__OBJECT;
+
+	/**
+	 * The number of structural features of the '<em>Reference Unset</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_UNSET_FEATURE_COUNT = REFERENCE_SET_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Reference Unset</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_UNSET_OPERATION_COUNT = REFERENCE_SET_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5849,7 +6095,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 86;
+	int LOGIC_OPERATOR = 89;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -5859,7 +6105,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 87;
+	int OPERATOR = 90;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -5869,7 +6115,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 88;
+	int REPEAT = 91;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.ArithmeticOperator <em>Arithmetic Operator</em>}' enum.
@@ -5879,7 +6125,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getArithmeticOperator()
 	 * @generated
 	 */
-	int ARITHMETIC_OPERATOR = 89;
+	int ARITHMETIC_OPERATOR = 92;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
@@ -5889,7 +6135,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
 	 * @generated
 	 */
-	int SAMPLE_CLAUSE = 90;
+	int SAMPLE_CLAUSE = 93;
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.MutatorEnvironment <em>Mutator Environment</em>}'.
@@ -8303,6 +8549,36 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getResource_Path();
 
 	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.NullSelection <em>Null Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Null Selection</em>'.
+	 * @see mutatorenvironment.NullSelection
+	 * @generated
+	 */
+	EClass getNullSelection();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.NullTypeSelection <em>Null Type Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Null Type Selection</em>'.
+	 * @see mutatorenvironment.NullTypeSelection
+	 * @generated
+	 */
+	EClass getNullTypeSelection();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.ReferenceUnset <em>Reference Unset</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reference Unset</em>'.
+	 * @see mutatorenvironment.ReferenceUnset
+	 * @generated
+	 */
+	EClass getReferenceUnset();
+
+	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10363,6 +10639,36 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RESOURCE__PATH = eINSTANCE.getResource_Path();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.NullSelectionImpl <em>Null Selection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.NullSelectionImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getNullSelection()
+		 * @generated
+		 */
+		EClass NULL_SELECTION = eINSTANCE.getNullSelection();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.NullTypeSelectionImpl <em>Null Type Selection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.NullTypeSelectionImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getNullTypeSelection()
+		 * @generated
+		 */
+		EClass NULL_TYPE_SELECTION = eINSTANCE.getNullTypeSelection();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.ReferenceUnsetImpl <em>Reference Unset</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.ReferenceUnsetImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceUnset()
+		 * @generated
+		 */
+		EClass REFERENCE_UNSET = eINSTANCE.getReferenceUnset();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.

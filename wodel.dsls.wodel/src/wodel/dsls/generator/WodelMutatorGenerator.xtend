@@ -90,6 +90,8 @@ import mutatorenvironment.ObSelectionStrategy
 import mutatorenvironment.Expression
 import mutatorenvironment.TypedSelection
 import mutatorenvironment.BinaryOperator
+import mutatorenvironment.NullTypeSelection
+import mutatorenvironment.ReferenceUnset
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -720,6 +722,54 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				}
 		   		«ENDIF»
 		   	«ENDIF»
+		  	«IF c instanceof ReferenceUnset»
+	   			«val referenceUnset = c as ReferenceUnset»
+	   			«IF referenceUnset.object !== null»
+					«IF referenceUnset.object instanceof RandomTypeSelection»
+					if (hmObjects.get("«(referenceUnset.object as RandomTypeSelection).name»") != null) {
+						List<ReferenceConfigurationStrategy> refs = null;
+						if (refsList.get("«referenceName»") != null) {
+							refs = refsList.get("«referenceName»");
+						}
+						else {
+							refs = new ArrayList<ReferenceConfigurationStrategy>();
+						}
+						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceUnset.object as RandomTypeSelection).name» = hmObjects.get("«(referenceUnset.object as RandomTypeSelection).name»");
+						refs.add(new NullReferenceConfigurationStrategy(entry_«(referenceUnset.object as RandomTypeSelection).name».getKey(), "«(referenceUnset.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", entry_«(referenceUnset.object as RandomTypeSelection).name».getValue().getKey()));
+						refsList.put("«referenceName», refs);
+					}
+	   				«ELSEIF referenceUnset.object instanceof SpecificObjectSelection»
+					if (objectSelection != null && objectSelection.getObject() != null) {
+						if (hmObjects.get("«(referenceUnset.object as SpecificObjectSelection).objSel.name»") != null) {
+							List<ReferenceConfigurationStrategy> refs = null;
+							if (refsList.get("«referenceName»") != null) {
+								refs = refsList.get("«referenceName»");
+							}
+					   		else {
+								refs = new ArrayList<ReferenceConfigurationStrategy>();
+					   		}
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceUnset.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceUnset.object as SpecificObjectSelection).objSel.name»");
+							refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), entry_«(referenceUnset.object as SpecificObjectSelection).objSel.name».getKey(), "«c.getReference().get(0).name»"));
+							refsList.put("«referenceName»", refs);
+						} else {
+							return mutations;
+						}
+					}
+	   				«ENDIF»
+		   		«ELSE»
+				if (objectSelection != null && objectSelection.getObject() != null) {
+					List<ReferenceConfigurationStrategy> refs = null;
+					if (refsList.get("«referenceName»") != null) {
+						refs = refsList.get("«referenceName»");
+					}
+					else {
+						refs = new ArrayList<ReferenceConfigurationStrategy>();
+					}
+					refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), "«c.getReference().get(0).name»"));
+					refsList.put("«referenceName»", refs);
+				}
+		   		«ENDIF»
+		   	«ENDIF»
 	   		«IF c instanceof ReferenceInit»
 	   		«val referenceInit = c as ReferenceInit»
 	   			«IF referenceInit.object instanceof SpecificObjectSelection»
@@ -767,6 +817,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   				}
 	   				refs.add(new RandomReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceInit.getReference().get(0).name»", "«(referenceInit.object as OtherTypeSelection).type.name»"));
+	   				refsList.put("«referenceName»", refs);
+	   			}
+	   			«ENDIF»
+	   			«IF referenceInit.object instanceof NullTypeSelection»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   				List<ReferenceConfigurationStrategy> refs = null;
+	   				if (refsList.get("«referenceName»") != null) {
+	   					refs = refsList.get("«referenceName»");
+	   				}
+	   				else {
+	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
+	   				}
+	   				refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceInit.getReference().get(0).name»"));
 	   				refsList.put("«referenceName»", refs);
 	   			}
 	   			«ENDIF»
@@ -841,6 +904,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					refs.add(new RandomReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceRemove.getReference().get(0).name»", "«(referenceRemove.object as OtherTypeSelection).type.name»", true));
 	   					refsList.put("«referenceName»", refs);
 	   				}
+	   			«ENDIF»
+	   			«IF referenceRemove.object instanceof NullTypeSelection»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   				List<ReferenceConfigurationStrategy> refs = null;
+	   				if (refsList.get("«referenceName»") != null) {
+	   					refs = refsList.get("«referenceName»");
+	   				}
+	   				else {
+	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
+	   				}
+	   				refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceRemove.getReference().get(0).name»"));
+	   				refsList.put("«referenceName»", refs);
+	   			}
 	   			«ENDIF»
 			«ENDIF»
 			«IF c instanceof ReferenceAtt»
@@ -1364,6 +1440,54 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 				}
 		   		«ENDIF»
 		   	«ENDIF»
+		  	«IF c instanceof ReferenceUnset»
+	   			«val referenceUnset = c as ReferenceUnset»
+	   			«IF referenceUnset.object !== null»
+					«IF referenceUnset.object instanceof RandomTypeSelection»
+					if (hmObjects.get("«(referenceUnset.object as RandomTypeSelection).name»") != null) {
+						List<ReferenceConfigurationStrategy> refs = null;
+						if (refsList.get("«referenceName»") != null) {
+							refs = refsList.get("«referenceName»");
+						}
+						else {
+							refs = new ArrayList<ReferenceConfigurationStrategy>();
+						}
+						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceUnset.object as RandomTypeSelection).name» = hmObjects.get("«(referenceUnset.object as RandomTypeSelection).name»");
+						refs.add(new NullReferenceConfigurationStrategy(entry_«(referenceUnset.object as RandomTypeSelection).name».getKey(), "«(referenceUnset.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", entry_«(referenceUnset.object as RandomTypeSelection).name».getValue().getKey()));
+						refsList.put("«referenceName», refs);
+					}
+	   				«ELSEIF referenceUnset.object instanceof SpecificObjectSelection»
+					if (objectSelection != null && objectSelection.getObject() != null) {
+						if (hmObjects.get("«(referenceUnset.object as SpecificObjectSelection).objSel.name»") != null) {
+							List<ReferenceConfigurationStrategy> refs = null;
+							if (refsList.get("«referenceName»") != null) {
+								refs = refsList.get("«referenceName»");
+							}
+					   		else {
+								refs = new ArrayList<ReferenceConfigurationStrategy>();
+					   		}
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceUnset.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceUnset.object as SpecificObjectSelection).objSel.name»");
+							refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), entry_«(referenceUnset.object as SpecificObjectSelection).objSel.name».getKey(), "«c.getReference().get(0).name»"));
+							refsList.put("«referenceName»", refs);
+						} else {
+							return mutations;
+						}
+					}
+	   				«ENDIF»
+		   		«ELSE»
+				if (objectSelection != null && objectSelection.getObject() != null) {
+					List<ReferenceConfigurationStrategy> refs = null;
+					if (refsList.get("«referenceName»") != null) {
+						refs = refsList.get("«referenceName»");
+					}
+					else {
+						refs = new ArrayList<ReferenceConfigurationStrategy>();
+					}
+					refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), "«c.getReference().get(0).name»"));
+					refsList.put("«referenceName»", refs);
+				}
+		   		«ENDIF»
+		   	«ENDIF»
 	   		«IF c instanceof ReferenceInit»
 	   		«val referenceInit = c as ReferenceInit»
 	   			«IF referenceInit.object instanceof SpecificObjectSelection»
@@ -1411,6 +1535,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   				}
 	   				refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), "«referenceInit.getReference().get(0).name»", "«(referenceInit.object as OtherTypeSelection).type.name»"));
+	   				refsList.put("«referenceName»", refs);
+	   			}
+	   			«ENDIF»
+	   			«IF referenceInit.object instanceof NullTypeSelection»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   				List<ReferenceConfigurationStrategy> refs = null;
+	   				if (refsList.get("«referenceName»") != null) {
+	   					refs = refsList.get("«referenceName»");
+	   				}
+	   				else {
+	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
+	   				}
+	   				refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceInit.getReference().get(0).name»"));
 	   				refsList.put("«referenceName»", refs);
 	   			}
 	   			«ENDIF»
@@ -1489,6 +1626,19 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 	   					refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), "«referenceRemove.getReference().get(0).name»", "«(referenceRemove.object as OtherTypeSelection).type.name»", true));
 	   					refsList.put("«referenceName»", refs);
 	   				}
+	   			«ENDIF»
+	   			«IF referenceRemove.object instanceof NullTypeSelection»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   				List<ReferenceConfigurationStrategy> refs = null;
+	   				if (refsList.get("«referenceName»") != null) {
+	   					refs = refsList.get("«referenceName»");
+	   				}
+	   				else {
+	   					refs = new ArrayList<ReferenceConfigurationStrategy>();
+	   				}
+	   				refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), "«referenceRemove.getReference().get(0).name»"));
+	   				refsList.put("«referenceName»", refs);
+	   			}
 	   			«ENDIF»
 			«ENDIF»
 			«IF c instanceof ReferenceAtt»
@@ -6414,7 +6564,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 			EObject next = null;
 			//REFERENCE COUNTER: «var refCounter = 0»
 		«FOR ReferenceSet ref : (mut as ModifyInformationMutator).references»
-			«IF ref instanceof ReferenceInit || ref instanceof ReferenceAdd || ref instanceof ReferenceRemove»
+			«IF ref instanceof ReferenceInit || ref instanceof ReferenceAdd || ref instanceof ReferenceRemove || ref instanceof ReferenceUnset»
 			//«var EReference eref = ref.reference.get(0)»
 			ReferenceChanged refMut«refCounter» = null;
 			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceChanged();
@@ -6934,9 +7084,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
 			«IF standalone == false»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
@@ -6945,9 +7095,9 @@ public class «className» extends MutatorUtils {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
 			«IF standalone == false»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 			«ELSE»
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«projectName»/«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", «className».class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/")+ "«((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, «className».class);
 			«ENDIF»
 	   		metricsGenerator.run();
 			monitor.worked(1);   			
@@ -7472,7 +7622,25 @@ public class «className» extends MutatorUtils {
 			if (refObject«nReference» != null) {
 			refSelection«nReference» = new SpecificObjectSelection(packages, model, refObject«nReference»);
 			}
-	    
+	    «ELSEIF e instanceof NullTypeSelection»
+			NullTypeSelection refNts«nReference» = new NullTypeSelection(packages, model, "«(e as NullTypeSelection).type.name»", ModelManager.getReference("«referenceName»", objectSelection.getObject()));
+			«IF e.expression !== null && expressionList !== null»
+			List<EObject> refObjects«nReference» = refNts«nReference».getObjects();
+			//INDEX EXPRESSION: « var indexExpression = expressionList.size() - 1»
+			Expression exp«expressionList.get(indexExpression)» = new Expression();
+	   		«e.expression.method(0, false)»
+	   		List<EObject> refSelectedObjects«nReference» = evaluate(refObjects«nReference», exp«expressionList.get(indexExpression)»);
+			EObject refObject«nReference» = null;
+			if (refSelectedObjects«nReference».size() > 0) {
+				refObject«nReference» = refSelectedObjects«nReference».get(ModelManager.getRandomIndex(refSelectedObjects«nReference»));
+			}
+			«ELSE»
+			EObject refObject«nReference» = refOts«nReference».getObject();
+			«ENDIF»
+			ObSelectionStrategy refSelection«nReference» = null;
+			if (refObject«nReference» != null) {
+			refSelection«nReference» = new SpecificObjectSelection(packages, model, refObject«nReference»);
+			}
 		«ELSEIF e instanceof CompleteTypeSelection»
 			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as CompleteTypeSelection).type.name»");
 			EObject refObject«nReference» = refRts«nReference».getObject();

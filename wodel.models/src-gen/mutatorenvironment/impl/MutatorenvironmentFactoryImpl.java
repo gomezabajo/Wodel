@@ -197,6 +197,12 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			return createRandomStringNumberType();
 		case MutatorenvironmentPackage.RESOURCE:
 			return createResource();
+		case MutatorenvironmentPackage.NULL_SELECTION:
+			return createNullSelection();
+		case MutatorenvironmentPackage.NULL_TYPE_SELECTION:
+			return createNullTypeSelection();
+		case MutatorenvironmentPackage.REFERENCE_UNSET:
+			return createReferenceUnset();
 		default:
 			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -946,6 +952,36 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	public Resource createResource() {
 		ResourceImpl resource = new ResourceImpl();
 		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NullSelection createNullSelection() {
+		NullSelectionImpl nullSelection = new NullSelectionImpl();
+		return nullSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NullTypeSelection createNullTypeSelection() {
+		NullTypeSelectionImpl nullTypeSelection = new NullTypeSelectionImpl();
+		return nullTypeSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferenceUnset createReferenceUnset() {
+		ReferenceUnsetImpl referenceUnset = new ReferenceUnsetImpl();
+		return referenceUnset;
 	}
 
 	/**

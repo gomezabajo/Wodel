@@ -184,7 +184,7 @@ Mutator returns Mutator:
 	 | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator | ModifyInformationMutator | CloneObjectMutator | RetypeObjectMutator;
 
 ObSelectionStrategy returns ObSelectionStrategy:
-	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection;
+	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection | NullSelection;
 	
 RandomSelection returns RandomSelection:
 	RandomTypeSelection;
@@ -197,6 +197,10 @@ CompleteSelection returns CompleteSelection:
 	
 OtherSelection returns OtherSelection:
 	OtherTypeSelection;
+
+NullSelection returns NullSelection:
+	NullTypeSelection;
+	
 
 AttributeEvaluationType returns AttributeEvaluationType:
 	AttributeType | ObjectAttributeType
@@ -416,7 +420,7 @@ AttributeOperation returns AttributeOperation:
 ;
 
 ReferenceSet returns ReferenceSet:
-	ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
+	ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove | ReferenceUnset
 ;
 
 ReferenceInit returns ReferenceInit:
@@ -436,6 +440,10 @@ ReferenceRemove returns ReferenceRemove:
 
 ReferenceSwap returns ReferenceSwap:
 	'swapref' '(' reference+=[ecore::EReference|ID] ',' (object=ObSelectionStrategy '->')? reference+=[ecore::EReference|ID] ')'
+;
+
+ReferenceUnset returns ReferenceUnset:
+	'unsetref' '(' reference+=[ecore::EReference|ID] ')'
 ;
 
 ReferenceAtt returns ReferenceAtt:
@@ -472,6 +480,11 @@ OtherTypeSelection returns OtherTypeSelection:
 	{OtherTypeSelection}
 	'other' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']') ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('where' '{' expression=Expression '}')?
+;
+
+NullTypeSelection returns NullTypeSelection:
+	{NullTypeSelection}
+	'null'
 ;
 
 TypedSelection returns TypedSelection:

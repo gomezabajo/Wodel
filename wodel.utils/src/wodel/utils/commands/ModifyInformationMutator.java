@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import wodel.utils.commands.selection.strategies.ObSelectionStrategy;
 import wodel.utils.commands.strategies.AttributeConfigurationStrategy;
 import wodel.utils.commands.strategies.CopyReferenceConfigurationStrategy;
+import wodel.utils.commands.strategies.NullReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.RandomReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.ReferenceConfigurationStrategy;
 import wodel.utils.commands.strategies.SpecificReferenceConfigurationStrategy;
@@ -362,29 +363,41 @@ public class ModifyInformationMutator extends Mutator {
 								srcRefType = rrcf.getSrcRefType(); 
 								eobjref = EMFCopier.copy(object);
 							}
-							else {
-								if (refConfig instanceof SpecificReferenceConfigurationStrategy) {
-									SpecificReferenceConfigurationStrategy srcs = (SpecificReferenceConfigurationStrategy) refConfig;
-									Object p = srcs.getPrevious();
-									EObject prev = null;
-									if (p instanceof EObject) {
-										prev = (EObject) p;
-									}
-									if (p instanceof List<?>) {
-										prev = ((List<EObject>) p).get(0);
-									}
-									previous.put(e.getKey(), EMFCopier.copy(prev));
-									Object n = srcs.getNext();
-									EObject nxt = null;
-									if (n instanceof EObject) {
-										nxt = (EObject) n;
-									}
-									if (n instanceof List<?>) {
-										nxt = ((List<EObject>) n).get(0);
-									}
-									next.put(e.getKey(), EMFCopier.copy(nxt));
-									srcRefType = srcs.getSrcRefType();
+							else if (refConfig instanceof SpecificReferenceConfigurationStrategy) {
+								SpecificReferenceConfigurationStrategy srcs = (SpecificReferenceConfigurationStrategy) refConfig;
+								Object p = srcs.getPrevious();
+								EObject prev = null;
+								if (p instanceof EObject) {
+									prev = (EObject) p;
 								}
+								if (p instanceof List<?>) {
+									prev = ((List<EObject>) p).get(0);
+								}
+								previous.put(e.getKey(), EMFCopier.copy(prev));
+								Object n = srcs.getNext();
+								EObject nxt = null;
+								if (n instanceof EObject) {
+									nxt = (EObject) n;
+								}
+								if (n instanceof List<?>) {
+									nxt = ((List<EObject>) n).get(0);
+								}
+								next.put(e.getKey(), EMFCopier.copy(nxt));
+								srcRefType = srcs.getSrcRefType();
+							}
+							else if (refConfig instanceof NullReferenceConfigurationStrategy) {
+								NullReferenceConfigurationStrategy nrcs = (NullReferenceConfigurationStrategy) refConfig;
+								Object p = nrcs.getPrevious();
+								EObject prev = null;
+								if (p instanceof EObject) {
+									prev = (EObject) p;
+								}
+								if (p instanceof List<?> && ((List<?>)p).size() > 0) {
+									prev = ((List<EObject>) p).get(0);
+								}
+								previous.put(e.getKey(), EMFCopier.copy(prev));
+								next.put(e.getKey(), null);
+								srcRefType = nrcs.getSrcRefType();
 							}
 						}
 						if (refConfig == null) {

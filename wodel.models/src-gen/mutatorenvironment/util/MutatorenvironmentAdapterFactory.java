@@ -497,6 +497,21 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseNullSelection(NullSelection object) {
+			return createNullSelectionAdapter();
+		}
+
+		@Override
+		public Adapter caseNullTypeSelection(NullTypeSelection object) {
+			return createNullTypeSelectionAdapter();
+		}
+
+		@Override
+		public Adapter caseReferenceUnset(ReferenceUnset object) {
+			return createReferenceUnsetAdapter();
+		}
+
+		@Override
 		public Adapter defaultCase(EObject object) {
 			return createEObjectAdapter();
 		}
@@ -1716,6 +1731,48 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.NullSelection <em>Null Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.NullSelection
+	 * @generated
+	 */
+	public Adapter createNullSelectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.NullTypeSelection <em>Null Type Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.NullTypeSelection
+	 * @generated
+	 */
+	public Adapter createNullTypeSelectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ReferenceUnset <em>Reference Unset</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.ReferenceUnset
+	 * @generated
+	 */
+	public Adapter createReferenceUnsetAdapter() {
 		return null;
 	}
 

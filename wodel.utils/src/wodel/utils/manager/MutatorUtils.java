@@ -9791,7 +9791,7 @@ public class MutatorUtils {
 				return true;
 			}
 			if (value && classes.size() > 0) {
-				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
+				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
 			}
 			if (localRegisteredPackages != null) {
@@ -10276,7 +10276,7 @@ public class MutatorUtils {
 				return true;
 			}
 			if (value && classes.size() > 0) {
-				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + className + "/" + mutantName + "/src/";
+				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(projectName, classes, projectPath);
 			}
 			if (localRegisteredPackages != null) {
@@ -10733,7 +10733,7 @@ public class MutatorUtils {
 				return true;
 			}
 			if (value && classes.size() > 0) {
-				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
+				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
 			}
 			if (localRegisteredPackages != null) {
@@ -11430,7 +11430,7 @@ public class MutatorUtils {
 				return true;
 			}
 			if (value && classes.size() > 0) {
-				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/" + className + "/" + block + "/" + mutantName + "/src/";
+				String projectPath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + projectName + "/" + className + "/" + block + "/" + mutantName + "/src/";
 				WodelTestUtils.addPathToClasses(projectName, classes, projectPath);
 			}
 			if (localRegisteredPackages != null) {

@@ -104,7 +104,7 @@ public class WodelMetricsDataView extends ViewPart implements ISelectionChangedL
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-			String path = ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName();
+			String path = Platform.getLocation().toFile().getPath() + '/' + ProjectUtils.getProject().getName();
 			numberOfSeedModels = MutatorUtils.getNumberOfSeedModels((MutatorEnvironment) ModelManager.getRoot(program), path);
 
 			Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL

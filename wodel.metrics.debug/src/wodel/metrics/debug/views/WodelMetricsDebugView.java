@@ -132,7 +132,7 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 			Bundle bundle = Platform.getBundle("wodel.models");
 	   		URL fileURL = bundle.getEntry("/model/MutatorMetrics.ecore");
 	   		String metricsmetamodel = FileLocator.resolve(fileURL).getFile();
-			//String metricsmetamodel = ModelManager.getWorkspaceAbsolutePath() + "/" + project + "/resources/MutatorMetrics.ecore";
+			//String metricsmetamodel = Platform.getLocation().toFile().getPath() + "/" + project + "/resources/MutatorMetrics.ecore";
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);
 			String metamodel = ModelManager.getMetaModel();
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);

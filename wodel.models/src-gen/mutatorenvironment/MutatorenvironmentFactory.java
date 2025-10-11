@@ -652,6 +652,33 @@ public interface MutatorenvironmentFactory extends EFactory {
 	Resource createResource();
 
 	/**
+	 * Returns a new object of class '<em>Null Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Null Selection</em>'.
+	 * @generated
+	 */
+	NullSelection createNullSelection();
+
+	/**
+	 * Returns a new object of class '<em>Null Type Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Null Type Selection</em>'.
+	 * @generated
+	 */
+	NullTypeSelection createNullTypeSelection();
+
+	/**
+	 * Returns a new object of class '<em>Reference Unset</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Unset</em>'.
+	 * @generated
+	 */
+	ReferenceUnset createReferenceUnset();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

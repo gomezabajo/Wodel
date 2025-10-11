@@ -68,7 +68,7 @@ public class EclipseHelper {
 		}
 	}
 
-	@SuppressWarnings({ "restriction", "deprecation" })
+	@SuppressWarnings({ "restriction" })
 	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
 			final List<String> exportedPackages, final List<String> bundleClasspath, final ProjectKind projectKind, final IProgressMonitor progressMonitor, final Shell theShell) {
@@ -317,7 +317,6 @@ public class EclipseHelper {
 		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 
-	@SuppressWarnings("deprecation")
 	private static void createManifest(final String projectName, final Set<String> requiredBundles, final Set<String> importPackages,
 			final List<String> exportedPackages, final List<String> bundleClasspath, final IProgressMonitor progressMonitor, final IProject project)
 	throws CoreException {

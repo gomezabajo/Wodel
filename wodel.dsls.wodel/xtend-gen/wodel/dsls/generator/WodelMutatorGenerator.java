@@ -44,6 +44,7 @@ import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
+import mutatorenvironment.NullTypeSelection;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.ObjectEmitter;
@@ -66,6 +67,7 @@ import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceRemove;
 import mutatorenvironment.ReferenceSet;
 import mutatorenvironment.ReferenceSwap;
+import mutatorenvironment.ReferenceUnset;
 import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
@@ -2104,13 +2106,213 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           }
         }
         {
+          if ((c_1 instanceof ReferenceUnset)) {
+            final ReferenceUnset referenceUnset = ((ReferenceUnset) c_1);
+            _builder.newLineIfNotEmpty();
+            {
+              ObSelectionStrategy _object_72 = referenceUnset.getObject();
+              boolean _tripleNotEquals_11 = (_object_72 != null);
+              if (_tripleNotEquals_11) {
+                {
+                  ObSelectionStrategy _object_73 = referenceUnset.getObject();
+                  if ((_object_73 instanceof RandomTypeSelection)) {
+                    _builder.append("if (hmObjects.get(\"");
+                    ObSelectionStrategy _object_74 = referenceUnset.getObject();
+                    String _name_91 = ((RandomTypeSelection) _object_74).getName();
+                    _builder.append(_name_91);
+                    _builder.append("\") != null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("if (refsList.get(\"");
+                    _builder.append(this.referenceName, "\t");
+                    _builder.append("\") != null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t");
+                    _builder.append("refs = refsList.get(\"");
+                    _builder.append(this.referenceName, "\t\t");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                    ObSelectionStrategy _object_75 = referenceUnset.getObject();
+                    String _name_92 = ((RandomTypeSelection) _object_75).getName();
+                    _builder.append(_name_92, "\t");
+                    _builder.append(" = hmObjects.get(\"");
+                    ObSelectionStrategy _object_76 = referenceUnset.getObject();
+                    String _name_93 = ((RandomTypeSelection) _object_76).getName();
+                    _builder.append(_name_93, "\t");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("refs.add(new NullReferenceConfigurationStrategy(entry_");
+                    ObSelectionStrategy _object_77 = referenceUnset.getObject();
+                    String _name_94 = ((RandomTypeSelection) _object_77).getName();
+                    _builder.append(_name_94, "\t");
+                    _builder.append(".getKey(), \"");
+                    ObSelectionStrategy _object_78 = referenceUnset.getObject();
+                    String _name_95 = ((RandomTypeSelection) _object_78).getType().getName();
+                    _builder.append(_name_95, "\t");
+                    _builder.append("\", \"");
+                    String _name_96 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                    _builder.append(_name_96, "\t");
+                    _builder.append("\", entry_");
+                    ObSelectionStrategy _object_79 = referenceUnset.getObject();
+                    String _name_97 = ((RandomTypeSelection) _object_79).getName();
+                    _builder.append(_name_97, "\t");
+                    _builder.append(".getValue().getKey()));");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("refsList.put(\"");
+                    _builder.append(this.referenceName, "\t");
+                    _builder.append(", refs);");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("}");
+                    _builder.newLine();
+                  } else {
+                    ObSelectionStrategy _object_80 = referenceUnset.getObject();
+                    if ((_object_80 instanceof SpecificObjectSelection)) {
+                      _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                      _builder.newLine();
+                      _builder.append("\t");
+                      _builder.append("if (hmObjects.get(\"");
+                      ObSelectionStrategy _object_81 = referenceUnset.getObject();
+                      String _name_98 = ((SpecificObjectSelection) _object_81).getObjSel().getName();
+                      _builder.append(_name_98, "\t");
+                      _builder.append("\") != null) {");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("if (refsList.get(\"");
+                      _builder.append(this.referenceName, "\t\t");
+                      _builder.append("\") != null) {");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t\t");
+                      _builder.append("refs = refsList.get(\"");
+                      _builder.append(this.referenceName, "\t\t\t");
+                      _builder.append("\");");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("   \t\t");
+                      _builder.append("else {");
+                      _builder.newLine();
+                      _builder.append("\t\t\t");
+                      _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                      _builder.newLine();
+                      _builder.append("   \t\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                      ObSelectionStrategy _object_82 = referenceUnset.getObject();
+                      String _name_99 = ((SpecificObjectSelection) _object_82).getObjSel().getName();
+                      _builder.append(_name_99, "\t\t");
+                      _builder.append(" = hmObjects.get(\"");
+                      ObSelectionStrategy _object_83 = referenceUnset.getObject();
+                      String _name_100 = ((SpecificObjectSelection) _object_83).getObjSel().getName();
+                      _builder.append(_name_100, "\t\t");
+                      _builder.append("\");");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), entry_");
+                      ObSelectionStrategy _object_84 = referenceUnset.getObject();
+                      String _name_101 = ((SpecificObjectSelection) _object_84).getObjSel().getName();
+                      _builder.append(_name_101, "\t\t");
+                      _builder.append(".getKey(), \"");
+                      String _name_102 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                      _builder.append(_name_102, "\t\t");
+                      _builder.append("\"));");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("refsList.put(\"");
+                      _builder.append(this.referenceName, "\t\t");
+                      _builder.append("\", refs);");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t");
+                      _builder.append("} else {");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("return mutations;");
+                      _builder.newLine();
+                      _builder.append("\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("}");
+                      _builder.newLine();
+                    }
+                  }
+                }
+              } else {
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), \"");
+                String _name_103 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                _builder.append(_name_103, "\t");
+                _builder.append("\"));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+          }
+        }
+        {
           if ((c_1 instanceof ReferenceInit)) {
             _builder.append("\t   \t\t");
             final ReferenceInit referenceInit = ((ReferenceInit) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_72 = referenceInit.getObject();
-              if ((_object_72 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_85 = referenceInit.getObject();
+              if ((_object_85 instanceof SpecificObjectSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
@@ -2119,9 +2321,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_73 = referenceInit.getObject();
-                String _name_91 = ((SpecificObjectSelection) _object_73).getObjSel().getName();
-                _builder.append(_name_91, "\t   \t\t\t\t");
+                ObSelectionStrategy _object_86 = referenceInit.getObject();
+                String _name_104 = ((SpecificObjectSelection) _object_86).getObjSel().getName();
+                _builder.append(_name_104, "\t   \t\t\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t   \t\t");
@@ -2165,53 +2367,53 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_74 = referenceInit.getObject();
-                String _name_92 = ((SpecificObjectSelection) _object_74).getObjSel().getName();
-                _builder.append(_name_92, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_87 = referenceInit.getObject();
+                String _name_105 = ((SpecificObjectSelection) _object_87).getObjSel().getName();
+                _builder.append(_name_105, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_75 = referenceInit.getObject();
-                String _name_93 = ((SpecificObjectSelection) _object_75).getObjSel().getName();
-                _builder.append(_name_93, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_88 = referenceInit.getObject();
+                String _name_106 = ((SpecificObjectSelection) _object_88).getObjSel().getName();
+                _builder.append(_name_106, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 {
-                  ObSelectionStrategy _object_76 = referenceInit.getObject();
-                  EReference _refType_4 = ((SpecificObjectSelection) _object_76).getRefType();
+                  ObSelectionStrategy _object_89 = referenceInit.getObject();
+                  EReference _refType_4 = ((SpecificObjectSelection) _object_89).getRefType();
                   boolean _tripleEquals_1 = (_refType_4 == null);
                   if (_tripleEquals_1) {
                     _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(entry_");
-                    ObSelectionStrategy _object_77 = referenceInit.getObject();
-                    String _name_94 = ((SpecificObjectSelection) _object_77).getObjSel().getName();
-                    _builder.append(_name_94);
+                    ObSelectionStrategy _object_90 = referenceInit.getObject();
+                    String _name_107 = ((SpecificObjectSelection) _object_90).getObjSel().getName();
+                    _builder.append(_name_107);
                     _builder.append(".getValue().getKey(), objectSelection.getObject(), entry_");
-                    ObSelectionStrategy _object_78 = referenceInit.getObject();
-                    String _name_95 = ((SpecificObjectSelection) _object_78).getObjSel().getName();
-                    _builder.append(_name_95);
+                    ObSelectionStrategy _object_91 = referenceInit.getObject();
+                    String _name_108 = ((SpecificObjectSelection) _object_91).getObjSel().getName();
+                    _builder.append(_name_108);
                     _builder.append(".getKey(), \"");
-                    String _name_96 = referenceInit.getReference().get(0).getName();
-                    _builder.append(_name_96);
+                    String _name_109 = referenceInit.getReference().get(0).getName();
+                    _builder.append(_name_109);
                     _builder.append("\"));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(entry_");
-                    ObSelectionStrategy _object_79 = referenceInit.getObject();
-                    String _name_97 = ((SpecificObjectSelection) _object_79).getObjSel().getName();
-                    _builder.append(_name_97);
+                    ObSelectionStrategy _object_92 = referenceInit.getObject();
+                    String _name_110 = ((SpecificObjectSelection) _object_92).getObjSel().getName();
+                    _builder.append(_name_110);
                     _builder.append(".getValue().getKey(), objectSelection.getObject(), (EObject) entry_");
-                    ObSelectionStrategy _object_80 = referenceInit.getObject();
-                    String _name_98 = ((SpecificObjectSelection) _object_80).getObjSel().getName();
-                    _builder.append(_name_98);
+                    ObSelectionStrategy _object_93 = referenceInit.getObject();
+                    String _name_111 = ((SpecificObjectSelection) _object_93).getObjSel().getName();
+                    _builder.append(_name_111);
                     _builder.append(".getKey().eGet(ModelManager.getReferenceByName(\"");
-                    ObSelectionStrategy _object_81 = referenceInit.getObject();
-                    String _name_99 = ((SpecificObjectSelection) _object_81).getRefType().getName();
-                    _builder.append(_name_99);
+                    ObSelectionStrategy _object_94 = referenceInit.getObject();
+                    String _name_112 = ((SpecificObjectSelection) _object_94).getRefType().getName();
+                    _builder.append(_name_112);
                     _builder.append("\", entry_");
-                    ObSelectionStrategy _object_82 = referenceInit.getObject();
-                    String _name_100 = ((SpecificObjectSelection) _object_82).getObjSel().getName();
-                    _builder.append(_name_100);
+                    ObSelectionStrategy _object_95 = referenceInit.getObject();
+                    String _name_113 = ((SpecificObjectSelection) _object_95).getObjSel().getName();
+                    _builder.append(_name_113);
                     _builder.append(".getKey())), \"");
-                    String _name_101 = referenceInit.getReference().get(0).getName();
-                    _builder.append(_name_101);
+                    String _name_114 = referenceInit.getReference().get(0).getName();
+                    _builder.append(_name_114);
                     _builder.append("\", false));");
                     _builder.newLineIfNotEmpty();
                   }
@@ -2245,8 +2447,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_83 = referenceInit.getObject();
-              if ((_object_83 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_96 = referenceInit.getObject();
+              if ((_object_96 instanceof RandomTypeSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
@@ -2278,12 +2480,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t   \t\t\t\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), \"");
-                String _name_102 = referenceInit.getReference().get(0).getName();
-                _builder.append(_name_102, "\t\t   \t\t\t\t");
+                String _name_115 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_115, "\t\t   \t\t\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_84 = referenceInit.getObject();
-                String _name_103 = ((RandomTypeSelection) _object_84).getType().getName();
-                _builder.append(_name_103, "\t\t   \t\t\t\t");
+                ObSelectionStrategy _object_97 = referenceInit.getObject();
+                String _name_116 = ((RandomTypeSelection) _object_97).getType().getName();
+                _builder.append(_name_116, "\t\t   \t\t\t\t");
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("   \t\t\t\t\t\t");
@@ -2298,8 +2500,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_85 = referenceInit.getObject();
-              if ((_object_85 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_98 = referenceInit.getObject();
+              if ((_object_98 instanceof OtherTypeSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
@@ -2347,12 +2549,79 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
-                String _name_104 = referenceInit.getReference().get(0).getName();
-                _builder.append(_name_104, "\t   \t\t\t\t");
+                String _name_117 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_117, "\t   \t\t\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_86 = referenceInit.getObject();
-                String _name_105 = ((OtherTypeSelection) _object_86).getType().getName();
-                _builder.append(_name_105, "\t   \t\t\t\t");
+                ObSelectionStrategy _object_99 = referenceInit.getObject();
+                String _name_118 = ((OtherTypeSelection) _object_99).getType().getName();
+                _builder.append(_name_118, "\t   \t\t\t\t");
+                _builder.append("\"));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+            {
+              ObSelectionStrategy _object_100 = referenceInit.getObject();
+              if ((_object_100 instanceof NullTypeSelection)) {
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
+                String _name_119 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_119, "\t   \t\t\t\t");
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t   \t\t");
@@ -2375,17 +2644,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             final ReferenceAdd referenceAdd = ((ReferenceAdd) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_87 = referenceAdd.getObject();
-              if ((_object_87 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_101 = referenceAdd.getObject();
+              if ((_object_101 instanceof SpecificObjectSelection)) {
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_88 = referenceAdd.getObject();
-                String _name_106 = ((SpecificObjectSelection) _object_88).getObjSel().getName();
-                _builder.append(_name_106, "\t\t");
+                ObSelectionStrategy _object_102 = referenceAdd.getObject();
+                String _name_120 = ((SpecificObjectSelection) _object_102).getObjSel().getName();
+                _builder.append(_name_120, "\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -2422,53 +2691,53 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_89 = referenceAdd.getObject();
-                String _name_107 = ((SpecificObjectSelection) _object_89).getObjSel().getName();
-                _builder.append(_name_107, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_103 = referenceAdd.getObject();
+                String _name_121 = ((SpecificObjectSelection) _object_103).getObjSel().getName();
+                _builder.append(_name_121, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_90 = referenceAdd.getObject();
-                String _name_108 = ((SpecificObjectSelection) _object_90).getObjSel().getName();
-                _builder.append(_name_108, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_104 = referenceAdd.getObject();
+                String _name_122 = ((SpecificObjectSelection) _object_104).getObjSel().getName();
+                _builder.append(_name_122, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 {
-                  ObSelectionStrategy _object_91 = referenceAdd.getObject();
-                  EReference _refType_5 = ((SpecificObjectSelection) _object_91).getRefType();
+                  ObSelectionStrategy _object_105 = referenceAdd.getObject();
+                  EReference _refType_5 = ((SpecificObjectSelection) _object_105).getRefType();
                   boolean _tripleEquals_2 = (_refType_5 == null);
                   if (_tripleEquals_2) {
                     _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(entry_");
-                    ObSelectionStrategy _object_92 = referenceAdd.getObject();
-                    String _name_109 = ((SpecificObjectSelection) _object_92).getObjSel().getName();
-                    _builder.append(_name_109);
+                    ObSelectionStrategy _object_106 = referenceAdd.getObject();
+                    String _name_123 = ((SpecificObjectSelection) _object_106).getObjSel().getName();
+                    _builder.append(_name_123);
                     _builder.append(".getValue().getKey(), objectSelection.getObject(), entry_");
-                    ObSelectionStrategy _object_93 = referenceAdd.getObject();
-                    String _name_110 = ((SpecificObjectSelection) _object_93).getObjSel().getName();
-                    _builder.append(_name_110);
+                    ObSelectionStrategy _object_107 = referenceAdd.getObject();
+                    String _name_124 = ((SpecificObjectSelection) _object_107).getObjSel().getName();
+                    _builder.append(_name_124);
                     _builder.append(".getKey(), \"");
-                    String _name_111 = referenceAdd.getReference().get(0).getName();
-                    _builder.append(_name_111);
+                    String _name_125 = referenceAdd.getReference().get(0).getName();
+                    _builder.append(_name_125);
                     _builder.append("\", false));");
                     _builder.newLineIfNotEmpty();
                   } else {
                     _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(entry_");
-                    ObSelectionStrategy _object_94 = referenceAdd.getObject();
-                    String _name_112 = ((SpecificObjectSelection) _object_94).getObjSel().getName();
-                    _builder.append(_name_112);
+                    ObSelectionStrategy _object_108 = referenceAdd.getObject();
+                    String _name_126 = ((SpecificObjectSelection) _object_108).getObjSel().getName();
+                    _builder.append(_name_126);
                     _builder.append(".getValue().getKey(), objectSelection.getObject(), (EObject) entry_");
-                    ObSelectionStrategy _object_95 = referenceAdd.getObject();
-                    String _name_113 = ((SpecificObjectSelection) _object_95).getObjSel().getName();
-                    _builder.append(_name_113);
+                    ObSelectionStrategy _object_109 = referenceAdd.getObject();
+                    String _name_127 = ((SpecificObjectSelection) _object_109).getObjSel().getName();
+                    _builder.append(_name_127);
                     _builder.append(".getKey().eGet(ModelManager.getReferenceByName(\"");
-                    ObSelectionStrategy _object_96 = referenceAdd.getObject();
-                    String _name_114 = ((SpecificObjectSelection) _object_96).getRefType().getName();
-                    _builder.append(_name_114);
+                    ObSelectionStrategy _object_110 = referenceAdd.getObject();
+                    String _name_128 = ((SpecificObjectSelection) _object_110).getRefType().getName();
+                    _builder.append(_name_128);
                     _builder.append("\", entry_");
-                    ObSelectionStrategy _object_97 = referenceAdd.getObject();
-                    String _name_115 = ((SpecificObjectSelection) _object_97).getObjSel().getName();
-                    _builder.append(_name_115);
+                    ObSelectionStrategy _object_111 = referenceAdd.getObject();
+                    String _name_129 = ((SpecificObjectSelection) _object_111).getObjSel().getName();
+                    _builder.append(_name_129);
                     _builder.append(".getKey())), \"");
-                    String _name_116 = referenceAdd.getReference().get(0).getName();
-                    _builder.append(_name_116);
+                    String _name_130 = referenceAdd.getReference().get(0).getName();
+                    _builder.append(_name_130);
                     _builder.append("\", false));");
                     _builder.newLineIfNotEmpty();
                   }
@@ -2497,8 +2766,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_98 = referenceAdd.getObject();
-              if ((_object_98 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_112 = referenceAdd.getObject();
+              if ((_object_112 instanceof OtherTypeSelection)) {
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
                 _builder.newLine();
@@ -2535,12 +2804,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
-                String _name_117 = referenceAdd.getReference().get(0).getName();
-                _builder.append(_name_117, "\t");
+                String _name_131 = referenceAdd.getReference().get(0).getName();
+                _builder.append(_name_131, "\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_99 = referenceAdd.getObject();
-                String _name_118 = ((OtherTypeSelection) _object_99).getType().getName();
-                _builder.append(_name_118, "\t");
+                ObSelectionStrategy _object_113 = referenceAdd.getObject();
+                String _name_132 = ((OtherTypeSelection) _object_113).getType().getName();
+                _builder.append(_name_132, "\t");
                 _builder.append("\", false));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -2560,17 +2829,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             final ReferenceRemove referenceRemove = ((ReferenceRemove) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_100 = referenceRemove.getObject();
-              if ((_object_100 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_114 = referenceRemove.getObject();
+              if ((_object_114 instanceof SpecificObjectSelection)) {
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_101 = referenceRemove.getObject();
-                String _name_119 = ((SpecificObjectSelection) _object_101).getObjSel().getName();
-                _builder.append(_name_119, "\t\t");
+                ObSelectionStrategy _object_115 = referenceRemove.getObject();
+                String _name_133 = ((SpecificObjectSelection) _object_115).getObjSel().getName();
+                _builder.append(_name_133, "\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -2607,28 +2876,28 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_102 = referenceRemove.getObject();
-                String _name_120 = ((SpecificObjectSelection) _object_102).getObjSel().getName();
-                _builder.append(_name_120, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_116 = referenceRemove.getObject();
+                String _name_134 = ((SpecificObjectSelection) _object_116).getObjSel().getName();
+                _builder.append(_name_134, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_103 = referenceRemove.getObject();
-                String _name_121 = ((SpecificObjectSelection) _object_103).getObjSel().getName();
-                _builder.append(_name_121, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_117 = referenceRemove.getObject();
+                String _name_135 = ((SpecificObjectSelection) _object_117).getObjSel().getName();
+                _builder.append(_name_135, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(entry_");
-                ObSelectionStrategy _object_104 = referenceRemove.getObject();
-                String _name_122 = ((SpecificObjectSelection) _object_104).getObjSel().getName();
-                _builder.append(_name_122, "\t\t\t");
+                ObSelectionStrategy _object_118 = referenceRemove.getObject();
+                String _name_136 = ((SpecificObjectSelection) _object_118).getObjSel().getName();
+                _builder.append(_name_136, "\t\t\t");
                 _builder.append(".getValue().getKey(), objectSelection.getObject(), entry_");
-                ObSelectionStrategy _object_105 = referenceRemove.getObject();
-                String _name_123 = ((SpecificObjectSelection) _object_105).getObjSel().getName();
-                _builder.append(_name_123, "\t\t\t");
+                ObSelectionStrategy _object_119 = referenceRemove.getObject();
+                String _name_137 = ((SpecificObjectSelection) _object_119).getObjSel().getName();
+                _builder.append(_name_137, "\t\t\t");
                 _builder.append(".getKey(), \"");
-                String _name_124 = referenceRemove.getReference().get(0).getName();
-                _builder.append(_name_124, "\t\t\t");
+                String _name_138 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_138, "\t\t\t");
                 _builder.append("\", true));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -2655,8 +2924,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_106 = referenceRemove.getObject();
-              if ((_object_106 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_120 = referenceRemove.getObject();
+              if ((_object_120 instanceof OtherTypeSelection)) {
                 _builder.append("\t");
                 _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
                 _builder.newLine();
@@ -2695,13 +2964,69 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
-                String _name_125 = referenceRemove.getReference().get(0).getName();
-                _builder.append(_name_125, "\t\t");
+                String _name_139 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_139, "\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_107 = referenceRemove.getObject();
-                String _name_126 = ((OtherTypeSelection) _object_107).getType().getName();
-                _builder.append(_name_126, "\t\t");
+                ObSelectionStrategy _object_121 = referenceRemove.getObject();
+                String _name_140 = ((OtherTypeSelection) _object_121).getType().getName();
+                _builder.append(_name_140, "\t\t");
                 _builder.append("\", true));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+            {
+              ObSelectionStrategy _object_122 = referenceRemove.getObject();
+              if ((_object_122 instanceof NullTypeSelection)) {
+                _builder.append("\t");
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
+                String _name_141 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_141, "\t\t");
+                _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("\t");
@@ -2722,65 +3047,65 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             {
               EList<EReference> _reference = referenceAtt.getReference();
-              boolean _tripleNotEquals_11 = (_reference != null);
-              if (_tripleNotEquals_11) {
+              boolean _tripleNotEquals_12 = (_reference != null);
+              if (_tripleNotEquals_12) {
                 {
                   EAttribute _attribute = referenceAtt.getAttribute();
-                  boolean _tripleNotEquals_12 = (_attribute != null);
-                  if (_tripleNotEquals_12) {
+                  boolean _tripleNotEquals_13 = (_attribute != null);
+                  if (_tripleNotEquals_13) {
                     _builder.append("//NAME:");
                     _builder.append(this.attributeName = referenceAtt.getAttribute().getName());
                     _builder.newLineIfNotEmpty();
                     {
                       AttributeType _value_20 = referenceAtt.getValue();
-                      boolean _tripleNotEquals_13 = (_value_20 != null);
-                      if (_tripleNotEquals_13) {
+                      boolean _tripleNotEquals_14 = (_value_20 != null);
+                      if (_tripleNotEquals_14) {
                         {
                           EObject _eContainer = referenceAtt.eContainer();
-                          ObSelectionStrategy _object_108 = ((ModifyInformationMutator) _eContainer).getObject();
-                          if ((_object_108 instanceof SpecificObjectSelection)) {
+                          ObSelectionStrategy _object_123 = ((ModifyInformationMutator) _eContainer).getObject();
+                          if ((_object_123 instanceof SpecificObjectSelection)) {
                             _builder.append("EObject refObjectSelected = null;");
                             _builder.newLine();
                             _builder.append("if (hmObjects.get(\"");
                             EObject _eContainer_1 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_109 = ((ModifyInformationMutator) _eContainer_1).getObject();
-                            String _name_127 = ((SpecificObjectSelection) _object_109).getObjSel().getName();
-                            _builder.append(_name_127);
+                            ObSelectionStrategy _object_124 = ((ModifyInformationMutator) _eContainer_1).getObject();
+                            String _name_142 = ((SpecificObjectSelection) _object_124).getObjSel().getName();
+                            _builder.append(_name_142);
                             _builder.append("\") != null) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t");
                             _builder.append("for (EReference ref : hmObjects.get(\"");
                             EObject _eContainer_2 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_110 = ((ModifyInformationMutator) _eContainer_2).getObject();
-                            String _name_128 = ((SpecificObjectSelection) _object_110).getObjSel().getName();
-                            _builder.append(_name_128, "\t");
+                            ObSelectionStrategy _object_125 = ((ModifyInformationMutator) _eContainer_2).getObject();
+                            String _name_143 = ((SpecificObjectSelection) _object_125).getObjSel().getName();
+                            _builder.append(_name_143, "\t");
                             _builder.append("\").getKey().eClass().getEReferences()) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t");
                             _builder.append("if (ref.getName().equals(\"");
-                            String _name_129 = referenceAtt.getReference().get(0).getName();
-                            _builder.append(_name_129, "\t\t");
+                            String _name_144 = referenceAtt.getReference().get(0).getName();
+                            _builder.append(_name_144, "\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
                             _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
                             EObject _eContainer_3 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_111 = ((ModifyInformationMutator) _eContainer_3).getObject();
-                            String _name_130 = ((SpecificObjectSelection) _object_111).getObjSel().getName();
-                            _builder.append(_name_130, "\t\t\t");
+                            ObSelectionStrategy _object_126 = ((ModifyInformationMutator) _eContainer_3).getObject();
+                            String _name_145 = ((SpecificObjectSelection) _object_126).getObjSel().getName();
+                            _builder.append(_name_145, "\t\t\t");
                             _builder.append(" = hmObjects.get(\"");
                             EObject _eContainer_4 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_112 = ((ModifyInformationMutator) _eContainer_4).getObject();
-                            String _name_131 = ((SpecificObjectSelection) _object_112).getObjSel().getName();
-                            _builder.append(_name_131, "\t\t\t");
+                            ObSelectionStrategy _object_127 = ((ModifyInformationMutator) _eContainer_4).getObject();
+                            String _name_146 = ((SpecificObjectSelection) _object_127).getObjSel().getName();
+                            _builder.append(_name_146, "\t\t\t");
                             _builder.append("\");");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
                             _builder.append("refObjectSelected = (EObject) entry_");
                             EObject _eContainer_5 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_113 = ((ModifyInformationMutator) _eContainer_5).getObject();
-                            String _name_132 = ((SpecificObjectSelection) _object_113).getObjSel().getName();
-                            _builder.append(_name_132, "\t\t\t");
+                            ObSelectionStrategy _object_128 = ((ModifyInformationMutator) _eContainer_5).getObject();
+                            String _name_147 = ((SpecificObjectSelection) _object_128).getObjSel().getName();
+                            _builder.append(_name_147, "\t\t\t");
                             _builder.append(".getKey().eGet(ref);");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
@@ -2796,8 +3121,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                             _builder.newLine();
                           } else {
                             EObject _eContainer_6 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_114 = ((ModifyInformationMutator) _eContainer_6).getObject();
-                            if ((_object_114 instanceof RandomTypeSelection)) {
+                            ObSelectionStrategy _object_129 = ((ModifyInformationMutator) _eContainer_6).getObject();
+                            if ((_object_129 instanceof RandomTypeSelection)) {
                               _builder.append("EObject refObjectSelected = null;");
                               _builder.newLine();
                               _builder.append("if (objectSelection != null) {");
@@ -2810,8 +3135,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                               _builder.newLine();
                               _builder.append("\t\t\t");
                               _builder.append("if (ref.getName().equals(\"");
-                              String _name_133 = referenceAtt.getReference().get(0).getName();
-                              _builder.append(_name_133, "\t\t\t");
+                              String _name_148 = referenceAtt.getReference().get(0).getName();
+                              _builder.append(_name_148, "\t\t\t");
                               _builder.append("\")) {");
                               _builder.newLineIfNotEmpty();
                               _builder.append("\t\t\t\t");
@@ -2892,8 +3217,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       }
     }
     {
-      ObSelectionStrategy _object_115 = mut.getObject();
-      if ((_object_115 instanceof CompleteTypeSelection)) {
+      ObSelectionStrategy _object_130 = mut.getObject();
+      if ((_object_130 instanceof CompleteTypeSelection)) {
         _builder.append("\t   \t\t");
         _builder.append("for (ObSelectionStrategy objectSelection : listSelection) {");
         _builder.newLine();
@@ -4652,13 +4977,213 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           }
         }
         {
+          if ((c_1 instanceof ReferenceUnset)) {
+            final ReferenceUnset referenceUnset = ((ReferenceUnset) c_1);
+            _builder.newLineIfNotEmpty();
+            {
+              ObSelectionStrategy _object_69 = referenceUnset.getObject();
+              boolean _tripleNotEquals_10 = (_object_69 != null);
+              if (_tripleNotEquals_10) {
+                {
+                  ObSelectionStrategy _object_70 = referenceUnset.getObject();
+                  if ((_object_70 instanceof RandomTypeSelection)) {
+                    _builder.append("if (hmObjects.get(\"");
+                    ObSelectionStrategy _object_71 = referenceUnset.getObject();
+                    String _name_92 = ((RandomTypeSelection) _object_71).getName();
+                    _builder.append(_name_92);
+                    _builder.append("\") != null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("if (refsList.get(\"");
+                    _builder.append(this.referenceName, "\t");
+                    _builder.append("\") != null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t");
+                    _builder.append("refs = refsList.get(\"");
+                    _builder.append(this.referenceName, "\t\t");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                    ObSelectionStrategy _object_72 = referenceUnset.getObject();
+                    String _name_93 = ((RandomTypeSelection) _object_72).getName();
+                    _builder.append(_name_93, "\t");
+                    _builder.append(" = hmObjects.get(\"");
+                    ObSelectionStrategy _object_73 = referenceUnset.getObject();
+                    String _name_94 = ((RandomTypeSelection) _object_73).getName();
+                    _builder.append(_name_94, "\t");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("refs.add(new NullReferenceConfigurationStrategy(entry_");
+                    ObSelectionStrategy _object_74 = referenceUnset.getObject();
+                    String _name_95 = ((RandomTypeSelection) _object_74).getName();
+                    _builder.append(_name_95, "\t");
+                    _builder.append(".getKey(), \"");
+                    ObSelectionStrategy _object_75 = referenceUnset.getObject();
+                    String _name_96 = ((RandomTypeSelection) _object_75).getType().getName();
+                    _builder.append(_name_96, "\t");
+                    _builder.append("\", \"");
+                    String _name_97 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                    _builder.append(_name_97, "\t");
+                    _builder.append("\", entry_");
+                    ObSelectionStrategy _object_76 = referenceUnset.getObject();
+                    String _name_98 = ((RandomTypeSelection) _object_76).getName();
+                    _builder.append(_name_98, "\t");
+                    _builder.append(".getValue().getKey()));");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("refsList.put(\"");
+                    _builder.append(this.referenceName, "\t");
+                    _builder.append(", refs);");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("}");
+                    _builder.newLine();
+                  } else {
+                    ObSelectionStrategy _object_77 = referenceUnset.getObject();
+                    if ((_object_77 instanceof SpecificObjectSelection)) {
+                      _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                      _builder.newLine();
+                      _builder.append("\t");
+                      _builder.append("if (hmObjects.get(\"");
+                      ObSelectionStrategy _object_78 = referenceUnset.getObject();
+                      String _name_99 = ((SpecificObjectSelection) _object_78).getObjSel().getName();
+                      _builder.append(_name_99, "\t");
+                      _builder.append("\") != null) {");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("if (refsList.get(\"");
+                      _builder.append(this.referenceName, "\t\t");
+                      _builder.append("\") != null) {");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t\t");
+                      _builder.append("refs = refsList.get(\"");
+                      _builder.append(this.referenceName, "\t\t\t");
+                      _builder.append("\");");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("   \t\t");
+                      _builder.append("else {");
+                      _builder.newLine();
+                      _builder.append("\t\t\t");
+                      _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                      _builder.newLine();
+                      _builder.append("   \t\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                      ObSelectionStrategy _object_79 = referenceUnset.getObject();
+                      String _name_100 = ((SpecificObjectSelection) _object_79).getObjSel().getName();
+                      _builder.append(_name_100, "\t\t");
+                      _builder.append(" = hmObjects.get(\"");
+                      ObSelectionStrategy _object_80 = referenceUnset.getObject();
+                      String _name_101 = ((SpecificObjectSelection) _object_80).getObjSel().getName();
+                      _builder.append(_name_101, "\t\t");
+                      _builder.append("\");");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), entry_");
+                      ObSelectionStrategy _object_81 = referenceUnset.getObject();
+                      String _name_102 = ((SpecificObjectSelection) _object_81).getObjSel().getName();
+                      _builder.append(_name_102, "\t\t");
+                      _builder.append(".getKey(), \"");
+                      String _name_103 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                      _builder.append(_name_103, "\t\t");
+                      _builder.append("\"));");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t\t");
+                      _builder.append("refsList.put(\"");
+                      _builder.append(this.referenceName, "\t\t");
+                      _builder.append("\", refs);");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("\t");
+                      _builder.append("} else {");
+                      _builder.newLine();
+                      _builder.append("\t\t");
+                      _builder.append("return mutations;");
+                      _builder.newLine();
+                      _builder.append("\t");
+                      _builder.append("}");
+                      _builder.newLine();
+                      _builder.append("}");
+                      _builder.newLine();
+                    }
+                  }
+                }
+              } else {
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getObject(), \"");
+                String _name_104 = ((ReferenceUnset)c_1).getReference().get(0).getName();
+                _builder.append(_name_104, "\t");
+                _builder.append("\"));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+          }
+        }
+        {
           if ((c_1 instanceof ReferenceInit)) {
             _builder.append("\t   \t\t");
             final ReferenceInit referenceInit = ((ReferenceInit) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_69 = referenceInit.getObject();
-              if ((_object_69 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_82 = referenceInit.getObject();
+              if ((_object_82 instanceof SpecificObjectSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
@@ -4667,9 +5192,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_70 = referenceInit.getObject();
-                String _name_92 = ((SpecificObjectSelection) _object_70).getObjSel().getName();
-                _builder.append(_name_92, "\t   \t\t\t\t");
+                ObSelectionStrategy _object_83 = referenceInit.getObject();
+                String _name_105 = ((SpecificObjectSelection) _object_83).getObjSel().getName();
+                _builder.append(_name_105, "\t   \t\t\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t   \t\t");
@@ -4713,20 +5238,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_71 = referenceInit.getObject();
-                String _name_93 = ((SpecificObjectSelection) _object_71).getObjSel().getName();
-                _builder.append(_name_93, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_84 = referenceInit.getObject();
+                String _name_106 = ((SpecificObjectSelection) _object_84).getObjSel().getName();
+                _builder.append(_name_106, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_72 = referenceInit.getObject();
-                String _name_94 = ((SpecificObjectSelection) _object_72).getObjSel().getName();
-                _builder.append(_name_94, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_85 = referenceInit.getObject();
+                String _name_107 = ((SpecificObjectSelection) _object_85).getObjSel().getName();
+                _builder.append(_name_107, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t   \t\t\t");
                 _builder.append("EObject recovered = ModelManager.getObject(resource, entry_");
-                ObSelectionStrategy _object_73 = referenceInit.getObject();
-                String _name_95 = ((SpecificObjectSelection) _object_73).getObjSel().getName();
-                _builder.append(_name_95, "\t\t\t\t   \t\t\t");
+                ObSelectionStrategy _object_86 = referenceInit.getObject();
+                String _name_108 = ((SpecificObjectSelection) _object_86).getObjSel().getName();
+                _builder.append(_name_108, "\t\t\t\t   \t\t\t");
                 _builder.append(".getKey());");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -4734,9 +5259,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t\t");
                 _builder.append("recovered = entry_");
-                ObSelectionStrategy _object_74 = referenceInit.getObject();
-                String _name_96 = ((SpecificObjectSelection) _object_74).getObjSel().getName();
-                _builder.append(_name_96, "\t\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_87 = referenceInit.getObject();
+                String _name_109 = ((SpecificObjectSelection) _object_87).getObjSel().getName();
+                _builder.append(_name_109, "\t\t\t\t\t\t\t\t");
                 _builder.append(".getKey();");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -4746,8 +5271,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, \"");
-                String _name_97 = referenceInit.getReference().get(0).getName();
-                _builder.append(_name_97, "\t   \t\t\t\t\t");
+                String _name_110 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_110, "\t   \t\t\t\t\t");
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t   \t\t");
@@ -4779,8 +5304,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_75 = referenceInit.getObject();
-              if ((_object_75 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_88 = referenceInit.getObject();
+              if ((_object_88 instanceof RandomTypeSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
@@ -4812,12 +5337,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t   \t\t\t\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), \"");
-                String _name_98 = referenceInit.getReference().get(0).getName();
-                _builder.append(_name_98, "\t\t   \t\t\t\t");
+                String _name_111 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_111, "\t\t   \t\t\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_76 = referenceInit.getObject();
-                String _name_99 = ((RandomTypeSelection) _object_76).getType().getName();
-                _builder.append(_name_99, "\t\t   \t\t\t\t");
+                ObSelectionStrategy _object_89 = referenceInit.getObject();
+                String _name_112 = ((RandomTypeSelection) _object_89).getType().getName();
+                _builder.append(_name_112, "\t\t   \t\t\t\t");
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("   \t\t\t\t\t\t");
@@ -4832,8 +5357,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_77 = referenceInit.getObject();
-              if ((_object_77 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_90 = referenceInit.getObject();
+              if ((_object_90 instanceof OtherTypeSelection)) {
                 _builder.append("\t   \t\t");
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
@@ -4881,12 +5406,79 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), \"");
-                String _name_100 = referenceInit.getReference().get(0).getName();
-                _builder.append(_name_100, "\t   \t\t\t\t");
+                String _name_113 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_113, "\t   \t\t\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_78 = referenceInit.getObject();
-                String _name_101 = ((OtherTypeSelection) _object_78).getType().getName();
-                _builder.append(_name_101, "\t   \t\t\t\t");
+                ObSelectionStrategy _object_91 = referenceInit.getObject();
+                String _name_114 = ((OtherTypeSelection) _object_91).getType().getName();
+                _builder.append(_name_114, "\t   \t\t\t\t");
+                _builder.append("\"));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+            {
+              ObSelectionStrategy _object_92 = referenceInit.getObject();
+              if ((_object_92 instanceof NullTypeSelection)) {
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t   \t\t\t\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t   \t\t");
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
+                String _name_115 = referenceInit.getReference().get(0).getName();
+                _builder.append(_name_115, "\t   \t\t\t\t");
                 _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t   \t\t");
@@ -4909,17 +5501,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             final ReferenceAdd referenceAdd = ((ReferenceAdd) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_79 = referenceAdd.getObject();
-              if ((_object_79 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_93 = referenceAdd.getObject();
+              if ((_object_93 instanceof SpecificObjectSelection)) {
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_80 = referenceAdd.getObject();
-                String _name_102 = ((SpecificObjectSelection) _object_80).getObjSel().getName();
-                _builder.append(_name_102, "\t\t");
+                ObSelectionStrategy _object_94 = referenceAdd.getObject();
+                String _name_116 = ((SpecificObjectSelection) _object_94).getObjSel().getName();
+                _builder.append(_name_116, "\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -4956,20 +5548,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_81 = referenceAdd.getObject();
-                String _name_103 = ((SpecificObjectSelection) _object_81).getObjSel().getName();
-                _builder.append(_name_103, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_95 = referenceAdd.getObject();
+                String _name_117 = ((SpecificObjectSelection) _object_95).getObjSel().getName();
+                _builder.append(_name_117, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_82 = referenceAdd.getObject();
-                String _name_104 = ((SpecificObjectSelection) _object_82).getObjSel().getName();
-                _builder.append(_name_104, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_96 = referenceAdd.getObject();
+                String _name_118 = ((SpecificObjectSelection) _object_96).getObjSel().getName();
+                _builder.append(_name_118, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t   \t\t\t");
                 _builder.append("EObject recovered = ModelManager.getObject(resource, entry_");
-                ObSelectionStrategy _object_83 = referenceAdd.getObject();
-                String _name_105 = ((SpecificObjectSelection) _object_83).getObjSel().getName();
-                _builder.append(_name_105, "\t\t\t\t   \t\t\t");
+                ObSelectionStrategy _object_97 = referenceAdd.getObject();
+                String _name_119 = ((SpecificObjectSelection) _object_97).getObjSel().getName();
+                _builder.append(_name_119, "\t\t\t\t   \t\t\t");
                 _builder.append(".getKey());");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -4977,9 +5569,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t\t");
                 _builder.append("recovered = entry_");
-                ObSelectionStrategy _object_84 = referenceAdd.getObject();
-                String _name_106 = ((SpecificObjectSelection) _object_84).getObjSel().getName();
-                _builder.append(_name_106, "\t\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_98 = referenceAdd.getObject();
+                String _name_120 = ((SpecificObjectSelection) _object_98).getObjSel().getName();
+                _builder.append(_name_120, "\t\t\t\t\t\t\t\t");
                 _builder.append(".getKey();");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -4988,8 +5580,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, \"");
-                String _name_107 = referenceAdd.getReference().get(0).getName();
-                _builder.append(_name_107, "\t\t\t");
+                String _name_121 = referenceAdd.getReference().get(0).getName();
+                _builder.append(_name_121, "\t\t\t");
                 _builder.append("\", false));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -5016,8 +5608,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_85 = referenceAdd.getObject();
-              if ((_object_85 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_99 = referenceAdd.getObject();
+              if ((_object_99 instanceof OtherTypeSelection)) {
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
                 _builder.newLine();
@@ -5054,12 +5646,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), \"");
-                String _name_108 = referenceAdd.getReference().get(0).getName();
-                _builder.append(_name_108, "\t");
+                String _name_122 = referenceAdd.getReference().get(0).getName();
+                _builder.append(_name_122, "\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_86 = referenceAdd.getObject();
-                String _name_109 = ((OtherTypeSelection) _object_86).getType().getName();
-                _builder.append(_name_109, "\t");
+                ObSelectionStrategy _object_100 = referenceAdd.getObject();
+                String _name_123 = ((OtherTypeSelection) _object_100).getType().getName();
+                _builder.append(_name_123, "\t");
                 _builder.append("\", false));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -5079,17 +5671,17 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             final ReferenceRemove referenceRemove = ((ReferenceRemove) c_1);
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _object_87 = referenceRemove.getObject();
-              if ((_object_87 instanceof SpecificObjectSelection)) {
+              ObSelectionStrategy _object_101 = referenceRemove.getObject();
+              if ((_object_101 instanceof SpecificObjectSelection)) {
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
                 _builder.newLine();
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("if (hmObjects.get(\"");
-                ObSelectionStrategy _object_88 = referenceRemove.getObject();
-                String _name_110 = ((SpecificObjectSelection) _object_88).getObjSel().getName();
-                _builder.append(_name_110, "\t\t");
+                ObSelectionStrategy _object_102 = referenceRemove.getObject();
+                String _name_124 = ((SpecificObjectSelection) _object_102).getObjSel().getName();
+                _builder.append(_name_124, "\t\t");
                 _builder.append("\") != null) {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -5126,20 +5718,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t");
                 _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                ObSelectionStrategy _object_89 = referenceRemove.getObject();
-                String _name_111 = ((SpecificObjectSelection) _object_89).getObjSel().getName();
-                _builder.append(_name_111, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_103 = referenceRemove.getObject();
+                String _name_125 = ((SpecificObjectSelection) _object_103).getObjSel().getName();
+                _builder.append(_name_125, "\t\t\t\t\t\t\t");
                 _builder.append(" = hmObjects.get(\"");
-                ObSelectionStrategy _object_90 = referenceRemove.getObject();
-                String _name_112 = ((SpecificObjectSelection) _object_90).getObjSel().getName();
-                _builder.append(_name_112, "\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_104 = referenceRemove.getObject();
+                String _name_126 = ((SpecificObjectSelection) _object_104).getObjSel().getName();
+                _builder.append(_name_126, "\t\t\t\t\t\t\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t   \t\t\t");
                 _builder.append("EObject recovered = ModelManager.getObject(resource, entry_");
-                ObSelectionStrategy _object_91 = referenceRemove.getObject();
-                String _name_113 = ((SpecificObjectSelection) _object_91).getObjSel().getName();
-                _builder.append(_name_113, "\t\t\t\t   \t\t\t");
+                ObSelectionStrategy _object_105 = referenceRemove.getObject();
+                String _name_127 = ((SpecificObjectSelection) _object_105).getObjSel().getName();
+                _builder.append(_name_127, "\t\t\t\t   \t\t\t");
                 _builder.append(".getKey());");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -5147,9 +5739,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLine();
                 _builder.append("\t\t\t\t\t\t\t\t");
                 _builder.append("recovered = entry_");
-                ObSelectionStrategy _object_92 = referenceRemove.getObject();
-                String _name_114 = ((SpecificObjectSelection) _object_92).getObjSel().getName();
-                _builder.append(_name_114, "\t\t\t\t\t\t\t\t");
+                ObSelectionStrategy _object_106 = referenceRemove.getObject();
+                String _name_128 = ((SpecificObjectSelection) _object_106).getObjSel().getName();
+                _builder.append(_name_128, "\t\t\t\t\t\t\t\t");
                 _builder.append(".getKey();");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t\t\t\t\t");
@@ -5158,8 +5750,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.append("refs.add(new SpecificReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), recovered, \"");
-                String _name_115 = referenceRemove.getReference().get(0).getName();
-                _builder.append(_name_115, "\t\t\t");
+                String _name_129 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_129, "\t\t\t");
                 _builder.append("\", true));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -5186,8 +5778,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               }
             }
             {
-              ObSelectionStrategy _object_93 = referenceRemove.getObject();
-              if ((_object_93 instanceof OtherTypeSelection)) {
+              ObSelectionStrategy _object_107 = referenceRemove.getObject();
+              if ((_object_107 instanceof OtherTypeSelection)) {
                 _builder.append("\t");
                 _builder.append("if (obSelection != null && obSelection.getObject() != null) {");
                 _builder.newLine();
@@ -5226,13 +5818,69 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("refs.add(new RandomReferenceConfigurationStrategy(obSelection.getModel(), obSelection.getObject(), \"");
-                String _name_116 = referenceRemove.getReference().get(0).getName();
-                _builder.append(_name_116, "\t\t");
+                String _name_130 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_130, "\t\t");
                 _builder.append("\", \"");
-                ObSelectionStrategy _object_94 = referenceRemove.getObject();
-                String _name_117 = ((OtherTypeSelection) _object_94).getType().getName();
-                _builder.append(_name_117, "\t\t");
+                ObSelectionStrategy _object_108 = referenceRemove.getObject();
+                String _name_131 = ((OtherTypeSelection) _object_108).getType().getName();
+                _builder.append(_name_131, "\t\t");
                 _builder.append("\", true));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refsList.put(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\", refs);");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+              }
+            }
+            {
+              ObSelectionStrategy _object_109 = referenceRemove.getObject();
+              if ((_object_109 instanceof NullTypeSelection)) {
+                _builder.append("\t");
+                _builder.append("if (objectSelection != null && objectSelection.getObject() != null) {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("List<ReferenceConfigurationStrategy> refs = null;");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("if (refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t");
+                _builder.append("\") != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = refsList.get(\"");
+                _builder.append(this.referenceName, "\t\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.append("refs = new ArrayList<ReferenceConfigurationStrategy>();");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t");
+                _builder.append("refs.add(new NullReferenceConfigurationStrategy(objectSelection.getModel(), objectSelection.getObject(), \"");
+                String _name_132 = referenceRemove.getReference().get(0).getName();
+                _builder.append(_name_132, "\t\t");
+                _builder.append("\"));");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("\t");
@@ -5253,65 +5901,65 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLineIfNotEmpty();
             {
               EList<EReference> _reference_1 = referenceAtt.getReference();
-              boolean _tripleNotEquals_10 = (_reference_1 != null);
-              if (_tripleNotEquals_10) {
+              boolean _tripleNotEquals_11 = (_reference_1 != null);
+              if (_tripleNotEquals_11) {
                 {
                   EAttribute _attribute = referenceAtt.getAttribute();
-                  boolean _tripleNotEquals_11 = (_attribute != null);
-                  if (_tripleNotEquals_11) {
+                  boolean _tripleNotEquals_12 = (_attribute != null);
+                  if (_tripleNotEquals_12) {
                     _builder.append("//NAME:");
                     _builder.append(this.attributeName = referenceAtt.getAttribute().getName());
                     _builder.newLineIfNotEmpty();
                     {
                       AttributeType _value_20 = referenceAtt.getValue();
-                      boolean _tripleNotEquals_12 = (_value_20 != null);
-                      if (_tripleNotEquals_12) {
+                      boolean _tripleNotEquals_13 = (_value_20 != null);
+                      if (_tripleNotEquals_13) {
                         {
                           EObject _eContainer = referenceAtt.eContainer();
-                          ObSelectionStrategy _object_95 = ((ModifyInformationMutator) _eContainer).getObject();
-                          if ((_object_95 instanceof SpecificObjectSelection)) {
+                          ObSelectionStrategy _object_110 = ((ModifyInformationMutator) _eContainer).getObject();
+                          if ((_object_110 instanceof SpecificObjectSelection)) {
                             _builder.append("EObject refObjectSelected = null;");
                             _builder.newLine();
                             _builder.append("if (hmObjects.get(\"");
                             EObject _eContainer_1 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_96 = ((ModifyInformationMutator) _eContainer_1).getObject();
-                            String _name_118 = ((SpecificObjectSelection) _object_96).getObjSel().getName();
-                            _builder.append(_name_118);
+                            ObSelectionStrategy _object_111 = ((ModifyInformationMutator) _eContainer_1).getObject();
+                            String _name_133 = ((SpecificObjectSelection) _object_111).getObjSel().getName();
+                            _builder.append(_name_133);
                             _builder.append("\") != null) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t");
                             _builder.append("for (EReference ref : hmObjects.get(\"");
                             EObject _eContainer_2 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_97 = ((ModifyInformationMutator) _eContainer_2).getObject();
-                            String _name_119 = ((SpecificObjectSelection) _object_97).getObjSel().getName();
-                            _builder.append(_name_119, "\t");
+                            ObSelectionStrategy _object_112 = ((ModifyInformationMutator) _eContainer_2).getObject();
+                            String _name_134 = ((SpecificObjectSelection) _object_112).getObjSel().getName();
+                            _builder.append(_name_134, "\t");
                             _builder.append("\").getKey().eClass().getEReferences()) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t");
                             _builder.append("if (ref.getName().equals(\"");
-                            String _name_120 = referenceAtt.getReference().get(0).getName();
-                            _builder.append(_name_120, "\t\t");
+                            String _name_135 = referenceAtt.getReference().get(0).getName();
+                            _builder.append(_name_135, "\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
                             _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
                             EObject _eContainer_3 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_98 = ((ModifyInformationMutator) _eContainer_3).getObject();
-                            String _name_121 = ((SpecificObjectSelection) _object_98).getObjSel().getName();
-                            _builder.append(_name_121, "\t\t\t");
+                            ObSelectionStrategy _object_113 = ((ModifyInformationMutator) _eContainer_3).getObject();
+                            String _name_136 = ((SpecificObjectSelection) _object_113).getObjSel().getName();
+                            _builder.append(_name_136, "\t\t\t");
                             _builder.append(" = hmObjects.get(\"");
                             EObject _eContainer_4 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_99 = ((ModifyInformationMutator) _eContainer_4).getObject();
-                            String _name_122 = ((SpecificObjectSelection) _object_99).getObjSel().getName();
-                            _builder.append(_name_122, "\t\t\t");
+                            ObSelectionStrategy _object_114 = ((ModifyInformationMutator) _eContainer_4).getObject();
+                            String _name_137 = ((SpecificObjectSelection) _object_114).getObjSel().getName();
+                            _builder.append(_name_137, "\t\t\t");
                             _builder.append("\");");
                             _builder.newLineIfNotEmpty();
                             _builder.append("   \t\t\t");
                             _builder.append("refObjectSelected = ModelManager.getObject(resource, entry_");
                             EObject _eContainer_5 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_100 = ((ModifyInformationMutator) _eContainer_5).getObject();
-                            String _name_123 = ((SpecificObjectSelection) _object_100).getObjSel().getName();
-                            _builder.append(_name_123, "   \t\t\t");
+                            ObSelectionStrategy _object_115 = ((ModifyInformationMutator) _eContainer_5).getObject();
+                            String _name_138 = ((SpecificObjectSelection) _object_115).getObjSel().getName();
+                            _builder.append(_name_138, "   \t\t\t");
                             _builder.append(".getKey());");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
@@ -5327,8 +5975,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                             _builder.newLine();
                           } else {
                             EObject _eContainer_6 = referenceAtt.eContainer();
-                            ObSelectionStrategy _object_101 = ((ModifyInformationMutator) _eContainer_6).getObject();
-                            if ((_object_101 instanceof RandomTypeSelection)) {
+                            ObSelectionStrategy _object_116 = ((ModifyInformationMutator) _eContainer_6).getObject();
+                            if ((_object_116 instanceof RandomTypeSelection)) {
                               _builder.append("EObject refObjectSelected = null;");
                               _builder.newLine();
                               _builder.append("if (obSelection != null) {");
@@ -5341,8 +5989,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                               _builder.newLine();
                               _builder.append("\t\t\t");
                               _builder.append("if (ref.getName().equals(\"");
-                              String _name_124 = referenceAtt.getReference().get(0).getName();
-                              _builder.append(_name_124, "\t\t\t");
+                              String _name_139 = referenceAtt.getReference().get(0).getName();
+                              _builder.append(_name_139, "\t\t\t");
                               _builder.append("\")) {");
                               _builder.newLineIfNotEmpty();
                               _builder.append("\t\t\t\t");
@@ -5467,9 +6115,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("if (mutated != null) {");
         _builder.newLine();
         {
-          String _name_125 = mut.getName();
-          boolean _tripleNotEquals_13 = (_name_125 != null);
-          if (_tripleNotEquals_13) {
+          String _name_140 = mut.getName();
+          boolean _tripleNotEquals_14 = (_name_140 != null);
+          if (_tripleNotEquals_14) {
             _builder.append("\t\t");
             _builder.append("SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());");
             _builder.newLine();
@@ -5478,8 +6126,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("hmObjects.put(\"");
-            String _name_126 = mut.getName();
-            _builder.append(_name_126, "\t\t");
+            String _name_141 = mut.getName();
+            _builder.append(_name_141, "\t\t");
             _builder.append("\", entry);");
             _builder.newLineIfNotEmpty();
           }
@@ -5567,15 +6215,15 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           for(final Constraint constraint : _constraints) {
             _builder.append("\t\t");
             _builder.append("if (rules.get(\"");
-            String _name_127 = constraint.getType().getName();
-            _builder.append(_name_127, "\t\t");
+            String _name_142 = constraint.getType().getName();
+            _builder.append(_name_142, "\t\t");
             _builder.append("\") == null) {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("\t");
             _builder.append("rules.put(\"");
-            String _name_128 = constraint.getType().getName();
-            _builder.append(_name_128, "\t\t\t");
+            String _name_143 = constraint.getType().getName();
+            _builder.append(_name_143, "\t\t\t");
             _builder.append("\", new ArrayList<String>());");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
@@ -5583,14 +6231,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("List<String> newrules = rules.get(\"");
-            String _name_129 = constraint.getType().getName();
-            _builder.append(_name_129, "\t\t");
+            String _name_144 = constraint.getType().getName();
+            _builder.append(_name_144, "\t\t");
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
             {
               EList<InvariantCS> _expressions = constraint.getExpressions();
-              boolean _tripleNotEquals_14 = (_expressions != null);
-              if (_tripleNotEquals_14) {
+              boolean _tripleNotEquals_15 = (_expressions != null);
+              if (_tripleNotEquals_15) {
                 {
                   EList<InvariantCS> _expressions_1 = constraint.getExpressions();
                   for(final InvariantCS expression : _expressions_1) {
@@ -5606,8 +6254,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             }
             {
               EList<String> _rules = constraint.getRules();
-              boolean _tripleNotEquals_15 = (_rules != null);
-              if (_tripleNotEquals_15) {
+              boolean _tripleNotEquals_16 = (_rules != null);
+              if (_tripleNotEquals_16) {
                 {
                   EList<String> _rules_1 = constraint.getRules();
                   for(final String rule : _rules_1) {
@@ -5622,8 +6270,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             }
             _builder.append("\t\t");
             _builder.append("rules.put(\"");
-            String _name_130 = constraint.getType().getName();
-            _builder.append(_name_130, "\t\t");
+            String _name_145 = constraint.getType().getName();
+            _builder.append(_name_145, "\t\t");
             _builder.append("\", newrules);");
             _builder.newLineIfNotEmpty();
           }
@@ -5639,14 +6287,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               boolean _equals_5 = (_size == 0);
               if (_equals_5) {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
-                String _name_131 = b.getName();
-                _builder.append(_name_131);
+                String _name_146 = b.getName();
+                _builder.append(_name_146);
                 _builder.append("/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
-                String _name_132 = b.getName();
-                _builder.append(_name_132);
+                String _name_147 = b.getName();
+                _builder.append(_name_147);
                 _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + k[0] + \".model\";");
                 _builder.newLineIfNotEmpty();
               }
@@ -5675,14 +6323,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             {
               if ((this.standalone == false)) {
                 _builder.append("boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
-                String _name_133 = b.getName();
-                _builder.append(_name_133);
+                String _name_148 = b.getName();
+                _builder.append(_name_148);
                 _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);");
                 _builder.newLineIfNotEmpty();
               } else {
                 _builder.append("boolean isRepeated = registryMutantWithBlocksStandalone(ecoreURI, packages, registeredPackages, localRegisteredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
-                String _name_134 = b.getName();
-                _builder.append(_name_134);
+                String _name_149 = b.getName();
+                _builder.append(_name_149);
                 _builder.append("\", fromNames, k, mutPaths, hashmapMutVersions, \"");
                 String _projectName_1 = this.getProjectName();
                 _builder.append(_projectName_1);
@@ -24316,7 +24964,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               EList<ReferenceSet> _references = ((ModifyInformationMutator) mut).getReferences();
               for(final ReferenceSet ref : _references) {
                 {
-                  if ((((ref instanceof ReferenceInit) || (ref instanceof ReferenceAdd)) || (ref instanceof ReferenceRemove))) {
+                  if (((((ref instanceof ReferenceInit) || (ref instanceof ReferenceAdd)) || (ref instanceof ReferenceRemove)) || (ref instanceof ReferenceUnset))) {
                     _builder.append("//");
                     EReference eref = ref.getReference().get(0);
                     _builder.newLineIfNotEmpty();
@@ -26039,9 +26687,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", ");
             _builder.append(this.className, "\t\t\t");
             _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
-            String _projectName = this.getProjectName();
-            _builder.append(_projectName, "\t\t\t");
-            _builder.append("/");
             Definition _definition_21 = ((MutatorEnvironment) e).getDefinition();
             String _path_4 = ((Program) _definition_21).getSource().getPath();
             _builder.append(_path_4, "\t\t\t");
@@ -26064,9 +26709,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", ");
             _builder.append(this.className, "\t\t\t");
             _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
-            String _projectName_1 = this.getProjectName();
-            _builder.append(_projectName_1, "\t\t\t");
-            _builder.append("/");
             Definition _definition_24 = ((MutatorEnvironment) e).getDefinition();
             String _path_5 = ((Program) _definition_24).getSource().getPath();
             _builder.append(_path_5, "\t\t\t");
@@ -26112,9 +26754,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", ");
             _builder.append(this.className, "\t\t\t");
             _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
-            String _projectName_2 = this.getProjectName();
-            _builder.append(_projectName_2, "\t\t\t");
-            _builder.append("/");
             Definition _definition_27 = ((MutatorEnvironment) e).getDefinition();
             String _path_6 = ((Program) _definition_27).getSource().getPath();
             _builder.append(_path_6, "\t\t\t");
@@ -26137,9 +26776,6 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", ");
             _builder.append(this.className, "\t\t\t");
             _builder.append(".class.getProtectionDomain().getCodeSource().getLocation().getPath().replace(\"/bin/\", \"/\")+ \"");
-            String _projectName_3 = this.getProjectName();
-            _builder.append(_projectName_3, "\t\t\t");
-            _builder.append("/");
             Definition _definition_30 = ((MutatorEnvironment) e).getDefinition();
             String _path_7 = ((Program) _definition_30).getSource().getPath();
             _builder.append(_path_7, "\t\t\t");
@@ -27783,192 +28419,277 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
           _builder.newLineIfNotEmpty();
           _builder.append("}");
           _builder.newLine();
-          _builder.append("\t    ");
-          _builder.newLine();
         } else {
-          if ((e instanceof CompleteTypeSelection)) {
-            _builder.append("RandomTypeSelection refRts");
+          if ((e instanceof NullTypeSelection)) {
+            _builder.append("NullTypeSelection refNts");
             _builder.append(this.nReference);
-            _builder.append(" = new RandomTypeSelection(packages, model, \"");
-            String _name_2 = ((CompleteTypeSelection) e).getType().getName();
+            _builder.append(" = new NullTypeSelection(packages, model, \"");
+            String _name_2 = ((NullTypeSelection) e).getType().getName();
             _builder.append(_name_2);
-            _builder.append("\");");
+            _builder.append("\", ModelManager.getReference(\"");
+            _builder.append(referenceName);
+            _builder.append("\", objectSelection.getObject()));");
             _builder.newLineIfNotEmpty();
-            _builder.append("EObject refObject");
-            _builder.append(this.nReference);
-            _builder.append(" = refRts");
-            _builder.append(this.nReference);
-            _builder.append(".getObject();");
-            _builder.newLineIfNotEmpty();
+            {
+              if (((((NullTypeSelection)e).getExpression() != null) && (this.expressionList != null))) {
+                _builder.append("List<EObject> refObjects");
+                _builder.append(this.nReference);
+                _builder.append(" = refNts");
+                _builder.append(this.nReference);
+                _builder.append(".getObjects();");
+                _builder.newLineIfNotEmpty();
+                _builder.append("//INDEX EXPRESSION: ");
+                int _size_2 = this.expressionList.size();
+                int indexExpression_2 = (_size_2 - 1);
+                _builder.newLineIfNotEmpty();
+                _builder.append("Expression exp");
+                Integer _get_4 = this.expressionList.get(indexExpression_2);
+                _builder.append(_get_4);
+                _builder.append(" = new Expression();");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                Object _method_2 = this.method(((NullTypeSelection)e).getExpression(), 0, false);
+                _builder.append(_method_2, "\t   \t\t");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t   \t\t");
+                _builder.append("List<EObject> refSelectedObjects");
+                _builder.append(this.nReference, "\t   \t\t");
+                _builder.append(" = evaluate(refObjects");
+                _builder.append(this.nReference, "\t   \t\t");
+                _builder.append(", exp");
+                Integer _get_5 = this.expressionList.get(indexExpression_2);
+                _builder.append(_get_5, "\t   \t\t");
+                _builder.append(");");
+                _builder.newLineIfNotEmpty();
+                _builder.append("EObject refObject");
+                _builder.append(this.nReference);
+                _builder.append(" = null;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("if (refSelectedObjects");
+                _builder.append(this.nReference);
+                _builder.append(".size() > 0) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("refObject");
+                _builder.append(this.nReference, "\t");
+                _builder.append(" = refSelectedObjects");
+                _builder.append(this.nReference, "\t");
+                _builder.append(".get(ModelManager.getRandomIndex(refSelectedObjects");
+                _builder.append(this.nReference, "\t");
+                _builder.append("));");
+                _builder.newLineIfNotEmpty();
+                _builder.append("}");
+                _builder.newLine();
+              } else {
+                _builder.append("EObject refObject");
+                _builder.append(this.nReference);
+                _builder.append(" = refOts");
+                _builder.append(this.nReference);
+                _builder.append(".getObject();");
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.append("ObSelectionStrategy refSelection");
             _builder.append(this.nReference);
-            _builder.append(" = new SpecificObjectSelection(packages, model,\trefObject");
+            _builder.append(" = null;");
+            _builder.newLineIfNotEmpty();
+            _builder.append("if (refObject");
+            _builder.append(this.nReference);
+            _builder.append(" != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("refSelection");
+            _builder.append(this.nReference);
+            _builder.append(" = new SpecificObjectSelection(packages, model, refObject");
             _builder.append(this.nReference);
             _builder.append(");");
             _builder.newLineIfNotEmpty();
+            _builder.append("}");
+            _builder.newLine();
           } else {
-            if ((e instanceof SpecificObjectSelection)) {
+            if ((e instanceof CompleteTypeSelection)) {
+              _builder.append("RandomTypeSelection refRts");
+              _builder.append(this.nReference);
+              _builder.append(" = new RandomTypeSelection(packages, model, \"");
+              String _name_3 = ((CompleteTypeSelection) e).getType().getName();
+              _builder.append(_name_3);
+              _builder.append("\");");
+              _builder.newLineIfNotEmpty();
+              _builder.append("EObject refObject");
+              _builder.append(this.nReference);
+              _builder.append(" = refRts");
+              _builder.append(this.nReference);
+              _builder.append(".getObject();");
+              _builder.newLineIfNotEmpty();
               _builder.append("ObSelectionStrategy refSelection");
               _builder.append(this.nReference);
-              _builder.append(" = null;");
-              _builder.newLineIfNotEmpty();
-              {
-                if ((exhaustive == false)) {
-                  _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                  String _name_3 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_3);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(" = hmObjects.get(\"");
-                  String _name_4 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_4);
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
-                  String _name_5 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_5);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(" = hmObjects.get(\"");
-                  String _name_6 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_6);
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("if (entry_");
-              String _name_7 = ((SpecificObjectSelection) e).getObjSel().getName();
-              _builder.append(_name_7);
-              _builder.append("_");
+              _builder.append(" = new SpecificObjectSelection(packages, model,\trefObject");
               _builder.append(this.nReference);
-              _builder.append(" != null) {");
+              _builder.append(");");
               _builder.newLineIfNotEmpty();
-              {
-                EReference _refType = ((SpecificObjectSelection)e).getRefType();
-                boolean _tripleNotEquals = (_refType != null);
-                if (_tripleNotEquals) {
-                  _builder.append("refSelection");
-                  _builder.append(this.nReference);
-                  _builder.append(" = new SpecificObjectSelection(packages, model, entry_");
-                  String _name_8 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_8);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(".getKey(), \"");
-                  String _name_9 = ((SpecificObjectSelection)e).getRefType().getName();
-                  _builder.append(_name_9);
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  _builder.append("refSelection");
-                  _builder.append(this.nReference);
-                  _builder.append(" = new SpecificObjectSelection(packages, model, entry_");
-                  String _name_10 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_10);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(".getKey());");
-                  _builder.newLineIfNotEmpty();
+            } else {
+              if ((e instanceof SpecificObjectSelection)) {
+                _builder.append("ObSelectionStrategy refSelection");
+                _builder.append(this.nReference);
+                _builder.append(" = null;");
+                _builder.newLineIfNotEmpty();
+                {
+                  if ((exhaustive == false)) {
+                    _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                    String _name_4 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_4);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(" = hmObjects.get(\"");
+                    String _name_5 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_5);
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_");
+                    String _name_6 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_6);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(" = hmObjects.get(\"");
+                    String _name_7 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_7);
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  }
                 }
-              }
-              _builder.append("} else {");
-              _builder.newLine();
-              {
-                if ((exhaustive == false)) {
-                  _builder.append("List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_");
-                  String _name_11 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_11);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(" = hmList.get(\"");
-                  String _name_12 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_12);
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  _builder.append("List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_");
-                  String _name_13 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_13);
-                  _builder.append("_");
-                  _builder.append(this.nReference);
-                  _builder.append(" = hmList.get(\"");
-                  String _name_14 = ((SpecificObjectSelection) e).getObjSel().getName();
-                  _builder.append(_name_14);
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
+                _builder.append("if (entry_");
+                String _name_8 = ((SpecificObjectSelection) e).getObjSel().getName();
+                _builder.append(_name_8);
+                _builder.append("_");
+                _builder.append(this.nReference);
+                _builder.append(" != null) {");
+                _builder.newLineIfNotEmpty();
+                {
+                  EReference _refType = ((SpecificObjectSelection)e).getRefType();
+                  boolean _tripleNotEquals = (_refType != null);
+                  if (_tripleNotEquals) {
+                    _builder.append("refSelection");
+                    _builder.append(this.nReference);
+                    _builder.append(" = new SpecificObjectSelection(packages, model, entry_");
+                    String _name_9 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_9);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(".getKey(), \"");
+                    String _name_10 = ((SpecificObjectSelection)e).getRefType().getName();
+                    _builder.append(_name_10);
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("refSelection");
+                    _builder.append(this.nReference);
+                    _builder.append(" = new SpecificObjectSelection(packages, model, entry_");
+                    String _name_11 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_11);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(".getKey());");
+                    _builder.newLineIfNotEmpty();
+                  }
                 }
-              }
-              _builder.append("\t");
-              _builder.append("if (listEntry_");
-              String _name_15 = ((SpecificObjectSelection) e).getObjSel().getName();
-              _builder.append(_name_15, "\t");
-              _builder.append("_");
-              _builder.append(this.nReference, "\t");
-              _builder.append(" != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-              _builder.append("List<EObject> objs = new ArrayList<EObject>();");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_");
-              String _name_16 = ((SpecificObjectSelection) e).getObjSel().getName();
-              _builder.append(_name_16, "\t\t");
-              _builder.append("_");
-              _builder.append(this.nReference, "\t\t");
-              _builder.append(") {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t\t");
-              _builder.append("EObject obj = ModelManager.getObject(model, ent.getKey());");
-              _builder.newLine();
-              _builder.append("\t\t\t");
-              _builder.append("objs.add(obj);");
-              _builder.newLine();
-              _builder.append("\t\t");
-              _builder.append("}");
-              _builder.newLine();
-              {
-                EReference _refType_1 = ((SpecificObjectSelection)e).getRefType();
-                boolean _tripleNotEquals_1 = (_refType_1 != null);
-                if (_tripleNotEquals_1) {
-                  _builder.append("\t");
-                  _builder.append("refSelection");
-                  _builder.append(this.nReference, "\t");
-                  _builder.append(" = new SpecificObjectSelection(packages, model, objs, \"");
-                  String _name_17 = ((SpecificObjectSelection)e).getRefType().getName();
-                  _builder.append(_name_17, "\t");
-                  _builder.append("\");");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  _builder.append("\t");
-                  _builder.append("refSelection");
-                  _builder.append(this.nReference, "\t");
-                  _builder.append(" = new SpecificObjectSelection(packages, model, objs);");
-                  _builder.newLineIfNotEmpty();
+                _builder.append("} else {");
+                _builder.newLine();
+                {
+                  if ((exhaustive == false)) {
+                    _builder.append("List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_");
+                    String _name_12 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_12);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(" = hmList.get(\"");
+                    String _name_13 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_13);
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_");
+                    String _name_14 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_14);
+                    _builder.append("_");
+                    _builder.append(this.nReference);
+                    _builder.append(" = hmList.get(\"");
+                    String _name_15 = ((SpecificObjectSelection) e).getObjSel().getName();
+                    _builder.append(_name_15);
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  }
                 }
-              }
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("else {");
-              _builder.newLine();
-              {
-                if ((exhaustive == false)) {
-                  _builder.append("\t\t");
-                  _builder.append("return mutations;");
-                  _builder.newLine();
-                } else {
-                  _builder.append("\t\t");
-                  _builder.append("return numMutantsGenerated;");
-                  _builder.newLine();
+                _builder.append("\t");
+                _builder.append("if (listEntry_");
+                String _name_16 = ((SpecificObjectSelection) e).getObjSel().getName();
+                _builder.append(_name_16, "\t");
+                _builder.append("_");
+                _builder.append(this.nReference, "\t");
+                _builder.append(" != null) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("List<EObject> objs = new ArrayList<EObject>();");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_");
+                String _name_17 = ((SpecificObjectSelection) e).getObjSel().getName();
+                _builder.append(_name_17, "\t\t");
+                _builder.append("_");
+                _builder.append(this.nReference, "\t\t");
+                _builder.append(") {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t\t");
+                _builder.append("EObject obj = ModelManager.getObject(model, ent.getKey());");
+                _builder.newLine();
+                _builder.append("\t\t\t");
+                _builder.append("objs.add(obj);");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("}");
+                _builder.newLine();
+                {
+                  EReference _refType_1 = ((SpecificObjectSelection)e).getRefType();
+                  boolean _tripleNotEquals_1 = (_refType_1 != null);
+                  if (_tripleNotEquals_1) {
+                    _builder.append("\t");
+                    _builder.append("refSelection");
+                    _builder.append(this.nReference, "\t");
+                    _builder.append(" = new SpecificObjectSelection(packages, model, objs, \"");
+                    String _name_18 = ((SpecificObjectSelection)e).getRefType().getName();
+                    _builder.append(_name_18, "\t");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("\t");
+                    _builder.append("refSelection");
+                    _builder.append(this.nReference, "\t");
+                    _builder.append(" = new SpecificObjectSelection(packages, model, objs);");
+                    _builder.newLineIfNotEmpty();
+                  }
                 }
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("else {");
+                _builder.newLine();
+                {
+                  if ((exhaustive == false)) {
+                    _builder.append("\t\t");
+                    _builder.append("return mutations;");
+                    _builder.newLine();
+                  } else {
+                    _builder.append("\t\t");
+                    _builder.append("return numMutantsGenerated;");
+                    _builder.newLine();
+                  }
+                }
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("}");
+                _builder.newLine();
               }
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("}");
-              _builder.newLine();
             }
           }
         }

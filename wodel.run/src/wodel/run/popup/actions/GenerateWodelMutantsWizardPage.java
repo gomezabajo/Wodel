@@ -119,7 +119,7 @@ public class GenerateWodelMutantsWizardPage extends WizardPage {
 		for (Control c : container.getChildren())
 			c.dispose();
 		
-		String wodelPath = ModelManager.getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName() + "/src";
+		String wodelPath = Platform.getLocation().toFile().getPath() + "/" + ProjectUtils.getProject().getName() + "/src";
 		List<String> wodelPrograms = new ArrayList<String>();
 		File wodelFolder = new File(wodelPath);
 		for (File file : wodelFolder.listFiles()) {

@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -38,7 +39,7 @@ public class CleanUpWodelOutputFolder extends AbstractHandler {
 		
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : ModelManager.getWorkspaceAbsolutePath();
+			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : Platform.getLocation().toFile().getPath() + "/" + project.getName();
 			File projectFolder = new File(path);
 			List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
 			String outputWodelFolder = path + "/" + ModelManager.getOutputFolder();

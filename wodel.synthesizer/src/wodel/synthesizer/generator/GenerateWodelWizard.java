@@ -587,7 +587,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 					blockmodel = mutatormodel;
 				}
 				else {
-					blockmodel = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath() + '/' + ProjectUtils.getProject().getName() + '/' + ModelManager.getOutputFolder() + "/" + fileName.replace(".mutator", "") + "_" + blockName + ".model");
+					blockmodel = ModelManager.createModel("file://" + Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + ProjectUtils.getProject().getName() + '/' + ModelManager.getOutputFolder() + "/" + fileName.replace(".mutator", "") + "_" + blockName + ".model");
 					MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
 					MutatorEnvironment mutMutatorEnvironment = (MutatorEnvironment) mutatormodel.getContents().get(0);
 					blockMutatorEnvironment.setDefinition(EcoreUtil.copy(mutMutatorEnvironment.getDefinition()));
@@ -729,7 +729,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				//PropertyConfigurator.configure(log4jConfigFileName);
 
 				// generates the .use and .properties configuration files
-				project = ModelManager.getWorkspaceAbsolutePath() + "/" + ProjectUtils.getProject().getName();
+				project = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + ProjectUtils.getProject().getName();
 				String suffix = "";
 				for (String blockName : blockNames) {
 					if (!blockName.equals("*")) {

@@ -248,7 +248,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
 			iFolder.delete(true, new NullProgressMonitor());
 			LockRegistry.INSTANCE.release(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
-		} catch (@SuppressWarnings("restriction") ResourceException e) {
+		} catch (ResourceException e) {
 			
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -283,7 +283,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
 			iFolder.delete(true, new NullProgressMonitor());
 			LockRegistry.INSTANCE.release(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
-		} catch (@SuppressWarnings("restriction") ResourceException e) {
+		} catch (ResourceException e) {
 			
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

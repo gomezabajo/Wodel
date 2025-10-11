@@ -45,6 +45,8 @@ import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.MutatorenvironmentPackage;
+import mutatorenvironment.NullSelection;
+import mutatorenvironment.NullTypeSelection;
 import mutatorenvironment.NumberType;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectAttributeType;
@@ -71,6 +73,7 @@ import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceRemove;
 import mutatorenvironment.ReferenceSet;
 import mutatorenvironment.ReferenceSwap;
+import mutatorenvironment.ReferenceUnset;
 import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
@@ -716,6 +719,27 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	private EClass resourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nullSelectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nullTypeSelectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceUnsetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2873,6 +2897,33 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getNullSelection() {
+		return nullSelectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNullTypeSelection() {
+		return nullTypeSelectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferenceUnset() {
+		return referenceUnsetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getLogicOperator() {
 		return logicOperatorEEnum;
 	}
@@ -3255,6 +3306,12 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEAttribute(resourceEClass, RESOURCE__NAME);
 		createEReference(resourceEClass, RESOURCE__PATH);
 
+		nullSelectionEClass = createEClass(NULL_SELECTION);
+
+		nullTypeSelectionEClass = createEClass(NULL_TYPE_SELECTION);
+
+		referenceUnsetEClass = createEClass(REFERENCE_UNSET);
+
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
@@ -3372,6 +3429,9 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		typedSelectionEClass.getESuperTypes().add(this.getObSelectionStrategy());
 		randomStringNumberTypeEClass.getESuperTypes().add(this.getStringType());
 		resourceEClass.getESuperTypes().add(this.getDefinition());
+		nullSelectionEClass.getESuperTypes().add(this.getObSelectionStrategy());
+		nullTypeSelectionEClass.getESuperTypes().add(this.getNullSelection());
+		referenceUnsetEClass.getESuperTypes().add(this.getReferenceSet());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT,
@@ -4019,6 +4079,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEReference(getResource_Path(), this.getSource(), null, "path", null, 0, 1, Resource.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
+
+		initEClass(nullSelectionEClass, NullSelection.class, "NullSelection", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(nullTypeSelectionEClass, NullTypeSelection.class, "NullTypeSelection", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(referenceUnsetEClass, ReferenceUnset.class, "ReferenceUnset", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");

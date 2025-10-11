@@ -74,7 +74,7 @@ public class WodelMetricsFixedWizardClass extends Wizard implements INewWizard {
 	
 	private static final String WIZARD_NAME = "Wodel Static Metrics Class Wizard";
 	
-	private static final String WORKSPACE = ModelManager.getWorkspaceAbsolutePath();
+	private static final String WORKSPACE = Platform.getLocation().toFile().getPath();
 	
 	private static final String PROJECT = ProjectUtils.getProject().getName();
 	

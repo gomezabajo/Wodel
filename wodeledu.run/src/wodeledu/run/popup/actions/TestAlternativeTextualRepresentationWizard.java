@@ -13,6 +13,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ISelection;
@@ -112,7 +113,7 @@ public class TestAlternativeTextualRepresentationWizard extends AbstractHandler 
 			}
 			
 			IProject project = file.getProject();
-			String outputFolderName = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + ModelManager.getOutputFolder();
+			String outputFolderName = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + ModelManager.getOutputFolder();
 			File outputFolder = new File(outputFolderName);
 			
 			List<File> models = getModels(outputFolder.listFiles(), project.getName());

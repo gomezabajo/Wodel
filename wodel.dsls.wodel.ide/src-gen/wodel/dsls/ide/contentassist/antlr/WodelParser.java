@@ -233,6 +233,7 @@ public class WodelParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getReferenceRemoveAccess().getGroup(), "rule__ReferenceRemove__Group__0");
 			builder.put(grammarAccess.getReferenceSwapAccess().getGroup(), "rule__ReferenceSwap__Group__0");
 			builder.put(grammarAccess.getReferenceSwapAccess().getGroup_4(), "rule__ReferenceSwap__Group_4__0");
+			builder.put(grammarAccess.getReferenceUnsetAccess().getGroup(), "rule__ReferenceUnset__Group__0");
 			builder.put(grammarAccess.getReferenceAttAccess().getGroup(), "rule__ReferenceAtt__Group__0");
 			builder.put(grammarAccess.getRandomTypeSelectionAccess().getGroup(), "rule__RandomTypeSelection__Group__0");
 			builder.put(grammarAccess.getRandomTypeSelectionAccess().getGroup_2_1(), "rule__RandomTypeSelection__Group_2_1__0");
@@ -266,6 +267,7 @@ public class WodelParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getOtherTypeSelectionAccess().getGroup_3_2(), "rule__OtherTypeSelection__Group_3_2__0");
 			builder.put(grammarAccess.getOtherTypeSelectionAccess().getGroup_3_2_2(), "rule__OtherTypeSelection__Group_3_2_2__0");
 			builder.put(grammarAccess.getOtherTypeSelectionAccess().getGroup_4(), "rule__OtherTypeSelection__Group_4__0");
+			builder.put(grammarAccess.getNullTypeSelectionAccess().getGroup(), "rule__NullTypeSelection__Group__0");
 			builder.put(grammarAccess.getTypedSelectionAccess().getGroup(), "rule__TypedSelection__Group__0");
 			builder.put(grammarAccess.getTypedSelectionAccess().getGroup_2_1(), "rule__TypedSelection__Group_2_1__0");
 			builder.put(grammarAccess.getTypedSelectionAccess().getGroup_2_1_2(), "rule__TypedSelection__Group_2_1_2__0");
@@ -499,6 +501,7 @@ public class WodelParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getReferenceSwapAccess().getReferenceAssignment_2(), "rule__ReferenceSwap__ReferenceAssignment_2");
 			builder.put(grammarAccess.getReferenceSwapAccess().getObjectAssignment_4_0(), "rule__ReferenceSwap__ObjectAssignment_4_0");
 			builder.put(grammarAccess.getReferenceSwapAccess().getReferenceAssignment_5(), "rule__ReferenceSwap__ReferenceAssignment_5");
+			builder.put(grammarAccess.getReferenceUnsetAccess().getReferenceAssignment_2(), "rule__ReferenceUnset__ReferenceAssignment_2");
 			builder.put(grammarAccess.getReferenceAttAccess().getReferenceAssignment_0(), "rule__ReferenceAtt__ReferenceAssignment_0");
 			builder.put(grammarAccess.getReferenceAttAccess().getAttributeAssignment_2(), "rule__ReferenceAtt__AttributeAssignment_2");
 			builder.put(grammarAccess.getReferenceAttAccess().getValueAssignment_3(), "rule__ReferenceAtt__ValueAssignment_3");

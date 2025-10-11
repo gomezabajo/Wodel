@@ -2990,7 +2990,7 @@ public class MetaModelMutatorMetrics extends StaticMutatorMetrics {
 			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-	   		File mutatorFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/src/");
+	   		File mutatorFolder = new File(Platform.getLocation().toFile().getPath() + "/" + projectName + "/src/");
 	   		if (mutatorFolder.exists() == false) {
 				WodelMetricClass[] ret = new WodelMetricClass[metrics.values().size()];
 				metrics.values().toArray(ret);
@@ -3013,7 +3013,7 @@ public class MetaModelMutatorMetrics extends StaticMutatorMetrics {
 	   				}
 	   			}
 	   		}
-			Resource program = ModelManager.createModel(URI.createURI("file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + ModelManager.getOutputPath() + "/metricsHelper.model").toFileString());
+			Resource program = ModelManager.createModel(URI.createURI("file:/" + Platform.getLocation().toFile().getPath() + "/" + ModelManager.getOutputPath() + "/metricsHelper.model").toFileString());
 			for (Resource model : models) {
 				program.getContents().add(model.getContents().get(0));
 			}

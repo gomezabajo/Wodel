@@ -27,7 +27,6 @@ Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.quickfix.warnings,
  anatlyzer.atl.quickfixast
 Import-Package: anatlyzer.atl.analyser,
- anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.errors,
  anatlyzer.atlext.ATL,
  anatlyzer.atlext.OCL,

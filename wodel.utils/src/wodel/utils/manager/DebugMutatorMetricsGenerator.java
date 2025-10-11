@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -299,11 +298,11 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	   		URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 	   		String ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registry = ModelManager.loadMetaModel(ecore);
-			String xmiFileName = "file:/" + output +  "/" + fileName.replace(".java", ".model");
+			String xmiFileName = output +  "/" + fileName.replace(".java", ".model");
 			fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
-			Resource program = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+			Resource program = ModelManager.loadModel(mutatorecore, xmiFileName);
 			List<EObject> blocks = MutatorUtils.getBlocks(program);
 			List<String> blockNames = new ArrayList<String>();
 			if (blocks != null && blocks.size() > 0) {

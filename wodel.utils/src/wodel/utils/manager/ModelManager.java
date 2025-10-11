@@ -241,11 +241,19 @@ public class ModelManager {
 			String fullPath = path + uri.replace("\\", "/");
 			File fmm = new File(fullPath);
 			if (fmm.exists()) {
+				System.out.println(fullPath);
 				return fullPath;
 			}
 		}
-		path = getWorkspaceAbsolutePath();
-		path = path.replace("\\", "/");
+		if (path == null || (path != null && path.length() == 0)) {
+			path = Platform.getLocation().toFile().getPath().replace("\\", "/");			
+		}
+		if (path == null || (path != null && path.length() == 0)) {
+			path = getWorkspaceAbsolutePath().replace("\\", "/");
+		}
+		if (path == null || (path != null && path.length() == 0)) {
+			return path;
+		}
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -269,6 +277,161 @@ public class ModelManager {
 		}
 		return fullPath;
 	}
+
+	public static String getProjectName(String uri) {
+		String workspacePath = Platform.getLocation().toFile().toString();
+		
+		String projectName = "";
+		if (uri.startsWith(workspacePath) && workspacePath.indexOf("/") != - 1) {
+			projectName = uri.substring((workspacePath + "/").length());
+			projectName = projectName.substring(0, projectName.indexOf("/"));
+		}
+		else if (uri.startsWith(workspacePath) && workspacePath.indexOf("\\") != - 1) {
+			projectName = uri.substring((workspacePath + "\\").length());
+			projectName = projectName.substring(0, projectName.indexOf("\\"));
+		}
+		if (projectName.length() == 0 && uri.indexOf("/") != -1) {
+			if (uri.indexOf("/") == 0) {
+				projectName = uri.substring(1);
+				projectName = projectName.substring(0, projectName.indexOf("/"));
+			}
+			else {
+				projectName = uri.substring(0, uri.indexOf("/"));
+			}
+		}
+		else if (projectName.length() == 0 && uri.indexOf("\\") != -1) {
+			if (uri.indexOf("\\") == 0) {
+				projectName = uri.substring(1, uri.indexOf("\\"));
+				projectName = projectName.substring(0, projectName.indexOf("\\"));
+			}
+			else {
+				projectName = uri.substring(0, uri.indexOf("\\"));
+			}
+		}
+		return projectName;
+	}
+
+	public static String getMetaModelPathNoException(String projectName) {
+		if (projectName == null) {
+			return "";
+		}
+
+		try {
+			String path = Platform.getLocation().toFile().toString() + '/'
+					+ projectName;
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = path + '/' + br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static List<EPackage> loadMetaModelNoException (String uri) {
+		List<EPackage> metamodel = null;
+		
+		if (uri == null) {
+			return metamodel;			
+		}
+		String projectName = getProjectName(uri);
+		
+		if (projectName.length() == 0) {
+			return metamodel;
+		}
+	
+		try {
+			metamodel = new ArrayList<EPackage>();
+			
+			String mmURI = uri;
+			
+			File fmm = new File(uri);
+			if (fmm.exists() == false && uri.indexOf("/") != -1) {
+				mmURI = getMetaModelPathNoException(projectName) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+			}
+			if (fmm.exists() == false && uri.indexOf("/") == -1) {
+				mmURI = getMetaModelPathNoException(projectName) + "/" + uri;
+			}
+
+			// check if it is already registered
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+			
+			// otherwise
+			if (pck == null) {
+				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
+				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+				
+				ResourceSetImpl resourceSet = new ResourceSetImpl();
+				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+				for (EObject obj : resource.getContents()) {
+					if (obj instanceof EPackage) {
+						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+						metamodel.add((EPackage)obj);
+					}
+				}
+			}
+			else metamodel.add(pck);
+
+			
+		}
+		catch (Exception e) {
+		}
+		
+		return metamodel;
+	}
+	
+	public static List<EPackage> loadMetaModelNoException (String projectName, String uri) {
+		List<EPackage> metamodel = null;
+		if (uri == null) {
+			return metamodel;			
+		}
+		try {
+			metamodel = new ArrayList<EPackage>();
+			
+			String mmURI = uri;
+			
+			File fmm = new File(uri);
+			if (fmm.exists() == false && uri.indexOf("/") != -1) {
+				mmURI = getMetaModelPathNoException(projectName) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+			}
+			if (fmm.exists() == false && uri.indexOf("/") == -1) {
+				mmURI = getMetaModelPathNoException(projectName) + "/" + uri;
+			}
+
+			// check if it is already registered
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(mmURI);
+			
+			// otherwise
+			if (pck == null) {
+				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
+				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+				
+				ResourceSetImpl resourceSet = new ResourceSetImpl();
+				Resource        resource    = resourceSet.getResource(URI.createFileURI(mmURI), true);
+				for (EObject obj : resource.getContents()) {
+					if (obj instanceof EPackage) {
+						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+						metamodel.add((EPackage)obj);
+					}
+				}
+			}
+			else metamodel.add(pck);
+
+			
+		}
+		catch (Exception e) {
+		}
+		
+		return metamodel;
+	}
+
 
 	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
@@ -534,8 +697,12 @@ public class ModelManager {
 				return fullPath;
 			}
 		}
-		path = getWorkspaceAbsolutePath(cls);
-		path = path.replace("\\", "/");
+		if (path == null || (path != null && path.length() == 0)) {
+			path = Platform.getLocation().toFile().getPath().replace("\\", "/");			
+		}
+		if (path == null || (path != null && path.length() == 0)) {
+			path = getWorkspaceAbsolutePath(cls).replace("\\", "/");
+		}
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -922,7 +1089,8 @@ public class ModelManager {
 		}
 		String ret = resource.getURI().toFileString();
 		if (ret == null) {
-			return getWorkspaceAbsolutePath();
+			ret = Platform.getLocation().toFile().getPath().replace("\\", "/");
+			return (ret != null) ? ret : getWorkspaceAbsolutePath();
 		}
 		ret = ret.replaceAll("\\\\", "/");
 		ret = ret.replaceFirst("file:/", "/");
@@ -968,7 +1136,8 @@ public class ModelManager {
 		}
 		String ret = EcoreUtil.getURI(object).toFileString();
 		if (ret == null) {
-			return getWorkspaceAbsolutePath();
+			ret = Platform.getLocation().toFile().getPath().replace("\\", "/");
+			return (ret != null) ? ret : getWorkspaceAbsolutePath();
 		}
 		ret = ret.replaceAll("\\\\", "/");
 		ret = ret.replaceFirst("file:/", "/");
@@ -2100,7 +2269,7 @@ public class ModelManager {
 
 	public static List<Resource> getModels(String metamodel, Resource wodel) {
 		IProject project = ProjectUtils.getProject();
-		String models = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + ModelManager.getModelsPath(metamodel, wodel);
+		String models = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getName() + "/" + ModelManager.getModelsPath(metamodel, wodel);
 		File[] modelFiles = new File(models).listFiles();
 		List<Resource> resources = null;
 		try {
@@ -2441,13 +2610,13 @@ public class ModelManager {
 				path = getWorkspaceAbsolutePath(cls).replace("\\", "/") + "/" + projectName;
 			}
 			else {
-				path = getWorkspaceAbsolutePath().replace("\\", "/");
+				path = Platform.getLocation().toFile().getPath().replace("\\", "/");
+				path = (path != null) ? path : getWorkspaceAbsolutePath().replace("\\", "/");
 			}
 		}
 		else {
-			path = project.getLocation().toFile().getPath();
+			path = project.getLocation().toFile().getPath().replace("\\", "/");
 		}
-		path = path.replace("\\", "/");
 		String fullPath = path + uri.replace("\\", "/");
 		File fmm = new File(fullPath);
 		if (!fmm.exists()) {
@@ -3496,6 +3665,9 @@ public class ModelManager {
 
 		List<EObject> objs = new ArrayList<EObject>();
 
+		if (model == null) {
+			return objs;
+		}
 		for (EObject obj : model.getContents()) {
 			objs.add(obj);
 			

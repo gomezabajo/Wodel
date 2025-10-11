@@ -16,7 +16,6 @@ import org.eclipse.emf.validation.IValidationContext;
 import org.eclipse.emf.validation.internal.EMFModelValidationDebugOptions;
 import org.eclipse.emf.validation.internal.EMFModelValidationPlugin;
 import org.eclipse.emf.validation.internal.EMFModelValidationStatusCodes;
-import org.eclipse.emf.validation.internal.service.ClientContextManager;
 import org.eclipse.emf.validation.internal.service.IClientContext;
 import org.eclipse.emf.validation.internal.service.IProviderOperation;
 import org.eclipse.emf.validation.internal.util.TextUtils;

@@ -3175,6 +3175,18 @@ ruleObSelectionStrategy returns [EObject current=null]
 			$current = $this_TypedSelection_4.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			/* */
+		}
+		{
+			newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getNullSelectionParserRuleCall_5());
+		}
+		this_NullSelection_5=ruleNullSelection
+		{
+			$current = $this_NullSelection_5.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -3300,6 +3312,34 @@ ruleOtherSelection returns [EObject current=null]
 	this_OtherTypeSelection_0=ruleOtherTypeSelection
 	{
 		$current = $this_OtherTypeSelection_0.current;
+		afterParserOrEnumRuleCall();
+	}
+;
+
+// Entry rule entryRuleNullSelection
+entryRuleNullSelection returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getNullSelectionRule()); }
+	iv_ruleNullSelection=ruleNullSelection
+	{ $current=$iv_ruleNullSelection.current; }
+	EOF;
+
+// Rule NullSelection
+ruleNullSelection returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	{
+		/* */
+	}
+	{
+		newCompositeNode(grammarAccess.getNullSelectionAccess().getNullTypeSelectionParserRuleCall());
+	}
+	this_NullTypeSelection_0=ruleNullTypeSelection
+	{
+		$current = $this_NullTypeSelection_0.current;
 		afterParserOrEnumRuleCall();
 	}
 ;
@@ -7233,6 +7273,18 @@ ruleReferenceSet returns [EObject current=null]
 			$current = $this_ReferenceRemove_4.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			/* */
+		}
+		{
+			newCompositeNode(grammarAccess.getReferenceSetAccess().getReferenceUnsetParserRuleCall_5());
+		}
+		this_ReferenceUnset_5=ruleReferenceUnset
+		{
+			$current = $this_ReferenceUnset_5.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -7506,6 +7558,53 @@ ruleReferenceSwap returns [EObject current=null]
 		otherlv_7=')'
 		{
 			newLeafNode(otherlv_7, grammarAccess.getReferenceSwapAccess().getRightParenthesisKeyword_6());
+		}
+	)
+;
+
+// Entry rule entryRuleReferenceUnset
+entryRuleReferenceUnset returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getReferenceUnsetRule()); }
+	iv_ruleReferenceUnset=ruleReferenceUnset
+	{ $current=$iv_ruleReferenceUnset.current; }
+	EOF;
+
+// Rule ReferenceUnset
+ruleReferenceUnset returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='unsetref'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getReferenceUnsetAccess().getUnsetrefKeyword_0());
+		}
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getReferenceUnsetAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					/* */
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getReferenceUnsetRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getReferenceUnsetAccess().getReferenceEReferenceCrossReference_2_0());
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getReferenceUnsetAccess().getRightParenthesisKeyword_3());
 		}
 	)
 ;
@@ -8506,6 +8605,39 @@ ruleOtherTypeSelection returns [EObject current=null]
 				newLeafNode(otherlv_17, grammarAccess.getOtherTypeSelectionAccess().getRightCurlyBracketKeyword_4_3());
 			}
 		)?
+	)
+;
+
+// Entry rule entryRuleNullTypeSelection
+entryRuleNullTypeSelection returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getNullTypeSelectionRule()); }
+	iv_ruleNullTypeSelection=ruleNullTypeSelection
+	{ $current=$iv_ruleNullTypeSelection.current; }
+	EOF;
+
+// Rule NullTypeSelection
+ruleNullTypeSelection returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				/* */
+			}
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getNullTypeSelectionAccess().getNullTypeSelectionAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='null'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getNullTypeSelectionAccess().getNullKeyword_1());
+		}
 	)
 ;
 

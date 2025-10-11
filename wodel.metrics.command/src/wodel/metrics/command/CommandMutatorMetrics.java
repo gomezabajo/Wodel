@@ -2325,7 +2325,7 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-	   		File mutatorFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/src/");
+	   		File mutatorFolder = new File(Platform.getLocation().toFile().getPath() + "/" + projectName + "/src/");
 	   		if (mutatorFolder.exists() == false) {
 				WodelMetricCommand[] ret = new WodelMetricCommand[metricCommands.size()];
 				metricCommands.toArray(ret);

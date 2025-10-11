@@ -169,18 +169,10 @@ public class ProjectUtils {
 //	    }
 		IFile file = null;
 	    if (window != null && window.getPages() != null && window.getPages()[0] != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences() != null && window.getPages()[0].getEditorReferences().length > 0 && window.getPages()[0].getEditorReferences()[0] instanceof IEditorReference) {
-	    	IEditorReference[] editors = window.getPages()[0].getEditorReferences();
-	    	if (editors != null && editors.length > 0) {
-	    		for (IEditorReference editor : editors) {
-	    			IEditorPart part = editor.getEditor(true);
-	    			if (part != null) {
-	    				file = getFile(part);
-	    				if (file != null && file.getFileExtension().equals("mutator")) {
-	    					break;
-	    				}
-	    			}
-	    		}
-	    	}
+	    	IsReadyFileRunnable readyFileRunnable = new IsReadyFileRunnable(window);
+	    	PlatformUI.getWorkbench().getDisplay().asyncExec(readyFileRunnable);
+	    	readyFileRunnable.run();
+	    	file = readyFileRunnable.getfFile();
 	    }
 	    if (file != null && !isWodelProject(file.getProject())) {
 	    	return null;

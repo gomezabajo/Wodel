@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Platform;
 
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
@@ -132,11 +133,11 @@ public class SubsumptionMutationOptimiser extends MutationOptimiser {
 	
 	@Override
 	public boolean doOptimise(IProject project) {
-		String path = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getFullPath().toFile().getPath().toString();
+		String path = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getFullPath().toFile().getPath().toString();
 	    IWodelTest test = MutatorHelper.getTest(project);
 		
 	    String classespath = path + "/data/classes.txt";
-	    String infopath = ModelManager.getWorkspaceAbsolutePath().replace("\\\\", "/") + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
+	    String infopath = Platform.getLocation().toFile().getPath().replace("\\", "/") + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
 	    Map<String, List<WodelTestClass>> packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
 	    List<WodelTestClassInfo> killed = new ArrayList<WodelTestClassInfo>();
 	    List<WodelTestClassInfo> subsuming = new ArrayList<WodelTestClassInfo>();

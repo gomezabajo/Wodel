@@ -35,6 +35,7 @@ import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentPackage;
+import mutatorenvironment.NullTypeSelection;
 import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.OtherTypeSelection;
 import mutatorenvironment.Program;
@@ -53,6 +54,7 @@ import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceRemove;
 import mutatorenvironment.ReferenceSwap;
+import mutatorenvironment.ReferenceUnset;
 import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
@@ -271,6 +273,9 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT:
 				sequence_MutatorEnvironment(context, (MutatorEnvironment) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.NULL_TYPE_SELECTION:
+				sequence_NullTypeSelection(context, (NullTypeSelection) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.OBJECT_ATTRIBUTE_TYPE:
 				sequence_ObjectAttributeType(context, (ObjectAttributeType) semanticObject); 
 				return; 
@@ -324,6 +329,9 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 				return; 
 			case MutatorenvironmentPackage.REFERENCE_SWAP:
 				sequence_ReferenceSwap(context, (ReferenceSwap) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.REFERENCE_UNSET:
+				sequence_ReferenceUnset(context, (ReferenceUnset) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.REMOVE_COMPLETE_REFERENCE_MUTATOR:
 				sequence_RemoveCompleteReferenceMutator(context, (RemoveCompleteReferenceMutator) semanticObject); 
@@ -1218,6 +1226,22 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	/**
 	 * <pre>
 	 * Contexts:
+	 *     ObSelectionStrategy returns NullTypeSelection
+	 *     NullSelection returns NullTypeSelection
+	 *     NullTypeSelection returns NullTypeSelection
+	 *
+	 * Constraint:
+	 *     {NullTypeSelection}
+	 * </pre>
+	 */
+	protected void sequence_NullTypeSelection(ISerializationContext context, NullTypeSelection semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
 	 *     AttributeEvaluationType returns ObjectAttributeType
 	 *     ObjectAttributeType returns ObjectAttributeType
 	 *
@@ -1615,6 +1639,21 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * </pre>
 	 */
 	protected void sequence_ReferenceSwap(ISerializationContext context, ReferenceSwap semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     ReferenceSet returns ReferenceUnset
+	 *     ReferenceUnset returns ReferenceUnset
+	 *
+	 * Constraint:
+	 *     reference+=[EReference|ID]
+	 * </pre>
+	 */
+	protected void sequence_ReferenceUnset(ISerializationContext context, ReferenceUnset semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

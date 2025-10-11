@@ -328,6 +328,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Resource/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Resource/path"/>
     </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//NullSelection"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//NullTypeSelection"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceUnset"/>
     <nestedGenPackages prefix="MiniOCL" basePackage="mutatorenvironment" disposableProviderFactory="true"
         ecorePackage="MutatorEnvironment.ecore#//miniOCL">
       <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/RootCS">

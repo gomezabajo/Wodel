@@ -416,6 +416,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="path" eType="#//Source"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NullSelection" eSuperTypes="#//ObSelectionStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NullTypeSelection" eSuperTypes="#//NullSelection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceUnset" eSuperTypes="#//ReferenceSet"/>
   <eSubpackages name="miniOCL" nsURI="http://www.ac.uk/york/cs/miniocl/MiniOCLCS"
       nsPrefix="miniOCL">
     <eClassifiers xsi:type="ecore:EClass" name="RootCS">

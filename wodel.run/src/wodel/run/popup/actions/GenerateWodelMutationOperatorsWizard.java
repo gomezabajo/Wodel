@@ -102,7 +102,7 @@ public class GenerateWodelMutationOperatorsWizard extends AbstractHandler {
 		
 		private static final String WIZARD_NAME = "Generate Wodel Mutation Operators Wizard";
 		
-		private final String WORKSPACE = ModelManager.getWorkspaceAbsolutePath();
+		private final String WORKSPACE = Platform.getLocation().toFile().getPath();
 		
 		private final String PROJECT = ProjectUtils.getProject().getName();
 		

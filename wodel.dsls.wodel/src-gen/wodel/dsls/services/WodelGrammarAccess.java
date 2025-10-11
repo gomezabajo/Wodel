@@ -1806,12 +1806,13 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final RuleCall cCompleteSelectionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cOtherSelectionParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cTypedSelectionParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cNullSelectionParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//ObSelectionStrategy returns ObSelectionStrategy:
-		//    RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection;
+		//    RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection | NullSelection;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection
+		//RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection | NullSelection
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//RandomSelection
@@ -1828,6 +1829,9 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//TypedSelection
 		public RuleCall getTypedSelectionParserRuleCall_4() { return cTypedSelectionParserRuleCall_4; }
+		
+		//NullSelection
+		public RuleCall getNullSelectionParserRuleCall_5() { return cNullSelectionParserRuleCall_5; }
 	}
 	public class RandomSelectionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.RandomSelection");
@@ -1880,6 +1884,17 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//OtherTypeSelection
 		public RuleCall getOtherTypeSelectionParserRuleCall() { return cOtherTypeSelectionParserRuleCall; }
+	}
+	public class NullSelectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.NullSelection");
+		private final RuleCall cNullTypeSelectionParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//NullSelection returns NullSelection:
+		//    NullTypeSelection;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//NullTypeSelection
+		public RuleCall getNullTypeSelectionParserRuleCall() { return cNullTypeSelectionParserRuleCall; }
 	}
 	public class AttributeEvaluationTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.AttributeEvaluationType");
@@ -4410,13 +4425,14 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final RuleCall cReferenceAttParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cReferenceAddParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cReferenceRemoveParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cReferenceUnsetParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//ReferenceSet returns ReferenceSet:
-		//    ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
+		//    ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove | ReferenceUnset
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
+		//ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove | ReferenceUnset
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//ReferenceInit
@@ -4433,6 +4449,9 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//ReferenceRemove
 		public RuleCall getReferenceRemoveParserRuleCall_4() { return cReferenceRemoveParserRuleCall_4; }
+		
+		//ReferenceUnset
+		public RuleCall getReferenceUnsetParserRuleCall_5() { return cReferenceUnsetParserRuleCall_5; }
 	}
 	public class ReferenceInitElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.ReferenceInit");
@@ -4623,6 +4642,42 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
+	}
+	public class ReferenceUnsetElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.ReferenceUnset");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cUnsetrefKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cReferenceAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cReferenceEReferenceCrossReference_2_0 = (CrossReference)cReferenceAssignment_2.eContents().get(0);
+		private final RuleCall cReferenceEReferenceIDTerminalRuleCall_2_0_1 = (RuleCall)cReferenceEReferenceCrossReference_2_0.eContents().get(1);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//ReferenceUnset returns ReferenceUnset:
+		//    'unsetref' '(' reference+=[ecore::EReference|ID] ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'unsetref' '(' reference+=[ecore::EReference|ID] ')'
+		public Group getGroup() { return cGroup; }
+		
+		//'unsetref'
+		public Keyword getUnsetrefKeyword_0() { return cUnsetrefKeyword_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//reference+=[ecore::EReference|ID]
+		public Assignment getReferenceAssignment_2() { return cReferenceAssignment_2; }
+		
+		//[ecore::EReference|ID]
+		public CrossReference getReferenceEReferenceCrossReference_2_0() { return cReferenceEReferenceCrossReference_2_0; }
+		
+		//ID
+		public RuleCall getReferenceEReferenceIDTerminalRuleCall_2_0_1() { return cReferenceEReferenceIDTerminalRuleCall_2_0_1; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
 	}
 	public class ReferenceAttElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.ReferenceAtt");
@@ -5443,6 +5498,28 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_4_3() { return cRightCurlyBracketKeyword_4_3; }
+	}
+	public class NullTypeSelectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.NullTypeSelection");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNullTypeSelectionAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cNullKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//NullTypeSelection returns NullTypeSelection:
+		//    {NullTypeSelection}
+		//    'null'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{NullTypeSelection}
+		//'null'
+		public Group getGroup() { return cGroup; }
+		
+		//{NullTypeSelection}
+		public Action getNullTypeSelectionAction_0() { return cNullTypeSelectionAction_0; }
+		
+		//'null'
+		public Keyword getNullKeyword_1() { return cNullKeyword_1; }
 	}
 	public class TypedSelectionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.TypedSelection");
@@ -7042,6 +7119,7 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	private final SpecificSelectionElements pSpecificSelection;
 	private final CompleteSelectionElements pCompleteSelection;
 	private final OtherSelectionElements pOtherSelection;
+	private final NullSelectionElements pNullSelection;
 	private final AttributeEvaluationTypeElements pAttributeEvaluationType;
 	private final AttributeTypeElements pAttributeType;
 	private final NumberTypeElements pNumberType;
@@ -7088,12 +7166,14 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	private final ReferenceAddElements pReferenceAdd;
 	private final ReferenceRemoveElements pReferenceRemove;
 	private final ReferenceSwapElements pReferenceSwap;
+	private final ReferenceUnsetElements pReferenceUnset;
 	private final ReferenceAttElements pReferenceAtt;
 	private final RandomTypeSelectionElements pRandomTypeSelection;
 	private final SpecificObjectSelectionElements pSpecificObjectSelection;
 	private final SpecificClosureSelectionElements pSpecificClosureSelection;
 	private final CompleteTypeSelectionElements pCompleteTypeSelection;
 	private final OtherTypeSelectionElements pOtherTypeSelection;
+	private final NullTypeSelectionElements pNullTypeSelection;
 	private final TypedSelectionElements pTypedSelection;
 	private final BooleanTypeElements pBooleanType;
 	private final RandomBooleanTypeElements pRandomBooleanType;
@@ -7174,6 +7254,7 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		this.pSpecificSelection = new SpecificSelectionElements();
 		this.pCompleteSelection = new CompleteSelectionElements();
 		this.pOtherSelection = new OtherSelectionElements();
+		this.pNullSelection = new NullSelectionElements();
 		this.pAttributeEvaluationType = new AttributeEvaluationTypeElements();
 		this.pAttributeType = new AttributeTypeElements();
 		this.pNumberType = new NumberTypeElements();
@@ -7220,12 +7301,14 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		this.pReferenceAdd = new ReferenceAddElements();
 		this.pReferenceRemove = new ReferenceRemoveElements();
 		this.pReferenceSwap = new ReferenceSwapElements();
+		this.pReferenceUnset = new ReferenceUnsetElements();
 		this.pReferenceAtt = new ReferenceAttElements();
 		this.pRandomTypeSelection = new RandomTypeSelectionElements();
 		this.pSpecificObjectSelection = new SpecificObjectSelectionElements();
 		this.pSpecificClosureSelection = new SpecificClosureSelectionElements();
 		this.pCompleteTypeSelection = new CompleteTypeSelectionElements();
 		this.pOtherTypeSelection = new OtherTypeSelectionElements();
+		this.pNullTypeSelection = new NullTypeSelectionElements();
 		this.pTypedSelection = new TypedSelectionElements();
 		this.pBooleanType = new BooleanTypeElements();
 		this.pRandomBooleanType = new RandomBooleanTypeElements();
@@ -7719,7 +7802,7 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	}
 	
 	//ObSelectionStrategy returns ObSelectionStrategy:
-	//    RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection;
+	//    RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection | NullSelection;
 	public ObSelectionStrategyElements getObSelectionStrategyAccess() {
 		return pObSelectionStrategy;
 	}
@@ -7766,6 +7849,16 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	public ParserRule getOtherSelectionRule() {
 		return getOtherSelectionAccess().getRule();
+	}
+	
+	//NullSelection returns NullSelection:
+	//    NullTypeSelection;
+	public NullSelectionElements getNullSelectionAccess() {
+		return pNullSelection;
+	}
+	
+	public ParserRule getNullSelectionRule() {
+		return getNullSelectionAccess().getRule();
 	}
 	
 	//AttributeEvaluationType returns AttributeEvaluationType:
@@ -8272,7 +8365,7 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	}
 	
 	//ReferenceSet returns ReferenceSet:
-	//    ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
+	//    ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove | ReferenceUnset
 	//;
 	public ReferenceSetElements getReferenceSetAccess() {
 		return pReferenceSet;
@@ -8327,6 +8420,17 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	public ParserRule getReferenceSwapRule() {
 		return getReferenceSwapAccess().getRule();
+	}
+	
+	//ReferenceUnset returns ReferenceUnset:
+	//    'unsetref' '(' reference+=[ecore::EReference|ID] ')'
+	//;
+	public ReferenceUnsetElements getReferenceUnsetAccess() {
+		return pReferenceUnset;
+	}
+	
+	public ParserRule getReferenceUnsetRule() {
+		return getReferenceUnsetAccess().getRule();
 	}
 	
 	//ReferenceAtt returns ReferenceAtt:
@@ -8405,6 +8509,18 @@ public class WodelGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	public ParserRule getOtherTypeSelectionRule() {
 		return getOtherTypeSelectionAccess().getRule();
+	}
+	
+	//NullTypeSelection returns NullTypeSelection:
+	//    {NullTypeSelection}
+	//    'null'
+	//;
+	public NullTypeSelectionElements getNullTypeSelectionAccess() {
+		return pNullTypeSelection;
+	}
+	
+	public ParserRule getNullTypeSelectionRule() {
+		return getNullTypeSelectionAccess().getRule();
 	}
 	
 	//TypedSelection returns TypedSelection:

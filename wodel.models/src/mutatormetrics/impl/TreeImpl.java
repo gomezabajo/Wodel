@@ -123,6 +123,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -132,6 +133,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -144,6 +146,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Folder> getMutants() {
 		if (mutants == null) {
 			mutants = new EObjectContainmentEList<Folder>(Folder.class, this, MutatormetricsPackage.TREE__MUTANTS);
@@ -156,6 +159,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<mutatormetrics.Class> getClasses() {
 		if (classes == null) {
 			classes = new EObjectContainmentEList<mutatormetrics.Class>(mutatormetrics.Class.class, this, MutatormetricsPackage.TREE__CLASSES);
@@ -168,6 +172,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPath() {
 		return path;
 	}
@@ -177,6 +182,7 @@ public abstract class TreeImpl extends MinimalEObjectImpl.Container implements T
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPath(String newPath) {
 		String oldPath = path;
 		path = newPath;

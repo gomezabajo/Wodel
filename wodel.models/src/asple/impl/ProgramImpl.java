@@ -80,6 +80,7 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Declaration> getDeclarations() {
 		if (declarations == null) {
 			declarations = new EObjectContainmentEList<Declaration>(Declaration.class, this, AsplePackage.PROGRAM__DECLARATIONS);
@@ -92,6 +93,7 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getStatements() {
 		if (statements == null) {
 			statements = new EObjectContainmentEList<Statement>(Statement.class, this, AsplePackage.PROGRAM__STATEMENTS);

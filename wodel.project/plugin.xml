@@ -144,4 +144,18 @@
 			</enabledWhen>
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Wodel"
+            id="wodel.views">
+      </category>
+      <view
+            category="wodel.views"
+            class="wodel.views.ConsoleView"
+            icon="icons/wodel4.jpg"
+            id="wodel.views.ConsoleView"
+            name="Console">
+      </view>
+   </extension>   
 </plugin>

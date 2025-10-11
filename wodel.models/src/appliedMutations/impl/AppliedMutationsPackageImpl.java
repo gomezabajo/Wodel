@@ -220,6 +220,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMutations() {
 		return mutationsEClass;
 	}
@@ -229,6 +230,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutations_Muts() {
 		return (EReference)mutationsEClass.getEStructuralFeatures().get(0);
 	}
@@ -238,6 +240,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAppMutation() {
 		return appMutationEClass;
 	}
@@ -247,6 +250,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAppMutation_Def() {
 		return (EReference)appMutationEClass.getEStructuralFeatures().get(0);
 	}
@@ -256,6 +260,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectCreated() {
 		return objectCreatedEClass;
 	}
@@ -265,6 +270,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectCreated_Object() {
 		return (EReference)objectCreatedEClass.getEStructuralFeatures().get(0);
 	}
@@ -274,6 +280,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectRemoved() {
 		return objectRemovedEClass;
 	}
@@ -283,6 +290,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRemoved_Object() {
 		return (EReference)objectRemovedEClass.getEStructuralFeatures().get(0);
 	}
@@ -292,6 +300,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRemoved_Type() {
 		return (EReference)objectRemovedEClass.getEStructuralFeatures().get(1);
 	}
@@ -301,6 +310,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceChanged() {
 		return referenceChangedEClass;
 	}
@@ -310,6 +320,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_Object() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(0);
 	}
@@ -319,6 +330,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_MutantObject() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(1);
 	}
@@ -328,6 +340,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceChanged_SrcRefName() {
 		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(2);
 	}
@@ -337,6 +350,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_From() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(3);
 	}
@@ -346,6 +360,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_MutantFrom() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(4);
 	}
@@ -355,6 +370,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceChanged_RefName() {
 		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(5);
 	}
@@ -364,6 +380,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_To() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(6);
 	}
@@ -373,6 +390,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceChanged_MutantTo() {
 		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(7);
 	}
@@ -382,6 +400,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSourceReferenceChanged() {
 		return sourceReferenceChangedEClass;
 	}
@@ -391,6 +410,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSourceReferenceChanged_OldFrom() {
 		return (EReference)sourceReferenceChangedEClass.getEStructuralFeatures().get(0);
 	}
@@ -400,6 +420,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTargetReferenceChanged() {
 		return targetReferenceChangedEClass;
 	}
@@ -409,6 +430,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTargetReferenceChanged_OldTo() {
 		return (EReference)targetReferenceChangedEClass.getEStructuralFeatures().get(0);
 	}
@@ -418,6 +440,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceCreated() {
 		return referenceCreatedEClass;
 	}
@@ -427,6 +450,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceCreated_Object() {
 		return (EReference)referenceCreatedEClass.getEStructuralFeatures().get(0);
 	}
@@ -436,6 +460,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceCreated_Ref() {
 		return (EReference)referenceCreatedEClass.getEStructuralFeatures().get(1);
 	}
@@ -445,6 +470,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceCreated_RefName() {
 		return (EAttribute)referenceCreatedEClass.getEStructuralFeatures().get(2);
 	}
@@ -454,6 +480,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceRemoved() {
 		return referenceRemovedEClass;
 	}
@@ -463,6 +490,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceRemoved_Object() {
 		return (EReference)referenceRemovedEClass.getEStructuralFeatures().get(0);
 	}
@@ -472,6 +500,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceRemoved_Ref() {
 		return (EReference)referenceRemovedEClass.getEStructuralFeatures().get(1);
 	}
@@ -481,6 +510,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceRemoved_RefName() {
 		return (EAttribute)referenceRemovedEClass.getEStructuralFeatures().get(2);
 	}
@@ -490,6 +520,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInformationChanged() {
 		return informationChangedEClass;
 	}
@@ -499,6 +530,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInformationChanged_Object() {
 		return (EReference)informationChangedEClass.getEStructuralFeatures().get(0);
 	}
@@ -508,6 +540,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInformationChanged_AttChanges() {
 		return (EReference)informationChangedEClass.getEStructuralFeatures().get(1);
 	}
@@ -517,6 +550,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInformationChanged_RefChanges() {
 		return (EReference)informationChangedEClass.getEStructuralFeatures().get(2);
 	}
@@ -526,6 +560,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttributeChanged() {
 		return attributeChangedEClass;
 	}
@@ -535,6 +570,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttributeChanged_AttName() {
 		return (EAttribute)attributeChangedEClass.getEStructuralFeatures().get(0);
 	}
@@ -544,6 +580,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttributeChanged_OldVal() {
 		return (EAttribute)attributeChangedEClass.getEStructuralFeatures().get(1);
 	}
@@ -553,6 +590,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttributeChanged_NewVal() {
 		return (EAttribute)attributeChangedEClass.getEStructuralFeatures().get(2);
 	}
@@ -562,6 +600,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceSwap() {
 		return referenceSwapEClass;
 	}
@@ -571,6 +610,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceSwap_RefObject() {
 		return (EReference)referenceSwapEClass.getEStructuralFeatures().get(0);
 	}
@@ -580,6 +620,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceSwap_FirstName() {
 		return (EAttribute)referenceSwapEClass.getEStructuralFeatures().get(1);
 	}
@@ -589,6 +630,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceSwap_OtherFrom() {
 		return (EReference)referenceSwapEClass.getEStructuralFeatures().get(2);
 	}
@@ -598,6 +640,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceSwap_OtherFromName() {
 		return (EAttribute)referenceSwapEClass.getEStructuralFeatures().get(3);
 	}
@@ -607,6 +650,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceSwap_OtherTo() {
 		return (EReference)referenceSwapEClass.getEStructuralFeatures().get(4);
 	}
@@ -616,6 +660,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceSwap_OtherToName() {
 		return (EAttribute)referenceSwapEClass.getEStructuralFeatures().get(5);
 	}
@@ -625,6 +670,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceAtt() {
 		return referenceAttEClass;
 	}
@@ -634,6 +680,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceAtt_AttName() {
 		return (EAttribute)referenceAttEClass.getEStructuralFeatures().get(0);
 	}
@@ -643,6 +690,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceAtt_OldVal() {
 		return (EAttribute)referenceAttEClass.getEStructuralFeatures().get(1);
 	}
@@ -652,6 +700,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getReferenceAtt_NewVal() {
 		return (EAttribute)referenceAttEClass.getEStructuralFeatures().get(2);
 	}
@@ -661,6 +710,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttributeSwap() {
 		return attributeSwapEClass;
 	}
@@ -670,6 +720,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttributeSwap_AttObject() {
 		return (EReference)attributeSwapEClass.getEStructuralFeatures().get(0);
 	}
@@ -679,6 +730,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttributeSwap_FirstName() {
 		return (EAttribute)attributeSwapEClass.getEStructuralFeatures().get(1);
 	}
@@ -688,6 +740,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCompositeMutation() {
 		return compositeMutationEClass;
 	}
@@ -697,6 +750,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCompositeMutation_Size() {
 		return (EAttribute)compositeMutationEClass.getEStructuralFeatures().get(0);
 	}
@@ -706,6 +760,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCompositeMutation_Muts() {
 		return (EReference)compositeMutationEClass.getEStructuralFeatures().get(1);
 	}
@@ -715,6 +770,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectCloned() {
 		return objectClonedEClass;
 	}
@@ -724,6 +780,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectCloned_Object() {
 		return (EReference)objectClonedEClass.getEStructuralFeatures().get(0);
 	}
@@ -733,6 +790,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectRetyped() {
 		return objectRetypedEClass;
 	}
@@ -742,6 +800,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRetyped_Object() {
 		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(0);
 	}
@@ -751,6 +810,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRetyped_RemovedObject() {
 		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(1);
 	}
@@ -760,6 +820,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRetyped_Type() {
 		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(2);
 	}
@@ -769,6 +830,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectRetyped_NewType() {
 		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(3);
 	}
@@ -778,6 +840,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AppliedMutationsFactory getAppliedMutationsFactory() {
 		return (AppliedMutationsFactory)getEFactoryInstance();
 	}

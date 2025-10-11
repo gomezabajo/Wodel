@@ -78,6 +78,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MutatorMetrics createMutatorMetrics() {
 		MutatorMetricsImpl mutatorMetrics = new MutatorMetricsImpl();
 		return mutatorMetrics;
@@ -88,6 +89,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Folder createFolder() {
 		FolderImpl folder = new FolderImpl();
 		return folder;
@@ -98,6 +100,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mutant createMutant() {
 		MutantImpl mutant = new MutantImpl();
 		return mutant;
@@ -108,6 +111,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public mutatormetrics.Class createClass() {
 		ClassImpl class_ = new ClassImpl();
 		return class_;
@@ -118,6 +122,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Reference createReference() {
 		ReferenceImpl reference = new ReferenceImpl();
 		return reference;
@@ -128,6 +133,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute createAttribute() {
 		AttributeImpl attribute = new AttributeImpl();
 		return attribute;
@@ -138,6 +144,7 @@ public class MutatormetricsFactoryImpl extends EFactoryImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MutatormetricsPackage getMutatormetricsPackage() {
 		return (MutatormetricsPackage)getEPackage();
 	}

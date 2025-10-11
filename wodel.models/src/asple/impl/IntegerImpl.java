@@ -70,6 +70,7 @@ public class IntegerImpl extends LiteralImpl implements asple.Integer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
@@ -79,6 +80,7 @@ public class IntegerImpl extends LiteralImpl implements asple.Integer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(int newValue) {
 		int oldValue = value;
 		value = newValue;

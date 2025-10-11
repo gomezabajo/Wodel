@@ -146,6 +146,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMutatorMetrics() {
 		return mutatorMetricsEClass;
 	}
@@ -155,6 +156,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutatorMetrics_Trees() {
 		return (EReference)mutatorMetricsEClass.getEStructuralFeatures().get(0);
 	}
@@ -164,6 +166,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMutatorMetrics_Classes() {
 		return (EReference)mutatorMetricsEClass.getEStructuralFeatures().get(1);
 	}
@@ -173,6 +176,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTree() {
 		return treeEClass;
 	}
@@ -182,6 +186,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTree_Name() {
 		return (EAttribute)treeEClass.getEStructuralFeatures().get(0);
 	}
@@ -191,6 +196,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTree_Mutants() {
 		return (EReference)treeEClass.getEStructuralFeatures().get(1);
 	}
@@ -200,6 +206,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTree_Classes() {
 		return (EReference)treeEClass.getEStructuralFeatures().get(2);
 	}
@@ -209,6 +216,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTree_Path() {
 		return (EAttribute)treeEClass.getEStructuralFeatures().get(3);
 	}
@@ -218,6 +226,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFolder() {
 		return folderEClass;
 	}
@@ -227,6 +236,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMutant() {
 		return mutantEClass;
 	}
@@ -236,6 +246,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObject() {
 		return objectEClass;
 	}
@@ -245,6 +256,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getObject_Name() {
 		return (EAttribute)objectEClass.getEStructuralFeatures().get(0);
 	}
@@ -254,6 +266,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getObject_Created() {
 		return (EAttribute)objectEClass.getEStructuralFeatures().get(1);
 	}
@@ -263,6 +276,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getObject_Modified() {
 		return (EAttribute)objectEClass.getEStructuralFeatures().get(2);
 	}
@@ -272,6 +286,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getObject_Removed() {
 		return (EAttribute)objectEClass.getEStructuralFeatures().get(3);
 	}
@@ -281,6 +296,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getClass_() {
 		return classEClass;
 	}
@@ -290,6 +306,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getClass_Attributes() {
 		return (EReference)classEClass.getEStructuralFeatures().get(0);
 	}
@@ -299,6 +316,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getClass_References() {
 		return (EReference)classEClass.getEStructuralFeatures().get(1);
 	}
@@ -308,6 +326,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClass_Ccreated() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(2);
 	}
@@ -317,6 +336,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClass_Cmodified() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(3);
 	}
@@ -326,6 +346,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClass_Cremoved() {
 		return (EAttribute)classEClass.getEStructuralFeatures().get(4);
 	}
@@ -335,6 +356,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReference() {
 		return referenceEClass;
 	}
@@ -344,6 +366,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -353,6 +376,7 @@ public class MutatormetricsPackageImpl extends EPackageImpl implements Mutatorme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MutatormetricsFactory getMutatormetricsFactory() {
 		return (MutatormetricsFactory)getEFactoryInstance();
 	}

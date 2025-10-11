@@ -62,6 +62,7 @@ public class AppMutationImpl extends MinimalEObjectImpl.Container implements App
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getDef() {
 		if (def != null && def.eIsProxy()) {
 			InternalEObject oldDef = (InternalEObject)def;
@@ -88,6 +89,7 @@ public class AppMutationImpl extends MinimalEObjectImpl.Container implements App
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDef(EObject newDef) {
 		EObject oldDef = def;
 		def = newDef;

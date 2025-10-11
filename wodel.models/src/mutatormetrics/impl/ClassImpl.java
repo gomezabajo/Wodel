@@ -143,6 +143,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Attribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, MutatormetricsPackage.CLASS__ATTRIBUTES);
@@ -155,6 +156,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Reference> getReferences() {
 		if (references == null) {
 			references = new EObjectContainmentEList<Reference>(Reference.class, this, MutatormetricsPackage.CLASS__REFERENCES);
@@ -167,6 +169,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCcreated() {
 		return ccreated;
 	}
@@ -176,6 +179,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCcreated(int newCcreated) {
 		int oldCcreated = ccreated;
 		ccreated = newCcreated;
@@ -188,6 +192,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCmodified() {
 		return cmodified;
 	}
@@ -197,6 +202,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCmodified(int newCmodified) {
 		int oldCmodified = cmodified;
 		cmodified = newCmodified;
@@ -209,6 +215,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCremoved() {
 		return cremoved;
 	}
@@ -218,6 +225,7 @@ public class ClassImpl extends ObjectImpl implements mutatormetrics.Class {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCremoved(int newCremoved) {
 		int oldCremoved = cremoved;
 		cremoved = newCremoved;

@@ -78,6 +78,7 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getObject() {
 		if (object == null) {
 			object = new EObjectResolvingEList<EObject>(EObject.class, this, AppliedMutationsPackage.OBJECT_REMOVED__OBJECT);
@@ -90,6 +91,7 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -116,6 +118,7 @@ public class ObjectRemovedImpl extends AppMutationImpl implements ObjectRemoved 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;

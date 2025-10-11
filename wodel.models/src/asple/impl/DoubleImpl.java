@@ -70,6 +70,7 @@ public class DoubleImpl extends LiteralImpl implements asple.Double {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getValue() {
 		return value;
 	}
@@ -79,6 +80,7 @@ public class DoubleImpl extends LiteralImpl implements asple.Double {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(double newValue) {
 		double oldValue = value;
 		value = newValue;

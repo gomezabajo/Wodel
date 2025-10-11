@@ -115,6 +115,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isRef() {
 		return ref;
 	}
@@ -124,6 +125,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRef(boolean newRef) {
 		boolean oldRef = ref;
 		ref = newRef;
@@ -136,6 +138,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mode getMode() {
 		return mode;
 	}
@@ -145,6 +148,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMode(Mode newMode) {
 		Mode oldMode = mode;
 		mode = newMode == null ? MODE_EDEFAULT : newMode;
@@ -157,6 +161,7 @@ public class DeclarationImpl extends MinimalEObjectImpl.Container implements Dec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Identifier> getIdentifiers() {
 		if (identifiers == null) {
 			identifiers = new EObjectContainmentEList<Identifier>(Identifier.class, this, AsplePackage.DECLARATION__IDENTIFIERS);

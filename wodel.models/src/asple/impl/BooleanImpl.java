@@ -70,6 +70,7 @@ public class BooleanImpl extends LiteralImpl implements asple.Boolean {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isValue() {
 		return value;
 	}
@@ -79,6 +80,7 @@ public class BooleanImpl extends LiteralImpl implements asple.Boolean {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(boolean newValue) {
 		boolean oldValue = value;
 		value = newValue;

@@ -92,6 +92,7 @@ public class ConditionalImpl extends StatementImpl implements Conditional {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getExpression() {
 		return expression;
 	}
@@ -116,6 +117,7 @@ public class ConditionalImpl extends StatementImpl implements Conditional {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpression(Expression newExpression) {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;
@@ -135,6 +137,7 @@ public class ConditionalImpl extends StatementImpl implements Conditional {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getIf() {
 		if (if_ == null) {
 			if_ = new EObjectContainmentEList<Statement>(Statement.class, this, AsplePackage.CONDITIONAL__IF);
@@ -147,6 +150,7 @@ public class ConditionalImpl extends StatementImpl implements Conditional {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getElse() {
 		if (else_ == null) {
 			else_ = new EObjectContainmentEList<Statement>(Statement.class, this, AsplePackage.CONDITIONAL__ELSE);

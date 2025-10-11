@@ -81,6 +81,7 @@ public class LoopImpl extends StatementImpl implements Loop {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getExpression() {
 		return expression;
 	}
@@ -105,6 +106,7 @@ public class LoopImpl extends StatementImpl implements Loop {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpression(Expression newExpression) {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;
@@ -124,6 +126,7 @@ public class LoopImpl extends StatementImpl implements Loop {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getStatements() {
 		if (statements == null) {
 			statements = new EObjectContainmentEList<Statement>(Statement.class, this, AsplePackage.LOOP__STATEMENTS);

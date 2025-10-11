@@ -61,6 +61,7 @@ public class SourceReferenceChangedImpl extends ReferenceChangedImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getOldFrom() {
 		if (oldFrom != null && oldFrom.eIsProxy()) {
 			InternalEObject oldOldFrom = (InternalEObject)oldFrom;
@@ -87,6 +88,7 @@ public class SourceReferenceChangedImpl extends ReferenceChangedImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOldFrom(EObject newOldFrom) {
 		EObject oldOldFrom = oldFrom;
 		oldFrom = newOldFrom;

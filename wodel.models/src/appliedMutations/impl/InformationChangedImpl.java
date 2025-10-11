@@ -93,6 +93,7 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getObject() {
 		if (object != null && object.eIsProxy()) {
 			InternalEObject oldObject = (InternalEObject)object;
@@ -119,6 +120,7 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(EObject newObject) {
 		EObject oldObject = object;
 		object = newObject;
@@ -131,6 +133,7 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeChanged> getAttChanges() {
 		if (attChanges == null) {
 			attChanges = new EObjectContainmentEList<AttributeChanged>(AttributeChanged.class, this, AppliedMutationsPackage.INFORMATION_CHANGED__ATT_CHANGES);
@@ -143,6 +146,7 @@ public class InformationChangedImpl extends AppMutationImpl implements Informati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ReferenceChanged> getRefChanges() {
 		if (refChanges == null) {
 			refChanges = new EObjectContainmentEList<ReferenceChanged>(ReferenceChanged.class, this, AppliedMutationsPackage.INFORMATION_CHANGED__REF_CHANGES);

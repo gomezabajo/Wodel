@@ -79,6 +79,7 @@ public class MutatorMetricsImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Folder> getTrees() {
 		if (trees == null) {
 			trees = new EObjectContainmentEList<Folder>(Folder.class, this, MutatormetricsPackage.MUTATOR_METRICS__TREES);
@@ -91,6 +92,7 @@ public class MutatorMetricsImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<mutatormetrics.Class> getClasses() {
 		if (classes == null) {
 			classes = new EObjectContainmentEList<mutatormetrics.Class>(mutatormetrics.Class.class, this, MutatormetricsPackage.MUTATOR_METRICS__CLASSES);

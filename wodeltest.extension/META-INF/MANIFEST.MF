@@ -21,7 +21,6 @@ Require-Bundle: org.eclipse.ui,
  wodel.utils,
  com.google.guava,
  org.eclipse.modisco.infra.common.core,
- org.eclipse.modisco.java.generation,
  org.eclipse.text
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodeltest.project
@@ -32,3 +31,5 @@ Export-Package: wodeltest.extension,
  wodeltest.extension.run,
  wodeltest.extension.run.commands,
  wodeltest.extension.utils
+Bundle-ClassPath: .,
+ lib/org.eclipse.modisco.java.generation_1.5.5.v20250214-1552.jar

@@ -210,6 +210,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProgram() {
 		return programEClass;
 	}
@@ -219,6 +220,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProgram_Declarations() {
 		return (EReference)programEClass.getEStructuralFeatures().get(0);
 	}
@@ -228,6 +230,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProgram_Statements() {
 		return (EReference)programEClass.getEStructuralFeatures().get(1);
 	}
@@ -237,6 +240,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDeclaration() {
 		return declarationEClass;
 	}
@@ -246,6 +250,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDeclaration_Ref() {
 		return (EAttribute)declarationEClass.getEStructuralFeatures().get(0);
 	}
@@ -255,6 +260,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDeclaration_Mode() {
 		return (EAttribute)declarationEClass.getEStructuralFeatures().get(1);
 	}
@@ -264,6 +270,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDeclaration_Identifiers() {
 		return (EReference)declarationEClass.getEStructuralFeatures().get(2);
 	}
@@ -273,6 +280,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExpression() {
 		return expressionEClass;
 	}
@@ -282,6 +290,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPrimary() {
 		return primaryEClass;
 	}
@@ -291,6 +300,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLiteral() {
 		return literalEClass;
 	}
@@ -300,6 +310,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIdentifier() {
 		return identifierEClass;
 	}
@@ -309,6 +320,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIdentifier_Name() {
 		return (EAttribute)identifierEClass.getEStructuralFeatures().get(0);
 	}
@@ -318,6 +330,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBoolean() {
 		return booleanEClass;
 	}
@@ -327,6 +340,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBoolean_Value() {
 		return (EAttribute)booleanEClass.getEStructuralFeatures().get(0);
 	}
@@ -336,6 +350,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInteger() {
 		return integerEClass;
 	}
@@ -345,6 +360,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getInteger_Value() {
 		return (EAttribute)integerEClass.getEStructuralFeatures().get(0);
 	}
@@ -354,6 +370,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDouble() {
 		return doubleEClass;
 	}
@@ -363,6 +380,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDouble_Value() {
 		return (EAttribute)doubleEClass.getEStructuralFeatures().get(0);
 	}
@@ -372,6 +390,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBinaryOperator() {
 		return binaryOperatorEClass;
 	}
@@ -381,6 +400,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinaryOperator_Left() {
 		return (EReference)binaryOperatorEClass.getEStructuralFeatures().get(0);
 	}
@@ -390,6 +410,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBinaryOperator_Operator() {
 		return (EAttribute)binaryOperatorEClass.getEStructuralFeatures().get(1);
 	}
@@ -399,6 +420,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinaryOperator_Right() {
 		return (EReference)binaryOperatorEClass.getEStructuralFeatures().get(2);
 	}
@@ -408,6 +430,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStatement() {
 		return statementEClass;
 	}
@@ -417,6 +440,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAssignment() {
 		return assignmentEClass;
 	}
@@ -426,6 +450,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAssignment_Var() {
 		return (EReference)assignmentEClass.getEStructuralFeatures().get(0);
 	}
@@ -435,6 +460,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAssignment_Value() {
 		return (EReference)assignmentEClass.getEStructuralFeatures().get(1);
 	}
@@ -444,6 +470,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConditional() {
 		return conditionalEClass;
 	}
@@ -453,6 +480,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditional_Expression() {
 		return (EReference)conditionalEClass.getEStructuralFeatures().get(0);
 	}
@@ -462,6 +490,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditional_If() {
 		return (EReference)conditionalEClass.getEStructuralFeatures().get(1);
 	}
@@ -471,6 +500,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditional_Else() {
 		return (EReference)conditionalEClass.getEStructuralFeatures().get(2);
 	}
@@ -480,6 +510,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLoop() {
 		return loopEClass;
 	}
@@ -489,6 +520,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoop_Expression() {
 		return (EReference)loopEClass.getEStructuralFeatures().get(0);
 	}
@@ -498,6 +530,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoop_Statements() {
 		return (EReference)loopEClass.getEStructuralFeatures().get(1);
 	}
@@ -507,6 +540,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTransput() {
 		return transputEClass;
 	}
@@ -516,6 +550,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTransput_Var() {
 		return (EReference)transputEClass.getEStructuralFeatures().get(0);
 	}
@@ -525,6 +560,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTransput_Expression() {
 		return (EReference)transputEClass.getEStructuralFeatures().get(1);
 	}
@@ -534,6 +570,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getMode() {
 		return modeEEnum;
 	}
@@ -543,6 +580,7 @@ public class AsplePackageImpl extends EPackageImpl implements AsplePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AspleFactory getAspleFactory() {
 		return (AspleFactory)getEFactoryInstance();
 	}

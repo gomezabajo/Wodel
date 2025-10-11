@@ -132,6 +132,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -141,6 +142,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -153,6 +155,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCreated() {
 		return created;
 	}
@@ -162,6 +165,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCreated(int newCreated) {
 		int oldCreated = created;
 		created = newCreated;
@@ -174,6 +178,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getModified() {
 		return modified;
 	}
@@ -183,6 +188,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModified(int newModified) {
 		int oldModified = modified;
 		modified = newModified;
@@ -195,6 +201,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getRemoved() {
 		return removed;
 	}
@@ -204,6 +211,7 @@ public abstract class ObjectImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRemoved(int newRemoved) {
 		int oldRemoved = removed;
 		removed = newRemoved;

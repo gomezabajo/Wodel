@@ -111,6 +111,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAttName() {
 		return attName;
 	}
@@ -120,6 +121,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttName(String newAttName) {
 		String oldAttName = attName;
 		attName = newAttName;
@@ -132,6 +134,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOldVal() {
 		return oldVal;
 	}
@@ -141,6 +144,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOldVal(String newOldVal) {
 		String oldOldVal = oldVal;
 		oldVal = newOldVal;
@@ -153,6 +157,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getNewVal() {
 		return newVal;
 	}
@@ -162,6 +167,7 @@ public class AttributeChangedImpl extends AppMutationImpl implements AttributeCh
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewVal(String newNewVal) {
 		String oldNewVal = newVal;
 		newVal = newNewVal;

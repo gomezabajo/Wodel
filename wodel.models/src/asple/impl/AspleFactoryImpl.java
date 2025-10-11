@@ -118,6 +118,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Program createProgram() {
 		ProgramImpl program = new ProgramImpl();
 		return program;
@@ -128,6 +129,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Declaration createDeclaration() {
 		DeclarationImpl declaration = new DeclarationImpl();
 		return declaration;
@@ -138,6 +140,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Identifier createIdentifier() {
 		IdentifierImpl identifier = new IdentifierImpl();
 		return identifier;
@@ -148,6 +151,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public asple.Boolean createBoolean() {
 		BooleanImpl boolean_ = new BooleanImpl();
 		return boolean_;
@@ -158,6 +162,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public asple.Integer createInteger() {
 		IntegerImpl integer = new IntegerImpl();
 		return integer;
@@ -168,6 +173,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public asple.Double createDouble() {
 		DoubleImpl double_ = new DoubleImpl();
 		return double_;
@@ -178,6 +184,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BinaryOperator createBinaryOperator() {
 		BinaryOperatorImpl binaryOperator = new BinaryOperatorImpl();
 		return binaryOperator;
@@ -188,6 +195,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Assignment createAssignment() {
 		AssignmentImpl assignment = new AssignmentImpl();
 		return assignment;
@@ -198,6 +206,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Conditional createConditional() {
 		ConditionalImpl conditional = new ConditionalImpl();
 		return conditional;
@@ -208,6 +217,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Loop createLoop() {
 		LoopImpl loop = new LoopImpl();
 		return loop;
@@ -218,6 +228,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Transput createTransput() {
 		TransputImpl transput = new TransputImpl();
 		return transput;
@@ -248,6 +259,7 @@ public class AspleFactoryImpl extends EFactoryImpl implements AspleFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsplePackage getAsplePackage() {
 		return (AsplePackage)getEPackage();
 	}

@@ -33,11 +33,11 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
     IProject _project = ProjectUtils.getProject();
     boolean _tripleNotEquals = (_project != null);
     if (_tripleNotEquals) {
-      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-      _xifexpression = (_path + "/");
+      String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
+      _xifexpression = (_replace + "/");
     } else {
-      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-      _xifexpression = (_workspaceAbsolutePath + "/");
+      String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
+      _xifexpression = (_workspaceAbsolutePathWithProjectName + "/");
     }
     String projectFolderName = _xifexpression;
     File projectFolder = new File(projectFolderName);

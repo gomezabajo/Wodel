@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pyast:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pyast="http://www.python.org/pythonast/3.14" xsi:schemaLocation="http://www.python.org/pythonast/3.14 python.ecore" xmi:id="_iAZkYLShEfCQ6sv70V5cfQ">
+  <body xsi:type="pyast:FunctionDef" xmi:id="_le0MALShEfCQ6sv70V5cfQ"/>
+</pyast:Module>

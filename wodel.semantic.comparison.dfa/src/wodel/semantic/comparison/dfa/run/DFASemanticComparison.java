@@ -480,7 +480,7 @@ public class DFASemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, boolean[] processed, Class<?> cls) {
 		boolean isRepeated = false;
 		try {
 			System.out.println("Warning:");
@@ -507,6 +507,7 @@ public class DFASemanticComparison extends SemanticComparison {
 			ndfa2.unload();
 
 			isRepeated = compareDFAs(dfa1, dfa2);
+			processed[0] = true;
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

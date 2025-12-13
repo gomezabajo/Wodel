@@ -131,13 +131,16 @@ public class JavaSemanticComparison extends SemanticComparison {
 		String packageName = mutantName.substring(mutantName.indexOf("/data/model/") + ("/data/model/").length(), mutantName.length());
 		packageName = packageName.substring(0, packageName.lastIndexOf(".")).replace(".", "/");
 		mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
-		String className = packageName.substring(packageName.lastIndexOf("/") + 1, packageName.length());
+		String className = mutantName;
+		if (className.indexOf(".") != - 1) {
+			className = className.substring(className.indexOf(".") + 1, className.length());
+		}
 		packageName = packageName.substring(0, packageName.lastIndexOf("/"));
 		IJavaProject javaProject = JavaCore.create(project);
 		String javaFileName = className + ".java";
 		String srcJavaFilePath = project.getLocation().toFile().getPath() + "/src/" + packageName + "/" + javaFileName;
 		compile(project);
-		return getBytecode(project, javaProject, model, "", className + ".java", srcJavaFilePath, packageName);
+		return getBytecode(project, javaProject, model, "", javaFileName, srcJavaFilePath, packageName);
 	}
 	
 	/*
@@ -211,7 +214,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 	}
 	*/
 	
-	private boolean applyTCE(byte[] byteArrayModel1, Resource resource1, String model1, Resource resource2, String model2, IProject project) {
+	private boolean applyTCE(byte[] byteArrayModel1, Resource resource1, String model1, Resource resource2, String model2, boolean[] processed, IProject project) {
 		boolean isRepeated = false;
 		if (byteArrayModel1 == null) {
 			return isRepeated;
@@ -237,13 +240,15 @@ public class JavaSemanticComparison extends SemanticComparison {
 			if (mutantName.indexOf("/data/out/") != -1) {
 				packageName = mutantName.substring(mutantName.indexOf("/data/out/") + ("/data/out/").length(), mutantName.length());
 			}
-			String className = packageName.substring(0, packageName.lastIndexOf(".")).replace(".", "/");
-			className = className.substring(className.lastIndexOf("/") + 1, className.length());
 			if (packageName.indexOf(".") > packageName.lastIndexOf("/")) {
 				packageName = packageName.substring(packageName.lastIndexOf("/") + 1, packageName.lastIndexOf(".")).replace(".", "/");
 				packageName = packageName.substring(0, packageName.lastIndexOf("/"));
 				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
 				//GET BYTECODE FOR MUTANT PROGRAM
+				String className = mutantName;
+				if (className.indexOf(".") != - 1) {
+					className = className.substring(className.indexOf(".") + 1, className.length());
+				}
 				String javaFileName = className + ".java";
 				String srcJavaFilePath = project.getLocation().toFile().getPath() + "/src/" + packageName + "/" + javaFileName;
 				String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
@@ -255,10 +260,15 @@ public class JavaSemanticComparison extends SemanticComparison {
 				}
 				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
 				modelToProject(resource2, block, mutantName, project.getName());
-				String artifactPath = project.getLocation().toFile().getPath() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
-				IOUtils.copyFile(artifactPath, srcJavaFilePath);
-				compile(project);
-				byteArrayModel2 = getBytecode(project, javaProject, resource2, block, className + ".java", artifactPath, packageName);
+				String artifactPath = project.getLocation().toFile().getPath() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + javaFileName;
+				if (new File(artifactPath).exists()) {
+					IOUtils.copyFile(artifactPath, srcJavaFilePath);
+					compile(project);
+					byteArrayModel2 = getBytecode(project, javaProject, resource2, block, javaFileName, artifactPath, packageName);
+				}
+				else {
+					byteArrayModel2 = null;
+				}
 				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
 				IOUtils.deleteFile(newSrcPath);
 			}
@@ -267,7 +277,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				firstPck = firstPck.substring(firstPck.lastIndexOf("/") + 1, firstPck.length());
 				packageName = firstPck + "." + packageName.substring(packageName.indexOf(".") + 1, packageName.lastIndexOf("/"));
 				packageName = packageName.replace(".", "/");
-				className = model2.substring(0, model2.lastIndexOf("."));
+				String className = model2.substring(0, model2.lastIndexOf("."));
 				if (className.indexOf(".") != -1) {
 					className = className.substring(className.lastIndexOf(".") + 1, className.length());
 				}
@@ -279,17 +289,24 @@ public class JavaSemanticComparison extends SemanticComparison {
 				String block = packageName.substring(packageName.lastIndexOf("/") + 1, packageName.length());
 				packageName = packageName.substring(packageName.lastIndexOf("/" + className + "/"));
 				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
-				String artifactPath = project.getLocation().toFile().getPath() + "/" + packageName.replace("/", ".") + "." + className + "/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
-				IOUtils.copyFile(artifactPath, srcJavaFilePath);
-				compile(project);
-				byteArrayModel2 = getBytecode(project, javaProject, resource2, block, className + ".java", artifactPath, packageName);
+				String artifactPath = project.getLocation().toFile().getPath() + "/" + packageName.replace("/", ".") + "." + className + "/" + block + "/" + mutantName + "/src/" + packageName + "/" + javaFileName;
+				if (new File(artifactPath).exists()) {
+					IOUtils.copyFile(artifactPath, srcJavaFilePath);
+					compile(project);
+					byteArrayModel2 = getBytecode(project, javaProject, resource2, block, javaFileName, artifactPath, packageName);
+				}
+				else {
+					byteArrayModel2 = null;
+				}
 				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
 				IOUtils.deleteFile(newSrcPath);
 			}
 			javaProject.setRawClasspath(entries, new NullProgressMonitor());
 			compile(project);
-
-			isRepeated = Arrays.equals(byteArrayModel1, byteArrayModel2);
+			if (byteArrayModel2 != null) {
+				isRepeated = Arrays.equals(byteArrayModel1, byteArrayModel2);
+				processed[0] = true;
+			}
 			iBytecodeFolder.delete(true, new NullProgressMonitor());
 			iFolder.delete(true, new NullProgressMonitor());
 		} catch (CoreException e) {
@@ -310,7 +327,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, boolean[] processed, Class<?> cls) {
 		Resource resource1 = null;
 		Resource resource2 = null;
 		model1 = model1.replace("\\\\", "/");
@@ -343,7 +360,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using TCE semantic comparison.");
 				byte[] seedBytecode = this.getSeedCompiled() != null ? (byte[]) this.getSeedCompiled() : null;
-				ret = applyTCE(seedBytecode, resource1, model1, resource2, model2, project);
+				ret = applyTCE(seedBytecode, resource1, model1, resource2, model2, processed, project);
 			}
 			resource2.unload();
 			resource1.unload();

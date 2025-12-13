@@ -34,11 +34,11 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
     IProject _project = ProjectUtils.getProject();
     boolean _tripleNotEquals = (_project != null);
     if (_tripleNotEquals) {
-      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-      _xifexpression = (_path + "/");
+      String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
+      _xifexpression = (_replace + "/");
     } else {
-      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-      _xifexpression = (_workspaceAbsolutePath + "/");
+      String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
+      _xifexpression = (_workspaceAbsolutePathWithProjectName + "/");
     }
     String projectFolderName = _xifexpression;
     File projectFolder = new File(projectFolderName);
@@ -51,8 +51,8 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
         this.program = ((Program) _definition);
         String xTextFileName = this.getMutatorPath(e, files);
-        String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-        String _plus = ("file:/" + _workspaceAbsolutePathWithProjectName);
+        String _workspaceAbsolutePathWithProjectName_1 = ModelManager.getWorkspaceAbsolutePathWithProjectName();
+        String _plus = ("file:/" + _workspaceAbsolutePathWithProjectName_1);
         String _plus_1 = (_plus + "/");
         String _output = this.program.getOutput();
         String _plus_2 = (_plus_1 + _output);

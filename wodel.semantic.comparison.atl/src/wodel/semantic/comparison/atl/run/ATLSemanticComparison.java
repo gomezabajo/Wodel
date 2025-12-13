@@ -222,7 +222,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 		return isRepeated;
 	}
 	
-	public boolean applyTCE(String model1, String model2, IProject project) {
+	public boolean applyTCE(String model1, String model2, boolean[] processed, IProject project) {
 		boolean isRepeated = false;
 		try {
 			final IFolder iFolder = project.getFolder(new Path("temp"));
@@ -244,6 +244,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 			//isRepeated = doCompare(xml1, xml2);
 			if (!xml1.equals("") && !xml2.equals("")) {
 				isRepeated = doCompare(xml1, xml2);
+				processed[0] = true;
 			}
 			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
 			iFolder.delete(true, new NullProgressMonitor());
@@ -257,7 +258,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 		return isRepeated;
 	}
 
-	public boolean applyTCE(String model2, IProject project) {
+	public boolean applyTCE(String model2, boolean[] processed, IProject project) {
 		boolean isRepeated = false;
 		try {
 			final IFolder iFolder = project.getFolder(new Path("temp"));
@@ -279,6 +280,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 			//isRepeated = doCompare(xml1, xml2);
 			if (!xml1.equals("") && !xml2.equals("")) {
 				isRepeated = doCompare(xml1, xml2);
+				processed[0] = true;
 			}
 			LockRegistry.INSTANCE.acquire(iFolder.getFullPath().toFile().getPath(), LockRegistry.LockType.WRITE);
 			iFolder.delete(true, new NullProgressMonitor());
@@ -293,7 +295,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, boolean[] processed, Class<?> cls) {
 		boolean ret = false;
 		Resource resource1 = null;
 		Resource resource2 = null;
@@ -317,7 +319,7 @@ public class ATLSemanticComparison extends SemanticComparison {
 				System.out.println("Warning:");
 				System.out.println("This comparison extension can only be used in the tester instance.");
 				System.out.println("Using semantic XML comparison.");
-				ret = applyTCE(model2, project);
+				ret = applyTCE(model2, processed, project);
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

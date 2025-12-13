@@ -21138,6 +21138,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 }
               }
             }
+            {
+              if (((mut.getContainer() != null) && (mut.getContainer().getExpression() == null))) {
+                _builder.append("\t");
+                _builder.append("List<EObject> objects = rts.getObjects();");
+                _builder.newLine();
+              }
+            }
           }
         }
         {

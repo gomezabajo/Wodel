@@ -5494,6 +5494,9 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneLauncher impleme
 					objects = selectedObjects;
 					«ENDIF»
 					«ENDIF»
+					«IF ((mut.container !== null) && (mut.container.expression === null))»
+					List<EObject> objects = rts.getObjects();
+					«ENDIF»
 				«ENDIF»
 				«IF mut.object instanceof RandomTypeSelection»
 				ObSelectionStrategy objectSelection = null; 

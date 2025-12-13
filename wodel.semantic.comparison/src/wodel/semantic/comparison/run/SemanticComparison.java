@@ -44,5 +44,5 @@ public abstract class SemanticComparison implements IExecutableExtension {
 	
 	public abstract String getURI();
 
-	public abstract boolean doCompare(List<String> metamodel, String model1, String model2, IProject project, Class<?> cls);
+	public abstract boolean doCompare(List<String> metamodel, String model1, String model2, IProject project, boolean[] processed, Class<?> cls);
 }

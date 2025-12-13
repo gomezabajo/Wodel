@@ -6361,8 +6361,10 @@ public class MutatorUtils {
 						Object equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(equivalence).equals(extensionName)) {
-							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{List.class, String.class, String.class, IProject.class, Class.class});
-							isRepeated = (boolean) doCompare.invoke(equivalence, metamodels, model, seed, project, cls);
+							boolean[] processed = new boolean[1];
+							processed[0] = false;
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{List.class, String.class, String.class, IProject.class, boolean[].class, Class.class});
+							isRepeated = (boolean) doCompare.invoke(equivalence, metamodels, model, seed, project, processed, cls);
 						}
 					}
 				} catch (InstantiationException e) {
@@ -6427,12 +6429,12 @@ public class MutatorUtils {
 							// ...evaluate invariant in the object
 							Object context = eObject;
 							String invariant = an.getDetails().get(key);
-							OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
+							OCL ocl = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
 							OCLHelper helper = ocl.createOCLHelper();
 							helper.setInstanceContext(context);
 							try {
 								OCLExpression exp = helper.createQuery(invariant);
-								Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
+								Query<?, ?, ?> query = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
 								Object eval = query.evaluate(context);
 
 								// check if the constraint failed
@@ -6451,12 +6453,12 @@ public class MutatorUtils {
 					for (String invariant : rules.get(cl.getName())) {
 						// ...evaluate invariant in the object
 						Object context = eObject;
-						OCL ocl = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
+						OCL ocl = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE);
 						OCLHelper helper = ocl.createOCLHelper();
 						helper.setInstanceContext(context);
 						try {
 							OCLExpression exp = helper.createQuery(invariant);
-							Query<?, ?, ?> query = OCL.newInstanceAbstract(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
+							Query<?, ?, ?> query = OCL.newInstance(org.eclipse.ocl.ecore.EcoreEnvironmentFactory.INSTANCE).createQuery(exp);
 							Object eval = query.evaluate(context);
 
 							// check if the constraint failed
@@ -6868,8 +6870,10 @@ public class MutatorUtils {
 								Resource modelfileblock = ModelManager.loadModel(
 										packages, pathfileblock);
 								File f = new File(pathfileblock);
-								if(!f.isDirectory() && !f.getName().contains("_")) { 
-									boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, sourceProject);
+								if(!f.isDirectory() && !f.getName().contains("_")) {
+									boolean[] processed = new boolean[1];
+									processed[0] = false;
+									boolean result = (boolean) doCompare.invoke(equivalence, metamodels, targetfile, pathfileblock, processed, sourceProject);
 									if (result == true) {
 										String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
 										equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";

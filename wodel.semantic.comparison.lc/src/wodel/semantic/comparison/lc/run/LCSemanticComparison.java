@@ -25,7 +25,7 @@ public class LCSemanticComparison extends SemanticComparison {
 	}
 
 	@Override
-	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, Class<?> cls) {
+	public boolean doCompare(List<String> metamodels, String model1, String model2, IProject project, boolean[] processed, Class<?> cls) {
 		Resource resource1 = null;
 		Resource resource2 = null;
 		model1 = model1.replace("\\\\", "/");
@@ -63,6 +63,7 @@ public class LCSemanticComparison extends SemanticComparison {
 			}
 			boolExpC2 = CircuitUtils.toBoolExp(c2);
 			ret = boolExpC1.equals(boolExpC2);
+			processed[0] = true;
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

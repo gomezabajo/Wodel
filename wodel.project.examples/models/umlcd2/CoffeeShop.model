@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_dqf_EOqWEe-xmJSiRSx9Aw">
+  <classdiagram xmi:id="_eSjdkOqWEe-xmJSiRSx9Aw">
+    <classes xmi:id="_KwBRQMDsEe60062mYiB1nA" name="Client"/>
+    <classes xmi:id="_STtFIMDsEe60062mYiB1nA" name="Coffee" abstract="true" subclasses="_frzusMDsEe60062mYiB1nA _kWofEMDsEe60062mYiB1nA"/>
+    <classes xmi:id="_frzusMDsEe60062mYiB1nA" name="Americano" superclass="_STtFIMDsEe60062mYiB1nA"/>
+    <classes xmi:id="_kWofEMDsEe60062mYiB1nA" name="Expresso" superclass="_STtFIMDsEe60062mYiB1nA"/>
+    <associations xmi:id="_1CRrEMDuEe60062mYiB1nA" name="clientcoffee" multiplicitySource="1" multiplicityTarget="1" source="_KwBRQMDsEe60062mYiB1nA" target="_STtFIMDsEe60062mYiB1nA"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_lpa9cOqWEe-xmJSiRSx9Aw">
+    <objects xmi:id="__G6_0MDuEe60062mYiB1nA" name="" class="_KwBRQMDsEe60062mYiB1nA"/>
+    <objects xmi:id="_D9yoIMDvEe60062mYiB1nA" name="" class="_kWofEMDsEe60062mYiB1nA"/>
+    <associations xmi:id="_rtGO8MDvEe60062mYiB1nA" name="clientcoffee" multiplicitySource="1" multiplicityTarget="1" source="__G6_0MDuEe60062mYiB1nA" target="_D9yoIMDvEe60062mYiB1nA"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

@@ -18,6 +18,7 @@
 
    <requires>
       <import feature="wodel.wodeledu" version="1.0.0.qualifier"/>
+      <import feature="wodel.examples" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin

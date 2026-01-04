@@ -341,7 +341,9 @@ public class EMFCopier {
 		}
 		URI uri = EcoreUtil.getURI(current);
 		String currentPartialURI = uri.toString();
-		currentPartialURI = currentPartialURI.substring(currentPartialURI.indexOf("#"), currentPartialURI.length());
+		if (currentPartialURI.indexOf("#") != -1) {
+			currentPartialURI = currentPartialURI.substring(currentPartialURI.indexOf("#"), currentPartialURI.length());
+		}
 		if (partialURI.equals(currentPartialURI)) {
 			return current;
 		}
@@ -375,7 +377,9 @@ public class EMFCopier {
 		EObject target = null;
 		URI uri = EcoreUtil.getURI(object);
 		String partialURI = uri.toString();
-		partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+		if (partialURI.indexOf("#") != -1) {
+			partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+		}
 		for (EObject copy : copied) {
 			target = searchContainedByURIEnding(copy, partialURI);
 			if (target != null) {

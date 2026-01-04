@@ -26,7 +26,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -66,8 +68,8 @@ public class EclipseHelper {
 	}
 
 	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
-			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final Shell theShell) {
+			final Set<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
+			final Set<String> exportedPackages, final Set<String> bundleClasspath, final IProgressMonitor progressMonitor, final Shell theShell) {
 		IProject project = null;
 		try {
 			progressMonitor.beginTask("", 10);
@@ -145,13 +147,46 @@ public class EclipseHelper {
 //									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17")));									
 									"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21")));									
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
+			
+			// Automated generation of seed models by means of the USE UML Model Validator Kodkod plug-in
+			String[] useKodkodLibs = {
+					"use.jar",
+					"use-runtime.jar",
+					"use-gui.jar",
+					"antlr-3.4-complete.jar",
+					"combinatoricslib-0.2.jar",
+					"gsbase.jar",
+					"guava-20.0.jar",
+					"itextpdf-5.5.2.jar",
+					"jruby-1.7.2.jar",
+					"junit.jar",
+					"vtd-xml.jar",
+					"ModelValidatorPlugin-5.2.0-r1.jar"
+			};
+			IFolder libFolder = project.getFolder("lib");
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, progressMonitor);
+			}
+			for (String useKodkodLib : useKodkodLibs) {
+				@SuppressWarnings("restriction")
+				IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+						IPackageFragmentRoot.K_BINARY,
+						IClasspathEntry.CPE_LIBRARY, libFolder.getFile(useKodkodLib).getProjectRelativePath(),
+						ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+						ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+						null, null, null, // specific output folder
+						false, // exported
+						ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+						ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+				classpathEntries.add(relativeLibraryEntry);
+			}
 
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
 					new SubProgressMonitor(progressMonitor, 1));
 
 			javaProject.setOutputLocation(new Path("/" + projectName + "/bin"), new SubProgressMonitor(progressMonitor,
 					1));
-			createManifest(projectName, requiredBundles, importPackages, exportedPackages, progressMonitor, project);
+			createManifest(projectName, requiredBundles, importPackages, exportedPackages, bundleClasspath, progressMonitor, project);
 			createBuildProps(progressMonitor, project, srcFolders);
 		}
 		catch (final Exception exception) {
@@ -206,12 +241,12 @@ public class EclipseHelper {
 			}
 		}
 		bpContent.append("\n");
-		bpContent.append("bin.includes = META-INF/,.,plugin.xml\n");
+		bpContent.append("bin.includes = META-INF/,\\\n.,\\\nplugin.xml\n");
 		createFile("build.properties", project, bpContent.toString(), progressMonitor);
 	}
 
 	private static void createManifest(final String projectName, final Set<String> requiredBundles, final Set<String> importPackages,
-			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final IProject project)
+			final Set<String> exportedPackages, Set<String> bundleClasspath, final IProgressMonitor progressMonitor, final IProject project)
 	throws CoreException {
 		final StringBuilder maniContent = new StringBuilder("Manifest-Version: 1.0\n");
 		maniContent.append("Automatic-Module-Name: " + projectName + "\n");
@@ -231,9 +266,10 @@ public class EclipseHelper {
 		//maniContent.append(" org.openarchitectureware.dependencies\n");
 
 		if (exportedPackages != null && !exportedPackages.isEmpty()) {
-			maniContent.append("Require-Bundle: " + exportedPackages.get(0));
-			for (int i = 1, x = exportedPackages.size(); i < x; i++) {
-				maniContent.append(",\n " + exportedPackages.get(i));
+			List<String> listExportedPackages = new ArrayList<String>(exportedPackages);
+			maniContent.append("Export-Package: " + listExportedPackages.get(0));
+			for (int i = 1, x = listExportedPackages.size(); i < x; i++) {
+				maniContent.append(",\n " + listExportedPackages.get(i));
 			}
 			maniContent.append("\n");
 		}
@@ -247,6 +283,15 @@ public class EclipseHelper {
 			}
 		}
 		//maniContent.append("Bundle-RequiredExecutionEnvironment: J2SE-1.5\r\n");
+		if (bundleClasspath != null && !bundleClasspath.isEmpty()) {
+			int nBundleClasspath = 0;
+			maniContent.append("Bundle-ClassPath: ");
+			for (final String entry : bundleClasspath) {
+				nBundleClasspath++;
+				if (nBundleClasspath == bundleClasspath.size()) maniContent.append(" " + entry + "\n");
+				else maniContent.append(" " + entry + ",\n");
+			}
+		}
 
 		final IFolder metaInf = project.getFolder("META-INF");
 		metaInf.create(false, true, new SubProgressMonitor(progressMonitor, 1));

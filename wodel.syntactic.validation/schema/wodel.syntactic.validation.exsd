@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="wodel.syntactic.validation.run.Validation:"/>
+                  <meta.attribute kind="java" basedOn="wodel.syntactic.validation.run.SyntacticValidation:"/>
                </appinfo>
             </annotation>
          </attribute>

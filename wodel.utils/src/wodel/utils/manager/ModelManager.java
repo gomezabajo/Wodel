@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,6 +51,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
@@ -912,7 +914,7 @@ public class ModelManager {
 
 	public static String getWorkspaceAbsolutePath() {
 		String ret = null;
-		if (ProjectUtils.projectsAreReady() != null) {
+		if (ProjectUtils.getProject() != null) {
 			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : null; 
 			if (path != null) {
 				URI uri = URI.createFileURI(path);
@@ -959,7 +961,7 @@ public class ModelManager {
 	
 	public static String getWorkspaceAbsolutePathWithProjectName() {
 		String ret = null;
-		if (ProjectUtils.projectsAreReady() != null) {
+		if (ProjectUtils.getProject() != null) {
 			String path = ProjectUtils.getProject() != null ? ProjectUtils.getProject().getLocation().toFile().getPath() : null; 
 			if (path != null) {
 				URI uri = URI.createFileURI(path);
@@ -2711,6 +2713,10 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
 		Resource model = null;
 		try {
@@ -2759,19 +2765,25 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
 		final Map<Object, Object> options = resourceSet.getLoadOptions();
 		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
 		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
-		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new LinkedHashMap<Object, Object>());
 		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
 		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
 			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			r.printStackTrace();
 			throw new ModelNotFoundException(strURI);
@@ -2814,6 +2826,10 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
 		final Map<Object, Object> options = resourceSet.getLoadOptions();
 		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
@@ -2821,12 +2837,14 @@ public class ModelManager {
 		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
 		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
 		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
 			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			r.printStackTrace();
 			throw new ModelNotFoundException(strURI);
@@ -2870,6 +2888,10 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
 		final Map<Object, Object> options = resourceSet.getLoadOptions();
 		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
@@ -2877,12 +2899,14 @@ public class ModelManager {
 		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
 		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
 		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
 			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			r.printStackTrace();
 		}
@@ -2943,7 +2967,10 @@ public class ModelManager {
 			// Add packages to package registry
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
-			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
 		final Map<Object, Object> options = resourceSet.getLoadOptions();
 		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
@@ -2951,12 +2978,14 @@ public class ModelManager {
 		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
 		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
 		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
 			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			throw new ModelNotFoundException(strURI);
 		}
@@ -3026,14 +3055,25 @@ public class ModelManager {
 			// Add packages to package registry
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
-			// nested packages
+			for (EPackage sp : p.getESubpackages()) {
+				if (!resourceSet.getPackageRegistry().containsKey(sp.getNsURI()))
+					resourceSet.getPackageRegistry().put(sp.getNsURI(), sp);
+			}
 		}
+		final Map<Object, Object> options = resourceSet.getLoadOptions();
+		options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+		options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
+		options.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		Resource model = null;
 		try {
 			model = resourceSet.createResource(uri);
-			model.load(null);
+			model.load(options);
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
+		} catch (Resource.IOWrappedException e) {
 		} catch (IOException r) {
 			r.printStackTrace();
 		}
@@ -5472,7 +5512,7 @@ public class ModelManager {
 				.getDefaultSaveOptions();
 		saveOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
 		saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE,	new ArrayList<Object>());
-		saveOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, "DISCARD");
+		saveOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		resource.getContents().add(eobj);
 		try {
 			resource.save(saveOptions);
@@ -5547,7 +5587,7 @@ public class ModelManager {
 		model.setURI(URI.createFileURI(outputURI));
 		Map<Object, Object> options = new HashMap<Object, Object>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, "DISCARD");
+		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		try {
 			model.save(options);
 		} catch (IOException e) {

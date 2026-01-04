@@ -230,13 +230,20 @@ public class JavaSemanticValidation extends SemanticValidation {
 			workspacePath = workspacePath.substring(0, workspacePath.lastIndexOf("/" + project.getName()));
 			String srcJavaFilePath = workspacePath + "/" + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
 			String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
-			IOUtils.copyFile(srcJavaFilePath, newSrcPath);
-			IOUtils.copyFile(artifactPath, srcJavaFilePath);
+			File srcJavaFile = new File(srcJavaFilePath);
+			File artifactFile = new File(artifactPath);
+			if (srcJavaFile.exists() && artifactFile.exists()) {
+				IOUtils.copyFile(srcJavaFilePath, newSrcPath);
+				IOUtils.copyFile(artifactPath, srcJavaFilePath);
+			}
 			compile(project);
 			List<ICompilationUnit> compilationUnits = getCompilationUnits(javaProject);
 			isValid = !hasErrors(compilationUnits);
-			IOUtils.copyFile(newSrcPath, srcJavaFilePath);
-			IOUtils.deleteFile(newSrcPath);
+			File newSrcPathFile = new File(newSrcPath);
+			if (newSrcPathFile.exists()) {
+				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+				IOUtils.deleteFile(newSrcPath);
+			}
 			iFolder.delete(true, new NullProgressMonitor());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

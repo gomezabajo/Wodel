@@ -12,6 +12,10 @@ import java.util.ArrayList
 import java.util.List
 import wodel.utils.manager.JavaUtils
 import wodel.dsls.WodelUtils
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
+import java.util.Map
+import java.util.LinkedHashMap
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -21,23 +25,34 @@ import wodel.dsls.WodelUtils
  */
 class WodelDynamicAPIGenerator extends WodelAPIGenerator {
 
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
+
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		standalone = false
-		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
+		var IProject project = projectOf(resource)
+		this.project = project !== null ? project : ProjectUtils.project
+		var String projectFolderName = this.project !== null ? this.project.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
-		//var List<String> mutators = getMutators(files)
+		//var List<String> mutators = ProjectUtils.getMutatorFiles(project).map[name.replace(".mutator", "")]
+		fileURI = resource.URI
+			var Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>()
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
-			fileName = resource.URI.lastSegment
-			var String xTextFileName = getMutatorPath(e, files)
+			var String xTextFileName = getMutatorPath(e, this.project, files)
 			program = (e as MutatorEnvironment).definition as Program
-			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePathWithProjectName + "/" + program.output + fileName.replaceAll(".mutator", ".model")
+			xmiFileName = "file:/" + projectFolderName + program.output + fileURI.lastSegment.replaceAll(".mutator", ".model")
 			WodelUtils.serialize(xTextFileName, xmiFileName)
 
-
-			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
+			var String fileName = fileURI.lastSegment.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
 			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
 			fileName = mutatorName.replaceAll("[.]", "_") + "DynamicAPI.java"
@@ -56,7 +71,7 @@ class WodelDynamicAPIGenerator extends WodelAPIGenerator {
      		if (fsa.isFile("mutator/" + mutatorName + "/" + fileName)) {
 				fsa.deleteFile("mutator/" + mutatorName + "/" + fileName)
      		}
-     		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(mutatorName, className), false))
+     		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(this.project, mutatorName, className), false))
 		}
 		//if (fsa.isFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "APILauncher.java")) {
 		//	fsa.deleteFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "APILauncher.java")

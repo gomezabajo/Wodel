@@ -3,13 +3,17 @@ package wodel.dsls.generator;
 import com.google.common.collect.Iterables;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import mutatorenvironment.Block;
 import mutatorenvironment.Definition;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.Program;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -27,67 +31,87 @@ import wodel.utils.manager.ProjectUtils;
  */
 @SuppressWarnings("all")
 public class WodelDynamicAPIGenerator extends WodelAPIGenerator {
+  public static IProject projectOf(final Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
+  }
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.standalone = false;
-    String _xifexpression = null;
-    IProject _project = ProjectUtils.getProject();
-    boolean _tripleNotEquals = (_project != null);
-    if (_tripleNotEquals) {
-      String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
-      _xifexpression = (_replace + "/");
+    IProject project = WodelDynamicAPIGenerator.projectOf(resource);
+    IProject _xifexpression = null;
+    if ((project != null)) {
+      _xifexpression = project;
+    } else {
+      _xifexpression = ProjectUtils.getProject();
+    }
+    this.project = _xifexpression;
+    String _xifexpression_1 = null;
+    if ((this.project != null)) {
+      String _replace = this.project.getLocation().toFile().getPath().replace("\\", "/");
+      _xifexpression_1 = (_replace + "/");
     } else {
       String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-      _xifexpression = (_workspaceAbsolutePathWithProjectName + "/");
+      _xifexpression_1 = (_workspaceAbsolutePathWithProjectName + "/");
     }
-    String projectFolderName = _xifexpression;
+    String projectFolderName = _xifexpression_1;
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     String mutatorName = "";
+    this.fileURI = resource.getURI();
+    Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>();
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
     for (final MutatorEnvironment e : _filter) {
       {
-        this.fileName = resource.getURI().lastSegment();
-        String xTextFileName = this.getMutatorPath(e, files);
+        String xTextFileName = this.getMutatorPath(e, this.project, files);
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
         this.program = ((Program) _definition);
-        String _workspaceAbsolutePathWithProjectName_1 = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-        String _plus = ("file:/" + _workspaceAbsolutePathWithProjectName_1);
-        String _plus_1 = (_plus + "/");
         String _output = this.program.getOutput();
-        String _plus_2 = (_plus_1 + _output);
-        String _replaceAll = this.fileName.replaceAll(".mutator", ".model");
-        String _plus_3 = (_plus_2 + _replaceAll);
-        this.xmiFileName = _plus_3;
+        String _plus = (("file:/" + projectFolderName) + _output);
+        String _replaceAll = this.fileURI.lastSegment().replaceAll(".mutator", ".model");
+        String _plus_1 = (_plus + _replaceAll);
+        this.xmiFileName = _plus_1;
         WodelUtils.serialize(xTextFileName, this.xmiFileName);
-        String _replaceAll_1 = this.fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
-        String _plus_4 = (_replaceAll_1 + ".mutator");
-        this.fileName = _plus_4;
-        mutatorName = this.fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
+        String _replaceAll_1 = this.fileURI.lastSegment().replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
+        String fileName = (_replaceAll_1 + ".mutator");
+        mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
         String _replaceAll_2 = mutatorName.replaceAll("[.]", "_");
-        String _plus_5 = (_replaceAll_2 + "DynamicAPI.java");
-        this.fileName = _plus_5;
-        this.className = this.fileName.replaceAll(".java", "");
+        String _plus_2 = (_replaceAll_2 + "DynamicAPI.java");
+        fileName = _plus_2;
+        this.className = fileName.replaceAll(".java", "");
         String key = this.className.replace("DynamicAPI", "");
         EList<Block> _blocks = e.getBlocks();
         for (final Block b : _blocks) {
           {
             List<String> values = new ArrayList<String>();
-            boolean _contains = this.mutMap.keySet().contains(key);
+            boolean _contains = mutMap.keySet().contains(key);
             if (_contains) {
-              values = this.mutMap.get(key);
+              values = mutMap.get(key);
             }
             if ((((b.getName() != null) && (!b.getName().isEmpty())) && (!values.contains(b.getName())))) {
               values.add(b.getName());
             }
-            this.mutMap.put(key, values);
+            mutMap.put(key, values);
           }
         }
-        boolean _isFile = fsa.isFile(((("mutator/" + mutatorName) + "/") + this.fileName));
+        boolean _isFile = fsa.isFile(((("mutator/" + mutatorName) + "/") + fileName));
         if (_isFile) {
-          fsa.deleteFile(((("mutator/" + mutatorName) + "/") + this.fileName));
+          fsa.deleteFile(((("mutator/" + mutatorName) + "/") + fileName));
         }
-        fsa.generateFile(((("mutator/" + mutatorName) + "/") + this.fileName), JavaUtils.format(this.compile(e, mutatorName, this.className), false));
+        fsa.generateFile(((("mutator/" + mutatorName) + "/") + fileName), JavaUtils.format(this.compile(e, this.project, mutatorName, this.className), false));
       }
     }
   }

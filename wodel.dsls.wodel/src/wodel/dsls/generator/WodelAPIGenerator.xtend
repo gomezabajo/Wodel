@@ -5,13 +5,15 @@ import mutatorenvironment.Program
 import org.eclipse.core.resources.IProject
 import java.util.Map
 import java.util.List
-import java.util.HashMap
-import wodel.utils.manager.ProjectUtils
+import java.util.LinkedHashMap
 import java.io.File
-import java.util.ArrayList
 import mutatorenvironment.MutatorEnvironment
 import wodel.utils.manager.ModelManager
 import org.eclipse.core.runtime.Platform
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.core.resources.ResourcesPlugin
+import mutatorenvironment.Block
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -21,52 +23,26 @@ import org.eclipse.core.runtime.Platform
  */
 abstract class WodelAPIGenerator extends AbstractGenerator {
 	
-	protected String fileName
+	protected URI fileURI
 	protected Program program
 	protected IProject project = null
 	protected String xmiFileName
 	protected String className = ""
-	protected Map<String, List<String>> mutMap = new HashMap<String, List<String>>()
-	
+
 	protected boolean standalone = false
 	
-	def String getProjectName() {
-		var String projectName = null
-		if (ProjectUtils.project !== null) {
-			projectName = ProjectUtils.project.name
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
 		}
-		return projectName
+		null
 	}
 	
-	def List<String> getMutators(File[] files) {
-		var List<String> mutators = new ArrayList<String>()
-		if (files !== null) {
-			for (File file : files) {
-				if (file !== null) {
-					if (file.isFile == true) {
-						if (file.getName().endsWith(".mutator")) {
-							var mutator = file.getName().replaceAll(".mutator", "")
-							if (!mutators.contains(mutator)) {
-								mutators.add(mutator)
-							}
-						}
-					}
-					else if (file.isDirectory == true) {
-						var List<String> nextMutators = new ArrayList<String>()
-						nextMutators.addAll(getMutators(file.listFiles))
-						for (String nextMutator : nextMutators) {
-							if (!mutators.contains(nextMutator)) {
-								mutators.add(nextMutator)
-							}
-						}
-					}
-				}
-			}
-		}
-		return mutators
-	}
-	
-	def String getMutatorPath(MutatorEnvironment e, File[] files) {
+	def String getMutatorPath(MutatorEnvironment e, IProject project, File[] files) {
+		var IProject p = projectOf(e.eResource)
+		p = p !== null ? p : project 
 		var String mutatorPath = null
 		if (mutatorPath === null && files !== null) {
 			for (File file : files) {
@@ -74,15 +50,17 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 					return mutatorPath
 				}
 				if (file !== null) {
-				 	if (file.isFile == true) {
-						if (file.getName().equals(fileName)) {
-							var path = file.path.replace("\\", "/")
-							var mutatorFolderAndFile = path.substring(path.lastIndexOf("/" + getProjectName + "/") + ("/" + projectName).length)
-							mutatorPath = "file:/" + ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + mutatorFolderAndFile
+				 	if (file.exists && file.isFile == true) {
+						var path = file.path.replace("\\", "/")
+						if (path.indexOf("/" + p.name + "/") != -1) {
+							var mutatorFolderAndFile = path.substring(path.lastIndexOf("/" + p.name + "/"))
+							if (mutatorFolderAndFile.equals(fileURI.toPlatformString(true))) {
+								mutatorPath = "file:/" + p.getLocation.toFile.getPath.replace("\\", "/") + "/" + mutatorFolderAndFile.substring(("/" + p.name + "/").length)
+							}
 						}
 					}
-					else  {
-						mutatorPath = getMutatorPath(e, file.listFiles)
+					if (file.exists && file.isDirectory)  {
+						mutatorPath = getMutatorPath(e, p, file.listFiles)
 					}
 				}
 			}
@@ -90,7 +68,9 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 		return mutatorPath
 	}
 	
-	def compile(MutatorEnvironment e, String mutatorName, String className) '''
+	def compile(MutatorEnvironment e, IProject project, String mutatorName, String className) '''
+	//«this.project = projectOf(e.eResource)»
+	//«this.project = this.project !== null ? this.project : project»
 	package mutator.«mutatorName»;
 	
 	import java.io.IOException;
@@ -200,42 +180,20 @@ abstract class WodelAPIGenerator extends AbstractGenerator {
 		}
 	}
 	'''
-	def launcher(MutatorEnvironment e, List<String> mutators) '''
+	def launcherDynamic(MutatorEnvironment e, IProject project, List<String> mutators, Map<String, List<String>> mutMap) '''
 
-package mutator.«getProjectName»;
+	//«this.project = projectOf(e.eResource)»
+	//«this.project = this.project !== null ? this.project : project»
+package mutator.«project.name»;
 
 import java.util.ArrayList;
 import java.util.List;
 
-«IF standalone == false»
 import wodel.utils.manager.MutatorAPILauncher;
-«ELSE»
-import wodel.utils.exceptions.AbstractCreationException;
-import wodel.utils.exceptions.MaxSmallerThanMinException;
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
-import wodel.utils.exceptions.ObjectNoTargetableException;
-import wodel.utils.exceptions.ObjectNotContainedException;
-import wodel.utils.exceptions.ReferenceNonExistingException;
-import wodel.utils.exceptions.WrongAttributeTypeException;
-import java.io.IOException;
-import java.io.File;
-import wodel.utils.manager.IOUtils;
-import wodel.utils.manager.MutatorUtils;
-«FOR String mutatorName : mutMap.keySet»
-import mutator.«mutatorName».«mutatorName»StandaloneAPI;
-«ENDFOR»
-«ENDIF»
 
-«IF standalone == false»
-public class «getProjectName.replaceAll("[.]", "_")»DynamicAPILauncher {
+public class «project.name.replaceAll("[.]", "_")»DynamicAPILauncher {
 	public static void main(String[] args) 
 	{
-«ELSE»
-public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
-	public static void createMutants(String inputFolder, String outputFolder) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
-	{
-«ENDIF»
 
 		String ecoreURI = "«ModelManager.getMetaModel(e)»";
 		List<String> mutatorNames = new ArrayList<String>();
@@ -260,10 +218,65 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		«IF standalone == false»
-		MutatorAPILauncher.createMutants("«getProjectName»", ecoreURI, «getProjectName.replaceAll("[.]", "_")»APILauncher.class, arrMutatorNames, arrOperatorNames, "D:\\seed", "D:\\mutants");
-		«ELSE»
-		String inputWodelFolder = "«ModelManager.getModelsFolder(e)»";
+		MutatorAPILauncher.createMutants("«project.name»", ecoreURI, «project.name.replaceAll("[.]", "_")»APILauncher.class, arrMutatorNames, arrOperatorNames, "D:\\seed", "D:\\mutants");
+	}
+}
+	'''
+	def launcherStandalone(List<MutatorEnvironment> mutEnvironment, IProject project, Map<String, List<String>> mutMap) '''
+	
+	«IF mutEnvironment !== null && !mutEnvironment.isEmpty»
+
+	//«this.project = projectOf(mutEnvironment.get(0).eResource)»
+	//«this.project = this.project !== null ? this.project : project»
+package mutator.«project.name»;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import wodel.utils.exceptions.AbstractCreationException;
+import wodel.utils.exceptions.MaxSmallerThanMinException;
+import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ObjectNoTargetableException;
+import wodel.utils.exceptions.ObjectNotContainedException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
+import wodel.utils.exceptions.WrongAttributeTypeException;
+import java.io.IOException;
+import java.io.File;
+import wodel.utils.manager.IOUtils;
+import wodel.utils.manager.MutatorUtils;
+«FOR String mutatorName : mutMap.keySet»
+import mutator.«mutatorName».«mutatorName»StandaloneAPI;
+«ENDFOR»
+
+public class «project.name.replaceAll("[.]", "_")»StandaloneAPILauncher {
+	public static void createMutants(String inputFolder, String outputFolder) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
+	{
+
+		String ecoreURI = "«ModelManager.getMetaModel(mutEnvironment.get(0))»";
+		List<String> mutatorNames = new ArrayList<String>();
+		«FOR mutatorName : mutMap.keySet»
+		mutatorNames.add("«mutatorName»");
+		«ENDFOR»
+		List<List<String>> operatorNames = new ArrayList<List<String>>();
+		«FOR mut : mutMap.keySet»
+		List<String> mutatorOperatorNames«mut» = new ArrayList<String>();
+		«FOR operator : mutMap.get(mut)»
+		mutatorOperatorNames«mut».add("«operator»");
+		«ENDFOR»
+		operatorNames.add(mutatorOperatorNames«mut»);
+		«ENDFOR»
+		String[] arrMutatorNames = new String[mutatorNames.size()];
+		mutatorNames.toArray(arrMutatorNames);
+		String[][] arrOperatorNames = new String[mutatorNames.size()][];
+		int i = 0;
+		for (List<String> mutOpNames : operatorNames) {
+			String[] arrMutatorOperatorNames = new String[mutOpNames.size()];
+			mutOpNames.toArray(arrMutatorOperatorNames);
+			arrOperatorNames[i] = arrMutatorOperatorNames;
+			i++;
+		}
+		String inputWodelFolder = "«ModelManager.getModelsFolder(mutEnvironment.get(0))»";
 		// clean-up input wodel folder only if it is different to the input folder
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
@@ -281,7 +294,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			
 		File projectFolder = new File(«className».class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		List<String> mutatorList = MutatorUtils.getMutators(projectFolder.listFiles());
-		String outputWodelFolder = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath() + "«ModelManager.getOutputFolder(e)»";
+		String outputWodelFolder = «className».class.getProtectionDomain().getCodeSource().getLocation().getPath() + "«ModelManager.getOutputFolder(mutEnvironment.get(0))»";
 		// clean-up output folder preserving xtext auto generated models
 		IOUtils.deleteFolder(outputWodelFolder, "model", mutatorList);
 		i = 0;
@@ -299,10 +312,8 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 			e1.printStackTrace();
 		}
 		System.out.println("Complete mutant generation process finished.");
-		«ENDIF»
 	}
 	
-	«IF standalone == true»
 	public static void main(String[] args) throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException
 	{
 		if (args.length != 2) {
@@ -311,7 +322,7 @@ public class «getProjectName.replaceAll("[.]", "_")»StandaloneAPILauncher {
 		}
 		createMutants(args[0], args[1]);
 	}
-	«ENDIF»
 }
+«ENDIF»
 	'''
 }

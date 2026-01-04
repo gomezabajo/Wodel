@@ -53,6 +53,7 @@ import org.eclipse.ui.part.ViewPart;
 import wodeltest.run.utils.MutatorHelper;
 import wodel.utils.manager.WodelTestUtils;
 import wodel.utils.manager.IWodelTest;
+import wodel.utils.manager.ProjectUtils;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;
 import wodel.utils.manager.WodelTestResultInfo;
@@ -121,7 +122,7 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			if (WodelTestUtils.getProject() == null) {
 				return true;
 			}
 			if (filterIndex.get(this.testSuiteNameDataFilter) == -1 || filterIndex.get(this.testSuiteNameDataFilter) == 0) {
@@ -224,10 +225,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (WodelTestUtils.projectsAreReady() == null) {
+		IProject project = null;
+		if ((project = WodelTestUtils.getProject()) == null) {
 			return;
 		}
-		IProject project = WodelTestUtils.getProject();
 	    
 	    String path = project.getLocation().toFile().getPath().replace("\\", "/");
 	    String workspacePath = path.substring(0, path.lastIndexOf("/" + project.getName()));
@@ -552,10 +553,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return new Object[0];
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -609,10 +610,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 		@Override
 		public boolean hasChildren(Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return false;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -680,10 +681,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 		}
 
 		private Color getBackground(Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return null;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -774,10 +775,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return null;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -939,10 +940,10 @@ public class WodelTestClassResultsViewPart extends ViewPart implements IPartList
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (WodelTestUtils.projectsAreReady() == null) {
+		IProject project = null;
+		if ((project = WodelTestUtils.getProject()) == null) {
 			return;
 		}
-		IProject project = WodelTestUtils.getProject();
 		testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 		// TODO Auto-generated method stub
 		if (partDeactivated == false) {

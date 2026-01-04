@@ -298,7 +298,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	   		URL fileURL = bundle.getEntry("/model/AppliedMutations.ecore");
 	   		String ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registry = ModelManager.loadMetaModel(ecore);
-			String xmiFileName = output +  "/" + fileName.replace(".java", ".model");
+			String xmiFileName = output +  "/" + fileName.replace(".mutator", ".model");
 			fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 			ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
@@ -323,7 +323,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 					}
 				}
 			}
-			String path = output + fileName.replace(".java", "") + "_debugMetrics.model";
+			String path = output + fileName.replace(".mutator", "") + "_debugMetrics.model";
 			ModelManager.createModel(met, path);
 		} catch (ModelNotFoundException e) {
 			// TODO Auto-generated catch block

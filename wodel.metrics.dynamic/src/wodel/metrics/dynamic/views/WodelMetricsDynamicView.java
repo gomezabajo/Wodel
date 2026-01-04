@@ -31,11 +31,13 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.*;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -46,6 +48,8 @@ import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 
 import wodel.utils.exceptions.MetaModelNotFoundException;
+import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.exceptions.ReferenceNonExistingException;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel net dynamic footprints view
@@ -60,17 +64,17 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 	public static final String ID = "wodel.metrics.dynamic.views.WodelMetricsDynamicView";
 
 	private TreeViewer m_treeViewer;
-	
+
 	private Action doubleClickAction;
-	
+
 	private static final Color RED = new Color(Display.getCurrent(), 178, 34, 34);
-	
+
 	private static final Color AMBAR = new Color(Display.getCurrent(), 207, 179, 55);
-	
+
 	private static final Color GREEN = new Color(Display.getCurrent(), 0, 128, 0);
-	
+
 	private static final Color GRAY = new Color(Display.getCurrent(), 225, 225, 225);
-	
+
 	class ViewLabelProvider extends LabelProvider implements ILabelProvider {
 		public String getColumnText(Object obj, int index) {
 			return getText(obj);
@@ -86,26 +90,76 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 		}
 	}
 
-	public void createPartControl(Composite parent) {
-		if (ProjectUtils.projectsAreReady() == null) {
-			return;
-		}
+	private static Resource loadWodelModel(String filename) {
+		String xmiFilename = ModelManager.getOutputPath() + "/" + filename.replaceAll(".mutator", ".model");
+		Bundle bundle = Platform.getBundle("wodel.models");
+		List<EPackage> wodelpackages = null;
+		URL fileURL = bundle.getEntry("/model/MutatorEnvironment.ecore");
 		try {
-			String output = ModelManager.getOutputPath();
-			String fileName = ProjectUtils.getFileName();
-			if (fileName.endsWith(".mutator") == false) {
-				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
-				//msgbox.open();
+			String ecore = FileLocator.resolve(fileURL).getFile();
+			wodelpackages = ModelManager.loadMetaModel(ecore);
+		} catch (MetaModelNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Resource wodel = null;
+		if (wodelpackages != null) {
+			try {
+				wodel = ModelManager.loadModel(wodelpackages, xmiFilename);
+			} catch (ModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return wodel;
+	}
+
+	public void createPartControl(Composite parent) {
+		try {
+			IProject project = ProjectUtils.getProject();
+			IFile file = ProjectUtils.getActiveFile().orElse(null);
+			if (file == null && project == null) {
 				return;
 			}
+			if (file != null && project == null) {
+				project = file.getProject();
+			}
+			String filename = ProjectUtils.getFileName(project);
+			if (filename == null) {
+				return;
+			}
+			if (!filename.endsWith(".mutator")) {
+				return;
+			}
+			Resource wodelLocal = loadWodelModel(filename);
 			Bundle bundle = Platform.getBundle("wodel.models");
-	   		URL fileURL = bundle.getEntry("/model/MutatorMetrics.ecore");
-	   		String metricsmetamodel = FileLocator.resolve(fileURL).getFile();
-			//String metricsmetamodel = Platform.getLocation().toFile().getPath() + "/" + project + "/resources/MutatorMetrics.ecore";
+			URL fileURL = bundle.getEntry("/model/MutatorMetrics.ecore");
+			String metricsmetamodel = FileLocator.resolve(fileURL).getFile();
+			//String metricsmetamodel = ModelManager.getWorkspaceAbsolutePath() + "/" + project + "/resources/MutatorMetrics.ecore";
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);
 			String metamodel = ModelManager.getMetaModel();
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			String modelPath = ModelManager.getModelsPath(metamodel, wodelLocal);
+			if (modelPath != null) {
+				modelPath = modelPath.replace("\\", "/");
+				if (modelPath.startsWith(project.getName())) {
+					modelPath = modelPath.substring(project.getName().length(), modelPath.length());
+				}
+				if (modelPath.startsWith("/" + project.getName())) {
+					modelPath = modelPath.substring(("/" + project.getName()).length(), modelPath.length());
+				}
+				if (modelPath.length() > 1 && modelPath.substring(1, modelPath.length()).indexOf("/") > 0) {
+					modelPath = modelPath.substring(0, 1) + modelPath.substring(1, modelPath.substring(1, modelPath.length()).indexOf("/") + 1);
+				}
+				if (modelPath.startsWith("/")) {
+					modelPath = modelPath.substring(1, modelPath.length());
+				}
+			}
+
+			String output = ModelManager.getOutputPath();
 			File outputFolder = new File(output);
 			List<String> models = new ArrayList<String>();
 			for (File f : outputFolder.listFiles()) {
@@ -124,9 +178,9 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 			}
 			List<WodelMetricClassifier> classifiers = new ArrayList<WodelMetricClassifier>();
 			classifiers.addAll(Arrays.asList(NetMutatorMetrics.createWodelDynamicMetrics(models, metricspackages, packages)));
-			
+
 			Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+					| SWT.V_SCROLL);
 			addressTree.setHeaderVisible(true);
 			m_treeViewer = new TreeViewer(addressTree);
 			TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
@@ -199,7 +253,7 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 				column4.setText(String.format("D.: %1$d%%", 0));
 			}
 			column4.setWidth(60);
-		
+
 			m_treeViewer.setContentProvider(new WodelMetricsContentProvider());
 			m_treeViewer.setLabelProvider(new TableLabelProvider());
 			m_treeViewer.setInput(classifiers);
@@ -212,18 +266,24 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public void setFocus() {
-		if (m_treeViewer.getControl() != null) {
+		if (m_treeViewer != null && m_treeViewer.getControl() != null) {
 			m_treeViewer.getControl().setFocus();
 		}
 	}
-	
+
 	public void createActions(File file) {
-        
-        doubleClickAction = new Action() {
+
+		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = m_treeViewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
@@ -233,7 +293,7 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 						obj instanceof WodelMetricMutant) {
 					WodelMetricItem item = (WodelMetricItem) obj;
 					File itemToShow = new File(item.getPath());
-        		 
+
 					if (itemToShow.exists()) {
 						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						IViewPart view = page.findView(IPageLayout.ID_PROJECT_EXPLORER);
@@ -255,30 +315,30 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 					WodelMetricMutant mutant = (WodelMetricMutant) obj;
 					if (mutant.getName().endsWith(".model")) {
 						File fileToOpen = new File(mutant.getPath());
-	        		 
+
 						if (fileToOpen.exists() && fileToOpen.isFile()) {
 							IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
 							IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-	        		 
+
 							try {
 								IDE.openEditorOnFileStore( page, fileStore );
 							} catch ( PartInitException e ) {
-	        		        //Put your exception handler here if you wish to
+								//Put your exception handler here if you wish to
 							}
 						}
 					}
 				}
 			}
 		};
-        
-        // Add selection listener.
+
+		// Add selection listener.
 		m_treeViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
 		});
 	}
-	
+
 	class WodelMetricsContentProvider implements ITreeContentProvider {
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof List) {
@@ -418,7 +478,7 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 
 		public void dispose() {
 		}
-		
+
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
@@ -824,18 +884,18 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

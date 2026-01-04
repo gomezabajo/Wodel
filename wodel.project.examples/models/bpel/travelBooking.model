@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xmi:version="2.0">
+  <bpws:Process xmi:id="i1" name="TravelBookingProcess" targetNamespace="http://example.org/bpel/travel">
+    <partnerLinks xmi:id="i2">
+      <children xmi:id="i3" name="customerPL"/>
+      <children xmi:id="i4" name="airlinePL"/>
+      <children xmi:id="i5" name="hotelPL"/>
+      <children xmi:id="i6" name="paymentPL"/>
+    </partnerLinks>
+    <variables xmi:id="i7">
+      <children xmi:id="i8" name="itinerary"/>
+      <children xmi:id="i9" name="itineraryCopy"/>
+      <children xmi:id="i10" name="bookingRequest"/>
+      <children xmi:id="i11" name="paymentInfo"/>
+    </variables>
+    <activity xsi:type="bpws:Sequence" xmi:id="i12" name="mainBookingSequence" suppressJoinFailure="true">
+      <activities xsi:type="bpws:Receive" xmi:id="i13" name="receiveBooking" partnerLink="i3" portType="i63" operation="i64" createInstance="true" variable="i10" messageExchange="i59"/>
+      <activities xsi:type="bpws:Pick" xmi:id="i14" name="customerDecision">
+        <messages xmi:id="i15" portType="i63" partnerLink="i3" operation="i65" messageExchange="i59"/>
+        <messages xmi:id="i16" portType="i63" partnerLink="i3" operation="i66" messageExchange="i59"/>
+        <alarm xmi:id="i17">
+          <activity xsi:type="bpws:Empty" xmi:id="i18" name="decisionTimeout"/>
+        </alarm>
+      </activities>
+      <activities xsi:type="bpws:ForEach" xmi:id="i19" name="iteratePassengers">
+        <startCounterValue xmi:id="i20"/>
+        <finalCounterValue xsi:type="bpws:BooleanExpression" xmi:id="i21"/>
+        <counterName xmi:id="i22"/>
+        <activity xsi:type="bpws:Empty" xmi:id="i23" name="preparePassenger"/>
+      </activities>
+      <activities xsi:type="bpws:Flow" xmi:id="i24" name="parallelBooking">
+        <activities xsi:type="bpws:Invoke" xmi:id="i25" name="bookFlight" partnerLink="i4" portType="i63" operation="i64"/>
+        <activities xsi:type="bpws:Invoke" xmi:id="i26" name="bookHotel" partnerLink="i5" portType="i63" operation="i65"/>
+      </activities>
+      <activities xsi:type="bpws:If" xmi:id="i27" name="checkPayment">
+        <elseIf xmi:id="i28">
+          <activity xsi:type="bpws:Empty" xmi:id="i29" name="paymentRetry"/>
+        </elseIf>
+        <else xmi:id="i30">
+          <activity xsi:type="bpws:Empty" xmi:id="i31" name="paymentFailed"/>
+        </else>
+        <activity xsi:type="bpws:Invoke" xmi:id="i32" name="makePayment" partnerLink="i6" portType="i67" operation="i68"/>
+      </activities>
+      <activities xsi:type="bpws:While" xmi:id="i33" name="waitConfirmation">
+        <activity xsi:type="bpws:Empty" xmi:id="i34" name="pollSuppliers"/>
+        <condition xmi:id="i35"/>
+      </activities>
+      <activities xsi:type="bpws:RepeatUntil" xmi:id="i36" name="untilConfirmed">
+        <activity xsi:type="bpws:Throw" xmi:id="i37" name="throwBookingFault" faultVariable="i8"/>
+        <condition xmi:id="i38"/>
+      </activities>
+      <activities xsi:type="bpws:Scope" xmi:id="i39" name="finalise" isolated="true">
+        <compensationHandler xmi:id="i40">
+          <activity xsi:type="bpws:Empty" xmi:id="i41" name="compensateBooking"/>
+        </compensationHandler>
+        <activity xsi:type="bpws:Sequence" xmi:id="i42" name="finaliseSequence">
+          <activities xsi:type="bpws:Empty" xmi:id="i43" name="composeItinerary"/>
+          <activities xsi:type="bpws:Empty" xmi:id="i44" name="notifyCustomer"/>
+        </activity>
+        <terminationHandler xmi:id="i45">
+          <activity xsi:type="bpws:Empty" xmi:id="i46" name="terminateBooking"/>
+        </terminationHandler>
+      </activities>
+    </activity>
+    <faultHandlers xmi:id="i47">
+      <catch xmi:id="i48">
+        <activity xsi:type="bpws:Rethrow" xmi:id="i49" name="rethrowFault"/>
+      </catch>
+      <catchAll xmi:id="i50">
+        <activity xsi:type="bpws:Sequence" xmi:id="i51" name="faultSequence">
+          <activities xsi:type="bpws:Empty" xmi:id="i52" name="logFault"/>
+        </activity>
+      </catchAll>
+    </faultHandlers>
+    <eventHandlers xmi:id="i53">
+      <alarm xmi:id="i54">
+        <activity xsi:type="bpws:Empty" xmi:id="i55" name="periodicCleanup"/>
+      </alarm>
+      <events xmi:id="i56" partnerLink="i3" operation="i66" portType="i63" messageExchange="i59"/>
+      <events xmi:id="i57" partnerLink="i3" operation="i66" portType="i63" messageExchange="i59"/>
+    </eventHandlers>
+    <messageExchanges xmi:id="i58">
+      <children xmi:id="i59" name="reqMex"/>
+      <children xmi:id="i60" name="flightMex"/>
+      <children xmi:id="i61" name="hotelMex"/>
+      <children xmi:id="i62" name="paymentMex"/>
+    </messageExchanges>
+  </bpws:Process>
+  <wsdl:PortType xmi:id="i63">
+    <eOperations xmi:id="i64" name="bookFlight"/>
+    <eOperations xmi:id="i65" name="bookHotel"/>
+    <eOperations xmi:id="i66" name="cancelBooking"/>
+  </wsdl:PortType>
+  <wsdl:PortType xmi:id="i67">
+    <eOperations xmi:id="i68" name="makePayment"/>
+  </wsdl:PortType>
+</xmi:XMI>

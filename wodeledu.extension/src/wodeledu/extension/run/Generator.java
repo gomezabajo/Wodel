@@ -125,7 +125,6 @@ public class Generator implements IGenerator {
 		importPackages.add("org.eclipse.xtext.xbase.lib");
 		importPackages.add("org.eclipse.xtext.util");
 		importPackages.add("wodeledu.dsls.generator");
-		importPackages.add("wodeledu.dsls.generator.modeldraw");
 		importPackages.add("com.google.inject");
 		importPackages.add("javax.inject");
 		importPackages.add("com.google.common.util.concurrent.internal");
@@ -268,11 +267,11 @@ public class Generator implements IGenerator {
 			else {
 				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
 			}
-			
 			if (metamodel != null) {
 				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
 				List<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(0);
+				def += eclass.getName() + " {\n";
 				EList<EAttribute> eatts = eclass.getEAllAttributes();
 				EAttribute eatt1 = null;
 				EAttribute eatt2 = null;
@@ -285,13 +284,14 @@ public class Generator implements IGenerator {
 					}
 				}
 				if ((eatt1 != null) && (eatt2 != null)) {
-					def += ">" + eclass.getName() + "(" + eatt2.getName() + "): " + eclass.getName() + " %" + eatt1.getName() + "\n";
+					def += "\t>" + eclass.getName() + "(" + eatt2.getName() + "): " + eclass.getName() + " %" + eatt1.getName() + "\n";
 				}
 				if (eatt1 != null) {
-					def += ">" + eclass.getName() + ": " + eclass.getName() + " %" + eatt1.getName() + "\n";
+					def += "\t>" + eclass.getName() + ": " + eclass.getName() + " %" + eatt1.getName() + "\n";
 				}
 			}
-			def += "//>ClassName(attName): (LeftText %AttributeName|%ReferenceName.AttributeName RightText)+\n";
+			def += "\t//>ClassName(attName): (LeftText %AttributeName|%ReferenceName.AttributeName RightText)+\n";
+			def += "}\n";
 			if (idelemsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;
@@ -518,7 +518,9 @@ public class Generator implements IGenerator {
 		try {
 		
 			final IFolder libFolder = mutProject.getFolder(new Path("lib"));
-			libFolder.create(true, true, monitor);
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, monitor);
+			}
 
 			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 			//URL fileURL = bundle.getEntry("content");
@@ -537,7 +539,9 @@ public class Generator implements IGenerator {
 							InputStream input = jar.getInputStream(entry);
 							final IFile output = libFolder.getFile(new Path(dest.getName()
 									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
-							output.create(input, true, monitor);
+							if (!output.exists()) {
+								output.create(input, true, monitor);
+							}
 							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
 							input.close();
 						}
@@ -549,9 +553,13 @@ public class Generator implements IGenerator {
 				srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
 				final File src = new Path(srcName).toFile();
 				for (File f : src.listFiles()) {
-					final IFile dest = libFolder.getFile(new Path(f.getName()));
-					dest.create(new FileInputStream(f), true, monitor);
-					dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					if (!f.isDirectory()) {
+						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						if (!dest.exists()) {
+							dest.create(new FileInputStream(f), true, monitor);
+						}
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
 				}
 			}
 		} catch (IOException e) {

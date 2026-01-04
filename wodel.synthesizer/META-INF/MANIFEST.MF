@@ -10,11 +10,22 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.utils,
  wodel.models,
  wodel.dsls.wodel,
- org.eclipse.xtext
+ org.eclipse.xtext,
+ com.google.guava,
+ org.eclipse.jdt
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.synthesizer
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: lib/ModelValidatorPlugin-5.1.0-r1.jar,
+Bundle-ClassPath: .,
  lib/use.jar,
  lib/use-runtime.jar,
- lib/antlr-3.4-complete.jar
+ lib/use-gui.jar,
+ lib/antlr-3.4-complete.jar,
+ lib/combinatoricslib-0.2.jar,
+ lib/gsbase.jar,
+ lib/guava-20.0.jar,
+ lib/itextpdf-5.5.2.jar,
+ lib/jruby-1.7.2.jar,
+ lib/junit.jar,
+ lib/vtd-xml.jar,
+ lib/ModelValidatorPlugin-5.2.0-r1.jar

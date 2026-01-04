@@ -131,7 +131,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			if (WodelTestUtils.getProject() == null) {
 				return true;
 			}
 			if (filterIndex.get(this.testSuiteNameDataFilter) == -1 || filterIndex.get(this.testSuiteNameDataFilter) == 0) {
@@ -207,11 +207,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 	@Override
 	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-		if (WodelTestUtils.projectsAreReady() == null) {
+		IProject project = null;
+		if ((project = WodelTestUtils.getProject()) == null) {
 			return;
 		}
-		IProject project = WodelTestUtils.getProject();
 	    
 	    String path = project.getLocation().toFile().getPath().replace("\\", "/");
 	    String workspacePath = path.substring(0, path.lastIndexOf("/" + project.getName()));
@@ -485,10 +484,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return new Object[0];
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -539,10 +538,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public boolean hasChildren(Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return false;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -610,10 +609,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 		}
 		
 		private Color getBackground(Object element) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return null;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -694,10 +693,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (WodelTestUtils.projectsAreReady() == null) {
+			IProject project = null;
+			if ((project = WodelTestUtils.getProject()) == null) {
 				return null;
 			}
-			IProject project = WodelTestUtils.getProject();
 			testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 			String testSuiteName = null;
 			if (testSuiteNames.size() > 0) {
@@ -764,10 +763,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart implements IPartLi
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (WodelTestUtils.projectsAreReady() == null) {
+		IProject project = null;
+		if ((project = WodelTestUtils.getProject()) == null) {
 			return;
 		}
-		IProject project = WodelTestUtils.getProject();
 		testSuiteNames = WodelTestUtils.getTestSuitesNames(project);
 		// TODO Auto-generated method stub
 		if (partDeactivated == false) {

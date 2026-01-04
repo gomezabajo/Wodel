@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
@@ -92,6 +93,7 @@ import org.tzi.use.main.Session;
 import org.tzi.use.main.shell.Shell;
 import org.tzi.use.main.shell.runtime.IPluginShellCmd;
 import org.tzi.use.runtime.impl.PluginRuntime;
+import org.tzi.use.main.runtime.IRuntime;
 import org.tzi.use.uml.mm.MAttribute;
 import org.tzi.use.uml.ocl.value.Value;
 import org.tzi.use.uml.sys.MLink;
@@ -227,28 +229,28 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				standardConsole = ul;
 			}
 
-			// redirect system.err to buffer
-			public static WrapperErrorConsole start() {
-				try {
-					final StringBuilder sb = new StringBuilder();
-					Field f = FilterOutputStream.class.getDeclaredField("out");
-					f.setAccessible(true);
-					OutputStream psout = (OutputStream) f.get(System.err);
-					wrapperConsole = new WrapperErrorConsole(
-							sb, 
-							new FilterOutputStream(psout) {
-								public void write(int b) throws IOException {
-									super.write(b);
-									sb.append((char) b);
-								}
-							}, 
-							System.err);
-					System.setErr(wrapperConsole);
-				} 
-				catch (NoSuchFieldException shouldNotHappen)     {} 
-				catch (IllegalArgumentException shouldNotHappen) {} 
-				catch (IllegalAccessException shouldNotHappen)   {}
-				return null;
+			public static PrintStream start() {
+			    final StringBuilder sb = new StringBuilder();
+			    final PrintStream originalErr = System.err;
+
+			    OutputStream tee = new OutputStream() {
+			        @Override public void write(int b) throws IOException {
+			            originalErr.write(b);
+			            sb.append((char) b); // OK for ASCII; see note below
+			        }
+			        @Override public void write(byte[] b, int off, int len) throws IOException {
+			            originalErr.write(b, off, len);
+			            sb.append(new String(b, off, len, StandardCharsets.UTF_8));
+			        }
+			        @Override public void flush() throws IOException { originalErr.flush(); }
+			        @Override public void close() { /* don't close originalErr */ }
+			    };
+
+			    PrintStream wrapper = new PrintStream(tee, true, StandardCharsets.UTF_8);
+			    System.setErr(wrapper);
+
+			    // store sb + originalErr somewhere if you need to restore / read later
+			    return wrapper;
 			}
 
 			// get content of buffer
@@ -771,7 +773,8 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 					// process the .use and the .properties files
 					processUSEFiles(packages, procUseFilename, procPropertiesFilename, classNames, useReferences);
 
-					Shell.createInstance(fSession, PluginRuntime.getInstance());
+					IRuntime runtime = PluginRuntime.getInstance();
+					Shell.createInstance(fSession, runtime);
 					WrapperErrorConsole.start();  // wrapper for standard error console
 					final String use_file = procUseFilename.toAbsolutePath().toString();
 					Shell.getInstance().processLineSafely("open " + use_file);
@@ -807,7 +810,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 									if (solutions.size() > 0) {
 										MSystemState mSystemState = mSystem.state();
 										String xmiFileName = fileName.replaceAll(".mutator", suffix_final + i + ".model");
-										String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
+										String seedPath = ModelManager.getMetaModelPath().replace("\\", "/") + "/" + xmiFileName;
 										progressMonitor.subTask("Seed " + (i + 1) + "/" + numSeedModels + ": " + seedPath);
 										Resource seed = parseOutput2Emf(packages, seedPath, mSystemState, useReferences, forceRoot);
 										if (seed != null) {

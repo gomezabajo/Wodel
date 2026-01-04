@@ -34,6 +34,14 @@
             name="Wodel output folder clean-up">
       </command>
    </extension>
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodel.run.popup.actions.CleanUpWodelRegistry"
+            id="wodel.run.popup.actions.CleanUpWodelRegistry"
+            name="Wodel registry clean-up">
+      </command>
+   </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
@@ -169,6 +177,55 @@
                   commandId="wodel.run.popup.actions.CleanUpWodelOutputFolder"
                   icon="icons/wodel4.jpg"
                   label="Wodel clean-up output folder"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodel.project.wodelNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.mutator">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="wodel.run.popup.actions.CleanUpWodelRegistry"
+            id="wodelCleanUpWodelRegistry"
+            name="Clean Registry">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/wodel4.jpg"
+               id="Wodel.menu1"
+               label="Wodel...">
+            <separator
+                  name="group1">
+            </separator>
+            <command
+                  commandId="wodelCleanUpWodelRegistry"
+                  icon="icons/wodel4.jpg"
+                  label="Clean Registry"
                   style="push">
             <visibleWhen
                	  checkEnabled="false">

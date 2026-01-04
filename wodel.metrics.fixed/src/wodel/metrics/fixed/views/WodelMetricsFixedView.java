@@ -68,6 +68,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -163,13 +164,14 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 	}
 
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.projectsAreReady() == null) {
+		IProject project = ProjectUtils.getProject();
+		if (project == null) {
 			return;
 		}
 		String metamodel = ModelManager.getMetaModel();
-		String project = ProjectUtils.getProject().getName();
+		String projectName = project.getName();
 		metrics = new ArrayList<WodelMetricClass>();
-		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(project, metamodel)));
+		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(projectName, metamodel)));
 
 		Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION);

@@ -16,9 +16,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @author Pablo Gomez-Abajo - Wodel new Wodel-Edu for automata example project Wizard page.
+ * @author Pablo Gomez-Abajo - Wodel new Wodel-Edu for uml class diagrams example project Wizard page.
  * 
- * Wodel new Wodel-Edu for automata example project Wizard page.
+ * Wodel new Wodel-Edu for uml class diagrams example project Wizard page.
  *  
  */
 

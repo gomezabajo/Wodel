@@ -3,15 +3,18 @@ package wodel.project.examples.wizards;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -38,7 +41,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
@@ -131,10 +133,11 @@ public class BPELWizard extends Wizard implements INewWizard {
 		folders.add("src");
 		folders.add("src-gen");
 
-		List<IProject> referencedProjects = new ArrayList<IProject>();
-		Set<String> requiredBundles = new HashSet<String>();
-		Set<String> importPackages = new HashSet<String>();
-		List<String> exportedPackages = new ArrayList<String>();
+		Set<IProject> referencedProjects = new LinkedHashSet<IProject>();
+		Set<String> requiredBundles = new LinkedHashSet<String>();
+		Set<String> importPackages = new LinkedHashSet<String>();
+		Set<String> exportedPackages = new LinkedHashSet<String>();
+		Set<String> bundleClasspath = new LinkedHashSet<String>();
 
 		requiredBundles.add("wodel.utils");
 		requiredBundles.add("wodel.models");
@@ -153,10 +156,24 @@ public class BPELWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.e4.ui.workbench");
 		requiredBundles.add("org.eclipse.e4.ui.model.workbench");
 		requiredBundles.add("org.eclipse.e4.core.di");
+		
+		bundleClasspath.add(".");
+		bundleClasspath.add("lib/use.jar");
+		bundleClasspath.add("lib/use-runtime.jar");
+		bundleClasspath.add("lib/use-gui.jar");
+		bundleClasspath.add("lib/antlr-3.4-complete.jar");
+		bundleClasspath.add("lib/combinatoricslib-0.2.jar");
+		bundleClasspath.add("lib/gsbase.jar");
+		bundleClasspath.add("lib/guava-20.0.jar");
+		bundleClasspath.add("lib/itextpdf-5.5.2.jar");
+		bundleClasspath.add("lib/jruby-1.7.2.jar");
+		bundleClasspath.add("lib/junit.jar");
+		bundleClasspath.add("lib/vtd-xml.jar");
+		bundleClasspath.add("lib/ModelValidatorPlugin-5.2.0-r1.jar");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
-				exportedPackages, monitor, this.getShell());
+				exportedPackages, bundleClasspath, monitor, this.getShell());
 		
 		ProjectUtils.setProject(project);
 
@@ -245,9 +262,9 @@ public class BPELWizard extends Wizard implements INewWizard {
 			}
 			br.close();
 			InputStream stream = openContentStream();
-			String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+			String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 			content += def;
-			stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+			stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 			metamodelFile.create(stream, true, monitor);
 			stream.close();
 		} catch (IOException e) {
@@ -264,14 +281,14 @@ public class BPELWizard extends Wizard implements INewWizard {
 		final IFile file = srcFolder.getFile(new Path(fileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "generate 2 mutants\n"
+			String def = "generate exhaustive mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
 			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\tisv {\n";
-			def += "\t\tv1 = select one Variable where {type <> null}\n";
-			def += "\t\tv2 = select one Variable where {self <> v1 and type = v1->type and name <> v1.name}\n";
+			def += "\t\tv1 = select one Variable\n";
+			def += "\t\tv2 = select one Variable where {self <> v1 and name <> v1.name}\n";
 			def += "\t\tmodify v1 with {copy (name, v2.name)}\n";
 			def += "\t}\n";
 			def += "\taci {\n";
@@ -359,12 +376,12 @@ public class BPELWizard extends Wizard implements INewWizard {
 			def += "\t}\n";
 			def += "}";
 			if (file.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				file.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				file.create(stream, true, monitor);
 			}
 			stream.close();
@@ -374,6 +391,102 @@ public class BPELWizard extends Wizard implements INewWizard {
 		String xTextFileName = "file:/" + project.getLocation().toFile().getPath() + "/src/" + fileName;
 		String xmiFileName = "file:/" + project.getLocation().toFile().getPath() + "/" + mutantName + '/' + fileName.replaceAll("mutator", "model");
 		WodelUtils.serialize(xTextFileName, xmiFileName);
+
+		try {
+			
+			final IFolder libFolder = project.getFolder(new Path("lib"));
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			File jarFile = new File(BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+			
+			final IFolder modelValidatorPluginFolder = libFolder.getFolder(new Path("modelValidatorPlugin"));
+			if (!modelValidatorPluginFolder.exists()) {
+				modelValidatorPluginFolder.create(true, true, monitor);
+			}
+			final IFolder modelValidatorPluginx86Folder = modelValidatorPluginFolder.getFolder(new Path("x86"));
+			if (!modelValidatorPluginx86Folder.exists()) {
+				modelValidatorPluginx86Folder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			jarFile = new File(BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/modelValidatorPlugin/x86/")) {
+							final String name = entry.getName();
+							final File f = modelValidatorPluginx86Folder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib/modelValidatorPlugin/x86".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = modelValidatorPluginx86Folder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = BPELWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = modelValidatorPluginx86Folder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+			
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		monitor.beginTask("Creating tests folder", 8);
 		final IFile test = configFolder.getFile(new Path("test.txt"));

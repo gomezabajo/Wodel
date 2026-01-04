@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xmi:version="2.0">
+  <bpws:Process xmi:id="i1" name="OrderAcknowledgementProcess" targetNamespace="http://example.org/bpel/order">
+    <partnerLinks xmi:id="i2">
+      <children xmi:id="i3" name="customerPL"/>
+    </partnerLinks>
+    <variables xmi:id="i4">
+      <children xmi:id="i5" name="orderId"/>
+      <children xmi:id="i6" name="orderIdCopy"/>
+    </variables>
+    <activity xsi:type="bpws:Sequence" xmi:id="i7" name="mainSequence" suppressJoinFailure="true">
+      <activities xsi:type="bpws:Receive" xmi:id="i8" name="receiveOrder" partnerLink="i3" portType="i34" operation="i35" createInstance="true" variable="i5" messageExchange="i33"/>
+      <activities xsi:type="bpws:ForEach" xmi:id="i9" name="iterateItems">
+        <startCounterValue xmi:id="i10"/>
+        <finalCounterValue xsi:type="bpws:BooleanExpression" xmi:id="i11"/>
+        <counterName xmi:id="i12"/>
+        <activity xsi:type="bpws:Empty" xmi:id="i13" name="processItem"/>
+      </activities>
+      <activities xsi:type="bpws:If" xmi:id="i14" name="validateOrder">
+        <elseIf xmi:id="i15">
+          <activity xsi:type="bpws:Empty" xmi:id="i16" name="elseifHandle"/>
+        </elseIf>
+        <else xmi:id="i17">
+          <activity xsi:type="bpws:Empty" xmi:id="i18" name="elseReject"/>
+        </else>
+        <activity xsi:type="bpws:Rethrow" xmi:id="i19" name="rethrowInThen"/>
+      </activities>
+      <activities xsi:type="bpws:While" xmi:id="i20" name="retryLoop">
+        <activity xsi:type="bpws:Empty" xmi:id="i21" name="retryStep"/>
+        <condition xmi:id="i22"/>
+      </activities>
+      <activities xsi:type="bpws:RepeatUntil" xmi:id="i23" name="waitUntilDone">
+        <activity xsi:type="bpws:Throw" xmi:id="i24" name="throwFault" faultVariable="i6"/>
+        <condition xmi:id="i25"/>
+      </activities>
+      <activities xsi:type="bpws:Scope" xmi:id="i26" name="scopedWork" isolated="true">
+        <compensationHandler xmi:id="i27">
+          <activity xsi:type="bpws:Empty" xmi:id="i28" name="compensate"/>
+        </compensationHandler>
+        <activity xsi:type="bpws:Empty" xmi:id="i29" name="doWork"/>
+        <terminationHandler xmi:id="i30">
+          <activity xsi:type="bpws:Empty" xmi:id="i31" name="terminate"/>
+        </terminationHandler>
+      </activities>
+    </activity>
+    <messageExchanges xmi:id="i32">
+      <children xmi:id="i33" name="inMex"/>
+    </messageExchanges>
+  </bpws:Process>
+  <wsdl:PortType xmi:id="i34">
+    <eOperations xmi:id="i35" name="submitOrder"/>
+  </wsdl:PortType>
+</xmi:XMI>

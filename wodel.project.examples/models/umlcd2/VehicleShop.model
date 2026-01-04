@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 http://ObjectDiagram/1.0" xmi:id="_5h9TgOqpEe-7Z4EB9_GHhQ">
+  <classdiagram xmi:id="_6CP9IOqpEe-7Z4EB9_GHhQ">
+    <classes xmi:id="_XBOSoLd0Ee6g__3Jj50C4A" name="Vehicle" abstract="true" subclasses="_Zr_PwLd0Ee6g__3Jj50C4A _dqK8kLd0Ee6g__3Jj50C4A _bbuIALd0Ee6g__3Jj50C4A"/>
+    <classes xmi:id="_Zr_PwLd0Ee6g__3Jj50C4A" name="Car" superclass="_XBOSoLd0Ee6g__3Jj50C4A"/>
+    <classes xmi:id="_bbuIALd0Ee6g__3Jj50C4A" name="Truck" superclass="_XBOSoLd0Ee6g__3Jj50C4A"/>
+    <classes xmi:id="_dqK8kLd0Ee6g__3Jj50C4A" name="Bike" superclass="_XBOSoLd0Ee6g__3Jj50C4A"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_6YsHMOqpEe-7Z4EB9_GHhQ">
+    <objects xmi:id="_5Al7ILd0Ee6g__3Jj50C4A" name="" class="_Zr_PwLd0Ee6g__3Jj50C4A"/>
+    <objects xmi:id="_JOMLILd1Ee6g__3Jj50C4A" name="" class="_bbuIALd0Ee6g__3Jj50C4A"/>
+    <objects xmi:id="_LREo4Ld1Ee6g__3Jj50C4A" name="" class="_dqK8kLd0Ee6g__3Jj50C4A"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -155,6 +156,51 @@ public class EclipseHelper {
 
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 			
+			IFolder libFolder = project.getFolder("lib");
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, progressMonitor);
+			}
+			String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
+			//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
+			@SuppressWarnings("restriction")
+			IClasspathEntry plantUMLLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+			        IPackageFragmentRoot.K_BINARY,
+			        IClasspathEntry.CPE_LIBRARY, project.getFile(plantUMLlib).getProjectRelativePath(),
+			        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+			        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+			        null, null, null, // specific output folder
+			        false, // exported
+			        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+			        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+			classpathEntries.add(plantUMLLibraryEntry);
+			// Automated generation of seed models by means of the USE UML Model Validator Kodkod plug-in
+			String[] useKodkodLibs = {
+					"use.jar",
+					"use-runtime.jar",
+					"use-gui.jar",
+					"antlr-3.4-complete.jar",
+					"combinatoricslib-0.2.jar",
+					"gsbase.jar",
+					"guava-20.0.jar",
+					"itextpdf-5.5.2.jar",
+					"jruby-1.7.2.jar",
+					"junit.jar",
+					"vtd-xml.jar",
+					"ModelValidatorPlugin-5.2.0-r1.jar"
+			};
+			for (String useKodkodLib : useKodkodLibs) {
+				@SuppressWarnings("restriction")
+				IClasspathEntry relativeLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+						IPackageFragmentRoot.K_BINARY,
+						IClasspathEntry.CPE_LIBRARY, libFolder.getFile(useKodkodLib).getProjectRelativePath(),
+						ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+						ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+						null, null, null, // specific output folder
+						false, // exported
+						ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+						ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+				classpathEntries.add(relativeLibraryEntry);
+			}
 			if (projectKind == ProjectKind.JAVA) {
 				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/5")));
 				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.junit.JUNIT_CONTAINER/4")));

@@ -232,6 +232,20 @@ public class WodelTest4ChatbotsWizard extends Wizard implements INewWizard {
 			bundleClasspath.add(congaLibrary);
 		}
 */
+		bundleClasspath.add(".");
+		bundleClasspath.add("lib/use.jar");
+		bundleClasspath.add("lib/use-runtime.jar");
+		bundleClasspath.add("lib/use-gui.jar");
+		bundleClasspath.add("lib/antlr-3.4-complete.jar");
+		bundleClasspath.add("lib/combinatoricslib-0.2.jar");
+		bundleClasspath.add("lib/gsbase.jar");
+		bundleClasspath.add("lib/guava-20.0.jar");
+		bundleClasspath.add("lib/itextpdf-5.5.2.jar");
+		bundleClasspath.add("lib/jruby-1.7.2.jar");
+		bundleClasspath.add("lib/junit.jar");
+		bundleClasspath.add("lib/vtd-xml.jar");
+		bundleClasspath.add("lib/ModelValidatorPlugin-5.2.0-r1.jar");
+		
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, bundleClasspath, ProjectKind.CONGA, monitor, this.getShell());
@@ -682,6 +696,101 @@ public class WodelTest4ChatbotsWizard extends Wizard implements INewWizard {
 				}
 			}
 		} catch (IOException e) {
+		}
+
+		try {
+			
+			final IFolder libFolder = project.getFolder(new Path("lib"));
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			File jarFile = new File(WodelTest4ChatbotsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/")) {
+							final String name = entry.getName();
+							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = libFolder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelTest4ChatbotsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+			
+			final IFolder modelValidatorPluginFolder = libFolder.getFolder(new Path("modelValidatorPlugin"));
+			if (!modelValidatorPluginFolder.exists()) {
+				modelValidatorPluginFolder.create(true, true, monitor);
+			}
+			final IFolder modelValidatorPluginx86Folder = modelValidatorPluginFolder.getFolder(new Path("x86"));
+			if (!modelValidatorPluginx86Folder.exists()) {
+				modelValidatorPluginx86Folder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			jarFile = new File(WodelTest4ChatbotsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/modelValidatorPlugin/x86/")) {
+							final String name = entry.getName();
+							final File f = modelValidatorPluginx86Folder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib/modelValidatorPlugin/x86".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = modelValidatorPluginx86Folder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelTest4ChatbotsWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = modelValidatorPluginx86Folder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+		} catch (IOException e) {
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		try {

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL">
+  <bpws:Process xmi:id="procSmartCity" name="SmartCityIncidentResponseProcess" targetNamespace="http://example.org/bpel/smartcity">
+    <partnerLinks xmi:id="pls1">
+      <children xmi:id="plCitizen" name="citizenPL"/>
+      <children xmi:id="plPolice" name="policePL"/>
+      <children xmi:id="plAmbulance" name="ambulancePL"/>
+      <children xmi:id="plFire" name="firePL"/>
+      <children xmi:id="plSensor" name="sensorPL"/>
+    </partnerLinks>
+    <variables xmi:id="vars1">
+      <children xmi:id="vIncidentId" name="incidentId"/>
+      <children xmi:id="vIncidentIdCopy" name="incidentIdCopy"/>
+      <children xmi:id="vIncidentData" name="incidentData"/>
+      <children xmi:id="vStatus" name="status"/>
+      <children xmi:id="vCounter" name="counter"/>
+    </variables>
+    <activity xsi:type="bpws:Sequence" xmi:id="seqMain" name="mainIncidentSequence" suppressJoinFailure="true">
+      <activities xsi:type="bpws:Receive" xmi:id="receive1" name="receiveIncident" partnerLink="plCitizen" portType="ptIncident" operation="opReportIncident" createInstance="true" variable="vIncidentData" messageExchange="mexIn"/>
+      <activities xsi:type="bpws:Pick" xmi:id="pick1" name="operatorOverride">
+        <messages xmi:id="onMsg1" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+        <messages xmi:id="onMsg2" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+        <messages xmi:id="onMsg3" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+        <alarm xmi:id="pickAlarm1">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyPickAlarm1" name="overrideTimeout"/>
+        </alarm>
+      </activities>
+      <activities xsi:type="bpws:Flow" xmi:id="flowDispatch" name="parallelDispatch">
+        <activities xsi:type="bpws:Invoke" xmi:id="invokePolice" name="dispatchPolice" partnerLink="plPolice" portType="ptDispatch" operation="opDispatchPolice"/>
+        <activities xsi:type="bpws:Invoke" xmi:id="invokeAmb" name="dispatchAmbulance" partnerLink="plAmbulance" portType="ptDispatch" operation="opDispatchAmbulance"/>
+        <activities xsi:type="bpws:Invoke" xmi:id="invokeFire" name="dispatchFire" partnerLink="plFire" portType="ptDispatch" operation="opDispatchFire"/>
+        <activities xsi:type="bpws:Sequence" xmi:id="seqNotify" name="notifySequence">
+          <activities xsi:type="bpws:Invoke" xmi:id="invokeAck" name="ackCitizen" partnerLink="plCitizen" portType="ptIncident" operation="opAcknowledge"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyNotify1" name="recordDispatch"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyNotify2" name="pushMobileAlert"/>
+        </activities>
+        <activities xsi:type="bpws:Sequence" xmi:id="seqCoord" name="coordinationSequence">
+          <activities xsi:type="bpws:Empty" xmi:id="emptyCoord1" name="openIncidentRoom"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyCoord2" name="shareGeoLocation"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyCoord3" name="assignCoordinator"/>
+        </activities>
+      </activities>
+      <activities xsi:type="bpws:ForEach" xmi:id="forEach1" name="subscribeSensors" parallel="true">
+        <startCounterValue xmi:id="exprStart1"/>
+        <finalCounterValue xsi:type="bpws:BooleanExpression" xmi:id="exprFinal1"/>
+        <counterName xmi:id="counterVar2" name="forEachCounter1"/>
+        <activity xsi:type="bpws:Invoke" xmi:id="invokeSubscribe" name="subscribeSensor" partnerLink="plSensor" portType="ptSensor" operation="opSubscribe"/>
+      </activities>
+      <activities xsi:type="bpws:If" xmi:id="if1" name="routeBySeverity">
+        <elseIf xmi:id="elseIf1">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyElseIf1" name="handleMediumSeverity"/>
+        </elseIf>
+        <else xmi:id="else1">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyElse1" name="handleLowSeverity"/>
+        </else>
+        <activity xsi:type="bpws:Empty" xmi:id="emptyIfThen1" name="handleHighSeverity"/>
+      </activities>
+      <activities xsi:type="bpws:While" xmi:id="while1" name="whileNotResolved">
+        <activity xsi:type="bpws:Empty" xmi:id="emptyWhile1" name="pollResolution"/>
+        <condition xmi:id="cond1"/>
+      </activities>
+      <activities xsi:type="bpws:RepeatUntil" xmi:id="repeatUntil1" name="untilClosed">
+        <activity xsi:type="bpws:Throw" xmi:id="throw1" name="raiseEscalation" faultVariable="vIncidentId"/>
+        <condition xmi:id="cond2"/>
+      </activities>
+      <activities xsi:type="bpws:Scope" xmi:id="scope1" name="scopedEscalation" isolated="true">
+        <compensationHandler xmi:id="compH1">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyComp1" name="compensateEscalation"/>
+        </compensationHandler>
+        <activity xsi:type="bpws:Sequence" xmi:id="seqScope" name="scopeSequence">
+          <activities xsi:type="bpws:ForEach" xmi:id="forEach2" name="iterateEscalations">
+            <startCounterValue xmi:id="exprStart2"/>
+            <finalCounterValue xsi:type="bpws:BooleanExpression" xmi:id="exprFinal2"/>
+            <counterName xmi:id="counterVar1" name="forEachCounter2"/>
+            <activity xsi:type="bpws:Empty" xmi:id="emptyForEach2" name="escalateStep"/>
+          </activities>
+          <activities xsi:type="bpws:Pick" xmi:id="pick2" name="awaitSupervisor">
+            <messages xmi:id="onMsg4" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+            <messages xmi:id="onMsg5" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+            <alarm xmi:id="pickAlarm2">
+              <activity xsi:type="bpws:Empty" xmi:id="emptyPickAlarm2" name="supervisorTimeout"/>
+            </alarm>
+          </activities>
+          <activities xsi:type="bpws:Flow" xmi:id="flowEsc" name="escalationFlow">
+            <activities xsi:type="bpws:Empty" xmi:id="emptyEsc1" name="notifyLeadership"/>
+            <activities xsi:type="bpws:Empty" xmi:id="emptyEsc2" name="openCrisisChannel"/>
+            <activities xsi:type="bpws:Sequence" xmi:id="seqEscDoc" name="documentEscalation">
+              <activities xsi:type="bpws:Empty" xmi:id="emptyDoc1" name="snapshotTimeline"/>
+              <activities xsi:type="bpws:Empty" xmi:id="emptyDoc2" name="collectEvidence"/>
+              <activities xsi:type="bpws:Empty" xmi:id="emptyDoc3" name="archiveLogs"/>
+            </activities>
+          </activities>
+        </activity>
+        <terminationHandler xmi:id="termH1">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyTerm1" name="terminateEscalation"/>
+        </terminationHandler>
+      </activities>
+      <activities xsi:type="bpws:Flow" xmi:id="flowReporting" name="reportingAndLearning">
+        <activities xsi:type="bpws:Sequence" xmi:id="seqReport" name="reportSequence">
+          <activities xsi:type="bpws:Empty" xmi:id="emptyRep1" name="compileReport"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyRep2" name="anonymiseData"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyRep3" name="publishDashboard"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyRep4" name="sendSummaryToStakeholders"/>
+        </activities>
+        <activities xsi:type="bpws:ForEach" xmi:id="forEach3" name="iterateRecommendations">
+          <eExtensibilityElements xsi:type="bpws:BooleanExpression" xmi:id="wsdlExt1"/>
+          <startCounterValue xsi:type="bpws:BooleanExpression" xmi:id="exprStart3"/>
+          <finalCounterValue xmi:id="exprFinal3"/>
+          <counterName xmi:id="counterVar3" name="forEachCounter3"/>
+          <activity xsi:type="bpws:Empty" xmi:id="emptyForEach3" name="applyRecommendation"/>
+        </activities>
+        <activities xsi:type="bpws:While" xmi:id="while2" name="whileFeedbackOpen">
+          <activity xsi:type="bpws:Empty" xmi:id="emptyWhile2" name="collectFeedback"/>
+          <condition xmi:id="cond3"/>
+        </activities>
+        <activities xsi:type="bpws:Pick" xmi:id="pick3" name="waitForAnalytics">
+          <messages xmi:id="onMsg6" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+          <messages xmi:id="onMsg7" portType="ptIncident" partnerLink="plCitizen" operation="opAcknowledge" messageExchange="mexAck"/>
+          <alarm xmi:id="pickAlarm3">
+            <activity xsi:type="bpws:Empty" xmi:id="emptyPickAlarm3" name="analyticsTimeout"/>
+          </alarm>
+        </activities>
+        <activities xsi:type="bpws:Scope" xmi:id="scope2" name="postIncidentReview" isolated="true">
+          <compensationHandler xmi:id="compH2">
+            <activity xsi:type="bpws:Empty" xmi:id="emptyComp2" name="compensateReview"/>
+          </compensationHandler>
+          <activity xsi:type="bpws:Sequence" xmi:id="seqReview" name="reviewSequence">
+            <activities xsi:type="bpws:If" xmi:id="if2" name="checkSlaCompliance">
+              <elseIf xmi:id="elseIf2">
+                <activity xsi:type="bpws:Empty" xmi:id="emptyElseIf2" name="slaWarn"/>
+              </elseIf>
+              <else xmi:id="else2">
+                <activity xsi:type="bpws:Empty" xmi:id="emptyElse2" name="slaBreach"/>
+              </else>
+              <activity xsi:type="bpws:Empty" xmi:id="emptyIfThen2" name="slaOk"/>
+            </activities>
+            <activities xsi:type="bpws:RepeatUntil" xmi:id="repeatUntil2" name="untilLessonsCaptured">
+              <activity xsi:type="bpws:Empty" xmi:id="emptyRepeat2" name="captureLesson"/>
+              <condition xmi:id="cond4"/>
+            </activities>
+          </activity>
+          <terminationHandler xmi:id="termH2">
+            <activity xsi:type="bpws:Empty" xmi:id="emptyTerm2" name="terminateReview"/>
+          </terminationHandler>
+        </activities>
+      </activities>
+      <activities xsi:type="bpws:Rethrow" xmi:id="rethrow2" name="rethrowAtEnd"/>
+      <activities xsi:type="bpws:Empty" xmi:id="emptyEnd" name="finalise" suppressJoinFailure="true"/>
+    </activity>
+    <faultHandlers xmi:id="fh1">
+      <catch xmi:id="catch1">
+        <activity xsi:type="bpws:Rethrow" xmi:id="rethrow1" name="rethrowFault"/>
+      </catch>
+      <catch xmi:id="catch2">
+        <activity xsi:type="bpws:Empty" xmi:id="emptyCatch2" name="customCatchHandler"/>
+      </catch>
+      <catchAll xmi:id="catchAll1">
+        <activity xsi:type="bpws:Sequence" xmi:id="seqFault" name="faultSequence">
+          <activities xsi:type="bpws:Empty" xmi:id="emptyFault1" name="logFault"/>
+          <activities xsi:type="bpws:Empty" xmi:id="emptyFault2" name="notifyOps"/>
+        </activity>
+      </catchAll>
+    </faultHandlers>
+    <eventHandlers xmi:id="eh1">
+      <alarm xmi:id="ehAlarm1">
+        <activity xsi:type="bpws:Empty" xmi:id="emptyEhAlarm1" name="heartbeat"/>
+      </alarm>
+      <alarm xmi:id="ehAlarm2">
+        <activity xsi:type="bpws:Empty" xmi:id="emptyEhAlarm2" name="cleanupStaleSubscriptions"/>
+      </alarm>
+      <events xmi:id="onEvent1" partnerLink="plSensor" operation="opCancel" portType="ptSensor" messageExchange="mexSensor"/>
+      <events xmi:id="onEvent2" partnerLink="plSensor" operation="opCancel" portType="ptSensor" messageExchange="mexSensor"/>
+      <events xmi:id="onEvent3" partnerLink="plSensor" operation="opCancel" portType="ptSensor" messageExchange="mexSensor"/>
+    </eventHandlers>
+    <messageExchanges xmi:id="mexs1">
+      <children xmi:id="mexIn" name="incidentInMex"/>
+      <children xmi:id="mexAck" name="ackMex"/>
+      <children xmi:id="mexDispatch" name="dispatchMex"/>
+      <children xmi:id="mexSensor" name="sensorMex"/>
+      <children xmi:id="mexCancel" name="cancelMex"/>
+    </messageExchanges>
+  </bpws:Process>
+  <wsdl:PortType xmi:id="ptIncident">
+    <eOperations xmi:id="opReportIncident" name="reportIncident"/>
+    <eOperations xmi:id="opAcknowledge" name="acknowledge"/>
+  </wsdl:PortType>
+  <wsdl:PortType xmi:id="ptDispatch">
+    <eOperations xmi:id="opDispatchPolice" name="dispatchPolice"/>
+    <eOperations xmi:id="opDispatchAmbulance" name="dispatchAmbulance"/>
+    <eOperations xmi:id="opDispatchFire" name="dispatchFire"/>
+  </wsdl:PortType>
+  <wsdl:PortType xmi:id="ptSensor">
+    <eOperations xmi:id="opSubscribe" name="subscribe"/>
+    <eOperations xmi:id="opCancel" name="cancelSubscription"/>
+  </wsdl:PortType>
+</xmi:XMI>

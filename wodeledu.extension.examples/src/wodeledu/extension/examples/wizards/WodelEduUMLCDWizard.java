@@ -49,7 +49,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
-import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
 import wodel.dsls.WodelUtils;
 import wodeledu.dsls.ModelTextUtils;
@@ -58,9 +57,9 @@ import wodeledu.extension.examples.builder.WodelEduNature;
 import wodeledu.extension.examples.utils.EclipseHelper;
 
 /**
- * @author Pablo Gomez-Abajo - Wodel new Wodel-Edu for automata example project Wizard.
+ * @author Pablo Gomez-Abajo - Wodel new Wodel-Edu for uml class diagrams example project Wizard.
  * 
- * Wodel new Wodel-Edu for automata example project Wizard.
+ * Wodel new Wodel-Edu for uml class diagrams example project Wizard.
  *  
  */
 
@@ -894,11 +893,13 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 		try {
 			
 			final IFolder libFolder = project.getFolder(new Path("lib"));
-			libFolder.create(true, true, monitor);
+			if (!libFolder.exists()) {
+				libFolder.create(true, true, monitor);
+			}
 
 			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
 			//URL fileURL = bundle.getEntry("content");
-			final File jarFile = new File(WodelEduUMLCDWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			File jarFile = new File(WodelEduUMLCDWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 			String srcName = "";
 			if (jarFile.isFile()) {
 				final JarFile jar = new JarFile(jarFile);
@@ -906,7 +907,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			    while(entries.hasMoreElements()) {
 			    	JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("lib")) {
+						if (entry.getName().startsWith("lib/")) {
 							final String name = entry.getName();
 							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
 							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);
@@ -924,9 +925,55 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			else {
 				srcName = WodelEduUMLCDWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib";
 				final File src = new Path(srcName).toFile();
-				if (src != null) {
-					for (File f : src.listFiles()) {
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
 						final IFile dest = libFolder.getFile(new Path(f.getName()));
+						dest.create(new FileInputStream(f), true, monitor);
+						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
+					}
+				}
+			}
+			
+			final IFolder modelValidatorPluginFolder = libFolder.getFolder(new Path("modelValidatorPlugin"));
+			if (!modelValidatorPluginFolder.exists()) {
+				modelValidatorPluginFolder.create(true, true, monitor);
+			}
+			final IFolder modelValidatorPluginx86Folder = modelValidatorPluginFolder.getFolder(new Path("x86"));
+			if (!modelValidatorPluginx86Folder.exists()) {
+				modelValidatorPluginx86Folder.create(true, true, monitor);
+			}
+
+			//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+			//URL fileURL = bundle.getEntry("content");
+			jarFile = new File(WodelEduUMLCDWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			    while(entries.hasMoreElements()) {
+			    	JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("lib/modelValidatorPlugin/x86/")) {
+							final String name = entry.getName();
+							final File f = modelValidatorPluginx86Folder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib/modelValidatorPlugin/x86".length(), entry.getName().length()).split("/")[1]);
+							InputStream input = jar.getInputStream(entry);
+							final IFile output = modelValidatorPluginx86Folder.getFile(new Path(dest.getName()
+									.substring(dest.getName().lastIndexOf("/") + 1, dest.getName().length())));
+							output.create(input, true, monitor);
+							output.refreshLocal(IResource.DEPTH_ZERO, monitor);
+							input.close();
+						}
+					}
+			    }
+			    jar.close();
+			}
+			else {
+				srcName = WodelEduUMLCDWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "lib/modelValidatorPlugin/x86";
+				final File src = new Path(srcName).toFile();
+				for (File f : src.listFiles()) {
+					if (!f.isDirectory()) {
+						final IFile dest = modelValidatorPluginx86Folder.getFile(new Path(f.getName()));
 						dest.create(new FileInputStream(f), true, monitor);
 						dest.refreshLocal(IResource.DEPTH_ZERO, monitor);
 					}
@@ -937,6 +984,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 
 		
 		final IFolder dpicFolder = project.getFolder(new Path("dpic"));

@@ -82,13 +82,14 @@ public class WodelMetricsDataView extends ViewPart implements ISelectionChangedL
 	}
 
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.projectsAreReady() == null) {
+		IProject project = ProjectUtils.getProject();
+		if (project == null) {
 			return;
 		}
 		try {
 			String output = ModelManager.getOutputPath();
 			String metamodel = ModelManager.getMetaModel();
-			String fileName = ProjectUtils.getFileName();
+			String fileName = ProjectUtils.getFileName(project);
 			if (fileName.endsWith(".mutator") == false) {
 				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
@@ -104,7 +105,7 @@ public class WodelMetricsDataView extends ViewPart implements ISelectionChangedL
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 			Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-			String path = Platform.getLocation().toFile().getPath() + '/' + ProjectUtils.getProject().getName();
+			String path = Platform.getLocation().toFile().getPath().replace("\\", "/") + '/' + project.getName();
 			numberOfSeedModels = MutatorUtils.getNumberOfSeedModels((MutatorEnvironment) ModelManager.getRoot(program), path);
 
 			Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ASCII"?>
+<java:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" name="tool">
+  <ownedElements name="com">
+    <ownedPackages name="example">
+      <ownedPackages name="tool">
+        <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="Calculator">
+          <modifier visibility="public"/>
+          <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="add">
+            <modifier visibility="public"/>
+            <body originalCompilationUnit="//@compilationUnits.0">
+              <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.0">
+                <expression xsi:type="java:InfixExpression" originalCompilationUnit="//@compilationUnits.0" operator="+">
+                  <rightOperand xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.1"/>
+                  <leftOperand xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0"/>
+                </expression>
+              </statements>
+            </body>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="a" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="b" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <returnType type="//@orphanTypes.0"/>
+          </bodyDeclarations>
+          <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="mul">
+            <modifier visibility="public"/>
+            <body originalCompilationUnit="//@compilationUnits.0">
+              <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.0">
+                <expression xsi:type="java:InfixExpression" originalCompilationUnit="//@compilationUnits.0">
+                  <rightOperand xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@parameters.1"/>
+                  <leftOperand xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@parameters.0"/>
+                </expression>
+              </statements>
+            </body>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="a" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@expression/@leftOperand">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="b" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@expression/@rightOperand">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <returnType type="//@orphanTypes.0"/>
+          </bodyDeclarations>
+          <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="pow">
+            <modifier visibility="public"/>
+            <body originalCompilationUnit="//@compilationUnits.0">
+              <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.0">
+                <expression xsi:type="java:MethodInvocation" originalCompilationUnit="//@compilationUnits.0" method="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0">
+                  <arguments xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.0"/>
+                  <arguments xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.1"/>
+                  <expression xsi:type="java:TypeAccess" type="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+                </expression>
+              </statements>
+            </body>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="a" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@arguments.0">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <parameters originalCompilationUnit="//@compilationUnits.0" name="b" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@arguments.1">
+              <modifier/>
+              <type type="//@orphanTypes.0"/>
+            </parameters>
+            <returnType type="//@orphanTypes.0"/>
+          </bodyDeclarations>
+        </ownedElements>
+        <ownedPackages name="internal" proxy="true">
+          <ownedElements xsi:type="java:ClassDeclaration" name="MathHelper" proxy="true" usagesInImports="//@compilationUnits.0/@imports.0" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@expression">
+            <bodyDeclarations xsi:type="java:MethodDeclaration" name="pow" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression">
+              <parameters name="arg0" proxy="true">
+                <type type="//@orphanTypes.0"/>
+              </parameters>
+              <parameters name="arg1" proxy="true">
+                <type type="//@orphanTypes.0"/>
+              </parameters>
+            </bodyDeclarations>
+          </ownedElements>
+        </ownedPackages>
+      </ownedPackages>
+    </ownedPackages>
+  </ownedElements>
+  <orphanTypes xsi:type="java:PrimitiveTypeInt" name="int" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.1/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@parameters.1/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.1/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.1/@type"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeLong" name="long"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <compilationUnits name="Calculator.java" originalFilePath="C:\eclipse\runtime-EclipseApplication\tool\src\com\example\tool\Calculator.java" commentList="//@compilationUnits.0/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0">
+    <comments xsi:type="java:BlockComment" originalCompilationUnit="//@compilationUnits.0" content="/*&#xD;&#xA; * Copyright 2015-2023 the original author or authors.&#xD;&#xA; *&#xD;&#xA; * All rights reserved. This program and the accompanying materials are&#xD;&#xA; * made available under the terms of the Eclipse Public License v2.0 which&#xD;&#xA; * accompanies this distribution and is available at&#xD;&#xA; *&#xD;&#xA; * http://www.eclipse.org/legal/epl-v20.html&#xD;&#xA; */" prefixOfParent="true"/>
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  </compilationUnits>
+</java:Model>

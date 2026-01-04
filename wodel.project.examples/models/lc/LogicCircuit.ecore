@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="LogicCircuit" nsURI="http://lc/1.0" nsPrefix="logiccircuit">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicCircuit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="diff_names"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="diff_names" value="NamedItem.allInstances()->asSet()->forAll(n1, n2 | n1 &lt;> n2 implies n1.name &lt;> n2.name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gates" upperBound="-1"
+        eType="#//Gate" containment="true">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputValues" upperBound="-1"
+        eType="#//InputValue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputValues" upperBound="-1"
+        eType="#//OutputValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedItem" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//NamedItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        eType="#//OutputPin" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" upperBound="2"
+        eType="#//InputPin" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputValue" upperBound="-1"
+        eType="#//InputValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputValue" eType="#//OutputValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputPin" eSuperTypes="#//NamedItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="#//OutputPin"
+        eOpposite="#//OutputPin/tar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputPin" eSuperTypes="#//NamedItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tar" eType="#//InputPin"
+        eOpposite="#//InputPin/src"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OR" eSuperTypes="#//Gate">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="or_two_input_pins"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="or_two_input_pins" value="self.input->asSet()->size() = 2"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AND" eSuperTypes="#//Gate">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="and_two_input_pins"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="and_two_input_pins" value="self.input->asSet()->size() = 2"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NOT" eSuperTypes="#//Gate">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="not_one_input_pin"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="not_one_input_pin" value="self.input->asSet()->size() = 1"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputValue" eSuperTypes="#//NamedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputValue" eSuperTypes="#//NamedItem"/>
+</ecore:EPackage>

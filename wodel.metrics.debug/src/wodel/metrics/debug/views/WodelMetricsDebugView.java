@@ -117,12 +117,13 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.projectsAreReady() == null) {
+		IProject project = ProjectUtils.getProject();
+		if (project == null) {
 			return;
 		}
 		try {
 			String output = ModelManager.getOutputPath();
-			String fileName = ProjectUtils.getFileName();
+			String fileName = ProjectUtils.getFileName(project);
 			if (fileName.endsWith(".mutator") == false) {
 				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");

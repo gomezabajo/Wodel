@@ -11,6 +11,9 @@ import java.util.List
 import mutatorenvironment.MutatorEnvironment
 import wodel.utils.manager.JavaUtils
 import mutatorenvironment.Program
+import org.eclipse.core.resources.IProject
+import java.util.Map
+import java.util.LinkedHashMap
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -19,20 +22,23 @@ import mutatorenvironment.Program
  * 
  */
 class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
+	var Map<String, List<String>> mutMap = new LinkedHashMap<String, List<String>>()
+
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		standalone = true
-		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
+		var IProject project = ProjectUtils.project
+		this.project = project !== null ? project : this.project
+		var String projectFolderName = this.project !== null ? this.project.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var String mutatorName = ""
-		var List<String> mutators = getMutators(files)
 		var MutatorEnvironment mutatorEnvironment = null
+		fileURI = resource.URI
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
-			fileName = resource.URI.lastSegment
 			program = (e as MutatorEnvironment).definition as Program
 
-			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
+			var String fileName = fileURI.lastSegment.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
 			mutatorName = fileName.replaceAll(".mutator", "").replaceAll("[.]", "_");
 			fileName = mutatorName.replaceAll("[.]", "_") + "StandaloneAPI.java"
@@ -51,12 +57,12 @@ class WodelStandaloneAPIGenerator extends WodelAPIGenerator {
      		if (fsa.isFile("mutator/" + mutatorName + "/" + fileName)) {
 				fsa.deleteFile("mutator/" + mutatorName + "/" + fileName)
      		}
-     		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(mutatorName, className), false))
+     		fsa.generateFile("mutator/" + mutatorName + "/" + fileName, JavaUtils.format(e.compile(project, mutatorName, className), false))
      		mutatorEnvironment = e
 		}
-		if (fsa.isFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")) {
-			fsa.deleteFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")
+		if (fsa.isFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")) {
+			fsa.deleteFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java")
      	}
-		fsa.generateFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
+		fsa.generateFile("mutator/" + project.name.replaceAll("[.]", "/") + "/" + project.name.replaceAll("[.]", "_") + "StandaloneAPILauncher.java", JavaUtils.format(resource.allContents.toIterable.filter(MutatorEnvironment).toList().launcherStandalone(this.project, mutMap), false))
 	}
 }

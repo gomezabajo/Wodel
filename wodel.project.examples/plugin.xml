@@ -76,8 +76,24 @@
             category="wodel.project.WodelProject/wodel.project.WodelExamples"
             class="wodel.project.examples.wizards.UMLClassDiagramsWizard"
             icon="icons/wodel4.jpg"
-            id="wodel.project.examples.wizards.UMLClassDiagramsMWizard"
-            name="UML Class Diagrams"
+            id="wodel.project.examples.wizards.UMLClassDiagramsWizard"
+            name="UML Class Diagrams (1)"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.UMLCDWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.UMLCDWizard"
+            name="UML Class Diagrams (2)"
             project="true">
       </wizard>
    </extension>
@@ -126,6 +142,70 @@
             icon="icons/wodel4.jpg"
             id="wodel.project.examples.wizards.BPMNWizard"
             name="BPMN"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.ATLWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.ATLWizard"
+            name="ATL Atlas Transformation Language"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.ChatbotsWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.ChatbotsWizard"
+            name="Chatbots"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.JavaWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.JavaWizard"
+            name="Java Language"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="wodel.project.WodelExamples"
+            name="Examples"
+            parentCategory="wodel.project.WodelProject">
+      </category>
+      <wizard
+            category="wodel.project.WodelProject/wodel.project.WodelExamples"
+            class="wodel.project.examples.wizards.LogicCircuitsWizard"
+            icon="icons/wodel4.jpg"
+            id="wodel.project.examples.wizards.LogicCircuitsWizard"
+            name="Logic Circuits"
             project="true">
       </wizard>
    </extension>

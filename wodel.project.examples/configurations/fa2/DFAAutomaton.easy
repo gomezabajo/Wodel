@@ -1,0 +1,9 @@
+2
+true
+ctr
+Automaton # 1
+Symbol # 2
+State # 2
+Transition # 4
+Symbol(symbol): a, b
+State(name): q0, q1

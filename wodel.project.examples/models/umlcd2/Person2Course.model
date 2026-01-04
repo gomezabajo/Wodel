@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_Qu3SQOqaEe-xmJSiRSx9Aw">
+  <classdiagram xmi:id="_RN2UUOqaEe-xmJSiRSx9Aw">
+    <classes xmi:id="_DjczsM1fEe6B7-1ys0yCrQ" name="Person" abstract="true" subclasses="_E4R4oM1fEe6B7-1ys0yCrQ _HAgJYM1fEe6B7-1ys0yCrQ">
+      <ownedAttributes xmi:id="_LX9R0M1fEe6B7-1ys0yCrQ" name="name" type="__1nvsM1hEe6B7-1ys0yCrQ"/>
+      <ownedAttributes xmi:id="_NvHWcM1fEe6B7-1ys0yCrQ" name="age" type="_CyUxYM1iEe6B7-1ys0yCrQ"/>
+    </classes>
+    <classes xmi:id="_E4R4oM1fEe6B7-1ys0yCrQ" name="Professor" superclass="_DjczsM1fEe6B7-1ys0yCrQ"/>
+    <classes xmi:id="_HAgJYM1fEe6B7-1ys0yCrQ" name="Student" superclass="_DjczsM1fEe6B7-1ys0yCrQ"/>
+    <classes xmi:id="_I-ybAM1fEe6B7-1ys0yCrQ" name="Course">
+      <ownedAttributes xmi:id="_Qr5QoM1fEe6B7-1ys0yCrQ" name="name" type="__1nvsM1hEe6B7-1ys0yCrQ"/>
+      <ownedAttributes xmi:id="_SBdVYM1fEe6B7-1ys0yCrQ" name="credits" type="_CyUxYM1iEe6B7-1ys0yCrQ"/>
+      <ownedAttributes xmi:id="_TetWgM1fEe6B7-1ys0yCrQ" name="course" type="_CyUxYM1iEe6B7-1ys0yCrQ"/>
+    </classes>
+    <associations xmi:id="_YXK6QM1fEe6B7-1ys0yCrQ" name="enroledIn" multiplicitySource="*" multiplicityTarget="*" source="_HAgJYM1fEe6B7-1ys0yCrQ" target="_I-ybAM1fEe6B7-1ys0yCrQ"/>
+    <associations xmi:id="_ht4K8M1fEe6B7-1ys0yCrQ" name="teaches" multiplicitySource="1" multiplicityTarget="0..2" source="_E4R4oM1fEe6B7-1ys0yCrQ" target="_I-ybAM1fEe6B7-1ys0yCrQ"/>
+    <datatypes xmi:id="__1nvsM1hEe6B7-1ys0yCrQ" name="String"/>
+    <datatypes xmi:id="_CyUxYM1iEe6B7-1ys0yCrQ" name="int"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_RiBNgOqaEe-xmJSiRSx9Aw">
+    <objects xmi:id="_aG6HoM1hEe6B7-1ys0yCrQ" name="" class="_HAgJYM1fEe6B7-1ys0yCrQ">
+      <ownedAttributeValues>Ann Martin</ownedAttributeValues>
+      <ownedAttributeValues>23</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_amdU8M1iEe6B7-1ys0yCrQ" name="" class="_I-ybAM1fEe6B7-1ys0yCrQ">
+      <ownedAttributeValues>SAD</ownedAttributeValues>
+      <ownedAttributeValues>6</ownedAttributeValues>
+      <ownedAttributeValues>2</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_0RDq4M1iEe6B7-1ys0yCrQ" name="" class="_I-ybAM1fEe6B7-1ys0yCrQ">
+      <ownedAttributeValues>SADP</ownedAttributeValues>
+      <ownedAttributeValues>6</ownedAttributeValues>
+      <ownedAttributeValues>2</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_ByG1EM1jEe6B7-1ys0yCrQ" name="" class="_E4R4oM1fEe6B7-1ys0yCrQ">
+      <ownedAttributeValues>Louis Petters</ownedAttributeValues>
+      <ownedAttributeValues>45</ownedAttributeValues>
+    </objects>
+    <associations xmi:id="_ZZk1oM1jEe6B7-1ys0yCrQ" name="enroledIn1" multiplicitySource="1" multiplicityTarget="1" source="_aG6HoM1hEe6B7-1ys0yCrQ" target="_amdU8M1iEe6B7-1ys0yCrQ"/>
+    <associations xmi:id="_ewGOYM1jEe6B7-1ys0yCrQ" name="enroledIn2" multiplicitySource="1" multiplicityTarget="1" source="_aG6HoM1hEe6B7-1ys0yCrQ" target="_0RDq4M1iEe6B7-1ys0yCrQ"/>
+    <associations xmi:id="_g3KokM1jEe6B7-1ys0yCrQ" name="teaches1" multiplicitySource="1" multiplicityTarget="1" source="_ByG1EM1jEe6B7-1ys0yCrQ" target="_amdU8M1iEe6B7-1ys0yCrQ"/>
+    <associations xmi:id="_jKYBUM1jEe6B7-1ys0yCrQ" name="teaches2" multiplicitySource="1" multiplicityTarget="1" source="_ByG1EM1jEe6B7-1ys0yCrQ" target="_0RDq4M1iEe6B7-1ys0yCrQ"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

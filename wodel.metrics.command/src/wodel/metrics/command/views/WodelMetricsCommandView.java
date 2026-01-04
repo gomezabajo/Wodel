@@ -73,7 +73,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		if (ProjectUtils.projectsAreReady() == null) {
+		if (ProjectUtils.getProject() == null) {
 			return;
 		}
 		String metamodel = ModelManager.getMetaModel();

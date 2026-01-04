@@ -138,8 +138,8 @@ public class UMLClassDiagramsWizardPage extends WizardPage {
 					container = ((IResource) obj).getParent();
 			}
 		}
-		this.projectText.setText("umlCD");
-		this.fileText.setText("umlCD.mutator");
+		this.projectText.setText("umlCD1");
+		this.fileText.setText("umlCD1.mutator");
 		this.modelText.setText("data/model");
 		this.mutantText.setText("data/out");
 	}

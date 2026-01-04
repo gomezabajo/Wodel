@@ -2,10 +2,26 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="lib/ModelValidatorPlugin-5.1.0-r1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/antlr-3.4-complete.jar"/>
+	<classpathentry kind="lib" path="lib/AssociationExtend.jar"/>
+	<classpathentry kind="lib" path="lib/combinatoricslib-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/gsbase.jar"/>
+	<classpathentry kind="lib" path="lib/guava-20.0.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/jruby-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/ModelValidatorPlugin-5.2.0-r1.jar"/>
+	<classpathentry kind="lib" path="lib/ObjectToClassPlugin-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/OCLComplexityPlugin5.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/use.jar"/>
+	<classpathentry kind="lib" path="lib/use-filmstrip.jar"/>
 	<classpathentry kind="lib" path="lib/use-runtime.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
+	<classpathentry kind="lib" path="lib/vtd-xml.jar"/>
+	<classpathentry kind="lib" path="lib/use-gui.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

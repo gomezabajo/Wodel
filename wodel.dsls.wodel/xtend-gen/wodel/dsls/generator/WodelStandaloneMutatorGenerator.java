@@ -2,7 +2,6 @@ package wodel.dsls.generator;
 
 import com.google.common.collect.Iterables;
 import java.io.File;
-import java.util.List;
 import mutatorenvironment.Block;
 import mutatorenvironment.Definition;
 import mutatorenvironment.Mutator;
@@ -14,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import wodel.dsls.WodelUtils;
 import wodel.utils.manager.JavaUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.ProjectUtils;
@@ -30,40 +29,36 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.standalone = true;
-    String _xifexpression = null;
-    IProject _project = ProjectUtils.getProject();
-    boolean _tripleNotEquals = (_project != null);
-    if (_tripleNotEquals) {
-      String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
-      _xifexpression = (_replace + "/");
+    IProject project = ProjectUtils.getProject();
+    IProject _xifexpression = null;
+    if ((project != null)) {
+      _xifexpression = project;
+    } else {
+      _xifexpression = this.project;
+    }
+    this.project = _xifexpression;
+    String _xifexpression_1 = null;
+    if ((this.project != null)) {
+      String _replace = this.project.getLocation().toFile().getPath().replace("\\", "/");
+      _xifexpression_1 = (_replace + "/");
     } else {
       String _workspaceAbsolutePathWithProjectName = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-      _xifexpression = (_workspaceAbsolutePathWithProjectName + "/");
+      _xifexpression_1 = (_workspaceAbsolutePathWithProjectName + "/");
     }
-    String projectFolderName = _xifexpression;
+    String projectFolderName = _xifexpression_1;
     File projectFolder = new File(projectFolderName);
     File[] files = projectFolder.listFiles();
     MutatorEnvironment mutatorEnvironment = null;
+    this.fileURI = resource.getURI();
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
     for (final MutatorEnvironment e : _filter) {
       {
-        this.fileName = resource.getURI().lastSegment();
         Definition _definition = ((MutatorEnvironment) e).getDefinition();
         this.program = ((Program) _definition);
-        String xTextFileName = this.getMutatorPath(e, files);
-        String _workspaceAbsolutePathWithProjectName_1 = ModelManager.getWorkspaceAbsolutePathWithProjectName();
-        String _plus = ("file:/" + _workspaceAbsolutePathWithProjectName_1);
-        String _plus_1 = (_plus + "/");
-        String _output = this.program.getOutput();
-        String _plus_2 = (_plus_1 + _output);
-        String _replaceAll = this.fileName.replaceAll(".mutator", ".model");
-        String xmiFileName = (_plus_2 + _replaceAll);
-        WodelUtils.serialize(xTextFileName, xmiFileName);
-        String _replaceAll_1 = this.fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
-        String _plus_3 = (_replaceAll_1 + ".mutator");
-        this.fileName = _plus_3;
-        this.fileName = this.fileName.replaceAll(".mutator", "Standalone.java");
-        this.className = this.fileName.replaceAll("Standalone.java", "Standalone");
+        String _replaceAll = this.fileURI.lastSegment().replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_");
+        String fileName = (_replaceAll + ".mutator");
+        fileName = fileName.replace(".mutator", "Standalone.java");
+        this.className = fileName.replace("Standalone.java", "Standalone");
         int i = 1;
         EList<Mutator> _commands = e.getCommands();
         for (final Mutator mut : _commands) {
@@ -78,37 +73,36 @@ public class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
             this.mutIndexes.put(mut_1, Integer.valueOf(_plusPlus_1));
           }
         }
-        boolean _isFile = fsa.isFile(((("mutator/" + this.className) + "/") + this.fileName));
+        boolean _isFile = fsa.isFile(((("mutator/" + this.className) + "/") + fileName));
         if (_isFile) {
-          fsa.deleteFile(((("mutator/" + this.className) + "/") + this.fileName));
+          fsa.deleteFile(((("mutator/" + this.className) + "/") + fileName));
         }
-        fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
+        fsa.generateFile(((("mutator/" + this.className) + "/") + fileName), JavaUtils.format(this.compile(e, this.project), false));
         mutatorEnvironment = e;
       }
     }
-    List<String> mutators = this.getMutators(files);
-    String _replaceAll = this.getProjectName().replaceAll("[.]", "/");
+    String _replaceAll = this.project.getName().replaceAll("[.]", "/");
     String _plus = ("mutator/" + _replaceAll);
     String _plus_1 = (_plus + "/");
-    String _replaceAll_1 = this.getProjectName().replaceAll("[.]", "_");
+    String _replaceAll_1 = this.project.getName().replaceAll("[.]", "_");
     String _plus_2 = (_plus_1 + _replaceAll_1);
     String _plus_3 = (_plus_2 + "StandaloneLauncher.java");
     boolean _isFile = fsa.isFile(_plus_3);
     if (_isFile) {
-      String _replaceAll_2 = this.getProjectName().replaceAll("[.]", "/");
+      String _replaceAll_2 = this.project.getName().replaceAll("[.]", "/");
       String _plus_4 = ("mutator/" + _replaceAll_2);
       String _plus_5 = (_plus_4 + "/");
-      String _replaceAll_3 = this.getProjectName().replaceAll("[.]", "_");
+      String _replaceAll_3 = this.project.getName().replaceAll("[.]", "_");
       String _plus_6 = (_plus_5 + _replaceAll_3);
       String _plus_7 = (_plus_6 + "StandaloneLauncher.java");
       fsa.deleteFile(_plus_7);
     }
-    String _replaceAll_4 = this.getProjectName().replaceAll("[.]", "/");
+    String _replaceAll_4 = this.project.getName().replaceAll("[.]", "/");
     String _plus_8 = ("mutator/" + _replaceAll_4);
     String _plus_9 = (_plus_8 + "/");
-    String _replaceAll_5 = this.getProjectName().replaceAll("[.]", "_");
+    String _replaceAll_5 = this.project.getName().replaceAll("[.]", "_");
     String _plus_10 = (_plus_9 + _replaceAll_5);
     String _plus_11 = (_plus_10 + "StandaloneLauncher.java");
-    fsa.generateFile(_plus_11, JavaUtils.format(this.launcher(mutatorEnvironment, mutators), false));
+    fsa.generateFile(_plus_11, JavaUtils.format(this.launcherStandalone(IterableExtensions.<MutatorEnvironment>toList(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class)), this.project), false));
   }
 }

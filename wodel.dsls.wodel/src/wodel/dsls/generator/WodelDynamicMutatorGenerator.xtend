@@ -10,6 +10,8 @@ import mutatorenvironment.MutatorEnvironment
 import mutatorenvironment.Program
 import java.util.List
 import wodel.utils.manager.JavaUtils
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -18,7 +20,19 @@ import wodel.utils.manager.JavaUtils
  * 
  */
 class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
-	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
+
+	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		standalone = false
+		var IProject project = projectOf(resource)
+		this.project = project !== null ? project : ProjectUtils.project
 		
 		standalone = false
 //		try {
@@ -33,19 +47,19 @@ class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
 //			mutatorURL = URI.createURI("file:" + ModelManager.getMutatorEnvironmentBundle(resource)).toFileString().replace("\\", "/")
 //		}
 
-		var String projectFolderName = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
+		var String projectFolderName = this.project !== null ? this.project.getLocation.toFile.getPath.replace("\\", "/") + "/" : ModelManager.getWorkspaceAbsolutePathWithProjectName + "/"	
 		var File projectFolder = new File(projectFolderName)
 		var File[] files = projectFolder.listFiles
 		var MutatorEnvironment mutatorEnvironment = null
+		fileURI = resource.URI
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
-			fileName = resource.URI.lastSegment
 			program = (e as MutatorEnvironment).definition as Program
 			
-			fileName = fileName.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
+			var String fileName = fileURI.lastSegment.replaceAll(".model", "").replaceAll(".mutator", "").replaceAll("[.]", "_") + ".mutator"
 			/* Write the EObject into a file */
-			fileName = fileName.replaceAll(".mutator", "Dynamic.java")
-			className = fileName.replaceAll("Dynamic.java", "Dynamic")
+			fileName = fileName.replace(".mutator", "Dynamic.java")
+			className = fileName.replace("Dynamic.java", "Dynamic")
 			var int i = 1
 			for (mut : e.commands) {
 				mutIndexes.put(mut, i++)
@@ -58,15 +72,15 @@ class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
      		if (fsa.isFile("mutator/" + className + "/" + fileName)) {
 				fsa.deleteFile("mutator/" + className + "/" + fileName)
      		}
-     		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
+     		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile(this.project), false))
      		mutatorEnvironment = e
 		}
 		
-		var List<String> mutators = getMutators(files)
+		var List<String> mutators = ProjectUtils.getMutatorFiles(this.project).map[name.replace(".mutator", "")]
 		
-		if (fsa.isFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "DynamicLauncher.java")) {
-			fsa.deleteFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "DynamicLauncher.java")
+		if (fsa.isFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "DynamicLauncher.java")) {
+			fsa.deleteFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "DynamicLauncher.java")
      	}
-		fsa.generateFile("mutator/" + getProjectName.replaceAll("[.]", "/") + "/" + getProjectName.replaceAll("[.]", "_") + "DynamicLauncher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
+		fsa.generateFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "DynamicLauncher.java", JavaUtils.format(mutatorEnvironment.launcherDynamic(this.project, mutators), false))
 	}
 }

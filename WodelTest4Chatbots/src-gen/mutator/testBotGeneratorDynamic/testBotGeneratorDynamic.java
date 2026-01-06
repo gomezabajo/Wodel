@@ -1419,7 +1419,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "equals";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -4382,7 +4381,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -4581,7 +4579,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -4791,7 +4788,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			((ReferenceEvaluation) exp0.first).refName = null;
 			((ReferenceEvaluation) exp0.first).attName = null;
 			((ReferenceEvaluation) exp0.first).operator = "different";
-			((ReferenceEvaluation) exp0.first).value = null;
 			exp0.operator = new ArrayList<Operator>();
 			exp0.second = new ArrayList<Evaluation>();
 			objects = evaluate(objects, exp0);
@@ -5000,7 +4996,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			ev0_0.refName = null;
 			ev0_0.attName = null;
 			ev0_0.operator = "different";
-			ev0_0.value = null;
 			exp0.second.add(ev0_0);
 			objects = evaluate(objects, exp0);
 			for (EObject object : objects) {
@@ -5734,7 +5729,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -5934,7 +5928,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -6144,7 +6137,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			((ReferenceEvaluation) exp0.first).refName = null;
 			((ReferenceEvaluation) exp0.first).attName = null;
 			((ReferenceEvaluation) exp0.first).operator = "different";
-			((ReferenceEvaluation) exp0.first).value = null;
 			exp0.operator = new ArrayList<Operator>();
 			exp0.second = new ArrayList<Evaluation>();
 			objects = evaluate(objects, exp0);
@@ -6353,7 +6345,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			ev0_0.refName = null;
 			ev0_0.attName = null;
 			ev0_0.operator = "different";
-			ev0_0.value = null;
 			exp0.second.add(ev0_0);
 			objects = evaluate(objects, exp0);
 			for (EObject object : objects) {
@@ -7404,7 +7395,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "equals";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -7900,7 +7890,12 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("required") != null) {
+						atts = attsList.get("required");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificBooleanConfigurationStrategy(false);
 					atts.add(attConfig);
@@ -8111,15 +8106,16 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("expresion") != null) {
+						atts = attsList.get("expresion");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new CatStartStringConfigurationStrategy("[^", "expresion");
 					atts.add(attConfig);
 					attsList.put("expresion", atts);
-				}
-				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
-					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new CatEndStringConfigurationStrategy("]", "expresion");
 					atts.add(attConfig);
 					attsList.put("expresion", atts);
@@ -8901,7 +8897,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -9491,7 +9486,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -9502,7 +9496,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		ev0_0.refName = "target";
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -9692,7 +9685,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			((ReferenceEvaluation) exp0.first).refName = null;
 			((ReferenceEvaluation) exp0.first).attName = null;
 			((ReferenceEvaluation) exp0.first).operator = "different";
-			((ReferenceEvaluation) exp0.first).value = null;
 			exp0.operator = new ArrayList<Operator>();
 			exp0.second = new ArrayList<Evaluation>();
 			objects = evaluate(objects, exp0);
@@ -9904,7 +9896,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 			ev0_0.refName = null;
 			ev0_0.attName = null;
 			ev0_0.operator = "different";
-			ev0_0.value = null;
 			exp0.second.add(ev0_0);
 			ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 			ev1_0.name = "actions";
@@ -10837,7 +10828,6 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		exp0.second = new ArrayList<Evaluation>();
 		objects = evaluate(objects, exp0);
@@ -11678,8 +11668,8 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/data/model/BotGenerator.ecore",
 					testBotGeneratorDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Chatbots/data/model/",
-					"testBotGeneratorDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testBotGenerator.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -11690,8 +11680,8 @@ public class testBotGeneratorDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/data/model/BotGenerator.ecore",
 					testBotGeneratorDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Chatbots/data/model/",
-					"testBotGeneratorDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testBotGenerator.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

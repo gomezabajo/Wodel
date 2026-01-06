@@ -120,6 +120,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -353,6 +354,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -381,6 +383,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
@@ -397,6 +400,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </container>
@@ -414,6 +418,7 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </container>
@@ -464,6 +469,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -492,6 +498,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//Intent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" self="true">
@@ -508,6 +515,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </container>
@@ -525,6 +533,7 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </container>
@@ -606,6 +615,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
             <name href="../model/BotGenerator.ecore#//LanguageIntent/inputs"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -705,6 +715,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -748,11 +759,13 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
             <refName href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -763,6 +776,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//UserInteraction/target"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </container>
@@ -781,6 +795,7 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/actions"/>
@@ -842,6 +857,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/BotGenerator.ecore#//BotInteraction/outcoming"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>

@@ -28,7 +28,7 @@ public class testBotGeneratorStandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testBotGenerator");
-		String ecoreURI = "C:/eclipse/workspace2/WodelTest4Chatbots/data/model/Annotation.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration51/WodelTest4Chatbots/data/model/Annotation.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, testBotGeneratorStandaloneAPI.class);
@@ -45,8 +45,8 @@ public class testBotGeneratorStandaloneAPI extends MutatorStandaloneAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 8;
-		int numMutants = 8;
+		int maxAttempts = 3;
+		int numMutants = 3;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

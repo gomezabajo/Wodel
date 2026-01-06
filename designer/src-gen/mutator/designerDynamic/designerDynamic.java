@@ -250,7 +250,7 @@ public class designerDynamic extends MutatorUtils {
 							"/") + "data/out/",
 					"/designer/data/model/LogicCircuit.ecore", designerDynamic.class.getProtectionDomain()
 							.getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/model/",
-					"designerDynamic.java", hashmapMutVersions, this.getClass());
+					"designer.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -262,7 +262,7 @@ public class designerDynamic extends MutatorUtils {
 							"/") + "data/out/",
 					"/designer/data/model/LogicCircuit.ecore", designerDynamic.class.getProtectionDomain()
 							.getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/model/",
-					"designerDynamic.java", hashmapMutVersions, designerDynamic.class);
+					"designer.mutator", hashmapMutVersions, designerDynamic.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

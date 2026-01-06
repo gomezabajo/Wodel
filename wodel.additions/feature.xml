@@ -16,16 +16,8 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import feature="wodel.core" version="1.0.0.qualifier"/>
-   </requires>
-
    <plugin
          id="wodel.semantic.comparison.dfa"
-         version="0.0.0"/>
-
-   <plugin
-         id="wodel.semantic.comparison.lc"
          version="0.0.0"/>
 
 </feature>

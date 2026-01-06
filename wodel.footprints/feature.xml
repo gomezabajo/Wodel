@@ -16,49 +16,24 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.sirius"/>
-      <import plugin="org.eclipse.sirius.ecore.extender"/>
-      <import plugin="org.eclipse.sirius.common"/>
-      <import plugin="org.eclipse.sirius.diagram.model"/>
-      <import plugin="org.eclipse.sirius.diagram.ui"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
-      <import feature="wodel.core" version="1.0.0.qualifier"/>
-   </requires>
-
    <plugin
          id="wodel.metrics.command"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.metrics.debug"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.metrics.dynamic"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.metrics.fixed"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.metrics.data"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

@@ -247,7 +247,7 @@ public class designerStandalone extends MutatorUtils {
 					"/designer/data/model/LogicCircuit.ecore",
 					designerStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 							.replace("/bin/", "/") + "data/model/",
-					"designerStandalone.java", hashmapMutVersions, designerStandalone.class);
+					"designer.mutator", hashmapMutVersions, designerStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -259,7 +259,7 @@ public class designerStandalone extends MutatorUtils {
 					"/designer/data/model/LogicCircuit.ecore",
 					designerStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 							.replace("/bin/", "/") + "data/model/",
-					"designerStandalone.java", hashmapMutVersions, this.getClass());
+					"designer.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

@@ -2952,8 +2952,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAPDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAPDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAP.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -2964,8 +2964,8 @@ public class testJavaAPDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAPDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAPDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAP.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

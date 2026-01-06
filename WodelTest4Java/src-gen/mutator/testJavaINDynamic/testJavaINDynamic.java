@@ -444,42 +444,42 @@ public class testJavaINDynamic extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection5 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_5 = hmObjects.get("n1");
-		if (entry_n1_5 != null) {
-			refSelection5 = new SpecificObjectSelection(packages, model, entry_n1_5.getKey());
+		ObSelectionStrategy refSelection41 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_41 = hmObjects.get("n1");
+		if (entry_n1_41 != null) {
+			refSelection41 = new SpecificObjectSelection(packages, model, entry_n1_41.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_5 = hmList.get("n1");
-			if (listEntry_n1_5 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_41 = hmList.get("n1");
+			if (listEntry_n1_41 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_5) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_41) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection5 = new SpecificObjectSelection(packages, model, objs);
+				refSelection41 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection5);
-		ObSelectionStrategy refSelection6 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_6 = hmObjects.get("inc");
-		if (entry_inc_6 != null) {
-			refSelection6 = new SpecificObjectSelection(packages, model, entry_inc_6.getKey());
+		refs.put("leftOperand", refSelection41);
+		ObSelectionStrategy refSelection42 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_42 = hmObjects.get("inc");
+		if (entry_inc_42 != null) {
+			refSelection42 = new SpecificObjectSelection(packages, model, entry_inc_42.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_6 = hmList.get("inc");
-			if (listEntry_inc_6 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_42 = hmList.get("inc");
+			if (listEntry_inc_42 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_6) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_42) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection6 = new SpecificObjectSelection(packages, model, objs);
+				refSelection42 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection6);
+		refs.put("rightOperand", refSelection42);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -1054,42 +1054,42 @@ public class testJavaINDynamic extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection7 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_7 = hmObjects.get("n1");
-		if (entry_n1_7 != null) {
-			refSelection7 = new SpecificObjectSelection(packages, model, entry_n1_7.getKey());
+		ObSelectionStrategy refSelection43 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_43 = hmObjects.get("n1");
+		if (entry_n1_43 != null) {
+			refSelection43 = new SpecificObjectSelection(packages, model, entry_n1_43.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_7 = hmList.get("n1");
-			if (listEntry_n1_7 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_43 = hmList.get("n1");
+			if (listEntry_n1_43 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_7) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_43) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection7 = new SpecificObjectSelection(packages, model, objs);
+				refSelection43 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection7);
-		ObSelectionStrategy refSelection8 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_8 = hmObjects.get("inc");
-		if (entry_inc_8 != null) {
-			refSelection8 = new SpecificObjectSelection(packages, model, entry_inc_8.getKey());
+		refs.put("leftOperand", refSelection43);
+		ObSelectionStrategy refSelection44 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_44 = hmObjects.get("inc");
+		if (entry_inc_44 != null) {
+			refSelection44 = new SpecificObjectSelection(packages, model, entry_inc_44.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_8 = hmList.get("inc");
-			if (listEntry_inc_8 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_44 = hmList.get("inc");
+			if (listEntry_inc_44 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_8) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_44) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection8 = new SpecificObjectSelection(packages, model, objs);
+				refSelection44 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection8);
+		refs.put("rightOperand", refSelection44);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -1664,42 +1664,42 @@ public class testJavaINDynamic extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection9 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_9 = hmObjects.get("n1");
-		if (entry_n1_9 != null) {
-			refSelection9 = new SpecificObjectSelection(packages, model, entry_n1_9.getKey());
+		ObSelectionStrategy refSelection45 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_45 = hmObjects.get("n1");
+		if (entry_n1_45 != null) {
+			refSelection45 = new SpecificObjectSelection(packages, model, entry_n1_45.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_9 = hmList.get("n1");
-			if (listEntry_n1_9 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_45 = hmList.get("n1");
+			if (listEntry_n1_45 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_9) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_45) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection9 = new SpecificObjectSelection(packages, model, objs);
+				refSelection45 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection9);
-		ObSelectionStrategy refSelection10 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_10 = hmObjects.get("inc");
-		if (entry_inc_10 != null) {
-			refSelection10 = new SpecificObjectSelection(packages, model, entry_inc_10.getKey());
+		refs.put("leftOperand", refSelection45);
+		ObSelectionStrategy refSelection46 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_46 = hmObjects.get("inc");
+		if (entry_inc_46 != null) {
+			refSelection46 = new SpecificObjectSelection(packages, model, entry_inc_46.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_10 = hmList.get("inc");
-			if (listEntry_inc_10 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_46 = hmList.get("inc");
+			if (listEntry_inc_46 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_10) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_46) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection10 = new SpecificObjectSelection(packages, model, objs);
+				refSelection46 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection10);
+		refs.put("rightOperand", refSelection46);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -2274,42 +2274,42 @@ public class testJavaINDynamic extends MutatorUtils {
 		;
 		atts.put("operator", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection11 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_11 = hmObjects.get("n1");
-		if (entry_n1_11 != null) {
-			refSelection11 = new SpecificObjectSelection(packages, model, entry_n1_11.getKey());
+		ObSelectionStrategy refSelection47 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_n1_47 = hmObjects.get("n1");
+		if (entry_n1_47 != null) {
+			refSelection47 = new SpecificObjectSelection(packages, model, entry_n1_47.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_11 = hmList.get("n1");
-			if (listEntry_n1_11 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_n1_47 = hmList.get("n1");
+			if (listEntry_n1_47 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_11) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_n1_47) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection11 = new SpecificObjectSelection(packages, model, objs);
+				refSelection47 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("leftOperand", refSelection11);
-		ObSelectionStrategy refSelection12 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_12 = hmObjects.get("inc");
-		if (entry_inc_12 != null) {
-			refSelection12 = new SpecificObjectSelection(packages, model, entry_inc_12.getKey());
+		refs.put("leftOperand", refSelection47);
+		ObSelectionStrategy refSelection48 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_inc_48 = hmObjects.get("inc");
+		if (entry_inc_48 != null) {
+			refSelection48 = new SpecificObjectSelection(packages, model, entry_inc_48.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_12 = hmList.get("inc");
-			if (listEntry_inc_12 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_inc_48 = hmList.get("inc");
+			if (listEntry_inc_48 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_12) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_inc_48) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection12 = new SpecificObjectSelection(packages, model, objs);
+				refSelection48 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return numMutantsGenerated;
 			}
 		}
-		refs.put("rightOperand", refSelection12);
+		refs.put("rightOperand", refSelection48);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InfixExpression");
 		Mutator mutator = null;
@@ -2592,8 +2592,8 @@ public class testJavaINDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaINDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaINDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaIN.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -2604,8 +2604,8 @@ public class testJavaINDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaINDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaINDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaIN.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

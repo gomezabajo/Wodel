@@ -2984,8 +2984,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaUCODStandalone.java", hashmapMutVersions, testJavaUCODStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaUCOD.mutator", hashmapMutVersions, testJavaUCODStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -2996,8 +2996,8 @@ public class testJavaUCODStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaUCODStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaUCODStandalone.java", hashmapMutVersions, testJavaUCODStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaUCOD.mutator", hashmapMutVersions, testJavaUCODStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

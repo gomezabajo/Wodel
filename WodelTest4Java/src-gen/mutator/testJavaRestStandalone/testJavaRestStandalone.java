@@ -76,7 +76,12 @@ public class testJavaRestStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("tokenValue") != null) {
+						atts = attsList.get("tokenValue");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new RandomStringNumberConfigurationStrategy(0, 9, false);
 					atts.add(attConfig);
@@ -1510,8 +1515,8 @@ public class testJavaRestStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaRestStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaRestStandalone.java", hashmapMutVersions, testJavaRestStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaRest.mutator", hashmapMutVersions, testJavaRestStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -1522,8 +1527,8 @@ public class testJavaRestStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaRestStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaRestStandalone.java", hashmapMutVersions, testJavaRestStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaRest.mutator", hashmapMutVersions, testJavaRestStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

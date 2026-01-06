@@ -83,14 +83,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "rightOperand";
 		ev1_0.refName = null;
 		ev1_0.attName = null;
 		ev1_0.operator = "different";
-		ev1_0.value = null;
 		exp0.second.add(ev1_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -109,7 +107,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("+");
 					atts.add(attConfig);
@@ -335,14 +338,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "rightOperand";
 		ev1_0.refName = null;
 		ev1_0.attName = null;
 		ev1_0.operator = "different";
-		ev1_0.value = null;
 		exp0.second.add(ev1_0);
 		ReferenceEvaluation ev2_0 = new ReferenceEvaluation();
 		ev2_0.name = "leftOperand";
@@ -375,7 +376,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("-");
 					atts.add(attConfig);
@@ -601,14 +607,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "rightOperand";
 		ev1_0.refName = null;
 		ev1_0.attName = null;
 		ev1_0.operator = "different";
-		ev1_0.value = null;
 		exp0.second.add(ev1_0);
 		ReferenceEvaluation ev2_0 = new ReferenceEvaluation();
 		ev2_0.name = "leftOperand";
@@ -641,7 +645,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("*");
 					atts.add(attConfig);
@@ -867,14 +876,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "rightOperand";
 		ev1_0.refName = null;
 		ev1_0.attName = null;
 		ev1_0.operator = "different";
-		ev1_0.value = null;
 		exp0.second.add(ev1_0);
 		ReferenceEvaluation ev2_0 = new ReferenceEvaluation();
 		ev2_0.name = "leftOperand";
@@ -907,7 +914,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("/");
 					atts.add(attConfig);
@@ -1133,14 +1145,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "rightOperand";
 		ev1_0.refName = null;
 		ev1_0.attName = null;
 		ev1_0.operator = "different";
-		ev1_0.value = null;
 		exp0.second.add(ev1_0);
 		ReferenceEvaluation ev2_0 = new ReferenceEvaluation();
 		ev2_0.name = "leftOperand";
@@ -1173,7 +1183,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("%");
 					atts.add(attConfig);
@@ -1387,7 +1402,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -1406,7 +1420,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("--");
 					atts.add(attConfig);
@@ -1620,7 +1639,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -1639,7 +1657,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("++");
 					atts.add(attConfig);
@@ -1853,7 +1876,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -1872,7 +1894,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("--");
 					atts.add(attConfig);
@@ -2086,7 +2113,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -2105,7 +2131,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("++");
 					atts.add(attConfig);
@@ -2319,7 +2350,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -2338,7 +2368,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("-");
 					atts.add(attConfig);
@@ -2552,7 +2587,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -2571,7 +2605,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("+");
 					atts.add(attConfig);
@@ -2789,7 +2828,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "operand";
@@ -2815,7 +2853,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("--");
 					atts.add(attConfig);
@@ -3033,7 +3076,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		ReferenceEvaluation ev1_0 = new ReferenceEvaluation();
 		ev1_0.name = "operand";
@@ -3059,7 +3101,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("++");
 					atts.add(attConfig);
@@ -3274,7 +3321,6 @@ public class testJavaAOStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		objects = evaluate(objects, exp0);
 		for (EObject object : objects) {
@@ -3293,7 +3339,12 @@ public class testJavaAOStandalone extends MutatorUtils {
 				obSelection = new SpecificObjectSelection(packages, resource, object);
 				Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 				if (obSelection != null) {
-					List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+					List<AttributeConfigurationStrategy> atts = null;
+					if (attsList.get("operator") != null) {
+						atts = attsList.get("operator");
+					} else {
+						atts = new ArrayList<AttributeConfigurationStrategy>();
+					}
 					AttributeConfigurationStrategy attConfig = null;
 					attConfig = new SpecificStringConfigurationStrategy("+");
 					atts.add(attConfig);
@@ -3762,8 +3813,8 @@ public class testJavaAOStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAOStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAOStandalone.java", hashmapMutVersions, testJavaAOStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAO.mutator", hashmapMutVersions, testJavaAOStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -3774,8 +3825,8 @@ public class testJavaAOStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAOStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAOStandalone.java", hashmapMutVersions, testJavaAOStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAO.mutator", hashmapMutVersions, testJavaAOStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

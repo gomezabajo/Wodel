@@ -22,9 +22,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -53,9 +55,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -84,9 +88,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -115,9 +121,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -146,9 +154,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -177,9 +187,11 @@
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/leftOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/java.ecore#//InfixExpression/rightOperand"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>

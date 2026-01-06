@@ -8,6 +8,19 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="lib/plantuml-epl-1.2023.13.jar"/>
+	<classpathentry kind="lib" path="lib/use.jar"/>
+	<classpathentry kind="lib" path="lib/use-runtime.jar"/>
+	<classpathentry kind="lib" path="lib/use-gui.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-3.4-complete.jar"/>
+	<classpathentry kind="lib" path="lib/combinatoricslib-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/gsbase.jar"/>
+	<classpathentry kind="lib" path="lib/guava-20.0.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/jruby-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/vtd-xml.jar"/>
+	<classpathentry kind="lib" path="lib/ModelValidatorPlugin-5.2.0-r1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>

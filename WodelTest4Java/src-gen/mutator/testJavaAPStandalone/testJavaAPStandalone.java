@@ -2948,8 +2948,8 @@ public class testJavaAPStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAPStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAPStandalone.java", hashmapMutVersions, testJavaAPStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAP.mutator", hashmapMutVersions, testJavaAPStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -2960,8 +2960,8 @@ public class testJavaAPStandalone extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4Java/data/model/java.ecore",
 					testJavaAPStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4Java/data/model/",
-					"testJavaAPStandalone.java", hashmapMutVersions, testJavaAPStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testJavaAP.mutator", hashmapMutVersions, testJavaAPStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

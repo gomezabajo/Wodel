@@ -210,10 +210,10 @@ public class testLCStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l7 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l13 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l7 != null) {
-							for (Mutator mut : l7) {
+						if (l13 != null) {
+							for (Mutator mut : l13) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -279,7 +279,6 @@ public class testLCStandalone extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refRefName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -290,7 +289,6 @@ public class testLCStandalone extends MutatorUtils {
 		ev0_0.refName = "tar";
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		List<EObject> selectedObjects = evaluate(objects, exp0);
 		EObject object = null;
@@ -762,10 +760,10 @@ public class testLCStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ln08 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ln014 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ln08 != null) {
-							for (Mutator mut : ln08) {
+						if (ln014 != null) {
+							for (Mutator mut : ln014) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -787,10 +785,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> li09 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> li015 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (li09 != null) {
-							for (Mutator mut : li09) {
+						if (li015 != null) {
+							for (Mutator mut : li015) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -812,10 +810,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lo010 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lo016 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lo010 != null) {
-							for (Mutator mut : lo010) {
+						if (lo016 != null) {
+							for (Mutator mut : lo016) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -837,10 +835,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l11 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l17 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l11 != null) {
-							for (Mutator mut : l11) {
+						if (l17 != null) {
+							for (Mutator mut : l17) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -861,10 +859,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l12 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l18 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l12 != null) {
-							for (Mutator mut : l12) {
+						if (l18 != null) {
+							for (Mutator mut : l18) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -929,7 +927,6 @@ public class testLCStandalone extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -940,7 +937,6 @@ public class testLCStandalone extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		List<EObject> selectedObjects = evaluate(objects, exp0);
 		EObject object = null;
@@ -1242,24 +1238,24 @@ public class testLCStandalone extends MutatorUtils {
 		;
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection1 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_i0_1 = hmObjects.get("i0");
-		if (entry_i0_1 != null) {
-			refSelection1 = new SpecificObjectSelection(packages, model, entry_i0_1.getKey());
+		ObSelectionStrategy refSelection3 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_i0_3 = hmObjects.get("i0");
+		if (entry_i0_3 != null) {
+			refSelection3 = new SpecificObjectSelection(packages, model, entry_i0_3.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_i0_1 = hmList.get("i0");
-			if (listEntry_i0_1 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_i0_3 = hmList.get("i0");
+			if (listEntry_i0_3 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_i0_1) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_i0_3) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection1 = new SpecificObjectSelection(packages, model, objs);
+				refSelection3 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("tar", refSelection1);
+		refs.put("tar", refSelection3);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "OutputPin");
 		if (mut != null) {
@@ -1330,24 +1326,24 @@ public class testLCStandalone extends MutatorUtils {
 		;
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection2 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_o0_2 = hmObjects.get("o0");
-		if (entry_o0_2 != null) {
-			refSelection2 = new SpecificObjectSelection(packages, model, entry_o0_2.getKey());
+		ObSelectionStrategy refSelection4 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_o0_4 = hmObjects.get("o0");
+		if (entry_o0_4 != null) {
+			refSelection4 = new SpecificObjectSelection(packages, model, entry_o0_4.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_o0_2 = hmList.get("o0");
-			if (listEntry_o0_2 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_o0_4 = hmList.get("o0");
+			if (listEntry_o0_4 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_o0_2) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_o0_4) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection2 = new SpecificObjectSelection(packages, model, objs);
+				refSelection4 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("src", refSelection2);
+		refs.put("src", refSelection4);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "InputPin");
 		if (mut != null) {
@@ -1493,10 +1489,10 @@ public class testLCStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lg013 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lg019 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lg013 != null) {
-							for (Mutator mut : lg013) {
+						if (lg019 != null) {
+							for (Mutator mut : lg019) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1518,10 +1514,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ln114 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ln120 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ln114 != null) {
-							for (Mutator mut : ln114) {
+						if (ln120 != null) {
+							for (Mutator mut : ln120) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1549,10 +1545,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lo015 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lo021 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lo015 != null) {
-							for (Mutator mut : lo015) {
+						if (lo021 != null) {
+							for (Mutator mut : lo021) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1574,10 +1570,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> li016 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> li022 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (li016 != null) {
-							for (Mutator mut : li016) {
+						if (li022 != null) {
+							for (Mutator mut : li022) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1599,10 +1595,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l17 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l23 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l17 != null) {
-							for (Mutator mut : l17) {
+						if (l23 != null) {
+							for (Mutator mut : l23) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1623,10 +1619,10 @@ public class testLCStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l18 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l24 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l18 != null) {
-							for (Mutator mut : l18) {
+						if (l24 != null) {
+							for (Mutator mut : l24) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1761,8 +1757,8 @@ public class testLCStandalone extends MutatorUtils {
 							.getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4LC/data/model/LogicCircuit.ecore",
 					testLCStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4LC/data/model/",
-					"testLCStandalone.java", hashmapMutVersions, testLCStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testLC.mutator", hashmapMutVersions, testLCStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -1774,8 +1770,8 @@ public class testLCStandalone extends MutatorUtils {
 							.getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4LC/data/model/LogicCircuit.ecore",
 					testLCStandalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4LC/data/model/",
-					"testLCStandalone.java", hashmapMutVersions, testLCStandalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testLC.mutator", hashmapMutVersions, testLCStandalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

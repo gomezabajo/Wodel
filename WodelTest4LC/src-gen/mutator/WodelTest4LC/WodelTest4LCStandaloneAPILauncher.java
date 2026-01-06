@@ -21,7 +21,7 @@ public class WodelTest4LCStandaloneAPILauncher {
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/workspace5/WodelTest4LC/data/model/LogicCircuit.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration54/WodelTest4LC/data/model/LogicCircuit.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testLC");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
@@ -40,7 +40,7 @@ public class WodelTest4LCStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/workspace5/WodelTest4LC/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-New_configuration54/WodelTest4LC/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}

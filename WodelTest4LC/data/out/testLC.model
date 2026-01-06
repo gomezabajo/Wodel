@@ -21,11 +21,13 @@
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/LogicCircuit.ecore#//Gate/input"/>
             <refName href="../model/LogicCircuit.ecore#//InputPin/src"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/LogicCircuit.ecore#//Gate/output"/>
             <refName href="../model/LogicCircuit.ecore#//OutputPin/tar"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>
@@ -66,10 +68,12 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/LogicCircuit.ecore#//Gate/input"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
           <operator/>
           <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/LogicCircuit.ecore#//Gate/output"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </second>
         </expression>
       </object>

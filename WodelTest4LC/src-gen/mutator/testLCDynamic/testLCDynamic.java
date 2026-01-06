@@ -278,7 +278,6 @@ public class testLCDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refRefName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -289,7 +288,6 @@ public class testLCDynamic extends MutatorUtils {
 		ev0_0.refName = "tar";
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		List<EObject> selectedObjects = evaluate(objects, exp0);
 		EObject object = null;
@@ -927,7 +925,6 @@ public class testLCDynamic extends MutatorUtils {
 		((ReferenceEvaluation) exp0.first).refName = null;
 		((ReferenceEvaluation) exp0.first).attName = null;
 		((ReferenceEvaluation) exp0.first).operator = "different";
-		((ReferenceEvaluation) exp0.first).value = null;
 		exp0.operator = new ArrayList<Operator>();
 		Operator op0_0 = new Operator();
 		op0_0.type = "and";
@@ -938,7 +935,6 @@ public class testLCDynamic extends MutatorUtils {
 		ev0_0.refName = null;
 		ev0_0.attName = null;
 		ev0_0.operator = "different";
-		ev0_0.value = null;
 		exp0.second.add(ev0_0);
 		List<EObject> selectedObjects = evaluate(objects, exp0);
 		EObject object = null;
@@ -1765,24 +1761,24 @@ public class testLCDynamic extends MutatorUtils {
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, testLCDynamic.class.getProtectionDomain()
-					.getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
-					"/WodelTest4LC/data/model/LogicCircuit.ecore",
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages,
 					testLCDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/",
-							"/") + "WodelTest4LC/data/model/",
-					"testLCDynamic.java", hashmapMutVersions, this.getClass());
+							"/") + "data/out/",
+					"/WodelTest4LC/data/model/LogicCircuit.ecore", testLCDynamic.class.getProtectionDomain()
+							.getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/model/",
+					"testLC.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
 		if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, testLCDynamic.class
-					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
-					"/WodelTest4LC/data/model/LogicCircuit.ecore",
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages,
 					testLCDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/",
-							"/") + "WodelTest4LC/data/model/",
-					"testLCDynamic.java", hashmapMutVersions, this.getClass());
+							"/") + "data/out/",
+					"/WodelTest4LC/data/model/LogicCircuit.ecore", testLCDynamic.class.getProtectionDomain()
+							.getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/model/",
+					"testLC.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

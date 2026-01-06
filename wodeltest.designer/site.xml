@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/wodel.wodeltest_1.0.0.202601040733.jar" id="wodel.wodeltest" version="1.0.0.202601040733">
+   <feature url="features/wodel.core_1.0.0.202601060448.jar" id="wodel.core" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.emf.comparison_1.0.0.202601060448.jar" id="wodel.emf.comparison" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.emf.validation_1.0.0.202601060448.jar" id="wodel.emf.validation" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.footprints_1.0.0.202601060448.jar" id="wodel.footprints" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.examples_1.0.0.202601060448.jar" id="wodel.examples" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.seed.synthesis_1.0.0.202601060448.jar" id="wodel.seed.synthesis" version="1.0.0.202601060448">
+      <category name="Wodel"/>
+   </feature>
+   <feature url="features/wodel.wodeltest_1.0.0.202601060448.jar" id="wodel.wodeltest" version="1.0.0.202601060448">
       <category name="Wodel-Test"/>
-   </feature>
-   <feature url="features/wodel.seed.synthesis_1.0.0.202601040733.jar" id="wodel.seed.synthesis" version="1.0.0.202601040733">
-      <category name="Wodel"/>
-   </feature>
-   <feature url="features/wodel.emf.comparison_1.0.0.202601040733.jar" id="wodel.emf.comparison" version="1.0.0.202601040733">
-      <category name="Wodel"/>
-   </feature>
-   <feature url="features/wodel.emf.validation_1.0.0.202601040733.jar" id="wodel.emf.validation" version="1.0.0.202601040733">
-      <category name="Wodel"/>
-   </feature>
-   <feature url="features/wodel.examples_1.0.0.202601040733.jar" id="wodel.examples" version="1.0.0.202601040733">
-      <category name="Wodel"/>
-   </feature>
-   <feature url="features/wodel.core_1.0.0.202601040733.jar" id="wodel.core" version="1.0.0.202601040733">
-      <category name="Wodel"/>
-   </feature>
-   <feature url="features/wodel.footprints_1.0.0.202601040733.jar" id="wodel.footprints" version="1.0.0.202601040733">
-      <category name="Wodel"/>
    </feature>
    <category-def name="Wodel" label="Wodel"/>
    <category-def name="Wodel-Test" label="Wodel-Test"/>

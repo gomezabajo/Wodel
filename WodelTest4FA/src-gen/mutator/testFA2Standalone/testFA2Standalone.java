@@ -59,13 +59,13 @@ public class testFA2Standalone extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		RandomTypeSelection refRts19 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject19 = refRts19.getObject();
-		ObSelectionStrategy refSelection19 = null;
-		if (refObject19 != null) {
-			refSelection19 = new SpecificObjectSelection(packages, model, refObject19);
+		RandomTypeSelection refRts8 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject8 = refRts8.getObject();
+		ObSelectionStrategy refSelection8 = null;
+		if (refObject8 != null) {
+			refSelection8 = new SpecificObjectSelection(packages, model, refObject8);
 		}
-		refs.put("symbol", refSelection19);
+		refs.put("symbol", refSelection8);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -211,10 +211,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l42 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l18 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l42 != null) {
-							for (Mutator mut : l42) {
+						if (l18 != null) {
+							for (Mutator mut : l18) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -288,7 +288,12 @@ public class testFA2Standalone extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			List<AttributeConfigurationStrategy> atts = null;
+			if (attsList.get("isInitial") != null) {
+				atts = attsList.get("isInitial");
+			} else {
+				atts = new ArrayList<AttributeConfigurationStrategy>();
+			}
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificBooleanConfigurationStrategy(false);
 			atts.add(attConfig);
@@ -377,7 +382,12 @@ public class testFA2Standalone extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			List<AttributeConfigurationStrategy> atts = null;
+			if (attsList.get("isInitial") != null) {
+				atts = attsList.get("isInitial");
+			} else {
+				atts = new ArrayList<AttributeConfigurationStrategy>();
+			}
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificBooleanConfigurationStrategy(true);
 			atts.add(attConfig);
@@ -532,10 +542,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls043 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls019 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls043 != null) {
-							for (Mutator mut : ls043) {
+						if (ls019 != null) {
+							for (Mutator mut : ls019) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -556,10 +566,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls144 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls120 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls144 != null) {
-							for (Mutator mut : ls144) {
+						if (ls120 != null) {
+							for (Mutator mut : ls120) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -795,10 +805,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l45 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l21 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l45 != null) {
-							for (Mutator mut : l45) {
+						if (l21 != null) {
+							for (Mutator mut : l21) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -872,7 +882,12 @@ public class testFA2Standalone extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			List<AttributeConfigurationStrategy> atts = null;
+			if (attsList.get("isInitial") != null) {
+				atts = attsList.get("isInitial");
+			} else {
+				atts = new ArrayList<AttributeConfigurationStrategy>();
+			}
 			AttributeConfigurationStrategy attConfig = new ReverseBooleanConfigurationStrategy("isInitial");
 			atts.add(attConfig);
 			attsList.put("isInitial", atts);
@@ -960,7 +975,12 @@ public class testFA2Standalone extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			List<AttributeConfigurationStrategy> atts = null;
+			if (attsList.get("isInitial") != null) {
+				atts = attsList.get("isInitial");
+			} else {
+				atts = new ArrayList<AttributeConfigurationStrategy>();
+			}
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new SpecificBooleanConfigurationStrategy(true);
 			atts.add(attConfig);
@@ -1029,49 +1049,49 @@ public class testFA2Standalone extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection20 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_20 = hmObjects.get("s1");
-		if (entry_s1_20 != null) {
-			refSelection20 = new SpecificObjectSelection(packages, model, entry_s1_20.getKey());
+		ObSelectionStrategy refSelection9 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_9 = hmObjects.get("s1");
+		if (entry_s1_9 != null) {
+			refSelection9 = new SpecificObjectSelection(packages, model, entry_s1_9.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_20 = hmList.get("s1");
-			if (listEntry_s1_20 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_9 = hmList.get("s1");
+			if (listEntry_s1_9 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_20) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_9) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection20 = new SpecificObjectSelection(packages, model, objs);
+				refSelection9 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("src", refSelection20);
-		ObSelectionStrategy refSelection21 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_21 = hmObjects.get("s0");
-		if (entry_s0_21 != null) {
-			refSelection21 = new SpecificObjectSelection(packages, model, entry_s0_21.getKey());
+		refs.put("src", refSelection9);
+		ObSelectionStrategy refSelection10 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_10 = hmObjects.get("s0");
+		if (entry_s0_10 != null) {
+			refSelection10 = new SpecificObjectSelection(packages, model, entry_s0_10.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_21 = hmList.get("s0");
-			if (listEntry_s0_21 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_10 = hmList.get("s0");
+			if (listEntry_s0_10 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_21) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_10) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection21 = new SpecificObjectSelection(packages, model, objs);
+				refSelection10 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("tar", refSelection21);
-		RandomTypeSelection refRts22 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject22 = refRts22.getObject();
-		ObSelectionStrategy refSelection22 = null;
-		if (refObject22 != null) {
-			refSelection22 = new SpecificObjectSelection(packages, model, refObject22);
+		refs.put("tar", refSelection10);
+		RandomTypeSelection refRts11 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject11 = refRts11.getObject();
+		ObSelectionStrategy refSelection11 = null;
+		if (refObject11 != null) {
+			refSelection11 = new SpecificObjectSelection(packages, model, refObject11);
 		}
-		refs.put("symbol", refSelection22);
+		refs.put("symbol", refSelection11);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -1217,10 +1237,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls046 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls022 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls046 != null) {
-							for (Mutator mut : ls046) {
+						if (ls022 != null) {
+							for (Mutator mut : ls022) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1241,10 +1261,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls147 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls123 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls147 != null) {
-							for (Mutator mut : ls147) {
+						if (ls123 != null) {
+							for (Mutator mut : ls123) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1265,10 +1285,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l48 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l24 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l48 != null) {
-							for (Mutator mut : l48) {
+						if (l24 != null) {
+							for (Mutator mut : l24) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1421,8 +1441,8 @@ public class testFA2Standalone extends MutatorUtils {
 							.getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4FA/data/model/DFAAutomaton.ecore",
 					testFA2Standalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4FA/data/model/",
-					"testFA2Standalone.java", hashmapMutVersions, testFA2Standalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testFA2.mutator", hashmapMutVersions, testFA2Standalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -1434,8 +1454,8 @@ public class testFA2Standalone extends MutatorUtils {
 							.getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4FA/data/model/DFAAutomaton.ecore",
 					testFA2Standalone.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4FA/data/model/",
-					"testFA2Standalone.java", hashmapMutVersions, testFA2Standalone.class);
+							.replace("/bin/", "/") + "data/model/",
+					"testFA2.mutator", hashmapMutVersions, testFA2Standalone.class);
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

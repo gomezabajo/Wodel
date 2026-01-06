@@ -28,7 +28,7 @@ public class testFA1StandaloneAPI extends MutatorStandaloneAPI {
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
 		System.out.println("Wodel mutator file: testFA1");
-		String ecoreURI = "C:/eclipse/workspace3/WodelTest4FA/data/model/DFAAutomaton.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration52/WodelTest4FA/data/model/DFAAutomaton.ecore";
 		List<EPackage> packages = null;
 		try {
 			packages = ModelManager.loadMetaModel(ecoreURI, testFA1StandaloneAPI.class);
@@ -45,8 +45,8 @@ public class testFA1StandaloneAPI extends MutatorStandaloneAPI {
 			}
 			localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
 		}
-		int maxAttempts = 8;
-		int numMutants = 8;
+		int maxAttempts = 3;
+		int numMutants = 3;
 		boolean registry = true;
 		boolean metrics = false;
 		boolean debugMetrics = false;

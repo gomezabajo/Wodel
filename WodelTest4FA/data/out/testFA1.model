@@ -72,6 +72,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
             <name href="../model/DFAAutomaton.ecore#//Transition/src"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -82,6 +83,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation">
             <name href="../model/DFAAutomaton.ecore#//Transition/tar"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>
@@ -175,6 +177,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/DFAAutomaton.ecore#//Transition/symbol"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>

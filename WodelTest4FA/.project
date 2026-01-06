@@ -26,12 +26,12 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>wodeltest.extension.wodelTestBuilder</name>
+			<name>wodel.project.wodelBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>wodel.project.wodelBuilder</name>
+			<name>wodeltest.extension.wodelTestBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>

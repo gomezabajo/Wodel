@@ -1,0 +1,22 @@
+generate 10 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/WodelTest4FA/data/model/DFAAutomaton.ecore"
+
+with blocks {
+	ctr "Create transition (with symbol)" {
+		create Transition with {symbol = one Symbol}
+	}
+	mis "Change initial state" {
+		s0 = modify one State where {isInitial = true} with {isInitial = false}
+		s1 = modify one State where {self <> s0} with {isInitial = true}
+	}
+	sdt "Reverse a transition" {
+		modify one Transition with {swapref(src, tar)}
+	}
+	ctr_mis "Add a initial state and connect it to the previous initial state" {
+		s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
+		s1 = modify one State where {self <> s0} with {isInitial = true}
+		create Transition with {src = s1, tar = s0, symbol = one Symbol}
+	}
+}

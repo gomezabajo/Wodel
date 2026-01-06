@@ -16,8 +16,4 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="wodel.semantic.comparison.dfa"
-         version="0.0.0"/>
-
 </feature>

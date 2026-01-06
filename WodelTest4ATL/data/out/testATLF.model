@@ -105,6 +105,7 @@
         <expression>
           <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
             <name href="../model/ATL.ecore#/0/InPattern/filter"/>
+            <value xsi:type="mutatorenvironment:NullTypeSelection"/>
           </first>
         </expression>
       </object>

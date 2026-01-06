@@ -602,10 +602,10 @@ public class testATLBDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lsope16 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lsope28 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lsope16 != null) {
-							for (Mutator mut : lsope16) {
+						if (lsope28 != null) {
+							for (Mutator mut : lsope28) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -627,10 +627,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ltype17 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ltype29 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ltype17 != null) {
-							for (Mutator mut : ltype17) {
+						if (ltype29 != null) {
+							for (Mutator mut : ltype29) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -652,10 +652,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl18 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl30 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl18 != null) {
-							for (Mutator mut : lcl18) {
+						if (lcl30 != null) {
+							for (Mutator mut : lcl30) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -677,10 +677,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> latt19 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> latt31 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (latt19 != null) {
-							for (Mutator mut : latt19) {
+						if (latt31 != null) {
+							for (Mutator mut : latt31) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -702,10 +702,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lb20 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lb32 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lb20 != null) {
-							for (Mutator mut : lb20) {
+						if (lb32 != null) {
+							for (Mutator mut : lb32) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -733,10 +733,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l21 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l33 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l21 != null) {
-							for (Mutator mut : l21) {
+						if (l33 != null) {
+							for (Mutator mut : l33) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -928,10 +928,10 @@ public class testATLBDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l22 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l34 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l22 != null) {
-							for (Mutator mut : l22) {
+						if (l34 != null) {
+							for (Mutator mut : l34) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1202,10 +1202,10 @@ public class testATLBDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lb23 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lb35 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lb23 != null) {
-							for (Mutator mut : lb23) {
+						if (lb35 != null) {
+							for (Mutator mut : lb35) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1227,10 +1227,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l24 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l36 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l24 != null) {
-							for (Mutator mut : l24) {
+						if (l36 != null) {
+							for (Mutator mut : l36) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1877,10 +1877,10 @@ public class testATLBDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lsope25 = mutation10(packages, model, hashmapEObject, hashmapList, serialize,
+						List<Mutator> lsope37 = mutation10(packages, model, hashmapEObject, hashmapList, serialize,
 								test, classes);
-						if (lsope25 != null) {
-							for (Mutator mut : lsope25) {
+						if (lsope37 != null) {
+							for (Mutator mut : lsope37) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1902,10 +1902,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ltype26 = mutation11(packages, model, hashmapEObject, hashmapList, serialize,
+						List<Mutator> ltype38 = mutation11(packages, model, hashmapEObject, hashmapList, serialize,
 								test, classes);
-						if (ltype26 != null) {
-							for (Mutator mut : ltype26) {
+						if (ltype38 != null) {
+							for (Mutator mut : ltype38) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1927,10 +1927,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl27 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl39 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl27 != null) {
-							for (Mutator mut : lcl27) {
+						if (lcl39 != null) {
+							for (Mutator mut : lcl39) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1952,10 +1952,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lb28 = mutation13(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lb40 = mutation13(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lb28 != null) {
-							for (Mutator mut : lb28) {
+						if (lb40 != null) {
+							for (Mutator mut : lb40) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1977,10 +1977,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> latt29 = mutation14(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> latt41 = mutation14(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (latt29 != null) {
-							for (Mutator mut : latt29) {
+						if (latt41 != null) {
+							for (Mutator mut : latt41) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -2002,10 +2002,10 @@ public class testATLBDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l30 = mutation15(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l42 = mutation15(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l30 != null) {
-							for (Mutator mut : l30) {
+						if (l42 != null) {
+							for (Mutator mut : l42) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -2153,24 +2153,24 @@ public class testATLBDynamic extends MutatorUtils {
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, testATLBDynamic.class
-					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
-					"/WodelTest4ATL/data/model/ATL.ecore",
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages,
 					testATLBDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/",
-							"/") + "WodelTest4ATL/data/model/",
-					"testATLBDynamic.java", hashmapMutVersions, this.getClass());
+							"/") + "data/out/",
+					"/WodelTest4ATL/data/model/ATL.ecore", testATLBDynamic.class.getProtectionDomain().getCodeSource()
+							.getLocation().getPath().replace("/bin/", "/") + "data/model/",
+					"testATLB.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
 		if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, testATLBDynamic.class
-					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
-					"/WodelTest4ATL/data/model/ATL.ecore",
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages,
 					testATLBDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/",
-							"/") + "WodelTest4ATL/data/model/",
-					"testATLBDynamic.java", hashmapMutVersions, this.getClass());
+							"/") + "data/out/",
+					"/WodelTest4ATL/data/model/ATL.ecore", testATLBDynamic.class.getProtectionDomain().getCodeSource()
+							.getLocation().getPath().replace("/bin/", "/") + "data/model/",
+					"testATLB.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

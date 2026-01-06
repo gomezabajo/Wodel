@@ -201,10 +201,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l1 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l55 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l1 != null) {
-							for (Mutator mut : l1) {
+						if (l55 != null) {
+							for (Mutator mut : l55) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -396,10 +396,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l2 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l56 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l2 != null) {
-							for (Mutator mut : l2) {
+						if (l56 != null) {
+							for (Mutator mut : l56) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -459,7 +459,12 @@ public class testATLMRDynamic extends MutatorUtils {
 		}
 		Map<String, List<AttributeConfigurationStrategy>> attsList = new LinkedHashMap<String, List<AttributeConfigurationStrategy>>();
 		if (objectSelection != null) {
-			List<AttributeConfigurationStrategy> atts = new ArrayList<AttributeConfigurationStrategy>();
+			List<AttributeConfigurationStrategy> atts = null;
+			if (attsList.get("name") != null) {
+				atts = attsList.get("name");
+			} else {
+				atts = new ArrayList<AttributeConfigurationStrategy>();
+			}
 			AttributeConfigurationStrategy attConfig = null;
 			attConfig = new RandomStringConfigurationStrategy(4, 6, false);
 			atts.add(attConfig);
@@ -613,10 +618,10 @@ public class testATLMRDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l3 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l57 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l3 != null) {
-							for (Mutator mut : l3) {
+						if (l57 != null) {
+							for (Mutator mut : l57) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -750,8 +755,8 @@ public class testATLMRDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4ATL/data/model/ATL.ecore",
 					testATLMRDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4ATL/data/model/",
-					"testATLMRDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testATLMR.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}
@@ -762,8 +767,8 @@ public class testATLMRDynamic extends MutatorUtils {
 					.getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin/", "/") + "data/out/",
 					"/WodelTest4ATL/data/model/ATL.ecore",
 					testATLMRDynamic.class.getProtectionDomain().getCodeSource().getLocation().getPath()
-							.replace("/bin/", "/") + "WodelTest4ATL/data/model/",
-					"testATLMRDynamic.java", hashmapMutVersions, this.getClass());
+							.replace("/bin/", "/") + "data/model/",
+					"testATLMR.mutator", hashmapMutVersions, this.getClass());
 			metricsGenerator.run();
 			monitor.worked(1);
 		}

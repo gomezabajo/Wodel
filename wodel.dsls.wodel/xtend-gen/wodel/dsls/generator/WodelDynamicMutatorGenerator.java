@@ -1,7 +1,6 @@
 package wodel.dsls.generator;
 
 import com.google.common.collect.Iterables;
-import java.io.File;
 import java.util.List;
 import mutatorenvironment.Block;
 import mutatorenvironment.Definition;
@@ -19,6 +18,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import wodel.utils.manager.JavaUtils;
@@ -71,9 +71,6 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
         _xifexpression_1 = (_workspaceAbsolutePathWithProjectName + "/");
       }
       String projectFolderName = _xifexpression_1;
-      File projectFolder = new File(projectFolderName);
-      File[] files = projectFolder.listFiles();
-      MutatorEnvironment mutatorEnvironment = null;
       this.fileURI = resource.getURI();
       Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
       for (final MutatorEnvironment e : _filter) {
@@ -103,7 +100,6 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
             fsa.deleteFile(((("mutator/" + this.className) + "/") + fileName));
           }
           fsa.generateFile(((("mutator/" + this.className) + "/") + fileName), JavaUtils.format(this.compile(e, this.project), false));
-          mutatorEnvironment = e;
         }
       }
       final Function1<IFile, String> _function = (IFile it) -> {
@@ -132,7 +128,7 @@ public class WodelDynamicMutatorGenerator extends WodelMutatorGenerator {
       String _replaceAll_5 = this.project.getName().replaceAll("[.]", "_");
       String _plus_10 = (_plus_9 + _replaceAll_5);
       String _plus_11 = (_plus_10 + "DynamicLauncher.java");
-      fsa.generateFile(_plus_11, JavaUtils.format(this.launcherDynamic(mutatorEnvironment, this.project, mutators), false));
+      fsa.generateFile(_plus_11, JavaUtils.format(this.launcher(IterableExtensions.<MutatorEnvironment>toList(Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class)), this.project, mutators), false));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

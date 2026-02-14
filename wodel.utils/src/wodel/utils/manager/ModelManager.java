@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.core.resources.IProject;
@@ -51,7 +52,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
@@ -3089,10 +3089,10 @@ public class ModelManager {
 	 */
 	public static boolean validateMetaModel(String metamodel)
 			throws MetaModelNotFoundException, ModelNotFoundException {
-		
+
 		List<EPackage> packages = loadMetaModel(metamodel);
 		Resource rs = loadMetaModelAsResource(packages, metamodel);
-		
+
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(rs.getContents().get(0));
 		if (diagnostic.getSeverity() == Diagnostic.OK || diagnostic.getSeverity() == Diagnostic.WARNING || diagnostic.getSeverity() == Diagnostic.ERROR) {
 			return true;
@@ -3100,12 +3100,119 @@ public class ModelManager {
 		return false;
 	}
 	
+	private static String safeLabel(EObject e) {
+        if (e == null) return "<null>";
+        String cls = e.eClass() != null ? e.eClass().getName() : "<noEClass>";
+        // Try to show an ID if present
+        String id = null;
+        if (e.eResource() instanceof XMLResource xr) {
+            id = xr.getID(e);
+        }
+        return (id != null) ? (cls + "(id=" + id + ")") : cls;
+    }
+
+	/*
+	private static void checkRequiredFeatures(EObject e, List<String> problems) {
+        EClass c = e.eClass();
+        for (EStructuralFeature f : c.getEAllStructuralFeatures()) {
+            int lb = f.getLowerBound();
+            if (lb <= 0) continue;               // not required
+            if (f.isDerived()) continue;          // derived features need not be stored
+            if (f.isTransient()) continue;        // transient not persisted / not required in XMI
+
+            Object v = e.eGet(f, true); // true = resolve proxies where possible
+
+            if (f.isMany()) {
+                @SuppressWarnings("unchecked")
+                List<Object> list = (List<Object>) v;
+                int size = (list == null) ? 0 : list.size();
+                if (size < lb) {
+                    problems.add("MISSING REQUIRED LIST: " + safeLabel(e) +
+                            " -> '" + f.getName() + "' requires >= " + lb + " but has " + size);
+                } else if (f instanceof EReference ref) {
+                    // If list has proxies, they should have been caught by unresolved proxy check,
+                    // but we can be extra strict:
+                    for (Object o : list) {
+                        if (o instanceof EObject eo && eo.eIsProxy()) {
+                            problems.add("MISSING REQUIRED REF (PROXY IN LIST): " + safeLabel(e) +
+                                    " -> '" + f.getName() + "'");
+                        }
+                    }
+                }
+            } else {
+                if (v == null) {
+                    problems.add("MISSING REQUIRED VALUE: " + safeLabel(e) + " -> '" + f.getName() + "' is null");
+                    continue;
+                }
+
+                if (f instanceof EAttribute) {
+                    // Required string attributes often deserialize as "" and still pass eIsSet()
+                    if (v instanceof String s && s.isBlank()) {
+                        problems.add("MISSING REQUIRED ATTRIBUTE: " + safeLabel(e) +
+                                " -> '" + f.getName() + "' is blank");
+                    } else if (!e.eIsSet(f)) {
+                        // catches unsettable features too
+                        problems.add("MISSING REQUIRED ATTRIBUTE: " + safeLabel(e) +
+                                " -> '" + f.getName() + "' is not set");
+                    }
+                } else if (f instanceof EReference) {
+                    if (!(v instanceof EObject)) {
+                        problems.add("MISSING REQUIRED REFERENCE: " + safeLabel(e) +
+                                " -> '" + f.getName() + "' is not an EObject");
+                    } else {
+                        EObject target = (EObject) v;
+                        if (target.eIsProxy()) {
+                            problems.add("MISSING REQUIRED REFERENCE (UNRESOLVED PROXY): " +
+                                    safeLabel(e) + " -> '" + f.getName() + "'");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    */
+
+	private static Diagnostic merge(Diagnostic a, Diagnostic b) {
+		if (a == Diagnostic.OK_INSTANCE) return b;
+		if (b == Diagnostic.OK_INSTANCE) return a;
+
+		BasicDiagnostic merged =
+				new BasicDiagnostic(
+						Math.max(a.getSeverity(), b.getSeverity()),
+						"XmiEmfModelValidator",
+						0,
+						"Combined validation result",
+						null
+						);
+		merged.add(a);
+		merged.add(b);
+		return merged;
+	}
+
 	public static boolean validateModel(String metamodel, String model)
 			throws MetaModelNotFoundException, ModelNotFoundException {
-		
+
 		List<EPackage> packages = loadMetaModel(metamodel);
 		Resource rs = loadModel(packages, model);
+
+
+		Diagnostic combined = Diagnostic.OK_INSTANCE;
+		for (EObject root : rs.getContents()) {
+			Diagnostic d = Diagnostician.INSTANCE.validate(root);
+			combined = merge(combined, d);
+		}
+
+		boolean ok = combined.getSeverity() != Diagnostic.ERROR && combined.getSeverity() != Diagnostic.CANCEL;
+		if (ok != true) {
+			System.out.println("Syntactically incorrect model: " + combined.getMessage());
+		}
+
+//		List<String> problems = new ArrayList<String>();
+//		for (EObject root : rs.getContents()) {
+//			checkRequiredFeatures(root, problems);
+//		}
 		
+		/*
 		Iterator<EObject> objects = rs.getAllContents();
 		while (objects.hasNext()) {
 			EObject eObject = objects.next();
@@ -3114,22 +3221,34 @@ public class ModelManager {
 				return false;
 			}
 		}
-		return true;
+		 */
+//		boolean ok = problems.isEmpty();
+		return ok;
 	}
-	
+
 	public static boolean validateModel(Resource model)
 			throws MetaModelNotFoundException, ModelNotFoundException {
-		Iterator<EObject> objects = model.getAllContents();
-		while (objects.hasNext()) {
-			EObject eObject = objects.next();
-			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
-			if (diagnostic.getSeverity() == Diagnostic.ERROR) {
-				return false;
-			}
+		Diagnostic combined = Diagnostic.OK_INSTANCE;
+		for (EObject root : model.getContents()) {
+			Diagnostic d = Diagnostician.INSTANCE.validate(root);
+			combined = merge(combined, d);
 		}
-		return true;		
+
+//		List<String> problems = new ArrayList<String>();
+//		for (EObject root : model.getContents()) {
+//			checkRequiredFeatures(root, problems);
+//		}
+
+		boolean ok = combined.getSeverity() != Diagnostic.ERROR && combined.getSeverity() != Diagnostic.CANCEL;
+		if (ok != true) {
+			System.out.println("Syntactically incorrect model: " + combined.getMessage());
+		}
+		
+		return ok;
+
+//		return problems.isEmpty();
 	}
-	
+
 	public static boolean checkModel(String model) {
 		File file = new File(model);
 		if (file.exists() && !file.isDirectory()) {
@@ -5587,6 +5706,7 @@ public class ModelManager {
 		model.setURI(URI.createFileURI(outputURI));
 		Map<Object, Object> options = new HashMap<Object, Object>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+		options.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE,	new ArrayList<Object>());
 		options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		try {
 			model.save(options);

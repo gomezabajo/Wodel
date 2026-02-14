@@ -179,93 +179,11 @@ abstract class WodelMutatorGenerator extends AbstractGenerator {
 		return mutatorPath
 	}
 	
-	def launcherDynamic(MutatorEnvironment e, IProject project, List<String> mutators) '''
+	def launcher(List<MutatorEnvironment> mutEnvironment, IProject project, List<String> mutators) '''
 
-	//«this.project = project !== null? project : projectOf(e.eResource)»
-package mutator.«project.name»;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.AbstractMap.SimpleEntry;
-
-import org.eclipse.core.resources.IProject;
-import wodel.utils.exceptions.AbstractCreationException;
-import wodel.utils.exceptions.MaxSmallerThanMinException;
-import wodel.utils.exceptions.MetaModelNotFoundException;
-import wodel.utils.exceptions.ModelNotFoundException;
-import wodel.utils.exceptions.ObjectNoTargetableException;
-import wodel.utils.exceptions.ObjectNotContainedException;
-import wodel.utils.exceptions.ReferenceNonExistingException;
-import wodel.utils.exceptions.WrongAttributeTypeException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EPackage;
-
-«FOR mutatorName : mutators»
-import mutator.«mutatorName»Dynamic.«mutatorName»Dynamic;
-«ENDFOR»
-import wodel.utils.manager.IMutatorExecutor;
-import wodel.utils.manager.IWodelTest;
-import wodel.utils.manager.ModelManager;
-import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.MutatorUtils.MutationResults;
-
-public class «project.name.replaceAll("[.]", "_")»DynamicLauncher implements IMutatorExecutor {
-
-	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
-												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
-												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
-	
-    IWodelTest test = testObject != null ? (IWodelTest) testObject : null;
-	«IF e.definition instanceof Program»
-	String ecoreURI = "«e.definition.metamodel»";
-	//Load MetaModel
-	List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
-	//checks whether the meta-model is dynamically registered
-	boolean isRegistered = ModelManager.isRegistered(packages);
-	Map<String, EPackage> localRegisteredPackages = null;
-	if (isRegistered == true) {
-		if (registeredPackages != null) {
-			List<EPackage> packageList = new ArrayList<EPackage>();
-			packageList.addAll(registeredPackages.values());
-			ModelManager.unregisterMetaModel(packageList);
-		}
-		localRegisteredPackages = ModelManager.unregisterMetaModel(packages);
-	}
-	«ENDIF»
-
-	MutationResults mutationResults = new MutationResults();
-	«FOR mutatorName : mutators»
-		MutatorUtils mut«mutatorName» = new «mutatorName»Dynamic();
-		MutationResults results«mutatorName» = mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, project, monitor, serialize, test, classes);
-		mutationResults.numMutatorsApplied += results«mutatorName».numMutatorsApplied;
-		mutationResults.numMutantsGenerated += results«mutatorName».numMutantsGenerated;
-		if (results«mutatorName».mutatorsApplied != null) {
-			if (mutationResults.mutatorsApplied == null) {
-				mutationResults.mutatorsApplied = new ArrayList<String>();
-			}
-			mutationResults.mutatorsApplied.addAll(results«mutatorName».mutatorsApplied); 
-		}
-	«ENDFOR»
-	if (isRegistered == true) {
-		ModelManager.registerMetaModel(localRegisteredPackages);
-		if (registeredPackages != null) {
-			ModelManager.registerMetaModel(registeredPackages);
-		}
-	}
-	
-	return mutationResults;
-	}
-}
-	'''
-		
-	def launcherStandalone(List<MutatorEnvironment> mutEnvironment, IProject project) '''
-	
 	«IF mutEnvironment !== null && !mutEnvironment.isEmpty»
-
+	
+    //«var MutatorEnvironment e = mutEnvironment.size() > 0 ? mutEnvironment.get(0) : null»
 	//«this.project = project !== null? project : projectOf(mutEnvironment.get(0).eResource)»
 package mutator.«project.name»;
 
@@ -289,24 +207,42 @@ import wodel.utils.exceptions.WrongAttributeTypeException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
 
-//«var List<String> mutators = ProjectUtils.getMutatorFiles(this.project).map[name.replace(".mutator", "")]»
-		
 «FOR mutatorName : mutators»
+«IF standalone == false»
+import mutator.«mutatorName»Dynamic.«mutatorName»Dynamic;
+«ELSE»
 import mutator.«mutatorName»Standalone.«mutatorName»Standalone;
+«ENDIF»
 «ENDFOR»
+«IF standalone == false»
+import wodel.utils.manager.IMutatorExecutor;
+«ELSE»
 import wodel.utils.manager.IMutatorStandaloneExecutor;
+«ENDIF»
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.MutatorUtils.MutationResults;
 
+«IF standalone == false»
+public class «project.name.replaceAll("[.]", "_")»DynamicLauncher implements IMutatorExecutor {
+«ELSE»
 public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implements IMutatorStandaloneExecutor {
+«ENDIF»
+
+	«IF standalone == false»
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
+												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+	«ELSE»
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+	«ENDIF»
+	
     IWodelTest test = testObject != null ? (IWodelTest) testObject : null;
-	«IF mutEnvironment.get(0).definition instanceof Program»
-	String ecoreURI = "«mutEnvironment.get(0).definition.metamodel»";
+	«IF e.definition instanceof Program»
+	String ecoreURI = "«e.definition.metamodel»";
 	//Load MetaModel
 	List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
 	//checks whether the meta-model is dynamically registered
@@ -324,8 +260,13 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 
 	MutationResults mutationResults = new MutationResults();
 	«FOR mutatorName : mutators»
+	«IF standalone == false»
+		MutatorUtils mut«mutatorName» = new «mutatorName»Dynamic();
+		MutationResults results«mutatorName» = mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, project, monitor, serialize, test, classes);
+	«ELSE»
 		MutatorUtils mut«mutatorName» = new «mutatorName»Standalone();
 		MutationResults results«mutatorName» = mut«mutatorName».execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, monitor, serialize, test, classes);
+	«ENDIF»
 		mutationResults.numMutatorsApplied += results«mutatorName».numMutatorsApplied;
 		mutationResults.numMutantsGenerated += results«mutatorName».numMutantsGenerated;
 		if (results«mutatorName».mutatorsApplied != null) {
@@ -344,10 +285,10 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	
 	return mutationResults;
 	}
+	«ENDIF»
 }
-«ENDIF»
 	'''
-
+		
 	def getRandom(int range) {
 		if(range==1) return 0
 		

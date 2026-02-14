@@ -907,7 +907,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			    while(entries.hasMoreElements()) {
 			    	JarEntry entry = entries.nextElement();
 					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("lib/")) {
+						if (entry.getName().startsWith("lib/") && !entry.getName().contains("/modelValidatorPlugin/x86/")) {
 							final String name = entry.getName();
 							final File f = libFolder.getRawLocation().makeAbsolute().toFile();
 							File dest = new File(f.getPath() + '/' + entry.getName().substring("lib".length(), entry.getName().length()).split("/")[1]);

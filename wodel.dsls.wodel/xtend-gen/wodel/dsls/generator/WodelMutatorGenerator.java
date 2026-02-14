@@ -89,7 +89,6 @@ import mutatorenvironment.StringType;
 import mutatorenvironment.TypedSelection;
 import mutatorenvironment.UpperStringType;
 import mutatorenvironment.miniOCL.InvariantCS;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
@@ -104,9 +103,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.xbase.lib.Conversions;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.osgi.framework.Bundle;
 import wodel.dsls.WodelUtils;
 import wodel.utils.manager.MutatorUtils;
@@ -255,506 +251,335 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     return mutatorPath;
   }
 
-  public CharSequence launcherDynamic(final MutatorEnvironment e, final IProject project, final List<String> mutators) {
+  public CharSequence launcher(final List<MutatorEnvironment> mutEnvironment, final IProject project, final List<String> mutators) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("//");
-    IProject _xifexpression = null;
-    if ((project != null)) {
-      _xifexpression = project;
-    } else {
-      _xifexpression = WodelMutatorGenerator.projectOf(e.eResource());
-    }
-    IProject _project = this.project = _xifexpression;
-    _builder.append(_project, "\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("package mutator.");
-    String _name = project.getName();
-    _builder.append(_name);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("import java.io.IOException;");
-    _builder.newLine();
-    _builder.append("import java.util.ArrayList;");
-    _builder.newLine();
-    _builder.append("import java.util.LinkedHashMap;");
-    _builder.newLine();
-    _builder.append("import java.util.List;");
-    _builder.newLine();
-    _builder.append("import java.util.Map;");
-    _builder.newLine();
-    _builder.append("import java.util.TreeMap;");
-    _builder.newLine();
-    _builder.append("import java.util.AbstractMap.SimpleEntry;");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("import org.eclipse.core.resources.IProject;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.AbstractCreationException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.MaxSmallerThanMinException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.MetaModelNotFoundException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.ModelNotFoundException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.ObjectNoTargetableException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.ObjectNotContainedException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.ReferenceNonExistingException;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.exceptions.WrongAttributeTypeException;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.core.runtime.IProgressMonitor;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.emf.ecore.EPackage;");
-    _builder.newLine();
-    _builder.newLine();
     {
-      for(final String mutatorName : mutators) {
-        _builder.append("import mutator.");
-        _builder.append(mutatorName);
-        _builder.append("Dynamic.");
-        _builder.append(mutatorName);
-        _builder.append("Dynamic;");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("import wodel.utils.manager.IMutatorExecutor;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.manager.IWodelTest;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.manager.ModelManager;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.manager.MutatorUtils;");
-    _builder.newLine();
-    _builder.append("import wodel.utils.manager.MutatorUtils.MutationResults;");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("public class ");
-    String _replaceAll = project.getName().replaceAll("[.]", "_");
-    _builder.append(_replaceAll);
-    _builder.append("DynamicLauncher implements IMutatorExecutor {");
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
-    _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
-    _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("IWodelTest test = testObject != null ? (IWodelTest) testObject : null;");
-    _builder.newLine();
-    {
-      Definition _definition = e.getDefinition();
-      if ((_definition instanceof Program)) {
+      if (((mutEnvironment != null) && (!mutEnvironment.isEmpty()))) {
         _builder.append("\t");
-        _builder.append("String ecoreURI = \"");
-        String _metamodel = e.getDefinition().getMetamodel();
-        _builder.append(_metamodel, "\t");
-        _builder.append("\";");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.append("//");
+        MutatorEnvironment _xifexpression = null;
+        int _size = mutEnvironment.size();
+        boolean _greaterThan = (_size > 0);
+        if (_greaterThan) {
+          _xifexpression = mutEnvironment.get(0);
+        } else {
+          _xifexpression = null;
+        }
+        MutatorEnvironment e = _xifexpression;
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        _builder.append("//Load MetaModel");
+        _builder.append("//");
+        IProject _xifexpression_1 = null;
+        if ((project != null)) {
+          _xifexpression_1 = project;
+        } else {
+          _xifexpression_1 = WodelMutatorGenerator.projectOf(mutEnvironment.get(0).eResource());
+        }
+        IProject _project = this.project = _xifexpression_1;
+        _builder.append(_project, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("package mutator.");
+        String _name = project.getName();
+        _builder.append(_name);
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
+        _builder.append("import java.io.IOException;");
+        _builder.newLine();
+        _builder.append("import java.util.ArrayList;");
+        _builder.newLine();
+        _builder.append("import java.util.LinkedHashMap;");
+        _builder.newLine();
+        _builder.append("import java.util.List;");
+        _builder.newLine();
+        _builder.append("import java.util.Map;");
+        _builder.newLine();
+        _builder.append("import java.util.TreeMap;");
+        _builder.newLine();
+        _builder.append("import java.util.AbstractMap.SimpleEntry;");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("import org.eclipse.core.resources.IProject;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.AbstractCreationException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.MaxSmallerThanMinException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.MetaModelNotFoundException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.ModelNotFoundException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.ObjectNoTargetableException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.ObjectNotContainedException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.ReferenceNonExistingException;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.exceptions.WrongAttributeTypeException;");
+        _builder.newLine();
+        _builder.append("import org.eclipse.core.runtime.IProgressMonitor;");
+        _builder.newLine();
+        _builder.append("import org.eclipse.emf.ecore.EPackage;");
+        _builder.newLine();
+        _builder.newLine();
+        {
+          for(final String mutatorName : mutators) {
+            {
+              if ((this.standalone == false)) {
+                _builder.append("import mutator.");
+                _builder.append(mutatorName);
+                _builder.append("Dynamic.");
+                _builder.append(mutatorName);
+                _builder.append("Dynamic;");
+                _builder.newLineIfNotEmpty();
+              } else {
+                _builder.append("import mutator.");
+                _builder.append(mutatorName);
+                _builder.append("Standalone.");
+                _builder.append(mutatorName);
+                _builder.append("Standalone;");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+        {
+          if ((this.standalone == false)) {
+            _builder.append("import wodel.utils.manager.IMutatorExecutor;");
+            _builder.newLine();
+          } else {
+            _builder.append("import wodel.utils.manager.IMutatorStandaloneExecutor;");
+            _builder.newLine();
+          }
+        }
+        _builder.append("import wodel.utils.manager.IWodelTest;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.manager.ModelManager;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.manager.MutatorUtils;");
+        _builder.newLine();
+        _builder.append("import wodel.utils.manager.MutatorUtils.MutationResults;");
+        _builder.newLine();
+        _builder.newLine();
+        {
+          if ((this.standalone == false)) {
+            _builder.append("public class ");
+            String _replaceAll = project.getName().replaceAll("[.]", "_");
+            _builder.append(_replaceAll);
+            _builder.append("DynamicLauncher implements IMutatorExecutor {");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("public class ");
+            String _replaceAll_1 = project.getName().replaceAll("[.]", "_");
+            _builder.append(_replaceAll_1);
+            _builder.append("StandaloneLauncher implements IMutatorStandaloneExecutor {");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((this.standalone == false)) {
+            _builder.append("\t");
+            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
+            _builder.newLine();
+          } else {
+            _builder.append("\t");
+            _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
+            _builder.newLine();
+          }
+        }
+        _builder.append("\t");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.append("IWodelTest test = testObject != null ? (IWodelTest) testObject : null;");
+        _builder.newLine();
+        {
+          Definition _definition = e.getDefinition();
+          if ((_definition instanceof Program)) {
+            _builder.append("\t");
+            _builder.append("String ecoreURI = \"");
+            String _metamodel = e.getDefinition().getMetamodel();
+            _builder.append(_metamodel, "\t");
+            _builder.append("\";");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("//Load MetaModel");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("//checks whether the meta-model is dynamically registered");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("boolean isRegistered = ModelManager.isRegistered(packages);");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("Map<String, EPackage> localRegisteredPackages = null;");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("if (isRegistered == true) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("if (registeredPackages != null) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("List<EPackage> packageList = new ArrayList<EPackage>();");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("packageList.addAll(registeredPackages.values());");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("ModelManager.unregisterMetaModel(packageList);");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("localRegisteredPackages = ModelManager.unregisterMetaModel(packages);");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+          }
+        }
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());");
+        _builder.append("MutationResults mutationResults = new MutationResults();");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("//checks whether the meta-model is dynamically registered");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("boolean isRegistered = ModelManager.isRegistered(packages);");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("Map<String, EPackage> localRegisteredPackages = null;");
-        _builder.newLine();
+        {
+          for(final String mutatorName_1 : mutators) {
+            {
+              if ((this.standalone == false)) {
+                _builder.append("\t");
+                _builder.append("MutatorUtils mut");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(" = new ");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append("Dynamic();");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("MutationResults results");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(" = mut");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, project, monitor, serialize, test, classes);");
+                _builder.newLineIfNotEmpty();
+              } else {
+                _builder.append("\t");
+                _builder.append("MutatorUtils mut");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(" = new ");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append("Standalone();");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("MutationResults results");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(" = mut");
+                _builder.append(mutatorName_1, "\t");
+                _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, monitor, serialize, test, classes);");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("mutationResults.numMutatorsApplied += results");
+            _builder.append(mutatorName_1, "\t\t");
+            _builder.append(".numMutatorsApplied;");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("mutationResults.numMutantsGenerated += results");
+            _builder.append(mutatorName_1, "\t\t");
+            _builder.append(".numMutantsGenerated;");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("if (results");
+            _builder.append(mutatorName_1, "\t\t");
+            _builder.append(".mutatorsApplied != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("if (mutationResults.mutatorsApplied == null) {");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t");
+            _builder.append("mutationResults.mutatorsApplied = new ArrayList<String>();");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("mutationResults.mutatorsApplied.addAll(results");
+            _builder.append(mutatorName_1, "\t\t\t");
+            _builder.append(".mutatorsApplied); ");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+          }
+        }
         _builder.append("\t");
         _builder.append("if (isRegistered == true) {");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("ModelManager.registerMetaModel(localRegisteredPackages);");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("if (registeredPackages != null) {");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t\t");
-        _builder.append("List<EPackage> packageList = new ArrayList<EPackage>();");
+        _builder.append("\t\t\t");
+        _builder.append("ModelManager.registerMetaModel(registeredPackages);");
         _builder.newLine();
-        _builder.append("\t");
         _builder.append("\t\t");
-        _builder.append("packageList.addAll(registeredPackages.values());");
+        _builder.append("}");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t\t");
-        _builder.append("ModelManager.unregisterMetaModel(packageList);");
-        _builder.newLine();
-        _builder.append("\t");
         _builder.append("\t");
         _builder.append("}");
         _builder.newLine();
         _builder.append("\t");
+        _builder.newLine();
         _builder.append("\t");
-        _builder.append("localRegisteredPackages = ModelManager.unregisterMetaModel(packages);");
+        _builder.append("return mutationResults;");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("}");
         _builder.newLine();
       }
     }
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("MutationResults mutationResults = new MutationResults();");
-    _builder.newLine();
-    {
-      for(final String mutatorName_1 : mutators) {
-        _builder.append("\t");
-        _builder.append("MutatorUtils mut");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(" = new ");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append("Dynamic();");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("MutationResults results");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(" = mut");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, project, monitor, serialize, test, classes);");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("mutationResults.numMutatorsApplied += results");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(".numMutatorsApplied;");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("mutationResults.numMutantsGenerated += results");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(".numMutantsGenerated;");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("if (results");
-        _builder.append(mutatorName_1, "\t");
-        _builder.append(".mutatorsApplied != null) {");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("\t");
-        _builder.append("if (mutationResults.mutatorsApplied == null) {");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t\t");
-        _builder.append("mutationResults.mutatorsApplied = new ArrayList<String>();");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t");
-        _builder.append("mutationResults.mutatorsApplied.addAll(results");
-        _builder.append(mutatorName_1, "\t\t");
-        _builder.append(".mutatorsApplied); ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-      }
-    }
-    _builder.append("\t");
-    _builder.append("if (isRegistered == true) {");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("ModelManager.registerMetaModel(localRegisteredPackages);");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("if (registeredPackages != null) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("ModelManager.registerMetaModel(registeredPackages);");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("return mutationResults;");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
     _builder.append("}");
     _builder.newLine();
     return _builder;
-  }
-
-  public CharSequence launcherStandalone(final List<MutatorEnvironment> mutEnvironment, final IProject project) {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.newLine();
-      {
-        if (((mutEnvironment != null) && (!mutEnvironment.isEmpty()))) {
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("//");
-          IProject _xifexpression = null;
-          if ((project != null)) {
-            _xifexpression = project;
-          } else {
-            _xifexpression = WodelMutatorGenerator.projectOf(mutEnvironment.get(0).eResource());
-          }
-          IProject _project = this.project = _xifexpression;
-          _builder.append(_project, "\t");
-          _builder.newLineIfNotEmpty();
-          _builder.append("package mutator.");
-          String _name = project.getName();
-          _builder.append(_name);
-          _builder.append(";");
-          _builder.newLineIfNotEmpty();
-          _builder.newLine();
-          _builder.append("import java.io.IOException;");
-          _builder.newLine();
-          _builder.append("import java.util.ArrayList;");
-          _builder.newLine();
-          _builder.append("import java.util.LinkedHashMap;");
-          _builder.newLine();
-          _builder.append("import java.util.List;");
-          _builder.newLine();
-          _builder.append("import java.util.Map;");
-          _builder.newLine();
-          _builder.append("import java.util.TreeMap;");
-          _builder.newLine();
-          _builder.append("import java.util.AbstractMap.SimpleEntry;");
-          _builder.newLine();
-          _builder.newLine();
-          _builder.append("import org.eclipse.core.resources.IProject;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.AbstractCreationException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.MaxSmallerThanMinException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.MetaModelNotFoundException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.ModelNotFoundException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.ObjectNoTargetableException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.ObjectNotContainedException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.ReferenceNonExistingException;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.exceptions.WrongAttributeTypeException;");
-          _builder.newLine();
-          _builder.append("import org.eclipse.core.runtime.IProgressMonitor;");
-          _builder.newLine();
-          _builder.append("import org.eclipse.emf.ecore.EPackage;");
-          _builder.newLine();
-          _builder.newLine();
-          _builder.append("//");
-          final Function1<IFile, String> _function = (IFile it) -> {
-            return it.getName().replace(".mutator", "");
-          };
-          List<String> mutators = ListExtensions.<IFile, String>map(ProjectUtils.getMutatorFiles(this.project), _function);
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t\t");
-          _builder.newLine();
-          {
-            for(final String mutatorName : mutators) {
-              _builder.append("import mutator.");
-              _builder.append(mutatorName);
-              _builder.append("Standalone.");
-              _builder.append(mutatorName);
-              _builder.append("Standalone;");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          _builder.append("import wodel.utils.manager.IMutatorStandaloneExecutor;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.manager.IWodelTest;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.manager.ModelManager;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.manager.MutatorUtils;");
-          _builder.newLine();
-          _builder.append("import wodel.utils.manager.MutatorUtils.MutationResults;");
-          _builder.newLine();
-          _builder.newLine();
-          _builder.append("public class ");
-          String _replaceAll = project.getName().replaceAll("[.]", "_");
-          _builder.append(_replaceAll);
-          _builder.append("StandaloneLauncher implements IMutatorStandaloneExecutor {");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t");
-          _builder.append("public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProgressMonitor monitor, boolean serialize, Object testObject, Map<String, List<String>> classes, Map<String, EPackage> registeredPackages) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
-          _builder.newLine();
-          _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
-          _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
-          _builder.newLine();
-          _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
-          _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
-          _builder.newLine();
-          _builder.append("    ");
-          _builder.append("IWodelTest test = testObject != null ? (IWodelTest) testObject : null;");
-          _builder.newLine();
-          {
-            Definition _definition = mutEnvironment.get(0).getDefinition();
-            if ((_definition instanceof Program)) {
-              _builder.append("\t");
-              _builder.append("String ecoreURI = \"");
-              String _metamodel = mutEnvironment.get(0).getDefinition().getMetamodel();
-              _builder.append(_metamodel, "\t");
-              _builder.append("\";");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("//Load MetaModel");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("//checks whether the meta-model is dynamically registered");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("boolean isRegistered = ModelManager.isRegistered(packages);");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("Map<String, EPackage> localRegisteredPackages = null;");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("if (isRegistered == true) {");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("if (registeredPackages != null) {");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t\t");
-              _builder.append("List<EPackage> packageList = new ArrayList<EPackage>();");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t\t");
-              _builder.append("packageList.addAll(registeredPackages.values());");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t\t");
-              _builder.append("ModelManager.unregisterMetaModel(packageList);");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("localRegisteredPackages = ModelManager.unregisterMetaModel(packages);");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-            }
-          }
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("MutationResults mutationResults = new MutationResults();");
-          _builder.newLine();
-          {
-            for(final String mutatorName_1 : mutators) {
-              _builder.append("\t");
-              _builder.append("MutatorUtils mut");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(" = new ");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append("Standalone();");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("MutationResults results");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(" = mut");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(".execute(maxAttempts, numMutants, registry, metrics, debugMetrics, packages, registeredPackages, localRegisteredPackages, blockNames, monitor, serialize, test, classes);");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("mutationResults.numMutatorsApplied += results");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(".numMutatorsApplied;");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("mutationResults.numMutantsGenerated += results");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(".numMutantsGenerated;");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("if (results");
-              _builder.append(mutatorName_1, "\t");
-              _builder.append(".mutatorsApplied != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("if (mutationResults.mutatorsApplied == null) {");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t\t");
-              _builder.append("mutationResults.mutatorsApplied = new ArrayList<String>();");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t");
-              _builder.append("\t");
-              _builder.append("mutationResults.mutatorsApplied.addAll(results");
-              _builder.append(mutatorName_1, "\t\t");
-              _builder.append(".mutatorsApplied); ");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-            }
-          }
-          _builder.append("\t");
-          _builder.append("if (isRegistered == true) {");
-          _builder.newLine();
-          _builder.append("\t\t");
-          _builder.append("ModelManager.registerMetaModel(localRegisteredPackages);");
-          _builder.newLine();
-          _builder.append("\t\t");
-          _builder.append("if (registeredPackages != null) {");
-          _builder.newLine();
-          _builder.append("\t\t\t");
-          _builder.append("ModelManager.registerMetaModel(registeredPackages);");
-          _builder.newLine();
-          _builder.append("\t\t");
-          _builder.append("}");
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("}");
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("return mutationResults;");
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("}");
-          _builder.newLine();
-          _builder.append("}");
-          _builder.newLine();
-        }
-      }
-      return _builder;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
   }
 
   public int getRandom(final int range) {

@@ -261,7 +261,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
 				modelToProject(resource2, block, mutantName, project.getName());
 				String artifactPath = project.getLocation().toFile().getPath() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + javaFileName;
-				if (new File(artifactPath).exists() && new File(srcJavaFilePath).exists()) {
+				if (new File(artifactPath).exists()) {
 					IOUtils.copyFile(artifactPath, srcJavaFilePath);
 					compile(project);
 					byteArrayModel2 = getBytecode(project, javaProject, resource2, block, javaFileName, artifactPath, packageName);
@@ -269,10 +269,8 @@ public class JavaSemanticComparison extends SemanticComparison {
 				else {
 					byteArrayModel2 = null;
 				}
-				if (new File(newSrcPath).exists() && new File(srcJavaFilePath).exists()) {
-					IOUtils.copyFile(newSrcPath, srcJavaFilePath);
-					IOUtils.deleteFile(newSrcPath);
-				}
+				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+				IOUtils.deleteFile(newSrcPath);
 			}
 			else if (packageName.indexOf(".") != -1) {
 				String firstPck = packageName.substring(0, packageName.indexOf("."));
@@ -292,7 +290,7 @@ public class JavaSemanticComparison extends SemanticComparison {
 				packageName = packageName.substring(packageName.lastIndexOf("/" + className + "/"));
 				mutantName = mutantName.substring(mutantName.lastIndexOf("/") + 1, mutantName.length()).replace(".model", "");
 				String artifactPath = project.getLocation().toFile().getPath() + "/" + packageName.replace("/", ".") + "." + className + "/" + block + "/" + mutantName + "/src/" + packageName + "/" + javaFileName;
-				if (new File(artifactPath).exists() && new File(srcJavaFilePath).exists()) {
+				if (new File(artifactPath).exists()) {
 					IOUtils.copyFile(artifactPath, srcJavaFilePath);
 					compile(project);
 					byteArrayModel2 = getBytecode(project, javaProject, resource2, block, javaFileName, artifactPath, packageName);
@@ -300,10 +298,8 @@ public class JavaSemanticComparison extends SemanticComparison {
 				else {
 					byteArrayModel2 = null;
 				}
-				if (new File(newSrcPath).exists() && new File(srcJavaFilePath).exists()) {
-					IOUtils.copyFile(newSrcPath, srcJavaFilePath);
-					IOUtils.deleteFile(newSrcPath);
-				}
+				IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+				IOUtils.deleteFile(newSrcPath);
 			}
 			javaProject.setRawClasspath(entries, new NullProgressMonitor());
 			compile(project);

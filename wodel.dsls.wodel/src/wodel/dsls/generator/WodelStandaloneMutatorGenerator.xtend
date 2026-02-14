@@ -37,9 +37,6 @@ class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 //			mutatorURL = URI.createURI("file:" + ModelManager.getMutatorEnvironmentBundle(resource)).toFileString().replace("\\", "/")
 //		}
 
-		var File projectFolder = new File(projectFolderName)
-		var File[] files = projectFolder.listFiles
-		var MutatorEnvironment mutatorEnvironment = null
 		fileURI = resource.URI
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
@@ -62,12 +59,12 @@ class WodelStandaloneMutatorGenerator extends WodelMutatorGenerator {
 				fsa.deleteFile("mutator/" + className + "/" + fileName)
      		}
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile(this.project), false))
-     		mutatorEnvironment = e
 		}
 		
 		if (fsa.isFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "StandaloneLauncher.java")) {
 			fsa.deleteFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "StandaloneLauncher.java")
      	}
-		fsa.generateFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "StandaloneLauncher.java", JavaUtils.format(resource.allContents.toIterable.filter(MutatorEnvironment).toList().launcherStandalone(this.project), false))
+		var List<String> mutators = ProjectUtils.getMutatorFiles(this.project).map[name.replace(".mutator", "")]
+		fsa.generateFile("mutator/" + this.project.name.replaceAll("[.]", "/") + "/" + this.project.name.replaceAll("[.]", "_") + "StandaloneLauncher.java", JavaUtils.format(resource.allContents.toIterable.filter(MutatorEnvironment).toList().launcher(this.project, mutators), false))
 	}
 }

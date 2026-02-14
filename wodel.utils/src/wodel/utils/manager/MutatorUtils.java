@@ -9843,10 +9843,20 @@ public class MutatorUtils {
 				if (localRegisteredPackages != null) {
 					ModelManager.registerMetaModel(localRegisteredPackages);
 				}
-				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
-				if (isValid == false) {
-					IOUtils.deleteFile(mutFilename);
-					isRepeated = true;
+				boolean isActive = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard invalid mutants", false, null);
+				if (isActive == true) {
+					isValid = validation(metamodel, mutFilename, cls);
+					if (isValid == false) {
+						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+					}
+				}
+				if (isValid == true) {
+					isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
+					if (isValid == false) {
+						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+					}
 				}
 				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
@@ -10816,10 +10826,20 @@ public class MutatorUtils {
 				if (localRegisteredPackages != null) {
 					ModelManager.registerMetaModel(localRegisteredPackages);
 				}
-				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
-				if (isValid == false) {
-					IOUtils.deleteFile(mutFilename);
-					isRepeated = true;
+				boolean isActive = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard invalid mutants", false, null);
+				if (isActive == true) {
+					isValid = validation(metamodel, mutFilename, cls);
+					if (isValid == false) {
+						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+					}
+				}
+				if (isValid == true) {
+					isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, cls, project);
+					if (isValid == false) {
+						IOUtils.deleteFile(mutFilename);
+						isRepeated = true;
+					}
 				}
 				if (localRegisteredPackages != null) {
 					List<EPackage> localRegistered = new ArrayList<EPackage>();

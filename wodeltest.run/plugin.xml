@@ -213,7 +213,7 @@
       <command
             defaultHandler="wodeltest.run.commands.WodelTestHtmlReportExporter"
             id="wodeltest.run.commands.wodelTestHtmlReportExporter"
-            name="Wodel-Test html report exporter">
+            name="Wodel-Test html report">
       </command>
    </extension>
    <extension
@@ -230,7 +230,7 @@
             <command
                   commandId="wodeltest.run.commands.wodelTestHtmlReportExporter"
                   icon="icons/wodel4.jpg"
-                  label="Wodel-Test html report exporter"
+                  label="Wodel-Test html report"
                   style="push">
                <visibleWhen
                      checkEnabled="false">

@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -33,6 +34,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -382,6 +387,76 @@ public class WodelTest4JavaWizard extends Wizard implements INewWizard {
 		}
 		} catch (IOException e) {
 		}
+		
+		final IFolder resourcesContainer = project.getFolder("resources");
+		if (!resourcesContainer.exists()) {
+			resourcesContainer.create(false, true, new SubProgressMonitor(monitor, 1));
+		}
+
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+				if (! entry.isDirectory()) {
+					if (entry.getName().startsWith("resources/wodeltest/report")) {
+						final String name = entry.getName();
+						final File f = resourcesContainer.getRawLocation().makeAbsolute().toFile();
+						File dest = new File(f.getPath() + '/' + entry.getName().replace("resources/wodeltest/report", ""));
+						if (!dest.exists()) {
+							dest.getParentFile().mkdirs();
+						}
+						InputStream input = jar.getInputStream(entry);
+						InputStreamReader isr = new InputStreamReader(input);
+						BufferedReader br = new BufferedReader(isr);
+						FileOutputStream output = new FileOutputStream(dest);
+						OutputStreamWriter osw = new OutputStreamWriter(output); 
+						for (SimpleEntry<String, String> rep: replacements) {
+							String line = null;
+							while ((line = br.readLine()) != null) {
+								if (line.indexOf(rep.getKey()) != -1) {
+									line = line.replace(rep.getKey(), rep.getValue());
+								}
+								osw.write(line + "\n");
+							}
+						}
+						osw.close();
+						output.close();
+						br.close();
+						isr.close();
+						input.close();
+					}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelTest4JavaWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "resources/wodeltest/report";
+			final File src = new Path(srcName).toFile();
+			final File dest = resourcesContainer.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolderWithReplacements(src, dest, replacements);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
+		final IJavaProject javaProject = JavaCore.create(project);
+		//final IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
+		//		project);
+		//projectDescription.setLocation(null);
+		//wodelProject.create(projectDescription, new SubProgressMonitor(monitor, 1));
+		final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
+		final IClasspathEntry srcClasspathEntry = JavaCore.newSourceEntry(resourcesContainer.getFullPath());
+		classpathEntries.add(0, srcClasspathEntry);
+		
+		javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
+				new SubProgressMonitor(monitor, 1));
 		
 		File folder = new File(srcFolder.getLocation().toFile().getPath());
 		String mutatorName = "";

@@ -1,5 +1,6 @@
 package wodeltest.run.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -36,7 +37,9 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.IWodelTest;
+import wodel.utils.manager.ModelManager;
 
 /**
  * Exports WodelTest plain-text mutation testing results into an HTML/CSS/JS report bundle.
@@ -129,17 +132,17 @@ public final class WodelTestHtmlReportExporter extends AbstractHandler {
 
             Files.createDirectories(outputDir);
             
-            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/wodeltest/report/" + REPORT_HTML, outputDir.toString());
-            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/wodeltest/report/" + REPORT_CSS, outputDir.toString());
-            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/wodeltest/report/" + REPORT_JS, outputDir.toString());
+            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/" + REPORT_HTML, outputDir.toString());
+            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/" + REPORT_CSS, outputDir.toString());
+            //IOUtils.copyFile(ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/" + REPORT_JS, outputDir.toString());
 
             ReportInput reportInput = parseReportInput(inputDir, sourceProject.getName());
             Map<String, Object> reportData = buildReportData(reportInput);
             String json = JsonWriter.write(reportData);
 
-            writeResource(outputDir.resolve(REPORT_HTML), REPORT_HTML);
-            writeResource(outputDir.resolve(REPORT_CSS), REPORT_CSS);
-            writeResource(outputDir.resolve(REPORT_JS), REPORT_JS);
+            writeResource(outputDir.resolve(REPORT_HTML), REPORT_HTML, test);
+            writeResource(outputDir.resolve(REPORT_CSS), REPORT_CSS, test);
+            writeResource(outputDir.resolve(REPORT_JS), REPORT_JS, test);
             Files.writeString(outputDir.resolve(REPORT_DATA_JS), "window.WodelTestReportData = " + json + ";\n", StandardCharsets.UTF_8);
             Files.writeString(outputDir.resolve(REPORT_JSON), json + "\n", StandardCharsets.UTF_8);
 
@@ -616,13 +619,24 @@ public final class WodelTestHtmlReportExporter extends AbstractHandler {
             return record.message == null ? "" : record.message;
         }
 
-        private static void writeResource(Path target, String resourceName) throws IOException {
-            try (InputStream input = WodelTestHtmlReportExporter.class.getResourceAsStream(RESOURCE_ROOT + resourceName)) {
-                if (input == null) {
-                    throw new IOException("Missing bundled resource: " + RESOURCE_ROOT + resourceName);
-                }
-                Files.copy(input, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        private static void writeResource(Path target, String resourceName, IWodelTest test) throws IOException {
+        	String path = RESOURCE_ROOT + resourceName;
+        	File filePath = new File(path);
+        	if (filePath.exists() != true || filePath.isDirectory()) {
+        		path = ModelManager.getWorkspaceAbsolutePath(test.getClass()) + "/resources/" + resourceName;
+            	filePath = new File(path);
+            	if (filePath.exists() != true || filePath.isDirectory()) {
+                	throw new IOException("Missing bundled resource: " + path);
+        		}
+        	}
+            InputStream input = WodelTestHtmlReportExporter.class.getResourceAsStream(path);
+            if (input == null) {
+            	input = Files.newInputStream(Paths.get(path));
+            	if (input == null) {
+            		throw new IOException("Missing bundled resource: " + path);
+            	}
             }
+            Files.copy(input, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
 
         private static String stripSuffix(String value, String suffix) {

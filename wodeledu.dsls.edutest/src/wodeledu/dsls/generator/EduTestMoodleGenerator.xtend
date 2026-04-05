@@ -44,7 +44,7 @@ import edutest.Mode
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
-import org.eclipse.core.resources.ResourcesPlugin
+import wodel.utils.manager.XMLUtils
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -157,6 +157,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		«ENDIF»
 		«ENDIF»
 		«FOR Test test : exercise.tests»
+        «var String statement = diagrams.get(exercise).get(test).get(statementClass) !== null ? diagrams.get(exercise).get(test).get(statementClass).size() > 0 ? diagrams.get(exercise).get(test).get(statementClass).get(0)»
         «var String solution = diagrams.get(exercise).get(test).get(answersClass) !== null ? diagrams.get(exercise).get(test).get(answersClass).size() > 0 ? diagrams.get(exercise).get(test).get(answersClass).get(0)»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new LinkedHashSet<String>()»
@@ -174,8 +175,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		    </name>
 		    <questiontext format="html">
 		      <!-- «var UUID uuid = UUID.randomUUID()»-->
-		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-		<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + statement)»"><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»"><br></p><!--<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>-->]]></text>
 		    </questiontext>
 		    <generalfeedback format="html">
 		      <text></text>
@@ -273,8 +273,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <!-- «var UUID uuid = UUID.randomUUID()»-->
            <questiontext format="html">
            «IF exercise.config.statement !== null && roots.size() > 1 && statementClass.name.equals(roots.get(1).name)»
-           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="30%" height="30%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + statement)»</file>
+           <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img width="30%" height="30%" src="data:image/png;base64,«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + statement)»"><br></p><!--<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="30%" height="30%" class="img-responsive atto_image_button_text-bottom"><br></p>-->]]></text>
            «ELSE»
            <text><![CDATA[<p>«test.question.replace("\"", "'")»</p>]]></text>
            «ENDIF»
@@ -339,8 +338,9 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           <answer fraction="«formatter.format(fraction)»" format="html">
           «ENDIF»
            <!--«var String size = "60"»-->
-           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
+           <!--<text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>-->
+           <text><![CDATA[<p><img width="«size»%" height="«size»%" src="data:image/png;base64,«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»"><br></p>]]></text>
+           <!--<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
            <feedback format="html">
            <text></text>
            </feedback>
@@ -369,8 +369,9 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <answer fraction="0" format="html">
            «ENDIF»
            <!--«var String size = "60"»-->
-           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
+           <!--<text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="«size»%" height="«size»%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>-->
+           <!--<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>-->
+           <text><![CDATA[<p><img width="«size»%" height="«size»%" src="data:image/png;base64,«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»"><br></p>]]></text>
            <feedback format="html">
            <text></text>
            </feedback>
@@ -503,14 +504,11 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
             «IF statementClass !== null && statementClass.size() > 0 && answersClass === null»
             «IF statementClass.size() == 1»
             <!-- «var UUID uuidStatement = UUID.randomUUID()»-->
-			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-            <file name="exercise_«uuidStatement».png" path="/" encoding="base64">«getStringBase64(diagram.get(0))»</file>
+			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64(diagram.get(0))»"></p><!--<br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br>--></p>]]></text>
 			«ELSEIF statementClass.size() == 2»
             <!-- «var UUID uuidStatement = UUID.randomUUID()»-->
             <!-- «var UUID uuidAnswers = UUID.randomUUID()»-->
-			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br><br><img src="@@PLUGINFILE@@/exercise_«uuidAnswers».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-            <file name="exercise_«uuidStatement».png" path="/" encoding="base64">«getStringBase64(diagram.get(0))»</file>
-            <file name="exercise_«uuidAnswers».png" path="/" encoding="base64">«getStringBase64(diagram.get(1))»</file>
+			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64(diagram.get(0))»"></p><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64(diagram.get(1))»"></p><!--<br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br><br><img src="@@PLUGINFILE@@/exercise_«uuidAnswers».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br>--></p>]]></text>
 			«ENDIF»
             «ENDIF»
             «IF statementClass !== null && statementClass.size() > 0 && answersClass !== null»
@@ -522,9 +520,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 			«{diagram.add("diagrams/" + model + "/" + mutOperator + "/" + answersClass.name + "_" + diagrams.get(rndSolution).substring(diagrams.get(rndSolution).lastIndexOf("/") + 1, diagrams.get(rndSolution).length())); ""}»
             «{file = new File(workspacePath + "/" + projectName +  "/src-gen/html/" + diagram.get(0)); ""}»-->
             «IF file.isFile && file.exists()»
-			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br><br><img src="@@PLUGINFILE@@/exercise_«uuidAnswers».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-            <file name="exercise_«uuidStatement».png" path="/" encoding="base64">«getStringBase64(diagram.get(0))»</file>
-            <file name="exercise_«uuidAnswers».png" path="/" encoding="base64">«getStringBase64(diagram.get(1))»</file>
+			<text><![CDATA[<p>«t.question.replace("\"", "'")»<br><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64(diagram.get(0))»"></p><p><img width="20%" height="20%" src="data:image/png;base64,«getStringBase64(diagram.get(1))»"></p><!--<br><img src="@@PLUGINFILE@@/exercise_«uuidStatement».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br><br><img src="@@PLUGINFILE@@/exercise_«uuidAnswers».png" alt="multiple choice" width="20%" height="20%" class="img-responsive atto_image_button_text-bottom"><br>--></p>]]></text>
             «ENDIF»
             «ENDIF»
           </questiontext>
@@ -1033,7 +1029,9 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		«ENDIF»
 		«FOR test : exercise.tests»
         «var String statement = diagrams.get(exercise).get(test).get(statementClass) !== null ? diagrams.get(exercise).get(test).get(statementClass).size() > 0 ? diagrams.get(exercise).get(test).get(statementClass).get(0) : null : null»
+        «statement = statement === null ? programs.get(exercise).get(test).get(statementClass) !== null ? programs.get(exercise).get(test).get(statementClass).size() > 0 ? programs.get(exercise).get(test).get(statementClass).get(0) : null : null»
         «var String solution = diagrams.get(exercise).get(test).get(answersClass) !== null ? diagrams.get(exercise).get(test).get(answersClass).size() > 0 ? diagrams.get(exercise).get(test).get(answersClass).get(0)»
+        «solution = solution === null ? programs.get(exercise).get(test).get(answersClass) !== null ? programs.get(exercise).get(test).get(answersClass).size() > 0 ? programs.get(exercise).get(test).get(answersClass).get(0)»
         «var List<String> answers = new ArrayList<String>()»
         «var Set<String> answersSet = new LinkedHashSet<String>()»
         «IF diagrams.get(exercise).get(test).get(answersClass) !== null && diagrams.get(exercise).get(test).get(answersClass).size() > 0»
@@ -1126,12 +1124,107 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <text><![CDATA[<p>«text»<br></p>]]></text>
            <!--<text><![CDATA[<p>«text»<img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="15%" height="15%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + answer)»</file>-->
-           <feedback format="html">
-           <text></text>
-           </feedback>
-           </answer>
-           «ENDIF»
-           «ENDIF»
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		«ENDIF»
+		«ENDIF»
+		«ENDFOR»
+		«ENDIF»
+		</question>
+		«ENDIF»
+		«ENDIF»
+		«IF programs.get(exercise).get(test).get(answersClass) !== null && programs.get(exercise).get(test).get(answersClass).size() > 0»
+		«{answersSet.addAll(programs.get(exercise).get(test).get(answersClass)); ""}»
+		«{answers.addAll(answersSet); ""}»
+		«{Collections.shuffle(answers); ""}»
+		<!--«var String prog = workspacePath + "/" + projectName +  "/src-gen/html/code/" + test.source.replace('.model', '') + "/" + statement»-->
+		«IF prog.length > 0»
+		<!--«var File file = new File(prog)»-->
+		«IF file.isFile && file.exists()»
+		«{prog = prog.substring(prog.indexOf("/src-gen/html/") + "/src-gen/html/".length, prog.length); ""}»
+		<question type="multichoice">
+		<name>
+		<text>Question «i++»</text>
+		</name>
+		<questiontext format="html">
+		<!-- «var UUID uuid = UUID.randomUUID()»-->
+		<text><![CDATA[<div>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="30%" height="30%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></div>]]></text>
+		<text><![CDATA[<div>«getPythonHtmlCode(prog)»</div>]]></text>
+		</questiontext>
+		<generalfeedback format="html">
+		<text></text>
+		</generalfeedback>
+		<defaultgrade>1.0000000</defaultgrade>
+		<penalty>1.0000000</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		«IF exercise.config.mode === Mode.RADIOBUTTON»
+		<single>true</single>
+		«ELSEIF exercise.config.mode === Mode.CHECKBOX»
+		<single>false</single>
+		«ENDIF»
+		<shuffleanswers>true</shuffleanswers>
+		<answernumbering>abc</answernumbering>
+		<correctfeedback format="html">
+		<!--<text>Respuesta correcta</text>-->
+		<text>Right answer.</text>
+		</correctfeedback>
+		<partiallycorrectfeedback format="html">
+		<!--<text>Respuesta parcialmente correcta.</text>-->
+		<text>Partially right answer.</text>
+		</partiallycorrectfeedback>
+		<incorrectfeedback format="html">
+		<!--<text>Respuesta incorrecta.</text>-->
+		<text>Wrong answer.</text>
+		</incorrectfeedback>
+		<shownumcorrect/>
+		<!--«var int counter = 0»-->
+		<!--«var int solutions = 1»-->
+		<!--«var double fraction = 100.0 / solutions»-->
+		«{counter = 0; ""}»
+		«FOR String answer : answers»
+		<!--«var boolean s = false»-->
+		«FOR String sol : solutionsMap.get(exercise)»
+		«IF answer.startsWith(sol + "/") 
+		|| answer.startsWith(sol + "\\")
+		|| answer.contains(sol + "/" + answersClass.name + "_")
+		|| answer.contains(sol + "\\" + answersClass.name + "_")»
+		«{s = true; ""}»
+		«ENDIF»
+		«ENDFOR»
+		«IF s == true»
+		«IF counter < min - 1»
+		«{counter++; ""}»
+		«{solutions++; ""}»
+		«ENDIF»
+		«ENDIF»
+		<!-- «uuid = UUID.randomUUID()»-->
+		«IF s || answer.equals(solution)»
+		«IF 100 % solutions == 0»
+		<answer fraction="«100/solutions»" format="html">
+		«ELSE»
+		<!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(Locale.ENGLISH) as DecimalFormat)»-->
+		«{formatter.applyPattern("###.#####"); ""}»
+		<answer fraction="«formatter.format(fraction)»" format="html">
+		«ENDIF»
+		<text><![CDATA[<div>«getPythonHtmlCode("code/" + test.source.replace('.model', '') + "/" + answer)»</div>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+		«ELSE»
+		«IF counter < min - 1»
+		«{counter++; ""}»
+		<answer fraction="0" format="html">
+		<text><![CDATA[<div>«getPythonHtmlCode("code/" + test.source.replace('.model', '') + "/" + answer)»</div>]]></text>
+		<feedback format="html">
+		<text></text>
+		</feedback>
+		</answer>
+        «ENDIF»
+        «ENDIF»
         «ENDFOR»
         «ENDIF»
          </question>

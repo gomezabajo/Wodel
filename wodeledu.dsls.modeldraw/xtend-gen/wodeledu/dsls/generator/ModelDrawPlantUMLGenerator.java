@@ -14,6 +14,7 @@ import modeldraw.ValuedFeature;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -53,20 +54,26 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
-      ProjectUtils.setProject(null);
       int i = 0;
       this.fileName = resource.getURI().lastSegment();
       String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
       String _plus = (_replaceAll + ".draw");
       this.fileName = _plus;
-      this.project = ProjectUtils.getProject();
-      String _xifexpression = null;
+      this.project = ModelDrawPlantUMLGenerator.projectOf(resource);
+      IProject _xifexpression = null;
       if ((this.project != null)) {
-        _xifexpression = this.project.getName();
+        _xifexpression = this.project;
       } else {
-        _xifexpression = null;
+        _xifexpression = ProjectUtils.getProject();
       }
-      this.projectName = _xifexpression;
+      this.project = _xifexpression;
+      String _xifexpression_1 = null;
+      if ((this.project != null)) {
+        _xifexpression_1 = this.project.getName();
+      } else {
+        _xifexpression_1 = null;
+      }
+      this.projectName = _xifexpression_1;
       this.workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
       Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
       for (final MutatorDraw e : _filter) {
@@ -95,6 +102,23 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
+  }
+
+  public static IProject projectOf(final Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
   }
 
   public CharSequence generate(final MutatorDraw draw, final String folder, final int index) {
@@ -484,7 +508,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t\t\t\t\t");
+    _builder.append("\t\t");
     String folder = (((this.workspacePath + "/") + this.projectName) + "/");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
@@ -1073,7 +1097,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
                         _builder.newLine();
                         _builder.append("\t");
                         _builder.append("\t\t");
-                        _builder.append("label.name = getOrdinalFor(j) + \" : -\" + attName + \" = \" + quote + attValues.get(k) + quote;");
+                        _builder.append("label.name = getOrdinalFor(j) + \" : -\" + attName + \" = \" + quote + (attValues.size() > k ? attValues.get(k) : \"\") + quote;");
                         _builder.newLine();
                         _builder.append("\t");
                         _builder.append("\t\t");
@@ -2048,7 +2072,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
             _builder.append("\t\t\t\t");
             _builder.append("\t\t");
             _builder.append("\t");
-            _builder.append("SourceFileReader reader = new SourceFileReader(new File(umlfile));");
+            _builder.append("SourceFileReader reader = new SourceFileReader(false, new File(umlfile));");
             _builder.newLine();
             _builder.append("\t\t\t\t");
             _builder.append("\t\t");
@@ -2175,14 +2199,20 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    _builder.append("String projectName = ProjectUtils.getProject().getName();");
-    _builder.newLine();
+    _builder.append("String projectName = \"");
+    _builder.append(this.projectName, "\t\t\t\t\t");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("List<String> models = ModelManager.getModels();");
-    _builder.newLine();
+    _builder.append("List<String> models = ModelManager.getModels(");
+    _builder.append(this.className, "\t\t\t\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    _builder.append("List<String> mutants = ModelManager.getMutants();");
-    _builder.newLine();
+    _builder.append("List<String> mutants = ModelManager.getMutants(");
+    _builder.append(this.className, "\t\t\t\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t\t\t\t");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
@@ -2400,7 +2430,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
             _builder.append("\t\t");
             _builder.append("\t\t");
             _builder.append("\t");
-            _builder.append("SourceFileReader reader = new SourceFileReader(new File(umlfile));");
+            _builder.append("SourceFileReader reader = new SourceFileReader(false, new File(umlfile));");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t\t");
@@ -2681,7 +2711,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
             _builder.append("\t\t\t\t\t\t\t");
             _builder.append("\t\t");
             _builder.append("\t");
-            _builder.append("SourceFileReader reader = new SourceFileReader(new File(umlfile));");
+            _builder.append("SourceFileReader reader = new SourceFileReader(false, new File(umlfile));");
             _builder.newLine();
             _builder.append("\t\t\t\t\t\t\t");
             _builder.append("\t\t");
@@ -2832,7 +2862,7 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);");
+    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("monitor.run(true, true, runMutatorDrawWithProgress);");
@@ -2864,39 +2894,37 @@ public class ModelDrawPlantUMLGenerator extends AbstractGenerator {
     _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t\t");
+    _builder.append("\t");
+    _builder.append("@Override");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("public void run() {");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("public void run(IProject project, String filename) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("activeDisplay = new Display();");
-    _builder.newLine();
-    _builder.append("\t\t\t   ");
-    _builder.append("activeShell = new Shell(activeDisplay);");
-    _builder.newLine();
-    _builder.append("\t\t\t");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
+    _builder.append("\t\t\t");
     _builder.append("execute(null);");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("} catch (ExecutionException e) {");
+    _builder.append("\t\t");
+    _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
+    _builder.append("\t\t");
+    _builder.append("catch (ExecutionException e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("// TODO Auto-generated catch block");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("e.printStackTrace();");
     _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("//update(project, filename);");
-    _builder.newLine();
     _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t");
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
     return _builder;

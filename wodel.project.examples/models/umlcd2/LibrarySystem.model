@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_LSRoot001">
+  <classdiagram xmi:id="_LSClassDiagram001">
+    <classes xmi:id="_LSLibrary" name="Library"/>
+    <classes xmi:id="_LSBook" name="Book"/>
+    <classes xmi:id="_LSMember" name="Member"/>
+    <classes xmi:id="_LSLoan" name="Loan"/>
+    <compositions xmi:id="_LSComp1" name="librarybook" multiplicitySource="1" multiplicityTarget="*" constituent="_LSLibrary" composite="_LSBook"/>
+    <compositions xmi:id="_LSComp2" name="librarymember" multiplicitySource="1" multiplicityTarget="*" constituent="_LSLibrary" composite="_LSMember"/>
+    <compositions xmi:id="_LSComp3" name="libraryloan" multiplicitySource="1" multiplicityTarget="*" constituent="_LSLibrary" composite="_LSLoan"/>
+    <aggregations xmi:id="_LSAgg1" name="loanbook" multiplicitySource="1" multiplicityTarget="1" source="_LSLoan" target="_LSBook"/>
+    <aggregations xmi:id="_LSAgg2" name="loanmember" multiplicitySource="1" multiplicityTarget="1" source="_LSLoan" target="_LSMember"/>
+  </classdiagram>
+</umldiagram:UMLDiagram>

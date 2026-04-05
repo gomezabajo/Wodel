@@ -19,7 +19,10 @@ import modeldraw.NodeStyle;
 import modeldraw.NodeType;
 import modeldraw.Relation;
 import modeldraw.ValuedFeature;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -53,6 +56,27 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
 
   private List<EClass> roots;
 
+  private IProject project;
+
+  private String projectName;
+
+  public static IProject projectOf(final Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
+  }
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
@@ -61,6 +85,21 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
       String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
       String _plus = (_replaceAll + ".draw");
       this.fileName = _plus;
+      this.project = ModelDrawDotGenerator.projectOf(resource);
+      IProject _xifexpression = null;
+      if ((this.project != null)) {
+        _xifexpression = this.project;
+      } else {
+        _xifexpression = ProjectUtils.getProject();
+      }
+      this.project = _xifexpression;
+      String _xifexpression_1 = null;
+      if ((this.project != null)) {
+        _xifexpression_1 = this.project.getName();
+      } else {
+        _xifexpression_1 = null;
+      }
+      this.projectName = _xifexpression_1;
       Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
       for (final MutatorDraw e : _filter) {
         {
@@ -751,7 +790,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
+    _builder.append("\t");
     String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
     String folder = (_replace + "/");
     _builder.newLineIfNotEmpty();
@@ -7300,7 +7339,6 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     }
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("\t");
     _builder.append("public void generateGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {");
     _builder.newLine();
     _builder.append("\t");
@@ -7495,16 +7533,22 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("String projectName = ProjectUtils.getProject().getName();");
-    _builder.newLine();
+    _builder.append("String projectName = \"");
+    _builder.append(this.projectName, "\t\t");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("List<String> models = ModelManager.getModels();");
-    _builder.newLine();
+    _builder.append("List<String> models = ModelManager.getModels(");
+    _builder.append(this.className, "\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("List<String> mutants = ModelManager.getMutants();");
-    _builder.newLine();
+    _builder.append("List<String> mutants = ModelManager.getMutants(");
+    _builder.append(this.className, "\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t\t");
     _builder.newLine();
     _builder.append("\t\t");
@@ -7718,15 +7762,12 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("}");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("\t\t");
     _builder.append("// GENERATES PNG FILES FROM MUTANTS");
     _builder.newLine();
-    _builder.append("\t\t");
     _builder.append("folder = new File(\"");
-    _builder.append(folder, "\t\t");
+    _builder.append(folder);
     _builder.append("data/out\");");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
     _builder.append("for (File exercise : folder.listFiles()) {");
     _builder.newLine();
     _builder.append("\t");
@@ -7973,7 +8014,7 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.append("RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);");
+    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("monitor.run(true, true, runMutatorDrawWithProgress);");
@@ -8004,34 +8045,36 @@ public class ModelDrawDotGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
-    _builder.newLine();
-    _builder.append("public void run(IProject project, String filename) {");
-    _builder.newLine();
-    _builder.append("       ");
-    _builder.append("activeDisplay = new Display();");
-    _builder.newLine();
-    _builder.append("       ");
-    _builder.append("activeShell = new Shell(activeDisplay);");
+    _builder.append("\t");
+    _builder.append("@Override");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("try {");
-    _builder.newLine();
-    _builder.append("\t       ");
-    _builder.append("execute(null);");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("} catch (ExecutionException e) {");
+    _builder.append("public void run() {");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("execute(null);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("catch (ExecutionException e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("// TODO Auto-generated catch block");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("e.printStackTrace();");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("//update(project, filename);");
-    _builder.newLine();
     _builder.append("}");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();

@@ -18,7 +18,8 @@ import org.eclipse.core.runtime.jobs.Job;
  */
 
 public interface IMutatorDraw {
-	public void run(IProject project, String filename);
+	
+	public void run();
 	
 	public default void compile(IProject project) {
 		try {

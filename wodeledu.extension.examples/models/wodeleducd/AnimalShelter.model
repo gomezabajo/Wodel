@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_ASRoot001">
+  <classdiagram xmi:id="_ASClassDiagram001">
+    <classes xmi:id="_ASAnimal" name="Animal" abstract="true" subclasses="_ASDog _ASCat"/>
+    <classes xmi:id="_ASDog" name="Dog" superclass="_ASAnimal"/>
+    <classes xmi:id="_ASCat" name="Cat" superclass="_ASAnimal"/>
+    <classes xmi:id="_ASShelter" name="Shelter"/>
+    <compositions xmi:id="_ASComp1" name="shelteranimal" multiplicitySource="1" multiplicityTarget="*" constituent="_ASShelter" composite="_ASAnimal"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_ASObjectDiagram001">
+    <objects xmi:id="_ASShelterObj" name="" class="_ASShelter"/>
+    <objects xmi:id="_ASDogObj" name="" class="_ASDog"/>
+    <objects xmi:id="_ASCatObj" name="" class="_ASCat"/>
+    <compositions xmi:id="_ASObjComp1" name="shelteranimal1" multiplicitySource="1" multiplicityTarget="1" constituent="_ASShelterObj" composite="_ASDogObj"/>
+    <compositions xmi:id="_ASObjComp2" name="shelteranimal2" multiplicitySource="1" multiplicityTarget="1" constituent="_ASShelterObj" composite="_ASCatObj"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

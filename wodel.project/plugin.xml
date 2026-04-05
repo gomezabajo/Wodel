@@ -157,5 +157,12 @@
             id="wodel.views.ConsoleView"
             name="Console">
       </view>
-   </extension>   
+	  <view
+            category="wodel.views"
+            class="wodel.views.ConsoleChatView"
+            icon="icons/wodel4.jpg"
+            id="wodel.views.ConsoleChatView"
+            name="Chat">
+      </view>   
+   </extension>
 </plugin>

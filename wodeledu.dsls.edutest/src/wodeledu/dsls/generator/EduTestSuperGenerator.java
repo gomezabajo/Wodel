@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -66,6 +68,7 @@ import edutest.Program;
 import edutest.Test;
 import wodel.utils.exceptions.MetaModelNotFoundException;
 import wodel.utils.exceptions.ModelNotFoundException;
+import wodel.utils.manager.HTMLUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.ProjectUtils;
@@ -89,6 +92,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected String workspacePath = null;
 	protected Map<MutatorTests, List<Test>> tests = new LinkedHashMap<MutatorTests, List<Test>>();
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
+	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> programs = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new LinkedHashMap<MutatorTests, Map<Test, Registry>>();
 	protected Map<MutatorTests, Map<Test, Double>> puntuation = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
@@ -807,7 +811,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param exercise
 	 * @param diags
 	 */
-	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, Map<EClass, List<String>>> diags, List<EClass> eclasses) {
+	private void buildAlternativeResponseOrMultiChoiceDiagramOrText(MutatorTests exercise, Map<Test, Map<EClass, List<String>>> diags, Map<Test, Map<EClass, List<String>>> progs, List<EClass> eclasses) {
 		for (Test test : exercise.getTests()) {
 			File folder = new File(projectPath + "/src-gen/html/diagrams/" + test.getSource().replace(".model", ""));
 			Map<EClass, List<String>> mapFileNames = new LinkedHashMap<EClass, List<String>>();
@@ -875,9 +879,79 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			diags.put(test, mapFileNames);
 		}
 		diagrams.put(exercise, diags);
+		for (Test test : exercise.getTests()) {
+			File folder = new File(projectPath + "/src-gen/html/code/" + test.getSource().replace(".model", ""));
+			Map<EClass, List<String>> mapFileNames = new LinkedHashMap<EClass, List<String>>();
+			if (folder.isDirectory() == true) {
+				for (File f : folder.listFiles()) {
+					if (f.getName().endsWith(".py")) {
+						for (EClass eclass : eclasses) {
+							if (f.getName().startsWith(eclass.getName())) {
+								List<String> fileNames = new ArrayList<String>();
+								if (mapFileNames.get(eclass) != null) {
+									fileNames = mapFileNames.get(eclass);
+								}
+								fileNames.add(f.getName());
+								mapFileNames.put(eclass, fileNames);
+							}
+						}
+					}
+				}
+			}
+			if (exercise.getMarkedBlocks() != null) {
+				for (MarkedBlock markedblock : exercise.getMarkedBlocks()) {
+					Block block = markedblock.getBlock();
+					folder = new File(projectPath + "/src-gen/html/code/" + test.getSource().replace(".model", "") + "/" + block.getName());
+					if (folder.isDirectory() == true) {
+						for (File f : folder.listFiles()) {
+							if (f.getName().endsWith(".py")) {
+								for (EClass eclass : eclasses) {
+									if (f.getName().startsWith(eclass.getName())) {
+										List<String> fileNames = new ArrayList<String>();
+										if (mapFileNames.get(eclass) != null) {
+											fileNames = mapFileNames.get(eclass);
+										}
+										fileNames.add(block.getName() + "/" + f.getName());
+										mapFileNames.put(eclass, fileNames);
+									}
+								}
+							}
+						}
+					}
+					if (block.getFrom().size() > 0) {
+						for (Block b : block.getFrom()) {
+						File wrongFolder = new File(projectPath + "/src-gen/html/code/" + test.getSource().replace(".model", "") + "/" + b.getName() + "/" + block.getName());
+							if (wrongFolder.isDirectory() == true) {
+								for (File f : wrongFolder.listFiles()) {
+									for (File w : f.listFiles()) {
+										if (w.getName().endsWith(".py")) {
+											for (EClass eclass : eclasses) {
+												if (f.getName().startsWith(eclass.getName())) {
+													List<String> fileNames = new ArrayList<String>();
+													if (mapFileNames.get(eclass) != null) {
+														fileNames = mapFileNames.get(eclass);
+													}
+													fileNames.add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+													mapFileNames.put(eclass, fileNames);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			progs.put(test, mapFileNames);
+		}
+		programs.put(exercise, progs);
 		Map<Test, Map<EClass, List<String>>> random = new LinkedHashMap<Test, Map<EClass, List<String>>>();
 		for (Test test : exercise.getTests()) {
 			Map<EClass, List<String>> entry = diagrams.get(exercise).get(test);
+			if (entry == null || entry.size() == 0) {
+				entry = programs.get(exercise).get(test);
+			}
 			//for (EClass eclass : entry.keySet()) {
 			//	Collections.shuffle(entry.get(eclass));
 			//}
@@ -6488,8 +6562,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 			}
 			Map<Test, Map<EClass, List<String>>> diags = new LinkedHashMap<Test, Map<EClass, List<String>>>();
+			Map<Test, Map<EClass, List<String>>> progs = new LinkedHashMap<Test, Map<EClass, List<String>>>();
 			if (exercise instanceof AlternativeResponse || exercise instanceof MultiChoiceDiagram || exercise instanceof MultiChoiceText || exercise instanceof AlternativeText) {
-				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags, eclasses);
+				buildAlternativeResponseOrMultiChoiceDiagramOrText(exercise, diags, progs, eclasses);
 			}
 			if (exercise instanceof MultiChoiceEmendation) {
 				buildMultiChoiceEmendation(resource, (MultiChoiceEmendation) exercise, blocks, cls);
@@ -6507,6 +6582,20 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 	}
 	
+	
+	protected String getStringBase64(String fileName) {
+	    Path path = Paths.get(projectPath, "src-gen", "html", fileName);
+	    String base64 = "";
+	    try {
+	        byte[] raw = Files.readAllBytes(path);
+	        base64 = Base64.getEncoder().withoutPadding().encodeToString(raw);
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+		}
+	    return base64;
+	}
+	
+	/*
 	protected String getStringBase64(String fileName) {
 		String base64 = "";
 		File file = new File(projectPath + "/src-gen/html/" + fileName);
@@ -6521,6 +6610,24 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			e.printStackTrace();
 		}
 		return base64;
+	}
+	*/
+	
+	protected String getPythonHtmlCode(String fileName) {
+		String pythonCode = "";
+		File file = new File(projectPath + "/src-gen/html/" + fileName.replace(".py", ".html"));
+		try {
+			byte[] bytes = Files.readAllBytes(file.toPath());
+			pythonCode = HTMLUtils.normalizePreBlocks(new String(bytes, StandardCharsets.UTF_8));
+			pythonCode = pythonCode.stripIndent();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pythonCode;
 	}
 	
 	@Override

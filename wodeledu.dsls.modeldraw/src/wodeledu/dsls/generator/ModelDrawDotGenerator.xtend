@@ -17,7 +17,6 @@ import modeldraw.Relation
 import wodel.utils.manager.JavaUtils
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EReference
-import org.eclipse.core.resources.IProject
 import wodel.utils.manager.ProjectUtils
 import modeldraw.ValuedFeature
 import modeldraw.Node
@@ -26,6 +25,8 @@ import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw dot code generator.
@@ -39,11 +40,25 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 	private String className
 	private List<EPackage> metamodel
 	private List<EClass> roots
+	private IProject project
+	private String projectName
 	
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
+
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
+		project = projectOf(resource)
+		project = project !== null ? project : ProjectUtils.project
+		projectName = project !== null ? project.getName() : null
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
 			if (i == 0) {
 				fileName = fileName.replace(".draw", "") + 'Draw.java'
@@ -319,7 +334,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 				}
 			}
 					
-						«var String folder = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/"»
+			«var String folder = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + "/"»
 			«IF draw.instances.get(0).nodes !== null»
 				«IF draw.instances.get(0).nodes.size() > 0»
 					private void generateNodes(List<EPackage> packages, Resource model, Map<EObject, LabelStyle> dotnodes, Map<String, List<Map<String, String>>> dotrels) {
@@ -1552,9 +1567,9 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 					}
 				}
 			«ENDIF»
-			«ENDIF»
+		«ENDIF»
 			
-			public void generateGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+		public void generateGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
@@ -1614,10 +1629,10 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 					
 				String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
 				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				String projectName = ProjectUtils.getProject().getName();
+				String projectName = "«projectName»";
 				
-				List<String> models = ModelManager.getModels();
-				List<String> mutants = ModelManager.getMutants();
+				List<String> models = ModelManager.getModels(«className»Draw.class);
+				List<String> mutants = ModelManager.getMutants(«className»Draw.class);
 								
 				int totalTasks = models.size() + mutants.size();
 								
@@ -1685,9 +1700,9 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 					}
 				}
 		
-				// GENERATES PNG FILES FROM MUTANTS
-				folder = new File("«folder»data/out");
-				for (File exercise : folder.listFiles()) {
+		// GENERATES PNG FILES FROM MUTANTS
+		folder = new File("«folder»data/out");
+		for (File exercise : folder.listFiles()) {
 			if (exercise.isDirectory()) {
 				for (File file : exercise.listFiles()) {
 					if (file.isFile()) {
@@ -1765,7 +1780,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			try {
 				RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();
-				ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);
+				ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
 				monitor.run(true, true, runMutatorDrawWithProgress);
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
@@ -1776,17 +1791,17 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 			}
 			return null;
 		}
-		
-		public void run(IProject project, String filename) {
-		       activeDisplay = new Display();
-		       activeShell = new Shell(activeDisplay);
-			try {
-			       execute(null);
-			} catch (ExecutionException e) {
-				e.printStackTrace();
+			@Override
+			public void run() {
+				try {
+					execute(null);
+				}
+				catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			//update(project, filename);
-		}
+		
 		}
 	'''
 }

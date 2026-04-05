@@ -3,7 +3,8 @@ package wodeledu.dsls.ui.customize;
 public enum WodelEduExtension {
 	DFA("http://dfaAutomaton/1.0"),
 	LC("http://lc/1.0"),
-	UML("http://UMLDiagram/1.0");
+	UML("http://UMLDiagram/1.0"),
+	PY("http://www.python.org/pythonast/3.14");
 	
 	private String uri;
 	

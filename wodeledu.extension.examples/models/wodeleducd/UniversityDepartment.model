@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_UDRoot001">
+  <classdiagram xmi:id="_UDClassDiagram001">
+    <classes xmi:id="_UDPerson" name="Person" abstract="true" subclasses="_UDProfessor _UDStudent">
+      <ownedAttributes xmi:id="_UDPersonName" name="name" type="_UDString"/>
+      <ownedAttributes xmi:id="_UDPersonAge" name="age" type="_UDInt"/>
+    </classes>
+    <classes xmi:id="_UDProfessor" name="Professor" superclass="_UDPerson"/>
+    <classes xmi:id="_UDStudent" name="Student" superclass="_UDPerson"/>
+    <classes xmi:id="_UDDepartment" name="Department">
+      <ownedAttributes xmi:id="_UDDeptName" name="name" type="_UDString"/>
+    </classes>
+    <classes xmi:id="_UDCourse" name="Course">
+      <ownedAttributes xmi:id="_UDCourseName" name="name" type="_UDString"/>
+      <ownedAttributes xmi:id="_UDCourseCredits" name="credits" type="_UDInt"/>
+    </classes>
+    <compositions xmi:id="_UDComp1" name="departmentcourse" multiplicitySource="1" multiplicityTarget="*" constituent="_UDDepartment" composite="_UDCourse"/>
+    <associations xmi:id="_UDAssoc1" name="worksIn" multiplicitySource="*" multiplicityTarget="1" source="_UDProfessor" target="_UDDepartment"/>
+    <associations xmi:id="_UDAssoc2" name="enrolledIn" multiplicitySource="*" multiplicityTarget="*" source="_UDStudent" target="_UDCourse"/>
+    <datatypes xmi:id="_UDString" name="String"/>
+    <datatypes xmi:id="_UDInt" name="int"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_UDObjectDiagram001">
+    <objects xmi:id="_UDDeptObj" name="" class="_UDDepartment">
+      <ownedAttributeValues>Computer Science</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_UDCourseObj" name="" class="_UDCourse">
+      <ownedAttributeValues>Software Design</ownedAttributeValues>
+      <ownedAttributeValues>6</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_UDProfObj" name="" class="_UDProfessor">
+      <ownedAttributeValues>Maria Gomez</ownedAttributeValues>
+      <ownedAttributeValues>41</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_UDStudObj" name="" class="_UDStudent">
+      <ownedAttributeValues>Daniel Ruiz</ownedAttributeValues>
+      <ownedAttributeValues>21</ownedAttributeValues>
+    </objects>
+    <compositions xmi:id="_UDObjComp1" name="departmentcourse1" multiplicitySource="1" multiplicityTarget="1" constituent="_UDDeptObj" composite="_UDCourseObj"/>
+    <associations xmi:id="_UDObjAssoc1" name="worksIn1" multiplicitySource="1" multiplicityTarget="1" source="_UDProfObj" target="_UDDeptObj"/>
+    <associations xmi:id="_UDObjAssoc2" name="enrolledIn1" multiplicitySource="1" multiplicityTarget="1" source="_UDStudObj" target="_UDCourseObj"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

@@ -1,16 +1,16 @@
 package wodel.utils.manager;
 
-import org.eclipse.acceleo.common.preference.AcceleoPreferences;
+//import org.eclipse.acceleo.common.preference.AcceleoPreferences;
 //import org.eclipse.acceleo.internal.ide.ui.builders.AcceleoBuilderSettings;
 //import org.eclipse.core.resources.IProject;
 
 public class AcceleoUtils {
 
 	public static boolean SwitchSuccessNotification(boolean notify) {
-		boolean successNotifications = AcceleoPreferences.areSuccessNotificationsEnabled();
+		boolean successNotifications = false;//AcceleoPreferences.areSuccessNotificationsEnabled();
 		if(successNotifications != notify)
 		{
-			AcceleoPreferences.switchSuccessNotifications(notify);
+			//AcceleoPreferences.switchSuccessNotifications(notify);
 			return successNotifications;
 		}
 		return successNotifications;

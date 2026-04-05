@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: wodel.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.acceleo.common,
+ org.eclipse.acceleo.aql, 
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  wodel.models,
@@ -37,4 +37,4 @@ Export-Package: .,
  wodel.utils.exceptions,
  wodel.utils.manager
 Bundle-ClassPath: .,
- lib/jython-standalone-2.7.2.jar
+ lib/jython-standalone-2.7.4.jar

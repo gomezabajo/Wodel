@@ -8,6 +8,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/org.eclipse.modisco.java.generation_1.5.5.v20250214-1552.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.modisco.java.generation_1.6.0.v20260303-1546.jar"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

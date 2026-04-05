@@ -20,6 +20,7 @@ import java.util.jar.JarFile;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.ModelManager;
 
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -44,6 +45,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import wodeledu.dsls.EduTestUtils;
 import wodeledu.dsls.ModelDrawUtils;
@@ -66,6 +69,8 @@ import wodel.extension.generator.IGenerator;
  * 
  */
 public class Generator implements IGenerator {
+	
+	private static MutableURLClassLoader sharedClassLoader;
 
 	private void compile(IProject project) {
 		try {
@@ -136,7 +141,7 @@ public class Generator implements IGenerator {
 	@Override
 	public List<String> bundleClasspath() {
 		List<String> bundleClasspath = new ArrayList<String>();
-		bundleClasspath.add("lib/plantuml-epl-1.2023.13.jar");
+		bundleClasspath.add("lib/plantuml-epl-1.2026.2.jar");
 		return bundleClasspath;
 	}
 
@@ -724,8 +729,7 @@ public class Generator implements IGenerator {
 			cls = Class.forName(classname);
 		} catch (ClassNotFoundException e) {
 		}
-
-		URLClassLoader classLoader = null;
+		
 		if (cls == null) {
 			try {
 				IProject project = file.getProject();
@@ -744,12 +748,15 @@ public class Generator implements IGenerator {
 					// and containing the class path entries of the project
 					ClassLoader parentClassLoader = project.getClass()
 							.getClassLoader();
-					URL[] urls = (URL[]) urlList
-							.toArray(new URL[urlList.size()]);
-					classLoader = new URLClassLoader(urls,
-							parentClassLoader);
-					// load class
-					cls = classLoader.loadClass(classname);
+					URL[] urls = (URL[]) urlList.toArray(new URL[urlList.size()]);
+					if (sharedClassLoader == null) {
+					    sharedClassLoader = new MutableURLClassLoader(urls, parentClassLoader);
+					} else {
+					    for (URL url : urls) {
+					        sharedClassLoader.appendURL(url);
+					    }
+					}
+					cls = sharedClassLoader.loadClass(classname);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -758,15 +765,9 @@ public class Generator implements IGenerator {
 		Object ob = null;
 		try {
 			ob = cls.getDeclaredConstructor().newInstance();
-			Method m = cls.getMethod("run", new Class[]{IProject.class, String.class});
-			m.invoke(ob, file.getProject(), file.getName().replace(".mutator", ".test"));
-			// ime = (IMutatorExecutor)ob;
+			Method m = cls.getMethod("run");
+			m.invoke(ob);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			classLoader.close();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

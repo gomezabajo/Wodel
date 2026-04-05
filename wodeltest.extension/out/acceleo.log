@@ -1,0 +1,12 @@
+ERROR wodeltest::extension::utils::GenerateJava L311: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L214: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L176: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L181: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L176: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L181: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L176: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L181: Acceleo parsing error see validation for more details
+ERROR wodeltest::extension::utils::GenerateJava L219: Acceleo parsing error see validation for more details
+Files: 1, Lost Files: 0, Errors: 9, Warnings: 0, Infos: 0.
+ERROR wodeltest::extension::utils::GenerateJava L311: Acceleo parsing error see validation for more details
+Files: 1, Lost Files: 0, Errors: 1, Warnings: 0, Infos: 0.

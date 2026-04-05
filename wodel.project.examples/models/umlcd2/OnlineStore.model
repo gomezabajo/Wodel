@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_OSRoot001">
+  <classdiagram xmi:id="_OSClassDiagram001">
+    <classes xmi:id="_OSCustomer" name="Customer">
+      <ownedAttributes xmi:id="_OSCustName" name="name" type="_OSString"/>
+      <ownedAttributes xmi:id="_OSCustEmail" name="email" type="_OSString"/>
+    </classes>
+    <classes xmi:id="_OSProduct" name="Product">
+      <ownedAttributes xmi:id="_OSProdName" name="name" type="_OSString"/>
+      <ownedAttributes xmi:id="_OSProdPrice" name="price" type="_OSInt"/>
+    </classes>
+    <classes xmi:id="_OSOrder" name="Order">
+      <ownedAttributes xmi:id="_OSOrderNumber" name="number" type="_OSInt"/>
+    </classes>
+    <associations xmi:id="_OSAssoc1" name="places" multiplicitySource="1" multiplicityTarget="*" source="_OSCustomer" target="_OSOrder"/>
+    <associations xmi:id="_OSAssoc2" name="contains" multiplicitySource="1" multiplicityTarget="*" source="_OSOrder" target="_OSProduct"/>
+    <datatypes xmi:id="_OSString" name="String"/>
+    <datatypes xmi:id="_OSInt" name="int"/>
+  </classdiagram>
+  <objectdiagram xmi:id="_OSObjectDiagram001">
+    <objects xmi:id="_OSCustomerObj" name="" class="_OSCustomer">
+      <ownedAttributeValues>Alice Brown</ownedAttributeValues>
+      <ownedAttributeValues>alice@example.com</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_OSOrderObj" name="" class="_OSOrder">
+      <ownedAttributeValues>101</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_OSProductObj1" name="" class="_OSProduct">
+      <ownedAttributeValues>Keyboard</ownedAttributeValues>
+      <ownedAttributeValues>49</ownedAttributeValues>
+    </objects>
+    <objects xmi:id="_OSProductObj2" name="" class="_OSProduct">
+      <ownedAttributeValues>Mouse</ownedAttributeValues>
+      <ownedAttributeValues>25</ownedAttributeValues>
+    </objects>
+    <associations xmi:id="_OSObjAssoc1" name="places1" multiplicitySource="1" multiplicityTarget="1" source="_OSCustomerObj" target="_OSOrderObj"/>
+    <associations xmi:id="_OSObjAssoc2" name="contains1" multiplicitySource="1" multiplicityTarget="1" source="_OSOrderObj" target="_OSProductObj1"/>
+    <associations xmi:id="_OSObjAssoc3" name="contains2" multiplicitySource="1" multiplicityTarget="1" source="_OSOrderObj" target="_OSProductObj2"/>
+  </objectdiagram>
+</umldiagram:UMLDiagram>

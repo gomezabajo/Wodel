@@ -57,7 +57,6 @@ import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.IWodelTest;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.ProjectUtils;
 import wodel.utils.manager.MutatorUtils.MutationResults;
 import wodel.utils.manager.WodelTestClass;
 import wodel.utils.manager.WodelTestClassInfo;

@@ -1,3 +1,4 @@
+[comment encoding = UTF-8 /]
 [comment 
  Copyright (c) 2010 Mia-Software.
  All rights reserved. This program and the accompanying materials
@@ -11,287 +12,264 @@
 [comment encoding = UTF-8 /]
 [module GenerateJava('http://www.eclipse.org/MoDisco/Java/0.2.incubation/java')/]
 
-[template public write(c : CompilationUnit)]
-	[file (c.qualifiedName(), false)]
-[c.wc()/][if (not c._package.oclIsUndefined())][c._package.write()/][/if]
+[comment @main /]
+[template public generate(model : java::Model)]
+[for (c : java::CompilationUnit | model.compilationUnits)]
+    [c.write()/]
+[/for]
+[/template]
 
-[for (i : ImportDeclaration | c.imports)][i.write()/][/for]
+[template public write(c : java::CompilationUnit)]
+	[file (c.qualifiedPath().trim(), overwrite, 'UTF-8')]
+[c.wc()/][if (c._package <> null)][c._package.write()/][/if]
+
+[for (i : java::ImportDeclaration | c.imports)]
+[i.write()/]
+[/for]
+[if (c.imports->notEmpty())]
+
+[/if]
 [c.wci()/]
-[for (t : AbstractTypeDeclaration | c.types)][t.write()/][/for]
+[for (t : java::AbstractTypeDeclaration | c.types)]
+[t.write()/]
+[/for]
 [c.wca()/]
 	[/file]
 [/template]
 
-[template public write(o : ASTNode)]
+[template public write(o : java::ASTNode)]
 [comment defined on subtypes/]
 [/template]
 
-[template public write(o : AbstractMethodDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][if (o.typeParameters->notEmpty())]
-<[for (t : TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]>
-[/if]
-[S()/]
-[o.writeReturnType()/]
-[o.name/]
-([for (p : SingleVariableDeclaration | o.parameters) separator (', ')][p.write()/][/for])[S()/]
-[for (t : TypeAccess | o.thrownExceptions) before (' throws ') separator (',')][t.write()/][/for]
-[S()/]
-[if (o._body.oclIsUndefined())];
-[else]
-[o._body.write()/]
-[/if]
-[o.wca()/]
+[template public write(o : java::AbstractMethodDeclaration)]
+['  '/][o.wc()/][for (n : java::Annotation | o.annotations)][n.write()/][/for][if (o.modifier <> null)][o.modifier.write()/][/if][if (o.typeParameters->size() > 0)]['<'/][for (t : java::TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]['>'/][/if][o.writeReturnType()/][o.name/]['('/][for (p : java::SingleVariableDeclaration | o.parameters)][if (pIndex > 1)], [/if][p.writeParameter()/][/for][')'/][if (o.thrownExceptions->size() > 0)] throws [for (t : java::TypeAccess | o.thrownExceptions) separator (', ')][t.write()/][/for][/if][if (o._body = null)];[else] [o._body.write()/][/if][o.wca()/]
 [/template]
 
 
 [comment superType : BodyDeclaration /][comment subTypes : ConstructorDeclaration MethodDeclaration/]
-[template public write(o : AbstractMethodInvocation)]
+[template public write(o : java::AbstractMethodInvocation)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : ClassInstanceCreation ConstructorInvocation MethodInvocation SuperConstructorInvocation SuperMethodInvocation /]
 
-[template public write(o : AbstractTypeQualifiedExpression)]
+[template public write(o : java::AbstractTypeQualifiedExpression)]
 [comment defined on subtypes/]
 [/template][comment superType : Expression /][comment subTypes : SuperFieldAccess SuperMethodInvocation ThisExpression /]
 
-[template public write(o : AbstractTypeDeclaration)]
+[template public write(o : java::AbstractTypeDeclaration)]
 [comment defined on subtypes/]
 [/template][comment subTypes : AnnotationTypeDeclaration EnumDeclaration TypeDeclaration UnresolvedTypeDeclaration /]
 
-[template public write(o : AbstractVariablesContainer)]
-[o.wc()/][if (not o.type.oclIsUndefined())][o.type.write()/][/if][S()
-/] [for (f : VariableDeclarationFragment | o.fragments) separator (' ')][f.write()/][/for][o.wca()/]
+[template public write(o : java::AbstractVariablesContainer)]
+[o.wc()/][if (o.type <> null)][o.type.write()/][/if] [for (f : java::VariableDeclarationFragment | o.fragments) separator (' ')][f.write()/][/for][o.wca()/]
 [/template][comment superType : ASTNode /][comment subTypes : FieldDeclaration VariableDeclarationExpression VariableDeclarationStatement /]
 
-[template public write(o : AnonymousClassDeclaration)]
+[template public write(o : java::AnonymousClassDeclaration)]
 [o.wc()/] {
-[for (b : BodyDeclaration | o.bodyDeclarations) ? (not b.proxy)][b.write()/][comment an implicit constructor may exist as proxy/]
+[for (b : java::BodyDeclaration | o.bodyDeclarations->select(b | not b.proxy))][b.write()/][comment an implicit constructor may exist as proxy/]
 [/for][o.wci()/]}[o.wca()/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : Annotation)]
-[o.wc()/]@[o.type.write()/][for (a : AnnotationMemberValuePair | o.values) before('(') separator (',') after(')')][a.write()/][/for][o.wca()/]
+[template public write(o : java::Annotation)]
+[o.wc()/]@[o.type.write()/][if (o.values->notEmpty())]([for (a : java::AnnotationMemberValuePair | o.values) separator (',')][a.write()/][/for])[/if][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : AnnotationMemberValuePair)]
-[o.wc()/][if (not o.member.oclIsUndefined())][o.member.name/]=[/if][o.value.write()/][o.wca()/]
+[template public write(o : java::AnnotationMemberValuePair)]
+[o.wc()/][if (o.member <> null)][o.member.name/]=[/if][o.value.write()/][o.wca()/]
 [/template][comment superType : NamedElement /]
 
-[template public write(o : AnnotationTypeDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][o.javaKeyword()/] [o.name/] {
-[for (b : BodyDeclaration | o.bodyDeclarations) ? (not b.proxy)][b.write()/][comment an implicit constructor may exist as proxy/]
+[template public write(o : java::AnnotationTypeDeclaration)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][o.javaKeyword()/] [o.name/] {
+[for (b : java::BodyDeclaration | o.bodyDeclarations->select(b | not b.proxy))][b.write()/][comment an implicit constructor may exist as proxy/]
 [/for][o.wci()/]}[o.wca()/]
 [/template][comment superType : AbstractTypeDeclaration /][comment subTypes : UnresolvedAnnotationDeclaration /]
 
-[template public write(o : AnnotationTypeMemberDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][if (not o.type.oclIsUndefined())][o.type.write() after (' ')/][/if][o.name/]()[S()
-/][if (not o.default.oclIsUndefined())] default [o.default.write()/][/if];[o.wca()/]
+[template public write(o : java::AnnotationTypeMemberDeclaration)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][if (o.type <> null)][o.type.write()/] [/if][o.name/]()[if (o.default <> null)] default [o.default.write()/][/if];[o.wca()/]
 [/template][comment superType : BodyDeclaration /][comment subTypes : UnresolvedAnnotationTypeMemberDeclaration /]
 
-[template public write(o : Archive)]
+[template public write(o : java::Archive)]
 [comment should never be called/]
 [/template][comment superType : NamedElement /]
 
-[template public write(o : ArrayAccess)]
-[o.wc()/][o.array.write()/][o.index.write() before ('[') after (']')/][o.wca()/]
+[template public write(o : java::ArrayAccess)]
+[o.wc()/][o.array.write()/]['['/][o.index.write()/][']'/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : ArrayCreation)]
-[o.wc()/]new [o.type.type.oclAsType(ArrayType).elementType.write()/][S()
-/][for (e : Expression | o.dimensions) before ('[') separator ('][') after(']')][e.write()/][/for][S()
-/][o.writeBrackets(o.type.type.oclAsType(ArrayType).dimensions-o.dimensions->size())/][comment example of result : (3)(2)()()
-/][if (not o.initializer.oclIsUndefined())][o.initializer.write()/][/if][o.wca()/]
+[template public write(o : java::ArrayCreation)]
+[o.wc()/]new [o.type.type.oclAsType(java::ArrayType).elementType.write()/][if (o.dimensions->notEmpty())]['['/][for (e : java::Expression | o.dimensions) separator ('][')][e.write()/][/for][']'/][/if][o.writeBrackets(o.type.type.oclAsType(java::ArrayType).dimensions-o.dimensions->size())/][comment example of result : (3)(2)()()
+/][if (o.initializer <> null)][o.initializer.write()/][/if][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : ArrayInitializer)]
-[o.wc()/]{[for (e : Expression | o.expressions) separator (', ')][e.write()/][/for]}[o.wca()/]
+[template public write(o : java::ArrayInitializer)]
+[o.wc()/]{[for (e : java::Expression | o.expressions) separator (', ')][e.write()/][/for]}[o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : ArrayLengthAccess)]
+[template public write(o : java::ArrayLengthAccess)]
 [o.wc()/][o.array.write()/].length
 [/template][comment superType : Expression /]
 
-[template public write(o : ArrayType)]
+[template public write(o : java::ArrayType)]
 [o.wc()/][o.elementType.write()/][o.writeBrackets(o.dimensions)/][o.wca()/]
 [/template][comment superType : Type /]
 
-[template public write(o : AssertStatement)]
-[o.wc()/]assert [o.expression.write()/][if (not o.message.oclIsUndefined())] : [o.message.write()/][/if];[o.wca()/]
+[template public write(o : java::AssertStatement)]
+[o.wc()/]assert [o.expression.write()/][if (o.message <> null)] : [o.message.write()/][/if];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : Assignment)]
+[template public write(o : java::Assignment)]
 [o.wc()/][o.leftHandSide.write()/][o.operator.toString()/][o.rightHandSide.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : BodyDeclaration)]
+[template public write(o : java::BodyDeclaration)]
 [comment defined on subtypes/]
 [/template][comment superType : NamedElement /][comment subTypes : AbstractMethodDeclaration AbstractTypeDeclaration AnnotationTypeMemberDeclaration EnumConstantDeclaration FieldDeclaration Initializer /]
 
-[template public write(o : Block)]
-[o.wc()/]{
-[for (e : Statement | o.statements)][e.write()/]
-[/for][o.wci()/]}[o.wca()/]
+[template public write(o : java::Block)]
+[o.wc()/]['{'/]
+[for (e : java::Statement | o.statements)]
+[e.write()/]
+[/for][o.wci()/]
+['  '/]['}'/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : BlockComment)]
+[template public write(o : java::BlockComment)]
 [o.content/]
 [/template][comment superType : Comment /]
 
-[template public write(o : BooleanLiteral)]
+[template public write(o : java::BooleanLiteral)]
 [o.wc()/][o.value.toString()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : BreakStatement)]
-[o.wc()/]break [if (not o.label.oclIsUndefined())][o.label.name/][/if];[o.wca()/]
+[template public write(o : java::BreakStatement)]
+[o.wc()/]break [if (o.label <> null)][o.label.name/][/if];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : CatchClause)]
+[template public write(o : java::CatchClause)]
 [o.wc()/]catch([o.exception.write()/])[o._body.write()/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : CastExpression)]
+[template public write(o : java::CastExpression)]
 [o.wc()/]([o.type.write()/]) [o.expression.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : CharacterLiteral)]
+[template public write(o : java::CharacterLiteral)]
 [o.wc()/][o.escapedValue/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : ClassDeclaration)]
-[o.wc()/][o.write0()/][S()
-/][if (not o.superClass.oclIsUndefined())] extends [o.superClass.write()/][/if][S()
-/][if (o.superInterfaces->notEmpty())] implements [for (t : TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] {
-[for (b : BodyDeclaration | o.bodyDeclarations) ? (not b.proxy)][b.write()/][comment an implicit constructor may exist as proxy/]
-[/for][o.wci()/]}[o.wca()/]
+[template public write(o : java::ClassDeclaration)]
+[o.wc()/][o.write0()/][if (o.superClass <> null)] extends [o.superClass.write()/][/if][if (o.superInterfaces->size() > 0)] implements [for (t : java::TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] ['{'/]
+[for (b : java::BodyDeclaration | o.bodyDeclarations->select(b | not b.proxy))]
+[b.write()/]
+
+[/for][o.wci()/]['}'/][o.wca()/]
 [/template][comment superType : TypeDeclaration /][comment subTypes : UnresolvedClassDeclaration /]
 
-[template public write(o : ClassFile)]
+[template public write(o : java::ClassFile)]
 [comment should never be called/]
 [/template][comment superType : NamedElement /]
 
-[template public write(o : ClassInstanceCreation)]
-[o.wc()/][if (not o.expression.oclIsUndefined())][o.expression.write()/].[/if][S()
-/]new [o.type.write()/][S()
-/]([for (e : Expression | o.arguments) separator (', ')][e.write()/][/for])[S()
-/][if (not o.anonymousClassDeclaration.oclIsUndefined())][o.anonymousClassDeclaration.write()/][/if][o.wca()/]
+[template public write(o : java::ClassInstanceCreation)]
+[o.wc()/][if (o.expression <> null)][o.expression.write()/].[/if]new [o.type.write()/]([for (e : java::Expression | o.arguments) separator (', ')][e.write()/][/for])[if (o.anonymousClassDeclaration <> null)][o.anonymousClassDeclaration.write()/][/if][o.wca()/]
 [/template][comment superType : Expression AbstractMethodInvocation /]
 
-[template public write(o : ConditionalExpression)]
+[template public write(o : java::ConditionalExpression)]
 [o.wc()/][o.expression.write()/]?[o.thenExpression.write()/]:[o.elseExpression.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : ConstructorInvocation)]
-[o.wc()/][if (o.typeArguments->notEmpty())][for (t : TypeAccess | o.typeArguments) before ('<') separator (', ') after ('>')][t.write()/][/for][/if][S()
-/]this([for (e : Expression | o.arguments) separator (', ')][e.write()/][/for]);[o.wca()/]
+[template public write(o : java::ConstructorInvocation)]
+[o.wc()/][if (o.typeArguments->notEmpty())]<[for (t : java::TypeAccess | o.typeArguments) separator (', ')][t.write()/][/for]>[/if]this([for (e : java::Expression | o.arguments) separator (', ')][e.write()/][/for]);[o.wca()/]
 [/template][comment superType : Statement AbstractMethodInvocation /]
 
-[template public write(o : ContinueStatement)]
-[o.wc()/]continue [if (not o.label.oclIsUndefined())][o.label.name/][/if];[o.wca()/]
+[template public write(o : java::ContinueStatement)]
+[o.wc()/]continue [if (o.label <> null)][o.label.name/][/if];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : Comment)]
+[template public write(o : java::Comment)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : BlockComment Javadoc LineComment /]
 
-[template public write(o : DoStatement)]
+[template public write(o : java::DoStatement)]
 [o.wc()/]do
 [o._body.write()/]
 while ([o.expression.write()/]);[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : EmptyStatement)]
+[template public write(o : java::EmptyStatement)]
 [o.wc()/];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : EnhancedForStatement)]
+[template public write(o : java::EnhancedForStatement)]
 [o.wc()/]for ([o.parameter.write()/]:[o.expression.write()/])[o._body.write()/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : EnumConstantDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if] [o.name/][S()
-/]([for (e : Expression | o.arguments) separator (', ')][e.write()/][/for])[o.wca()/]
+[template public write(o : java::EnumConstantDeclaration)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if] [o.name/]([for (e : java::Expression | o.arguments) separator (', ')][e.write()/][/for])[o.wca()/]
 [/template][comment superType : BodyDeclaration VariableDeclaration /]
 
-[template public write(o : EnumDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][o.javaKeyword()/] [o.name/][S()
-/][if (o.superInterfaces->notEmpty())]  implements [for (t : TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] {
-[for (e : EnumConstantDeclaration | o.enumConstants) separator (',') after(';')]
+[template public write(o : java::EnumDeclaration)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][o.javaKeyword()/] [o.name/][if (o.superInterfaces->notEmpty())]  implements [for (t : java::TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] {
+[if (o.enumConstants->notEmpty())][for (e : java::EnumConstantDeclaration | o.enumConstants) separator (',')]
 
-[e.write()/][/for]
+[e.write()/][/for];[/if]
 
-[for (b : BodyDeclaration | o.bodyDeclarations) ? (not b.proxy)][b.write()/][comment an implicit constructor may exist as proxy/]
+[for (b : java::BodyDeclaration | o.bodyDeclarations->select(b | not b.proxy))][b.write()/][comment an implicit constructor may exist as proxy/]
 [/for][o.wci()/]}[o.wca()/]
 [/template][comment superType : AbstractTypeDeclaration /][comment subTypes : UnresolvedEnumDeclaration /]
 
-[template public write(o : Expression)]
+[template public write(o : java::Expression)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : AbstractTypeQualifiedExpression Annotation ArrayAccess ArrayCreation ArrayInitializer ArrayLengthAccess Assignment BooleanLiteral CastExpression CharacterLiteral ClassInstanceCreation ConditionalExpression FieldAccess InfixExpression InstanceofExpression MethodInvocation NumberLiteral NullLiteral ParenthesizedExpression PostfixExpression PrefixExpression SingleVariableAccess StringLiteral TypeAccess TypeLiteral UnresolvedItemAccess VariableDeclarationExpression /]
 
-[template public write(o : ExpressionStatement)]
+[template public write(o : java::ExpressionStatement)]
 [o.wc()/][o.expression.write()/];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : FieldAccess)]
+[template public write(o : java::FieldAccess)]
 [o.wc()/][o.expression.write()/].[o.field.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : FieldDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][o.wci()/][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][if (not o.type.oclIsUndefined())][o.type.write() after (' ')/][/if][S()
-/][for (f : VariableDeclarationFragment | o.fragments) separator (', ')][f.write()/][/for][S()
-/];[o.wca()/]
+[template public write(o : java::FieldDeclaration)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][o.wci()/][/if][if (o.modifier <> null)][o.modifier.write()/][/if][if (o.type <> null)][o.type.write()/] [/if][for (f : java::VariableDeclarationFragment | o.fragments) separator (', ')][f.write()/][/for];[o.wca()/]
 
 [/template][comment superType : BodyDeclaration AbstractVariablesContainer /]
 
-[template public write(o : ForStatement)]
-[o.wc()/]for ([for (e : Expression | o.initializers) separator(',')][e.write()/][/for];[S()
-/][if (not o.expression.oclIsUndefined())][o.expression.write()/][/if];[S()
-/][for (e : Expression | o.updaters) separator(',')][e.write()/][/for])
+[template public write(o : java::ForStatement)]
+[o.wc()/]for ([for (e : java::Expression | o.initializers) separator(',')][e.write()/][/for];[if (o.expression <> null)][o.expression.write()/][/if];[for (e : java::Expression | o.updaters) separator(',')][e.write()/][/for])
 [o._body.write()/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : IfStatement)]
+[template public write(o : java::IfStatement)]
 [o.wc()/]if ([o.expression.write()/])
 [o.thenStatement.write()/]
-[if (not o.elseStatement.oclIsUndefined())]
+[if (o.elseStatement <> null)]
 else
 [o.elseStatement.write()/]
 [/if][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : ImportDeclaration)]
-[o.wc()/]import[if (o._static)] static[/if] [o.importedElement.qualifiedName()/][S()
-/][if (o.importedElement.oclIsTypeOf(Package))].*[/if][S()
-/][if (o.importedElement.oclIsKindOf(AbstractTypeDeclaration) and (o._static))].*[/if];[o.wca()/]
-
+[template public write(o : java::ImportDeclaration)]
+[o.wc()/]import[if (o._static)] static[/if] [o.importedElement.qualifiedName()/][if (o.importedElement.oclIsTypeOf(java::Package))].*[/if][if (o.importedElement.oclIsKindOf(java::AbstractTypeDeclaration) and o._static)].*[/if];[o.wca()/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : InfixExpression)]
-[o.wc()/][o.leftOperand.write()/][o.operator.toString()/][o.rightOperand.write()/][S()
-/][for (e : Expression | o.extendedOperands)] [o.operator.toString()/] [e.write()/][/for][o.wca()/]
-[/template][comment superType : Expression /]
+[template public write(o : java::InfixExpression)][o.wc()/][o.leftOperand.write()/] [o.operator.toString()/] [o.rightOperand.write()/][for (e : java::Expression | o.extendedOperands)] [o.operator.toString()/] [e.write()/][/for][o.wca()/][/template][comment superType : Expression /]
 
-[template public write(o : Initializer)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][o._body.write()/][o.wca()/]
+[template public write(o : java::Initializer)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][o._body.write()/][o.wca()/]
 [/template][comment superType : BodyDeclaration /]
 
-[template public write(o : InstanceofExpression)]
+[template public write(o : java::InstanceofExpression)]
 [o.wc()/][o.leftOperand.write()/] instanceof [o.rightOperand.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : InterfaceDeclaration)]
-[o.wc()/][o.write0()/][S()
-/][if (o.superInterfaces->notEmpty())]  extends [for (t : TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] {
-[for (b : BodyDeclaration | o.bodyDeclarations) ? (not b.proxy)][b.write()/][comment an implicit constructor may exist as proxy/]
+[template public write(o : java::InterfaceDeclaration)]
+[o.wc()/][o.write0()/][if (o.superInterfaces->notEmpty())]  extends [for (t : java::TypeAccess | o.superInterfaces) separator (', ')][t.write()/][/for][/if] {
+[for (b : java::BodyDeclaration | o.bodyDeclarations->select(b | not b.proxy))][b.write()/][comment an implicit constructor may exist as proxy/]
 [/for][o.wci()/]}[o.wca()/]
 [/template][comment superType : TypeDeclaration /][comment subTypes : UnresolvedInterfaceDeclaration /]
 
@@ -299,359 +277,326 @@ else
 to consider two cases:
 1. the tag element correspond to a simple text (nothing special to do)
 2. the tag element has a key, then we have to add a space before /]
-[template public write(o : Javadoc)]
+[template public write(o : java::Javadoc)]
 [if (o.tags->notEmpty())]
 /**
- *[for (t : TagElement | o.tags) separator('*')][t.write()/]
+ *[for (t : java::TagElement | o.tags) separator('*')][t.write()/]
 [/for]
 */[else]
 [o.content/]
 [/if]
 [/template][comment superType : Comment /]
 
-[template public write(o : LabeledStatement)]
+[template public write(o : java::LabeledStatement)]
 [o.wc()/][o.name/] :[o._body.write()/][o.wca()/]
 [/template][comment superType : NamedElement Statement /][comment subTypes : UnresolvedLabeledStatement /]
 
-[template public write(o : LineComment)]
+[template public write(o : java::LineComment)]
 [o.content/]
 [/template][comment superType : Comment /]
 
-[template public write(o : Manifest)]
+[template public write(o : java::Manifest)]
 [comment should never be called/]
 [/template]
 
-[template public write(o : ManifestAttribute)]
+[template public write(o : java::ManifestAttribute)]
 [comment should never be called/]
 [/template]
 
-[template public write(o : ManifestEntry)]
+[template public write(o : java::ManifestEntry)]
 [comment should never be called/]
 [/template]
 
-[template public write(o : MemberRef)]
-[if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/]#[/if][o.member.name/][o.wca()/]
+[template public write(o : java::MemberRef)]
+[if (o.qualifier <> null)][o.qualifier.write()/]#[/if][o.member.name/][o.wca()/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : MethodInvocation)]
-[o.wc()/][if (not o.expression.oclIsUndefined())][o.expression.write()/].[/if][o.write0()/][o.wca()/]
-[/template][comment superType : Expression AbstractMethodInvocation /]
+[template public write(o : java::MethodInvocation)][o.wc()/][if (o.expression <> null)][o.expression.write()/].[/if][o.write0()/][o.wca()/][/template][comment superType : Expression AbstractMethodInvocation /]
 
-[template public write(o : MethodRef)]
-[if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/][/if][S()
-/]#[o.method.name/]([for (p : MethodRefParameter | o.parameters) separator (', ')][p.write()/][/for])[o.wca()/]
+[template public write(o : java::MethodRef)]
+[if (o.qualifier <> null)][o.qualifier.write()/][/if]#[o.method.name/]([for (p : java::MethodRefParameter | o.parameters) separator (', ')][p.write()/][/for])[o.wca()/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : MethodRefParameter)]
-[if (not o.type.oclIsUndefined())][o.type.write() after (' ')/][/if][S()
-/][if (o.varargs)] ... [/if][o.name/][o.wca()/]
+[template public write(o : java::MethodRefParameter)]
+[if (o.type <> null)][o.type.write()/] [/if][if (o.varargs)] ... [/if][o.name/][o.wca()/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : Model)]
+[template public write(o : java::Model)]
 [comment should never be called/]
 [/template]
 
-[template public write(o : Modifier)]
-[o.wc()/][if (o.visibility = VisibilityKind::public)]public [S()
-/][elseif (o.visibility = VisibilityKind::private) ]private [S()
-/][elseif (o.visibility = VisibilityKind::protected) ]protected [S()
-/][/if][S()
-/][if (o.inheritance = InheritanceKind::abstract) ]abstract [/if][S()
-/][if (o._static)]static [/if][S()
-/][if (o.inheritance = InheritanceKind::final) ]final [/if][S()
-/][if (o.transient)]transient [/if][S()
-/][if (o.volatile)]volatile [/if][S()
-/][if (o.synchronized)]synchronized [/if][S()
-/][if (o.native)]native [/if][S()
-/][if (o.strictfp)]strictfp [/if][o.wca()/]
-[/template][comment superType : ASTNode /]
+[template public write(o : java::Modifier)][o.wc()/][if (o.visibility = java::VisibilityKind::public)]public [/if][if (o.visibility = java::VisibilityKind::private)]private [/if][if (o.visibility = java::VisibilityKind::protected)]protected [/if][if (o.inheritance = java::InheritanceKind::abstract)]abstract [/if][if (o._static)]static [/if][if (o.inheritance = java::InheritanceKind::final)]final [/if][o.wca()/][/template][comment superType : ASTNode /]
 
-[template public write(o : NamedElement)]
+[template public write(o : java::NamedElement)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : Archive AnnotationMemberValuePair BodyDeclaration ClassFile CompilationUnit LabeledStatement Package Type UnresolvedItem VariableDeclaration /]
 
-[template public write(o : NamespaceAccess)]
+[template public write(o : java::NamespaceAccess)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : PackageAccess TypeAccess UnresolvedItemAccess /]
 
-[template public write(o : NumberLiteral)]
+[template public write(o : java::NumberLiteral)]
 [o.wc()/][o.tokenValue /][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : NullLiteral)]
+[template public write(o : java::NullLiteral)]
 [o.wc()/]null[o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : Package)]
+[template public write(o : java::Package)]
 [o.wc()/]package [o.qualifiedName()/];[o.wca()/]
 [/template][comment superType : NamedElement /]
 
-[template public write(o : PackageAccess)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if][o._package.name/][o.wca()/]
+[template public write(o : java::PackageAccess)]
+[o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if][o._package.name/][o.wca()/]
 [/template][comment superType : NamespaceAccess /]
 
-[template public write(o : ParameterizedType)]
-[o.wc()/][if (not o.type.oclIsUndefined())][o.type.write()/][/if]<[for (t : TypeAccess | o.typeArguments) separator (', ')][t.write()/][/for]>[o.wca()/]
+[template public write(o : java::ParameterizedType)]
+[o.wc()/][if (o.type <> null)][o.type.write()/][/if]<[for (t : java::TypeAccess | o.typeArguments) separator (', ')][t.write()/][/for]>[o.wca()/]
 [/template][comment superType : Type /]
 
-[template public write(o : ParenthesizedExpression)]
+[template public write(o : java::ParenthesizedExpression)]
 [o.wc()/]([o.expression.write()/])[o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : PostfixExpression)]
+[template public write(o : java::PostfixExpression)]
 [o.wc()/][o.operand.write()/][o.operator.toString()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : PrefixExpression)]
+[template public write(o : java::PrefixExpression)]
 [o.wc()/][o.operator.toString()/][o.operand.write()/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : PrimitiveType)]
+[template public write(o : java::PrimitiveType)]
 [comment defined on subtypes/]
 [/template][comment superType : Type /][comment subTypes : PrimitiveTypeBoolean PrimitiveTypeByte PrimitiveTypeChar PrimitiveTypeDouble PrimitiveTypeShort PrimitiveTypeFloat PrimitiveTypeInt PrimitiveTypeLong PrimitiveTypeVoid /]
 
-[template public write(o : PrimitiveTypeBoolean)]
-boolean[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeBoolean)]boolean[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeByte)]
-byte[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeByte)]byte[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeChar)]
-char[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeChar)]char[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeDouble)]
-double[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeDouble)]double[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeShort)]
-short[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeShort)]short[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeFloat)]
-float[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeFloat)]float[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeInt)]
-int[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeInt)]int[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeLong)]
-long[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeLong)]long[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : PrimitiveTypeVoid)]
-void[o.wca()/]
-[/template][comment superType : PrimitiveType /]
+[template public write(o : java::PrimitiveTypeVoid)]void[o.wca()/][/template][comment superType : PrimitiveType /]
 
-[template public write(o : ReturnStatement)]
-[o.wc()/]return [if (not o.expression.oclIsUndefined())][o.expression.write()/][/if];[o.wca()/]
-[/template][comment superType : Statement /]
+[template public write(o : java::ReturnStatement)][o.wc()/]['    '/]return [if (o.expression <> null)][o.expression.write()/][/if];[o.wca()/][/template][comment superType : Statement /]
 
-[template public write(o : SingleVariableAccess)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if][o.variable.name/][o.wca()/]
-[/template][comment superType : Expression /]
+[template public write(o : java::SingleVariableAccess)][o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if][o.variable.name/][o.wca()/][/template][comment superType : Expression /]
 
-[template public write(o : SingleVariableDeclaration)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][if (not o.type.oclIsUndefined())][o.type.write() after (' ')/][/if][S()
-/][if (o.varargs)] ... [/if][o.name/][o.writeBrackets(o.extraArrayDimensions)/][S()
-/][if (not o.initializer.oclIsUndefined())]=[o.initializer.write()/][/if][o.wca()/]
+[template public write(o : java::SingleVariableDeclaration)]
+[o.writeParameter()/]
 [/template][comment superType : VariableDeclaration /][comment subTypes : UnresolvedSingleVariableDeclaration /]
 
-[template public write(o : Statement)]
+[template public writeParameter(o : java::SingleVariableDeclaration)][o.wc()/][for (n : java::Annotation | o.annotations)][n.write()/][/for][if (o.modifier <> null)][o.modifier.write()/][/if][if (o.type <> null)][o.type.write()/] [/if][if (o.varargs)]... [/if][o.name/][o.writeBrackets(o.extraArrayDimensions)/][if (o.initializer <> null)] = [o.initializer.write()/][/if][o.wca()/][/template]
+
+[template public write(o : java::Statement)]
 [comment defined on subtypes/]
 [/template][comment superType : ASTNode /][comment subTypes : AssertStatement Block BreakStatement CatchClause ConstructorInvocation ContinueStatement DoStatement EmptyStatement EnhancedForStatement ExpressionStatement ForStatement IfStatement LabeledStatement ReturnStatement SuperConstructorInvocation SwitchCase SwitchStatement SynchronizedStatement ThrowStatement TryStatement TypeDeclarationStatement VariableDeclarationStatement WhileStatement /]
 
-[template public write(o : StringLiteral)]
+[template public write(o : java::StringLiteral)]
 [o.wc()/][o.escapedValue/][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : SuperConstructorInvocation)]
-[o.wc()/][if (not o.expression.oclIsUndefined())][o.expression.write()/].[/if][S()
-/][if (o.typeArguments->notEmpty())][for (t : TypeAccess | o.typeArguments) before ('<') separator (', ') after ('>')][t.write()/][/for][/if][S()
-/]super([for (e : Expression | o.arguments) separator (', ')][e.write()/][/for]);[o.wca()/]
+[template public write(o : java::SuperConstructorInvocation)]
+[o.wc()/]
+[if (o.expression <> null)]
+[o.expression.write()/].
+[/if]
+
+[if (o.typeArguments->notEmpty())]
+['<'/]
+[for (t : java::TypeAccess | o.typeArguments) separator (', ')]
+[t.write()/]
+[/for]
+['>'/]
+[/if]
+
+super['('/]
+[for (e : java::Expression | o.arguments)]
+[if (eIndex > 1)], [/if][e.write()/]
+[/for]
+[')'/];[o.wca()/]
 [/template][comment superType : Statement AbstractMethodInvocation /]
 
-[template public write(o : SuperFieldAccess)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if]super.[o.field.write()/][o.wca()/]
+[template public write(o : java::SuperFieldAccess)]
+[o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if]super.[o.field.write()/][o.wca()/]
 [/template][comment superType : AbstractTypeQualifiedExpression /]
 
-[template public write(o : SuperMethodInvocation)]
+[template public write(o : java::SuperMethodInvocation)]
 [o.wc()/]super.[o.write0()/][o.wca()/]
 [/template][comment superType : AbstractTypeQualifiedExpression AbstractMethodInvocation /]
 
-[template public write(o : SwitchCase)]
+[template public write(o : java::SwitchCase)]
 [o.wc()/][if (not o.default)]
-case [if (not o.expression.oclIsUndefined())][o.expression.write()/][/if]
+case [if (o.expression <> null)][o.expression.write()/][/if]
 [else]
 default
 [/if] :[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : SwitchStatement)]
+[template public write(o : java::SwitchStatement)]
 [o.wc()/]switch([o.expression.write()/]){
-[for (s : Statement | o.statements)]
+[for (s : java::Statement | o.statements)]
 [s.write()/]
 [/for]
 }[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : SynchronizedStatement)]
+[template public write(o : java::SynchronizedStatement)]
 [o.wc()/]synchronized ([o.expression.write()/])
 [o._body.write()/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : TagElement)]
-[if (not o.tagName.oclIsUndefined())][o.writeTagWithName()/][else][o.writeTagWithFragmentsOnly()/][/if]
+[template public write(o : java::TagElement)]
+[if (o.tagName <> null)][o.writeTagWithName()/][else][o.writeTagWithFragmentsOnly()/][/if]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : ThisExpression)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if]this[o.wca()/]
+[template public write(o : java::ThisExpression)]
+[o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if]this[o.wca()/]
 [/template][comment superType : AbstractTypeQualifiedExpression /]
 
-[template public write(o : ThrowStatement)]
+[template public write(o : java::ThrowStatement)]
 [o.wc()/]throw [o.expression.write()/];[o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : TryStatement)]
+[template public write(o : java::TryStatement)]
 [o.wc()/]try[o._body.write()/]
-[for (c : CatchClause | o.catchClauses)]
+[for (c : java::CatchClause | o.catchClauses)]
 [c.write()/]
 [/for]
-[if (not o.finally.oclIsUndefined())]
+[if (o.finally <> null)]
 finally [o.finally.write()/]
 [/if][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public writeTagWithName(o : TagElement)]
- [o.tagName/][for (f : ASTNode | o.fragments) before (' ') separator (' ')][if (f.oclIsTypeOf(TagElement))]{[f.write()/]}[else][f.write()/][/if][S()
-/][/for]
+[template public writeTagWithName(o : java::TagElement)]
+ [o.tagName/][if (o.fragments->notEmpty())] [for (f : java::ASTNode | o.fragments) separator (' ')][if (f.oclIsTypeOf(java::TagElement))]{[f.write()/]}[else][f.write()/][/if][/for][/if]
 [/template]
 
-[template public writeTagWithFragmentsOnly(o : TagElement)]
-[for (f : ASTNode | o.fragments) before (' ') separator ('* ')][if (f.oclIsTypeOf(TagElement))]{[f.write()/]}[else][f.write()/][/if][S()
-/][if (not (f = o.fragments->last()))]
+[template public writeTagWithFragmentsOnly(o : java::TagElement)]
+[if (o.fragments->notEmpty())] [for (f : java::ASTNode | o.fragments) separator ('* ')][if (f.oclIsTypeOf(java::TagElement))]{[f.write()/]}[else][f.write()/][/if][if (not (f = o.fragments->last()))]
 
-[/if][/for]
+[/if][/for][/if]
 [/template]
 
-[template public write(o : TextElement)]
+[template public write(o : java::TextElement)]
 [o.text/]
 [/template][comment superType : ASTNode /]
 
-[template public write(o : Type)]
+[template public write(o : java::Type)]
 [comment defined on subtypes/]
 [/template][comment superType : NamedElement /][comment subTypes : AbstractTypeDeclaration ArrayType ParameterizedType PrimitiveType TypeParameter UnresolvedType WildCardType /]
 
-[template public write(o : TypeAccess)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if][S()
-/][if (o.type.oclIsKindOf(ArrayType) or o.type.oclIsKindOf(ParameterizedType)
-	or o.type.oclIsKindOf(WildCardType))]
-[o.type.write()/][else][o.type.name/][/if][o.wca()/]
-[/template][comment superType : Expression NamespaceAccess /]
+[template public write(o : java::TypeAccess)][o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if][if (o.type <> null)][o.type.writeTypeReference()/][/if][o.wca()/][/template][comment superType : Expression NamespaceAccess /]
 
-[template public write(o : TypeDeclaration)]
+[template public writeTypeReference(t : java::Type)][t.name/][/template]
+[template public writeTypeReference(t : java::ArrayType)][t.write()/][/template]
+[template public writeTypeReference(t : java::ParameterizedType)][t.write()/][/template]
+[template public writeTypeReference(t : java::WildCardType)][t.write()/][/template]
+[template public writeTypeReference(t : java::UnresolvedType)][t.write()/][/template]
+
+[template public write(o : java::TypeDeclaration)]
 [comment defined on subtypes/]
 [/template][comment superType : AbstractTypeDeclaration /][comment subTypes : ClassDeclaration InterfaceDeclaration /]
 
-[template public write(o : TypeDeclarationStatement)]
+[template public write(o : java::TypeDeclarationStatement)]
 [o.wc()/][o.declaration.write()/][o.wca()/]
 [/template][comment superType : Statement /]
 
-[template public write(o : TypeParameter)]
-[o.wc()/][o.name/][if (o.bounds->notEmpty())] extends [S()
-/][for (t : TypeAccess | o.bounds) separator (' & ')][t.write()/][/for][/if][o.wca()/]
+[template public write(o : java::TypeParameter)]
+[o.wc()/][o.name/][if (o.bounds->notEmpty())] extends [for (t : java::TypeAccess | o.bounds) separator (' & ')][t.write()/][/for][/if][o.wca()/]
 [/template][comment superType : Type /]
 
-[template public write(o : TypeLiteral)]
-[o.wc()/][if (not o.type.oclIsUndefined())]
+[template public write(o : java::TypeLiteral)]
+[o.wc()/][if (o.type <> null)]
 [o.type.write()/].class[else]void.class[/if][o.wca()/]
 [/template][comment superType : Expression /]
 
-[template public write(o : UnresolvedItem)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedItem)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : NamedElement /][comment subTypes : UnresolvedAnnotationDeclaration UnresolvedAnnotationTypeMemberDeclaration UnresolvedClassDeclaration UnresolvedEnumDeclaration UnresolvedInterfaceDeclaration UnresolvedLabeledStatement UnresolvedMethodDeclaration UnresolvedSingleVariableDeclaration UnresolvedType UnresolvedTypeDeclaration UnresolvedVariableDeclarationFragment /]
 
-[template public write(o : UnresolvedItemAccess)]
-[o.wc()/][if (not o.qualifier.oclIsUndefined())][o.qualifier.write()/].[/if][o.element.write()/][o.wca()/]
+[template public write(o : java::UnresolvedItemAccess)]
+[o.wc()/][if (o.qualifier <> null)][o.qualifier.write()/].[/if][o.element.write()/][o.wca()/]
 [/template][comment superType : Expression NamespaceAccess /]
 
-[template public write(o : UnresolvedAnnotationDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedAnnotationDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : AnnotationTypeDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedAnnotationTypeMemberDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedAnnotationTypeMemberDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : AnnotationTypeMemberDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedClassDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedClassDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : ClassDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedEnumDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedEnumDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : EnumDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedInterfaceDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedInterfaceDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : InterfaceDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedLabeledStatement)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedLabeledStatement)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : LabeledStatement UnresolvedItem /]
 
-[template public write(o : UnresolvedMethodDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedMethodDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : MethodDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedSingleVariableDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedSingleVariableDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : SingleVariableDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedType)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedType)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : Type UnresolvedItem /]
 
-[template public write(o : UnresolvedTypeDeclaration)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedTypeDeclaration)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : AbstractTypeDeclaration UnresolvedItem /]
 
-[template public write(o : UnresolvedVariableDeclarationFragment)]
-[o.wc()/][name/][o.wca()/]
+[template public write(o : java::UnresolvedVariableDeclarationFragment)]
+[o.wc()/][o.name/][o.wca()/]
 [/template][comment superType : VariableDeclarationFragment UnresolvedItem /]
 
-[template public write(o : VariableDeclaration)]
+[template public write(o : java::VariableDeclaration)]
 [comment defined on subtypes/]
 [/template][comment superType : NamedElement /][comment subTypes : EnumConstantDeclaration SingleVariableDeclaration VariableDeclarationFragment /]
 
-[template public write(o : VariableDeclarationFragment)]
-[o.wc()/][name/][o.writeBrackets(o.extraArrayDimensions)/][S()
-/][if (not o.initializer.oclIsUndefined())]=[o.initializer.write()/][/if][o.wca()/]
+[template public write(o : java::VariableDeclarationFragment)]
+[o.wc()/][o.name/][o.writeBrackets(o.extraArrayDimensions)/][if (o.initializer <> null)]=[o.initializer.write()/][/if][o.wca()/]
 [/template][comment superType : VariableDeclaration /][comment subTypes : UnresolvedVariableDeclarationFragment/]
 
-[template public write(o : VariableDeclarationExpression)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][o.type.write()/] [S()
-/][for (v : VariableDeclarationFragment | o.fragments) separator (',')][v.write()/][/for][o.wca()/]
+[template public write(o : java::VariableDeclarationExpression)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][o.type.write()/] [for (v : java::VariableDeclarationFragment | o.fragments) separator (',')][v.write()/][/for][o.wca()/]
 [/template][comment superType : Expression AbstractVariablesContainer /]
 
-[template public write(o : VariableDeclarationStatement)]
-[o.wc()/][if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][o.type.write()/][o.writeBrackets(o.extraArrayDimensions)/] [S()
-/][for (v : VariableDeclarationFragment | o.fragments) separator (',')][v.write()/][/for];[o.wca()/]
+[template public write(o : java::VariableDeclarationStatement)]
+[o.wc()/][if (o.annotations->size()>0)][for (n : java::Annotation | o.annotations)][n.write()/]
+[/for][/if][if (o.modifier <> null)][o.modifier.write()/][/if][o.type.write()/][o.writeBrackets(o.extraArrayDimensions)/] [for (v : java::VariableDeclarationFragment | o.fragments) separator (',')][v.write()/][/for];[o.wca()/]
 [/template][comment superType : Statement AbstractVariablesContainer /]
 
-[template public write(o : WildCardType)]
-[o.wc()/]?[if (not o.bound.oclIsUndefined())][if (o.upperBound)] extends [else] super [/if][o.bound.write()/][/if][o.wca()/]
+[template public write(o : java::WildCardType)]
+[o.wc()/]?[if (o.bound <> null)][if (o.upperBound)] extends [else] super [/if][o.bound.write()/][/if][o.wca()/]
 [/template][comment superType : Type /]
 
-[template public write(o : WhileStatement)]
+[template public write(o : java::WhileStatement)]
 [o.wc()/]while ([o.expression.write()/])
 [o._body.write()/][o.wca()/]
 [/template][comment superType : Statement /]
@@ -659,118 +604,57 @@ finally [o.finally.write()/]
 [comment ----------------------------------------------------------------- /]
 
 
-[template public javaKeyword(a : AbstractTypeDeclaration)]
-[/template]
+[template public javaKeyword(a : java::AbstractTypeDeclaration)][/template]
+[template public javaKeyword(a : java::ClassDeclaration)]class[/template]
+[template public javaKeyword(a : java::InterfaceDeclaration)]interface[/template]
+[template public javaKeyword(a : java::AnnotationTypeDeclaration)]@interface[/template]
+[template public javaKeyword(a : java::EnumDeclaration)]enum[/template]
 
-[template javaKeyword(a : ClassDeclaration)]
- class
-[/template]
+[template public writeBrackets(o : java::ASTNode, d : Integer)][if (d > 0)]['[]'/][o.writeBrackets(d - 1)/][/if][/template]
 
-[template javaKeyword(a : InterfaceDeclaration)]
- interface
-[/template]
+[template public write0(o : java::AbstractMethodInvocation)][if (o.typeArguments->size() > 0)]['<'/][for (t : java::TypeAccess | o.typeArguments) separator (', ')][t.write()/][/for]['>'/][/if][o.method.name/]['('/][for (e : java::Expression | o.arguments)][if (eIndex > 1)], [/if][e.write()/][/for][')'/][/template][comment superType : Expression AbstractMethodInvocation /]
 
-[template javaKeyword(a : AnnotationTypeDeclaration)]
- @interface
-[/template]
+[template public write0(o : java::TypeDeclaration)][for (n : java::Annotation | o.annotations)][n.write()/][/for][if (o.modifier <> null)][o.modifier.write()/][/if][o.javaKeyword()/] [o.name/][if (o.typeParameters->size() > 0)]['<'/][for (t : java::TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]['>'/][/if][/template]
 
-[template javaKeyword(a : EnumDeclaration)]
- enum
-[/template]
-
-[template public writeBrackets(o : ASTNode, d : Integer)]
-[if (d = 1)]['[]'/][/if]
-[if (d > 1)][for (i : Integer | Sequence{1..d})]['[]'/][/for][/if]
-[/template]
-
-[template public write0(o : AbstractMethodInvocation)]
-[if (o.typeArguments->notEmpty())][for (t : TypeAccess | o.typeArguments) before ('<') separator (', ') after ('>')][t.write()/][/for][/if][S()
-/][o.method.name/]([for (e : Expression | o.arguments) separator (', ')][e.write()/][/for])
-[/template][comment superType : Expression AbstractMethodInvocation /]
-
-[template public write0(o : TypeDeclaration)]
-[if (o.annotations->size()>0)][for (n : Annotation | o.annotations)][n.write()/]
-[/for][/if][if (not o.modifier.oclIsUndefined())][o.modifier.write()/][/if][S()
-/][o.javaKeyword()/] [o.name/][S()
-/][if (o.typeParameters->notEmpty())]
-<[for (t : TypeParameter | o.typeParameters) separator (', ')][t.write()/][/for]>[/if]
-[/template]
-
-[template public writeReturnType(o : AbstractMethodDeclaration)]
-[/template]
-
-[template public writeReturnType(o : MethodDeclaration)]
-[if (not o.returnType.oclIsUndefined())][o.returnType.write() after (' ')/][else]void [/if]
-[/template]
+[template public writeReturnType(o : java::AbstractMethodDeclaration)][/template]
+[template public writeReturnType(o : java::MethodDeclaration)][if (o.returnType <> null)][o.returnType.write()/] [else]void [/if][/template]
 
 [comment to manage comments before the element/]
-[template public wc(o : ASTNode)]
-[for (cm : Comment | o.comments) ? (cm.prefixOfParent)][cm.write()/]
+[template public wc(o : java::ASTNode)]
+[for (cm : java::Comment | o.comments->select(cm | cm.prefixOfParent))][cm.write()/]
 [/for]
 [/template]
 
 [comment to manage comments inside the element, specially for element that have a "body"/]
-[template public wci(o : ASTNode)]
-[for (cm : Comment | o.comments) ? (cm.enclosedByParent) ]
-
-[cm.write()/][/for][if (not (o.commentsInside()->isEmpty()))]
+[template public wci(o : java::ASTNode)]
+[for (cm : java::Comment | o.comments->select(cm | cm.enclosedByParent))]
+[cm.write()/]
+[/for]
+[if (not o.commentsInside()->isEmpty())]
 
 [/if]
 [/template]
 
-[query public commentsInside(element : ASTNode) : OrderedSet(Comment) = element.comments->select(cm | cm.enclosedByParent) /]
+[query public commentsInside(element : java::ASTNode) : OrderedSet(java::Comment) = element.comments->select(cm | cm.enclosedByParent) /]
 
 [comment to manage comments after the element/]
-
-[template public wca(o : ASTNode)]
-[for (cm : Comment | o.comments) ? (not(cm.enclosedByParent) and not(cm.prefixOfParent))]
-
-[cm.write()/][/for]
+[template public wca(o : java::ASTNode)]
+[for (cm : java::Comment | o.comments->select(cm | not cm.enclosedByParent and not cm.prefixOfParent))]
+[cm.write()/]
+[/for]
 [/template]
 
-[template public carriageReturn()]
+[template public carriageReturn()][/template]
 
-[/template]
+[template public qualifiedName(n : java::NamedElement)][n.name/][/template]
+[template public qualifiedName(t : java::AbstractTypeDeclaration)][if (t._package <> null)][t._package.qualifiedName()/].[/if][if (t.abstractTypeDeclaration <> null)][t.abstractTypeDeclaration.qualifiedName()/].[/if][t.name/][/template]
+[template public qualifiedName(b : java::BodyDeclaration)][if (b.abstractTypeDeclaration <> null)][b.abstractTypeDeclaration.qualifiedName()/].[/if][b.name/][/template]
+[template public qualifiedName(c : java::CompilationUnit)][if (c._package <> null)][c._package.qualifiedName()/].[/if][c.name/][/template]
+[template public qualifiedName(p : java::Package)][if (p._package <> null)][p._package.qualifiedName()/].[/if][p.name/][/template]
+[template public qualifiedName(v : java::VariableDeclarationFragment)][if (v.variablesContainer <> null and v.variablesContainer.oclIsTypeOf(java::FieldDeclaration))][if (v.variablesContainer.oclAsType(java::FieldDeclaration).abstractTypeDeclaration <> null)][v.variablesContainer.oclAsType(java::FieldDeclaration).abstractTypeDeclaration.qualifiedName()/].[/if][/if][v.name/][/template]
 
-[template public qualifiedName(n : NamedElement)]
-[n.name/]
-[/template]
-
-[template public qualifiedName(t : AbstractTypeDeclaration)]
-[if (not t._package.oclIsUndefined())][t._package.qualifiedName()/].[/if][S()
-/][if (not t.abstractTypeDeclaration.oclIsUndefined())][t.abstractTypeDeclaration.qualifiedName()/].[/if][S()
-/][t.name/]
-[/template]
-
-
-[template public qualifiedName(b : BodyDeclaration)]
-[if (not b.abstractTypeDeclaration.oclIsUndefined())][b.abstractTypeDeclaration.qualifiedName()/].[/if][b.name/]
-[/template]
-
-[template public qualifiedName(c : CompilationUnit)]
-[if (not c._package.oclIsUndefined())][c._package.qualifiedName()/].[/if][c.name/]
-[/template]
-
-[template public qualifiedName(p : Package)]
-[if (not p._package.oclIsUndefined())][p._package.qualifiedName()/].[/if][p.name/]
-[/template]
-
-[template public qualifiedName(v : VariableDeclarationFragment)]
-[if (not v.variablesContainer.oclIsUndefined() and v.variablesContainer.oclIsTypeOf(FieldDeclaration))
-][if (not v.variablesContainer.oclAsType(FieldDeclaration).abstractTypeDeclaration.oclIsUndefined())
-][v.variablesContainer.oclAsType(FieldDeclaration).abstractTypeDeclaration.qualifiedName()/].[/if][/if][v.name/]
-[/template]
-
-[template public qualifiedPath(n : NamedElement)]
-[n.name/]
-[/template]
-
-[template public qualifiedPath(p : Package)]
-[if (not p._package.oclIsUndefined())][p._package.qualifiedPath()/]/[/if][p.name/]
-[/template]
-
-[template public qualifiedPath(c : CompilationUnit)]
-[if (not c._package.oclIsUndefined())][c._package.qualifiedPath()/]/[/if][c.name/]
-[/template]
+[template public qualifiedPath(n : java::NamedElement)][n.name/][/template]
+[template public qualifiedPath(p : java::Package)][if (p._package <> null)][p._package.qualifiedPath()/]/[/if][p.name/][/template]
+[template public qualifiedPath(c : java::CompilationUnit)][if (c._package <> null)][c._package.qualifiedPath()/]/[/if][c.name/][/template]
 
 [template public S()][comment convenient for multi-line template writing/][/template]

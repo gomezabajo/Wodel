@@ -5,6 +5,7 @@ Bundle-SymbolicName: wodeltest.extension;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodeltest.extension.Activator
 Require-Bundle: org.eclipse.ui,
+ org.eclipse.acceleo.aql,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  wodel.extension,
@@ -14,10 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.ocl,
  org.eclipse.ocl.ecore,
- org.eclipse.acceleo.common;bundle-version="3.3.0",
- org.eclipse.acceleo.model;bundle-version="3.3.0",
- org.eclipse.acceleo.profiler;bundle-version="3.3.0",
- org.eclipse.acceleo.engine;bundle-version="3.3.0",
  wodel.utils,
  com.google.guava,
  org.eclipse.modisco.infra.common.core,
@@ -32,4 +29,4 @@ Export-Package: wodeltest.extension,
  wodeltest.extension.run.commands,
  wodeltest.extension.utils
 Bundle-ClassPath: .,
- lib/org.eclipse.modisco.java.generation_1.5.5.v20250214-1552.jar
+ lib/org.eclipse.modisco.java.generation_1.6.0.v20260303-1546.jar

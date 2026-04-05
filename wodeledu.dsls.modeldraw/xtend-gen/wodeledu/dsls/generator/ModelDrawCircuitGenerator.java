@@ -4,7 +4,10 @@ import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.List;
 import modeldraw.MutatorDraw;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -41,6 +44,27 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
 
   private List<EClass> roots;
 
+  private IProject project;
+
+  private String projectName;
+
+  public static IProject projectOf(final Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
+  }
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
@@ -60,6 +84,21 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
       String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
       String _plus = (_replaceAll + ".draw");
       this.fileName = _plus;
+      this.project = ModelDrawCircuitGenerator.projectOf(resource);
+      IProject _xifexpression = null;
+      if ((this.project != null)) {
+        _xifexpression = this.project;
+      } else {
+        _xifexpression = ProjectUtils.getProject();
+      }
+      this.project = _xifexpression;
+      String _xifexpression_1 = null;
+      if ((this.project != null)) {
+        _xifexpression_1 = this.project.getName();
+      } else {
+        _xifexpression_1 = null;
+      }
+      this.projectName = _xifexpression_1;
       Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
       for (final MutatorDraw e : _filter) {
         {
@@ -1044,7 +1083,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.19.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");
@@ -1178,16 +1217,22 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("String projectName = ProjectUtils.getProject().getName();");
-    _builder.newLine();
+    _builder.append("String projectName = \"");
+    _builder.append(this.projectName, "\t\t\t");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("List<String> models = ModelManager.getModels();");
-    _builder.newLine();
+    _builder.append("List<String> models = ModelManager.getModels(");
+    _builder.append(this.className, "\t\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
-    _builder.append("List<String> mutants = ModelManager.getMutants();");
-    _builder.newLine();
+    _builder.append("List<String> mutants = ModelManager.getMutants(");
+    _builder.append(this.className, "\t\t\t");
+    _builder.append("Draw.class);");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
@@ -1394,7 +1439,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.19.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");
@@ -1686,7 +1731,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("batwriter.println(\"cd batik\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t\t");
-    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.18.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
+    _builder.append("batwriter.println(\"java -jar batik-rasterizer-1.19.jar -m image/png -d \" + pngfile + \" \" +  svgfile + \" 2>&1\");");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t\t\t");
     _builder.append("batwriter.println(\"exit\");");
@@ -1843,7 +1888,7 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);");
+    _builder.append("ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("monitor.run(true, true, runMutatorDrawWithProgress);");
@@ -1878,22 +1923,25 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public void run(IProject project, String filename) {");
+    _builder.append("@Override");
     _builder.newLine();
-    _builder.append("\t       ");
-    _builder.append("activeDisplay = new Display();");
-    _builder.newLine();
-    _builder.append("\t       ");
-    _builder.append("activeShell = new Shell(activeDisplay);");
+    _builder.append("\t");
+    _builder.append("public void run() {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("try {");
     _builder.newLine();
-    _builder.append("\t\t       ");
+    _builder.append("\t\t\t");
     _builder.append("execute(null);");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("} catch (ExecutionException e) {");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("catch (ExecutionException e) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("// TODO Auto-generated catch block");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("e.printStackTrace();");
@@ -1901,11 +1949,10 @@ public class ModelDrawCircuitGenerator extends AbstractGenerator {
     _builder.append("\t\t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("//update(project, filename);");
-    _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();

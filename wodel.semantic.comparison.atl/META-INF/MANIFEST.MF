@@ -16,4 +16,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: wodel.semantic.comparison.atl
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- lib/xmlunit-core-2.6.0.jar
+ lib/xmlunit-core-2.11.0.jar

@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
@@ -1592,11 +1593,15 @@ public class ModelManager {
 	public static List<String> getModels() {
 		List<String> modelpaths = null;
 		try {
-			String path = "";
-			if (ProjectUtils.getProject() != null) {
-				path = ProjectUtils.getProject().getLocation().toFile().getPath();
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject();
+			if (project == null) {
+				project = ProjectUtils.getProject();
 			}
-			if (path.length() == 0) {
+			if (project == null) {
+				return modelpaths;
+			}
+			String path = project.getLocation().toFile().getPath();
+			if (path == null || path.length() == 0) {
 				return modelpaths;
 			}
 			BufferedReader br = new BufferedReader(new FileReader(path
@@ -1620,7 +1625,7 @@ public class ModelManager {
 		}
 		return modelpaths;
 	}
-	
+
 	private static List<String> getMutantsFromFolder(File folder) {
 		List<String> mutantpaths = new ArrayList<String>();
 		if (folder != null && folder.listFiles() != null && !folder.getName().equals("registry") && !(folder.getName().startsWith("Output") && folder.getName().endsWith("vs"))) {

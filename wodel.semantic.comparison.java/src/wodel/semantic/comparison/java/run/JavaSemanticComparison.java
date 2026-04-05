@@ -247,12 +247,14 @@ public class JavaSemanticComparison extends SemanticComparison {
 				//GET BYTECODE FOR MUTANT PROGRAM
 				String className = mutantName;
 				if (className.indexOf(".") != - 1) {
-					className = className.substring(className.indexOf(".") + 1, className.length());
+					className = className.substring(className.lastIndexOf(".") + 1, className.length());
 				}
 				String javaFileName = className + ".java";
 				String srcJavaFilePath = project.getLocation().toFile().getPath() + "/src/" + packageName + "/" + javaFileName;
 				String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
-				IOUtils.copyFile(srcJavaFilePath, newSrcPath);
+				if (new File(srcJavaFilePath).exists()) {
+					IOUtils.copyFile(srcJavaFilePath, newSrcPath);
+				}
 				mutantName = model2.replace("\\", "/");
 				String block = mutantName.substring(0, mutantName.lastIndexOf("Output") - 1);
 				if (block.indexOf("/") != -1) {

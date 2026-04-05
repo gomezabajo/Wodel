@@ -18645,6 +18645,15 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("    ");
         _builder.append("for (int obn = 0; obn < objects.size(); obn++) {");
         _builder.newLine();
+        _builder.append("    \t");
+        _builder.append("for (String targetType : targetTypes) {");
+        _builder.newLine();
+        _builder.append("    \t\t");
+        _builder.append("List<String> tTypes = new ArrayList<String>();");
+        _builder.newLine();
+        _builder.append("    \t\t");
+        _builder.append("tTypes.add(targetType);");
+        _builder.newLine();
         _builder.append("\t");
         _builder.append("Resource m = EMFCopier.copyResource(model);");
         _builder.newLine();
@@ -18829,7 +18838,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if (_tripleNotEquals_6) {
         {
           if (((((mut.getObject() instanceof RandomTypeSelection) || (mut.getObject() instanceof CompleteTypeSelection)) || (mut.getObject() instanceof SpecificObjectSelection)) || (mut.getObject() instanceof SpecificClosureSelection))) {
-            _builder.append("RetypeObjectMutator mut = new RetypeObjectMutator(model, packages, objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, targetTypes);");
+            _builder.append("RetypeObjectMutator mut = new RetypeObjectMutator(model, packages, objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, tTypes);");
             _builder.newLine();
           }
         }
@@ -18841,7 +18850,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if (_tripleEquals_3) {
         {
           if (((((mut.getObject() instanceof RandomTypeSelection) || (mut.getObject() instanceof CompleteTypeSelection)) || (mut.getObject() instanceof SpecificObjectSelection)) || (mut.getObject() instanceof SpecificClosureSelection))) {
-            _builder.append("RetypeObjectMutator mut = new RetypeObjectMutator(m, packages, obSelection.getObject(), rSelection, cSelection, atts, refs, targetTypes);");
+            _builder.append("RetypeObjectMutator mut = new RetypeObjectMutator(m, packages, obSelection.getObject(), rSelection, cSelection, atts, refs, tTypes);");
             _builder.newLine();
           }
         }
@@ -19178,6 +19187,9 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("muts.getMuts().clear();");
         _builder.newLine();
         _builder.append("\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("}");
         _builder.newLine();
         {

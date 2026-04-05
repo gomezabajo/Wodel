@@ -186,7 +186,7 @@ public class EclipseHelper {
 
 			if (extensionName != null) {
 				if (extensionName.equals("Wodel-Edu: Environment for the automated generation and evaluation of exercises")) {
-					String plantUMLlib = "plantuml-epl-1.2023.13.jar";
+					String plantUMLlib = "plantuml-epl-1.2026.2.jar";
 					libFolder = project.getFolder("lib");
 					if (!libFolder.exists()) {
 						libFolder.create(true, true, progressMonitor);

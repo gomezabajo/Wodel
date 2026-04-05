@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.util.EcoreUtil
 import edutest.MarkedBlock
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.resources.IProject
 
 /**
  * @author Pablo Gomez-Abajo
@@ -151,10 +153,21 @@ class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
 		}
 		return roots
 	}
+	
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
 
 	def private List<Block> getBlocks(MarkedBlock mb) {
 		var xmiFileName = ""
-		if (ProjectUtils.getProject !== null) {
+		var IProject project = projectOf(mb.eResource)
+		project = project !== null ? project : ProjectUtils.project
+		if (project !== null) {
 			xmiFileName = ProjectUtils.getProject.getLocation.toFile.getPath.replace("\\", "/") + '/' + ModelManager.getOutputFolder + '/' + mb.eResource.URI.lastSegment.replaceAll(".test", ".model")
 		}
 		else {

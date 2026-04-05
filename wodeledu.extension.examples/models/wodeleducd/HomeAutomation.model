@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umldiagram:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umldiagram="http://UMLDiagram/1.0" xsi:schemaLocation="http://UMLDiagram/1.0 umldiagram.ecore" xmi:id="_HARoot001">
+  <classdiagram xmi:id="_HAClassDiagram001">
+    <classes xmi:id="_HADevice" name="Device" abstract="true" subclasses="_HASensor _HAActuator"/>
+    <classes xmi:id="_HASensor" name="Sensor" abstract="true" superclass="_HADevice" subclasses="_HATempSensor _HAMotionSensor"/>
+    <classes xmi:id="_HAActuator" name="Actuator" abstract="true" superclass="_HADevice" subclasses="_HALight _HADoorLock"/>
+    <classes xmi:id="_HATempSensor" name="TemperatureSensor" superclass="_HASensor"/>
+    <classes xmi:id="_HAMotionSensor" name="MotionSensor" superclass="_HASensor"/>
+    <classes xmi:id="_HALight" name="Light" superclass="_HAActuator"/>
+    <classes xmi:id="_HADoorLock" name="DoorLock" superclass="_HAActuator"/>
+    <classes xmi:id="_HARoom" name="Room"/>
+    <classes xmi:id="_HAHouse" name="House"/>
+    <compositions xmi:id="_HAComp1" name="rooms" constituent="_HAHouse" composite="_HARoom" multiplicitySource="1" multiplicityTarget="*"/>
+    <aggregations xmi:id="_HAAgg1" name="devices" source="_HARoom" target="_HADevice" multiplicitySource="1" multiplicityTarget="*"/>
+  </classdiagram>
+</umldiagram:UMLDiagram>

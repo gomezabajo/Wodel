@@ -39,13 +39,12 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 	private String projectName
 	private String workspacePath
 	
-	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		ProjectUtils.setProject(null)
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
-		project = ProjectUtils.getProject()
+		project = projectOf(resource)
+		project = project !== null ? project : ProjectUtils.project
 		projectName = project !== null ? project.getName() : null
 		workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
@@ -63,6 +62,15 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
 		}
+	}
+	
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
 	}
 
 	def generate(MutatorDraw draw, String folder, int index) '''
@@ -217,7 +225,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					}
 				}
 				
-							«var String folder = workspacePath + "/" + projectName + "/"»
+				«var String folder = workspacePath + "/" + projectName + "/"»
 				private void generateUMLNodes(List<EPackage> packages, Resource model, Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes, Map<Integer, Map<EObject, Map<String, List<LabelStyle>>>> umlrels, Map<String, Integer> id) {
 					// COUNTER: «var int counter = 0»
 					Map<EObject, List<LabelStyle>> localnodes = null;
@@ -385,7 +393,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 									if (attName.length() > 0 && typeName.length() > 0) {
 										LabelStyle label = new LabelStyle();
 										label.label = "";
-										label.name = getOrdinalFor(j) + " : -" + attName + " = " + quote + attValues.get(k) + quote;
+										label.name = getOrdinalFor(j) + " : -" + attName + " = " + quote + (attValues.size() > k ? attValues.get(k) : "") + quote;
 										List<LabelStyle> labelList = new ArrayList<LabelStyle>();
 										if (localnodes.get(node) != null) {
 											labelList = localnodes.get(node);
@@ -646,7 +654,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 										}
 										umlwriter.close();
 										try {
-											SourceFileReader reader = new SourceFileReader(new File(umlfile));
+											SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
 											List<GeneratedImage> list = reader.getGeneratedImages();
 											File umlpng = list.get(0).getPngFile();
 											umlpng.createNewFile();
@@ -679,9 +687,9 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 							
 							String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
 							List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-							String projectName = ProjectUtils.getProject().getName();
-							List<String> models = ModelManager.getModels();
-							List<String> mutants = ModelManager.getMutants();
+							String projectName = "«projectName»";
+							List<String> models = ModelManager.getModels(«className»Draw.class);
+							List<String> mutants = ModelManager.getMutants(«className»Draw.class);
 											
 							int totalTasks = (models.size() + mutants.size()) * «draw.instances.size()»;
 										
@@ -731,7 +739,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 									continue;
 								}
 								try {
-									SourceFileReader reader = new SourceFileReader(new File(umlfile));
+									SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
 									List<GeneratedImage> list = reader.getGeneratedImages();
 									File umlpng = list.get(0).getPngFile();
 									umlpng.createNewFile();
@@ -796,7 +804,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 														continue;
 													}
 													try {
-														SourceFileReader reader = new SourceFileReader(new File(umlfile));
+														SourceFileReader reader = new SourceFileReader(false, new File(umlfile));
 														List<GeneratedImage> list = reader.getGeneratedImages();
 														File umlpng = list.get(0).getPngFile();
 														umlpng.createNewFile();
@@ -836,7 +844,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				public Object execute(ExecutionEvent event) throws ExecutionException {
 					try {
 						RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();
-						ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);
+						ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
 						monitor.run(true, true, runMutatorDrawWithProgress);
 					} catch (InvocationTargetException e) {
 						// TODO Auto-generated catch block
@@ -847,17 +855,16 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 					}
 					return null;
 				}
-					
-				public void run(IProject project, String filename) {
-					activeDisplay = new Display();
-					   activeShell = new Shell(activeDisplay);
-					try {
-						execute(null);
-					} catch (ExecutionException e) {
-						e.printStackTrace();
-					}
-					//update(project, filename);
+			@Override
+			public void run() {
+				try {
+					execute(null);
 				}
+				catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			}
+			}
 			'''
 }

@@ -152,7 +152,7 @@ public class EclipseHelper {
 			if (!libFolder.exists()) {
 				libFolder.create(true, true, progressMonitor);
 			}
-			String plantUMLlib = "lib/plantuml-epl-1.2023.13.jar";
+			String plantUMLlib = "lib/plantuml-epl-1.2026.2.jar";
 			//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
 			@SuppressWarnings("restriction")
 			IClasspathEntry plantUMLLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(

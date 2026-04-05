@@ -108,7 +108,7 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     	addField(combo);
     	
     	composite = getFieldEditorParent();
-		values = new String[4][2];
+		values = new String[5][2];
 		values[0][0] = "";
 		values[0][1] = "";
 		values[1][0] = "Dot";
@@ -117,6 +117,8 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 		values[2][1] = "Circuit";
 		values[3][0] = "PlantUML";
 		values[3][1] = "PlantUML";
+		values[4][0] = "PyCode";
+		values[4][1] = "PyCode";
 
     	new LabelFieldEditor(" \n\n", composite);
 		new LabelFieldEditor("\n\nModel-Draw mode", composite);
@@ -154,6 +156,10 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
 			case "http://UMLDiagram/1.0":
 				extension = WodelEduExtension.UML;
 				preferenceStore.setDefault("Model-Draw mode", "PlantUML");
+				break;
+			case "http://www.python.org/pythonast/3.14":
+				extension = WodelEduExtension.UML;
+				preferenceStore.setDefault("Model-Draw mode", "PyCode");
 				break;
 			default:
 				return;
@@ -254,6 +260,9 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     		break;
     	case UML:
     		preferenceStore.setDefault("Model-Draw mode", "PlantUML");
+    		break;
+    	case PY:
+    		preferenceStore.setDefault("Model-Draw mode", "PyCode");
     		break;
     	default:
     		return;

@@ -59,7 +59,10 @@ import mutatorenvironment.miniOCL.InvariantCS;
 import mutatorenvironment.miniOCL.NameExpCS;
 import mutatorenvironment.miniOCL.PathCS;
 import mutatorenvironment.miniOCL.PathElementCS;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -2773,6 +2776,23 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     return _xblockexpression;
   }
 
+  public static IProject projectOf(final org.eclipse.emf.ecore.resource.Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
+  }
+
   /**
    * Helper to get all the EClasses contained in the processed models.
    */
@@ -2785,19 +2805,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
-      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-      String _plus = (_path + "/");
-      String _path_1 = program.getSource().getPath();
-      String _plus_1 = (_plus + _path_1);
-      final File[] files = new File(_plus_1).listFiles();
-      for (final File file : files) {
-        boolean _isFile = file.isFile();
-        boolean _equals = (_isFile == true);
-        if (_equals) {
-          boolean _endsWith_2 = file.getPath().endsWith(".model");
-          boolean _equals_1 = (_endsWith_2 == true);
-          if (_equals_1) {
-            scope.addAll(this.getModelEClasses(definition, file.getPath()));
+      IProject project = WodelScopeProvider.projectOf(program.eResource());
+      IProject _xifexpression = null;
+      if ((project != null)) {
+        _xifexpression = project;
+      } else {
+        _xifexpression = ProjectUtils.getProject();
+      }
+      project = _xifexpression;
+      if ((project != null)) {
+        String _path = project.getLocation().toFile().getPath();
+        String _plus = (_path + "/");
+        String _path_1 = program.getSource().getPath();
+        String _plus_1 = (_plus + _path_1);
+        final File[] files = new File(_plus_1).listFiles();
+        for (final File file : files) {
+          boolean _isFile = file.isFile();
+          boolean _equals = (_isFile == true);
+          if (_equals) {
+            boolean _endsWith_2 = file.getPath().endsWith(".model");
+            boolean _equals_1 = (_endsWith_2 == true);
+            if (_equals_1) {
+              scope.addAll(this.getModelEClasses(definition, file.getPath()));
+            }
           }
         }
       }
@@ -2965,64 +2995,84 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus = (_path + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            final String model = (_plus + _path_1);
-            final List<EClass> classes = this.getModelEClasses(definition, model);
-            final List<String> sclasses = new ArrayList<String>();
-            for (final EClassifier cl : classes) {
-              sclasses.add(cl.getName());
+            IProject project = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_1 = null;
+            if ((project != null)) {
+              _xifexpression_1 = project;
+            } else {
+              _xifexpression_1 = ProjectUtils.getProject();
             }
-            {
-              final List<Mutator> objects = new ArrayList<Mutator>();
-              for (final Mutator mutator : commands) {
-                if (((((mutator.getName() != null) && 
-                  (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                  sclasses.contains(mutator.getType().getName()))) {
-                  objects.add(mutator);
-                }
+            project = _xifexpression_1;
+            if ((project != null)) {
+              String _path = project.getLocation().toFile().getPath();
+              String _plus = (_path + "/");
+              String _path_1 = ((Program)definition).getSource().getPath();
+              final String model = (_plus + _path_1);
+              final List<EClass> classes = this.getModelEClasses(definition, model);
+              final List<String> sclasses = new ArrayList<String>();
+              for (final EClassifier cl : classes) {
+                sclasses.add(cl.getName());
               }
-              scope.addAll(objects);
+              {
+                final List<Mutator> objects = new ArrayList<Mutator>();
+                for (final Mutator mutator : commands) {
+                  if (((((mutator.getName() != null) && 
+                    (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                    sclasses.contains(mutator.getType().getName()))) {
+                    objects.add(mutator);
+                  }
+                }
+                scope.addAll(objects);
+              }
             }
           }
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus_1 = (_path_2 + "/");
-            String _path_3 = ((Program)definition).getSource().getPath();
-            String _plus_2 = (_plus_1 + _path_3);
-            final File[] files = new File(_plus_2).listFiles();
-            for (final File file : files) {
-              boolean _isFile = file.isFile();
-              boolean _equals = (_isFile == true);
-              if (_equals) {
-                boolean _endsWith_2 = file.getPath().endsWith(".model");
-                boolean _equals_1 = (_endsWith_2 == true);
-                if (_equals_1) {
-                  models.add(file.getPath());
+            IProject project_1 = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_2 = null;
+            if ((project_1 != null)) {
+              _xifexpression_2 = project_1;
+            } else {
+              _xifexpression_2 = ProjectUtils.getProject();
+            }
+            project_1 = _xifexpression_2;
+            if ((project_1 != null)) {
+              String _path_2 = project_1.getLocation().toFile().getPath();
+              String _plus_1 = (_path_2 + "/");
+              String _path_3 = ((Program)definition).getSource().getPath();
+              String _plus_2 = (_plus_1 + _path_3);
+              final File[] files = new File(_plus_2).listFiles();
+              for (final File file : files) {
+                boolean _isFile = file.isFile();
+                boolean _equals = (_isFile == true);
+                if (_equals) {
+                  boolean _endsWith_2 = file.getPath().endsWith(".model");
+                  boolean _equals_1 = (_endsWith_2 == true);
+                  if (_equals_1) {
+                    models.add(file.getPath());
+                  }
                 }
               }
-            }
-            final List<EClass> classes_1 = new ArrayList<EClass>();
-            for (final String model_1 : models) {
-              classes_1.addAll(this.getModelEClasses(definition, model_1));
-            }
-            final List<String> sclasses_1 = new ArrayList<String>();
-            for (final EClassifier cl_1 : classes_1) {
-              sclasses_1.add(cl_1.getName());
-            }
-            {
-              final List<Mutator> objects = new ArrayList<Mutator>();
-              for (final Mutator mutator : commands) {
-                if (((((mutator.getName() != null) && 
-                  (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                  sclasses_1.contains(mutator.getType().getName()))) {
-                  objects.add(mutator);
-                }
+              final List<EClass> classes_1 = new ArrayList<EClass>();
+              for (final String model_1 : models) {
+                classes_1.addAll(this.getModelEClasses(definition, model_1));
               }
-              scope.addAll(objects);
+              final List<String> sclasses_1 = new ArrayList<String>();
+              for (final EClassifier cl_1 : classes_1) {
+                sclasses_1.add(cl_1.getName());
+              }
+              {
+                final List<Mutator> objects = new ArrayList<Mutator>();
+                for (final Mutator mutator : commands) {
+                  if (((((mutator.getName() != null) && 
+                    (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                    sclasses_1.contains(mutator.getType().getName()))) {
+                    objects.add(mutator);
+                  }
+                }
+                scope.addAll(objects);
+              }
             }
           }
           _xblockexpression_1 = Scopes.scopeFor(scope);
@@ -3052,64 +3102,84 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus = (_path + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            final String model = (_plus + _path_1);
-            final List<EClass> classes = this.getModelEClasses(definition, model);
-            final List<String> sclasses = new ArrayList<String>();
-            for (final EClassifier cl : classes) {
-              sclasses.add(cl.getName());
+            IProject project = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_1 = null;
+            if ((project != null)) {
+              _xifexpression_1 = project;
+            } else {
+              _xifexpression_1 = ProjectUtils.getProject();
             }
-            {
-              final List<Mutator> objects = new ArrayList<Mutator>();
-              for (final Mutator mutator : commands) {
-                if (((((mutator.getName() != null) && 
-                  (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                  sclasses.contains(mutator.getType().getName()))) {
-                  objects.add(mutator);
-                }
+            project = _xifexpression_1;
+            if ((project != null)) {
+              String _path = project.getLocation().toFile().getPath();
+              String _plus = (_path + "/");
+              String _path_1 = ((Program)definition).getSource().getPath();
+              final String model = (_plus + _path_1);
+              final List<EClass> classes = this.getModelEClasses(definition, model);
+              final List<String> sclasses = new ArrayList<String>();
+              for (final EClassifier cl : classes) {
+                sclasses.add(cl.getName());
               }
-              scope.addAll(objects);
+              {
+                final List<Mutator> objects = new ArrayList<Mutator>();
+                for (final Mutator mutator : commands) {
+                  if (((((mutator.getName() != null) && 
+                    (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                    sclasses.contains(mutator.getType().getName()))) {
+                    objects.add(mutator);
+                  }
+                }
+                scope.addAll(objects);
+              }
             }
           }
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus_1 = (_path_2 + "/");
-            String _path_3 = ((Program)definition).getSource().getPath();
-            String _plus_2 = (_plus_1 + _path_3);
-            final File[] files = new File(_plus_2).listFiles();
-            for (final File file : files) {
-              boolean _isFile = file.isFile();
-              boolean _equals = (_isFile == true);
-              if (_equals) {
-                boolean _endsWith_2 = file.getPath().endsWith(".model");
-                boolean _equals_1 = (_endsWith_2 == true);
-                if (_equals_1) {
-                  models.add(file.getPath());
+            IProject project_1 = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_2 = null;
+            if ((project_1 != null)) {
+              _xifexpression_2 = project_1;
+            } else {
+              _xifexpression_2 = ProjectUtils.getProject();
+            }
+            project_1 = _xifexpression_2;
+            if ((project_1 != null)) {
+              String _path_2 = project_1.getLocation().toFile().getPath();
+              String _plus_1 = (_path_2 + "/");
+              String _path_3 = ((Program)definition).getSource().getPath();
+              String _plus_2 = (_plus_1 + _path_3);
+              final File[] files = new File(_plus_2).listFiles();
+              for (final File file : files) {
+                boolean _isFile = file.isFile();
+                boolean _equals = (_isFile == true);
+                if (_equals) {
+                  boolean _endsWith_2 = file.getPath().endsWith(".model");
+                  boolean _equals_1 = (_endsWith_2 == true);
+                  if (_equals_1) {
+                    models.add(file.getPath());
+                  }
                 }
               }
-            }
-            final List<EClass> classes_1 = new ArrayList<EClass>();
-            for (final String model_1 : models) {
-              classes_1.addAll(this.getModelEClasses(definition, model_1));
-            }
-            final List<String> sclasses_1 = new ArrayList<String>();
-            for (final EClassifier cl_1 : classes_1) {
-              sclasses_1.add(cl_1.getName());
-            }
-            {
-              final List<Mutator> objects = new ArrayList<Mutator>();
-              for (final Mutator mutator : commands) {
-                if (((((mutator.getName() != null) && 
-                  (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                  sclasses_1.contains(mutator.getType().getName()))) {
-                  objects.add(mutator);
-                }
+              final List<EClass> classes_1 = new ArrayList<EClass>();
+              for (final String model_1 : models) {
+                classes_1.addAll(this.getModelEClasses(definition, model_1));
               }
-              scope.addAll(objects);
+              final List<String> sclasses_1 = new ArrayList<String>();
+              for (final EClassifier cl_1 : classes_1) {
+                sclasses_1.add(cl_1.getName());
+              }
+              {
+                final List<Mutator> objects = new ArrayList<Mutator>();
+                for (final Mutator mutator : commands) {
+                  if (((((mutator.getName() != null) && 
+                    (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                    sclasses_1.contains(mutator.getType().getName()))) {
+                    objects.add(mutator);
+                  }
+                }
+                scope.addAll(objects);
+              }
             }
           }
           _xblockexpression_1 = Scopes.scopeFor(scope);
@@ -3201,19 +3271,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     boolean _endsWith_1 = program.getSource().getPath().endsWith("/");
     if (_endsWith_1) {
-      String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-      String _plus = (_path + "/");
-      String _path_1 = program.getSource().getPath();
-      String _plus_1 = (_plus + _path_1);
-      final File[] files = new File(_plus_1).listFiles();
-      for (final File file : files) {
-        boolean _isFile = file.isFile();
-        boolean _equals = (_isFile == true);
-        if (_equals) {
-          boolean _endsWith_2 = file.getPath().endsWith(".model");
-          boolean _equals_1 = (_endsWith_2 == true);
-          if (_equals_1) {
-            scope.addAll(this.getModelESources(definition, file.getPath(), refTypeName));
+      IProject project = WodelScopeProvider.projectOf(program.eResource());
+      IProject _xifexpression = null;
+      if ((project != null)) {
+        _xifexpression = project;
+      } else {
+        _xifexpression = ProjectUtils.getProject();
+      }
+      project = _xifexpression;
+      if ((project != null)) {
+        String _path = project.getLocation().toFile().getPath();
+        String _plus = (_path + "/");
+        String _path_1 = program.getSource().getPath();
+        String _plus_1 = (_plus + _path_1);
+        final File[] files = new File(_plus_1).listFiles();
+        for (final File file : files) {
+          boolean _isFile = file.isFile();
+          boolean _equals = (_isFile == true);
+          if (_equals) {
+            boolean _endsWith_2 = file.getPath().endsWith(".model");
+            boolean _equals_1 = (_endsWith_2 == true);
+            if (_equals_1) {
+              scope.addAll(this.getModelESources(definition, file.getPath(), refTypeName));
+            }
           }
         }
       }
@@ -3410,61 +3490,81 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus = (_path + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            final String model = (_plus + _path_1);
-            final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
-            final List<String> scontainers = new ArrayList<String>();
-            for (final EClassifier cl : containers) {
-              scontainers.add(cl.getName());
+            IProject project = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_1 = null;
+            if ((project != null)) {
+              _xifexpression_1 = project;
+            } else {
+              _xifexpression_1 = ProjectUtils.getProject();
             }
-            final List<Mutator> objects = new ArrayList<Mutator>();
-            for (final Mutator mutator : commands) {
-              if (((((mutator.getName() != null) && 
-                (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                scontainers.contains(mutator.getType().getName()))) {
-                objects.add(mutator);
+            project = _xifexpression_1;
+            if ((project != null)) {
+              String _path = project.getLocation().toFile().getPath();
+              String _plus = (_path + "/");
+              String _path_1 = ((Program)definition).getSource().getPath();
+              final String model = (_plus + _path_1);
+              final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
+              final List<String> scontainers = new ArrayList<String>();
+              for (final EClassifier cl : containers) {
+                scontainers.add(cl.getName());
               }
+              final List<Mutator> objects = new ArrayList<Mutator>();
+              for (final Mutator mutator : commands) {
+                if (((((mutator.getName() != null) && 
+                  (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                  scontainers.contains(mutator.getType().getName()))) {
+                  objects.add(mutator);
+                }
+              }
+              scope.addAll(objects);
             }
-            scope.addAll(objects);
           }
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus_1 = (_path_2 + "/");
-            String _path_3 = ((Program)definition).getSource().getPath();
-            String _plus_2 = (_plus_1 + _path_3);
-            final File[] files = new File(_plus_2).listFiles();
-            for (final File file : files) {
-              boolean _isFile = file.isFile();
-              boolean _equals = (_isFile == true);
-              if (_equals) {
-                boolean _endsWith_2 = file.getPath().endsWith(".model");
-                boolean _equals_1 = (_endsWith_2 == true);
-                if (_equals_1) {
-                  models.add(file.getPath());
+            IProject project_1 = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_2 = null;
+            if ((project_1 != null)) {
+              _xifexpression_2 = project_1;
+            } else {
+              _xifexpression_2 = ProjectUtils.getProject();
+            }
+            project_1 = _xifexpression_2;
+            if ((project_1 != null)) {
+              String _path_2 = project_1.getLocation().toFile().getPath();
+              String _plus_1 = (_path_2 + "/");
+              String _path_3 = ((Program)definition).getSource().getPath();
+              String _plus_2 = (_plus_1 + _path_3);
+              final File[] files = new File(_plus_2).listFiles();
+              for (final File file : files) {
+                boolean _isFile = file.isFile();
+                boolean _equals = (_isFile == true);
+                if (_equals) {
+                  boolean _endsWith_2 = file.getPath().endsWith(".model");
+                  boolean _equals_1 = (_endsWith_2 == true);
+                  if (_equals_1) {
+                    models.add(file.getPath());
+                  }
                 }
               }
-            }
-            final List<EClass> containers_1 = new ArrayList<EClass>();
-            for (final String model_1 : models) {
-              containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
-            }
-            final List<String> scontainers_1 = new ArrayList<String>();
-            for (final EClassifier cl_1 : containers_1) {
-              scontainers_1.add(cl_1.getName());
-            }
-            final List<Mutator> objects_1 = new ArrayList<Mutator>();
-            for (final Mutator mutator_1 : commands) {
-              if (((((mutator_1.getName() != null) && 
-                (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
-                scontainers_1.contains(mutator_1.getType().getName()))) {
-                objects_1.add(mutator_1);
+              final List<EClass> containers_1 = new ArrayList<EClass>();
+              for (final String model_1 : models) {
+                containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
               }
+              final List<String> scontainers_1 = new ArrayList<String>();
+              for (final EClassifier cl_1 : containers_1) {
+                scontainers_1.add(cl_1.getName());
+              }
+              final List<Mutator> objects_1 = new ArrayList<Mutator>();
+              for (final Mutator mutator_1 : commands) {
+                if (((((mutator_1.getName() != null) && 
+                  (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
+                  scontainers_1.contains(mutator_1.getType().getName()))) {
+                  objects_1.add(mutator_1);
+                }
+              }
+              scope.addAll(objects_1);
             }
-            scope.addAll(objects_1);
           }
           _xblockexpression_1 = Scopes.scopeFor(scope);
         }
@@ -3493,61 +3593,81 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = ((Program)definition).getSource().getPath().endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
-            String _path = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus = (_path + "/");
-            String _path_1 = ((Program)definition).getSource().getPath();
-            final String model = (_plus + _path_1);
-            final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
-            final List<String> scontainers = new ArrayList<String>();
-            for (final EClassifier cl : containers) {
-              scontainers.add(cl.getName());
+            IProject project = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_1 = null;
+            if ((project != null)) {
+              _xifexpression_1 = project;
+            } else {
+              _xifexpression_1 = ProjectUtils.getProject();
             }
-            final List<Mutator> objects = new ArrayList<Mutator>();
-            for (final Mutator mutator : commands) {
-              if (((((mutator.getName() != null) && 
-                (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
-                scontainers.contains(mutator.getType().getName()))) {
-                objects.add(mutator);
+            project = _xifexpression_1;
+            if ((project != null)) {
+              String _path = project.getLocation().toFile().getPath();
+              String _plus = (_path + "/");
+              String _path_1 = ((Program)definition).getSource().getPath();
+              final String model = (_plus + _path_1);
+              final List<EClass> containers = this.getModelESources(definition, model, com.getRefType().getName());
+              final List<String> scontainers = new ArrayList<String>();
+              for (final EClassifier cl : containers) {
+                scontainers.add(cl.getName());
               }
+              final List<Mutator> objects = new ArrayList<Mutator>();
+              for (final Mutator mutator : commands) {
+                if (((((mutator.getName() != null) && 
+                  (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+                  scontainers.contains(mutator.getType().getName()))) {
+                  objects.add(mutator);
+                }
+              }
+              scope.addAll(objects);
             }
-            scope.addAll(objects);
           }
           boolean _endsWith_1 = ((Program)definition).getSource().getPath().endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
-            String _path_2 = ProjectUtils.getProject().getLocation().toFile().getPath();
-            String _plus_1 = (_path_2 + "/");
-            String _path_3 = ((Program)definition).getSource().getPath();
-            String _plus_2 = (_plus_1 + _path_3);
-            final File[] files = new File(_plus_2).listFiles();
-            for (final File file : files) {
-              boolean _isFile = file.isFile();
-              boolean _equals = (_isFile == true);
-              if (_equals) {
-                boolean _endsWith_2 = file.getPath().endsWith(".model");
-                boolean _equals_1 = (_endsWith_2 == true);
-                if (_equals_1) {
-                  models.add(file.getPath());
+            IProject project_1 = WodelScopeProvider.projectOf(com.eResource());
+            IProject _xifexpression_2 = null;
+            if ((project_1 != null)) {
+              _xifexpression_2 = project_1;
+            } else {
+              _xifexpression_2 = ProjectUtils.getProject();
+            }
+            project_1 = _xifexpression_2;
+            if ((project_1 != null)) {
+              String _path_2 = project_1.getLocation().toFile().getPath();
+              String _plus_1 = (_path_2 + "/");
+              String _path_3 = ((Program)definition).getSource().getPath();
+              String _plus_2 = (_plus_1 + _path_3);
+              final File[] files = new File(_plus_2).listFiles();
+              for (final File file : files) {
+                boolean _isFile = file.isFile();
+                boolean _equals = (_isFile == true);
+                if (_equals) {
+                  boolean _endsWith_2 = file.getPath().endsWith(".model");
+                  boolean _equals_1 = (_endsWith_2 == true);
+                  if (_equals_1) {
+                    models.add(file.getPath());
+                  }
                 }
               }
-            }
-            final List<EClass> containers_1 = new ArrayList<EClass>();
-            for (final String model_1 : models) {
-              containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
-            }
-            final List<String> scontainers_1 = new ArrayList<String>();
-            for (final EClassifier cl_1 : containers_1) {
-              scontainers_1.add(cl_1.getName());
-            }
-            final List<Mutator> objects_1 = new ArrayList<Mutator>();
-            for (final Mutator mutator_1 : commands) {
-              if (((((mutator_1.getName() != null) && 
-                (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
-                scontainers_1.contains(mutator_1.getType().getName()))) {
-                objects_1.add(mutator_1);
+              final List<EClass> containers_1 = new ArrayList<EClass>();
+              for (final String model_1 : models) {
+                containers_1.addAll(this.getModelESources(definition, model_1, com.getRefType().getName()));
               }
+              final List<String> scontainers_1 = new ArrayList<String>();
+              for (final EClassifier cl_1 : containers_1) {
+                scontainers_1.add(cl_1.getName());
+              }
+              final List<Mutator> objects_1 = new ArrayList<Mutator>();
+              for (final Mutator mutator_1 : commands) {
+                if (((((mutator_1.getName() != null) && 
+                  (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
+                  scontainers_1.contains(mutator_1.getType().getName()))) {
+                  objects_1.add(mutator_1);
+                }
+              }
+              scope.addAll(objects_1);
             }
-            scope.addAll(objects_1);
           }
           _xblockexpression_1 = Scopes.scopeFor(scope);
         }

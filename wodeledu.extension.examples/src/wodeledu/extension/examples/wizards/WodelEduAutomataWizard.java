@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -45,7 +46,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
@@ -178,7 +178,7 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		importPackages.add("org.antlr.runtime");		
 		importPackages.add("edutest");
 		
-		bundleClasspath.add("lib/plantuml-epl-1.2023.13.jar");
+		bundleClasspath.add("lib/plantuml-epl-1.2026.2.jar");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
@@ -273,9 +273,9 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			}
 			br.close();
 			InputStream stream = openContentStream();
-			String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+			String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 			content += def;
-			stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+			stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 			metamodelFile.create(stream, true, monitor);
 			stream.close();
 		} catch (IOException e) {
@@ -332,12 +332,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			def += "\tcontext State connected:: \"isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)\"\n";
 			def += "}";
 			if (file.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				file.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				file.create(stream, true, monitor);
 			}
 			stream.close();
@@ -402,12 +402,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 				+ "\tTransition(src, tar): edge label=symbol.symbol\n"
 			+ "}";
 			if (graphFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				graphFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				graphFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -446,12 +446,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 					+ "\tdescription for 'exercise10.model' = 'Complete the following text with the options for each gap that modify this automaton to accept only the language defined by \"ba<sup>*</sup>|ba<sup>*</sup>b\"'\n"
 					+ "}";
 			if (testsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				testsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				testsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -473,12 +473,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			def += "\t>Transition.src: source\n";
 			def += "}\n";
 			if (idelemsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				idelemsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				idelemsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -500,12 +500,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 			def += "\tChange %object to %value /\n";
 			def += "\tChange %object to %value\n";
 			if (cfgoptsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				cfgoptsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				cfgoptsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -521,9 +521,9 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		try {
 			InputStream stream = configFile.getContents();
 			if (configFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += "\nWodel-Edu: Environment for the automated generation and evaluation of exercises";
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				configFile.setContents(stream, true, true, monitor);
 			}
 			else {

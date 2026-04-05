@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -45,7 +46,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.utils.manager.IOUtils;
@@ -178,7 +178,7 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 		importPackages.add("org.antlr.runtime");		
 		importPackages.add("edutest");
 		
-		bundleClasspath.add("lib/plantuml-epl-1.2023.13.jar");
+		bundleClasspath.add("lib/plantuml-epl-1.2026.2.jar");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
@@ -273,9 +273,9 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			}
 			br.close();
 			InputStream stream = openContentStream();
-			String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+			String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 			content += def;
-			stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+			stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 			metamodelFile.create(stream, true, monitor);
 			stream.close();
 		} catch (IOException e) {
@@ -390,12 +390,12 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			def += "\t} [4]\n";
 			def += "}\n";
 			if (file.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				file.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				file.create(stream, true, monitor);
 			}
 			stream.close();
@@ -468,12 +468,12 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 				+ "\tObjectAggregation(source, target): edge\n"
 				+ "}\n";
 			if (graphFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				graphFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				graphFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -486,11 +486,11 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			String def = "metamodel \"/"+ projectName + "/" + modelName + "/" + metamodel + "\"\n\n" 
 					+ "navigation=free\n"
 					+ "AlternativeResponse concrete2AbstractInstanceFirst = solution {\n"
-					+ "\tretry=yes, statement=ClassDiagram, answers=ObjectDiagram\n"
+					+ "\tretry=yes, statement=ClassDiagram, ObjectDiagram\n"
 					+ "\tdescription for 'VehicleShop.model' = 'Select the object diagram that is a valid instance of the class diagram shown below'\n"
 					+ "}\n"
 					+ "AlternativeResponse concrete2AbstractInstanceFirst = solution {\n"
-					+ "\tretry=yes, statement=ClassDiagram, answers=ObjectDiagram\n"
+					+ "\tretry=yes, statement=ClassDiagram, ObjectDiagram\n"
 					+ "\tdescription for 'CoffeeShop.model' = 'Select the object diagram that is a valid instance of the class diagram shown below'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram concrete2AbstractInstanceFirst {\n"
@@ -502,11 +502,11 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 					+ "\tdescription for 'CoffeeShop.model' = 'Select which of the following object diagrams are valid instances of the class diagram shown below'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram aggregation2CompositionFirst, swapComposition {\n"
-					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ClassDiagram\n"
+					+ "\tretry=yes, mode=radiobutton, answers=ClassDiagram\n"
 					+ "\tdescription for 'GUI.model' = 'Select which of the following class diagrams is correct'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram aggregation2CompositionFirst, swapComposition {\n"
-					+ "\tretry=yes, mode=radiobutton, statement=ClassDiagram, answers=ClassDiagram\n"
+					+ "\tretry=yes, mode=radiobutton, answers=ClassDiagram\n"
 					+ "\tdescription for 'CarRental.model' = 'Select which of the following class diagrams is correct'\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram intAtt2String, concrete2AbstractInstanceFirst, breakCardinality {\n"
@@ -524,12 +524,12 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 					+ "\tdescription for 'VehicleShop.model' = 'Which changes shall be applied to this object diagram to match the class diagram shown below'\n"
 					+ "}";
 			if (testsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				testsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				testsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -554,12 +554,12 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			def += "\t>ObjectAssociation: association from %source.name to %target.name\n";
 			def += "}\n\n";
 			if (idelemsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				idelemsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				idelemsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -579,12 +579,12 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 			def += ">ReferenceChanged: Change %toObject to %fromObject /\n";
 			def += "\tChange %fromObject to %toObject\n";
 			if (cfgoptsFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				cfgoptsFile.setContents(stream, true, true, monitor);
 			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(def.getBytes(StandardCharsets.UTF_8));
 				cfgoptsFile.create(stream, true, monitor);
 			}
 			stream.close();
@@ -600,9 +600,9 @@ public class WodelEduUMLCDWizard extends Wizard implements INewWizard {
 		try {
 			InputStream stream = configFile.getContents();
 			if (configFile.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				String content = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				content += "\nWodel-Edu: Environment for the automated generation and evaluation of exercises";
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 				configFile.setContents(stream, true, true, monitor);
 			}
 			else {

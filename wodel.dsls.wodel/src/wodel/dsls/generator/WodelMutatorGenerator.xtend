@@ -4764,6 +4764,9 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 		}
 		«ENDIF»
 		    for (int obn = 0; obn < objects.size(); obn++) {
+		    	for (String targetType : targetTypes) {
+		    		List<String> tTypes = new ArrayList<String>();
+		    		tTypes.add(targetType);
 			Resource m = EMFCopier.copyResource(model);
 			«IF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
 			List<EObject> mObjects = ModelManager.getObjects(m, objects);
@@ -4822,12 +4825,12 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 		«ENDFOR»
 		«IF mut.container !== null»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
-		RetypeObjectMutator mut = new RetypeObjectMutator(model, packages, objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, targetTypes);
+		RetypeObjectMutator mut = new RetypeObjectMutator(model, packages, objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, tTypes);
 		«ENDIF»
 		«ENDIF»
 		«IF mut.container === null»
 		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
-		RetypeObjectMutator mut = new RetypeObjectMutator(m, packages, obSelection.getObject(), rSelection, cSelection, atts, refs, targetTypes);
+		RetypeObjectMutator mut = new RetypeObjectMutator(m, packages, obSelection.getObject(), rSelection, cSelection, atts, refs, tTypes);
 		«ENDIF»
 		«ENDIF»
 		Mutator mutator = null;
@@ -4934,6 +4937,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 					if (muts != null) {
 						muts.getMuts().clear();
 					}
+				}
 		«IF mut.container === null»
 			}
 		«ENDIF»

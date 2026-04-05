@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import mutatorenvironment.Block;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -201,12 +203,35 @@ public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
     }
   }
 
+  public static IProject projectOf(final Resource r) {
+    Object _xblockexpression = null;
+    {
+      URI _uRI = null;
+      if (r!=null) {
+        _uRI=r.getURI();
+      }
+      final URI uri = _uRI;
+      if (((uri != null) && uri.isPlatformResource())) {
+        final String projectName = uri.segment(1);
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+      }
+      _xblockexpression = null;
+    }
+    return ((IProject)_xblockexpression);
+  }
+
   private List<Block> getBlocks(final MarkedBlock mb) {
     try {
       String xmiFileName = "";
-      IProject _project = ProjectUtils.getProject();
-      boolean _tripleNotEquals = (_project != null);
-      if (_tripleNotEquals) {
+      IProject project = EduTestScopeProvider.projectOf(mb.eResource());
+      IProject _xifexpression = null;
+      if ((project != null)) {
+        _xifexpression = project;
+      } else {
+        _xifexpression = ProjectUtils.getProject();
+      }
+      project = _xifexpression;
+      if ((project != null)) {
         String _replace = ProjectUtils.getProject().getLocation().toFile().getPath().replace("\\", "/");
         String _plus = (_replace + "/");
         String _outputFolder = ModelManager.getOutputFolder();

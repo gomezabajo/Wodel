@@ -14,6 +14,8 @@ import java.util.List
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClass
 import java.util.ArrayList
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw code generator.
@@ -33,6 +35,19 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 	
 	private List<EPackage> metamodel
 	private List<EClass> roots
+
+	private IProject project
+	private String projectName
+	
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
+	
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		rendererPath = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Model-Draw renderer path", "", null);
@@ -48,6 +63,9 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
+		project = projectOf(resource)
+		project = project !== null ? project : ProjectUtils.project
+		projectName = project !== null ? project.getName() : null
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
 			if (i == 0) {
 				fileName = fileName.replace(".draw", "") + 'Draw.java'
@@ -399,7 +417,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						«ENDFOR»
 						batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 						batwriter.println("cd batik");
-						batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+						batwriter.println("java -jar batik-rasterizer-1.19.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 						batwriter.println("exit");
 						batwriter.close();
 					} catch (UnsupportedEncodingException e) {
@@ -443,10 +461,10 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 						
 					String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
 					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-					String projectName = ProjectUtils.getProject().getName();
+					String projectName = "«projectName»";
 					
-					List<String> models = ModelManager.getModels();
-					List<String> mutants = ModelManager.getMutants();
+					List<String> models = ModelManager.getModels(«className»Draw.class);
+					List<String> mutants = ModelManager.getMutants(«className»Draw.class);
 					
 					int totalTasks = models.size() + mutants.size();
 					
@@ -507,7 +525,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 									«ENDFOR»
 									batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 									batwriter.println("cd batik");
-									batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+									batwriter.println("java -jar batik-rasterizer-1.19.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 									batwriter.println("exit");
 									batwriter.close();
 								} catch (UnsupportedEncodingException e) {
@@ -595,7 +613,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 											«ENDFOR»
 											batwriter.println("m4 liblog.m4 " + m4file + " | dpic -v > " + svgfile);
 											batwriter.println("cd batik");
-											batwriter.println("java -jar batik-rasterizer-1.18.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
+											batwriter.println("java -jar batik-rasterizer-1.19.jar -m image/png -d " + pngfile + " " +  svgfile + " 2>&1");
 											batwriter.println("exit");
 											batwriter.close();
 										} catch (UnsupportedEncodingException e) {
@@ -648,7 +666,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 			public Object execute(ExecutionEvent event) throws ExecutionException {
 			try {
 				RunMutatorDrawWithProgress runMutatorDrawWithProgress = new RunMutatorDrawWithProgress();
-				ProgressMonitorDialog monitor = new ProgressMonitorDialog(activeShell);
+				ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
 				monitor.run(true, true, runMutatorDrawWithProgress);
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
@@ -660,16 +678,17 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 			return null;
 			}
 			
-			public void run(IProject project, String filename) {
-			       activeDisplay = new Display();
-			       activeShell = new Shell(activeDisplay);
+			@Override
+			public void run() {
 				try {
-				       execute(null);
-				} catch (ExecutionException e) {
+					execute(null);
+				}
+				catch (ExecutionException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//update(project, filename);
 			}
+			
 		}
 	'''
 }

@@ -72,6 +72,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import java.util.Set
 import java.util.HashSet
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 
 class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
@@ -2208,6 +2210,15 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor( getESources(definition, com.refType.name) )              
 	}
 	
+	def static IProject projectOf(Resource r) {
+		val uri = r?.URI
+		if (uri !== null && uri.platformResource) {
+			val projectName = uri.segment(1) // platform:/resource/<project>/...
+			return ResourcesPlugin.workspace.root.getProject(projectName)
+		}
+		null
+	}
+	
 	/**
 	 * Helper to get all the EClasses contained in the processed models. 
 	 */
@@ -2219,11 +2230,15 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) {*/
-        	val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
-        	for (file : files) {
-				if (file.isFile() == true) {
-					if (file.getPath().endsWith(".model") == true) {
-						scope.addAll(getModelEClasses(definition, file.getPath))
+			var IProject project = projectOf(program.eResource)
+			project = project !== null ? project : ProjectUtils.project
+			if (project !== null) {
+        		val File[] files = new File(project.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
+        		for (file : files) {
+					if (file.isFile() == true) {
+						if (file.getPath().endsWith(".model") == true) {
+							scope.addAll(getModelEClasses(definition, file.getPath))
+						}
 					}
 				}
 			}
@@ -2334,51 +2349,58 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
-        		val List<EClass> classes  = getModelEClasses(definition, model)
-        		val List<String> sclasses = new ArrayList<String>() 
-       			for (EClassifier cl : classes) sclasses.add(cl.name) {
-       				val List<Mutator> objects = new ArrayList<Mutator>()
-		        	for (mutator : commands) {
-    	    		if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				sclasses.contains(mutator.type.name)) 
-						objects.add(mutator)
-					}
-		        	scope.addAll(objects)
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+        			val String model = project.getLocation.toFile.getPath + '/' + definition.source.path
+        			val List<EClass> classes  = getModelEClasses(definition, model)
+        			val List<String> sclasses = new ArrayList<String>() 
+       				for (EClassifier cl : classes) sclasses.add(cl.name) {
+	       				val List<Mutator> objects = new ArrayList<Mutator>()
+			        	for (mutator : commands) {
+    		    		if (mutator.name !== null && 
+        					commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					sclasses.contains(mutator.type.name)) 
+							objects.add(mutator)
+						}
+		        		scope.addAll(objects)
+		        	}
 				}
 			}
 			if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				
-				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
-        		for (file : files) {
-					if (file.isFile() == true) {
-						if (file.getPath().endsWith(".model") == true) {
-							models.add(file.getPath())
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+					val File[] files = new File(project.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
+        			for (file : files) {
+						if (file.isFile() == true) {
+							if (file.getPath().endsWith(".model") == true) {
+								models.add(file.getPath())
+							}
 						}
 					}
-				}
-				val List<EClass> classes = new ArrayList<EClass>()
-				for (model : models) {
-        			classes.addAll(getModelEClasses(definition, model))
-        		}
-        		val List<String> sclasses = new ArrayList<String>() 
-       			for (EClassifier cl : classes) sclasses.add(cl.name) {
-       				val List<Mutator> objects = new ArrayList<Mutator>()
-		        	for (mutator : commands) {
-    	    		if (mutator.name !== null && 
+					val List<EClass> classes = new ArrayList<EClass>()
+					for (model : models) {
+        				classes.addAll(getModelEClasses(definition, model))
+        			}
+        			val List<String> sclasses = new ArrayList<String>() 
+       				for (EClassifier cl : classes) sclasses.add(cl.name) {
+	       				val List<Mutator> objects = new ArrayList<Mutator>()
+			        	for (mutator : commands) {
+    		    		if (mutator.name !== null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				sclasses.contains(mutator.type.name)) 
-						objects.add(mutator)
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					sclasses.contains(mutator.type.name)) 
+							objects.add(mutator)
+						}
+		        		scope.addAll(objects)
 					}
-		        	scope.addAll(objects)
 				}
 			}
-        	// add objects to scope
+	       	// add objects to scope
         	Scopes.scopeFor(scope)
         }       
 	}
@@ -2396,48 +2418,56 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
-        		val List<EClass> classes  = getModelEClasses(definition, model)
-        		val List<String> sclasses = new ArrayList<String>() 
-       			for (EClassifier cl : classes) sclasses.add(cl.name) {
-       				val List<Mutator> objects = new ArrayList<Mutator>()
-		        	for (mutator : commands) {
-    	    		if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				sclasses.contains(mutator.type.name)) 
-						objects.add(mutator)
-					}
-		        	scope.addAll(objects)
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+					val String model = project.getLocation.toFile.getPath + '/' + definition.source.path
+        			val List<EClass> classes  = getModelEClasses(definition, model)
+        			val List<String> sclasses = new ArrayList<String>() 
+       				for (EClassifier cl : classes) sclasses.add(cl.name) {
+       					val List<Mutator> objects = new ArrayList<Mutator>()
+		        		for (mutator : commands) {
+    	    			if (mutator.name !== null && 
+	        				commands.indexOf(mutator) < commands.indexOf(com) &&
+    	    				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					sclasses.contains(mutator.type.name)) 
+							objects.add(mutator)
+						}
+		        		scope.addAll(objects)
+		        	}
 				}
 			}
 			if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
 				
-				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
-        		for (file : files) {
-					if (file.isFile() == true) {
-						if (file.getPath().endsWith(".model") == true) {
-							models.add(file.getPath())
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+					val File[] files = new File(project.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
+        			for (file : files) {
+						if (file.isFile() == true) {
+							if (file.getPath().endsWith(".model") == true) {
+								models.add(file.getPath())
+							}
 						}
 					}
-				}
-				val List<EClass> classes = new ArrayList<EClass>()
-				for (model : models) {
-        			classes.addAll(getModelEClasses(definition, model))
-        		}
-        		val List<String> sclasses = new ArrayList<String>() 
-       			for (EClassifier cl : classes) sclasses.add(cl.name) {
-       				val List<Mutator> objects = new ArrayList<Mutator>()
-		        	for (mutator : commands) {
-    	    		if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				sclasses.contains(mutator.type.name)) 
-						objects.add(mutator)
+					val List<EClass> classes = new ArrayList<EClass>()
+					for (model : models) {
+        				classes.addAll(getModelEClasses(definition, model))
+        			}
+        			val List<String> sclasses = new ArrayList<String>() 
+       				for (EClassifier cl : classes) sclasses.add(cl.name) {
+	       				val List<Mutator> objects = new ArrayList<Mutator>()
+			        	for (mutator : commands) {
+    	    			if (mutator.name !== null && 
+	        				commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					sclasses.contains(mutator.type.name)) 
+							objects.add(mutator)
+						}
+		        		scope.addAll(objects)
 					}
-		        	scope.addAll(objects)
 				}
 			}
         	// add objects to scope
@@ -2502,11 +2532,15 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) { */
-        	val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
-        	for (file : files) {
-				if (file.isFile() == true) {
-					if (file.getPath().endsWith(".model") == true) {
-						scope.addAll(getModelESources(definition, file.getPath, refTypeName))
+			var IProject project = projectOf(program.eResource)
+			project = project !== null ? project : ProjectUtils.project
+			if (project !== null) {
+	        	val File[] files = new File(project.getLocation.toFile.getPath + '/' + program.source.path).listFiles()
+    	    	for (file : files) {
+					if (file.isFile() == true) {
+						if (file.getPath().endsWith(".model") == true) {
+							scope.addAll(getModelESources(definition, file.getPath, refTypeName))
+						}
 					}
 				}
 			}
@@ -2632,46 +2666,54 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
-	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
-	        	val List<String> scontainers = new ArrayList<String>() 
-    	   		for (EClassifier cl : containers) scontainers.add(cl.name)
-		       	val List<Mutator> objects = new ArrayList<Mutator>()
-        		for (mutator : commands) {
-        			if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				scontainers.contains(mutator.type.name)) 
-						objects.add(mutator)
-				}
-	        	scope.addAll(objects)
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+	        		val String model = project.getLocation.toFile.getPath + '/' + definition.source.path
+		        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
+	    	    	val List<String> scontainers = new ArrayList<String>() 
+    	   			for (EClassifier cl : containers) scontainers.add(cl.name)
+		       		val List<Mutator> objects = new ArrayList<Mutator>()
+        			for (mutator : commands) {
+        				if (mutator.name !== null && 
+        					commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					scontainers.contains(mutator.type.name)) 
+							objects.add(mutator)
+					}
+	        		scope.addAll(objects)
+	        	}
     	    }
     	    if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
-        		for (file : files) {
-					if (file.isFile() == true) {
-						if (file.getPath().endsWith(".model") == true) {
-							models.add(file.getPath())
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+					val File[] files = new File(project.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
+    	    		for (file : files) {
+						if (file.isFile() == true) {
+							if (file.getPath().endsWith(".model") == true) {
+								models.add(file.getPath())
+							}
 						}
 					}
-				}
-	        	val List<EClass> containers = new ArrayList<EClass>()
-				for (model : models) {
-        			containers.addAll(getModelESources(definition, model, com.refType.name))
-        		}
-        		val List<String> scontainers = new ArrayList<String>() 
-       			for (EClassifier cl : containers) scontainers.add(cl.name)
-       			val List<Mutator> objects = new ArrayList<Mutator>()
-        		for (mutator : commands) {
-        			if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				scontainers.contains(mutator.type.name)) 
-						objects.add(mutator)
-				}
-	        	scope.addAll(objects)
+	        		val List<EClass> containers = new ArrayList<EClass>()
+					for (model : models) {
+        				containers.addAll(getModelESources(definition, model, com.refType.name))
+        			}
+        			val List<String> scontainers = new ArrayList<String>() 
+       				for (EClassifier cl : containers) scontainers.add(cl.name)
+       				val List<Mutator> objects = new ArrayList<Mutator>()
+        			for (mutator : commands) {
+	        			if (mutator.name !== null && 
+        					commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					scontainers.contains(mutator.type.name)) 
+							objects.add(mutator)
+					}
+	        		scope.addAll(objects)
+	        	}
 			}
         	Scopes.scopeFor(scope)
         }       
@@ -2690,46 +2732,54 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path
-	        	val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
-	        	val List<String> scontainers = new ArrayList<String>() 
-    	   		for (EClassifier cl : containers) scontainers.add(cl.name)
-		       	val List<Mutator> objects = new ArrayList<Mutator>()
-        		for (mutator : commands) {
-        			if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				scontainers.contains(mutator.type.name)) 
-						objects.add(mutator)
-				}
-	        	scope.addAll(objects)
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+        			val String model = project.getLocation.toFile.getPath + '/' + definition.source.path
+	        		val List<EClass> containers  = getModelESources(definition, model, com.refType.name)
+	        		val List<String> scontainers = new ArrayList<String>() 
+    	   			for (EClassifier cl : containers) scontainers.add(cl.name)
+		       		val List<Mutator> objects = new ArrayList<Mutator>()
+        			for (mutator : commands) {
+        				if (mutator.name !== null && 
+        					commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					scontainers.contains(mutator.type.name)) 
+							objects.add(mutator)
+					}
+	        		scope.addAll(objects)
+    	    	}
     	    }
     	    if (definition.source.path.endsWith('/')) {
-			/*if (definition.source.multiple == true) {*/
+				/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(ProjectUtils.getProject.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
-        		for (file : files) {
-					if (file.isFile() == true) {
-						if (file.getPath().endsWith(".model") == true) {
-							models.add(file.getPath())
+				var IProject project = projectOf(com.eResource)
+				project = project !== null ? project : ProjectUtils.project
+				if (project !== null) {
+					val File[] files = new File(project.getLocation.toFile.getPath + '/' + definition.source.path).listFiles()
+        			for (file : files) {
+						if (file.isFile() == true) {
+							if (file.getPath().endsWith(".model") == true) {
+								models.add(file.getPath())
+							}
 						}
 					}
-				}
-	        	val List<EClass> containers = new ArrayList<EClass>()
-				for (model : models) {
-        			containers.addAll(getModelESources(definition, model, com.refType.name))
-        		}
-        		val List<String> scontainers = new ArrayList<String>() 
-       			for (EClassifier cl : containers) scontainers.add(cl.name)
-       			val List<Mutator> objects = new ArrayList<Mutator>()
-        		for (mutator : commands) {
-        			if (mutator.name !== null && 
-        				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
-        				scontainers.contains(mutator.type.name)) 
-						objects.add(mutator)
-				}
-	        	scope.addAll(objects)
+	        		val List<EClass> containers = new ArrayList<EClass>()
+					for (model : models) {
+	        			containers.addAll(getModelESources(definition, model, com.refType.name))
+        			}
+        			val List<String> scontainers = new ArrayList<String>() 
+       				for (EClassifier cl : containers) scontainers.add(cl.name)
+       				val List<Mutator> objects = new ArrayList<Mutator>()
+        			for (mutator : commands) {
+	        			if (mutator.name !== null && 
+        					commands.indexOf(mutator) < commands.indexOf(com) &&
+        					(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
+        					scontainers.contains(mutator.type.name)) 
+							objects.add(mutator)
+					}
+	        		scope.addAll(objects)
+	        	}
 			}
         	Scopes.scopeFor(scope)
         }       

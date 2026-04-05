@@ -26,6 +26,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	@Inject ModelDrawDotGenerator dotGenerator
 	@Inject ModelDrawCircuitGenerator circuitGenerator
 	@Inject ModelDrawPlantUMLGenerator plantUMLGenerator
+	@Inject ModelDrawPyCodeGenerator pyCodeGenerator
 	
 	private String fileName
 	private String path
@@ -50,6 +51,9 @@ class ModelDrawGenerator extends AbstractGenerator {
 		}
 		if (modelDrawMode.equals("PlantUML")) {
 			plantUMLGenerator.doGenerate(resource, fsa, context)
+		}
+		if (modelDrawMode.equals("PyCode")) {
+			pyCodeGenerator.doGenerate(resource, fsa, context)
 		}
 	}
 }

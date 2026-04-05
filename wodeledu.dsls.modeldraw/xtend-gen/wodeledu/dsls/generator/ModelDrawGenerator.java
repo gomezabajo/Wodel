@@ -35,6 +35,9 @@ public class ModelDrawGenerator extends AbstractGenerator {
   @Inject
   private ModelDrawPlantUMLGenerator plantUMLGenerator;
 
+  @Inject
+  private ModelDrawPyCodeGenerator pyCodeGenerator;
+
   private String fileName;
 
   private String path;
@@ -78,6 +81,10 @@ public class ModelDrawGenerator extends AbstractGenerator {
     boolean _equals_2 = modelDrawMode.equals("PlantUML");
     if (_equals_2) {
       this.plantUMLGenerator.doGenerate(resource, fsa, context);
+    }
+    boolean _equals_3 = modelDrawMode.equals("PyCode");
+    if (_equals_3) {
+      this.pyCodeGenerator.doGenerate(resource, fsa, context);
     }
   }
 }

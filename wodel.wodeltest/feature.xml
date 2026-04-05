@@ -18,10 +18,7 @@
 
    <requires>
       <import feature="wodel.core" version="1.0.0.qualifier"/>
-      <import plugin="org.eclipse.acceleo.common"/>
-      <import plugin="org.eclipse.acceleo.model"/>
       <import plugin="org.eclipse.modisco.java.generation"/>
-      <import plugin="org.eclipse.acceleo.engine"/>
       <import plugin="org.eclipse.modisco.infra.common.core"/>
       <import plugin="org.eclipse.jface.text"/>
    </requires>

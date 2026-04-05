@@ -386,13 +386,11 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		requiredBundles.add("org.eclipse.modisco.infra.discovery.core");
 		requiredBundles.add("org.eclipse.modisco.infra.discovery");
 		requiredBundles.add("org.eclipse.modisco.java.generation");
-		requiredBundles.add("org.eclipse.acceleo.engine");
 		requiredBundles.add("org.eclipse.modisco.java");
 		requiredBundles.add("org.eclipse.jface");
 		requiredBundles.add("org.eclipse.jface.text");
 		requiredBundles.add("org.eclipse.modisco.infra.common.core");
 		requiredBundles.add("org.eclipse.jdt.launching");
-		requiredBundles.add("org.eclipse.acceleo.model");
 		requiredBundles.add("junit-jupiter-api");
 		requiredBundles.add("junit-jupiter-engine");
 		requiredBundles.add("junit-jupiter-migrationsupport");
@@ -406,7 +404,7 @@ public class WodelTest4JavaUpdateSiteWizard extends Wizard implements INewWizard
 		requiredBundles.add("junit-platform-suite-engine");
 		requiredBundles.add("junit-vintage-engine");
 		requiredBundles.add("org.apiguardian.api");
-		requiredBundles.add("org.hamcrest.core");
+//		requiredBundles.add("org.hamcrest.core");
 		requiredBundles.add("org.opentest4j");
 /*		bundleClasspath.add("lib/junit-jupiter-api_5.9.2.jar");
 		bundleClasspath.add("lib/junit-jupiter-engine_5.9.2.jar");

@@ -5,7 +5,6 @@ Bundle-SymbolicName: wodeltest.extension;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: wodeltest.extension.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.acceleo.aql,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  wodel.extension,

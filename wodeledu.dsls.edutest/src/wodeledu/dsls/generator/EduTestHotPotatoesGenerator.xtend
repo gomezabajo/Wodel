@@ -16,7 +16,6 @@ import wodel.utils.exceptions.ModelNotFoundException
 import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
 import java.util.List
-import wodeledu.dsls.generator.EduTestSuperGenerator.TestOption
 import wodeledu.dsls.generator.EduTestSuperGenerator.Registry
 import mutatorenvironment.MutatorEnvironment
 import java.util.AbstractMap.SimpleEntry
@@ -36,7 +35,6 @@ import java.util.Set
 import java.io.File
 import edutest.MutatorTests
 import java.util.LinkedHashSet
-import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -46,13 +44,12 @@ import org.eclipse.core.resources.ResourcesPlugin
  *  
  */
 class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
-
 	private String fileName
-	private String pageName
-	private List<EObject> blocks
-	private List<EObject> mutators
 	private List<EPackage> metamodel
 	private List<EClass> roots
+	private List<EObject> blocks
+	private String pageName
+	private List<EObject> mutators
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		try {

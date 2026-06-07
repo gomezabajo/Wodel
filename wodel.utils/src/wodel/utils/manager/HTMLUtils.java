@@ -1,8 +1,76 @@
 package wodel.utils.manager;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class HTMLUtils {
+	
+	private static final Map<Character, String> HTML_ENTITIES = new LinkedHashMap<>();
+
+    static {
+        HTML_ENTITIES.put('&', "&amp;");
+        HTML_ENTITIES.put('<', "&lt;");
+        HTML_ENTITIES.put('>', "&gt;");
+        HTML_ENTITIES.put('"', "&quot;");
+        HTML_ENTITIES.put('\'', "&#39;");
+
+        HTML_ENTITIES.put('á', "&aacute;");
+        HTML_ENTITIES.put('é', "&eacute;");
+        HTML_ENTITIES.put('í', "&iacute;");
+        HTML_ENTITIES.put('ó', "&oacute;");
+        HTML_ENTITIES.put('ú', "&uacute;");
+
+        HTML_ENTITIES.put('Á', "&Aacute;");
+        HTML_ENTITIES.put('É', "&Eacute;");
+        HTML_ENTITIES.put('Í', "&Iacute;");
+        HTML_ENTITIES.put('Ó', "&Oacute;");
+        HTML_ENTITIES.put('Ú', "&Uacute;");
+
+        HTML_ENTITIES.put('à', "&agrave;");
+        HTML_ENTITIES.put('è', "&egrave;");
+        HTML_ENTITIES.put('ì', "&igrave;");
+        HTML_ENTITIES.put('ò', "&ograve;");
+        HTML_ENTITIES.put('ù', "&ugrave;");
+
+        HTML_ENTITIES.put('À', "&Agrave;");
+        HTML_ENTITIES.put('È', "&Egrave;");
+        HTML_ENTITIES.put('Ì', "&Igrave;");
+        HTML_ENTITIES.put('Ò', "&Ograve;");
+        HTML_ENTITIES.put('Ù', "&Ugrave;");
+
+        HTML_ENTITIES.put('ä', "&auml;");
+        HTML_ENTITIES.put('ë', "&euml;");
+        HTML_ENTITIES.put('ï', "&iuml;");
+        HTML_ENTITIES.put('ö', "&ouml;");
+        HTML_ENTITIES.put('ü', "&uuml;");
+
+        HTML_ENTITIES.put('Ä', "&Auml;");
+        HTML_ENTITIES.put('Ë', "&Euml;");
+        HTML_ENTITIES.put('Ï', "&Iuml;");
+        HTML_ENTITIES.put('Ö', "&Ouml;");
+        HTML_ENTITIES.put('Ü', "&Uuml;");
+
+        HTML_ENTITIES.put('ñ', "&ntilde;");
+        HTML_ENTITIES.put('Ñ', "&Ntilde;");
+        HTML_ENTITIES.put('¿', "&iquest;");
+        HTML_ENTITIES.put('¡', "&iexcl;");
+    }
+
+    public static String toHtmlEntities(String text) {
+        if (text == null) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (char c : text.toCharArray()) {
+            String entity = HTML_ENTITIES.get(c);
+            sb.append(entity != null ? entity : c);
+        }
+
+        return sb.toString();
+    }
 
 	private static final Pattern PRE_BLOCK =
             Pattern.compile("(?is)(<pre\\b[^>]*>)(.*?)(</pre>)");

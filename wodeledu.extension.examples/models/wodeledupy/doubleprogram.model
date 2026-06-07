@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pyast:Module xmlns:xmi="http://www.omg.org/XMI" xmlns:pyast="http://www.python.org/pythonast/3.14" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="double_program_module" xmi:version="2.0">
+  <body xsi:type="pyast:FunctionDef" name="double">
+    <args>
+      <args arg="x"/>
+    </args>
+    <body xsi:type="pyast:Return">
+      <value xsi:type="pyast:BinOp">
+        <left xsi:type="pyast:Name" id="x">
+          <ctx xsi:type="pyast:Load"/>
+        </left>
+        <op xsi:type="pyast:Add"/>
+        <right xsi:type="pyast:Name" id="x">
+          <ctx xsi:type="pyast:Load"/>
+        </right>
+      </value>
+    </body>
+  </body>
+  <body xsi:type="pyast:Expr">
+    <value xsi:type="pyast:Call">
+      <func xsi:type="pyast:Name" id="print">
+        <ctx xsi:type="pyast:Load"/>
+      </func>
+      <args xsi:type="pyast:Call">
+        <func xsi:type="pyast:Name" id="double">
+          <ctx xsi:type="pyast:Load"/>
+        </func>
+        <args xsi:type="pyast:Constant" value="3"/>
+      </args>
+    </value>
+  </body>
+</pyast:Module>

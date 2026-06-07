@@ -1,0 +1,252 @@
+CHANGES
+
+Version 11.0.x: Tweaked Mux, Demux, dswitch, XOR_gate default.
+  New macro RotarySwitch. Mechanics example, opamp example.
+Version 11.0: New macros indicator, Pconn, connDX, incircle, r_stub, sidac,
+  l_contact, l_coil. Updated Deltasymbol, lbox, thyristor, diode. New examples.
+Version 10.9: Macro resistor reworked to allow optional key=value parameters
+  and new options. KelvinR rewritten to remove dependence on side effects.
+  Examples added. Macros mosfet and winding tweaked. New macro arcwinding.
+Version 10.8: New macros vec_r, rvec_r, adjust, and heatsink.
+  Small changes and additions to sarrow, arrester, Darlington, resistor,
+  diode, hatchbox, transformer, source, consource.
+Version 10.7: Minor changes and additions to ics.m4 and macros polygon,
+  jack, LH_symbol, LT_symbol, opamp, amp, sarrow, dashline. Extra
+  examples.
+Version 10.6: New macro geiger. Corrected dpv .txt files.
+  Tweaked macros ColoredV, ShadeObject, ebox, shadowed, shadedball, addtaps.
+  Options for macros delay, resistor, source, relaycoil.  List of macros
+  reformatted in the manual.
+Version 10.5: Options for numersous element macros: sfgarc, sfgline,
+  sfgself, LCintersect, LEintersect, and others. Systematic facilities
+  for filling and customizing element bodies.  New macros ColoredV,
+  cangle, definergbcolor. Added dpictools.pic macros to the manual.
+  Removed obsolete macros. Edits of the manual.
+Version 10.4: New options for source, sarrow, darrow routines.
+Version 10.3: Tweaked sfg_init and NeedDpicTools functionality;
+  macro lin_ang, langle, ACsymbol, DCsymbol, Ysymbol, Deltasymbol,
+  Autologix.  New macro polygon.
+Version 10.2: New options for tconn, heater, lamp, thermocouple.
+  New macro jumper.  Include configuration file pdf.m4 in distribution.
+  Fixed examples/Makefile. Tweaked macros sl_ct, figures in the manual.
+Version 10.1: Simplified structure and cleanup of the examples directory.
+  New options for em_arrows. Tweaked dot, cross.
+Version 10.0: New macros Between_, thyristor_t. Bugfix in inductor(,W).
+  Tweaked diff_, scr, scs, sus, sbs, tline, svg_font, contact.
+  Minor edits of the manual.  Electric vehicle charging plug examples.
+Version 9.9: Changes to libSLD macros, diode, sfg macros, rs_box,
+  r_text, svg_rot, examples. Changed SVG color macros for consistency with
+  other postprocessors.
+Version 9.8: Changes to libSLD macros, with descriptions
+  added to the manual.  Tweaked macros ArcAngle, opamp, inductor, cross,
+  crossover, diode, rs_box, r_text, Deltasymbol, arrester, dswitch,
+  macros employing sc_draw.
+Version 9.7: Improved shadebox macro and a bugfix. Experimental single-line
+  diagram elements. Revised fitcurve. New options for resistor, capacitor,
+  ebox, xtal. Tweaked addtaps. Convert web version of Circuit_macros.pdf
+  to html. New macro sarrow.
+Version 9.6: Tweaked svg examples; macros lg_bartxt, opamp, beginshade,
+  endshade, relaycoil, inductor, source, rotbox; files lib3D, libgen. New
+  macros DIP, g_fet, Fe_fet, shielded, setkeys_, Deltasymbol, Ysymbol,
+  PtoL, ToPos.  New options for resistor, capacitor, inductor,
+  transformer, ArcAngle, variable.
+Version 9.5: Distribution cleaned and a non utf-8 character removed.
+Version 9.4: Changes to examples and additional SVG examples. New
+  macros RightAngle, PerpTo, langle, ArcAngle, DCsymbol.  Rewritten
+  arrester macro. Tweaked Equidist3, ground, antenna, NeedDpicTools.
+  Modified List of Macros.
+Version 9.3: New macro ACsymbol, Proxim, Magn, options for mosfet, ground,
+  microphone, consource.  Bugfix for the source macro.  Tweaked examples,
+  macro svg_font.  Added a short discussion of integrated circuits
+  and connectors.  Removed compression of the manual to restore broken
+  internal links.
+Version 9.2: New options for macros contact, dswitch, FlipFlop,
+  FlipFlopX. New macros pvcell, contacts, relaycoil. Modified cbreaker
+  and relay.  New file Licence.txt. Change from siunits to siunitx.sty.
+Version 9.1: Corrected two examples; added others including vacuum tubes.
+  Tweaked dashline. Removed an extraneous log file and extraneous code
+  from libgen.m4.  New pic macros for operations on complex numbers. New
+  macros Rot_, Vcoords.
+Version 9.0: Tweaked svg_sub, svg_sup, lamp. New macros cm__, px__.
+  New option for source. Obsolete Autologic and stackpromote_ removed.
+Version 8.9: Tweaked lswitch, contact, rotbox, parallel_, darrow.
+  Uniform open-arrowhead option for diode, thyristor. New macros reed,
+  lamp.
+Version 8.8: Tweaks for source macro.  Change to svg.m4 for
+  compatibility with dpic Version 2018.05.15 or later.  Macros for
+  embedding pic diagrams into Tikz pictures.  Changed the name of the
+  manual from CMman.pdf to Circuit_macros.pdf.  Option for dswitch.
+Version 8.7: Fixes for more robust nested macros and SVG color. Options
+  for the source macro.
+Version 8.6: Options for switch, lswitch.  Simplified Quick Start section
+  of the manual.  Added WARNING to m4 output for default configuration
+  file gpic.m4.  Macro pconnex tweaked for tikz.
+Version 8.5: SVG macro tweaks for generality. Options for Mux, Demux,
+  hatchbox. Fixed arcr, vperp, fitcurve, setdir_ rs_box.  New macros
+  LEintersect, LEtangent, sqrta, arcdimension_.
+Version 8.4: Tweaked Autologix inputs. Options for NOT_gate, LH_symbol,
+  arcr, arcd.  New macros tbox, thermocouple.  Fixed a problem setting
+  defaults using the top-level Makefile on some systems.
+Version 8.3: A simpler CTAN distribution and several examples reworked for
+  use with multiple postprocessors. New macros NeedDpicTools, iflatex,
+  latexcommand, ifpsfrag, hlth, Mitre_. Tweaked potentiometer, pconnex,
+  corner, svg text. Option for mosfet.
+Version 8.2: Tweaks to round, bi_tr, bi_trans, Darlington, along_. New
+  Along_, lin_ang, mitre_.
+Version 8.1: Additions to dpictools.pic. New macros parallel_, rgbstring,
+  series_, stackdo_, Vsprod, sbs, scs, sus.  Options for diode.  Thyristor
+  options and minor changes of functionality. Bugfix in winding macro.
+Version 8.0: New options for capacitor, cbreaker, diode, inductor, lswitch,
+  Mux, resistor, rotbox, transformer.  New macros addtaps, binary_, Demux,
+  Header, HeaderPin, hex_digit, hexadecimal_, Pr_xy, Pr_xz, Pr_yz, SQUID,
+  KelvinR, FTcap, tconn, and tapped.  Tweaked setrgb for svg output.
+  Generalized setview in lib3D.
+Version 7.9: Added accessibility features to the documentation.
+  Replaced Autologic with Autologix to allow multiple outputs and
+  simplified expressions.  New macros savem4dir, restorem4dir. Options for
+  vperp and Vperp.  Bug fix in source macro. Tweaked stacksplit_. Removed
+  a name clash between libcct and liblog.
+Version 7.8: Logic gate options for arbitrary negated inputs; lg_pin options.
+  New macro FlipFlopX for simplicity and generality; new macros
+  Cintersect, LCintersect, LCtangent, stacksplit_; modified Loopover_.
+Version 7.7: SVG macro tweaks. Tweaked BOX_gate and bugfix in IOdefs in
+  liblog.m4.
+Version 7.6: New macro NPDT; new option for contact and relay; Autologic
+  tweaks. Changed the Point_ simplification to require specific activation
+  because of rare interaction with dpic loops.
+Version 7.5: Usage has been simplified by making the initialization macros
+  cct_init, gen_init, log_init, darrow_init, and threeD_init read the
+  appropriate libraries automatically. New macros: jack, plug, tstrip,
+  ccoax, pconnex, basename_, Autologic and associated wrappers for
+  automatic Boolean functions, stack macros stackexec_, stackcopy_,
+  stackprint_, stackreverse_. Simplified setting of drawing direction
+  in composite macros. Bugfix in calls to BUFFER_gen.  Tweaked Point_
+  for simpler output for common arguments. Reordered the arguments of
+  round for consistency.
+Version 7.4: New macro lthick. Simplified shadebox. The ifroff macro renamed
+  to iftpic. New configuration file m4defaults.m4. Reworked darrow
+  library for consistency with solid lines and arrows; new macro darc and
+  wrappers Darc, Darrow, Dline; old version included in olddarrow.m4 to
+  ease transition.  Macros and examples fixed and made more robust for
+  gpic (where possible).
+Version 7.3: Options for sinusoid. Bug fix for switch(,,D). Heater macro.
+  Modified Loopover_
+Version 7.2: Tweaked crossover macro. Size options for inductor, resistor,
+  capacitor; dlabel alignment options; new options for source, capacitor.
+Version 7.1: Eliminated the HOMELIB_ macro for easier package installation
+  and use (requires m4 -I <path> or the M4PATH environment variable).
+Version 7.0: New options and wrapper macro scr for thyristor. Generalized
+  ifinstr. Macros corner, round, resized. Options for mosfet. Tweaked
+  b_current and color macros. Simplified \psbezier workaround assuming
+  recent PSTricks.
+Version 6.9: New workaround for \psbezier. Fixed round_. Default
+  postprocessor reset to gpic. Style parameters for em_arrows.  Tweaks to
+  winding, dimension_, fitcurve, distance. New macro rot_.
+Version 6.8: New configuration file svg.m4 and other changes to support
+  dpic svg output. Inkscape-aware changes. Opamp option. New macros
+  ptrans and tgate. Tweaks to switch macros, color, variable, centerline,
+  intersect_, inductor(,W), inductor(,L).
+Version 6.7: Fixed source(,S) and ttmotor to work correctly with labels.
+  Simplified several 2-terminal macros by using the reversed macro.
+Version 6.6: New macros memristor, centerline.  Revised PSTricks patch.
+  Options in mosfet, capacitor.  Opamp .C defined. Tweaks to avoid
+  potential name conflicts. Fix for dashline.
+Version 6.5: New macros Loopover_, m4xpand, showbox_, gyrator, norator,
+  nullator, nterm, rotellipse, rotbox. Logic gate examples.  Customization
+  arguments for non-2-terminal elements.  Signal flow-graph macros tuned
+  to allow large nodes; bug fix in sfgarc.  A patch for PSTricks to work
+  around the context dependency of \psbezier within \pscustom.
+Version 6.4: New macros Equidist3, f_box, rs_box, Darlington, View3D.
+  Options for diode, inductor, transformer, consource.  Moved arrowhead
+  initialization in pstricks.m4 and libcct.m4 for for more flexibility
+  with diagrams embedded in latex files.
+Version 6.3: New options for mosfet, diode, earphone. Better color support.
+  Fixed system-dependent OR_gate problems. New macro cintersect.
+Version 6.2: Replaced scr with a variant of thyristor. Bug fix in
+  bi_trans. Options for source.
+Version 6.1: New macros ttmotor, thyristor. Options for source, bi_trans,
+  transformer.  More robust arcd, arcr.
+Version 6.0: TikZ PGF compatibility.  Added transformer labels, optional
+  FlipFlop labels. New macros dswitch, winding.  Tweaked nport, source,
+  bi_trans, AND_gen, OR_gen, sinusoid, resistor.
+Version 5.9: Simplified internal flags for pic processor and postprocessor.
+  New antenna, cbreaker, dturn, and lbox macros.  Several changes to
+  allow sprintf string arguments.  New options for buzzer, capacitor,
+  dimension_, ebox, fuse, mosfet, source, and switch.  Fix of drjust.
+  Better compatibility with pic macros.  Numerous changes to
+  documentation.
+Version 5.8: Simplified installation. Revised and augmented logic-gate library.
+  Cleaner libgen macro output.  Improved b_current, bi_trans, ground,
+  dtee.  Dline and darrow corrected for gpic. New macros dashline,
+  m4xtract.
+Version 5.7: Psfrag examples.  Improved dline.  Added option and label in
+  igbt.  Bug fix in tr_xy.  Multiple-emitter option in bi_trans.
+Version 5.6: Better MetaPost, PDFLaTeX, and xfig support.  PDF examples.
+  Reworked diode for easier customization and more options.  Improved
+  shade, sfgline, dline, darrow, gap, point_, Point_, opamp, bi_trans,
+  variable, em_arrows, larrow, rarrow, FlipFlop6.  New speaker, bell,
+  microphone, buzzer.  Negated logic gate inputs and IEEE box logic gates.
+Version 5.5: New macros potentiometer, variable, igbt, tline. Optional
+  negated logic gate inputs. Options for diode, source.
+Version 5.4: New Mux, for_, arca.  Reworked gate macros FlipFlop, AND_gate,
+  OR_gate, NOT_gate.  Improved lg_pintxt, boxdim, s_box, s_ht, s_wd,
+  s_dp, nport, resistor, opamp.  Completely reworked bi_tr, mosfet;
+  deleted smosfet.  Minor additions and changes to the manual.
+Version 5.3: New macros arcr, arcd, beginshade, endshade, larrow, rarrow,
+  s_sp, s_ht, s_wd, Max, Min, sfgself.  Improved ground, sfgnode, diode,
+  resistor.
+Version 5.2: New macros arrowline, nport, vlength, boxcoord, reversed.
+  Improved s_box, sfg_init, cross, fitcurve, sinusoid, transformer,
+  darrow, mosfet, psset_, battery, diode, capacitor.
+Version 5.1: Signal-flow graph (directed graph) macros.  More consistent
+  rot3Dz.  Work-around for a bug in some pic processors invoked by the
+  battery macro and for an arc instability invoked by the fuse macro.
+  Modified ground, dimension_, par_, label macros, b_current, diode,
+  transformer.  New macros gpar_, ujt, scr, contact, relay.  Document
+  fixes and additions.  Changes to examples for portability.
+Version 5.0: Macros fuse, lpop, sinc; dpic-only sinusoid and fitcurve macros.
+  More robust mosfet, smosfet, b_current, bi_tr, j_fet, intersect_.
+  Editorial changes to the manual. Examples in Xfig version 3.2 format.
+  Web-based examples and updated links.
+Version 4.9: More robust NOT_gate.  Function pmod(), macro shade(). Tweaks
+  to diode, dend, crossover. Newer manual and web references.  Binary tree
+  and flowchart macros.
+Version 4.8: More robust ebox, source, shadebox, gap.  Modified d_fet and
+  e_fet.  Macros mosfet and smosfet.  More examples in the manual.
+  Bug fixes in Fector, transformer, BUFFER_gate and in sum_, abs_, neg_,
+  sign_ (!).
+Version 4.7: Fixed the excess-space bug in boxdims.sty.  Added Macros
+  s_box, s_init, scale changes to make the package more metric-friendly.
+  Reworked amp, integrator, opamp, diode, battery and a few other macros
+  for robustness and clarity.  Minor document changes.
+Version 4.6: Percent-signs at the end of pstricks-generated lines.
+  Index in the manual.  New copyright notices.
+Version 4.5: Options for several 2-terminal macros.  Minor bug fixes and
+  better robustness.  Documents edited for friendlier PC installation
+  and use.
+Version 4.3: Macros pt__ and boxdim.  Additions to the manual.  More robust
+  dimension_, tuned FlipFlop for xfig.  PC installation information.
+Version 4.2: Friendlier manual.  New Xfig prototype file to allow correct
+  scaling.  Cleaned up b_current, added line_leng.  Changes and additions
+  to logic gates.
+Version 4.1: Xfig prototype file included.  Minor document changes.  Fixed
+  recursive call bug and blank line bug.  Changed argument for dend macro.
+  Better arrowheads in circuit elements.
+Version 4: Simplified library use.  Added capabilities and flexibility to
+  several devices, added _init macros, modified b_current.  Updated
+  font.m4, cosmetic changes to inductor.  Made gamp, amp, opamp,
+  integrator more robust.  Deleted edel_ macro.  Fixed elen_ bug
+  in darrow.m4.  Removed Capacitor, Inductor and others in favour of
+  parameterized macros.  Iron-core inductors.  Re-worked use of arcs in
+  basic elements for better robustness.  Edited examples document and
+  the manual.
+Version 3: Document changes, minor changes to dimension_, switch,
+  ground, battery.  Added flexibility for several elements.  New diodes,
+  Capacitor, transistors, hop, transformer.  Experimental Metafont
+  version of basic elements.
+Version 2.2: Replaced definitions of two-terminal elements
+  with current arrow by an arrow-labelling macro.
+Version 2.1: one or two examples simplified, and logic gates added.
+Version 2:  considerable added flexibility and robustness,
+  bug fixes, a few new constructs, a manual, and a complex logic-gate
+  example.

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pyast:Module xmlns:xmi="http://www.omg.org/XMI" xmlns:pyast="http://www.python.org/pythonast/3.14" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="is_positive_module" xmi:version="2.0">
+  <body xsi:type="pyast:FunctionDef" name="is_positive">
+    <args>
+      <args arg="n"/>
+    </args>
+    <body xsi:type="pyast:Return">
+      <value xsi:type="pyast:Compare">
+        <left xsi:type="pyast:Name" id="n">
+          <ctx xsi:type="pyast:Load"/>
+        </left>
+        <ops xsi:type="pyast:Gt"/>
+        <comparators xsi:type="pyast:Constant" value="0"/>
+      </value>
+    </body>
+  </body>
+</pyast:Module>

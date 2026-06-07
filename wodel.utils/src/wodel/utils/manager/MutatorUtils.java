@@ -7039,9 +7039,8 @@ public class MutatorUtils {
 			List<EObject> emuts = ((ObjectCreated) mut).getObject();
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
-				emuts.remove(0);
 				if (ModelManager.getObject(model, emutated) != null) {
-					emuts.add(ModelManager.getObject(model, emutated));
+					emuts.set(0, ModelManager.getObject(model, emutated));
 				}
 			}
 		}
@@ -7049,9 +7048,8 @@ public class MutatorUtils {
 			List<EObject> emuts = ((ObjectCloned) mut).getObject();
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
-				emuts.remove(0);
 				if (ModelManager.getObject(model, emutated) != null) {
-					emuts.add(ModelManager.getObject(model, emutated));
+					emuts.set(0, ModelManager.getObject(model, emutated));
 				}
 			}
 		}
@@ -7059,18 +7057,17 @@ public class MutatorUtils {
 			List<EObject> emuts = ((ObjectRemoved) mut).getObject();
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
-				emuts.remove(0);
 				boolean found = false;
 				for (Resource seed : seeds) {
 					if (ModelManager.getObject(seed, emutated) != null) {
 						found = true;
-						emuts.add(ModelManager.getObject(seed, emutated));
+						emuts.set(0, ModelManager.getObject(seed, emutated));
 						break;
 					}
 				}
 				if (found == false) {
 					if (ModelManager.getObject(model, emutated) != null) {
-						emuts.add(ModelManager.getObject(model, emutated));
+						emuts.set(0, ModelManager.getObject(model, emutated));
 					}
 				}
 				
@@ -7080,18 +7077,17 @@ public class MutatorUtils {
 			List<EObject> emuts = ((ObjectRetyped) mut).getRemovedObject();
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
-				emuts.remove(0);
 				boolean found = false;
 				for (Resource seed : seeds) {
 					if (ModelManager.getObject(seed, emutated) != null) {
 						found = true;
-						emuts.add(ModelManager.getObject(seed, emutated));
+						emuts.set(0, ModelManager.getObject(seed, emutated));
 						break;
 					}
 				}
 				if (found == false) {
 					if (ModelManager.getObject(model, emutated) != null) {
-						emuts.add(ModelManager.getObject(model, emutated));
+						emuts.set(0, ModelManager.getObject(model, emutated));
 					}
 				}
 				
@@ -9936,16 +9932,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(mutant, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(seed, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -9963,7 +9958,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -9980,16 +9975,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10004,7 +9998,7 @@ public class MutatorUtils {
 													}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10021,16 +10015,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10046,7 +10039,7 @@ public class MutatorUtils {
 												}
 											}
 											if (object != null) {
-												emuts.add(object);
+												emuts.set(0, object);
 											}
 										}
 									}
@@ -10153,16 +10146,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObject(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10180,7 +10172,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10379,16 +10371,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(mutant, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(seed, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10406,7 +10397,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10423,16 +10414,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10450,7 +10440,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10467,16 +10457,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10495,7 +10484,7 @@ public class MutatorUtils {
 												}
 											}
 											if (object != null) {
-												emuts.add(object);
+												emuts.set(0, object);
 											}
 										}
 									}
@@ -10602,16 +10591,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObject(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10629,7 +10617,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10777,7 +10765,7 @@ public class MutatorUtils {
 				return isRepeated;
 			}
 			else {
-			File outputFolder = new File(
+				File outputFolder = new File(
 					hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
@@ -10916,16 +10904,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(mutant, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(seed, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10943,7 +10930,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -10960,16 +10947,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -10987,7 +10973,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -11004,16 +10990,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11032,7 +11017,7 @@ public class MutatorUtils {
 												}
 											}
 											if (object != null) {
-												emuts.add(object);
+												emuts.set(0, object);
 											}
 										}
 									}
@@ -11139,16 +11124,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObject(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11166,7 +11150,7 @@ public class MutatorUtils {
 													} catch (Exception e) {}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -11578,16 +11562,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(mutant, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(seed, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11606,7 +11589,7 @@ public class MutatorUtils {
 													}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -11623,16 +11606,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11651,7 +11633,7 @@ public class MutatorUtils {
 													}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -11668,16 +11650,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObjectByName(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11697,7 +11678,7 @@ public class MutatorUtils {
 												}
 											}
 											if (object != null) {
-												emuts.add(object);
+												emuts.set(0, object);
 											}
 										}
 									}
@@ -11804,16 +11785,15 @@ public class MutatorUtils {
 									else {
 										emutated = emuts.get(0);
 									}
-									emuts.remove(0);
 									EObject object = ModelManager.getObjectByName(seed, emutated);
 									if (object != null) {
-										emuts.add(object);
+										emuts.set(0, object);
 										mutVersion = mutFilename;
 									}
 									else {
 										object = ModelManager.getObject(mutant, emutated);
 										if (object != null) {
-											emuts.add(object);
+											emuts.set(0, object);
 											mutVersion = mutFilename;
 										}
 										else {
@@ -11832,7 +11812,7 @@ public class MutatorUtils {
 													}
 												}
 												if (object != null) {
-													emuts.add(object);
+													emuts.set(0, object);
 												}
 											}
 										}
@@ -12059,45 +12039,85 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static EObject findEObjectForRegistry(Resource seed, EObject object, EObject objectByID, EObject objectByURI, List<String> mutPaths, List<EPackage> packages) {
+	public static EObject findEObjectForRegistry(Resource seed, Resource mutant, EObject object, EObject objectByID, EObject objectByURI, List<String> mutPaths, List<EPackage> packages) {
 		if (object != null && ModelManager.getObject(seed, object) != null) {
 			return ModelManager.getObject(seed, object);
 		}
 		if (objectByID != null && ModelManager.getObject(seed, objectByID) != null) {
 			EObject o = ModelManager.getObject(seed, objectByID);
-			if (o.eIsProxy()) {
-				return EcoreUtil.resolve(o, seed);
-			}
-			else {
-				return o;
+			if (o != null) {
+				if (o.eIsProxy()) {
+					return EcoreUtil.resolve(o, seed);
+				}
+				else {
+					return o;
+				}
 			}
 		}
 		if (objectByURI != null && ModelManager.getObject(seed, objectByURI) != null) {
 			EObject o = ModelManager.getObject(seed, objectByURI);
-			if (o.eIsProxy()) {
-				return EcoreUtil.resolve(o, seed);
+			if (o != null) {
+				if (o.eIsProxy()) {
+					return EcoreUtil.resolve(o, seed);
+				}
+				else {
+					return o;
+				}
 			}
-			else {
-				return o;
+		}
+		if (object != null && ModelManager.getObject(mutant, object) != null) {
+			return ModelManager.getObject(mutant, object);
+		}
+		if (objectByID != null && ModelManager.getObject(mutant, objectByID) != null) {
+			EObject o = ModelManager.getObject(mutant, objectByID);
+			if (o != null) {
+				if (o.eIsProxy()) {
+					return EcoreUtil.resolve(o, mutant);
+				}
+				else {
+					return o;
+				}
+			}
+		}
+		if (objectByURI != null && ModelManager.getObject(mutant, objectByURI) != null) {
+			EObject o = ModelManager.getObject(mutant, objectByURI);
+			if (o != null) {
+				if (o.eIsProxy()) {
+					return EcoreUtil.resolve(o, mutant);
+				}
+				else {
+					return o;
+				}
 			}
 		}
 		if ((mutPaths != null) && (packages != null)) {
 			try {
-				Resource mutant = null;
+				Resource mtnt = null;
 				EObject obj = null;
 				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
+					mtnt = ModelManager.loadModel(packages, mutatorPath);
 					if (object != null) {
-						obj = ModelManager.getObject(mutant, object);
+						obj = ModelManager.getObject(mtnt, object);
 						if (obj != null) {
 							break;
 						}
 					}
 					if (obj == null && objectByID != null)  {
-						EObject o = ModelManager.getObject(mutant, objectByID);
+						EObject o = ModelManager.getObject(mtnt, objectByID);
 						if (o != null) {
 							if (o.eIsProxy()) {
-								obj = EcoreUtil.resolve(o, mutant);
+								obj = EcoreUtil.resolve(o, mtnt);
+							}
+							else {
+								obj = o;
+							}
+						}
+					}
+					if (obj == null && objectByURI != null)  {
+						EObject o = ModelManager.getObject(mtnt, objectByURI);
+						if (o != null) {
+							if (o.eIsProxy()) {
+								obj = EcoreUtil.resolve(o, mtnt);
 							}
 							else {
 								obj = o;
@@ -12106,8 +12126,8 @@ public class MutatorUtils {
 					}
 					//Reload input
 					try {
-						mutant.unload();
-						mutant.load(null); 
+						mtnt.unload();
+						mtnt.load(null); 
 					} catch (Exception e) {}
 				}
 				if (obj != null) {
@@ -12115,8 +12135,15 @@ public class MutatorUtils {
 				}
 				else if (object != null) {
 					for (String mutatorPath : mutPaths) {
-						mutant = ModelManager.loadModel(packages, mutatorPath);
-						IComparisonScope scope = new DefaultComparisonScope(seed, mutant, null);
+						mtnt = ModelManager.loadModel(packages, mutatorPath);
+						EMFDiff.ModelDelta delta = EMFDiff.findAddedAndRemovedEObjects(seed, mtnt);
+						if (delta != null && delta.getAdded().size() > 0) {
+							return delta.getAdded().get(0);
+						}
+						if (delta != null && delta.getRemoved().size() > 0) {
+							return delta.getRemoved().get(0);
+						}
+						IComparisonScope scope = new DefaultComparisonScope(seed, mtnt, null);
 						Comparison comparison = EMFCompare.builder().build().compare(scope);
 						List<Diff> differences = comparison.getDifferences();
 						for (Diff diff : differences) {
@@ -12131,8 +12158,8 @@ public class MutatorUtils {
 						}
 						//Reload input
 						try {
-							mutant.unload();
-							mutant.load(null); 
+							mtnt.unload();
+							mtnt.load(null); 
 						} catch (Exception e) {}
 					}
 				}
@@ -12152,7 +12179,7 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static List<EObject> findEObjectsForRegistry(Resource seed, wodel.utils.commands.Mutator mut, List<String> mutPaths, List<EPackage> packages) {
+	public static List<EObject> findEObjectsForRegistry(Resource seed, Resource mutant, wodel.utils.commands.Mutator mut, List<String> mutPaths, List<EPackage> packages) {
 		List<EObject> objects = new ArrayList<EObject>();
 		List<EObject> direct = mut.getObjects();
 		List<EObject> referenced = mut.getObjectsByIdentification();
@@ -12171,43 +12198,57 @@ public class MutatorUtils {
 						objects.add(oo);
 					}
 				}
-				else {
-					if ((mutPaths != null) && (packages != null)) {
-						try {
-							Resource mutant = null;
-							EObject object = null;
-							for (String mutatorPath : mutPaths) {
-								mutant = ModelManager.loadModel(packages, mutatorPath);
-								object = ModelManager.getObject(mutant, obj);
-								if (object != null) {
-									break;
-								}
-								else {
-									List<EObject> lo = mut.getObjectsByIdentification();
-									for (EObject ob : lo) {
-										EObject o = ModelManager.getObject(mutant, ob);
-										if (o != null) {
-											if (o.eIsProxy()) {
-												object = EcoreUtil.resolve(o, mutant);
-											}
-											else {
-												object = o;
+				else if (ModelManager.getObject(mutant, obj) != null) {
+					objects.add(ModelManager.getObject(mutant, obj));
+				}
+				else if (referenced != null && referenced.size() > i) {
+					EObject ooo = ModelManager.getObject(mutant, referenced.get(i));
+					if (ooo != null) {
+						if (ooo.eIsProxy()) {
+							objects.add(EcoreUtil.resolve(oo, mutant));
+						}
+						else {
+							objects.add(oo);
+						}
+					}
+					else {
+						if ((mutPaths != null) && (packages != null)) {
+							try {
+								Resource mtnt = null;
+								EObject object = null;
+								for (String mutatorPath : mutPaths) {
+									mtnt = ModelManager.loadModel(packages, mutatorPath);
+									object = ModelManager.getObject(mtnt, obj);
+									if (object != null) {
+										break;
+									}
+									else {
+										List<EObject> lo = mut.getObjectsByIdentification();
+										for (EObject ob : lo) {
+											EObject o = ModelManager.getObject(mtnt, ob);
+											if (o != null) {
+												if (o.eIsProxy()) {
+													object = EcoreUtil.resolve(o, mtnt);
+												}
+												else {
+													object = o;
+												}
 											}
 										}
 									}
+									//Reload input
+									try {
+										mtnt.unload();
+										mtnt.load(null); 
+									} catch (Exception e) {}
 								}
-								//Reload input
-								try {
-									mutant.unload();
-									mutant.load(null); 
-								} catch (Exception e) {}
+								if (object != null) {
+									objects.add(object);
+								}
+							} catch (ModelNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
-							if (object != null) {
-								objects.add(object);
-							}
-						} catch (ModelNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
 					}
 				}

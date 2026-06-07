@@ -31,16 +31,17 @@ import org.eclipse.emf.ecore.EClass
 
 class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 	
-	private List<EObject> blocks
 	private String localProperties
 	private String xmlFileName
 	private String fileName
+	private List<EPackage> metamodel
+	private List<EClass> roots
+	private List<EObject> blocks
 	private String stringXmlFileName
 	private String stringXmlFileNameEs
 	private String userProfile = "C\\:\\\\Users\\\\User"
 	private String currentDate = (new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)).format((new Date(System.currentTimeMillis())))
-	private List<EPackage> metamodel
-	private List<EClass> roots 
+	
 	//private String pageName
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
@@ -56,7 +57,7 @@ class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
 			//val EPackage epackage = mutatorpackages.get(0);
 			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);
 			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
-			blocks = ModelManager.getObjectsOfType("Block", mutatormodel)
+			val List<EObject> blocks = ModelManager.getObjectsOfType("Block", mutatormodel)
 			
 			var String userProfileValue = System.getenv("USERPROFILE")
 			if (userProfileValue !== null && userProfileValue.length() > 0) {

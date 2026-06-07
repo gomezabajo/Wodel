@@ -28,13 +28,14 @@ import org.eclipse.emf.ecore.EClass
 
 class EduTestiOSAppGenerator extends EduTestSuperGenerator {
 	
+	private String fileName
+	private List<EPackage> metamodel
+	private List<EClass> roots
 	private List<EObject> blocks
 	private String questionsSwift
 	private String examViewControllerSwift
 	private TreeMap<Integer, String> drawable = new TreeMap()
 	private TreeMap<Integer, TreeMap<Integer,String>> drawableAnswer = new TreeMap()
-	private List<EPackage> metamodel
-	private List<EClass> roots 
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		project = ProjectUtils.getProject();

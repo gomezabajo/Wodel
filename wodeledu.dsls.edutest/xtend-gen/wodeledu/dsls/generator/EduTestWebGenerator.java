@@ -49,17 +49,17 @@ import wodel.utils.manager.ModelManager;
  */
 @SuppressWarnings("all")
 public class EduTestWebGenerator extends EduTestSuperGenerator {
-  private String fileName;
-
-  private String pageName;
-
   private int num;
 
-  private List<EObject> blocks;
+  private String fileName;
 
   private List<EPackage> metamodel;
 
   private List<EClass> roots;
+
+  private List<EObject> blocks;
+
+  private String pageName;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -293,7 +293,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               EList<Test> _tests = ((MultiChoiceEmendation)exercise_1).getTests();
               for(final Test test : _tests) {
                 {
-                  List<List<EduTestSuperGenerator.TestOption>> _get = this.options.get(exercise_1).get(test);
+                  List<List<TestOption>> _get = this.options.get(exercise_1).get(test);
                   boolean _tripleNotEquals = (_get != null);
                   if (_tripleNotEquals) {
                     {
@@ -1344,15 +1344,15 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 String diagram_3 = "";
                 _builder.newLineIfNotEmpty();
                 {
-                  List<List<EduTestSuperGenerator.TestOption>> _get_16 = this.options.get(exercise_1).get(test_8);
+                  List<List<TestOption>> _get_16 = this.options.get(exercise_1).get(test_8);
                   boolean _tripleNotEquals_5 = (_get_16 != null);
                   if (_tripleNotEquals_5) {
                     _builder.append("\t\t        ");
                     int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise_1).get(test_8));
                     _builder.newLineIfNotEmpty();
                     {
-                      List<EduTestSuperGenerator.TestOption> _get_17 = this.options.get(exercise_1).get(test_8).get(rndIndex);
-                      for(final EduTestSuperGenerator.TestOption opt : _get_17) {
+                      List<TestOption> _get_17 = this.options.get(exercise_1).get(test_8).get(rndIndex);
+                      for(final TestOption opt : _get_17) {
                         {
                           if ((opt.solution == true)) {
                             _builder.append("//");
@@ -2738,15 +2738,15 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          List<List<EduTestSuperGenerator.TestOption>> _get_2 = this.options.get(sc).get(test_1);
+          List<List<TestOption>> _get_2 = this.options.get(sc).get(test_1);
           boolean _tripleNotEquals = (_get_2 != null);
           if (_tripleNotEquals) {
             _builder.append("\t        ");
             int rndIndex = ModelManager.getRandomIndex(this.options.get(sc).get(test_1));
             _builder.newLineIfNotEmpty();
             {
-              List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(sc).get(test_1).get(rndIndex);
-              for(final EduTestSuperGenerator.TestOption opt : _get_3) {
+              List<TestOption> _get_3 = this.options.get(sc).get(test_1).get(rndIndex);
+              for(final TestOption opt : _get_3) {
                 {
                   if ((opt.solution == true)) {
                     _builder.append("<!--");
@@ -2853,15 +2853,15 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          List<List<EduTestSuperGenerator.TestOption>> _get_4 = this.options.get(sc).get(test_1);
+          List<List<TestOption>> _get_4 = this.options.get(sc).get(test_1);
           boolean _tripleNotEquals_1 = (_get_4 != null);
           if (_tripleNotEquals_1) {
             _builder.append("\t        ");
             int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(sc).get(test_1));
             _builder.newLineIfNotEmpty();
             {
-              List<EduTestSuperGenerator.TestOption> _get_5 = this.options.get(sc).get(test_1).get(rndIndex_1);
-              for(final EduTestSuperGenerator.TestOption opt_1 : _get_5) {
+              List<TestOption> _get_5 = this.options.get(sc).get(test_1).get(rndIndex_1);
+              for(final TestOption opt_1 : _get_5) {
                 {
                   Mode _mode = sc.getConfig().getMode();
                   boolean _equals_2 = Objects.equals(_mode, Mode.CHECKBOX);

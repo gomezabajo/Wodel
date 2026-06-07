@@ -387,7 +387,7 @@ public class EMFCopier {
 			}
 		}
 		if (target == null) {
-			target = ModelManager.getObjectByName(modelcopy, object);
+			target = ModelManager.getObject(modelcopy, object);
 		}
 		return target;
 	}

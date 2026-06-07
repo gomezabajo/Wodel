@@ -1,0 +1,350 @@
+
+* Circuit_macros Version 11.0.4, copyright (c) 2026 J. D. Aplevich under     *
+* the LaTeX Project Public Licence in file Licence.txt. The files of       *
+* this distribution may be redistributed or modified provided that this    *
+* copyright notice is included and provided that modifications are clearly *
+* marked to distinguish them from this distribution.  There is no warranty *
+* whatsoever for these files.                                              *
+
+  This is a set of macros for drawing high-quality line diagrams to
+  include in LaTeX, web, or similar documents, with support for svg
+  (including Inkscape) and other formats.  Fundamental electric circuit
+  elements and basic logic gates based on IEEE and European standards are
+  included with several tools and examples of other types of diagrams.
+  Elements can be scaled or drawn in any orientation and are easy
+  to modify.  The advantages and disadvantages of such a system in its
+  basic form are similar to those of TeX itself, which is macro-based
+  and non-WYSIWYG. Graphical interfaces are available for specific
+  operating systems.
+
+  The macros are to be processed by an m4 macro processor, and evaluate
+  to drawing commands in the pic "little language," which is easy to
+  read and learn. The diagram is then automatically translated into
+  TiKZ, PSTricks, or other formats for processing by LaTeX or other
+  applications. Pic is well suited to line drawings requiring parametric
+  or conditional components, fine adjustment, geometric calculations
+  (it is Turing complete), repetition, or recursion.  Arbitrary text
+  for formatting by LaTeX can be included.  Free interpreters for m4
+  and pic are readily available.
+
+Sources are available as a git repository at
+   https://gitlab.com/aplevich/Circuit_macros
+
+REQUIRED SOFTWARE:
+Preferred setup:
+  m4, dpic, LaTeX or PDFLaTeX, TikZ-PGF
+  or
+  GNU m4, dpic, LaTeX, PSTricks, dvips
+
+  The GNU m4 macro processor is assumed. Other versions of m4 will work
+  with most macros.
+
+  The dpic interpreter can translate pic input into several forms,
+  typically a .tex file for processing by latex with pgf/Tikz or PSTicks
+  but also several stand-alone formats including SVG.
+
+Alternative:
+  m4, GNU pic (gpic), TeX or LaTeX, and a driver recognizing tpic specials
+   (eg dvips)
+
+  The GNU pic interpreter with option -t produces tpic special commands.
+
+Also possible for some diagrams:
+  m4 and dpic with output in the following formats:
+    LaTeX graphics or LaTeX eepic (for simple diagrams), mfpic, xfig,
+    MetaPost, svg, pdf, or Postscript.
+
+USAGE
+  First-time users should read the Quick Start section of Circuit_macros.pdf.
+
+  The following describes the most common basic usage to produce tikz
+  or pstricks graphics for LaTeX; see below for integration with other
+  tools and production of other formats. You probably should try out
+  the basic usage before integrating the macros with sophisticated
+  system-dependent tools. When developing your own diagrams, refer to the
+  macro descriptions in the List of Macros section of Circuit_macros.pdf.
+
+  Suppose that  a source file, cct.m4 say, has been created and the top
+  two lines are
+  .PS
+  cct_init
+  ...
+
+  The file is processed by feeding a configuration file followed by the
+  diagram source to m4, and routing the output to dpic.  If you have set
+  the M4PATH environment variable as described in the INSTAllATION
+  instructions, the command for Tikz processing is
+
+    m4 pgf.m4 cct.m4 | dpic -g > cct.tex
+
+  NOTE: The order in which the files are given to m4 is important.
+  A configuration file (pgf.m4 in this example) must ALWAYS appear first.
+
+  If you have not set the M4PATH environmental variable then the command is
+
+    m4 -I <path> pgf.m4 cct.m4 | dpic -g > cct.tex
+
+  where <path> is the absolute path to the directory containing the library
+  macros.
+
+  If the first line of cct.m4 is
+  include(pgf.m4)
+  and M4PATH is defined, then this command can be simplified to
+
+    m4 cct.m4 | dpic -g > cct.tex
+
+  In each case, the resulting file cct.tex is normally inserted into
+  a document to be processed by LaTeX.  The -g option of dpic produces
+  Tikz-pgf graphics commands in cct.tex so the LaTeX document must have
+  \usepackage{tikz} in the preamble.
+
+  To produce postscript output, the LaTeX preamble must contain
+  \usepackage{pstricks}, pstricks.m4 is read instead of pgf.m4, and the dpic
+  option is -p, so the command is
+
+    m4 pstricks.m4 cct.m4 | dpic -p > cct.tex or m4 cct.m4 | dpic -p > cct.tex
+
+  Read Section 2 of the manual to see how to process the diagram source
+  from within the main .tex source file.
+
+  To use the GNU gpic processor (called pic on some systems) instead of dpic,
+  the command is
+
+    m4 gpic.m4 cct.m4 | gpic -t > cct.tex
+
+  The basic commands given above suffice for documents of moderate size
+  and complexity; otherwise, a "make" facility or equivalent should be
+  used or, for modest documents, diagram processing can be controlled
+  from within the tex document source as described in the manual. For
+  near-immediate viewing of the results, three windows can be kept open:
+  one in which to edit the source, one to process the source and produce
+  postscript or pdf, and a viewer such as gv, GSview 5.0, or Okular, for
+  example. A window displaying the manual is also useful when you are
+  composing a significant diagram.
+
+INSTALLATION AND TESTING: See the INSTALL file.
+
+SOURCES AND MANUALS:
+  View or print Circuit_macros.pdf in the doc directory.
+
+  M4 is widely available on Unix systems.  PC source and executables are
+  also available: http://gnuwin32.sourceforge.net/packages/m4.htm
+  A large set of Unix-like Windows tools, including m4, is available via
+  http://www.cygwin.com/
+  DJGPP versions are available as m4-NNb.zip (where NN is the current
+  release number) on web archives and at
+  http://www.delorie.com/djgpp/dl/ofc/dlfiles.cgi/current/v2gnu/
+
+  There are several sources of hints on m4 usage; some places to look are
+  http://gnuwin32.sourceforge.net/packages/m4.htm  (m4 for Windows)
+  http://www.gnu.org/software/m4/manual/   (GNU m4 manual)
+  https://mbreen.com/m4.html    (m4 by example)
+  The m4 (computer language) article in Wikipedia gives a concise overview.
+  An academic discussion of the language can be found in
+  http://www.cs.stir.ac.uk/~kjt/research/pdf/expl-m4.pdf.
+  The GNU Autoconf manual contains a chapter on M4 programming:
+  http://www.gnu.org/software/autoconf/manual/index.html
+  (Do not read this manual first). Autoconf uses quote characters [ and ]
+  instead of the default ` and ' which work well with the pic language.
+
+DPIC:
+  Several Linux distributions will install dpic by command but the version
+  may not be the latest.  A git repository containing complete source is at
+  https://gitlab.com/aplevich/dpic
+  and source plus a Windows executable can be obtained from
+  http://ece.uwaterloo.ca/~aplevich/dpic/
+  The best advice is to obtain the newest version.
+
+  The dpic distribution includes dpic-doc.pdf, a manual containing a summary
+  of the pic language and a detailed description of features unique to dpic.
+
+GPIC:
+  Gpic is part of the GNU groff distribution, for which the source
+  and documentation is available from http://ftp.gnu.org/gnu/groff/
+  but there are mirror sites as well.  A more extensive manual is found
+  in the documentation that comes with GNU pic, which is typically
+  installed as gpic. A pdf copy is included with the dpic distribution.
+  The original AT&T pic manual can be found at
+  http://doc.cat-v.org/unix/v10/10thEdMan/pic.pdf
+
+SVG output, Inkscape:
+  Dpic -v produces svg output.  If the result is to be directly inserted
+  into html, then as for Postscript output, the diagram source file has
+  to be adapted to remove any LaTeX formatting. The configuration file
+  svg.m4 contains macros that can assist.  At the expense of an extra
+  postprocessing step, sophisticated text formatting and font selection
+  can be retained by first producing pdf output and then converting to
+  svg using, say, dvisvgm (https://www.ctan.org/pkg/dvisvgm) or pdf2svg
+  (https://github.com/dawbarton/pdf2svg).
+
+  SVG is the native file format for the Inkscape graphics editor.
+  Therefore, elements defined by these macros can be output by dpic -v in
+  svg format for later manipulation by Inkscape.  A basic palette of
+  circuit elements for Inkscape is found in examples/dpv/palettePDV.m4.
+  In the examples/dpv subdirectory, type "make paletteDPV.svg", read
+  the resulting file into Inkscape, and then ungroup the elements as
+  desired. You would probably wish to add to or customize these elements
+  for extensive use.
+
+EXAMPLES
+  Numerous examples are included in this distribution, showing electric
+  circuits, block diagrams, flow charts, signal-flow graphs, basic use
+  of colour and fill, and other applications.  Some of the examples
+  test the boundaries of the domain of application of dpic with m4
+  macros. Read the manual Circuit_macros.pdf and view examples.pdf in the
+  examples directory or make and view the html file in the examples/dpv
+  directory. Yet more examples are in the examples/extras directory.
+  Try http://ece.uwaterloo.ca/~aplevich/Circuit_macros/ for the possibly
+  unstable development version of these macros.
+
+  The examples directory Makefile automates the generation of .ps, .eps,
+  .png, and .pdf files for individual diagrams.  Subdirectories of the
+  examples directory are for testing metafont, metapost, pgf, psfrag,
+  and xfig examples.
+
+WORKFLOW:
+  Installation and usage of the macros have evolved somewhat since the
+  beginning, so archived instructions on the net may be slightly more
+  complicated than currently necessary.
+
+  I use a very simple workflow most of the time: three open windows;
+  one to edit the diagram source, one to run LaTeX and produce pdf or
+  postscript, and a document viewer window. The lines
+   :set mps+=`:'
+   :set mps+=<:>
+  were added to my default .vimrc file to highlight matched pairs of
+  brackets, braces, parentheses, and, expecially for m4 programming,
+  single quotes.
+
+INTEGRATION WITH OTHER TOOLS:
+  To automate document production, I simply added commands to
+  the appropriate Makefiles. However, others have developed tools
+  that simplify workflow for their circumstances.  The following are
+  representative but keep in mind that systems and installations evolve
+  over time:
+
+  A Python-based GUI called PyCirkuit is at
+  https://pypi.org/project/pycirkuit/ and
+  https://github.com/orestesmas/pycirkuit.  For an introduction, look at
+  the FOSDEM video by Orestes Mas:
+  https://archive.fosdem.org/2020/schedule/event/pycirkuit/
+
+  A python build-automation tool, m4cm, by Peter Jan Randewijk is at
+  https://m4cmpy.wordpress.com/ and very clear instructions about getting
+  started with Circuit_macros are at
+  https://m4cmpy.wordpress.com/2020/02/23/getting-started-with-m4-circuit-macros/
+
+  Fabrice Salvaire has a blog and a useful bash script at
+  https://www.fabrice-salvaire.fr/en/blog/electronic-circuit-diagrams/
+
+  A set of examples and hints intended for his colleagues has been
+  produced by Alan Robert Clark at http://ytdp.ee.wits.ac.za/cct.html
+
+  Peter Fabo and colleagues are writing an open-source book
+  that introduces Circuit_macros as well as useful libraries and
+  customizations:
+  https://github.com/lab-411/Technicka_Grafika
+  The rendered version is available at
+  https://lab-411.github.io/Technicka_Grafika/_build/html/index.html
+  It is in the Slovak language but Google Translate works well with it.
+
+  Examples and hints for logic circuits are at:
+  https://aprikose.sumomo.ne.jp/madchemiker/
+  Invoke this site using Google translate if you do not read Japanese.
+
+  A video "Drawing Circuit Diagrams with Circuits Macros" by James Green
+  showing how to use Circuit_macros with his setup is at 
+  https://www.youtube.com/watch?time_continue=53&v=pFRIBvUJHS4
+
+  A recent elementary introduction to Circuit_macros is at
+  https://www.root.cz/clanky/publikovanie-elektrickych-schem-a-diagramov-pomocou-circuit-macros/
+  It is in Czech but Google translate works well.
+
+  LaTeX automation tools are discussed at, for example, 
+  http://tex.stackexchange.com/questions/64/tools-for-automating-document-compilation
+
+  A Windows batch file for Circuit_macros is found at
+  http://someonehasdonethis.blogspot.ca/2012/12/a-solution-for-drawing-circuit-diagrams.html
+
+  The eschpic package on Github contains macro definitions targeted at
+  IEC-style electrical drawings for industrial and automation purposes:
+  https://github.com/xwhatsit/eschpic
+
+  Mac users:
+  Descriptions of Mac installations have been published from time to time;
+  for example:
+  https://www.yumpu.com/en/document/view/34946319/using-circuitmacros-in-mac-os-x-automation-and-robotics-
+
+VARIATIONS
+  Macros such as these will be modified inevitably to suit individual
+  needs and taste.  They continue to evolve in my own library as I
+  use them and as others send comments.  No such collection can hope to
+  include all possible circuit-related symbols, so you will probably find
+  yourself writing your own macros or adapting some of these.  The example
+  files might be a good place to start.  Be careful to rename modified
+  macros to avoid confusion.  The learning curve compares well to other
+  packages, but there is no trivially easy way to produce high-quality
+  graphics.  (If "a picture is worth a thousand words," ask yourself
+  how long it would take to write, revise, and perfect a thousand words.)
+
+  The pic language dates from the 1980s and was first developed
+  as a preprocessor for the *roff family of Unix wordprocessors.
+  Some additional libraries such as chem (for chemical structures)
+  and dformat (for data structures) are still viable.
+
+  A collection of traditional pic resources and related material is
+  available at http://www.kohala.com/start/troff/troff.html In particular,
+  W. Richard Stevens illustrated his books on Unix and TCP/IP using
+  pic macros. Some of the sources found there need minor tuning to work
+  under dpic.
+
+MetaPost examples:  Go to the examples/mpost directory.  Check the
+  Makefile as described in the README file, type "make", and stand
+  well back.
+
+Postscript with embedded psfrag strings:
+  Type "make" in the examples/psfrag directory to process examples
+  using dpic -f for creating .eps files with embedded psfrag strings.
+
+Postscript, CorelDraw, Adobe Illustrator:
+  Circuits and other diagrams not requiring LaTeX-formatted text can be
+  processed through m4 and dpic -r to produce encapsulated Postscript
+  output. This output can also be imported into CorelDraw or Adobe
+  Illustrator.  However, Postscript is not a word processor, so any LaTeX
+  formatting instructions in the source are not obeyed. These programs
+  also import svg output produced by dpic -v.
+
+Metafont:
+  The file examples/mf/cct.mf is a Metafont source for a few variants of
+  the basic elements, produced using the mfpic output of dpic.  It may
+  be of interest to persons who cannot otherwise implement the macros.
+  To see the elements (assuming a typical installation), type "make"
+  in the mf directory.
+
+Xfig:
+  The file examples/xfig/xfiglib.fig contains circuit elements in xfig
+  3.2 format produced by dpic.  The file is a prototype because many
+  more elements could be included.  Logic gates often have many labels,
+  and xfig is not a word processor, so some fine tuning of labels is in
+  order.  Translation between languages always involves a loss of
+  information and idiom, but Xfig can store diagrams in pic format, so
+  it is possible to alternate between xfig and dpic.
+
+LIBRARIES:
+  The file libgen.m4 contains general-purpose macros and is read
+  automatically by other libraries and the macro gen_init.  The file
+  libcct.m4 defines basic circuit elements.  Binary logic-circuit
+  elements are in liblog.m4 and additional single-line elements are
+  in libSLD.m4. Macros for drawing 3D projections are in lib3D.m4, and
+  some macros for drawing double-line arrows are in darrow.m4. The file
+  dpictools.pic contains dpic macros and is read automatically by some
+  of the examples.
+
+Feel free to contact me with comments or questions.  I have retired from
+full-time professorship but continue the hobby of maintaining these files.
+I may now be able to spend more time on individual requests but I may
+not reply instantly to email.
+
+
+Dwight Aplevich
+aplevich (AT) uwaterloo (DOT) ca

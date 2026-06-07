@@ -22,7 +22,8 @@ Require-Bundle: wodeledu.models,
  org.eclipse.emfcloud.emfjson-jackson,
  com.fasterxml.jackson.core.jackson-core,
  com.fasterxml.jackson.core.jackson-annotations,
- com.fasterxml.jackson.core.jackson-databind
+ com.fasterxml.jackson.core.jackson-databind,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: wodeledu.dsls,
  wodeledu.dsls.formatting2,
@@ -37,4 +38,3 @@ Export-Package: wodeledu.dsls,
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.slf4j
-

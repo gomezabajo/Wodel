@@ -143,7 +143,7 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 		
 				monitor.beginTask("Rendering models", totalTasks);
 				
-				// GENERATES PNG FILES FROM SOURCE MODELS
+				// GENERATES Py code programs FROM SOURCE MODELS
 				File folder = new File("«folder»data/model");
 				for (File file : folder.listFiles()) {
 					if (file.isFile()) {
@@ -153,17 +153,18 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
 							monitor.subTask("Generating python code for mutant" + printPathfile);
 							Resource model = ModelManager.loadModel(packages, pathfile);
+							String path = file.getName().replace(".model", "") + "/";
 							String pycodefile = "«folder»src-gen/html/code/" + 
-								file.getName().replace(".model", "") + "/" +
+								path + 
 								"«roots.get(0).name»_" + file.getName().replace(".model", ".py");
 							String htmlfile = "«folder»src-gen/html/code/" + 
-								file.getName().replace(".model", "") + "/" +
+								path + 
 								"«roots.get(0).name»_" + file.getName().replace(".model", ".html");
 							String batfile = "«folder»src-gen/html/code/" + 
-								file.getName().replace(".model", "") + "/" +
+								path + 
 								"«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
 							File pyfolder = new File("«folder»src-gen/html/code/" + 
-								file.getName().replace(".model", "") + "/");
+								path);
 							if (pyfolder.exists() != true) {
 								pyfolder.mkdirs();
 							}
@@ -277,12 +278,13 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 							printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
 							monitor.subTask("Generating python code for mutant " + printPathfile);
 							Resource model = ModelManager.loadModel(packages, pathfile);
-							String pycodefile = "«folder»src-gen/html/code/" + exercise.getName() + "/" +
+							String path = exercise.getName() + "/";
+							String pycodefile = "«folder»src-gen/html/code/" + path +
 								"«roots.get(0).name»_" + file.getName().replace(".model", ".py");
-							String htmlfile = "«folder»src-gen/html/code/" + exercise.getName() + "/" +
+							String htmlfile = "«folder»src-gen/html/code/" + path +
 								"«roots.get(0).name»_" + file.getName().replace(".model", ".html");
-							String batfile = "«folder»src-gen/html/code/" + exercise.getName() + "/«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
-							File pyfolder = new File("«folder»src-gen/html/code/" + exercise.getName() + "/");
+							String batfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
+							File pyfolder = new File("«folder»src-gen/html/code/" + path);
 							if (pyfolder.exists() != true) {
 								pyfolder.mkdirs();
 							}
@@ -380,12 +382,20 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 							}
 							monitor.worked(1);
 						}
+						else {
+							if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+								File[] filesBlock = file.listFiles();
+								for (File fileBlock : filesBlock) {
+									generatePyCode(fileBlock, packages, exercise, monitor);
+								}
+							}
+						}
 					}
 					else {
 						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
 							File[] filesBlock = file.listFiles();
 							for (File fileBlock : filesBlock) {
-								generatePyCode(fileBlock, file.getName(), packages, exercise, monitor);
+								generatePyCode(fileBlock, packages, exercise, monitor);
 							}
 						}
 					}
@@ -394,7 +404,7 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 		}
 		}
 	}
-		public void generatePyCode(File file, String folder, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
+		public void generatePyCode(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
@@ -402,13 +412,7 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«project.name»/") + ("/«project.name»/").length(), printPathfile.length());
 					monitor.subTask("Generating python code for mutant " + printPathfile);
 					Resource model = ModelManager.loadModel(packages, pathfile);
-					String path = exercise.getName() + "/";
-					List<String> folders = Arrays.asList(folder.split("/"));
-					if (folders.size() > 0) {
-						for (String folderName : folders) {
-							path += folderName + "/";
-						}
-					}
+					String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
 					String pycodefile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".py");
 					String htmlfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".html");
 					String batfile = "«folder»src-gen/html/code/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".bat");
@@ -502,41 +506,53 @@ class ModelDrawPyCodeGenerator extends AbstractGenerator {
 					}
 					monitor.worked(1);
 				}
-				else {
-					if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-						File[] filesBlock = file.listFiles();
-						for (File fileBlock : filesBlock) {
-							generatePyCode(fileBlock, folder + file.getName(), packages, exercise, monitor);
+			}
+			else {
+				generatePyCodeRecursive(file, packages, exercise, monitor);
+			}
+		}
+		
+		private void generatePyCodeRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException {
+			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+				File[] filesInBlock = file.listFiles();
+				if (filesInBlock != null && filesInBlock.length > 0) {
+					for (File fileInBlock : filesInBlock) {
+						if (fileInBlock.isFile()) {
+							generatePyCode(fileInBlock, packages, exercise, monitor);
+						}
+						else {
+							generatePyCodeRecursive(fileInBlock, packages, exercise, monitor);
 						}
 					}
 				}
 			}
 		}
-				@Override
-				public Object execute(ExecutionEvent event) throws ExecutionException {
-					try {
-						RunMutatorPyCodeWithProgress runMutatorPyCodeWithProgress = new RunMutatorPyCodeWithProgress();
-						ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
-						monitor.run(true, true, runMutatorPyCodeWithProgress);
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return null;
-				}
-			@Override
-			public void run() {
-				try {
-					execute(null);
-				}
-				catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		
+		@Override
+		public Object execute(ExecutionEvent event) throws ExecutionException {
+			try {
+				RunMutatorPyCodeWithProgress runMutatorPyCodeWithProgress = new RunMutatorPyCodeWithProgress();
+				ProgressMonitorDialog monitor = new ProgressMonitorDialog(new Shell(new Display()));
+				monitor.run(true, true, runMutatorPyCodeWithProgress);
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			return null;
+		}
+		@Override
+		public void run() {
+			try {
+				execute(null);
 			}
+			catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	'''
 }

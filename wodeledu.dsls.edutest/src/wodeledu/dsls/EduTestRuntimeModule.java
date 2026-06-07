@@ -3,9 +3,13 @@
  */
 package wodeledu.dsls;
 
+import wodeledu.dsls.generator.EduTestMoodleGenerator;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class EduTestRuntimeModule extends AbstractEduTestRuntimeModule {
+    public Class<? extends EduTestMoodleGenerator> bindEduTestMoodleGenerator() {
+        return EduTestMoodleGenerator.class;
+    }
 }

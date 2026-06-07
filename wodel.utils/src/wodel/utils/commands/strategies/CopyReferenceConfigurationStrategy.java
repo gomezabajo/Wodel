@@ -208,4 +208,9 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 	public String getOtherTargetName() {
 		return othereobjtarname;
 	}
+	
+	@Override
+	public EReference getRef() {
+		return this.source;
+	}
 }

@@ -1,7 +1,7 @@
 divert(-1)
   gpic.m4                       Initialization for gpic.
 
-* Circuit_macros Version 10.2, copyright (c) 2023 J. D. Aplevich under     *
+* Circuit_macros Version 11.0.4, copyright (c) 2026 J. D. Aplevich under     *
 * the LaTeX Project Public Licence in file Licence.txt. The files of       *
 * this distribution may be redistributed or modified provided that this    *
 * copyright notice is included and provided that modifications are clearly *

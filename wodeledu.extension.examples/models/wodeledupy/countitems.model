@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pyast:Module xmlns:xmi="http://www.omg.org/XMI" xmlns:pyast="http://www.python.org/pythonast/3.14" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="count_items_module" xmi:version="2.0">
+  <body xsi:type="pyast:FunctionDef" name="count_items">
+    <args>
+      <args arg="xs"/>
+    </args>
+    <body xsi:type="pyast:Assign">
+      <value xsi:type="pyast:Constant" value="0"/>
+      <targets xsi:type="pyast:Name" id="total">
+        <ctx xsi:type="pyast:Store"/>
+      </targets>
+    </body>
+    <body xsi:type="pyast:For">
+      <target xsi:type="pyast:Name" id="_">
+        <ctx xsi:type="pyast:Store"/>
+      </target>
+      <iter xsi:type="pyast:Name" id="xs">
+        <ctx xsi:type="pyast:Load"/>
+      </iter>
+      <body xsi:type="pyast:Assign">
+        <value xsi:type="pyast:BinOp">
+          <left xsi:type="pyast:Name" id="total">
+            <ctx xsi:type="pyast:Load"/>
+          </left>
+          <op xsi:type="pyast:Add"/>
+          <right xsi:type="pyast:Constant" value="1"/>
+        </value>
+        <targets xsi:type="pyast:Name" id="total">
+          <ctx xsi:type="pyast:Store"/>
+        </targets>
+      </body>
+    </body>
+    <body xsi:type="pyast:Return">
+      <value xsi:type="pyast:Name" id="total">
+        <ctx xsi:type="pyast:Load"/>
+      </value>
+    </body>
+  </body>
+</pyast:Module>

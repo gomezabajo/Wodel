@@ -1,7 +1,7 @@
 divert(-1)
    liblog.m4                    Logic gates
 
-* Circuit_macros Version 10.2, copyright (c) 2023 J. D. Aplevich under     *
+* Circuit_macros Version 11.0.4, copyright (c) 2026 J. D. Aplevich under     *
 * the LaTeX Project Public Licence in file Licence.txt. The files of       *
 * this distribution may be redistributed or modified provided that this    *
 * copyright notice is included and provided that modifications are clearly *
@@ -39,20 +39,23 @@ define(`AND_wd',7)
 define(`BUF_ht',4)
 define(`BUF_wd',3.5)
 define(`OR_rad',7)             `OR input radius'
-define(`XOR_off',1)            `XOR and NXOR parameter'
+define(`XOR_off',1)            `XOR and NXOR offset parameter; negative to
+                                disallow lines from input arc to gate'
 define(`N_diam',(3/2))         `not-circle diameter'
 define(`N_rad',`(N_diam/2)')   `not-circle radius'
 define(`NOT_rad',`(N_rad*L_unit)') `scaled radius eg line chop NOT_rad'
+define(`N_attr')               `not-circle attribs eg shaded "green"'
 define(`H_ht',2)               `Hysteresis symbol dimen'
 define(`Mx_pins',6)            `max number of gate input pins without extensions
                                 Possibly 4 is better for negated inputs'
 define(`FF_wid',12)            `Bistable (flipflop)'
 define(`FF_ht',18)
-define(`Mux_wid',8)            `Multiplexer defaults'
+define(`Mux_wid',8)            `Multiplexer defaults in L_units'
 define(`Mux_ht',18)
+define(`Lg_body')              `Gate body attributes, e.g., shaded "color"'
 
 define(`lg_plen',4)            `Logic pin'
-define(`lg_pinsep',`(3*L_unit)')  `logic pin separation in logic units'
+define(`lg_pinsep',`(3*L_unit)')  `logic pin separation in drawing units'
 define(`lg_chipwd',`(18*L_unit)') `default chip width'
 define(`lg_pintxt',
  `"ifxfig(`$1',`ifsvg(`svg_small(`$1',75)',`sp_{\scriptsize `$1'}sp_')')"')
@@ -71,28 +74,33 @@ define(`rsvec_',`Here+svec_(`$1',`$2')')
 
                                 `NOT_circle
                                  convenience for drawing NOT circles'
-define(`NOT_circle',`circle diam N_diam*L_unit')
+define(`NOT_circle',`circle diam N_diam*L_unit N_attr')
 
-                                `LH_symbol([U|D|L|R|degrees][I])
+                                `LH_symbol([U|D|L|R|degrees][I],keys)
                                  I=inverted
-                                 logical hysteresis symbol'
+                                 logical hysteresis symbol
+                                 keys: hght=expr; (H_ht)
+                                       wdth=fraction; (body wdth=frac*hght) '
 define(`LH_symbol',`[ define(`m4LH',patsubst(`$1',I))dnl
+  pushkeys_(`$2',`hght:H_ht; wdth:0.6;')dnl
   define(`m4Hs',ifinstr(`$1',I,-)H_ht)setdir_(m4LH,R)dnl
   line to svec_(H_ht,0) \
     then to svec_(1.1*H_ht,m4Hs)
-  line from rsvec_(0.4*H_ht,0) \
-         to rsvec_(-0.6*H_ht,0) \
-    then to rsvec_(-0.7*H_ht,-(m4Hs))
- `$2'; resetdir_ ] ')
+  line from rsvec_((1-m4wdth)*H_ht,0) \
+         to rsvec_(-m4wdth*H_ht,0) \
+    then to rsvec_(-(m4wdth+0.1)*H_ht,-(m4Hs))
+ `$2'; resetdir_ popdef(`m4hght',`m4wdth') ]')
 
-                                `LT_symbol(U|D|L|R|degrees)
-                                 triangle_symbol'
-define(`LT_symbol', `[ setdir_(`$1',R)
-  line to svec_(0,H_ht*5/8) then to svec_(H_ht,0) \
-    then to svec_(0,-H_ht*5/8) then to Here
-  `$2'; resetdir_ ] ')
+                                `LT_symbol(U|D|L|R|degrees,keys)
+                                 triangle_symbol
+                                 keys: wdth=expr; (H_ht) '
+define(`LT_symbol', `[ setdir_(`$1',R) pushkeys_(`$2',`wdth:H_ht')
+  line to svec_(0,m4wdth*5/8) then to svec_(m4wdth,0) \
+    then to svec_(0,-m4wdth*5/8) then to Here
+  `$2'; resetdir_ popdef(`m4wdth') ] ')
 
-                                `BOX_gate(inputs,output,swid,sht,label)
+                                `BOX_gate(inputs,output,swid,sht,label,
+                                   attributes)
                                  drawn in the current direction
                                  args 3 and 4 are L_unit values
                                  inputs=[P|N]* output=P|N'
@@ -101,30 +109,31 @@ define(`m4m',`ifelse(`$1',,2,len(`$1'))')define(`m4a',`$1')dnl
 define(`m4h',`ifelse(`$3',,AND_wd,`$3')')dnl
 define(`m4v',`ifelse(`$4',,AND_wd,`$4')')dnl
 [ Box: [Outline: line to svec_(0,m4v/2) then to svec_(m4h,m4v/2) \
-    then to svec_(m4h,-m4v/2) then to svec_(0,-m4v/2) then to (0,0) ] \
+    then to svec_(m4h,-m4v/2) then to svec_(0,-m4v/2) then to (0,0) \
+    Lg_body `$6'] \
     with .Outline.start at (0,0)
   ifelse(`$5',,,`{ move to Box.n+(0,-5pt__)
     m4lstring($5,"ifsvg(`svg_small($5,75)',`{\scriptsize$ $5 $}')") }')
   IOdefs(from svec_(0,m4v/2) to svec_(0,-m4v/2),In,`$1',R)
   Out: svec_(m4h,0) ifelse(`$2',N,`+svec_(N_diam,0)
     N_Out: NOT_circle \
-      at Out-svec_(N_rad,0)'); `$6']')
+      at Out-svec_(N_rad,0)'); `$7']')
 
-                                `AND_gate(n,[N][B],wid,ht)
+                                `AND_gate(n,[N][B],[wid,[ht]],attributes)
                                  drawn in the current direction
                                  0 <= n <= 16; N=negated inputs, B=box shape
                                  or
-                                 AND_gate(chars,[B],wid,ht)
+                                 AND_gate(chars,[B],wid,ht,attributes)
                                   arg1 is one or more of N|P '
 define(`AND_gate',`define(`m4arg1',ifelse(`$1',,2,`$1'))dnl
 ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
 `m4dupstr(ifinstr(`$2',N,N,P),m4arg1,`m4PN')',`define(`m4PN',m4arg1)')dnl
 ifinstr(`$2',B,
 `BOX_gate(m4PN,ifinstr(`$2',N,N,P),ifelse(`$3',,,`($3)/(L_unit)'),
-  ifelse(`$4',,,`($4)/(L_unit)'),ifsvg(`&```amp''';',`\&'),`$5')',
-`AND_gen(m4PN,ifelse(`$2',N,N)IBAONESEC,`$3',`$4',`$5')')')
+  ifelse(`$4',,,`($4)/(L_unit)'),ifsvg(`&```amp''';',`\&'),Lg_body `$5',`$6')',
+`AND_gen(m4PN,ifelse(`$2',N,N)IBAONESEC,`$3',`$4',Lg_body `$5',`$6')')')
 
-                                `NAND_gate(n,[N][B],wid,ht)
+                                `NAND_gate(n,[N][B],[wid,[ht]],attributes)
                                  0 <= n <= 16; N=negated inputs, B=box shape
                                  or
                                  NAND_gate(chars,[B],wid,ht)
@@ -134,20 +143,21 @@ ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
 `m4dupstr(ifinstr(`$2',N,N,P),m4arg1,`m4PN')',`define(`m4PN',m4arg1)')dnl
 ifinstr(`$2',B,
 `BOX_gate(m4PN,ifelse(`$2',N,N,P),ifelse(`$3',,,`($3)/(L_unit)'),
-  ifelse(`$4',,,`($4)/(L_unit)'),ifsvg(`&```amp''';',`\&'),`$5')',
-`AND_gen(m4PN,ifelse(`$2',N,N)IBANONESEC,`$3',`$4',`$5')')')
+  ifelse(`$4',,,`($4)/(L_unit)'),ifsvg(`&```amp''';',`\&'),Lg_body `$5',`$6')',
+`AND_gen(m4PN,ifelse(`$2',N,N)IBANONESEC,`$3',`$4',Lg_body `$5',`$6')')')
 
-                                `AND_gen(n,chars,[wid,[ht]])
+                                `AND_gen(n,chars,[wid,[ht]],attributes)
                                  0 <= n <= 16
                                  B=base and straight sides; A=Arc;
                                  [N]NE,[N]SE,[N]I,[N]N,[N]S=inputs or circles,
                                  [N]O=output; C=center location
                                  or
-                                 AND_gen(chars,chars,[wid,[ht]])
+                                 AND_gen(chars,chars,[wid,[ht]],attributes)
                                   arg1 is one or more of N|P
                                     eg PPPP defines 4 inputs,
                                     NPNP negates the first and third;
-                                  arg2 as above except [N]I is ignored '
+                                  arg2 as above except [N]I is ignored
+                                  arg5 contains body attributes '
 define(`AND_gen',`define(`m4arg1',ifelse(`$1',,2,`$1'))dnl
 ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
  `m4dupstr(ifinstr(`$2',N,N,P),m4arg1,`m4PN')',`define(`m4PN',m4arg1)')dnl
@@ -157,11 +167,11 @@ ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
  [ sc_draw(`dna_',B,`Bm: line from svec_(m4hor-m4ver/2,-m4ver/2) \
      to svec_(0,-m4ver/2) \
      then to svec_(0,m4ver/2) then \
-     to svec_(m4hor-m4ver/2,m4ver/2)
+     to svec_(m4hor-m4ver/2,m4ver/2) Lg_body `$5'
      ')dnl
   sc_draw(`dna_',A,`Arc: arc cw rad m4ver/2 \
      to rsvec_(0,-m4ver) \
-     with .c at rsvec_(0,-m4ver/2)
+     with .c at rsvec_(0,-m4ver/2) Lg_body `$5'
      ')dnl
   sc_draw(`dna_',NNE,
    `NNE: svec_(m4hor-m4ver/2,0)+svec_(Rect_(m4ver/2+N_diam,45))
@@ -202,7 +212,7 @@ ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
   sc_draw(`dna_',S, `S: svec_(0,-m4ver/2)
    ')dnl
   sc_draw(`dna_',C, `C: svec_(m4hor/2,0)')
-  `$5']')
+  `$6']')
 
                                 `Input locations, flat face
                                  m4A_defs(n,[N]) or m4A_defs(string)
@@ -230,10 +240,10 @@ define(`m4A_defs',`define(`m4arg1',ifelse(`$1',,2,`$1'))dnl
 
                                 `OR_gate or NOR_gate or XOR_gate or NXOR_gate
                                  drawn in the current direction
-                                 args = (n,[N][B],wid,ht)
+                                 args = (n,[N][B],wid,ht,attributes)
                                  0 <= n <= 16; N=negated inputs, B=box shape
                                  or
-                                 args = (chars,[B],wid,ht)
+                                 args = (chars,[B],wid,ht,attributes)
                                   arg1 is one or more of N|P '
 define(`OR_gate',`m4_OR(OR,$@)')
 define(`NOR_gate',`m4_OR(NOR,$@)')
@@ -244,49 +254,70 @@ define(`m4_OR',`define(`m4arg1',ifelse(`$2',,2,`$2'))dnl
 ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
  `m4dupstr(ifinstr(`$3',N,N,P),m4arg1,`m4PN')',`define(`m4PN',m4arg1)')dnl
 ifinstr(`$3',B,
-`BOX_gate(m4PN,ifinstr(`$3',N,N,P),
+`BOX_gate(m4PN,ifinstr(`$3',N,N,P,`$6',`$7'),
   ifelse(`$4',,,`($4)/(L_unit)'),ifelse(`$5',,,`($5)/(L_unit)'),
-  ifinstr(`$1',XOR,`=',`ifsvg(`>=1',`\geq 1')'),`$6')',
+  ifinstr(`$1',XOR,`=',`ifsvg(`>=1',`\geq 1')'),Lg_body `$6',`$7',`$8')',
 `OR_gen(m4PN,
  ifinstr(`$1',XOR,P)`'ifelse(`$3',N,N)IBA`'ifelse(substr(`$1',0,1),N,N)ONESEC,
  shift(shift(shift($@))))')')
 
-                                `OR_gen(n,chars,[wid,[ht]])
+                                `OR_gen(n,chars,[wid,[ht]],attributes)
                                  0 <= n <= 16
                                  B=base and straight sides; A=Arc;
                                  [N]NE,[N]SE,[N]I,[N]N,[N]S=inputs or circles,
                                  [N]P=XOR arc; [N]O=output; C=center
                                  or
-                                 OR_gen(chars,chars,[wid,[ht]])
+                                 OR_gen(chars,chars,[wid,[ht]],attributes)
                                   arg1 is one or more of N|P
                                     eg PPPP defines 4 inputs,
                                     NPNP negates the first and third;
-                                  arg2 as above except [N]I is ignored '
+                                  arg2 as above except [N]I is ignored
+                                 If arg5 contains shaded rgbstring(...)
+                                 the arguments of rgbstring may not contain
+                                 parentheses'
 define(`OR_gen',`[define(`m4arg1',ifelse(`$1',,2,`$1'))dnl
 ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
  `m4dupstr(ifinstr(`$2',N,N,P),m4arg1,`m4PN')',`define(`m4PN',m4arg1)')dnl
   define(`m4hor',`ifelse(`$3',,AND_wd,`($3)/(L_unit)')')define(`m4o',0)dnl
   define(`m4ver',`ifelse(`$4',,ifelse(`$3',,AND_ht,AND_ht/(AND_wd)*m4hor),
    `($4)/(L_unit)')')define(`dna_',ifelse(`$2',,IBAONESEC,`$2'))dnl
-  sc_draw(`dna_',P,`define(`m4o',XOR_off*m4ver/(AND_ht))dnl
+  define(`m4gfill',`Lg_body `$5'')dnl
+dnl concave fill, painful code:
+  ifelse(regexp(m4gfill,`^fill \|[^a-z]fill '),-1,
+  `ifelse(regexp(m4gfill,`shaded *"'),-1,
+    `define(`m4osh',`regexp(m4gfill,`.*shaded *\(sprintf([^)]*)\).*$',\1)')
+     define(`m4att',`patsubst(m4gfill,`shaded *sprintf([^)]*)')')',
+    `define(`m4osh',`regexp(m4gfill,`.*shaded *"\([^"]*\)".*$',"\1")')
+     define(`m4att',`patsubst(m4gfill,`shaded *"[^"]*"')')')',
+  `define(`m4osh',`regexp(m4gfill,`.*fill *\([^ ]*\) .*$',`graystring(\1)')')
+   define(`m4att',`patsubst(m4gfill,`fill *[^ ]*[ $]')')')
+  sc_draw(`dna_',P,`define(`m4o',abs(XOR_off)*m4ver/(AND_ht))dnl
     Parc: arc cw from svec_(0,m4ver/2) \
      to svec_(0,-m4ver/2) \
       with .c at svec_(-sqrt((OR_rad*m4ver/(AND_ht))^2-(m4ver/2)^2),0)
      ')dnl
   sc_draw(`dna_',B,dnl
-   `Bt: line from svec_(m4o+m4hor/3,m4ver/2) \
-     to svec_(m4o,m4ver/2) ifdpic(chop 0 chop -hlth)
-    ArcB: arc cw to svec_(m4o,-m4ver/2) \
-      with .c at svec_(m4o-sqrt((OR_rad*m4ver/(AND_ht))^2-(m4ver/2)^2),0)
-    Bb: line to svec_(m4o+m4hor/3,-m4ver/2) ifdpic(chop -hlth chop 0)
+   `r = OR_rad*m4ver/(AND_ht)
+    rt = sqrt(r^2-(m4ver/2)^2)
+    ifelse(m4osh,,,`for i=0 to int((r-rt)*L_unit/lthick+1) do {
+       tx = i*lthick/L_unit
+       {arc cw from svec_(tx+m4o-hlth,m4ver/2) to svec_(tx+m4o-hlth,-m4ver/2) \
+         with .c at svec_(tx+m4o-rt,0) outlined m4osh} }
+      {rotbox(m4hor/3*L_unit,m4ver*L_unit,shaded m4osh invis) with .W \
+        at svec_(m4o+r-rt,0)} ')
+    Bt: line from svec_(m4o+m4hor/3,m4ver/2) \
+     to svec_(m4o,m4ver/2) ifdpic(chop 0 chop -hlth) m4att
+    ArcB: arc cw to svec_(m4o,-m4ver/2) with .c at svec_(m4o-rt,0) m4att
+    Bb: line to svec_(m4o+m4hor/3,-m4ver/2) ifdpic(chop -hlth chop 0) m4att
     ')dnl
   sc_draw(`dna_',A,`define(`m4m',`((m4hor*2/3)^2-(m4ver/2)^2)/(m4ver)')dnl
+    ifelse(m4osh,,,`{line invis from svec_(m4o+m4hor,0) \
+     to svec_(m4o+m4hor/3, m4ver/2) then to svec_(m4o+m4hor/3,-m4ver/2) \
+     then to svec_(m4o+m4hor,0) shaded m4osh}')
    ArcN: arc  cw from svec_(m4o+m4hor/3, m4ver/2) \
-     to svec_(m4o+m4hor,0) \
-     with .c at svec_(m4o+m4hor/3,-m4m)
+     to svec_(m4o+m4hor,0) with .c at svec_(m4o+m4hor/3,-m4m) m4gfill
    ArcS: arc ccw from svec_(m4o+m4hor/3,-m4ver/2) \
-     to svec_(m4o+m4hor,0) \
-     with .c at svec_(m4o+m4hor/3,m4m)
+     to svec_(m4o+m4hor,0) with .c at svec_(m4o+m4hor/3,m4m) m4gfill
     ')dnl
   sc_draw(`dna_',NNE,
    `N_NNE: NOT_circle \
@@ -327,7 +358,7 @@ ifelse(ifinstr(m4arg1,N,1)`'ifinstr(m4arg1,P,1),,
   sc_draw(`dna_',S, `S: svec_(m4o+m4hor/6,-m4ver/2)
     ')dnl
   sc_draw(`dna_',C, `C: svec_(m4o+m4hor/2,0)')
-  `$5']')
+  `$6']')
 
                                 `Input locations, curved face
                                  m4O_defs(n,[N]) or m4O_defs(string)
@@ -340,20 +371,21 @@ define(`m4O_defs',`define(`m4arg1',ifelse(`$1',,2,`$1'))dnl
    `m4dupstr(ifinstr(`$2',N,N,P),m4arg1,`m4OI')define(`m4OnI',m4arg1)',
    `define(`m4OI',m4arg1)define(`m4OnI',len(m4arg1))')dnl
   define(`m4om',`m4ver/2/min(m4OnI,Mx_pins-1)*min(m4OnI,3*(Mx_pins-1))')dnl
-  ifelse(eval(m4OnI>Mx_pins),1,
-   `arc ccw from svec_(0,m4ver/2) \
-     to svec_(0,m4ver) + M4O_pos(m4om-m4ver) \
-      with .c at svec_(-M4O_dst,m4ver)
-    arc cw from svec_(0,-m4ver/2) \
-     to svec_(0,-m4ver) +M4O_pos(-(m4om-m4ver))\
-      with .c at svec_(-M4O_dst,-m4ver)
-    ')dnl
+  ifelse(eval(m4OnI>Mx_pins),1,`for_(0,1,1,
+    `arc ccw from svec_(prod_(m4x,m4o),m4ver/2) \
+     to svec_(prod_(m4x,m4o),m4ver) + M4O_pos(m4om-m4ver) \
+      with .c at svec_(-M4O_dst+prod_(m4x,m4o),m4ver)
+     arc cw from svec_(prod_(m4x,m4o),-m4ver/2) \
+     to svec_(prod_(m4x,m4o),-m4ver) +M4O_pos(-(m4om-m4ver))\
+      with .c at svec_(-M4O_dst+prod_(m4x,m4o),-m4ver)') ')dnl
   define(`m4on',`(eval((m4OnI-Mx_pins+1)/2))')dnl
   for_(1,m4OnI,1,
    `define(`m4oq',`m4ver/2/min(m4OnI,Mx_pins-1)*(m4OnI+1-2*m4x)')dnl
     In`'m4x: ifelse(eval(m4x<=m4on),1,`svec_(0, m4ver)+M4O_pos(m4oq-m4ver)',
       eval(m4x>(m4OnI-m4on)),1,       `svec_(0,-m4ver)+M4O_pos(m4oq+m4ver)',
       `M4O_pos(m4oq)')
+    ifelse(ifinstr(XOR_off,-,1)`'ifelse(m4o,0,1),,
+      `line from In`'m4x to In`'m4x+svec_(m4o,0)')
     ifelse(substr(m4OI,0,1),N,
      `N_In`'m4x: NOT_circle \
         at In`'m4x+svec_(-N_rad,0)
@@ -385,7 +417,8 @@ define(`IOdefs',`define(`m4dm',`ifelse(`$3',,1,len(`$3'))')
         at m4dv`'m4x ifelse(`$4',R,+,-)(M4PL.x*N_rad,M4PL.y*N_rad)}')
     define(`m4da',substr(m4da,1))') ')
 
-                                `BUFFER_gen(chars,wd,ht,[N|P]*,[N|P]*,[N|P]*)
+                                `BUFFER_gen(chars, wd, ht,
+                                  [N|P]*, [N|P]*, [N|P]*, attributes)
                                  chars: T=triangle (default),
                                  [N]O=output location Out (NO draws circle
                                   N_Out);
@@ -400,7 +433,7 @@ define(`BUFFER_gen',
  [sc_draw(`dna_',T,`Tm: line from svec_(m4h,0) \
      to svec_(0,-m4v/2) \
      then to svec_(0,m4v/2) \
-     then to svec_(m4h,0)
+     then to svec_(m4h,0) Lg_body `$7'
      Tc: svec_(m4h/2,0)
     ')dnl
   sc_draw(`dna_',NNE,`N_NNE: NOT_circle \
@@ -444,10 +477,10 @@ define(`BUFFER_gen',
   ifelse(`$4',,,`IOdefs(from svec_(0,m4v/2) to svec_(0,-m4v/2),In,`$4',R)')
   ifelse(`$5',,,`IOdefs(from svec_(0,m4v/2) to svec_(m4h,0),NE,`$5')')
   ifelse(`$6',,,`IOdefs(from svec_(0,-m4v/2) to svec_(m4h,0),SE,`$6',R)')
-  `$7']')
+  `$8']')
 
-                                `BUFFER_gate(linespec,[N|B],wid,ht,
-                                   [N|P]*,[N|P]*)
+                                `BUFFER_gate(linespec, [N|B], wid, ht,
+                                   [N|P]*, [N|P]*, attributes)
                                  When linespec is blank then the element is
                                  composite and In1, Out, C, NE, and SE are
                                  defined; otherwise the element is drawn as
@@ -457,16 +490,18 @@ define(`BUFFER_gen',
                                  sequences'
 define(`BUFFER_gate',`ifinstr(`$2',B,
  `BOX_gate(ifinstr(`$2',N,N,P),P,ifelse(`$3',,,`($3)/(L_unit)'),
-    ifelse(`$4',,,`($4)/(L_unit)'),1,`$5')',
+    ifelse(`$4',,,`($4)/(L_unit)'),1,`$5',Lg_body `$7')',
  `ifelse(`$1',,
-   `BUFFER_gen(ifelse(`$2',N,N)ITOCNESE,`$3',`$4',,`$5',`$6',`$7')',
+   `BUFFER_gen(ifelse(`$2',N,N)ITOCNESE,`$3',`$4',,`$5',`$6',
+     Lg_body `$7',`$8')',
    `eleminit_(`$1')
-    { BUFFER_gen(ifelse(`$2',N,N)ITOC,`$3',`$4',,`$5',`$6',`$7') \
+    { BUFFER_gen(ifelse(`$2',N,N)ITOC,`$3',`$4',,`$5',`$6',Lg_body `$7',`$8') \
         with .Tc at last line.c }
     { line to last [].In1; line from last [].Out to 2nd last line.end }
     line invis to rvec_(rp_len,0)')')')
 
-                                `NOT_gate(linespec,[B][N|n],wid,ht)
+                                `NOT_gate(linespec, [B][N|n], wid, ht,
+                                  attributes)
                                  When linespec is blank then the element is
                                  composite and In1, Out, C, NE, and SE are
                                  defined; otherwise the element is drawn as
@@ -475,17 +510,19 @@ define(`BUFFER_gate',`ifinstr(`$2',B,
                                  output, n=negated input only'
 define(`NOT_gate',`ifinstr(`$2',B,
  `BOX_gate(ifinstr(`$2',N,N,`$2',n,N,P),ifinstr(`$2',n,P,N),
-    ifelse(`$3',,,`($3)/(L_unit)'),ifelse(`$4',,,`($4)/(L_unit)'),1,`$5')',
+    ifelse(`$3',,,`($3)/(L_unit)'),ifelse(`$4',,,`($4)/(L_unit)'),1,
+     Lg_body `$5',`$6')',
  `ifelse(`$1',,
    `BUFFER_gen(ifinstr(`$2',N,N,`$2',n,N)IT`'ifinstr(`$2',n,,N)OCNESE,
-      `$3',`$4',,,,`$5')',
+      `$3',`$4',,,,Lg_body `$5',`$6')',
    `eleminit_(`$1')
     { BUFFER_gen(ifinstr(`$2',N,N,`$2',n,N)IT`'ifinstr(`$2',n,,N)OC,
-      `$3',`$4',,,,`$5') \
+      `$3',`$4',,,,Lg_body `$5',`$6') \
         with .C at last line.c }
     { line to last [].In1; line from last [].Out to 2nd last line.end }
     line invis to rvec_(rp_len,0)')')')
 
+###############################
                                 `The comprehensive logic pin:
    lg_pin(location, label, Picname, n|e|s|w [L|M|I|O][N][E], pinno, optlen)
      label=text (indicating logical pin function, usually)
@@ -527,7 +564,9 @@ define(`lg_pin',`ifelse(`$1',,,`move to $1')
 define(`lp_xy',`vrot_(`$1',`$2',m4lph,m4lpv)')
 
                                 `Mux(ni, label,
-                                  [L][B|H|X][N[n]|S[n]][[N]OE],wid,ht)
+                                  [L][B|H|X][N[n]|S[n]][[N]OE],
+                                  wid, ht, attributes)
+                                  ht is expr[:expr] (i.e. left ht[:right ht])
                                   ni = number of inputs (default 2)
                                   The input pins are lines named
                                   In0, In1, ... In<ni-1>
@@ -543,16 +582,18 @@ define(`lp_xy',`vrot_(`$1',`$2',m4lph,m4lpv)')
                                    bottom (default)
                                    OE adds the OE input, NOE negated '
 define(`Mux',`[
-  define(`m4Mwid',`ifelse(`$4',,Mux_wid,((`$4')/(L_unit)))')dnl
-  define(`m4Mht',`ifelse(`$5',,Mux_ht,((`$5')/(L_unit)))')dnl
+  m4Mwid = ifelse(`$4',,Mux_wid,((`$4')/(L_unit))) # in L_units
+  m4Lht = ifelse(`$5',,Mux_ht,((patsubst(`$5',:.*))/(L_unit))) # in L_units
+  m4Rht = ifinstr(`$5',:,`(patsubst(`$5',^.*:))/(L_unit)',m4Lht*2/3)
   W: (0,0)
   C: svec_(m4Mwid/2,0)
   E: svec_(m4Mwid,0)
-  NW: svec_(0,m4Mht/2)
-  SW: svec_(0,-m4Mht/2)
-  NE: svec_(m4Mwid,m4Mht/2-2)
-  SE: svec_(m4Mwid,-m4Mht/2+2)
-  line from W to NW then to NE then to SE then to SW then to W
+  NW: svec_(0,m4Lht/2)
+  SW: svec_(0,-m4Lht/2)
+  NE: svec_(m4Mwid,m4Rht/2)
+  SE: svec_(m4Mwid,-m4Rht/2)
+  Line: line from W to NW then to NE then to SE then to SW then to W \
+   Lg_body `$6'
   ifelse(`$2',,,`"ifsvg(`svg_small($2,75)',`\scriptsize $2')" at C')
   lg_pin(E,,Out,e)
   define(`m4Mdna',`$3')define(`m4MOE')dnl
@@ -572,7 +613,7 @@ define(`Mux',`[
    `ifelse(m4Mdna,,`lg_pin((0.5 between SW and SE),,Sel,s)',`for_(1,m4Mdna,1,`
       lg_pin((m4x-0.5)/m4Mdna between SW and SE,,Sel`'eval(m4x-1),s)')')')
   for_(1,m4Mn,1,`lg_pin(                        dnl Draw In pins
-     svec_(0,m4ML`'m4Mht*(0.5+(0.5-m4x)/m4Mn)),
+     svec_(0,m4ML`'m4Lht*(0.5+(0.5-m4x)/m4Mn)),
      define(`m4MNO',`ifelse(m4x,m4Mn,ifelse(m4MOE,,,N))')dnl
      ifelse(m4MNO,,
       `ifelse(m4MN,X,,
@@ -584,10 +625,12 @@ define(`Mux',`[
       `ifelse(m4MN,X,,`ifelse(m4MOE,N,lg_bartxt(OE),OE)')'),
      ifelse(m4MNO,,In`'decr(m4x),ifelse(m4MOE,N,N)OE),
      w`'ifelse(m4MNO,,,ifelse(m4MOE,N,N)))')
-  `$6']')
+  `$7']')
 
                                 `Demux(no, label,
-                                  [L][B|H|X][N[n]|S[n]][[N]OE],wid,ht)
+                                  [L][B|H|X][N[n]|S[n]][[N]OE],
+                                  wid, ht, attributes)
+                                  ht is expr[:expr] (i.e. right ht[:left ht])
                                   no = number of outputs (default 2)
                                   The output pins are lines named
                                   Out0, Out1, ... Out<ni-1>
@@ -602,18 +645,19 @@ define(`Mux',`[
                                   bottom (default)
                                   OE adds the OE input, NOE negated '
 define(`Demux',`[
-  define(`m4Dwid',`ifelse(`$4',,Mux_wid,((`$4')/(L_unit)))')dnl
-  define(`m4Dht',`ifelse(`$5',,Mux_ht,((`$5')/(L_unit)))')dnl
+  m4Dwid = ifelse(`$4',,Mux_wid,((`$4')/(L_unit)))
+  m4Dht = ifelse(`$5',,Mux_ht,((patsubst(`$5',:.*))/(L_unit))) # in L_units
+  m4Lht = ifinstr(`$5',:,`(patsubst(`$5',^.*:))/(L_unit)',m4Dht*2/3)
   W: (0,0)
   C: svec_(m4Dwid/2,0)
   E: svec_(m4Dwid,0)
-  NW: svec_(0,m4Dht/2-2)
-  SW: svec_(0,-m4Dht/2+2)
+  NW: svec_(0,m4Lht/2)
+  SW: svec_(0,-m4Lht/2)
   NE: svec_(m4Dwid,m4Dht/2)
   SE: svec_(m4Dwid,-m4Dht/2)
-  line from W to NW then to NE then to SE then to SW then to W
+  Line: line from W to NW then to NE then to SE then to SW then to W \
+   Lg_body `$6'
   ifelse(`$2',,,`"ifsvg(`svg_small($2,75)',`\scriptsize $2')" at C')
-#  lg pin(location, label, Picname, n|e|s|w [L|M|I|O][N][E], pinno, optlen)
   lg_pin(W,,In,w)
   define(`m4Ddna',`$3')define(`m4DOE')dnl
   sc_draw(`m4Ddna',L,`define(`m4DL',-)',`define(`m4DL')')dnl
@@ -631,7 +675,6 @@ define(`Demux',`[
       lg_pin((m4x-0.5)/m4Ddna between NW and NE,,Sel`'eval(m4x-1),n)')')',
    `ifelse(m4Ddna,,`lg_pin((0.5 between SW and SE),,Sel,s)',`for_(1,m4Ddna,1,`
       lg_pin((m4x-0.5)/m4Ddna between SW and SE,,Sel`'eval(m4x-1),s)')')')
-#  lg pin(location, label, Picname, n|e|s|w [L|M|I|O][N][E], pinno, optlen)
   for_(1,m4Dn,1,`lg_pin(
     svec_(m4Dwid,m4DL`'m4Dht*(0.5+(0.5-m4x)/m4Dn)),
     ifelse(m4DN,X,,
@@ -645,10 +688,10 @@ define(`Demux',`[
   ifelse(m4DOE,,,`ifelse(m4DOE,N,
    `lg_pin(svec_(0,m4Dht*(0.5+(1-m4Dn)/m4Dn)),lg_bartxt(OE),NOE,wN)',
    `lg_pin(svec_(0,m4Dht*(0.5+(1-m4Dn)/m4Dn)),OE,OE,w)')')
-  `$6']')
+  `$7']')
 
 ###########################################################################
-                              Autogate allowable functions (plus the ~ operator)
+                              AutoGate allowable functions (plus the ~ operator)
 define(`And',`_AutoGate(AND,$@)')
 define(`Or',`_AutoGate(OR,$@)')
 define(`Not',`_AutoGate(NOT,$@)')
@@ -677,31 +720,35 @@ define(`autovsep',`L_unit')      # vertical separation between input gates
 
                               Draw the gate with input sublayer Sg containing
                               gates G1, G2, ...
-define(`AutoGate',`[ pushdef(`m4nargs',0)dnl
+                              Example: `AutoGate(AND,$@)'
+define(`AutoGate',`[
   lu = L_unit define(`m4dirt',m4_dir_)
 dnl                           Count the arguments (inputs) (could use $# )
+  pushdef(`m4nargs',0)dnl
   Loopover_(`arg',`define(`m4nargs',incr(m4nargs))',shift($@))dnl
+  ifinstr(`$2',[,`define(`m4nargs',decr(m4nargs))dnl
+    define(`m4PN',substr(`$2',1,eval(len(`$2')-2)))')
  `#' m4Delch(`$1') gate(m4nargs)
 #                             Draw the gate
   linethick = gatelineth
   ifelse(m4Delch(`$1'),NOT,`Q: NOT_gate()',
     m4Delch(`$1'),BUFFER,`Q: BUFFER_gate()',
-   `Q: m4Delch($1)_gate(m4nargs)') `#' End Q
+   `Q: m4Delch(`$1')_gate(ifinstr(`$2',[,m4PN,m4nargs))') `#' End Q
   linethick = lineth
   ifelse(substr(m4Delch(`$1'),0,1),N,
    `Out: Q.Out',
    `line thick lineth from Q.Out m4dirt N_diam*L_unit; Out: Here')
   pushdef(`AutoOutNames',m4Path.Out)
   T: ifelse(m4dirt,right,`Q.w-(2*lu,0)',`Q.e+(2*lu,0)')
-#                             Sublayer Sg containing gates G1, G2,... with
-#                             output vertical median at the height of Q.c
+#                             Sublayer Sg containing gates or vars G1, G2,...
+#                             with output vertical median at the height of Q.c
   Sg: [ pushdef(`m4_nct',0)dnl
     pushdef(`m4Path',m4Path.Sg)dnl
     Loopover_(`arg',
      `define(`m4_nct',incr(m4_nct))dnl
-#                             Variable or a sublayer gate
-#                             Inputs are labelled In<var>_N or In<var>_X
-#                             Remove initial white space; detect a name or gate
+dnl                           Variable or a sublayer gate
+dnl                           Inputs are labelled In<var>_N or In<var>_X
+dnl                           Remove initial white space; detect a name or gate
       pushdef(`m4Path',m4Path.G`'m4_nct)dnl
       m4ifboolvar_(arg,
        `G`'m4_nct: [dnl
@@ -711,13 +758,13 @@ dnl                           Count the arguments (inputs) (could use $# )
            In`'m4xg`'_N: Here',
           `pushdef(`m4InNames',m4Path.In`'arg`'_X)define(X_`'arg)dnl
            In`'arg`'_X: Here ')
-         Out: Here ] dnl
-           ht ifelse(m4nargs,1,`2*autovsep',`abs(Q.In1.y-Q.In2.y)-autovsep')',
+         Out: Here ] ht \
+           ifelse(m4nargs,1,`2*autovsep',`abs(Q.In1.y-Q.In2.y)-autovsep')',
        `pushdef(`AutoOutNames',m4Path.Out)dnl
         G`'m4_nct: m4Delch(arg)') ifelse(m4_nct,1,,`ifelse(m4dirt,right, \
            `with .ne at last [].se',`with .nw at last [].sw')+(0,-autovsep)')
-      popdef(`m4Path') ',
-      shift($@))
+        popdef(`m4Path') ',
+      ifinstr(`$2',[,`shift(shift($@))',`shift($@)'))
     MidOut: 0.5 between G`'eval((m4_nct+1)/2).Out and G`'eval((m4_nct+2)/2).Out
     popdef(`m4_nct')dnl
     popdef(`m4Path')dnl
@@ -725,7 +772,7 @@ dnl                           Count the arguments (inputs) (could use $# )
 #                             Draw the connecting lines
   define(`m4hhv',`(m4nargs-1)/2')dnl
   ifelse(m4dirt,right,
-   `for_(1,m4nargs,1,`line thick lineth from Q.In`'m4x \
+   `for_(1,m4nargs,1,`ifelse(m4x,1,,`    ')line thick lineth from Q.In`'m4x \
       left Q.In`'m4x.x-T.x+(m4hhv-abs(m4x-m4hhv-1))*lu \
       then up Sg.G`'m4x.Out.y-Q.In`'m4x.y \
       then to Sg.G`'m4x.Out')',
@@ -753,7 +800,7 @@ ifinstr(`$2',N,
   NOT_gate
   linethick = lineth
   InNt`'$1: Here',
- `line thick lineth from PrevInput ifdef(`m4LI',m4_dir_,down) dimen_/4
+ `  line thick lineth from PrevInput ifdef(`m4LI',m4_dir_,down) dimen_/4
   Int`'$1: Here')
   m4xpand(m4dirt`'_)
   ')
@@ -773,6 +820,7 @@ define(`DrawInNotIn',`
   InNt`'$1: Here;  m4xpand(m4dirt`'_)
   ')
 
+ifelse(0,1,`
 dnl                          `Autologic(Boolean function, ****Obsolete
 dnl                            [N[oconnect]][L[eftinputs]][R][V][;offset=val])'
 
@@ -783,6 +831,7 @@ dnl                            [N[oconnect]][L[eftinputs]][R][V][;offset=val])'
 define(`Autologic',
  `print `"*** Circuit_macros warning: Autologic is obsolete; use Autologix"'
   Autologix($@)')
+')
 ############################
 
                              `Autologix(FunctionSpec;FunctionSpec;... ,
@@ -790,27 +839,28 @@ define(`Autologic',
                                 [N[oconnect]]
                                 [L[eftinputs]]
                                 [R][V]
-                                [;offset=val])
+                                [;offset=val],
+                                fill spec)
                               FunctionSpec =
                                 Boolean-fn(args) [@ location attribute]'
 `                        e.g. HalfAdder: Autologix(Xor(x,y);And(x,y),LVR)
 
       Drawing single gates is not enough; more general Boolean expressions
-      in function notation can be drawn automatically.  This macro draws
+      in function notation should be drawn automatically.  This macro draws
       one or more trees of gates with the output or outputs
       (roots) to the right (on the left if the M[irror] option is used).
       The predefined functions are And, Or, Not, Nand, Nor, Xor, Nxor,
       and Buffer, and may be nested; e.g., Or(And(x,~y),And(~x,y)).
       Function notation does not model internal connections such as
-      feedback.  However, internal nodes can be accessed.
+      feedback.  However, internal nodes are labelled for later access.
 
       The exact appearance of a tree depends on the order in which
       terms and variables appear in the expressions.  Gates can be placed
       relative to previously drawn objects using the @ location construct;
       e.g. @with .nw at last [].sw+(0,-dimen_).
 
-      Autologix locates the distinct input variables (with NOT gates for
-      variables preceded by ~) in a row or column and connects them to
+      Autologix locates the distinct input variables (with variables preceded
+      by ~ given NOT gates) in a row or column and connects them to
       the internal gates.  If x1 (for example) appears as a variable,
       then the corresponding input location is Inx1.
 
@@ -823,10 +873,9 @@ define(`Autologic',
       In1, In2, ...
 
       Placing inputs in a column on the left using the L option introduces
-      graphic complexity that is incompletely handled. Hand tuning
-      may be required for complex expressions; putting offset=value in
-      arg2 shifts the array of inputs.  Time will tell whether this can
-      be improved.
+      graphic complexity. Therefore, hand tuning may be required for
+      complex expressions; putting offset=value in arg2 shifts the array
+      of inputs.  Time will tell whether this can be improved.
 
       Arbitrary subcircuits with inputs In1, In2, ... on the left and at
       least one output Out on the right can be included (see the example
@@ -839,23 +888,23 @@ define(`Autologic',
       Function tree i is drawn by the `AutoGate' macro.
 '
 define(`Autologix',
-`[ # Auto logix
+`[ `# Autologix'
 dnl                           Split arg1 into FunctionSpecs
  undefine(`m4BooleanR')stacksplit_(`m4BooleanR',`$1',;)dnl
 dnl
  ifinstr(`$2',L,`define(`m4LI')',`undefine(`m4LI')')dnl
  undefine(`m4InNames')undefine(`AutoOutNames')define(`m4Path',)dnl
- define(`m4nbf',0)undefine(`m4BooleanFn')undefine(`m4locattr')dnl
-dnl                           Separate functions from location attributes
+ define(`m4nbf',0)undefine(`m4BooleanFn')undefine(`m4posattr')dnl
+dnl                           Separate functions from position attributes
  stackexec_(`m4BooleanR',,
   `define(`m4nbf',incr(m4nbf))define(`m4xi',regexp(m4BooleanR,[a-zA-Z_~]))dnl
    ifinstr(m4BooleanR,@,`define(`m4xc',index(m4BooleanR,@))dnl
      pushdef(`m4BooleanFn',substr(m4BooleanR,m4xi,eval(m4xc-m4xi)))dnl
-     pushdef(`m4locattr',substr(m4BooleanR,incr(m4xc)))',
+     pushdef(`m4posattr',substr(m4BooleanR,incr(m4xc)))',
     `pushdef(`m4BooleanFn',substr(m4BooleanR,m4xi))dnl
-     pushdef(`m4locattr')')dnl
+     pushdef(`m4posattr')')dnl
  ')dnl
-dnl
+ pushdef(`Lg_body',`$3')
 dnl                           Sublayer of functions, outputs Out1, Out2,..
  pushdef(`m4Path',ifelse(m4Path,,,m4Path.)Fx)
 Fx: [ define(`m4fno',0)dnl
@@ -867,18 +916,18 @@ dnl
 dnl                           Simple variable or gate
   m4ifboolvar_(m4BooleanFn,
    `Tx`'m4fno: [ifelse(substr(m4BooleanFn,0,1),~,
-       `define(`m4xg',substr(m4BooleanFn,1))dnl
-        pushdef(`m4InNames',m4Path.In`'m4xg`'_N)define(N_`'m4xg)
-        In`'m4xg`'_N: Here',
-       `pushdef(`m4InNames',m4Path.In`'m4BooleanFn`'_X)dnl
-        define(X_`'m4BooleanFn)dnl
-        In`'m4BooleanFn`'_X: Here'); Out: Here ] ht 2*autovsep',
-   `Tx`'m4fno: m4Delch(m4BooleanFn)') ifelse(m4fno,1,,
-    `ifelse(m4locattr,,`with .n`'ifinstr(`$2',M,w,e) \
-       at Tx`'eval(m4fno-1).s`'ifinstr(`$2',M,w,e)+(0,-dimen_/4)',
-     m4locattr)')dnl
+     `define(`m4xg',substr(m4BooleanFn,1))dnl
+      pushdef(`m4InNames',m4Path.In`'m4xg`'_N)define(N_`'m4xg)
+      In`'m4xg`'_N: Here',
+     `pushdef(`m4InNames',m4Path.In`'m4BooleanFn`'_X)dnl
+      define(X_`'m4BooleanFn)dnl
+      In`'m4BooleanFn`'_X: Here'); Out: Here ] ht 2*autovsep',
+   `Tx`'m4fno: m4Delch(m4BooleanFn)') ifelse(m4posattr,,
+     `ifelse(m4fno,1,,`with .n`'ifinstr(`$2',M,w,e) \
+        at Tx`'eval(m4fno-1).s`'ifinstr(`$2',M,w,e)+(0,-dimen_/4)')',
+     m4posattr) dnl
   pushdef(`AutoOutNames',m4Path.Out)dnl
-  popdef(`m4locattr') `#' End Tx`'m4fno
+  popdef(`m4posattr') `#' End Tx`'m4fno
   popdef(`m4Path')dnl
 dnl                           Functions drawn
 dnl                           Out and Out1, Out2, ...
@@ -933,28 +982,33 @@ PrevInput: ifdef(`m4LI',dnl
   stackexec_(`m4r',,`undefine(N_`'m4r)undefine(X_`'m4r)')
 dnl
 dnl                           Show the internal inputs in comment lines
-`# Internal input names' (m4nargs):dnl
-stackexec_(`m4InNames',`m4R',`
-`#' m4InNames')
-stackexec_(`m4R',`m4InNames')
+dnl `# Internal input names' (m4nargs):dnl
+dnl stackexec_(`m4InNames',`m4R',`
+dnl `#' m4InNames')
+dnl stackexec_(`m4R',`m4InNames')
 dnl
 #                             Promote the In and Out locations to the top level
-  define(`m4ix',0)dnl
-  stackexec_(`AutoOutNames',,`define(`m4ix',incr(m4ix))
-    Out`'m4ix: AutoOutNames')
+`# Internal gate input labels' (m4nargs):dnl
   define(`m4ix',0)dnl
   stackexec_(`m4InNames',`m4R',`define(`m4ix',incr(m4ix))
    In`'m4ix: m4InNames')
   stackexec_(`m4R',`m4InNames')
+`# Internal gate output labels (there may be duplicate locations)':dnl
+  define(`m4ix',0)define(`m4lastout')dnl
+  stackexec_(`AutoOutNames',,
+   `ifelse(AutoOutNames,m4lastout,,`define(`m4ix',incr(m4ix))
+      Out`'m4ix: AutoOutNames define(`m4lastout',AutoOutNames)')')
 #                             Connect the gates to the inputs and clean up
   ifinstr(`$2',N,,
   `m4AutoConnex(Fx,`m4InNames',ifdef(`m4LI',`ifinstr(`$2',V,Top,Bot)',Bot))')
   stackexec_(`m4TAL',,
   `define(`m4bn',basename_(m4TAL))undefine(Bot`'m4bn)undefine(Top`'m4bn)')
-#                             Define the inputs
+  popdef(`Lg_body')dnl
+#                             Define the outputs
   ifelse(m4nbf,1,`Out: Fx.Out')
   for_(1,m4nbf,1,`Out`'m4x: Fx.Out`'m4x')
-  `$3' ] ')
+  `$4' `# End Autologix'
+  ] ')
 
 define(`m4AutoConnex',`define(`m4cx',0)dnl
 define(`m4ltn',`substr(`$2',decr(len(`$2')))')dnl
@@ -1019,7 +1073,7 @@ define(`FlipFlop',`ifelse(
                                  N=pin with not circle; E=edge trigger
                               Optional arg7 is the length of pins'
 define(`FlipFlopX',`[
- Chip: box wid_ FF_wid*L_unit ht_ FF_ht*L_unit `$1'
+ Chip: box wid_ FF_wid*L_unit ht_ FF_ht*L_unit Lg_body `$1'
 dnl                           Center label
  ifelse(`$2',,,"ifsvg(`svg_small($2,75)',`\scriptsize $2')" at Chip.c)
  ifelse(`$7',,,`pushdef(`lg_plen',(`$7')/L_unit)')dnl

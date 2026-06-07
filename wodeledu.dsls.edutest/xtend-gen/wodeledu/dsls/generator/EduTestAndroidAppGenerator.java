@@ -41,13 +41,17 @@ import wodel.utils.manager.ModelManager;
 
 @SuppressWarnings("all")
 public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
-  private List<EObject> blocks;
-
   private String localProperties;
 
   private String xmlFileName;
 
   private String fileName;
+
+  private List<EPackage> metamodel;
+
+  private List<EClass> roots;
+
+  private List<EObject> blocks;
 
   private String stringXmlFileName;
 
@@ -56,10 +60,6 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
   private String userProfile = "C\\:\\\\Users\\\\User";
 
   private String currentDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US).format(new Date(System.currentTimeMillis()));
-
-  private List<EPackage> metamodel;
-
-  private List<EClass> roots;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -73,7 +73,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
         final String mutatorecore = FileLocator.resolve(fileURL).getFile();
         final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-        this.blocks = ModelManager.getObjectsOfType("Block", mutatormodel);
+        final List<EObject> blocks = ModelManager.getObjectsOfType("Block", mutatormodel);
         String userProfileValue = System.getenv("USERPROFILE");
         if (((userProfileValue != null) && (userProfileValue.length() > 0))) {
           String _substring = userProfileValue.substring(0, 1);
@@ -219,14 +219,14 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                   {
                     if (((this.options.get(exercise) != null) && (this.options.get(exercise).get(test_1) != null))) {
                       {
-                        List<List<EduTestSuperGenerator.TestOption>> _get = this.options.get(exercise).get(test_1);
+                        List<List<TestOption>> _get = this.options.get(exercise).get(test_1);
                         boolean _tripleNotEquals = (_get != null);
                         if (_tripleNotEquals) {
                           int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_1));
                           _builder.newLineIfNotEmpty();
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise).get(test_1).get(rndIndex);
-                            for(final EduTestSuperGenerator.TestOption opt : _get_1) {
+                            List<TestOption> _get_1 = this.options.get(exercise).get(test_1).get(rndIndex);
+                            for(final TestOption opt : _get_1) {
                               {
                                 int _size_1 = opt.text.size();
                                 boolean _greaterThan_1 = (_size_1 > 0);
@@ -351,8 +351,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_3));
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(exercise).get(test_3).get(rndIndex_1);
-                        for(final EduTestSuperGenerator.TestOption opt_1 : _get_3) {
+                        List<TestOption> _get_3 = this.options.get(exercise).get(test_3).get(rndIndex_1);
+                        for(final TestOption opt_1 : _get_3) {
                           {
                             Set<String> _keySet_1 = opt_1.text.keySet();
                             for(final String key : _keySet_1) {
@@ -424,7 +424,7 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                 EList<Test> _tests_4 = ((MatchPairs)exercise).getTests();
                 for(final Test test_4 : _tests_4) {
                   _builder.append("\t");
-                  EduTestSuperGenerator.TestOption opt_2 = null;
+                  TestOption opt_2 = null;
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t\t        ");
                   int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_4));
@@ -2718,8 +2718,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise).get(test_2).get(rndIndex);
-                        for(final EduTestSuperGenerator.TestOption opt : _get_1) {
+                        List<TestOption> _get_1 = this.options.get(exercise).get(test_2).get(rndIndex);
+                        for(final TestOption opt : _get_1) {
                           {
                             Set<String> _keySet_1 = opt.text.keySet();
                             for(final String key : _keySet_1) {
@@ -2779,14 +2779,14 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        List<List<EduTestSuperGenerator.TestOption>> _get_3 = this.options.get(exercise).get(test_2);
+                        List<List<TestOption>> _get_3 = this.options.get(exercise).get(test_2);
                         boolean _tripleNotEquals = (_get_3 != null);
                         if (_tripleNotEquals) {
                           int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                           _builder.newLineIfNotEmpty();
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_4 = this.options.get(exercise).get(test_2).get(rndIndex_1);
-                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_4) {
+                            List<TestOption> _get_4 = this.options.get(exercise).get(test_2).get(rndIndex_1);
+                            for(final TestOption opt_1 : _get_4) {
                               {
                                 int _size_1 = opt_1.text.size();
                                 boolean _greaterThan_1 = (_size_1 > 0);
@@ -2806,14 +2806,14 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         boolean _not = (!_equals_3);
                         if (_not) {
                           {
-                            List<List<EduTestSuperGenerator.TestOption>> _get_5 = this.options.get(exercise).get(test_2);
+                            List<List<TestOption>> _get_5 = this.options.get(exercise).get(test_2);
                             boolean _tripleNotEquals_1 = (_get_5 != null);
                             if (_tripleNotEquals_1) {
                               int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                               _builder.newLineIfNotEmpty();
                               {
-                                List<EduTestSuperGenerator.TestOption> _get_6 = this.options.get(exercise).get(test_2).get(rndIndex_2);
-                                for(final EduTestSuperGenerator.TestOption opt_2 : _get_6) {
+                                List<TestOption> _get_6 = this.options.get(exercise).get(test_2).get(rndIndex_2);
+                                for(final TestOption opt_2 : _get_6) {
                                   List<String> textOptions_1 = new ArrayList<String>();
                                   _builder.newLineIfNotEmpty();
                                   {
@@ -2848,8 +2848,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                 }
                               }
                               {
-                                List<EduTestSuperGenerator.TestOption> _get_8 = this.options.get(exercise).get(test_2).get(rndIndex_2);
-                                for(final EduTestSuperGenerator.TestOption opt_3 : _get_8) {
+                                List<TestOption> _get_8 = this.options.get(exercise).get(test_2).get(rndIndex_2);
+                                for(final TestOption opt_3 : _get_8) {
                                   {
                                     if ((opt_3.solution == true)) {
                                       {
@@ -2946,8 +2946,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int rndIndex_3 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_3));
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise).get(test_3).get(rndIndex_3);
-                        for(final EduTestSuperGenerator.TestOption opt_4 : _get_11) {
+                        List<TestOption> _get_11 = this.options.get(exercise).get(test_3).get(rndIndex_3);
+                        for(final TestOption opt_4 : _get_11) {
                           {
                             Set<String> _keySet_5 = opt_4.text.keySet();
                             for(final String key_4 : _keySet_5) {
@@ -3015,8 +3015,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       TreeMap<Integer, AbstractMap.SimpleEntry<String, String>> entries = new TreeMap<Integer, AbstractMap.SimpleEntry<String, String>>();
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_13 = this.options.get(exercise).get(test_3).get(rndIndex_3);
-                        for(final EduTestSuperGenerator.TestOption op : _get_13) {
+                        List<TestOption> _get_13 = this.options.get(exercise).get(test_3).get(rndIndex_3);
+                        for(final TestOption op : _get_13) {
                           {
                             boolean _isExpression = test_3.isExpression();
                             boolean _equals_4 = (_isExpression == true);
@@ -3308,8 +3308,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int rndIndex = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_1 = this.options.get(exercise).get(test_2).get(rndIndex);
-                        for(final EduTestSuperGenerator.TestOption opt : _get_1) {
+                        List<TestOption> _get_1 = this.options.get(exercise).get(test_2).get(rndIndex);
+                        for(final TestOption opt : _get_1) {
                           {
                             Set<String> _keySet_1 = opt.text.keySet();
                             for(final String key : _keySet_1) {
@@ -3369,14 +3369,14 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        List<List<EduTestSuperGenerator.TestOption>> _get_3 = this.options.get(exercise).get(test_2);
+                        List<List<TestOption>> _get_3 = this.options.get(exercise).get(test_2);
                         boolean _tripleNotEquals = (_get_3 != null);
                         if (_tripleNotEquals) {
                           int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                           _builder.newLineIfNotEmpty();
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_4 = this.options.get(exercise).get(test_2).get(rndIndex_1);
-                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_4) {
+                            List<TestOption> _get_4 = this.options.get(exercise).get(test_2).get(rndIndex_1);
+                            for(final TestOption opt_1 : _get_4) {
                               {
                                 int _size_1 = opt_1.text.size();
                                 boolean _greaterThan_1 = (_size_1 > 0);
@@ -3396,14 +3396,14 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                         boolean _not = (!_equals_3);
                         if (_not) {
                           {
-                            List<List<EduTestSuperGenerator.TestOption>> _get_5 = this.options.get(exercise).get(test_2);
+                            List<List<TestOption>> _get_5 = this.options.get(exercise).get(test_2);
                             boolean _tripleNotEquals_1 = (_get_5 != null);
                             if (_tripleNotEquals_1) {
                               int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_2));
                               _builder.newLineIfNotEmpty();
                               {
-                                List<EduTestSuperGenerator.TestOption> _get_6 = this.options.get(exercise).get(test_2).get(rndIndex_2);
-                                for(final EduTestSuperGenerator.TestOption opt_2 : _get_6) {
+                                List<TestOption> _get_6 = this.options.get(exercise).get(test_2).get(rndIndex_2);
+                                for(final TestOption opt_2 : _get_6) {
                                   List<String> textOptions_1 = new ArrayList<String>();
                                   _builder.newLineIfNotEmpty();
                                   {
@@ -3438,8 +3438,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                                 }
                               }
                               {
-                                List<EduTestSuperGenerator.TestOption> _get_8 = this.options.get(exercise).get(test_2).get(rndIndex_2);
-                                for(final EduTestSuperGenerator.TestOption opt_3 : _get_8) {
+                                List<TestOption> _get_8 = this.options.get(exercise).get(test_2).get(rndIndex_2);
+                                for(final TestOption opt_3 : _get_8) {
                                   {
                                     if ((opt_3.solution == true)) {
                                       {
@@ -3536,8 +3536,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       int rndIndex_3 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_3));
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise).get(test_3).get(rndIndex_3);
-                        for(final EduTestSuperGenerator.TestOption opt_4 : _get_11) {
+                        List<TestOption> _get_11 = this.options.get(exercise).get(test_3).get(rndIndex_3);
+                        for(final TestOption opt_4 : _get_11) {
                           {
                             Set<String> _keySet_5 = opt_4.text.keySet();
                             for(final String key_4 : _keySet_5) {
@@ -3605,8 +3605,8 @@ public class EduTestAndroidAppGenerator extends EduTestSuperGenerator {
                       TreeMap<Integer, AbstractMap.SimpleEntry<String, String>> entries = new TreeMap<Integer, AbstractMap.SimpleEntry<String, String>>();
                       _builder.newLineIfNotEmpty();
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_13 = this.options.get(exercise).get(test_3).get(rndIndex_3);
-                        for(final EduTestSuperGenerator.TestOption op : _get_13) {
+                        List<TestOption> _get_13 = this.options.get(exercise).get(test_3).get(rndIndex_3);
+                        for(final TestOption op : _get_13) {
                           {
                             boolean _isExpression = test_3.isExpression();
                             boolean _equals_4 = (_isExpression == true);

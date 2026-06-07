@@ -28,16 +28,15 @@ import edutest.Program
 class EduTestGenerator extends AbstractGenerator {
 
 	@Inject EduTestWebGenerator webGenerator
-	@Inject EduTestMoodleGenerator moodleGenerator
-	@Inject EduTestHotPotatoesGenerator hotPotatoesGenerator
-	@Inject EduTestPolyglotJsonGenerator hotPolyglotJsonGenerator
-	@Inject EduTestAndroidAppGenerator androidAppGenerator
-	@Inject EduTestiOSAppGenerator iOSAppGenerator
-	
+    @Inject EduTestMoodleGenerator moodleGenerator
+    @Inject EduTestHotPotatoesGenerator hotPotatoesGenerator
+    @Inject EduTestPolyglotJsonGenerator hotPolyglotJsonGenerator
+    @Inject EduTestAndroidAppGenerator androidAppGenerator
+    @Inject EduTestiOSAppGenerator iOSAppGenerator
+    
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var String path = ProjectUtils.getProject !== null ? ProjectUtils.getProject.getLocation.toFile.getPath : null	
 		for(e: resource.allContents.toIterable.filter(Program)) {
-			
 			
 			var String fileName = resource.URI.lastSegment
 			var String xTextFileName = "file:/" + path + "/src/" + fileName

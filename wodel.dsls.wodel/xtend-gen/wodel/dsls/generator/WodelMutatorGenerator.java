@@ -6287,7 +6287,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.append("AppMutation appMut = ");
         _builder.append(this.registryMethodName, "\t\t\t");
-        _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+        _builder.append("(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t");
         _builder.append("if (appMut != null) {");
@@ -7209,7 +7209,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.append("AppMutation appMut = ");
         _builder.append(this.registryMethodName, "\t\t\t");
-        _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+        _builder.append("(mut, hmMutator, seed, model, mutPaths, packages);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t");
         _builder.append("if (appMut != null) {");
@@ -12730,7 +12730,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.append("\t\t\t");
                 _builder.append("AppMutation appMut = ");
                 _builder.append(this.registryMethodName, "\t\t\t\t");
-                _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+                _builder.append("(mut, hmMutator, seed, resource, mutPaths, packages);");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("\t\t\t");
@@ -13318,7 +13318,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t\t");
               _builder.append("AppMutation appMut = ");
               _builder.append(this.registryMethodName, "\t\t\t\t\t\t\t");
-              _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+              _builder.append("(mut, hmMutator, seed, resource, mutPaths, packages);");
               _builder.newLineIfNotEmpty();
               _builder.append("\t");
               _builder.append("\t\t\t\t");
@@ -13755,7 +13755,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("\t\t");
               _builder.append("AppMutation appMut = ");
               _builder.append(this.registryMethodName, "\t\t\t\t\t");
-              _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+              _builder.append("(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);");
               _builder.newLineIfNotEmpty();
               _builder.append("\t");
               _builder.append("\t\t");
@@ -17024,7 +17024,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.append("AppMutation appMut = ");
         _builder.append(this.registryMethodName, "\t\t\t");
-        _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+        _builder.append("(mut, hmMutator, seed, model, mutPaths, packages);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t");
         _builder.append("if (appMut != null) {");
@@ -18909,7 +18909,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.append("AppMutation appMut = ");
         _builder.append(this.registryMethodName, "\t\t\t");
-        _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+        _builder.append("(mut, hmMutator, seed, model, mutPaths, packages);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t");
         _builder.append("if (appMut != null) {");
@@ -20396,7 +20396,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.append("AppMutation appMut = ");
         _builder.append(this.registryMethodName, "\t\t\t\t");
-        _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+        _builder.append("(mut, hmMutator, seed, srcSelection.getModel(), mutPaths, packages);");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t\t\t");
@@ -23105,7 +23105,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t\t\t");
             _builder.append("AppMutation appMut = ");
             _builder.append(this.registryMethodName, "\t\t\t\t");
-            _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+            _builder.append("(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("\t\t\t");
@@ -23415,7 +23415,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t\t");
             _builder.append("AppMutation appMut = ");
             _builder.append(this.registryMethodName, "\t\t");
-            _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+            _builder.append("(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("if (appMut != null) {");
@@ -24609,12 +24609,12 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if ((this.standalone == false)) {
         _builder.append("private AppMutation ");
         _builder.append(this.registryMethodName);
-        _builder.append("(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {");
+        _builder.append("(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant, List<String> mutPaths, List<EPackage> packages) {");
         _builder.newLineIfNotEmpty();
       } else {
         _builder.append("private static AppMutation ");
         _builder.append(this.registryMethodName);
-        _builder.append("(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {");
+        _builder.append("(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant, List<String> mutPaths, List<EPackage> packages) {");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -24625,119 +24625,13 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if ((mut instanceof CreateObjectMutator)) {
         _builder.append("ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();");
         _builder.newLine();
-        _builder.append("if ((mutPaths != null) && (packages != null)) {");
+        _builder.append("EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);");
         _builder.newLine();
-        {
-          if ((this.standalone == false)) {
-            _builder.append("\t");
-            _builder.append("try {");
-            _builder.newLine();
-          }
-        }
-        _builder.append("\t\t");
-        _builder.append("Resource mutant = null;");
+        _builder.append("if (foundObject != null) {");
         _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("EObject object = null;");
+        _builder.append("\t");
+        _builder.append("cMut.getObject().add(foundObject);");
         _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("for (String mutatorPath : mutPaths) {");
-        _builder.newLine();
-        {
-          if ((this.standalone == false)) {
-            _builder.append("\t\t\t");
-            _builder.append("mutant = ModelManager.loadModel(packages, mutatorPath);");
-            _builder.newLine();
-          } else {
-            _builder.append("\t\t\t");
-            _builder.append("mutant = ModelManager.loadModelNoException(packages, mutatorPath);");
-            _builder.newLine();
-          }
-        }
-        _builder.append("\t\t\t");
-        _builder.append("object = ModelManager.getObject(mutant, mut.getObject());");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("if (object != null) {");
-        _builder.newLine();
-        _builder.append("\t\t\t\t");
-        _builder.append("break;");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("//Reload input");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("try {");
-        _builder.newLine();
-        _builder.append("\t\t\t\t");
-        _builder.append("mutant.unload();");
-        _builder.newLine();
-        _builder.append("\t\t\t\t");
-        _builder.append("mutant.load(null); ");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("} catch (Exception e) {}");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("if (object != null) {");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("cMut.getObject().add(object);");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("else {");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("if (mut.getModel() != null) {");
-        _builder.newLine();
-        _builder.append("\t\t\t\t");
-        _builder.append("mutant = mut.getModel();");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("else {");
-        _builder.newLine();
-        _builder.append("\t\t\t\t");
-        _builder.append("mutant = mut.getModels().get(0);");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("cMut.getObject().add(mut.getObject());");
-        _builder.newLine();
-        _builder.append("\t\t");
-        _builder.append("}");
-        _builder.newLine();
-        {
-          if ((this.standalone == false)) {
-            _builder.append("\t");
-            _builder.append("} catch (ModelNotFoundException e) {");
-            _builder.newLine();
-            _builder.append("\t");
-            _builder.append("\t");
-            _builder.append("// TODO Auto-generated catch block");
-            _builder.newLine();
-            _builder.append("\t");
-            _builder.append("\t");
-            _builder.append("e.printStackTrace();");
-            _builder.newLine();
-            _builder.append("\t");
-            _builder.append("}");
-            _builder.newLine();
-          }
-        }
         _builder.append("}");
         _builder.newLine();
         _builder.append("if (hmMutator.get(\"m");
@@ -24794,7 +24688,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
-        _builder.append("EObject foundObject = findEObjectForRegistry(seed, mut.getRemovedObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);");
+        _builder.append("EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getRemovedObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);");
         _builder.newLine();
         _builder.append("if (foundObject != null) {");
         _builder.newLine();
@@ -24827,7 +24721,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
       if ((mut instanceof RemoveObjectMutator)) {
         _builder.append("ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();");
         _builder.newLine();
-        _builder.append("EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);");
+        _builder.append("EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);");
         _builder.newLine();
         _builder.append("if (foundObject != null) {");
         _builder.newLine();
@@ -24897,7 +24791,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("List<EObject> objects = new ArrayList<EObject>();");
         _builder.newLine();
-        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));");
+        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));");
         _builder.newLine();
         _builder.append("rMut.getObject().addAll(objects);");
         _builder.newLine();
@@ -24933,7 +24827,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("List<EObject> objects = new ArrayList<EObject>();");
         _builder.newLine();
-        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));");
+        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));");
         _builder.newLine();
         _builder.append("rMut.getObject().addAll(objects);");
         _builder.newLine();
@@ -24969,7 +24863,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("List<EObject> objects = new ArrayList<EObject>();");
         _builder.newLine();
-        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));");
+        _builder.append("objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));");
         _builder.newLine();
         _builder.append("rMut.getObject().addAll(objects);");
         _builder.newLine();
@@ -25008,7 +24902,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("ModifyInformationMutator mutator = (ModifyInformationMutator) mut;");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("Resource mutant = mutator.getModel();");
+        _builder.append("//Resource mutant = mutator.getModel();");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("icMut.setObject(mut.getObject());");
@@ -25314,6 +25208,20 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append(refCounter);
                     _builder.append(".getMutantObject().add(mutator.getObject());");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter);
+                    _builder.append(".setFrom(mutator.getPrevious(\"");
+                    String _name_10 = ref.getReference().get(0).getName();
+                    _builder.append(_name_10);
+                    _builder.append("\"));");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter);
+                    _builder.append(".setTo(mutator.getNext(\"");
+                    String _name_11 = ref.getReference().get(0).getName();
+                    _builder.append(_name_11);
+                    _builder.append("\"));");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 {
@@ -25335,8 +25243,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter);
                     _builder.append(".setFirstName(\"");
-                    String _name_10 = ereffirst.getName();
-                    _builder.append(_name_10);
+                    String _name_12 = ereffirst.getName();
+                    _builder.append(_name_12);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("EObject refObject = null;");
@@ -25371,36 +25279,36 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter);
                     _builder.append(".setRefName(\"");
-                    String _name_11 = erefsec.getName();
-                    _builder.append(_name_11);
+                    String _name_13 = erefsec.getName();
+                    _builder.append(_name_13);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("refMut");
                     _builder.append(refCounter);
                     _builder.append(".setOtherFrom(mutator.getOtherSource(\"");
-                    String _name_12 = ereffirst.getName();
-                    _builder.append(_name_12);
-                    _builder.append("\"));");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("refMut");
-                    _builder.append(refCounter);
-                    _builder.append(".setOtherFromName(mutator.getOtherSourceName(\"");
-                    String _name_13 = ereffirst.getName();
-                    _builder.append(_name_13);
-                    _builder.append("\"));");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("refMut");
-                    _builder.append(refCounter);
-                    _builder.append(".setOtherTo(mutator.getOtherTarget(\"");
                     String _name_14 = ereffirst.getName();
                     _builder.append(_name_14);
                     _builder.append("\"));");
                     _builder.newLineIfNotEmpty();
                     _builder.append("refMut");
                     _builder.append(refCounter);
-                    _builder.append(".setOtherToName(mutator.getOtherTargetName(\"");
+                    _builder.append(".setOtherFromName(mutator.getOtherSourceName(\"");
                     String _name_15 = ereffirst.getName();
                     _builder.append(_name_15);
+                    _builder.append("\"));");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter);
+                    _builder.append(".setOtherTo(mutator.getOtherTarget(\"");
+                    String _name_16 = ereffirst.getName();
+                    _builder.append(_name_16);
+                    _builder.append("\"));");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter);
+                    _builder.append(".setOtherToName(mutator.getOtherTargetName(\"");
+                    String _name_17 = ereffirst.getName();
+                    _builder.append(_name_17);
                     _builder.append("\"));");
                     _builder.newLineIfNotEmpty();
                   }
@@ -25421,8 +25329,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter);
                     _builder.append(".setAttName(\"");
-                    String _name_16 = att_1.getName();
-                    _builder.append(_name_16);
+                    String _name_18 = att_1.getName();
+                    _builder.append(_name_18);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("EObject refAttObject = null;");
@@ -25457,8 +25365,8 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter);
                     _builder.append(".setRefName(\"");
-                    String _name_17 = ((ReferenceAtt)ref).getReference().get(0).getName();
-                    _builder.append(_name_17);
+                    String _name_19 = ((ReferenceAtt)ref).getReference().get(0).getName();
+                    _builder.append(_name_19);
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("Object oldRefAttVal");
@@ -25470,31 +25378,31 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append(" = null;");
                     _builder.newLineIfNotEmpty();
                     _builder.append("if (((ModifyInformationMutator) mut).getOldRefAttValue(\"");
-                    String _name_18 = att_1.getName();
-                    _builder.append(_name_18);
+                    String _name_20 = att_1.getName();
+                    _builder.append(_name_20);
                     _builder.append("\") != null) {");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
                     _builder.append("oldRefAttVal");
                     _builder.append(refCounter, "\t");
                     _builder.append(" = mutator.getOldRefAttValue(\"");
-                    String _name_19 = att_1.getName();
-                    _builder.append(_name_19, "\t");
+                    String _name_21 = att_1.getName();
+                    _builder.append(_name_21, "\t");
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("}");
                     _builder.newLine();
                     _builder.append("if (((ModifyInformationMutator) mut).getNewRefAttValue(\"");
-                    String _name_20 = att_1.getName();
-                    _builder.append(_name_20);
+                    String _name_22 = att_1.getName();
+                    _builder.append(_name_22);
                     _builder.append("\") != null) {");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
                     _builder.append("newRefAttVal");
                     _builder.append(refCounter, "\t");
                     _builder.append(" = mutator.getNewRefAttValue(\"");
-                    String _name_21 = att_1.getName();
-                    _builder.append(_name_21, "\t");
+                    String _name_23 = att_1.getName();
+                    _builder.append(_name_23, "\t");
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
                     _builder.append("}");
@@ -25546,14 +25454,14 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("previous = mutator.getPrevious(\"");
-                String _name_22 = ref.getReference().get(0).getName();
-                _builder.append(_name_22, "\t");
+                String _name_24 = ref.getReference().get(0).getName();
+                _builder.append(_name_24, "\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("next = mutator.getNext(\"");
-                String _name_23 = ref.getReference().get(0).getName();
-                _builder.append(_name_23, "\t");
+                String _name_25 = ref.getReference().get(0).getName();
+                _builder.append(_name_25, "\t");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
@@ -25671,7 +25579,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("ModifyTargetReferenceMutator mutator = (ModifyTargetReferenceMutator) mut;");
         _builder.newLine();
-        _builder.append("Resource mutant = mutator.getModel();");
+        _builder.append("//Resource mutant = mutator.getModel();");
         _builder.newLine();
         _builder.append("EObject object = ModelManager.getObject(seed, mutator.getObject());");
         _builder.newLine();
@@ -26319,6 +26227,11 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
     _builder.append("import mutatorenvironment.MutatorenvironmentPackage;");
     _builder.newLine();
     _builder.append("import mutatormetrics.MutatormetricsPackage;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("import wodel.utils.manager.EMFDiff;");
+    _builder.newLine();
+    _builder.append("import wodel.utils.manager.EMFDiff.ModelDelta;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
@@ -33454,7 +33367,7 @@ public abstract class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\t\t");
             _builder.append("AppMutation appMut = ");
             _builder.append(this.registryMethodName, "\t\t\t\t");
-            _builder.append("(mut, hmMutator, seed, mutPaths, packages);");
+            _builder.append("(mut, hmMutator, seed, model, mutPaths, packages);");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("\t\t");

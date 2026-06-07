@@ -622,18 +622,18 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 				«ENDFOR»
 				}
 				
-						public  void generateUMLGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+					public void generateUMLGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
 						//«counter = 1»
 						«FOR MutatorInstance instance : draw.instances»			
 							if (file.isFile()) {
 								String pathfile = file.getPath();
 								if (pathfile.endsWith(".model") == true) {
 									String printPathfile = pathfile.replace("\\", "/");
-									printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
+									printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
 									«IF roots !== null && roots.size() > counter»
 										monitor.subTask("Rendering image for mutant " + printPathfile + " («roots.get(counter).name»)");
 										Resource model = ModelManager.loadModel(packages, pathfile);
-										String path = exercise.getName() + "/" + folder;
+										String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
 										String umlfile = "«folder»src-gen/html/diagrams/" + 
 											path + "/«roots.get(counter).name»_" + file.getName().replace(".model", ".txt");
 										Map<Integer, Map<EObject, List<LabelStyle>>> umlnodes = new LinkedHashMap<Integer, Map<EObject, List<LabelStyle>>>();
@@ -672,17 +672,27 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 								}
 							}
 							else {
-								if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-									File[] filesBlock = file.listFiles();
-									for (File fileBlock : filesBlock) {
-										generateUMLGraphs(fileBlock, folder.replace("\\", "/") + "/" + file.getName().replace("\\", "/"), packages, exercise, projectName, monitor);
-									}
-								}
+								generateUMLGraphsRecursive(file, packages, exercise, monitor);
 							}
 							//«counter ++»
 						«ENDFOR»
 						}
-							
+					public void generateUMLGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+						if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+							File[] filesInBlock = file.listFiles();
+							if (filesInBlock != null && filesInBlock.length > 0) {
+								for (File fileInBlock : filesInBlock) {
+									if (fileInBlock.isFile()) {
+										generateUMLGraphs(fileInBlock, packages, exercise, monitor);
+									}
+									else {
+										generateUMLGraphsRecursive(fileInBlock, packages, exercise, monitor);
+									}
+								}
+							}
+						}
+					}
+						
 						public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
 							
 							String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
@@ -826,7 +836,7 @@ class ModelDrawPlantUMLGenerator extends AbstractGenerator {
 												File[] filesBlock = file.listFiles();
 												for (File fileBlock : filesBlock) {
 													try {
-														generateUMLGraphs(fileBlock, file.getName().replace("\\", "/"), packages, exercise, projectName, monitor);
+														generateUMLGraphs(fileBlock, packages, exercise, monitor);
 													} catch (UnsupportedEncodingException e) {
 														continue;
 													}

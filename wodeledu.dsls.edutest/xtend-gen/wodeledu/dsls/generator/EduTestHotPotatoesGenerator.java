@@ -50,15 +50,15 @@ import wodel.utils.manager.ModelManager;
 public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
   private String fileName;
 
-  private String pageName;
-
-  private List<EObject> blocks;
-
-  private List<EObject> mutators;
-
   private List<EPackage> metamodel;
 
   private List<EClass> roots;
+
+  private List<EObject> blocks;
+
+  private String pageName;
+
+  private List<EObject> mutators;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -1058,8 +1058,8 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan_8 = (_size_8 > 0);
                     if (_greaterThan_8) {
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_7 = this.options.get(exercise).get(test_3).get(rndIndex);
-                        for(final EduTestSuperGenerator.TestOption opt : _get_7) {
+                        List<TestOption> _get_7 = this.options.get(exercise).get(test_3).get(rndIndex);
+                        for(final TestOption opt : _get_7) {
                           {
                             Set<String> _keySet_1 = opt.text.keySet();
                             for(final String key : _keySet_1) {
@@ -1258,7 +1258,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("<!--");
-                  List<EduTestSuperGenerator.TestOption> answersOptions = new ArrayList<EduTestSuperGenerator.TestOption>();
+                  List<TestOption> answersOptions = new ArrayList<TestOption>();
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
@@ -1268,16 +1268,16 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("<!--");
-                  List<EduTestSuperGenerator.TestOption> wrongOptions = new ArrayList<EduTestSuperGenerator.TestOption>();
+                  List<TestOption> wrongOptions = new ArrayList<TestOption>();
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("<!--");
-                  List<EduTestSuperGenerator.TestOption> selectedOptions = new ArrayList<EduTestSuperGenerator.TestOption>();
+                  List<TestOption> selectedOptions = new ArrayList<TestOption>();
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   {
-                    List<List<EduTestSuperGenerator.TestOption>> _get_9 = this.options.get(exercise).get(t);
+                    List<List<TestOption>> _get_9 = this.options.get(exercise).get(t);
                     boolean _tripleNotEquals_3 = (_get_9 != null);
                     if (_tripleNotEquals_3) {
                       {
@@ -1285,8 +1285,8 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                         boolean _greaterThan_10 = (_size_10 > 0);
                         if (_greaterThan_10) {
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_10 = this.options.get(exercise).get(t).get(rndIndex);
-                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_10) {
+                            List<TestOption> _get_10 = this.options.get(exercise).get(t).get(rndIndex);
+                            for(final TestOption opt_1 : _get_10) {
                               {
                                 int _size_11 = opt_1.text.size();
                                 boolean _greaterThan_11 = (_size_11 > 0);
@@ -1310,8 +1310,8 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                             }
                           }
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_11 = this.options.get(exercise).get(t).get(rndIndex);
-                            for(final EduTestSuperGenerator.TestOption opt_2 : _get_11) {
+                            List<TestOption> _get_11 = this.options.get(exercise).get(t).get(rndIndex);
+                            for(final TestOption opt_2 : _get_11) {
                               {
                                 int _size_12 = opt_2.text.size();
                                 boolean _greaterThan_12 = (_size_12 > 0);
@@ -1503,7 +1503,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                           List<String> solutions_1 = new ArrayList<String>();
                           _builder.newLineIfNotEmpty();
                           {
-                            List<List<EduTestSuperGenerator.TestOption>> _get_12 = this.options.get(exercise).get(t);
+                            List<List<TestOption>> _get_12 = this.options.get(exercise).get(t);
                             boolean _tripleNotEquals_4 = (_get_12 != null);
                             if (_tripleNotEquals_4) {
                               {
@@ -1511,7 +1511,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                                 boolean _greaterThan_15 = (_size_14 > 0);
                                 if (_greaterThan_15) {
                                   {
-                                    for(final EduTestSuperGenerator.TestOption opt_3 : selectedOptions) {
+                                    for(final TestOption opt_3 : selectedOptions) {
                                       _builder.append("          ");
                                       List<String> textOptions_1 = new ArrayList<String>();
                                       _builder.newLineIfNotEmpty();
@@ -1601,7 +1601,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                                 boolean _greaterThan_17 = (_size_16 > 0);
                                 if (_greaterThan_17) {
                                   {
-                                    for(final EduTestSuperGenerator.TestOption opt_4 : selectedOptions) {
+                                    for(final TestOption opt_4 : selectedOptions) {
                                       {
                                         int _size_17 = opt_4.text.size();
                                         boolean _greaterThan_18 = (_size_17 > 0);
@@ -1796,8 +1796,8 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan_19 = (_size_20 > 0);
                     if (_greaterThan_19) {
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_19 = this.options.get(exercise).get(test_4).get(rndIndex_1);
-                        for(final EduTestSuperGenerator.TestOption opt_5 : _get_19) {
+                        List<TestOption> _get_19 = this.options.get(exercise).get(test_4).get(rndIndex_1);
+                        for(final TestOption opt_5 : _get_19) {
                           {
                             Set<String> _keySet_6 = opt_5.text.keySet();
                             for(final String key_5 : _keySet_6) {
@@ -1863,7 +1863,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
           }
           _builder.append("        ");
           _builder.append("<!--");
-          Map<Test, Map<EduTestSuperGenerator.TestOption, String>> mapPairOptions = new HashMap<Test, Map<EduTestSuperGenerator.TestOption, String>>();
+          Map<Test, Map<TestOption, String>> mapPairOptions = new HashMap<Test, Map<TestOption, String>>();
           _builder.append("-->");
           _builder.newLineIfNotEmpty();
           {
@@ -1876,7 +1876,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                   int counter_6 = 0;
                   _builder.newLineIfNotEmpty();
                   _builder.append("<!--");
-                  Map<EduTestSuperGenerator.TestOption, String> mapOptions = new HashMap<EduTestSuperGenerator.TestOption, String>();
+                  Map<TestOption, String> mapOptions = new HashMap<TestOption, String>();
                   _builder.append("-->");
                   _builder.newLineIfNotEmpty();
                   int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_5));
@@ -1886,8 +1886,8 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
                     boolean _greaterThan_20 = (_size_21 > 0);
                     if (_greaterThan_20) {
                       {
-                        List<EduTestSuperGenerator.TestOption> _get_21 = this.options.get(exercise).get(test_5).get(rndIndex_2);
-                        for(final EduTestSuperGenerator.TestOption opt_6 : _get_21) {
+                        List<TestOption> _get_21 = this.options.get(exercise).get(test_5).get(rndIndex_2);
+                        for(final TestOption opt_6 : _get_21) {
                           List<String> textOptions_3 = new ArrayList<String>();
                           _builder.newLineIfNotEmpty();
                           {
@@ -2080,7 +2080,7 @@ public class EduTestHotPotatoesGenerator extends EduTestSuperGenerator {
             for(final Test test_6 : _tests_6) {
               _builder.append("        ");
               _builder.append("<!--");
-              EduTestSuperGenerator.TestOption opt_7 = null;
+              TestOption opt_7 = null;
               _builder.append("-->");
               _builder.newLineIfNotEmpty();
               _builder.append("        ");

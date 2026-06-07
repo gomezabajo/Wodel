@@ -342,12 +342,12 @@ public class ModifyInformationMutator extends Mutator {
 									List<EObject> prev = (List<EObject>) rrcf.getPrevious();
 									if (prev != null) {
 										if (prev.size() > 0) {
-											previous.put(e.getKey(), prev.get(0));
+											previous.put(e.getKey(), EMFCopier.copy(prev.get(0)));
 										}
 									}
 								}
 								if (rrcf.getPrevious() instanceof EObject) {
-									previous.put(e.getKey(), (EObject) rrcf.getPrevious());
+									previous.put(e.getKey(), EMFCopier.copy((EObject) rrcf.getPrevious()));
 								}
 								if (rrcf.getNext() instanceof List<?>) {
 									List<EObject> nxt = (List<EObject>) rrcf.getNext();
@@ -365,7 +365,7 @@ public class ModifyInformationMutator extends Mutator {
 							}
 							else if (refConfig instanceof SpecificReferenceConfigurationStrategy) {
 								SpecificReferenceConfigurationStrategy srcs = (SpecificReferenceConfigurationStrategy) refConfig;
-								Object p = srcs.getPrevious();
+								Object p = object;
 								EObject prev = null;
 								if (p instanceof EObject) {
 									prev = (EObject) p;
@@ -373,7 +373,14 @@ public class ModifyInformationMutator extends Mutator {
 								if (p instanceof List<?>) {
 									prev = ((List<EObject>) p).get(0);
 								}
-								previous.put(e.getKey(), EMFCopier.copy(prev));
+								EObject prev2 = null;
+								if (prev.eGet(srcs.getRef()) instanceof EObject) {
+									prev2 = (EObject) prev.eGet(srcs.getRef());
+								}
+								if (prev.eGet(srcs.getRef()) instanceof List<?>) {
+									prev2 = ((List<EObject>) prev.eGet(srcs.getRef())).get(0);
+								}
+								previous.put(e.getKey(), EMFCopier.copy(prev2));
 								Object n = srcs.getNext();
 								EObject nxt = null;
 								if (n instanceof EObject) {
@@ -382,7 +389,7 @@ public class ModifyInformationMutator extends Mutator {
 								if (n instanceof List<?>) {
 									nxt = ((List<EObject>) n).get(0);
 								}
-								next.put(e.getKey(), EMFCopier.copy(nxt));
+								next.put(e.getKey(), nxt);
 								srcRefType = srcs.getSrcRefType();
 							}
 							else if (refConfig instanceof NullReferenceConfigurationStrategy) {

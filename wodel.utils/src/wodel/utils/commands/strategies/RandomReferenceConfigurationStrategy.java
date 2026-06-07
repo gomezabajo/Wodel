@@ -188,4 +188,9 @@ public class RandomReferenceConfigurationStrategy extends
 	public boolean isRemoval() {
 		return this.removal;
 	}
+	
+	@Override
+	public EReference getRef() {
+		return this.reference;
+	}
 }

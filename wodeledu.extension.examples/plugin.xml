@@ -32,5 +32,13 @@
             name="UML Class Diagrams"
             project="true">
       </wizard>
+      <wizard
+            category="wodel.project.WodelProject/wodeledu.extension.WodelEduExamples"
+            class="wodeledu.extension.examples.wizards.WodelEduPythonWizard"
+            icon="icons/wodel4.jpg"
+            id="wodeledu.extension.examples.wizards.WodelEduPythonWizard"
+            name="Python Programming"
+            project="true">
+      </wizard>
    </extension>
 </plugin>

@@ -20,7 +20,6 @@ import wodel.utils.exceptions.ModelNotFoundException
 import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
 import java.util.List
-import wodeledu.dsls.generator.EduTestSuperGenerator.TestOption
 import wodeledu.dsls.generator.EduTestSuperGenerator.Registry
 import java.util.HashMap
 import edutest.Test
@@ -40,12 +39,12 @@ import org.eclipse.emf.ecore.EClass
  *  
  */
 class EduTestWebGenerator extends EduTestSuperGenerator {
-	private String fileName
-	private String pageName
 	private int num
-	private List<EObject> blocks
+	private String fileName
 	private List<EPackage> metamodel
 	private List<EClass> roots
+	private List<EObject> blocks
+	private String pageName
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		try {

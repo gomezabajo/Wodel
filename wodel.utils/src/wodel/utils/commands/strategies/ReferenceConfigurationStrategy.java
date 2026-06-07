@@ -1,6 +1,7 @@
 package wodel.utils.commands.strategies;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -32,4 +33,6 @@ public abstract class ReferenceConfigurationStrategy {
 	public boolean isRemoval() {
 		return false;
 	}
+	
+	public abstract EReference getRef();
 }

@@ -1718,7 +1718,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 					hmObjects.put("«mut.name»", entry);
 					«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1981,7 +1981,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 						hmObjects.put("«mut.name»", entry);
 						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3235,7 +3235,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 						hmObjects.put("«mut.name»", entry);
 						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3376,7 +3376,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 									SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 									hmObjects.put("«mut.name»", entry);
 									«ENDIF»
-									AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+									AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, resource, mutPaths, packages);
 									if (appMut != null) {
 										muts.getMuts().add(appMut);
 									}
@@ -3488,7 +3488,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 							hmObjects.put("«mut.name»", entry);
 							«ENDIF»
-							AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -4324,7 +4324,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 						hmObjects.put("«mut.name»", entry);
 						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -4850,7 +4850,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
 						hmObjects.put("«mut.name»", entry);
 						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5238,7 +5238,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 			if (mut != null) {
 				Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, srcSelection.getModel(), mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5912,7 +5912,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 			if (mut != null) {
 				Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -6006,7 +6006,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -6368,53 +6368,16 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	'''
 	def registryMethod(Mutator mut, boolean exhaustive)'''
 	«IF standalone == false»
-	private AppMutation «registryMethodName»(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {
+	private AppMutation «registryMethodName»(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant, List<String> mutPaths, List<EPackage> packages) {
 	«ELSE»
-	private static AppMutation «registryMethodName»(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths, List<EPackage> packages) {
+	private static AppMutation «registryMethodName»(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant, List<String> mutPaths, List<EPackage> packages) {
 	«ENDIF»
 		AppMutation appMut = null;
 	«IF mut instanceof CreateObjectMutator»
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			«IF standalone == false»
-			try {
-			«ENDIF»
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					«IF standalone == false»
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					«ELSE»
-					mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-					«ENDIF»
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					//Reload input
-					try {
-						mutant.unload();
-						mutant.load(null); 
-					} catch (Exception e) {}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				}
-				else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					}
-					else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			«IF standalone == false»
-			} catch (ModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			«ENDIF»
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m«nRegistryMutation»") != null) {
 			cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
@@ -6436,7 +6399,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 		if (mut.getObject() != null) {
 			rMut.getObject().add(mut.getObject());
 		}
-		EObject foundObject = findEObjectForRegistry(seed, mut.getRemovedObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getRemovedObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getRemovedObject().add(foundObject);
 		}
@@ -6449,7 +6412,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«ENDIF»
 	«IF mut instanceof RemoveObjectMutator»
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -6476,7 +6439,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«IF mut instanceof RemoveRandomReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
-		objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));
+		objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));
 		rMut.getObject().addAll(objects);
 		if (((RemoveReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
@@ -6490,7 +6453,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«IF mut instanceof RemoveSpecificReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
-		objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));
+		objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));
 		rMut.getObject().addAll(objects);
 		if (((RemoveReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
@@ -6504,7 +6467,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«IF mut instanceof RemoveCompleteReferenceMutator»
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
-		objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));
+		objects.addAll(findEObjectsForRegistry(seed, mutant, mut, mutPaths, packages));
 		rMut.getObject().addAll(objects);
 		if (((RemoveReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
@@ -6518,7 +6481,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«IF mut instanceof ModifyInformationMutator»
 			InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 			ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-			Resource mutant = mutator.getModel();
+			//Resource mutant = mutator.getModel();
 			icMut.setObject(mut.getObject());
 		«IF (mut as ModifyInformationMutator).attributes.size > 0»
 			EList<AttributeChanged> attsMut = icMut.getAttChanges();
@@ -6604,6 +6567,8 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 			refMut«refCounter».setRefName("«eref.name»");
 			refMut«refCounter».getObject().add(mutator.getObject());
 			refMut«refCounter».getMutantObject().add(mutator.getObject());
+			refMut«refCounter».setFrom(mutator.getPrevious("«ref.reference.get(0).name»"));
+			refMut«refCounter».setTo(mutator.getNext("«ref.reference.get(0).name»"));
 			«ENDIF»
 			«IF ref instanceof ReferenceSwap»
 			//«var ereffirst = ref.reference.get(0)»
@@ -6700,7 +6665,7 @@ public class «project.name.replaceAll("[.]", "_")»StandaloneLauncher implement
 	«IF mut instanceof ModifyTargetReferenceMutator»
 			TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
 			ModifyTargetReferenceMutator mutator = (ModifyTargetReferenceMutator) mut;
-			Resource mutant = mutator.getModel();
+			//Resource mutant = mutator.getModel();
 			EObject object = ModelManager.getObject(seed, mutator.getObject());
 			if (object == null) {
 				object = ModelManager.getObject(mutant, mutator.getObject());
@@ -6922,6 +6887,9 @@ import wodel.utils.manager.EMFCopier;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class «className» extends MutatorUtils {
 	
@@ -8772,7 +8740,7 @@ public class «className» extends MutatorUtils {
 							mutPaths.add(mutatorPath);
 						}
 						«ENDIF»
-						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, model, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}

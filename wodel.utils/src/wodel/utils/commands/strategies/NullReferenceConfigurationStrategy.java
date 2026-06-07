@@ -105,4 +105,9 @@ public class NullReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	public String getSrcRefType() {
 		return srcRefType;
 	}
+	
+	@Override
+	public EReference getRef() {
+		return this.reference;
+	}
 }

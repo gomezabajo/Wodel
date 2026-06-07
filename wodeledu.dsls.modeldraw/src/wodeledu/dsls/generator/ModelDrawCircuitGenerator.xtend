@@ -360,24 +360,18 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 		
 					m4text += ".PE\n";
 					return m4text;
-				} 
+			} 
 		
-				private void generateGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+			private void generateGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
 					String printPathfile = pathfile.replace("\\", "/");
-					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
+					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
 					monitor.subTask("Rendering image for mutant " + printPathfile);
 					Resource model = ModelManager.loadModel(packages, pathfile);
 					String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
-					String path = exercise.getName() + "/";
-					List<String> folders = Arrays.asList(folder.split("/"));
-					if (folders.size() > 0) {
-						for (String folderName : folders) {
-							path += folderName + "/";
-						}
-					}
+					String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
 					String m4file = "«folder»src-gen/html/diagrams/" + 
 						path + "«roots.get(0).name»_" + file.getName().replace(".model", ".m4");
 					String batfile = "«folder»src-gen/html/diagrams/" + 
@@ -449,19 +443,30 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 				}
 			}
 			else {
-				if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-					File[] filesBlock = file.listFiles();
-					for (File fileBlock : filesBlock) {
-						generateGraphs(fileBlock, folder + file.getName(), packages, exercise, projectName, monitor);
+				generateGraphsRecursive(file, packages, exercise, monitor);
+			}
+		}
+			
+		private void generateGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
+			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+				File[] filesInBlock = file.listFiles();
+				if (filesInBlock != null && filesInBlock.length > 0) {
+					for (File fileInBlock : filesInBlock) {
+						if (fileInBlock.isFile()) {
+							generateGraphs(fileInBlock, packages, exercise, monitor);
+						}
+						else {
+							generateGraphsRecursive(fileInBlock, packages, exercise, monitor);
+						}
 					}
 				}
 			}
-				}
+		}
+			
 				public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
 						
 					String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
 					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-					String projectName = "«projectName»";
 					
 					List<String> models = ModelManager.getModels(«className»Draw.class);
 					List<String> mutants = ModelManager.getMutants(«className»Draw.class);
@@ -477,7 +482,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 							String pathfile = file.getPath();
 							if (pathfile.endsWith(".model") == true) {
 								String printPathfile = pathfile.replace("\\", "/");
-								printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
+								printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
 								monitor.subTask("Rendering image for model " + printPathfile);
 								Resource model = ModelManager.loadModel(packages, pathfile);
 								String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
@@ -566,7 +571,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 									String pathfile = file.getPath();
 									if (pathfile.endsWith(".model") == true) {
 										String printPathfile = pathfile.replace("\\", "/");
-										printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
+										printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
 										monitor.subTask("Rendering image for mutant " + printPathfile);
 										Resource model = ModelManager.loadModel(packages, pathfile);
 										String m4text = generateCircuitMacrosSpecificacion(packages, model, file.getName());
@@ -649,7 +654,7 @@ class ModelDrawCircuitGenerator extends AbstractGenerator {
 										File[] filesBlock = file.listFiles();
 										for (File fileBlock : filesBlock) {
 											try {
-												generateGraphs(fileBlock, file.getName(), packages, exercise, projectName, monitor);
+												generateGraphs(fileBlock, packages, exercise, monitor);
 											} catch (UnsupportedEncodingException e) {
 												continue;
 											}

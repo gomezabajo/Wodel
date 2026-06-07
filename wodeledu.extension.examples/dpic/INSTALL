@@ -1,0 +1,75 @@
+INSTALLATION:
+  1.  Decide where you will be installing the .m4 library files. In
+      principle, they can go anywhere; for example, $HOME/texmf/Circuit_macros,
+      c:\localtexmf\Circuit_macros, /usr/local/share/Circuit_macros,
+      or ~/texmf/tex/latex/Circuit_macros.  Copy the files from the
+      top-level directory of the distribution to the installation
+      directory, or simply expand the .tar.gz or .zip distribution file
+      and rename the result to create the installation directory, which
+      will then include the doc and examples subdirectories.
+
+  2.  Copy boxdims.sty (see Section 9 of the manual) from the top
+      distribution directory to where LaTeX will find it; directory
+      ~/texmf/tex/latex/boxdims for example, and refresh the LaTeX
+      filename database (the exact command depends on your LaTeX
+      distribution and may not be necessary).
+
+  3.  Define the environment variable M4PATH to point to the installation
+      directory determined in Step 1. For the bash shell, for
+      example, add the following to your .bashrc file:
+      export M4PATH='.:~/texmf/tex/latex/Circuit_macros:'
+      but modify the path to the installation directory as necessary.
+
+  4.  This is optional. For historical reasons, the default configuration file
+      as distributed is gpic.m4. You can change it to pgf.m4 or pstricks.m4
+      for use with dpic by editing the include command near the top of
+      libgen.m4.  To do this automatically, go to the installation directory
+      and type
+        "make pgfdefault" to set the default processor to dpic with Tikz pgf
+        "make psdefault"  to set the default processor to dpic with PSTricks
+        "make gpicdefault" to restore gpic as the default.
+
+Installation on a Mac:
+  For a nice outline of how to install on a Mac, go to
+  https://www.hamish.science/2020/06/24/circuitmacros
+
+CUSTOM MACROS:
+  You might develop your own set of macros that are combinations
+  or variations of those provided here.  You can put them in a file,
+  mymacros.m4 say, and copy it to the installation directory.  Then the
+  line include(mymacros.m4) in a diagram source will make your macros
+  available.
+
+TESTING:
+  In case of difficulty, go to the examples directory, look at debug1.tex
+  and debug2.m4, and follow instructions.
+
+  To test your installation, go to the examples directory (or copy the
+  files Makefile, tst.tex, and any .m4 sources you might like to test
+  from the examples directory to a working directory) and create a test
+  circuit in the file test.m4.  Copy ex01.m4 for example, or quick.m4
+  from the doc directory, into test.m4.
+
+  On a system with a "make" facility, first check the definitions at
+  the top of the Makefile, and then type "make tst1" to produce the
+  file tst.ps.  If the source requires processing twice, type "make
+  tst" instead.  To process one of the example .m4 files in the examples
+  directory (let's call it name.m4), simply type "make name.pdf" or "make
+  name.ps".  If these tests work to your satisfaction, try typing simply
+  "make" to produce examples.pdf.
+
+  The .m4 files in the examples directory can serve as models for your
+  diagrams but keep in mind that some of them contain details that allow
+  the source to be used with a variety of postprocessors. Sticking to one
+  postprocessor such as tikz or PStricks allows for the simplest source.
+  You might also wish to browse some of the included files that are not
+  used to make examples.ps.
+
+  No "make" facility?  You have to test by hand (but see the README file
+  for diagram production software).  Copy a test file as above into
+  test.m4.  Assuming you have dpic installed, type the following:
+
+  m4 -I <path> pstricks.m4 test.m4 > test.pic
+  dpic -p test.pic > test.tex
+  latex tst
+  dvips tst -o tst.ps

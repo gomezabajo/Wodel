@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pyast:Module xmlns:xmi="http://www.omg.org/XMI" xmlns:pyast="http://www.python.org/pythonast/3.14" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="square_module" xmi:version="2.0">
+  <body xsi:type="pyast:FunctionDef" name="square">
+    <args>
+      <args arg="x"/>
+    </args>
+    <body xsi:type="pyast:Assign">
+      <value xsi:type="pyast:BinOp">
+        <left xsi:type="pyast:Name" id="x">
+          <ctx xsi:type="pyast:Load"/>
+        </left>
+        <op xsi:type="pyast:Mult"/>
+        <right xsi:type="pyast:Name" id="x">
+          <ctx xsi:type="pyast:Load"/>
+        </right>
+      </value>
+      <targets xsi:type="pyast:Name" id="y">
+        <ctx xsi:type="pyast:Store"/>
+      </targets>
+    </body>
+    <body xsi:type="pyast:Return">
+      <value xsi:type="pyast:Name" id="y">
+        <ctx xsi:type="pyast:Load"/>
+      </value>
+    </body>
+  </body>
+</pyast:Module>

@@ -1569,21 +1569,15 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 			«ENDIF»
 		«ENDIF»
 			
-		public void generateGraphs(File file, String folder, List<EPackage> packages, File exercise, String projectName, IProgressMonitor monitor) throws ModelNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+		public void generateGraphs(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
 					String printPathfile = pathfile.replace("\\", "/");
-					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/" + projectName + "/") + ("/" + projectName + "/").length(), printPathfile.length());
+					printPathfile = printPathfile.substring(printPathfile.lastIndexOf("/«projectName»/") + ("/«projectName»/").length(), printPathfile.length());
 					monitor.subTask("Rendering image for mutant " + printPathfile);
 					Resource model = ModelManager.loadModel(packages, pathfile);
-					String path = exercise.getName() + "/";
-					List<String> folders = Arrays.asList(folder.split("/"));
-					if (folders.size() > 0) {
-						for (String folderName : folders) {
-							path += folderName + "/";
-						}
-					}
+					String path = file.getParent().replace("\\", "/").substring("«folder»data/out".length()) + "/";
 					String dotfile = "«folder»src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".dot");
 					String pngfile = "«folder»src-gen/html/diagrams/" + path + "«roots.get(0).name»_" + file.getName().replace(".model", ".png");
 					«draw.generate(folder)»
@@ -1616,14 +1610,24 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 				}
 			}
 			else {
-				if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
-					File[] filesBlock = file.listFiles();
-					for (File fileBlock : filesBlock) {
-						generateGraphs(fileBlock, folder + file.getName(), packages, exercise, projectName, monitor);
+				generateGraphsRecursive(file, packages, exercise, monitor);
+			}
+		}
+		public void generateGraphsRecursive(File file, List<EPackage> packages, File exercise, IProgressMonitor monitor) throws FileNotFoundException, MetaModelNotFoundException, ModelNotFoundException, UnsupportedEncodingException {
+			if (file.getName().equals("registry") != true && !file.getName().endsWith("vs")) {
+				File[] filesInBlock = file.listFiles();
+				if (filesInBlock != null && filesInBlock.length > 0) {
+					for (File fileInBlock : filesInBlock) {
+						if (fileInBlock.isFile()) {
+							generateGraphs(fileInBlock, packages, exercise, monitor);
+						}
+						else {
+							generateGraphsRecursive(fileInBlock, packages, exercise, monitor);
+						}
 					}
 				}
 			}
-			}
+		}
 				
 			public void generate(IProgressMonitor monitor) throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
 					
@@ -1764,7 +1768,7 @@ class ModelDrawDotGenerator extends AbstractGenerator {
 							File[] filesBlock = file.listFiles();
 							for (File fileBlock : filesBlock) {
 								try {
-									generateGraphs(fileBlock, file.getName(), packages, exercise, projectName, monitor);
+									generateGraphs(fileBlock, packages, exercise, monitor);
 								} catch (UnsupportedEncodingException e) {
 									continue;
 								}

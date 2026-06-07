@@ -405,4 +405,9 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	public String getOtherTargetName() {
 		return othereobjtarname;
 	}
+	
+	@Override
+	public EReference getRef() {
+		return this.source;
+	}
 }

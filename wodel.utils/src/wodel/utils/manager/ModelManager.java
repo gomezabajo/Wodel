@@ -3827,22 +3827,20 @@ public class ModelManager {
 	 */
 	public static List<EObject> getAllObjects(Resource model) {
 
-		List<EObject> objs = new ArrayList<EObject>();
+		List<EObject> result = new ArrayList<>();
 
-		if (model == null) {
-			return objs;
-		}
-		for (EObject obj : model.getContents()) {
-			objs.add(obj);
-			
-			Iterator<EObject> it = obj.eAllContents();
+        if (model == null) {
+            return result;
+        }
 
-			while (it.hasNext()) {
-				EObject object = it.next();
-				objs.add(object);
-			}
-		}
-		return objs;
+        Iterator<EObject> iterator = model.getAllContents();
+
+        while (iterator.hasNext()) {
+            EObject eObject = iterator.next();
+            result.add(eObject);
+        }
+		
+		return result;
 	}
 	
 		
@@ -4190,7 +4188,7 @@ public class ModelManager {
 			eo = EcoreUtil.resolve(eo, model.getResourceSet());
 		}
 		EObject ob = null;
-		if (eobj != null) {
+		if (eo != null) {
 			List<EObject> objs = getAllObjects(model);
 
 			for (EObject obj : objs) {

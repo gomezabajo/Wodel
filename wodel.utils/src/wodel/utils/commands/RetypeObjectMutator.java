@@ -186,13 +186,11 @@ public class RetypeObjectMutator extends Mutator {
 
 		//We select the container of the new Object
 		EObject container = containerSelection.getObject();
+		if (container == null) {
+			container = object.eContainer();
+		}
 		//We select the container of the new Object
 		EReference reference = (EReference) referenceSelection.getObject();
-		
-		if(container==null){
-			result = null;
-			return null;
-		}
 		
 		removed = EMFCopier.copy(object);
 		identification = EcoreUtil.getIdentification(object);

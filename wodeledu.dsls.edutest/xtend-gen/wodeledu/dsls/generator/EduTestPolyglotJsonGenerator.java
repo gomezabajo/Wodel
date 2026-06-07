@@ -60,15 +60,15 @@ import wodel.utils.manager.ModelManager;
 public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
   private String fileName;
 
-  private String pageName;
-
-  private List<EObject> blocks;
-
-  private List<EObject> mutators;
-
   private List<EPackage> metamodel;
 
   private List<EClass> roots;
+
+  private List<EObject> blocks;
+
+  private String pageName;
+
+  private List<EObject> mutators;
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -1011,8 +1011,8 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                         boolean _greaterThan_7 = (_size_7 > 0);
                         if (_greaterThan_7) {
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_4 = this.options.get(exercise).get(test_4).get(rndIndex);
-                            for(final EduTestSuperGenerator.TestOption opt : _get_4) {
+                            List<TestOption> _get_4 = this.options.get(exercise).get(test_4).get(rndIndex);
+                            for(final TestOption opt : _get_4) {
                               {
                                 Set<String> _keySet_1 = opt.text.keySet();
                                 for(final String key : _keySet_1) {
@@ -1077,7 +1077,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                 }
               }
               _builder.append("        ");
-              Map<Test, Map<EduTestSuperGenerator.TestOption, String>> mapPairOptions = new HashMap<Test, Map<EduTestSuperGenerator.TestOption, String>>();
+              Map<Test, Map<TestOption, String>> mapPairOptions = new HashMap<Test, Map<TestOption, String>>();
               _builder.newLineIfNotEmpty();
               {
                 EList<Test> _tests_5 = ((MatchPairs)exercise).getTests();
@@ -1088,7 +1088,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                       _builder.newLineIfNotEmpty();
                       int counter_4 = 0;
                       _builder.newLineIfNotEmpty();
-                      Map<EduTestSuperGenerator.TestOption, String> mapOptions = new HashMap<EduTestSuperGenerator.TestOption, String>();
+                      Map<TestOption, String> mapOptions = new HashMap<TestOption, String>();
                       _builder.newLineIfNotEmpty();
                       int rndIndex_1 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_5));
                       _builder.newLineIfNotEmpty();
@@ -1097,8 +1097,8 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                         boolean _greaterThan_8 = (_size_8 > 0);
                         if (_greaterThan_8) {
                           {
-                            List<EduTestSuperGenerator.TestOption> _get_6 = this.options.get(exercise).get(test_5).get(rndIndex_1);
-                            for(final EduTestSuperGenerator.TestOption opt_1 : _get_6) {
+                            List<TestOption> _get_6 = this.options.get(exercise).get(test_5).get(rndIndex_1);
+                            for(final TestOption opt_1 : _get_6) {
                               List<String> textOptions_1 = new ArrayList<String>();
                               _builder.newLineIfNotEmpty();
                               {
@@ -1286,7 +1286,7 @@ public class EduTestPolyglotJsonGenerator extends EduTestSuperGenerator {
                 EList<Test> _tests_6 = ((MatchPairs)exercise).getTests();
                 for(final Test test_6 : _tests_6) {
                   _builder.append("        ");
-                  EduTestSuperGenerator.TestOption opt_2 = null;
+                  TestOption opt_2 = null;
                   _builder.newLineIfNotEmpty();
                   _builder.append("        ");
                   int rndIndex_2 = ModelManager.getRandomIndex(this.options.get(exercise).get(test_6));

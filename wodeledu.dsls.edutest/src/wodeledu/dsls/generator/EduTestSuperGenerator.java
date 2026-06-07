@@ -6,7 +6,9 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,6 +40,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.osgi.framework.Bundle;
 
 import appliedMutations.AttributeChanged;
@@ -71,7 +74,6 @@ import wodel.utils.exceptions.ModelNotFoundException;
 import wodel.utils.manager.HTMLUtils;
 import wodel.utils.manager.ModelManager;
 import wodel.utils.manager.MutatorUtils;
-import wodel.utils.manager.ProjectUtils;
 import modeltext.Element;
 import mutatext.Constant;
 import mutatext.Option;
@@ -81,9 +83,11 @@ import mutatext.VariableType;
 import mutatext.Word;
 import mutatorenvironment.Block;
 import mutatorenvironment.ModifyInformationMutator;
+import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SpecificObjectSelection;
 import wodeledu.utils.manager.WodelEduUtils;
 
-public class EduTestSuperGenerator extends AbstractGenerator {
+public abstract class EduTestSuperGenerator extends AbstractGenerator {
 
 	protected IProject project = null;
 	protected String projectPath = null;
@@ -92,71 +96,50 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	protected String workspacePath = null;
 	protected Map<MutatorTests, List<Test>> tests = new LinkedHashMap<MutatorTests, List<Test>>();
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> diagrams = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
+	
+	public Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> getDiagrams() {
+		return this.diagrams;
+	}
+	
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> programs = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
+	
+	public Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> getPrograms() {
+		return this.programs;
+	}
+	
+	
+	
 	protected Map<MutatorTests, Map<Test, Map<EClass, List<String>>>> rand = new LinkedHashMap<MutatorTests, Map<Test, Map<EClass, List<String>>>>();
 	protected Map<MutatorTests, Map<Test, Registry>> dataRegistry = new LinkedHashMap<MutatorTests, Map<Test, Registry>>();
 	protected Map<MutatorTests, Map<Test, Double>> puntuation = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
 	protected Map<MutatorTests, Map<Test, Double>> penalty = new LinkedHashMap<MutatorTests, Map<Test, Double>>();
 	protected Map<MutatorTests, Integer> total = new LinkedHashMap<MutatorTests, Integer>();
 	protected Map<MutatorTests, Map<Test, List<List<TestOption>>>> options = new LinkedHashMap<MutatorTests, Map<Test, List<List<TestOption>>>>();
+	
+	public Map<MutatorTests, Map<Test, List<List<TestOption>>>> getOptions() {
+		return this.options;
+	}
+	
 	protected Map<MutatorTests, List<String>> solutionsMap = new LinkedHashMap<MutatorTests, List<String>>();
 	
-	public EduTestSuperGenerator() {
-		ProjectUtils.setProject(null);
-		project = ProjectUtils.getProject();
-		projectPath = project != null ? project.getLocation().toFile().getPath() : null;
-		outputFolder = ModelManager.getOutputFolder();
-		projectName = project != null ? project.getName() : null;
-		workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
+	public Map<MutatorTests, List<String>> getSolutionsMap() {
+		return this.solutionsMap;
 	}
-
+	
+	protected static IProject projectOf(Resource r) {
+		URI uri = r.getURI();
+		if (uri != null && uri.isPlatformResource()) {
+			String projectName = uri.segment(1);
+			return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		}
+		return null;
+	}
+	
 	private class Registry {
 		public Resource seed;
 		public List<SimpleEntry<Resource, Resource>> mutants;
 		public List<Resource> history;
 		public Map<Resource, List<Registry>> wrong;
-	}
-	
-	protected class ComparableSimpleEntry<T1, T2> extends SimpleEntry<T1, T2> implements Comparable<ComparableSimpleEntry<T1, T2>> {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -5891016691019556492L;
-
-		public ComparableSimpleEntry(T1 arg0, T2 arg1) {
-			super(arg0, arg1);
-		}
-
-		@Override
-		public int compareTo(ComparableSimpleEntry<T1, T2> o) {
-			if (this.getKey() instanceof String && o.getKey() instanceof String) {
-				return ((String) this.getKey()).compareTo((String) o.getKey());
-			}
-			return this.getKey().equals(o.getKey()) ? 0 : -1;
-		}
-		
-	}
-
-	protected class TestOption implements Cloneable {
-		public String path;
-		public Resource resource;
-		public Resource seed;
-		public Resource mutant;
-		public SimpleEntry<Resource, Resource> entry;
-		public List<SimpleEntry<Resource, Map<String, List<String>>>> reverse;
-		public Map<String, List<String>> text;
-		public boolean solution;
-		public int total;
-		
-		public Map<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>> options;
-		
-		public Map<String, List<ComparableSimpleEntry<String, SimpleEntry<EClass, SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>>> sortedOptions;
-
-		@Override
-		public Object clone() throws CloneNotSupportedException {
-			return super.clone();
-		}
 	}
 	
 	/**
@@ -239,7 +222,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 		entries.set(k, value);
 	}
-
+	
 	/**
 	 * Gets the registry object for the test exercise
 	 * It stores the solution and the wrong answers
@@ -636,7 +619,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		retRegistry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
 		retRegistry.history = new ArrayList<Resource>();
 		retRegistry.wrong = new LinkedHashMap<Resource, List<Registry>>();
-		for (int i = 0; i < registry.mutants.size(); i++) {
+		for (int i = 0; i < registry.mutants.size() && i < registry.history.size(); i++) {
 			if (registry.mutants.get(i).getKey() == null) {
 				continue;
 			}
@@ -665,7 +648,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		return retRegistry;
 	}
 	
-	protected String getText(String identifier, String fileName, Resource resource) throws ModelNotFoundException {
+	public String getText(String identifier, String fileName, Resource resource) throws ModelNotFoundException {
 		String text = "";
 		try {
 			Bundle bundle = Platform.getBundle("wodel.models");
@@ -758,9 +741,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				textOptions.addAll(optCheck.text.get(mutationURI));
 				int equals = 0;
 				for (String text : optCheck.text.get(mutationURI)) {
-					for (String newText : opt.text.get(mutationURI)) {
-						if (text.equals(newText)) {
-							equals++;
+					if (opt.text.containsKey(mutationURI)) {
+						for (String newText : opt.text.get(mutationURI)) {
+							if (text.equals(newText)) {
+								equals++;
+							}
 						}
 					}
 				}
@@ -789,14 +774,16 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			if (optCheck.text.size() > 0) {
 				if (optCheck.text.get(mutationURI) != null && optCheck.text.get(mutationURI).size() > 0) {
 					String textOption = optCheck.text.get(mutationURI).get(0);
-					String newText = opt.text.get(mutationURI).get(0);
-					if (newText.equals(textOption) ) {
-						if (optCheck.solution == false) {
-							testOptions.remove(optCheck);
-							return false;
-						}
-						else {
-							return true;
+					if (opt.text.containsKey(mutationURI)) {
+						String newText = opt.text.get(mutationURI).get(0);
+						if (newText.equals(textOption) ) {
+							if (optCheck.solution == false) {
+								testOptions.remove(optCheck);
+								return false;
+							}
+							else {
+								return true;
+							}
 						}
 					}
 				}
@@ -948,7 +935,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		programs.put(exercise, progs);
 		Map<Test, Map<EClass, List<String>>> random = new LinkedHashMap<Test, Map<EClass, List<String>>>();
 		for (Test test : exercise.getTests()) {
-			Map<EClass, List<String>> entry = diagrams.get(exercise).get(test);
+			Map<EClass, List<String>> entry = programs.get(exercise).get(test);
 			if (entry == null || entry.size() == 0) {
 				entry = programs.get(exercise).get(test);
 			}
@@ -982,6 +969,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 					}
 					if (found == false || txt.isEmpty()) {
+						if (!opt.text.containsKey(mutationURI)) {
+							opt.text.put(mutationURI, new ArrayList<String>());
+						}
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -997,6 +987,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 					}
 					if (found == false || txt.isEmpty()) {
+						if (!opt.text.containsKey(mutationURI)) {
+							opt.text.put(mutationURI, new ArrayList<String>());
+						}
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -1018,6 +1011,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 					}
 					if (found == false || txt.isEmpty()) {
+						if (!opt.text.containsKey(mutationURI)) {
+							opt.text.put(mutationURI, new ArrayList<String>());
+						}
 						opt.text.get(mutationURI).add(txt);
 					}
 				}
@@ -1114,8 +1110,19 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	private String getObjectCreatedOption(Resource cfgoptsresource, Resource idelemsresource, ObjectCreated objectCreated, TestOption opt) {
 		String text = "";
 		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
+		if (objectCreated.getObject().size() == 0) {
+			return text;
+		}
 		EObject object = ModelManager.getEObject(objectCreated.getObject().get(0), opt.seed);
+		if (object.eIsProxy()) {
+			URI proxyURI = ((InternalEObject) object).eProxyURI();
+		    String fragment = proxyURI.fragment();
+		    object = opt.mutant.getEObject(fragment);
+		}
 		Element element = WodelEduUtils.getElement(object, idelemsresource);
+		if (element == null) {
+			return text;
+		}
 		Text t = null;
 		if (opt.solution == true) {
 			t = cfgopt.getValid();
@@ -1959,7 +1966,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			else {
 				Option cfgopt = WodelEduUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
 				String attName = att.getAttName();
-				String newVal = att.getNewVal();
+				String oldVal = att.getOldVal();
+				//String oldVal = att.getOldVal();
+				if (object.eIsProxy()) {
+					URI proxyURI = ((InternalEObject) object).eProxyURI();
+				    String fragment = proxyURI.fragment();
+				    object = opt.mutant.getEObject(fragment);
+				}
+				EObject result = ModelManager.getEObject(object, opt.mutant);
+				String newVal = ModelManager.getAttribute(attName, result).toString();
 				Element element = WodelEduUtils.getElement(object, idelemsresource);
 				Element elementValues = WodelEduUtils.getElementValues(object, idelemsresource, opt.solution);
 				Text t = null;
@@ -2036,19 +2051,63 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							txt += attName + " ";
 						}
 						if (variable.getType() == VariableType.OLD_VALUE) {
-							for (modeltext.Word v : elementValues.getWords()) {
-								if (v instanceof modeltext.Constant) {
-									txt += ((modeltext.Constant) v).getValue() + " ";
-								}
-							}
+							txt += oldVal + " ";
 						}
 						if (variable.getType() == VariableType.NEW_VALUE) {
 							txt += newVal + " ";
 						}
 						if (variable.getType() == VariableType.VALUE) {
 							for (modeltext.Word v : elementValues.getWords()) {
+								EObject o = null;
 								if (v instanceof modeltext.Constant) {
 									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+								if (v instanceof modeltext.Variable) {
+									if (((modeltext.Variable) v).getRef() == null) {
+										o = object;
+									}
+									else {
+										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+									}
+									String texto = "";
+									if (o != null) {
+										if (o.eIsProxy()) {
+											o = EcoreUtil.resolve(o, seed.getResourceSet());
+										}
+										if (o.eIsProxy()) {
+											o = ModelManager.getObject(mutant, o);
+										}
+										String type = o.eClass().getName();
+										if (type.length() > 0) {
+											texto += type;
+										}
+										String name = ((modeltext.Variable) v).getId().getName();
+										EStructuralFeature feat = ModelManager.getAttributeByName(name, o);
+										if (feat != null) {
+											texto += o.eGet(feat, true).toString();
+										}
+										if (texto.isEmpty()) {
+											feat = ModelManager.getReferenceByName("class", o);
+											if (feat != null) {
+												Object refOb = o.eGet(feat, true);
+												if (refOb instanceof EObject) {
+													texto += ModelManager.getStringAttribute("name", (EObject) refOb);
+												}
+												if (refOb instanceof List<?> && ((List<EObject>) refOb).size() > 0) {
+													texto += ModelManager.getStringAttribute("name", ((List<EObject>)refOb).get(0));
+												}
+											}
+										}
+										if (texto.isEmpty()) {
+											name = ModelManager.getStringAttribute("name", o);
+											if (name != null) {
+												texto += name;
+											}
+										}
+									}
+									if (!texto.isEmpty()) {
+										txt += texto + " ";
+									}
 								}
 							}
 						}
@@ -3447,6 +3506,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			return text;
 		}
 		Option cfgopt = WodelEduUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
+		if (objectRemoved.getObject().size() == 0) {
+			return text;
+		}
 		EObject object = ModelManager.getEObject(objectRemoved.getObject().get(0), opt.seed);
 		Element element = WodelEduUtils.getElement(object, idelemsresource);
 		Text t = null;
@@ -4187,6 +4249,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		if (object == null) {
 			return;
 		}
+		if (object.eIsProxy()) {
+			URI proxyURI = ((InternalEObject) object).eProxyURI();
+		    String fragment = proxyURI.fragment();
+		    object = opt.seed.getEObject(fragment);
+		}
 		List<String> attributes = new ArrayList<String>();
 		List<String> text = new ArrayList<String>();
 		for (AttributeChanged att : attChanges) {
@@ -4602,6 +4669,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								}
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								EClass eClass = modify.getObject().getType();
+								if (eClass == null) {
+									if (modify.getObject() instanceof SpecificObjectSelection) {
+										SpecificObjectSelection specObSel = (SpecificObjectSelection) modify.getObject();
+										if (specObSel.getObjSel() instanceof SelectObjectMutator) {
+											SelectObjectMutator mut = (SelectObjectMutator) specObSel.getObjSel();
+											eClass = mut.getObject().getType();
+										}
+									}
+								}
 								EAttribute eAttribute = null;
 								for (EAttribute attribute : eClass.getEAllAttributes()) {
 									if (attribute.getName().equals(attName)) {
@@ -4640,6 +4716,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								}
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								EClass eClass = modify.getObject().getType();
+								if (eClass == null) {
+									if (modify.getObject() instanceof SpecificObjectSelection) {
+										SpecificObjectSelection specObSel = (SpecificObjectSelection) modify.getObject();
+										if (specObSel.getObjSel() instanceof SelectObjectMutator) {
+											SelectObjectMutator mut = (SelectObjectMutator) specObSel.getObjSel();
+											eClass = mut.getObject().getType();
+										}
+									}
+								}
 								EAttribute eAttribute = null;
 								for (EAttribute attribute : eClass.getEAllAttributes()) {
 									if (attribute.getName().equals(attName)) {
@@ -4678,6 +4763,15 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								}
 								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 								EClass eClass = modify.getObject().getType();
+								if (eClass == null) {
+									if (modify.getObject() instanceof SpecificObjectSelection) {
+										SpecificObjectSelection specObSel = (SpecificObjectSelection) modify.getObject();
+										if (specObSel.getObjSel() instanceof SelectObjectMutator) {
+											SelectObjectMutator mut = (SelectObjectMutator) specObSel.getObjSel();
+											eClass = mut.getObject().getType();
+										}
+									}
+								}
 								EAttribute eAttribute = null;
 								for (EAttribute attribute : eClass.getEAllAttributes()) {
 									if (attribute.getName().equals(attName)) {
@@ -5582,13 +5676,13 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 									random.add(rnd);
 									sorted.remove(rndIndex);
 								}
-								for (int k = 0; k < wrongRegistry.mutants.size(); k++) {
+								for (int k = 0; k < wrongRegistry.mutants.size() && k < wrongRegistry.history.size(); k++) {
 									opt = new TestOption();
 									opt.path = "diagrams" + wrongRegistry.mutants.get(random.get(k)).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
 									opt.resource = wrongRegistry.history.get(random.get(k));
 									opt.seed = wrongRegistry.seed;
 									opt.solution = false;
-									opt.mutant = reg.mutants.get(k).getKey();
+									opt.mutant = wrongRegistry.mutants.get(random.get(k)).getKey();
 									opts.add(opt);
 								}
 							}
@@ -6583,7 +6677,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	}
 	
 	
-	protected String getStringBase64(String fileName) {
+	public String getStringBase64(String fileName) {
 	    Path path = Paths.get(projectPath, "src-gen", "html", fileName);
 	    String base64 = "";
 	    try {
@@ -6613,7 +6707,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	}
 	*/
 	
-	protected String getPythonHtmlCode(String fileName) {
+	public String getPythonHtmlCode(String fileName) {
 		String pythonCode = "";
 		File file = new File(projectPath + "/src-gen/html/" + fileName.replace(".py", ".html"));
 		try {
@@ -6628,6 +6722,34 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			e.printStackTrace();
 		}
 		return pythonCode;
+	}
+	
+	public void generateHtmlCode(String outPath) {
+		PrintWriter batwriter = null;
+		String batfile = outPath.replace(".py", ".bat");
+		try {
+			batwriter = new PrintWriter(batfile, "UTF-8");
+			batwriter.println("cd \\");
+			batwriter.println("cd "+ outPath.substring(0, outPath.lastIndexOf("/")));
+			batwriter.println("pygmentize -O full,style=emacs,linenos=1 -o " + outPath.replace(".py", ".html") + " " + outPath);
+			batwriter.println("exit");
+			batwriter.close();
+		} catch (UnsupportedEncodingException e) {
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] command = {"cmd", "/c", batfile};
+		try {
+			Process proc = Runtime.getRuntime().exec(command);
+			proc.waitFor(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

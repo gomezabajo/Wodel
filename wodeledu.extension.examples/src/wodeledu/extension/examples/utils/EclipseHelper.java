@@ -165,6 +165,19 @@ public class EclipseHelper {
 			        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
 			        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
 			classpathEntries.add(plantUMLLibraryEntry);
+			String jsouplib = "lib/jsoup-1.22.1.jar";
+			//classpathEntries.add(JavaCore.newLibraryEntry(new Path(EclipseHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath() + plantUMLlib), null, null));
+			@SuppressWarnings("restriction")
+			IClasspathEntry jsoupLibraryEntry = new org.eclipse.jdt.internal.core.ClasspathEntry(
+			        IPackageFragmentRoot.K_BINARY,
+			        IClasspathEntry.CPE_LIBRARY, project.getFile(jsouplib).getProjectRelativePath(),
+			        ClasspathEntry.INCLUDE_ALL, // inclusion patterns
+			        ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+			        null, null, null, // specific output folder
+			        false, // exported
+			        ClasspathEntry.NO_ACCESS_RULES, false, // no access rules to combine
+			        ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+			classpathEntries.add(jsoupLibraryEntry);
 			// Automated generation of seed models by means of the USE UML Model Validator Kodkod plug-in
 			String[] useKodkodLibs = {
 					"use.jar",

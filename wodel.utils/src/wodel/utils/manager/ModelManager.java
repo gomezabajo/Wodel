@@ -169,7 +169,7 @@ public class ModelManager {
 				}
 			}
 		}
-		else {
+		else if (!new File(processedURI).exists()){
 			String path = getWorkspaceAbsolutePathWithProjectName();
 			if (path == null) {
 				return processedURI;
@@ -439,7 +439,7 @@ public class ModelManager {
 	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
 		String mmURI = processURI(uri);
-		
+
 		try {
 			metamodel = new ArrayList<EPackage>();
 			

@@ -29,6 +29,7 @@
 - [Wodel-Edu](#wodel-edu)
 - [Wodel-Test](#wodel-test)
 - [Roadmap](#roadmap)
+- [Acknowledgements and third-party components](#acknowledgements-and-third-party-components)
 - [Citing Wodel](#citing-wodel)
 - [Funding](#funding)
 - [License](#license)
@@ -230,6 +231,17 @@ Learn more:
 - **GenAI-based assistant (in progress).** Work is underway to integrate a generative-AI
   assistant into the Wodel toolset, to help users author and refine mutation programs.
   This feature is experimental and not yet generally available.
+
+## Acknowledgements and third-party components
+
+Wodel4diac builds upon and redistributes components from several projects, including:
+
+- **[Wodel](https://github.com/gomezabajo/Wodel)** and the Wodel ecosystem (Wodel-Edu, Wodel-Test).
+- **[anATLyzer](https://github.com/anatlyzer/anatlyzer)** — static analysis of ATL transformations (`anatlyzer.*`).
+- **[eFinder](https://github.com/jesusc/efinder)** — model finding / constraint solving (`efinder.*`).
+- **[tinytools](https://github.com/jesusc/tiny-tools)** — supporting EMF utilities (`tinytools.*`).
+
+Developed in the context of work at the Universidad Autónoma de Madrid and the Universidad de Murcia.
 
 ## Citing Wodel
 

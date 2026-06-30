@@ -234,9 +234,8 @@ Learn more:
 
 ## Acknowledgements and third-party components
 
-Wodel4diac builds upon and redistributes components from several projects, including:
+Wodel builds upon and redistributes components from several projects, including:
 
-- **[Wodel](https://github.com/gomezabajo/Wodel)** and the Wodel ecosystem (Wodel-Edu, Wodel-Test).
 - **[anATLyzer](https://github.com/anatlyzer/anatlyzer)** — static analysis of ATL transformations (`anatlyzer.*`).
 - **[eFinder](https://github.com/jesusc/efinder)** — model finding / constraint solving (`efinder.*`).
 - **[tinytools](https://github.com/jesusc/tiny-tools)** — supporting EMF utilities (`tinytools.*`).

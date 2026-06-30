@@ -1,0 +1,9 @@
+import '../metamodels/people.ecore'
+
+package people
+
+
+context Model inv check:
+ 	self.people->iterate(p; a : Integer = 0 | p.age + a) > 3
+
+endpackage

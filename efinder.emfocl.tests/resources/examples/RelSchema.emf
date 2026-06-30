@@ -1,0 +1,47 @@
+@Ecore(invocationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", settingDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot", validationDelegates="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")
+@namespace(uri="http://efinder/relschema", prefix="relschema")
+package relschema;
+
+class RelModel {
+  val RelSchema[*] schemas;
+  val Row[*] rows;
+  val DataType[*] datatypes;
+}
+
+class RelSchema {
+
+  @"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(body="self.attributes->select(a | a.isKey)")
+  op Attribute[*] key();
+  attr String[1] name;
+  val Attribute[*] attributes;
+  ref Row[*]#typing rows;
+}
+
+class Attribute {
+  attr String[1] name;
+  attr boolean[1] isKey;
+  ref DataType[1] datatype_;
+}
+
+class DataType {
+  attr String[1] name;
+}
+
+class Row {
+
+  @"http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"(body="self.columns->select(am|am.attribute=a)->any(true).value.content")
+  op String[1] attrValue(Attribute a);
+  ref RelSchema[1]#rows typing;
+  val AttrMap[*] columns;
+}
+
+class AttrMap {
+  ref Attribute[1] attribute;
+  val Value[1] value;
+}
+
+class Value {
+  attr String[1] content;
+  ref DataType[1] dt;
+}
+

@@ -1,0 +1,14 @@
+status: SAT
+witness:
+  john:
+    type_: Person
+    name: John 
+    bestFriend: jack
+  jack:
+    type_: Person
+    name: Jack
+
+# would be interesting to have subgraphs
+# and match them independently
+# in this case, I would like to also say that
+# there is an object <> John with a pet (which might or might not be jack)

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/efinder.core/src-gen" modelPluginID="efinder.core"
+    modelName="Efinder" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>efinder.ecore</foreignModel>
+  <genPackages prefix="Efinder" basePackage="efinder" disposableProviderFactory="true"
+      ecorePackage="efinder.ecore#/">
+    <genClasses ecoreClass="efinder.ecore#//Specification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/metamodels"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/constraints"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/temporary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/operations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/primitiveTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Specification/tupleTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//Temporary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Temporary/classes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//Temporary/dangling"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//Constraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//Constraint/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//TypedElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//TypedElement/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//AbstractFunction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//AbstractFunction/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//AbstractFunction/context"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//DerivedProperty"/>
+    <genClasses image="false" ecoreClass="efinder.ecore#//Operation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//Operation/parameters"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//FeatureRef"/>
+    <genClasses image="false" ecoreClass="efinder.ecore#//OperationFeatureRef"/>
+    <genClasses ecoreClass="efinder.ecore#//BuiltinOperationRef"/>
+    <genClasses ecoreClass="efinder.ecore#//DefinedOperationRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//DefinedOperationRef/operation"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//PropertyFeatureRef"/>
+    <genClasses ecoreClass="efinder.ecore#//TupleFieldRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//TupleFieldRef/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//TupleFieldRef/name"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//DerivedPropertyRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//DerivedPropertyRef/property"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//BuiltinPropertyRef"/>
+    <genClasses ecoreClass="efinder.ecore#//MetamodelFeatureRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//MetamodelFeatureRef/feature"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//VariableDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//VariableDeclaration/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//VariableDeclaration/type"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//Parameter"/>
+    <genClasses ecoreClass="efinder.ecore#//EFMetamodel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//EFMetamodel/roots"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//EFPackage">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//EFPackage/pkg"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//EFPackage/classes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//EFPackage/enumerations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//EFType"/>
+    <genClasses ecoreClass="efinder.ecore#//EFClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//EFClass/klass"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//EFPrimitiveType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//EFPrimitiveType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//EFEnum">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//EFEnum/enum_"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//EFEnum/literals"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//EFEnumLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//EFEnumLiteral/name"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//EFTupleType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//EFTupleType/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//EFTupleType/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//TupleTypeElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//TupleTypeElement/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//TupleTypeElement/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="efinder.ecore#//TypeRef"/>
+    <genClasses ecoreClass="efinder.ecore#//MetaTypeRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference efinder.ecore#//MetaTypeRef/type"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//InvalidTypeRef"/>
+    <genClasses image="false" ecoreClass="efinder.ecore#//CollectionTypeRef">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//CollectionTypeRef/containedType"/>
+    </genClasses>
+    <genClasses ecoreClass="efinder.ecore#//SetTypeRef"/>
+    <genClasses ecoreClass="efinder.ecore#//SequenceTypeRef"/>
+    <genClasses ecoreClass="efinder.ecore#//BagTypeRef"/>
+    <genClasses ecoreClass="efinder.ecore#//OrderedSetTypeRef"/>
+    <nestedGenPackages prefix="Ocl" basePackage="efinder.ir" disposableProviderFactory="true"
+        ecorePackage="efinder.ecore#//ocl">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="efinder.ecore#//ocl/OperatorKind">
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/NOT"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/MUL"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/DIV"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/MINUS"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/PLUS"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/LESS"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/GREATER"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/LESS_OR_EQUAL"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/GREATER_OR_EQUAL"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/EQUAL"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/DISTINCT"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/AND"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/OR"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/XOR"/>
+        <genEnumLiterals ecoreEnumLiteral="efinder.ecore#//ocl/OperatorKind/IMPLIES"/>
+      </genEnums>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/WithContextVariable">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/WithContextVariable/contextVariable"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclInvariant">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference efinder.ecore#//ocl/OclInvariant/klass"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OclInvariant/expression"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclDerivedProperty">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OclDerivedProperty/body"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclOperation">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OclOperation/body"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/OclExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OclExpression/type"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/ModelElement"/>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/CallExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/CallExp/source"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/AbstractOperationCallExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/AbstractOperationCallExp/arguments"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OperationCallExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/OperationCallExp/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OperationCallExp/feature"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/PropertyCallExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/PropertyCallExp/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EReference efinder.ecore#//ocl/PropertyCallExp/feature"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/CollectionCallExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/CollectionCallExp/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/LoopExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/LoopExp/iterators"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/LoopExp/body"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/IteratorExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/IteratorExp/name"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/IterateExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/IterateExp/result"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/IterateExp/init"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/Iterator"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/IfExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/IfExp/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/IfExp/then"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/IfExp/else"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/LetExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/LetExp/variable"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/LetExp/init"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/LetExp/in"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OperatorCallExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/OperatorCallExp/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/OperatorCallExp/argument"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/VarExp">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference efinder.ecore#//ocl/VarExp/variable"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/LiteralExp"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/BooleanLiteralExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/BooleanLiteralExp/value"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/StringLiteralExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/StringLiteralExp/value"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/IntegerLiteralExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/IntegerLiteralExp/value"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/RealLiteralExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/RealLiteralExp/value"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclUndefined"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclInvalid"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/TupleLiteralExp">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference efinder.ecore#//ocl/TupleLiteralExp/tupleType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/TupleLiteralExp/parts"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/TuplePart">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/TuplePart/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/TuplePart/value"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/EnumLiteralExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/EnumLiteralExp/enum_"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EReference efinder.ecore#//ocl/EnumLiteralExp/literal"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="efinder.ecore#//ocl/CollectionLiteralExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference efinder.ecore#//ocl/CollectionLiteralExp/parts"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/SetLiteralExp"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OrderedSetLiteralExp"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/SequenceLiteralExp"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/BagLiteralExp"/>
+      <genClasses ecoreClass="efinder.ecore#//ocl/UnsupportedExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/UnsupportedExp/reason"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute efinder.ecore#//ocl/UnsupportedExp/description"/>
+      </genClasses>
+      <genClasses ecoreClass="efinder.ecore#//ocl/OclAnyLibElement"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

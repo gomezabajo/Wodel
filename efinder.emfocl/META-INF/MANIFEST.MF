@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EFinder EMFOCL
+Bundle-SymbolicName: efinder.emfocl
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: efinder.emfocl
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.eclipse.ocl.pivot,
+ efinder.core,
+ com.google.guava;bundle-version="27.1.0",
+ org.eclipse.ocl.ecore;bundle-version="3.14.1",
+ org.eclipse.jdt.annotation
+Export-Package: efinder.emfocl,
+ efinder.emfocl.runner,
+ efinder.emfocl.use

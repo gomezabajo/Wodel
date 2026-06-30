@@ -1,0 +1,39 @@
+package {{manager.packageName}};
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+
+@SuppressWarnings("unchecked")
+public abstract class {{manager.visitorClassName}}<O, I> {{manager.extendsText}} {
+	
+	{{#manager.getEClasses}}
+	public O visit{{name}}({{qualifiedClassName}} self, I input) { return defaultHandler(self, input); }
+	{{/manager.getEClasses}}	
+	
+	protected O visit(EObject obj, I input) {	
+	{{#manager.getConcreteClasses}}
+	if ( obj.eClass().getName().equals("{{name}}") ) { return visit{{name}}(({{qualifiedClassName}}) obj, input); }
+	{{/manager.getConcreteClasses}}	
+	{{#manager.getJavaInstances}}
+	if ( obj.eClass().getName().equals("{{name}}") ) { return null; }
+	{{/manager.getJavaInstances}}	
+
+	{{#manager.hasBaseClass}}
+	   return super.visit(obj, input);
+	{{/manager.hasBaseClass}}
+	{{^manager.hasBaseClass}}
+		return unknownClassOf(obj, input);
+	{{/manager.hasBaseClass}}
+
+	}
+	
+	protected O unknownClassOf(EObject obj, I input) {
+		throw new IllegalStateException("Cannot handle class: " + obj.eClass().getName());	
+	}
+
+	protected O defaultHandler(EObject obj, I input) {
+		throw new IllegalStateException("Cannot handle class: " + obj.eClass().getName());	
+	}
+		
+}

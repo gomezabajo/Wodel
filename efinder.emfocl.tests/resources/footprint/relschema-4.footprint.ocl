@@ -1,0 +1,11 @@
+-- Test inheritance is properly handled 
+-- import 'platform:/resource/efinder.core.tests/resources/metamodels/shapes.ecore'
+import '../metamodels/shapes.ecore'
+
+package shapes
+
+context Model inv someShapes:
+  Circle.allInstances()->forAll(c | c.name = 'a' or c.name = 'b')
+  
+endpackage
+  				 				

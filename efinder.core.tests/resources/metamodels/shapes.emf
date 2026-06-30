@@ -1,0 +1,30 @@
+@namespace(
+	uri="http://efinder/tests/shapes",
+	prefix="peope")
+package shapes;
+
+@Root
+class Model {
+	val Shape[*] shape;
+}
+
+abstract class Base {
+	attr String[0..1] ~id;
+}
+
+abstract class Node extends Base {
+	attr String[0..1] name;
+}
+
+abstract class Shape extends Node {
+	attr String[0..1] color;
+}
+
+class Circle extends Shape {
+	attr int[1] radious;
+}
+
+class Square extends Shape {
+	attr int[1] side;
+}
+

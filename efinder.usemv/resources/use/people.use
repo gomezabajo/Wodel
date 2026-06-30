@@ -1,0 +1,30 @@
+model TestModel
+enum Color {red, green, blue}
+class Model
+end
+class Person
+attributes
+  name:String
+  nicknames:Set(String)
+  bestFriend:Person
+  age:Integer
+  alive:Boolean
+  luckyNumbers:Set(Integer)
+  favoriteColor:Color
+end
+class Company
+end
+class Car
+end
+
+class Animal
+end
+class Global
+end
+constraints
+ context g : Global inv global1:
+		Person.allInstances()->size() = 2
+
+--context p : Person inv page:
+--		p.age = 17
+		

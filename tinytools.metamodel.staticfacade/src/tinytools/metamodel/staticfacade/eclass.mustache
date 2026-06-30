@@ -1,0 +1,95 @@
+
+package {{class.qualifiedPackageName}};
+
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EReference;
+
+public class {{class.implementationName}} extends {{class.baseClass}} implements {{class.getClassImplementsText}} {
+	
+	public {{class.implementationName}}({{class.managerType}} manager, EObject object) {
+		super(manager, object);
+	}
+	
+	{{#class.features}}
+	@Override
+	public {{{featureType}}} {{getterName}}() {
+		EStructuralFeature f = object.eClass().getEStructuralFeature("{{name}}");
+		Object result = object.eGet(f);
+		if ( result == null ) 
+			return null;
+		{{#isReference}}
+		result = manager.wrap(result);
+		{{/isReference}}
+		return ({{{featureType}}}) result;
+	}
+	
+	@Override
+	public void {{setterName}}({{{featureParameterType}}} v) {
+		EStructuralFeature f = object.eClass().getEStructuralFeature("{{name}}");
+		Object o = v;
+
+		{{#isReference}}
+		o = v.original_();
+		{{/isReference}}
+	
+		if ( f.isMany() ) {
+			((List<Object>) object.eGet(f)).add(o);
+		} else {
+			object.eSet(f, o);
+		}
+	}
+	{{/class.features}}
+
+	public Class<{{class.name}}> getImplementedInterface() { return {{class.name}}.class; }
+
+	{{#options.visitable}}
+	@Override
+	public void visit({{manager.qualifiedVisitorBaseClassName}} visitor) {
+		{{manager.QualifiedVisitorBaseClassName}}.VisitingActions v = visitor.pre{{class.name}}(this);
+		if ( v == null ) {
+			return;
+		}
+	
+		{{class.baseClass}} pop = visitor.getCurrent();
+		visitor.setCurrent(this);
+		visitor.before{{class.name}}(this);
+			
+		for({{manager.QualifiedVisitorBaseClassName}}.VisitingAction va : v.getActions(this)) {
+			if ( va.isMethodCall() ) {
+				va.performMethodCall();		
+			} else if ( va.isFilter() ) {
+				Object res = va.performMethodCall();
+				if ( res instanceof java.util.Collection ) {
+					for(Object o : (java.util.Collection<?>) res) {
+						((atl.metamodel.ATLModelVisitable) o).visit(visitor);
+					}
+				} else {
+					((atl.metamodel.ATLModelVisitable) res).visit(visitor);
+				}
+			} else if ( va.isReference() ) {
+				EReference r = va.getEReference();
+				
+				Object refObj   = object.eGet(r);
+				if ( refObj == null ) continue;
+				Object res = manager.wrap(refObj);
+				if ( res instanceof java.util.Collection ) {
+					for(Object o : (java.util.Collection<?>) res) {
+						(({{manager.getQualifiedVisitableInterfaceName}}) o).visit(visitor);
+					}
+				} else {
+					(({{manager.getQualifiedVisitableInterfaceName}}) res).visit(visitor);
+				}
+			}
+		}
+					
+		visitor.in{{class.name}}(this);
+		visitor.after{{class.name}}(this);
+		visitor.setCurrent(pop);
+	}	
+	{{/options.visitable}}
+
+
+}

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: anatlyzer.atl.explanations
 Bundle-Name: Explanations of AnATLyzer problems
 Bundle-SymbolicName: anatlyzer.atl.explanations;singleton:=true
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0
 Bundle-Activator: anatlyzer.atl.explanations.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

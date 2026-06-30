@@ -1,0 +1,11 @@
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv setUp:
+	allPeople->size() > 0
+	
+context Model
+def : allPeople : Set(Person) = self.people->asSet()
+
+endpackage

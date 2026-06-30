@@ -1,0 +1,78 @@
+@namespace(uri="http://anatlyzer/test/abcd", prefix="abcd")
+package abcd;
+
+abstract class NamedElt {
+  attr String[1] name;
+}
+
+class Model extends NamedElt {
+  val A[*] elements;
+  val Other[*] others;
+  attr StyleKind style;
+  
+  val A[0..1] optionalA;
+  val B[0..1] optionalB;
+  val C[0..1] optionalC;
+  val D[0..1] optionalD;  
+}
+
+class A extends NamedElt {
+    val A[*] children;	
+    
+    attr int anIntegerAttr;
+    attr Boolean aBooleanAttr;
+}
+
+class B extends A {
+  attr String propOfB;
+}
+
+class C extends A {
+  attr String propOfC;
+}
+
+class C1 extends C {
+  attr String propOfC1;
+}
+
+class C2 extends C {
+  attr String propOfC2;
+}
+
+class D extends A {
+  attr String propOfD;
+}
+
+class D1 extends D {
+  attr String commonOfD;
+}
+
+class D2 extends D {
+  attr String commonOfD;
+}
+
+class D3 extends D {
+  attr String commonOfD;
+}
+
+class D3_B extends D3, B {
+	
+}
+
+class D3_B_C extends D3_B, C {
+	
+}
+
+// Not for the moment
+//class D2_B extends D2, B {
+//	
+//}
+
+class Other extends NamedElt {
+}
+
+enum StyleKind {
+  Style1 = 0;
+  Style2 = 1;
+}
+

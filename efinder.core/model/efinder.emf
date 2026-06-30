@@ -1,0 +1,332 @@
+@namespace(
+	uri="http://efinder/ir",
+	prefix="efinder_ir")
+package ir;
+
+class Specification {
+	val EFMetamodel[*] metamodels;
+	val Constraint[*] constraints;
+
+	val Temporary[1] temporary;
+	
+	val DerivedProperty[*] properties;
+	val Operation[*] operations;
+	
+	val EFPrimitiveType[*] primitiveTypes;
+	val EFTupleType[*] tupleTypes;
+}
+
+class Temporary {
+	val EFClass[*] classes;
+	// Points to objects created ad-hoc (e.g., EClass) that needs to be contained somewhere to have a proper model
+	val EObject[*] dangling;
+}
+
+abstract class Constraint {
+	attr String[1] name;
+} 
+
+abstract class TypedElement {
+	val TypeRef[1] type;	
+}
+
+abstract class AbstractFunction extends TypedElement {
+	attr String[1] name;
+	ref EFType[0..1] context;
+	// Should be able to have generic type for the body, but I'm not able to do it
+}
+
+abstract class DerivedProperty extends AbstractFunction {
+	
+}
+
+abstract class Operation extends AbstractFunction {
+	val Parameter[*] parameters;
+}
+
+abstract class FeatureRef {
+	
+}
+
+abstract class OperationFeatureRef extends FeatureRef {
+	
+}
+
+class BuiltinOperationRef extends OperationFeatureRef {
+	
+}
+
+class DefinedOperationRef extends OperationFeatureRef {
+	ref Operation[1] operation;
+}
+
+abstract class PropertyFeatureRef extends FeatureRef {
+	
+}
+
+class TupleFieldRef extends PropertyFeatureRef {
+	ref EFTupleType[1] type;
+	attr String[1] name;	
+}
+
+class DerivedPropertyRef extends PropertyFeatureRef {
+	ref DerivedProperty[1] property;	
+}
+
+class BuiltinPropertyRef extends PropertyFeatureRef {
+	
+}
+
+class MetamodelFeatureRef extends PropertyFeatureRef {
+	ref ecore.EStructuralFeature[1] feature;	
+}
+
+
+
+class VariableDeclaration {
+	attr String[1] name;
+	val TypeRef[1] type;			
+}
+	
+class Parameter extends VariableDeclaration {
+		
+}
+
+class EFMetamodel {
+	val EFPackage[*] roots;
+}
+
+class EFPackage {
+	ref ecore.EPackage[1] pkg;
+	val EFClass[*] classes;
+	val EFEnum[*] enumerations;
+}
+
+abstract class EFType {
+	
+}
+
+class EFClass extends EFType {
+	ref ecore.EClass[1] klass;
+}
+
+class EFPrimitiveType extends EFType {
+	attr String[1] name;
+}
+
+class EFEnum extends EFType {
+	ref ecore.EEnum[1] enum_;
+	val EFEnumLiteral[*] literals;		
+}
+
+class EFEnumLiteral {
+	attr String[1] name;	
+}
+
+class EFTupleType extends EFType {
+	attr String[1] ~id;
+	val TupleTypeElement[*] elements;
+}
+
+class TupleTypeElement {
+	attr String[1] name;
+	val TypeRef[1] type;
+}
+
+abstract class TypeRef {	
+}
+
+class MetaTypeRef extends TypeRef {
+	ref EFType[1] type;
+}
+
+class InvalidTypeRef extends TypeRef {
+	
+}
+
+abstract class CollectionTypeRef extends TypeRef {
+	val TypeRef[1] containedType;	
+}
+
+class SetTypeRef extends CollectionTypeRef { }
+class SequenceTypeRef extends CollectionTypeRef { }
+class BagTypeRef extends CollectionTypeRef { }
+class OrderedSetTypeRef extends CollectionTypeRef { }
+
+@namespace(
+	uri="http://efinder/ir/ocl",
+	prefix="efinder_ocl")
+package ocl {
+
+	abstract class WithContextVariable {
+		// This should probably have EFType as in DerivedProperty...
+		// Not sure if this should be optional, to be used in global contexts
+		val VariableDeclaration[1] contextVariable;	
+	}
+	
+	class OclInvariant extends Constraint, WithContextVariable {
+		ref EFClass[1] klass;	
+		val OclExpression[1] expression;	
+	}
+
+	class OclDerivedProperty extends DerivedProperty, WithContextVariable {
+		val OclExpression[1] body;
+	}
+
+	class OclOperation extends Operation, WithContextVariable {
+		val OclExpression[1] body;
+	}
+	
+	abstract class OclExpression {
+		// Ideally [1]
+		val TypeRef[0..1] type;		
+	}
+	
+	class ModelElement extends OclExpression {
+	}
+	
+	abstract class CallExp extends OclExpression {
+		val OclExpression[1] source;
+	}
+	
+	abstract class AbstractOperationCallExp extends CallExp {
+		val OclExpression[*] arguments;		
+	}
+	
+	class OperationCallExp extends AbstractOperationCallExp {
+		attr String[1] name;
+		val OperationFeatureRef[0..1] feature;
+	}
+	
+	class PropertyCallExp extends CallExp {
+		attr String[1] name;
+		// TODO: This holds an optional EStructuralFeature, do this in an EMF-agnostic way
+		//transient ref ecore.EStructuralFeature[0..1] feature;
+		val PropertyFeatureRef[0..1] feature;
+	}
+
+	class CollectionCallExp extends AbstractOperationCallExp {
+		attr String[1] name;
+	}	
+	
+	abstract class LoopExp extends CallExp {
+		val Iterator[+] iterators;
+		val OclExpression[1] body;
+		
+	}
+	
+	class IteratorExp extends LoopExp {
+		attr String[1] name;
+	}
+	
+    class IterateExp extends LoopExp {
+    	val VariableDeclaration[1] result;
+    	val OclExpression[1] init;
+    }
+	
+	class Iterator extends VariableDeclaration {
+		
+	}
+	
+	// TODO: Think if an extension should provide if-elseif*-else
+	class IfExp extends OclExpression {
+		val OclExpression[1] condition;
+		val OclExpression[1] then;
+		val OclExpression[1] else;
+	}
+	
+	class LetExp extends OclExpression {
+		// is the type of the variable optional in this case?
+		val VariableDeclaration[1] variable;
+		val OclExpression[1] init;
+		val OclExpression[1] in;
+	}
+	
+	class OperatorCallExp extends CallExp {
+		attr OperatorKind[1] operator;
+		val OclExpression[0..1] argument;		
+	}
+	
+	enum OperatorKind {
+		NOT;
+		MUL;
+		DIV;
+		MINUS;
+		PLUS;
+		LESS;
+		GREATER;
+		LESS_OR_EQUAL;
+		GREATER_OR_EQUAL;
+		EQUAL;
+		DISTINCT;
+		AND;
+		OR;
+		XOR;
+		IMPLIES;
+	}
+	
+	class VarExp extends OclExpression {
+		ref VariableDeclaration[1] variable;
+	}
+	
+	abstract class LiteralExp extends OclExpression {
+		
+	}
+	
+	class BooleanLiteralExp extends LiteralExp {
+		attr boolean[1] value;	
+	}
+	
+	class StringLiteralExp extends LiteralExp {
+		attr String[1] value;	
+	}
+	
+	class IntegerLiteralExp extends LiteralExp {
+		attr Integer[1] value;	
+	}
+	
+	class RealLiteralExp extends LiteralExp {
+		attr Double[1] value;	
+	}					
+	
+	class OclUndefined extends LiteralExp {
+		
+	}
+	
+	class OclInvalid extends LiteralExp {
+		
+	}
+	
+	class TupleLiteralExp extends LiteralExp {
+	    ref EFTupleType[1] tupleType;
+		val TuplePart[*] parts;
+	}
+	
+	class TuplePart {
+		attr String[1] name;
+		val OclExpression[1] value;
+	}
+	
+	class EnumLiteralExp extends LiteralExp {
+		val MetaTypeRef[1] enum_;
+		ref EFEnumLiteral[1] literal;	
+	}
+	
+	abstract class CollectionLiteralExp extends LiteralExp {
+		val OclExpression[*] parts;		
+	}
+	
+	class SetLiteralExp extends CollectionLiteralExp { }
+	class OrderedSetLiteralExp extends CollectionLiteralExp { }
+	class SequenceLiteralExp extends CollectionLiteralExp { }
+	class BagLiteralExp extends CollectionLiteralExp { }
+	
+	class UnsupportedExp extends OclExpression {
+		attr String[1] reason;
+		attr String[1] description;
+	}
+	
+	// Library types
+	class OclAnyLibElement { }			
+}
+

@@ -1,0 +1,20 @@
+-- Test multiple packages
+import '../metamodels/universe.ecore'
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv setUp:
+	universe::Universe.allInstances()->size() > 0
+
+endpackage
+
+package universe
+
+context Universe inv aliens:
+	self.aliens->exists(a | a.name = 'GuaX123')
+
+context Alien inv alien:
+	self.name = 'GuaX123' implies self.age = 10
+
+endpackage

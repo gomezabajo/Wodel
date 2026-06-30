@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<peope:Model
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:peope="http://efinder/tests/people"
+    xsi:schemaLocation="http://efinder/tests/people ../metamodels/people.ecore">
+  <people name="Rey"
+      age="18"/>
+  <people name="Ben Solo"
+      age="20">
+    <nicknames>Kylo Ren</nicknames>
+  </people>
+</peope:Model>

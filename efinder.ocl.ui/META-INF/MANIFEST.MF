@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: efinder.ocl.ui
+Bundle-Name: OCL handling for EMF
+Bundle-SymbolicName: efinder.ocl.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: efinder.ocl.ui.emf.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore,
+ org.eclipse.emf.ecore,
+ org.junit;resolution:=optional,
+ org.eclipse.core.commands,
+ org.eclipse.ui.workbench,
+ org.eclipse.jface,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ocl.xtext.completeocl.ui,
+ org.eclipse.ocl.pivot,
+ efinder.emfocl;bundle-version="1.0.0",
+ efinder.usemv,
+ efinder.core
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-ActivationPolicy: lazy

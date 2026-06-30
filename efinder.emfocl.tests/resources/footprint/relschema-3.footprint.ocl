@@ -1,0 +1,13 @@
+-- Test that references to properties work
+import relschema:'../examples/RelSchema.ecore'
+
+package relschema
+
+context RelSchema
+def: hasKey : Boolean = self.key()->notEmpty()
+
+context RelSchema inv relSchemaKeyNotEmpty:
+  self.hasKey
+  
+endpackage
+  				 				

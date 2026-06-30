@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: anatlyzer.atl.uml
 Bundle-Name: %pluginName
 Bundle-SymbolicName: anatlyzer.atl.uml;singleton:=true
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

@@ -8,6 +8,7 @@ import org.eclipse.acceleo.query.ast.And;
 import org.eclipse.acceleo.query.ast.BooleanLiteral;
 import org.eclipse.acceleo.query.ast.Call;
 import org.eclipse.acceleo.query.ast.CallType;
+import org.eclipse.acceleo.query.ast.ErrorEClassifierTypeLiteral;
 import org.eclipse.acceleo.query.ast.Expression;
 import org.eclipse.acceleo.query.ast.StringLiteral;
 import org.eclipse.acceleo.query.ast.TypeLiteral;
@@ -16,6 +17,7 @@ import org.eclipse.acceleo.query.parser.AstResult;
 import org.eclipse.acceleo.query.runtime.IQueryEnvironment;
 import org.eclipse.acceleo.query.runtime.Query;
 import org.eclipse.acceleo.query.runtime.impl.QueryBuilderEngine;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -129,7 +131,7 @@ public class AQL2ATL {
 			// }
 			
 			TypeLiteral type = (TypeLiteral) expr;	
-//			EClass c = (EClass) type.getValue();
+			//EClass c = (EClass) type.getValue();
 			EClass c = type.eClass();
 			OclModelElement me = OCLFactory.eINSTANCE.createOclModelElement();
 			me.setName(c.getName());

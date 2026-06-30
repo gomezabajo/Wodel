@@ -1,0 +1,17 @@
+module ifcollection;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!A def: testImplicitCasting() : String =
+	'Type: ' +
+	(if self.oclIsKindOf(ABCD!B) then ' ' + self.propOfB else '' endif) +
+	self.propOfC
+	-- + (if self.oclIsKindOf(ABCD!C) then ' ' + self.propOfC else '' endif)
+	;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- src.elements->first().testImplicitCasting()
+	)
+}
+

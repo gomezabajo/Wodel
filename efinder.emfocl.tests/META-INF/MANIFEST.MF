@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EFinder EMFOCL Tests
+Bundle-SymbolicName: efinder.emfocl.tests
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: efinder.emfocl.tests
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: efinder.core.tests;bundle-version="1.0.0",
+ efinder.core;bundle-version="1.0.0",
+ org.junit,
+ org.eclipse.emf.ecore,
+ org.eclipse.ocl.xtext.completeocl,
+ org.slf4j.api;bundle-version="1.7.2",
+ efinder.emfocl,
+ efinder.usemv
+Bundle-ClassPath: lib/snakeyaml-1.25.jar,
+ lib/jgrapht/jgrapht-bundle-1.3.0.jar,
+ lib/json-simple-1.1.1.jar,
+ .
+Import-Package: org.eclipse.core.runtime
+Export-Package: efinder.emfocl.tests.ocldataset

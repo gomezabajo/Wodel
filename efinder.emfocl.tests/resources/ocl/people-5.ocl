@@ -1,0 +1,19 @@
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv setUp:
+	Person.allInstances()->size() > 0 and
+	Person.allInstances()->exists(p | p.name = 'John') and
+	Person.allInstances()->exists(p | p.name <> 'John')
+
+context Person inv likePets:
+	if self.name = 'John' then
+		(not self.bestFriend.oclIsUndefined()) and 
+		self.bestFriend.name = 'Jack'
+	else
+		self.pets->forAll(p | p.name = 'Doggie') and 
+		self.pets->collect(name)->count('Doggie') = 1
+	endif
+
+endpackage

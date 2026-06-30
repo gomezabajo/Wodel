@@ -1,0 +1,14 @@
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv people: 
+	Person.allInstances()->size() > 0
+
+context Person inv anAge:
+	self.age > 10
+
+context Person inv incoherentAge:
+	self.age < 10
+
+endpackage

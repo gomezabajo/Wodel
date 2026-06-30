@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EFinder interface to USE MV
+Bundle-SymbolicName: efinder.usemv
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: efinder.usemv
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: efinder.core;bundle-version="1.0.0",
+ 	org.eclipse.jdt.annotation;bundle-version="[2.0.0,3.0.0)";resolution:=optional
+Export-Package: efinder.usemv,
+ org.tzi.use.api,
+ org.tzi.use.main,
+ org.tzi.use.uml.sys
+Bundle-ClassPath: lib/use/use-runtime.jar,
+ lib/use/use.jar,
+ lib/use/ModelValidatorPlugin-5.2.0-r1.jar,
+ lib/use/guava-20.0.jar,
+ lib/use/antlr-3.4-complete.jar,
+ .

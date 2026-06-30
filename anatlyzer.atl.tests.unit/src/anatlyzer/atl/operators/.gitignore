@@ -1,0 +1,14 @@
+/if_collection.asm
+/if_ptypes.asm
+/typing_ocl_any_declared.asm
+/test_integers.asm
+/test_equal_fail.asm
+/test_integer_equal_fail.asm
+/test_integer_equal_success.asm
+/test_integer_logical_success.asm
+/test_integer_logical_fail.asm
+/test_float_logical_fail.asm
+/test_undefined.asm
+/test_undefined_success.asm
+/test_strint_logical_fail.asm
+/test_string_logical_fail.asm

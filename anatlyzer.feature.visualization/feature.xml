@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="anatlyzer.feature.visualization"
+      label="AnATLyzer Visualization"
+      version="0.8.0"
+      provider-name="Miso Team">
+
+   <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
+      Visualization support for anATLyzer
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="AnATLyzer" url="http://sanchezcuadrado.es/projects/anatlyzer/updatesite"/>
+   </url>
+
+   <plugin
+         id="anatlyzer.visualizer"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+   <plugin
+         id="anatlyzer.atl.editor.quickfix.visualization"
+         download-size="0"
+         install-size="0"
+         version="0.8.0"
+         unpack="false"/>
+
+</feature>

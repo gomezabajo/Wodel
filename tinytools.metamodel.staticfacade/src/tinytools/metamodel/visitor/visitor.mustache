@@ -1,0 +1,250 @@
+package {{manager.packageName}};
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+
+@SuppressWarnings("unchecked")
+public class {{manager.visitorClassName}} {{manager.extendsText}} {
+	protected boolean _debug = false;
+	protected EObject current;
+	
+	{{#manager.getEClasses}}
+	public VisitingActions pre{{name}}({{qualifiedClassName}} self) { return new VisitingActions({{{containmentRefsNames}}}); } 
+	public void in{{name}}({{qualifiedClassName}} self) { if ( _debug ) System.out.println("Visiting {{name}}"); }
+	public void before{{name}}({{qualifiedClassName}} self) { }
+	public void after{{name}}({{qualifiedClassName}} self) { }
+	{{/manager.getEClasses}}	
+	
+	protected VisitingActions actions(Object... things) {
+		return new VisitingActions(things);
+	}
+
+	public void startVisiting(EObject init) {
+		visit(init);
+	}	
+	
+	public EObject getCurrent() { return current; }
+	public void setCurrent(EObject o) { current = o; }
+	
+	{{#manager.getConcreteClasses}}
+	protected void visit{{name}}({{qualifiedClassName}} this_) {
+		{{manager.visitorClassName}} visitor = this;
+		VisitingActions v = visitor.pre{{name}}(this_);
+		if ( v == null ) {
+			return;
+		}
+	
+		EObject pop = visitor.getCurrent();
+		visitor.setCurrent(this_);
+		visitor.before{{name}}(this_);
+		
+		visitActions(v, this_);		
+					
+		visitor.in{{name}}(this_);
+		visitor.after{{name}}(this_);
+		visitor.setCurrent(pop);	
+	} 
+	{{/manager.getConcreteClasses}}	
+	
+	private void visitActions(VisitingActions v, EObject this_) {
+		{{manager.visitorClassName}} visitor = this;
+		
+		for(VisitingAction va : v.getActions(this_)) {
+			if ( va.isMethodCall() ) {
+				va.performMethodCall();		
+			} else if ( va.isFilter() ) {
+				Object res = va.performMethodCall();
+				if ( res instanceof java.util.Collection ) {
+					for(Object o : (java.util.Collection<?>) res) {
+						visit((EObject) o);
+					}
+				} else {
+					visit((EObject) res);
+				}
+			} else if ( va.isReference() ) {
+				EReference r = va.getEReference();
+				
+				Object refObj   = this_.eGet(r);
+				if ( refObj == null ) continue;
+				if ( refObj instanceof java.util.Collection ) {
+					for(Object o : (java.util.Collection<?>) refObj) {
+						visit((EObject) o);
+					}
+				} else {
+					visit((EObject) refObj);
+				}
+			}
+		}
+	
+	}
+	
+	protected void visit(EObject obj) {	
+	{{#manager.getConcreteClasses}}
+	if ( obj.eClass().getName().equals("{{name}}") ) { visit{{name}}(({{qualifiedClassName}}) obj); return; }
+	{{/manager.getConcreteClasses}}	
+	{{#manager.getJavaInstances}}
+	if ( obj.eClass().getName().equals("{{name}}") ) { return; }
+	{{/manager.getJavaInstances}}	
+
+	{{#manager.hasBaseClass}}
+	   super.visit(obj);
+	{{/manager.hasBaseClass}}
+	{{^manager.hasBaseClass}}
+		unknownClassOf(obj);
+	{{/manager.hasBaseClass}}
+
+	}
+	
+	protected void unknownClassOf(EObject obj) {
+		throw new IllegalStateException("Cannot handle class: " + obj.eClass().getName());	
+	}
+	
+	//
+	// Framework code inlined as a template
+	//
+
+	{{^manager.hasBaseClass}}
+
+	public static class VisitingActions {
+		private Object[] actions;
+		public VisitingActions(Object... actions) {
+			this.actions = actions;
+		}
+		
+		public VisitingAction[] getActions(EObject obj) {
+			VisitingAction[] result = new VisitingAction[actions.length];
+			EClass  eclass      = obj.eClass();
+			
+			for(int i = 0; i < actions.length; i++) {
+				if ( actions[i] instanceof String ) {
+					String refName = (String) actions[i];
+					result[i] = new VisitingAction((EReference) eclass.getEStructuralFeature(refName));
+				} else if ( actions[i] instanceof VisitingAction ) {
+					result[i] = (VisitingAction) actions[i];
+				}
+			}
+			return result;
+		}
+	}
+
+	public static class VisitingAction {
+		public static final int REFERENCE = 0;
+		public static final int METHOD_CALL = 1;
+		public static final int FILTER_CALL = 2;
+		
+		private int actionType = -1;
+
+		// For references
+		private EReference	reference;
+		
+		// For method calls
+		private Object[]	arguments;
+		private java.lang.reflect.Method	method;
+		private {{manager.visitorClassName}} receptor;
+		
+		public VisitingAction({{manager.visitorClassName}} receptor, java.lang.reflect.Method method, Object[] arguments) {
+			actionType = METHOD_CALL;
+			this.receptor = receptor;
+			this.method = method;
+			this.arguments = arguments;
+		}
+
+		public static VisitingAction createFilter({{manager.visitorClassName}}  receptor, java.lang.reflect.Method method, Object[] arguments) {
+			VisitingAction va = new VisitingAction(receptor, method, arguments);
+			va.actionType = FILTER_CALL;
+			return va;
+		}
+		
+		public VisitingAction(EReference r) {
+			actionType = REFERENCE;
+			this.reference = r;
+		}
+
+		public int getActionType() {
+			return actionType;
+		}
+		
+		public boolean isReference() {
+			return getActionType() == REFERENCE;
+		}
+		
+		public EReference getEReference() {
+			return this.reference;
+		}
+		
+		public boolean isMethodCall() {
+			return getActionType() == METHOD_CALL;
+		}
+		
+		public boolean isFilter() {
+			return getActionType() == FILTER_CALL;
+		}
+		
+		public Object performMethodCall() {
+			try {
+				return method.invoke(receptor, arguments);
+			} catch ( Exception e ) {
+				throw new RuntimeException(e);
+			}	
+		}
+	}
+	{{/manager.hasBaseClass}}
+	
+
+	private java.util.HashMap<String, java.lang.reflect.Method> allMethods = null;
+	public java.util.HashMap<String, java.lang.reflect.Method> getAllMethods() {
+		if ( allMethods == null ) {
+			allMethods = new java.util.HashMap<String, java.lang.reflect.Method>();
+			for(java.lang.reflect.Method m : this.getClass().getMethods()) {
+				allMethods.put(getMethodKey(m.getName(), m.getParameterCount()), m);
+			}
+		}
+		return allMethods;
+	}
+	
+	private final String getMethodKey(String name, int paramCount) {
+		return name + "/" + paramCount;
+	}
+	
+	public VisitingAction method(String methodName, Object... arguments) {
+		String key = getMethodKey(methodName, arguments.length);
+		if ( getAllMethods().containsKey(key) ) {
+			return new VisitingAction(this, getAllMethods().get(key), arguments);			
+		}
+		
+		throw new RuntimeException("No method " + methodName + " found in " + this.getClass().getName());
+	}
+
+	public VisitingAction filter(String methodName, Object... arguments) {
+		String key = getMethodKey(methodName, arguments.length);
+		if ( getAllMethods().containsKey(key) ) {
+			return VisitingAction.createFilter(this, getAllMethods().get(key), arguments);
+		}
+		
+		throw new RuntimeException("No method " + methodName + " found in " + this.getClass().getName());
+	}
+
+	{{#manager.hasBaseClass}}
+	public static class DelegatedVisitor extends {{manager.visitorClassName}} {
+		private {{manager.qualifiedBaseClass}} delegate;
+		public DelegatedVisitor({{manager.qualifiedBaseClass}} delegate) {
+			this.delegate = delegate;
+		}
+		
+		@Override
+		public EObject getCurrent() { return delegate.getCurrent(); }
+		@Override
+		public void setCurrent(EObject o) { delegate.setCurrent(o); }
+			
+		{{#manager.getBaseEClasses}}
+		public void in{{name}}({{qualifiedClassName}} self) { delegate.in{{name}}(self); }
+		public void before{{name}}({{qualifiedClassName}} self) { delegate.before{{name}}(self); }
+		public void after{{name}}({{qualifiedClassName}} self)  { delegate.after{{name}}(self); }
+		{{/manager.getBaseEClasses}}
+		
+			
+	}
+	{{/manager.hasBaseClass}}
+		
+}

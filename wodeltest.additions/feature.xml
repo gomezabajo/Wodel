@@ -54,139 +54,150 @@
 
    <plugin
          id="wodeltest.extension.examples"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.comparison.java"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.validation.java"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.comparison.atl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodel.semantic.validation.atl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.typing"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.explanations"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="efinder.aql"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.use.witness"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.uml"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.standalone.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.editor.quickfix"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.ocl.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.visualizer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.ocl.emf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.editor.quickfix.visualization"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="anatlyzer.atl.optimizer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodeltest.optimiser.subsumption"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="wodeltest.conga.parsers"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
+
+   <plugin
+         id="anatlyzer.atl.preprocessing"
+         version="0.0.0"/>
+
+   <plugin
+         id="anatlyzer.atl.tests.unit"
+         version="0.0.0"/>
+
+   <plugin
+         id="anatlyzer.efinder.witness"
+         version="0.0.0"/>
+
+   <plugin
+         id="anatlyzer.example.checkconstraints"
+         version="0.0.0"/>
+
+   <plugin
+         id="anatlyzer.ide"
+         version="0.0.0"/>
+
+   <plugin
+         id="tinytools.debug"
+         version="0.0.0"/>
+
+   <plugin
+         id="tinytools.emf.freemarker"
+         version="0.0.0"/>
+
+   <plugin
+         id="tinytools.metamodel.registerMetamodel"
+         version="0.0.0"/>
+
+   <plugin
+         id="tinytools.metamodel.staticfacade"
+         version="0.0.0"/>
+
+   <plugin
+         id="tinytools.text.textresource2xmi"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.core"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.core.tests"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.emfocl"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.emfocl.tests"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.ocl.ui"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.tasks"
+         version="0.0.0"/>
+
+   <plugin
+         id="efinder.usemv"
+         version="0.0.0"/>
 
 </feature>

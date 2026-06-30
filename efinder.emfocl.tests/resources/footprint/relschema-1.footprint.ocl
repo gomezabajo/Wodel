@@ -1,0 +1,11 @@
+-- This test case is intended to show footprint computation
+-- by touching only a few elements
+import relschema:'../examples/RelSchema.ecore'
+
+package relschema
+
+context RelSchema inv uniqueAttributeNames:
+  self.attributes->forAll(a1, a2 | a1.name=a2.name implies a1=a2)
+
+endpackage
+  				 				

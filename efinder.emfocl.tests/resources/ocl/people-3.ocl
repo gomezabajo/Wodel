@@ -1,0 +1,13 @@
+-- Test monovalued references
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv people: 
+	Person.allInstances()->size() > 0 and
+	Person.allInstances()->exists(p | p.name = 'Jack')
+
+context Person inv anAge:
+	self.name = 'Jack' implies self.bestFriend.name = 'John'
+
+endpackage

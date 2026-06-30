@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="tinytools.metamodel.registerMetamodel.contribution1"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="tinytools.metamodel.registerMetamodel.menu1"
+               label="Tiny Tools"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="tinytools.metamodel.registermetamodel.popup.actions.RegisterMetamodel"
+               enablesFor="1"
+               id="tinytools.metamodel.registerMetamodel.newAction"
+               label="Register meta-model"
+               menubarPath="tinytools.metamodel.registerMetamodel.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="tinytools.metamodel.registerMetamodel.ecoreFilesWindow"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+R">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="tinytools.metamodel.registermetamodel.OpenEcoreFilesWindow"
+            id="tinytools.metamodel.registerMetamodel.ecoreFilesWindow"
+            name="Ecore Files">
+      </command>
+   </extension>
+
+</plugin>

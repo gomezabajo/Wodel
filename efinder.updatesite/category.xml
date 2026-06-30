@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="efinder.feature.core">
+      <category name="efinder.core"/>
+   </feature>
+   <feature id="efinder.feature.emfocl">
+      <category name="efinder.emfocl"/>
+   </feature>
+   <category-def name="efinder.core" label="EFinder core"/>
+   <category-def name="efinder.emfocl" label="EFinder EMF/OCL support"/>
+</site>

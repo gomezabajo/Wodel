@@ -1,0 +1,164 @@
+
+package {{manager.packageName}};
+
+import java.util.HashMap;
+
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EcoreFactory;
+
+
+public class {{manager.className}} {
+	private Resource resource;
+	private HashMap<EObject, {{manager.baseClassName}}> wrappers = new HashMap<EObject, {{manager.baseClassName}}>();
+	private HashMap<Class<?>, EClass> classes = new HashMap<Class<?>, EClass>();
+
+	public Resource getResource() {
+		return resource;
+	}
+
+	public static {{manager.className}} createEmptyModel(Resource metamodel, Resource model) {
+		{{manager.className}} instance = new {{manager.className}}();
+		instance.resource = metamodel;
+		java.util.HashSet<EPackage> packages = new java.util.HashSet<EPackage>();		
+		TreeIterator<EObject> contents = metamodel.getAllContents();
+		while ( contents.hasNext() ) {
+			EObject obj = contents.next();
+			if ( obj instanceof EPackage ) {
+				packages.add((EPackage) obj);
+			}
+		}
+		instance.initFromPackages(packages);
+		return instance;
+	}
+
+	private void initFromPackages(java.util.HashSet<EPackage> packages) {
+		for (EPackage p : packages) {
+			for(EClassifier c : p.getEClassifiers()) {
+				if ( c instanceof EClass ) {
+					classes.put(getInterfaceOfEClass((EClass) c), (EClass) c);
+					classes.put(getClassOfEClass((EClass) c), (EClass) c);
+				}
+			}
+		}
+	}
+
+	private {{manager.className}}() { }
+		
+	public {{manager.className}}(Resource r) {
+		this.resource = r;
+
+		java.util.HashSet<EPackage> packages = new java.util.HashSet<EPackage>();
+	
+		TreeIterator<EObject> contents = resource.getAllContents();
+		while ( contents.hasNext() ) {
+			EObject o = contents.next();
+			
+			{{manager.baseClassName}} wrapper = createWrapperObject(o);
+			
+			classes.put(wrapper.getClass(), o.eClass());
+			classes.put(wrapper.getImplementedInterface(), o.eClass());
+			
+			for(EClass c : o.eClass().getEAllSuperTypes()) {
+				Class<?> iface = getInterfaceOfEClass(c);
+				if ( classes.containsKey(iface) ) 
+					continue; // break??? Only works if the supertypes are given in a proper order, which seems not to be enforced 
+					
+				classes.put(iface, c);
+				classes.put(getClassOfEClass(c), c);
+			}
+						
+			
+			wrappers.put(o, wrapper);
+			packages.add(o.eClass().getEPackage());
+		}
+		
+		initFromPackages(packages);
+	}
+	
+	public <T> java.util.List<? extends T> allObjectsOf(Class<T> clazz) {
+		java.util.List<T> list = new java.util.ArrayList<T>();
+		
+		EClass eclass = classes.get(clazz);
+		
+		TreeIterator<EObject> contents = resource.getAllContents();
+		while ( contents.hasNext() ) {
+			EObject o = contents.next();
+		
+			if ( eclass.isInstance(o) ) {
+				T x = clazz.cast(findWrapper(o));
+				list.add( x );
+			}	
+		
+		}
+			
+		return list;
+	}
+
+	public {{manager.baseClassName}} createWrapperObject(EObject o) {
+	{{#manager.getEClasses}}
+		if ( o.eClass().getName().equals("{{name}}") && o.eClass().getEPackage().getName().equals("{{metamodelPackageName}}") )
+			return new {{qualifiedPackageName}}.{{implementationName}}(this, o);
+	{{/manager.getEClasses}}	
+	
+		throw new IllegalArgumentException("Object not found in resource: " + o);
+	}
+
+	private Class<?> getInterfaceOfEClass(EClass c) {
+	{{#manager.getEClasses}}
+		if ( c.getName().equals("{{name}}") && c.getEPackage().getName().equals("{{metamodelPackageName}}") )
+			return {{qualifiedPackageName}}.{{name}}.class;
+	{{/manager.getEClasses}}	
+	
+		System.err.println("EClass not found: " + c.getName());
+		return null;
+		// throw new IllegalArgumentException("EClass not found: " + c.getName());
+	}
+
+	private Class<?> getClassOfEClass(EClass c) {
+	{{#manager.getEClasses}}
+		if ( c.getName().equals("{{name}}") && c.getEPackage().getName().equals("{{metamodelPackageName}}") )
+			return {{qualifiedPackageName}}.{{implementationName}}.class;
+	{{/manager.getEClasses}}	
+	
+		System.err.println("EClass not found: " + c.getName());
+		return null;
+		// throw new IllegalArgumentException("EClass not found: " + c.getName());
+	}
+
+	public Object wrap(Object o) {
+		if ( o instanceof java.util.List<?>) {
+			java.util.ArrayList<{{manager.baseClassName}}> result = new java.util.ArrayList<{{manager.baseClassName}}>(); 
+			for(Object content : (java.util.List<?>) o) {
+				result.add( findWrapper(content) );
+			} 
+			return result;
+		}
+		return findWrapper(o);
+	}
+	
+	public {{manager.baseClassName}} findWrapper(Object o) {
+		{{manager.baseClassName}} w = wrappers.get(o);
+		if ( w == null ) throw new IllegalArgumentException("No wrapper for object " + o);
+		return w;
+	}
+
+	public <T> T create(Class<T> clazz) {
+		EClass c = classes.get(clazz);
+		EObject o = c.getEPackage().getEFactoryInstance().create(c);
+	
+		ATLModelBaseObject wrapper = createWrapperObject(o);
+		
+		wrappers.put(o, wrapper);
+		
+		// Add to the resource
+		resource.getContents().add(o);
+		
+		return clazz.cast(wrapper);
+	}
+		
+}

@@ -1,0 +1,21 @@
+import '../metamodels/people.ecore'
+
+package people
+
+
+context Model inv setUp:
+	-- The constraint 'Person.allInstances()->size() > 1' 
+	-- is needed to avoid an UNSAT due to an unsatisfied constraint
+	-- (i.e., a witness model is obtained but it doesn't satisfy all constraints)
+	-- Not sure why these happens, it seems to be a cause of the interplay between
+	-- the bounds and the constraints.
+	Person.allInstances()->size() > 1 and
+	Person.allInstances()->exists(isJohn())
+
+context Person
+def : isJohn() : Boolean = 
+	let actual = self.name in
+	let expected = 'John' in
+	actual = expected
+
+endpackage

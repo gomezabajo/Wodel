@@ -1,0 +1,12 @@
+import '../metamodels/people.ecore'
+
+package people
+
+
+context Model inv setUp:
+	Person.allInstances()->exists(p | p.name = 'John')
+
+context Person inv lottery:
+	self.name = 'John' implies self.lotteryChances > 0.25 and self.lotteryChances < 0.5 
+
+endpackage

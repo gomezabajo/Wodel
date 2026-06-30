@@ -1,0 +1,17 @@
+
+package {{class.qualifiedPackageName}};
+
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+
+public interface {{class.name}} {{class.interfaceInheritanceText}} {
+	
+	{{#class.features}}
+	public {{{featureType}}} {{getterName}}();
+
+	public void {{setterName}}({{{featureParameterType}}} v);
+	{{/class.features}}
+
+}

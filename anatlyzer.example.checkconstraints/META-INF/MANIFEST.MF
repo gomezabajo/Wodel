@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: anatlyzer.example.checkconstraints
+Bundle-Name: %pluginName
+Bundle-SymbolicName: anatlyzer.example.checkconstraints;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-Activator: anatlyzer.example.checkconstraints.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ anatlyzer.atl.typing,
+ anatlyzer.ocl.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Export-Package: 
+ anatlyzer.example.sconstraints,
+ anatlyzer.example.sconstraints.impl,
+ anatlyzer.example.sconstraints.util
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.ocl.ecore

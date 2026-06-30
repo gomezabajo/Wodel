@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EFinder Generator
+Bundle-SymbolicName: efinder.tasks
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: efinder.tasks
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.eclipse.emf.codegen.ecore,
+ tinytools.metamodel.staticfacade,
+ org.eclipse.emf.ecore.xmi

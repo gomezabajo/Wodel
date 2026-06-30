@@ -1,0 +1,15 @@
+status: SAT
+witness:
+  p1:
+    type_: Person 
+    pets: 
+      - dog
+      - cat
+# ['dog', 'cat']      
+  dog:
+    type_: Pet
+    name: Doggie
+  cat:
+    type_: Pet
+    name: Miau
+    

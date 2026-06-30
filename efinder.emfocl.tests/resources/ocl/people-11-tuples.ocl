@@ -1,0 +1,17 @@
+import '../metamodels/people.ecore'
+
+package people
+
+
+context Model
+def: example() : Set(Tuple (name : String, nickName : String)) =
+	Set { Tuple { name = 'John', nickName = 'jo1' },
+		  Tuple { name = 'Jack', nickName = 'ja1' } }
+
+context Model inv check:
+ self.example()->forAll(e |
+ 	self.people->exists(p |
+ 		p.name = e.name and p.nicknames->includes(e.nickName)
+ 	)) 
+
+endpackage

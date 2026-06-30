@@ -1,0 +1,22 @@
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv people: 
+	Person.allInstances()->size() > 0
+
+context Person inv trueInvariant:
+	self.age < 5 implies self.name = 'Baby'
+
+context Person inv mustHaveLuckyNumbers:
+	self.luckyNumbers->size() > 2
+
+--context Model
+--
+-- example invariant with a custom error message to verify that
+-- the 'people' property of all 'people::Model' instances is non-null
+--
+--inv NonNull_people('The \'people\' property of "' + self.toString() + '" is null'):
+--	people <> null
+
+endpackage

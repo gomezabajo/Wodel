@@ -1,0 +1,19 @@
+import '../metamodels/people.ecore'
+
+package people
+
+context Model inv setUp:
+	Person.allInstances()->size() > 0
+
+context Person inv likePets:
+	not pets->select(isDog())->isEmpty()
+	and
+	not pets->select(p | p.isCat())->isEmpty()
+	
+context Pet
+
+-- It seems that derived properties doesn't work well, so if we do 'isDog', this will incorrectly become UNSAT
+def : isDog() : Boolean = self.name = 'Doggie'
+def : isCat() : Boolean = self.name = 'Miau'
+
+endpackage

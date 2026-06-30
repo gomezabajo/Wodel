@@ -3,15 +3,15 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: anatlyzer.atl.editor.quickfix
 Bundle-Name: anATLyzer. Editor Quickfixes
 Bundle-SymbolicName: anatlyzer.atl.editor.quickfix;singleton:=true
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0
 Bundle-Activator: anatlyzer.atl.editor.quickfix.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text;visibility:=reexport,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.workbench,
- org.eclipse.ui.editors,
- org.eclipse.ui.ide,
+ org.eclipse.ui.editors;bundle-version="3.7.0",
+ org.eclipse.ui.ide;bundle-version="3.7.0",
  org.eclipse.m2m.atl.common,
  anatlyzer.atl.typing;visibility:=reexport,
  anatlyzer.use.witness,
@@ -20,14 +20,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.atl.adt.editor,
  org.eclipse.m2m.atl.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.quickfix.dialog,
  anatlyzer.atl.editor.quickfix.errors,
  anatlyzer.atl.editor.quickfix.search,
  anatlyzer.atl.editor.quickfix.warnings,
  anatlyzer.atl.quickfixast
-Import-Package: anatlyzer.atl.analyser,
- anatlyzer.atl.errors,
- anatlyzer.atlext.ATL,
- anatlyzer.atlext.OCL,
- org.eclipse.emf.ecore.xmi.impl
+Import-Package: org.eclipse.emf.ecore.xmi.impl

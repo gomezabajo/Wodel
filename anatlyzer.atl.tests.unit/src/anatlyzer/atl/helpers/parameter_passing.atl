@@ -1,0 +1,57 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module parameterpassing;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def: aHelper1(a : String) : String = 'aValue1';
+helper context ABCD!Model def: aHelper2(b : ABCD!B) : String = 'aValue2';
+helper context ABCD!Model def: aHelper3(n : ABCD!NamedElt) : String = 'aValue3';
+
+helper def: globalHelper4(n : ABCD!NamedElt) : String = 'aValue4';
+
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 
+			-- Invalid number of arguments
+			src.aHelper1('a', 'b') +
+			-- Primitive type error
+			src.aHelper1(22) + 
+			-- Passing an A is not valid, B expected
+			src.aHelper2(src.elements->first()) +
+			-- Everything is compatible with NamedElt, so this is ok
+			src.aHelper3(src.elements->first()) +
+			-- Call to global helper with invalid number of parameters,
+			thisModule.globalHelper4(),
+		elements <- Sequence { thisModule.aRule(), thisModule.aRuleTwoParams(OclUndefined, OclUndefined), thisModule.aCalledRule() }
+		
+	)
+}
+
+lazy rule aRule {
+	from
+		a : ABCD!A
+	to 
+		x : WXYZ!X (
+			name <- 'default'
+		)
+}
+
+lazy rule aRuleTwoParams {
+	from
+		a : ABCD!A, b : ABCD!A
+	to 
+		x : WXYZ!X (
+			name <- 'default'
+		)
+}
+rule aCalledRule(a : ABCD!A, b : Integer) {
+	to 
+		x : WXYZ!X (
+			name <- 'default'
+		)
+	do {
+		x;
+	}
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<relschema:RelModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:relschema="http://efinder/relschema"
+    xsi:schemaLocation="http://efinder/relschema RelSchema.ecore">
+  <schemas name="People"
+      rows="//@rows.0">
+    <attributes
+        name="name"
+        isKey="true"/>
+    <attributes
+        name="age"
+        datatype_="//@datatypes.1"/>
+  </schemas>
+  <rows typing="//@schemas.0">
+    <columns
+        attribute="//@schemas.0/@attributes.0">
+      <value
+          content="8"
+          dt="//@datatypes.1"/>
+    </columns>
+  </rows>
+  <datatypes
+      name="String"/>
+  <datatypes
+      name="Integer"/>
+</relschema:RelModel>

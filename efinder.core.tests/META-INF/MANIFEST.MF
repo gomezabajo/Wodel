@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EFinder Tests
+Bundle-SymbolicName: efinder.core.tests
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: efinder.core.tests
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.junit,
+ efinder.usemv,
+ efinder.core,
+ org.eclipse.emf.ecore.xmi

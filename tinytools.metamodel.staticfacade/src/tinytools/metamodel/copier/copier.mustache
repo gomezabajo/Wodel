@@ -1,0 +1,116 @@
+package {{manager.packageName}};
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+
+@SuppressWarnings("unchecked")
+public class {{manager.copierClassName}} {
+	protected boolean _debug = false;
+	protected HashMap<EObject, EObject> trace = new HashMap<EObject, EObject>();
+	
+	public void copyResource(Resource r, Resource target) {
+		TreeIterator<EObject> it = r.getAllContents();
+		while ( it.hasNext() ) {
+			EObject obj = it.next();
+			EObject copied = copy(obj);
+			if ( obj.eContainer() == null ) {
+				target.getContents().add(copied);
+			}
+		}
+		
+		it = r.getAllContents();
+		while ( it.hasNext() ) {
+			EObject obj = it.next();
+			setCrossRefs(obj);
+		}
+		
+	}
+	
+	public EObject getTarget(EObject src) {
+		EObject tgt = trace.get(src);
+		if ( tgt == null ) throw new IllegalStateException(src + " not found.");
+		return tgt;
+	}
+	
+	{{#manager.getConcreteClasses}}
+	protected {{qualifiedClassName}} create{{genClassName}}(EObject original) { 
+		{{{defaulCreateExpression}}}
+	}
+	{{/manager.getConcreteClasses}}	
+
+	{{#manager.getConcreteClasses}}
+	protected {{qualifiedClassName}} copy{{name}}(EObject object) { 
+		{{qualifiedClassName}} newObj = create{{genClassName}}(object);
+		EStructuralFeature f = null;
+		Object v = null;
+		{{#allAttributes}}{{#hasMatch}}	
+		f = object.eClass().getEStructuralFeature("{{name}}");
+		{{#isMany}}
+		for(Object child : ((List<EObject>) object.eGet(f))) {
+		    newObj.{{getterName}}().add( ({{{featureParameterType}}}) child);
+		}
+		{{/isMany}}	
+		{{#isMono}}
+		v = object.eGet(f);
+	    if ( v != null ) newObj.{{setterName}}( ({{{featureType}}}) v );
+		{{/isMono}}			
+		{{/hasMatch}}{{/allAttributes}}
+
+		customCopy(object, newObj);
+	
+		trace.put(object, newObj);
+		return newObj;
+	} 
+	{{/manager.getConcreteClasses}}	
+
+    /** 
+      * Can be implemented by subclasses to add specific copy behaviours
+      */
+    protected void customCopy(EObject source, EObject target) { }
+
+	{{#manager.getConcreteClasses}}
+	protected {{qualifiedClassName}} setCrossRefs{{name}}(EObject object) { 
+		{{qualifiedClassName}} newObj = ({{qualifiedClassName}}) getTarget(object);
+		EStructuralFeature f = null;
+		EObject v = null;
+		{{#allReferences}}{{#hasMatch}}	
+		f = object.eClass().getEStructuralFeature("{{name}}");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
+		{{#isMany}}
+		for(EObject child : ((List<EObject>) object.eGet(f))) {
+		    newObj.{{getterName}}().add( ({{{genFeatureParameterType}}}) getTarget((EObject) child));
+		}
+		{{/isMany}}	
+		{{#isMono}}	   
+		v = (EObject) object.eGet(f);
+		if ( v != null ) newObj.{{setterName}}( ({{{genFeatureParameterType}}}) getTarget( v ) );
+		{{/isMono}}			
+		}
+		{{/hasMatch}}{{/allReferences}}
+	
+		trace.put(object, newObj);
+		return newObj;
+	} 
+	{{/manager.getConcreteClasses}}	
+
+	private EObject copy(EObject child) {	
+	{{#manager.getConcreteClasses}}
+	if ( child.eClass().getName().equals("{{name}}") ) return copy{{name}}(child);
+	{{/manager.getConcreteClasses}}	
+	throw new IllegalStateException("Cannot handle class: " + child.eClass().getName());
+	}
+	
+	private void setCrossRefs(EObject child) {	
+	{{#manager.getConcreteClasses}}
+	if ( child.eClass().getName().equals("{{name}}") ) { setCrossRefs{{name}}(child); return; }
+	{{/manager.getConcreteClasses}}	
+	throw new IllegalStateException("Cannot handle class: " + child.eClass().getName());
+	}
+}

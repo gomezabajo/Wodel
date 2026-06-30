@@ -1,0 +1,170 @@
+model StatechartWithTraceSemantics
+
+class State
+attributes
+  name:String
+  isInitial:Boolean
+  isFinal:Boolean
+operations
+  src():Set(State)=self.transitT.src->asSet()
+  trg():Set(State)=self.transitS.trg->asSet()
+end
+
+class Transit
+attributes
+  event:String
+end
+
+association SRC between
+  State[1] role src
+  Transit[0..*] role transitS
+end
+
+association TRG between
+  State[1] role trg
+  Transit[0..*] role transitT
+end
+
+constraints
+
+context t1,t2:Transit inv differByEvent:
+  (t1<>t2 and t1.src=t2.src and t1.trg=t2.trg) implies t1.event<>t2.event
+
+class TraceState
+attributes
+  name:String derive: self.state.name
+operations
+  src():TraceState=self.transitT.src
+  trg():TraceState=self.transitS.trg
+  distinctTo(ts:TraceState):Boolean=
+    let TS1=self      in let TS2=ts        in
+    let TS3=TS1.trg() in let TS4=TS2.trg() in
+    let TS5=TS3.trg() in let TS6=TS4.trg() in
+    let TS7=TS5.trg() in let TS8=TS6.trg() in
+    TS1.transitS.event<>TS2.transitS.event or
+    TS3.transitS.event<>TS4.transitS.event or
+    TS5.transitS.event<>TS6.transitS.event or
+    TS7.transitS.event<>TS8.transitS.event
+end
+
+class TraceTransit
+attributes
+  event:String derive: self.transit.event
+end
+
+association SynSemTransit between
+  TraceTransit [0..*] role traceTransit
+  Transit      [1]    role transit
+end
+
+association TraceSRC between
+  TraceState   [1]    role src
+  TraceTransit [0..1] role transitS
+end
+
+association TraceTRG between
+  TraceState   [1]    role trg
+  TraceTransit [0..1] role transitT
+end
+
+association SynSemState between
+  State      [1]    role state
+  TraceState [0..*] role traceState
+end
+
+constraints
+
+context s1,s2:State inv nameIsKey:
+    s1<>s2 implies s1.name<>s2.name
+
+context State inv oneInitial:
+  State.allInstances->one(s|s.isInitial)
+
+context State inv oneFinal:
+  State.allInstances->one(s|s.isFinal)
+
+context s:State inv deterministic:
+  s.transitS->forAll(t1,t2|t1<>t2 implies t1.event<>t2.event)
+
+context s:State inv initial_s_final:
+  let INI=State.allInstances->any(s|s.isInitial=true) in
+  let FIN=State.allInstances->any(s|s.isFinal=true) in
+  ( s=INI or INI.trg()->closure(trg())->includes(s) ) and
+  ( s=FIN or FIN.src()->closure(src())->includes(s) )
+
+/* context tn:TraceNode inv stringsOfPearls:
+  tn.src->size<=1 and tn.trg->size<=1 */
+
+context tn:TraceState inv cyclefree:
+  Set{tn.trg()}->closure(trg())->excludes(tn)
+
+context tn:TraceState inv connectedToInitial:
+  let INI=State.allInstances->any(s|s.isInitial=true) in
+  TraceState.allInstances->notEmpty implies INI.traceState->notEmpty and
+  INI.traceState->closure(ts|ts.trg())->excluding(null)=TraceState.allInstances
+
+/* context te:TraceEdge inv eventTraceEdge_EQ_eventTransit:
+  let T=Transit.allInstances->any(t |
+    t.src.sem->includes(te.src) and
+    t.trg.sem->includes(te.trg)) in
+  T.event=te.event */
+
+context tt:TraceTransit inv directionAsTransit:
+  (tt.src<>null and tt.trg<>null) implies
+    (tt.src.state=tt.transit.src and tt.trg.state=tt.transit.trg)
+
+context tn1,tn2:TraceState inv differentTraces:
+  tn1<>tn2 and tn1.src()=null and tn2.src()=null implies
+  ( Set{tn1.trg()}->closure(trg())->size<>Set{tn2.trg()}->closure(trg())->size or
+    tn1.distinctTo(tn2) )
+
+------------------------------------------------------------------------
+
+/* context Transit inv atLeastAsManyEventsAsStates:
+  Transit.allInstances.event->size>=State.allInstances->size */
+
+/* context Transit inv atLeastTwoDifferentEvents:
+  Transit.allInstances->exists(t1,t2 | t1.event<>t2.event)
+
+context TraceNode inv involvedInTrace:
+  TraceNode.allInstances->forAll(tn | tn.src->notEmpty() or tn.trg->notEmpty())
+
+context State inv twoOrThreeStates:
+  2<=State.allInstances->size and State.allInstances->size<=3
+
+context TraceNode inv oneOrTwoTraces:
+  let S=TraceNode.allInstances->select(tn | tn.src->isEmpty())->size in 1<=S and S<=2
+
+context State inv initialEqFinal:
+  let INI=State.allInstances->any( s | s.isInitial=true ) in
+  let FIN=State.allInstances->any( s | s.isFinal=true   ) in
+  INI=FIN
+
+context Transit inv twoThreeOrFourEvents:
+  let numEvents=Transit.allInstances->
+                  collect(t | t.event)->asSet()->size() in
+  numEvents=2 or numEvents=3 or numEvents=4
+
+------------------------------------------------------------------------
+
+context State inv twoStates:
+  State.allInstances->size=2
+
+context State inv threeStates:
+  State.allInstances->size=3
+
+context TraceNode inv oneTrace:
+  -- TraceNode.allInstances->select(tn | tn.src->isEmpty())->size=1
+  TraceNode.allInstances->select(tn | tn.src->isEmpty() and tn.trg->notEmpty)->size=1
+
+context TraceNode inv twoTraces:
+  -- TraceNode.allInstances->select(tn | tn.src->isEmpty())->size=2
+  TraceNode.allInstances->select(tn | tn.src->isEmpty() and tn.trg->notEmpty)->size=2
+
+------------------------------------------------------------------------
+
+context State inv numStates:
+  State.allInstances->size
+
+context TraceNode inv numTraces:
+  TraceNode.allInstances->select(tn | tn.src->isEmpty())->size */

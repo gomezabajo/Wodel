@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="tinytools.text.textresource2xmi.contribution1"
+            objectClass="org.eclipse.core.resources.IFile">
+         <!--
+         <menu
+               label="Tiny Tools"
+               path="additions"
+               id="tinytools.text.textresource2xmi.rootMenu">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>         
+         -->
+         <!-- TODO: Using the register meta-model group menu, create a base plug-in for these things -->
+         
+         <action
+               label="Text resource to XMI"
+               class="tinytools.text.textresource2xmi.popup.actions.TextResource2XMI"               
+               enablesFor="1"
+               id="tinytools.text.textresource2xmi.newAction"
+               menubarPath="tinytools.metamodel.registerMetamodel.menu1/group1">
+               <!-- TODO: Using the register meta-model group menu, create a base plug-in for these things -->
+               <!-- menubarPath="tinytools.text.textresource2xmi.rootMenu/group1" -->
+               
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

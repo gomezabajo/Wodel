@@ -2,9 +2,9 @@ package anatlyzer.atl.editor;
 
 import org.eclipse.m2m.atl.adt.ui.AtlUIPlugin;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
-import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.m2m.atl.adt.ui.text.AtlSourceViewerConfiguration;
 
-public class AtlEditorExt extends AtlEditor implements ITextEditor {
+public class AtlEditorExt extends AtlEditor {
 
 	public AtlEditorExt() {
 		// TODO Auto-generated constructor stub

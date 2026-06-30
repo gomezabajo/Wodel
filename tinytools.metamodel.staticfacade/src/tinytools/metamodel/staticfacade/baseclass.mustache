@@ -1,0 +1,46 @@
+
+package {{manager.packageName}};
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+public abstract class {{manager.baseClassName}} implements {{manager.baseClassName}}Interface {
+		
+	protected EObject object;
+	protected {{manager.qualifiedManagerClass}} manager;
+	
+	public  {{manager.baseClassName}}({{manager.qualifiedManagerClass}} manager, EObject o) {
+		this.manager = manager;
+		this.object  = o;
+	}
+		
+	public EObject original_() { return object; }
+		
+	public {{manager.baseClassName}} container_() {
+		if ( object.eContainer() == null ) return null;
+		return this.manager.findWrapper(object.eContainer());
+	}
+	
+	public <T> T container(Class<T> casting) {
+		return casting.cast(this.container_());
+	}
+	
+	
+	public void replaceBy({{manager.baseClassName}}Interface element) {
+		EStructuralFeature f = object.eContainingFeature();
+		EObject container    = object.eContainer();
+		
+		EcoreUtil.replace(container, f, object, element.original_());
+	}
+	
+	public void delete() {
+		EcoreUtil.delete(object);
+	}
+	
+	public void deleteRecursive() {
+		EcoreUtil.delete(object, true);
+	}
+	
+	
+}

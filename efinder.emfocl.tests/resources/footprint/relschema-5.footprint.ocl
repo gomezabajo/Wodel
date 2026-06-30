@@ -1,0 +1,13 @@
+-- Test that the footprint effectively removes an unsupported element
+-- when it is not needed
+import relschema:'../examples/RelSchema.ecore'
+
+package relschema
+
+context RelSchema
+def: giveMeASequence() : Sequence(Integer) = Sequence { 1..2000 } 
+
+context RelSchema inv relSchemaKeyNotEmpty:
+  self.key()->notEmpty()
+  
+endpackage	

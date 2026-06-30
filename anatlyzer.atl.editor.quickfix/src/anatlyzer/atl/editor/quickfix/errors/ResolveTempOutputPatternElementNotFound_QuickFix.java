@@ -13,7 +13,6 @@ import org.eclipse.jface.text.IDocument;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
-import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -33,10 +32,7 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 	private StringDistance sd = new StringDistance(new LongestCommonSubstring());
 	
 	private List<String> getCandidates() {
-		if (!(this.getProblem() instanceof ResolveTempOutputPatternElementNotFound)) {
-			return java.util.Collections.emptyList();
-		}
-		ResolveTempOutputPatternElementNotFound p = (ResolveTempOutputPatternElementNotFound) this.getProblem();
+		ResolveTempOutputPatternElementNotFound p = this.getProblem();
 	
 		// p.getOperationName() is null at this point 		
 		Binding b = this.getBindingFor((OperationCallExp)p.getElement());		
@@ -62,9 +58,9 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 			return java.util.Collections.emptyList();
 	}
 	
-	public Problem getProblem() {
+	public ResolveTempOutputPatternElementNotFound getProblem() {
 		try {
-			return super.getProblem();
+			return (ResolveTempOutputPatternElementNotFound) super.getProblem();
 		} catch (CoreException ce) {
 			
 		}

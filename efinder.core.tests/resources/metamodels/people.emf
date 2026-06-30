@@ -1,0 +1,33 @@
+@namespace(
+	uri="http://efinder/tests/people",
+	prefix="peope")
+package people;
+
+@Root
+class Model {
+	val Person[*] people;
+}
+
+class Person {
+	attr String[1] name;
+	attr String[*] nicknames;
+	attr int[1] age;
+	attr boolean[1] alive;
+	attr int[*] luckyNumbers;
+	attr Double[1] lotteryChances;	
+	// color
+	ref Person[0..1] bestFriend;
+	
+	ref Pet[*] pets;	
+}
+
+class Pet {
+	attr String[1] name;
+	attr PetKind[1] kind;		
+}
+
+enum PetKind {
+	FRIENDLY;
+	INDEPENDENT;
+	DANGEROUS;
+}

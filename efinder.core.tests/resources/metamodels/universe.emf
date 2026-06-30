@@ -1,0 +1,16 @@
+@namespace(uri="http://efinder/tests/universe", prefix="universe")
+package universe;
+
+import "platform:/resource/efinder.core.tests/resources/metamodels/people.ecore";
+
+@Root
+class Universe {
+  val people.Person[*] people;
+  val Alien[*] aliens;
+}
+
+class Alien {
+  attr String[1] name;
+  attr int[1] age;
+}
+

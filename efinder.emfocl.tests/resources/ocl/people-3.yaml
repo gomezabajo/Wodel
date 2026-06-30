@@ -1,0 +1,10 @@
+status: SAT
+witness:
+  jack:
+    type_: Person 
+    name: Jack
+    bestFriend: john
+  john:
+    type_: Person
+    name: John
+#    bestFriend: jack

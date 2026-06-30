@@ -1,0 +1,50 @@
+import relschema:'RelSchema.ecore'
+
+package relschema
+
+context RelSchema inv uniqueAttributeNames:
+  self.attributes->forAll(a1, a2 | a1.name=a2.name implies a1=a2)
+
+context RelSchema inv relSchemaKeyNotEmpty:
+  self.key()->notEmpty()
+
+context Row inv keyMapUnique:
+  Row.allInstances()->forAll(self2 |
+    self<>self2 and self.typing=self2.typing implies
+    self.typing.key()->exists(ka |
+      self.attrValue(ka)<>self2.attrValue(ka)))
+     
+context Row inv hasAttrMapForAllAttr:
+  self.typing.attributes->forAll(aRS| self.columns.attribute->one(aAM| aRS.name=aAM.name)) and
+  self.columns.attribute->forAll(aAM| typing.attributes->one(aRS| aRS.name=aAM.name)) and
+  self.columns->size()=typing.attributes->size()
+
+
+context RelModel inv oneModel:
+  RelModel.allInstances()->size() = 1 and
+  RelModel.allInstances()->forAll(m |
+  	Row.allInstances()->forAll(r | m.rows->includes(r)) and
+  	RelSchema.allInstances()->forAll(r | m.schemas->includes(r)) and
+  	DataType.allInstances()->forAll(d | m.datatypes->includes(d))	
+  )
+  
+context AttrMap inv oneModel:
+	Row.allInstances()->exists(r | r.columns->includes(self))
+  
+context Attribute inv oneModel:
+	RelSchema.allInstances()->exists(r | r.attributes->includes(self))
+
+context Value inv oneModel:
+	AttrMap.allInstances()->exists(r | r.value = self)
+
+--context RelModel
+--def: example() :  Set(Tuple (rel : String, keyName : String))
+--	= Set { Tuple { rel = 'Person', keyName = 'id' }, 
+--	        Tuple { rel = 'Pet', keyName = 'nickname' } }
+
+--context RelModel inv withExample:
+--  self.example()->forAll(e | self.schemas->exists(s |
+--     s.name = e.rel and s.key()->one(a | a.name = e.keyName)))
+
+endpackage
+  				 				

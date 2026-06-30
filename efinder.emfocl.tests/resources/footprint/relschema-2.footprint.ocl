@@ -1,0 +1,10 @@
+-- Test that references to properties work
+import relschema:'../examples/RelSchema.ecore'
+
+package relschema
+
+context RelSchema inv relSchemaKeyNotEmpty:
+  self.key()->notEmpty()
+  
+endpackage
+  				 				

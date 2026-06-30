@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: anatlyzer.atl.preprocessing
+Bundle-Name: Preprocessing Tasks
+Bundle-SymbolicName: anatlyzer.atl.preprocessing
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi,
+ tinytools.metamodel.staticfacade;bundle-version="1.0.0";resolution:=optional,
+ org.eclipse.emf.codegen.ecore

@@ -1,0 +1,12 @@
+import '../metamodels/people.ecore'
+
+package people
+
+
+context Model inv setUp:
+	Pet.allInstances()->select(p | p.name = 'snake')->size() > 0
+
+context Pet inv petKind:
+	self.name = 'snake' implies self.kind = PetKind::DANGEROUS 
+
+endpackage

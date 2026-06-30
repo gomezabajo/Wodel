@@ -1,13 +1,13 @@
 <h1 align="center">Wodel</h1>
 
-<p align="center"><i>A domain-specific language for model mutation.</i></p>
+<p align="center"><i>A domain-specific language for model mutation</i></p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/version-2.3-blue?style=for-the-badge" alt="Version 2.3">
   <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel?style=for-the-badge" alt="Contributors"></a>
   <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel?style=for-the-badge" alt="Forks"></a>
   <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel?style=for-the-badge" alt="Stars"></a>
-  <a href="https://github.com/gomezabajo/Wodel/issues"><img src="https://img.shields.io/github/issues/gomezabajo/Wodel?style=for-the-badge" alt="Issues"></a>
-  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE.txt"><img src="https://img.shields.io/github/license/gomezabajo/Wodel?style=for-the-badge" alt="License"></a>
+  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE"><img src="https://img.shields.io/github/license/gomezabajo/Wodel?style=for-the-badge" alt="License"></a>
 </p>
 
 <p align="center">
@@ -21,12 +21,14 @@
 ## Table of contents
 
 - [Overview](#overview)
+- [What's new in 2.3](#whats-new-in-23)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Wodel](#wodel)
 - [Wodel-Edu](#wodel-edu)
 - [Wodel-Test](#wodel-test)
+- [Roadmap](#roadmap)
 - [Citing Wodel](#citing-wodel)
 - [Funding](#funding)
 - [License](#license)
@@ -56,14 +58,22 @@ The repository hosts three related tools built around this core:
 | **[Wodel-Edu](#wodel-edu)** | Automated generation of educational exercises from mutated models. |
 | **[Wodel-Test](#wodel-test)** | Synthesis of full mutation-testing environments for arbitrary languages. |
 
+## What's new in 2.3
+
+- **Migration to Eclipse 4.40** (and Xtext 2.43), keeping the toolset current with the latest
+  Eclipse Modeling platform.
+- The **Wodel-Edu & Wodel-Test** suites were advanced to **2.2**, and the **Wodel** core to **2.3**.
+- A new **console view** for following mutation runs from within the IDE.
+- **Ubuntu/Linux compatibility fix** (thanks to [@jameseb7](https://github.com/jameseb7)).
+- Groundwork laid for a forthcoming **GenAI-based assistant** — see [Roadmap](#roadmap).
+
 ## Requirements
 
-- **Java** `<21>`
-- **Eclipse Modeling Tools** (or Eclipse IDE for Java and DSL Developers) `<4.39>`
-- **Xtext** and **EMF** `<2.43>` — installed automatically as plugin dependencies when
-  using the update site
+- **Java 21** (required to run Eclipse 4.40 / 2026-06)
+- **Eclipse Modeling Tools 4.40** (2026-06) — or the *Eclipse IDE for Java and DSL Developers*
+- **Xtext 2.43** and **EMF** — installed automatically as plugin dependencies via the update site
 - Optional, depending on the features used: **Sirius**, **Epsilon**, and a model-finder /
-  constraint backend for semantic validation `<details>`
+  constraint backend for semantic validation
 
 ## Installation
 
@@ -71,7 +81,7 @@ The repository hosts three related tools built around this core:
 
 1. In Eclipse, open **Help -> Install New Software...**
 2. Add the Wodel update site:
-   - `<https://github.com/Wodel/update-site>`
+   - https://github.com/Wodel/update-site
 3. Select the **Wodel**, **Wodel-Edu**, and/or **Wodel-Test** features and complete the wizard.
 4. Restart Eclipse.
 
@@ -85,7 +95,7 @@ git clone https://github.com/gomezabajo/Wodel.git
 cd Wodel
 ```
 
-Then import the plugin projects into an Eclipse workspace
+Then import the plugin projects into an Eclipse 4.40 workspace
 (*File -> Import -> Existing Projects into Workspace*) and launch a runtime Eclipse instance.
 
 ## Quick start
@@ -137,13 +147,13 @@ Wodel is the core DSL described in [Overview](#overview). Learn more:
 - [wodel.footprints](https://github.com/gomezabajo/Wodel/tree/master/wodel.footprints)
   - [wodel.metrics.command](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.command) &middot; [wodel.metrics.data](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.data) &middot; [wodel.metrics.debug](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.debug) &middot; [wodel.metrics.dynamic](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.dynamic) &middot; [wodel.metrics.fixed](https://github.com/gomezabajo/Wodel/tree/master/wodel.metrics.fixed)
 - [wodel.additions](https://github.com/gomezabajo/Wodel/tree/master/wodel.additions)
-  - [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa)
+  - [wodel.semantic.comparison.atl](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.atl) &middot; [wodel.semantic.comparison.dfa](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.dfa) &middot; [wodel.semantic.comparison.java](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.comparison.java) &middot; [wodel.semantic.validation.atl](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.validation.atl) &middot; [wodel.semantic.validation.java](https://github.com/gomezabajo/Wodel/tree/master/wodel.semantic.validation.java)
 - [wodel.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.examples)
   - [wodel.project.examples](https://github.com/gomezabajo/Wodel/tree/master/wodel.project.examples)
 - [wodel.json](https://github.com/gomezabajo/Wodel/tree/master/wodel.json)
   - [wodel.postprocessor.json](https://github.com/gomezabajo/Wodel/tree/master/wodel.postprocessor.json)
 - [wodel.asple](https://github.com/gomezabajo/Wodel/tree/master/wodel.asple)
-  - [wodel.dsls.asple](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.asple)
+  - [wodel.dsls.asple](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.asple) &middot; [wodel.dsls.asple.ide](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.asple.ide) &middot; [wodel.dsls.asple.ui](https://github.com/gomezabajo/Wodel/tree/master/wodel.dsls.asple.ui)
 - [wodel.seed.synthesis](https://github.com/gomezabajo/Wodel/tree/master/wodel.seed.synthesis)
   - [wodel.synthesizer](https://github.com/gomezabajo/Wodel/tree/master/wodel.synthesizer)
 - [wodel.emf.comparison](https://github.com/gomezabajo/Wodel/tree/master/wodel.emf.comparison)
@@ -215,6 +225,12 @@ Learn more:
 
 ---
 
+## Roadmap
+
+- **GenAI-based assistant (in progress).** Work is underway to integrate a generative-AI
+  assistant into the Wodel toolset, to help users author and refine mutation programs.
+  This feature is experimental and not yet generally available.
+
 ## Citing Wodel
 
 If you use Wodel, Wodel-Edu, or Wodel-Test in academic work, please cite the relevant
@@ -279,9 +295,8 @@ This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I
 
 ## License
 
-> [`LICENSE`](https://github.com/gomezabajo/Wodel/blob/master/LICENSE) (EPL-2.0),
-
-Distributed under the **Eclipse Public License 2.0 (EPL-2.0)**.
+Distributed under the **Eclipse Public License 2.0 (EPL-2.0)**. See the
+[`LICENSE`](https://github.com/gomezabajo/Wodel/blob/master/LICENSE) file for details.
 
 ## Credits
 
@@ -294,3 +309,5 @@ under the supervision of Esther Guerra and Juan de Lara (and, during his PhD stu
 G. Merayo). Wodel builds on [Xtext](https://eclipse.dev/Xtext/),
 [Sirius](https://eclipse.dev/sirius/), and [Epsilon](https://eclipse.dev/epsilon/), among other
 frameworks.
+
+Thanks to [@jameseb7](https://github.com/jameseb7) for his priceless help regarding the Ubuntu/Linux compatibility fix.

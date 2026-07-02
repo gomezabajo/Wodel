@@ -9,11 +9,11 @@
 <p align="center"><i>A domain-specific language for model mutation</i></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.3-blue?style=for-the-badge" alt="Version 2.3">
-  <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel?style=for-the-badge" alt="Contributors"></a>
-  <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel?style=for-the-badge" alt="Forks"></a>
-  <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel?style=for-the-badge" alt="Stars"></a>
-  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE"><img src="https://img.shields.io/github/license/gomezabajo/Wodel?style=for-the-badge" alt="License"></a>
+  <img src="https://img.shields.io/badge/version-2.3-blue" alt="Version 2.3">
+  <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel" alt="Contributors"></a>
+  <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel" alt="Forks"></a>
+  <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel" alt="Stars"></a>
+  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE"><img src="https://img.shields.io/github/license/gomezabajo/Wodel" alt="License"></a>
 </p>
 
 <p align="center">

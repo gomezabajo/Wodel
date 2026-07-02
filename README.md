@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://gomezabajo.github.io/Wodel/">
+    <img src="https://gomezabajo.github.io/Wodel/images/wodel.png" width="120" height="100" alt="Wodel logo" />
+  </a>
+</p>
+
 <h1 align="center">Wodel</h1>
 
 <p align="center"><i>A domain-specific language for model mutation</i></p>
@@ -59,6 +65,9 @@ The repository hosts three related tools built around this core:
 | **[Wodel-Edu](#wodel-edu)** | Automated generation of educational exercises from mutated models. |
 | **[Wodel-Test](#wodel-test)** | Synthesis of full mutation-testing environments for arbitrary languages. |
 
+See also **[Wodel4diac](https://github.com/gomezabajo/Wodel4diac)**, a Wodel variant compatible
+with [Eclipse 4diac](https://eclipse.dev/4diac/) / IEC 61499, maintained in its own repository.
+
 ## What's new in 2.3
 
 - **Migration to Eclipse 4.40** (and Xtext 2.43), keeping the toolset current with the latest
@@ -82,14 +91,19 @@ The repository hosts three related tools built around this core:
 
 1. In Eclipse, open **Help -> Install New Software...**
 2. Add the Wodel update site:
-   - https://github.com/Wodel/update-site
+   - https://gomezabajo.github.io/Wodel/update-site
 3. Select the **Wodel**, **Wodel-Edu**, and/or **Wodel-Test** features and complete the wizard.
 4. Restart Eclipse.
 
 Step-by-step instructions with screenshots are available in the
 [Get Started tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started).
 
-### Option B — Build from source
+### Option B — Ready-to-use bundles
+
+- [Standalone Eclipse + Wodel](https://www.dropbox.com/scl/fi/ygwr91ir761bexl9uj2es/eclipse.zip?rlkey=x5negwalmf30fzjmfyxr10sj7&dl=0) — a pre-configured Eclipse with Wodel already installed.
+- [Windows 7 x64 VirtualBox VM + Wodel](https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0) — a complete virtual machine image.
+
+### Option C — Build from source
 
 ```bash
 git clone https://github.com/gomezabajo/Wodel.git
@@ -107,25 +121,47 @@ Then import the plugin projects into an Eclipse 4.40 workspace
 > authoritative syntax.
 
 A Wodel program names a seed model and its meta-model, then declares the mutation operators to
-apply and how many mutants to generate:
+apply and how many mutants to generate. This program creates two mutants of a finite automaton
+by redirecting the target of a transition:
 
-```wodel
-// example.wodel — illustrative only
-generate 10 mutants in "out/" from "seed.model"
-metamodel "<meta-model URI>"
+```
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "http://dfaAutomaton/1.0"
 
 with commands {
-    // modify the value of an attribute
-    cmd1 "modify attribute" { modify one <Type> ... }
-    // remove an object matching a condition
-    cmd2 "remove object"    { remove one <Type> where { ... } }
-    // change an object's type to a sibling type
-    cmd3 "retype object"    { retype one <Type> as <SiblingType> }
+     modify target tar from one Transition to other State
+}
+```
+
+Mutations can also be organized in **blocks** — with cardinalities, dependencies between blocks,
+and OCL **constraints** that every generated mutant must satisfy:
+
+```
+generate mutants
+in "data/out/"
+from "data/model/exercise1.model"
+metamodel "http://dfaAutomaton/1.0"
+
+with blocks {
+    first {
+         modify target tar from one Transition to other State [3]
+    } [2]
+    second from first repeat=no {
+         modify one State with { name = random-string(4,6)}
+    } [3]
+}
+constraints {
+    context State connected:: "isInitial or Set{self}->
+            closure(s | Transition.allInstances()->
+            select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
 }
 ```
 
 Running the program produces a folder of valid mutants, ready to be consumed by Wodel-Edu,
-Wodel-Test, or a custom post-processor.
+Wodel-Test, or a custom post-processor. More examples are available on the
+[samples page](https://gomezabajo.github.io/Wodel/samples.html).
 
 ---
 
@@ -212,6 +248,7 @@ mutants, and reports a rich collection of metrics about the MT process.
 Learn more:
 
 - [Wodel-Test website](https://gomezabajo.github.io/Wodel/Wodel-Test/)
+- [Wodel-Test companion repository](https://github.com/gomezabajo/Wodel-Test)
 - [Wodel-Test designer tutorial](https://github.com/gomezabajo/Wodel-Test/wiki/Get-Started-with-Wodel%E2%80%90Test-Designer)
 
 <details>

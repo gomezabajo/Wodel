@@ -30,7 +30,8 @@
 - [What's new in 2.3](#whats-new-in-23)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Quick start](#quick-start)
+- [Getting started](#getting-started)
+- [A quick example](#a-quick-example)
 - [Wodel](#wodel)
 - [Wodel-Edu](#wodel-edu)
 - [Wodel-Test](#wodel-test)
@@ -87,33 +88,79 @@ with [Eclipse 4diac](https://eclipse.dev/4diac/) / IEC 61499, maintained in its 
 
 ## Installation
 
-### Option A — Install into Eclipse via the update site (recommended)
+Wodel is provided as a set of Eclipse plug-ins.
 
-1. In Eclipse, open **Help -> Install New Software...**
-2. Add the Wodel update site:
-   - https://gomezabajo.github.io/Wodel/update-site
-3. Select the **Wodel**, **Wodel-Edu**, and/or **Wodel-Test** features and complete the wizard.
-4. Restart Eclipse.
+### Option 1: Install from the update site (recommended)
 
-Step-by-step instructions with screenshots are available in the
-[Get Started tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started).
+1. In Eclipse, open **Help → Install New Software…**
+2. Click **Add…** and enter the Wodel update site:
 
-### Option B — Ready-to-use bundles
+   ```
+   https://gomezabajo.github.io/Wodel/update-site/
+   ```
 
-- [Standalone Eclipse + Wodel](https://www.dropbox.com/scl/fi/ygwr91ir761bexl9uj2es/eclipse.zip?rlkey=x5negwalmf30fzjmfyxr10sj7&dl=0) — a pre-configured Eclipse with Wodel already installed.
-- [Windows 7 x64 VirtualBox VM + Wodel](https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0) — a complete virtual machine image.
+3. Select **Wodel** from the list, click **Next**, and follow the wizard to complete the installation.
+4. Restart Eclipse when prompted.
 
-### Option C — Build from source
+> **Requirements:** Eclipse Modeling Tools 4.40 2026-06 with EMF, running on Java 21.
 
-```bash
-git clone https://github.com/gomezabajo/Wodel.git
-cd Wodel
+### Option 2: Pre-packaged distributions
+
+If you prefer a ready-to-run environment, you can download:
+
+- [Standalone Eclipse with Wodel pre-installed](https://www.dropbox.com/scl/fi/ygwr91ir761bexl9uj2es/eclipse.zip?rlkey=x5negwalmf30fzjmfyxr10sj7&dl=0)
+- [Windows 7 x64 VirtualBox VM with Wodel](https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0)
+
+### Option 3: From source
+
+Clone this repository and import the plug-in projects into an Eclipse workspace with the Plug-in Development Environment (PDE) installed. 
+
+## Getting Started
+
+Once installed, create your first Wodel project via **File → New → Other… → Wodel → New Wodel Project**, and follow the [Get Started tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started). A complete example project (finite automata) is available [here](https://gomezabajo.github.io/Wodel/zip/automata/DFAWodel.zip).
+
+## A quick example
+
+The following Wodel program generates two mutants of Finite Automaton models by redirecting the target of a transition to a different state:
+
+```
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "http://dfaAutomaton/1.0"
+
+with commands {
+     modify target tar from one Transition to other State
+}
 ```
 
-Then import the plugin projects into an Eclipse 4.40 workspace
-(*File -> Import -> Existing Projects into Workspace*) and launch a runtime Eclipse instance.
+Mutations can also be organized into *blocks* — optionally chained, so that one block mutates the mutants produced by a previous one — and constrained with OCL to ensure that every generated mutant remains a valid model:
 
-## Quick start
+```
+generate mutants
+in "data/out/"
+from "data/model/exercise1.model"
+metamodel "http://dfaAutomaton/1.0"
+
+with blocks {
+    first {
+         modify target tar from one Transition to other State [3]
+    } [2]
+    second from first repeat=no {
+         modify one State with { name = random-string(4,6)}
+    } [3]
+}
+constraints {
+    context State connected:: "isInitial or Set{self}->
+            closure(s | Transition.allInstances()->
+            select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
+}
+```
+
+The Wodel engine checks that each mutant conforms to the domain meta-model and satisfies its integrity constraints, and avoids generating duplicated mutants.
+
+![The Wodel IDE](http://gomezabajo.github.io/Wodel/images/wodelIDE.png)
+
 
 > [`wodel.examples`](https://github.com/gomezabajo/Wodel/tree/master/wodel.examples) /
 > [`wodel.project.examples`](https://github.com/gomezabajo/Wodel/tree/master/wodel.project.examples),
@@ -159,8 +206,7 @@ constraints {
 }
 ```
 
-Running the program produces a folder of valid mutants, ready to be consumed by Wodel-Edu,
-Wodel-Test, or a custom post-processor. More examples are available on the
+Running the program produces a folder of valid mutants, ready to be consumed by Wodel-Edu, Wodel-Test, or a custom post-processor. More examples are available on the
 [samples page](https://gomezabajo.github.io/Wodel/samples.html).
 
 ---
@@ -337,25 +383,29 @@ publication(s):
 
 ## Funding
 
-This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project
-"MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project
+This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project
 "[FORTE](https://antares.sip.ucm.es/forte-cm/)").
 
 ## License
 
-Distributed under the **Eclipse Public License 2.0 (EPL-2.0)**. See the
-[`LICENSE`](https://github.com/gomezabajo/Wodel/blob/master/LICENSE) file for details.
+The Wodel plug-ins developed by this project are distributed under the
+[**Eclipse Public License 2.0 (EPL-2.0)**](https://github.com/gomezabajo/Wodel/blob/master/LICENSE). This repository also includes the
+`anatlyzer.*` projects from [anATLyzer](https://anatlyzer.github.io/),
+a static analyser for ATL used by the ATL case study, which retain their
+original license. Please consult the license headers of each plug-in for details.
+
+> **Note:** the `anatlyzer.*` projects are a bundled copy of
+> [anATLyzer](https://anatlyzer.github.io/), a static analyser for ATL
+> developed by third parties, which Wodel uses for the ATL model
+> transformation use case. They are not part of Wodel itself.
+
 
 ## Credits
 
-**Wodel, Wodel-Edu & Wodel-Test** — by Juan de Lara, Esther Guerra, Pablo Gómez-Abajo *et al.*,
-of the [miso research group](http://www.miso.es/), Universidad Autónoma de Madrid.
+**Wodel, Wodel-Edu & Wodel-Test** — by Juan de Lara, Esther Guerra, Pablo Gómez-Abajo *et al.*, of the [miso research group](http://www.miso.es/), Universidad Autónoma de Madrid.
 
 The Wodel project was started by the miso group in September 2013; its initial IDE was
-implemented by Víctor López Rivero. Since March 2015 it has been developed by Pablo Gómez-Abajo
-under the supervision of Esther Guerra and Juan de Lara (and, during his PhD studies, Mercedes
-G. Merayo). Wodel builds on [Xtext](https://eclipse.dev/Xtext/),
-[Sirius](https://eclipse.dev/sirius/), and [Epsilon](https://eclipse.dev/epsilon/), among other
-frameworks.
+implemented by Víctor López Rivero. Since March 2015 it has been developed by Pablo Gómez-Abajo under the supervision of Esther Guerra and Juan de Lara (and, during his PhD studies, Mercedes G. Merayo). Wodel builds on [Xtext](https://eclipse.dev/Xtext/),
+[Sirius](https://eclipse.dev/sirius/), and [Epsilon](https://eclipse.dev/epsilon/), among other frameworks.
 
 Thanks to [@jameseb7](https://github.com/jameseb7) for his priceless help regarding the Ubuntu/Linux compatibility fix.

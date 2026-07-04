@@ -167,44 +167,6 @@ The Wodel engine checks that each mutant conforms to the domain meta-model and s
 > and follow the [tutorial](https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started) for the
 > authoritative syntax.
 
-A Wodel program names a seed model and its meta-model, then declares the mutation operators to
-apply and how many mutants to generate. This program creates two mutants of a finite automaton
-by redirecting the target of a transition:
-
-```
-generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "http://dfaAutomaton/1.0"
-
-with commands {
-     modify target tar from one Transition to other State
-}
-```
-
-Mutations can also be organized in **blocks** — with cardinalities, dependencies between blocks,
-and OCL **constraints** that every generated mutant must satisfy:
-
-```
-generate mutants
-in "data/out/"
-from "data/model/exercise1.model"
-metamodel "http://dfaAutomaton/1.0"
-
-with blocks {
-    first {
-         modify target tar from one Transition to other State [3]
-    } [2]
-    second from first repeat=no {
-         modify one State with { name = random-string(4,6)}
-    } [3]
-}
-constraints {
-    context State connected:: "isInitial or Set{self}->
-            closure(s | Transition.allInstances()->
-            select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
-}
-```
 
 Running the program produces a folder of valid mutants, ready to be consumed by Wodel-Edu, Wodel-Test, or a custom post-processor. More examples are available on the
 [samples page](https://gomezabajo.github.io/Wodel/samples.html).

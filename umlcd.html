@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Wodel: a domain-specific language for model mutation</title>
+    <title>Wodel: A Domain-Specific Language for Model Mutation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -32,7 +32,7 @@
 		gtag('config', 'UA-61793148-4');
 	</script>
     <section class="page-header">
-      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="120" height="120"/><br />Wodel</a></h1>
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
       <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
 	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
@@ -182,12 +182,12 @@
     modify a with {type = other Class}
 </code></pre>
 
-<p>Change the constraint by deleting the calls to specific operation [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
+<p>Changes the constraint by deleting the calls to a specific operation [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
 
 <pre><code>    remove one OperationCS
 </code></pre>
 
-<p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
+<p>Replaces an arithmetic operator with another; supported binary operators: "add", "subtract", "multiply", "divide" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
 
 <pre><code>    modify one IntLiteralExpCS with {op in ['add', 'subtract', 'multiply', 'divide']}
 </code></pre>
@@ -198,12 +198,12 @@
     create LogicExpCS in inv->exp with {op = 'not'}
 </code></pre>
 
-<p>Changes a conditional operator "and" for a conditional operator "or" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
+<p>Replaces the conditional operator "and" with the conditional operator "or" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op = 'and'} with {op = 'or'} 
 </code></pre>
 
-<p>Changes a conditional operator "or" for a conditional operator "and" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
+<p>Replaces the conditional operator "or" with the conditional operator "and" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op = 'or'} with {op = 'and'}
 </code></pre>
@@ -213,7 +213,7 @@
 <pre><code>    remove one LogicExpCS where {op = 'not'}
 </code></pre>
 
-<p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
+<p>Replaces a relational operator with another; supported operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
         with {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
@@ -224,7 +224,7 @@
 <pre><code>    modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
 </code></pre>
 
-<p>Interchange the members (src and tar) of an Association [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">was1</a>]:</p>
+<p>Interchanges the members (src and tar) of an association [<a href="https://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">was1</a>]:</p>
 
 <pre><code>    modify one Association with {swapref(src, tar)}
 </code></pre>
@@ -350,7 +350,7 @@
 <pre><code>    remove one Parameter
 </code></pre>
 
-<p>Here you can download all these examples of Wodel applied to UML Class Diagrams.<br />
+<p>You can download all of these examples of Wodel applied to UML class diagrams here.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/UMLClassDiagrams">UML Class Diagrams samples .tar.gz</a>

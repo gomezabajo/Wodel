@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Wodel: a domain-specific language for model mutation</title>
+    <title>Wodel: A Domain-Specific Language for Model Mutation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -32,7 +32,7 @@
 		gtag('config', 'UA-61793148-4');
 	</script>
     <section class="page-header">
-      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="120" height="120"/><br />Wodel</a></h1>
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
       <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
 	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
@@ -51,7 +51,7 @@
 
 <p><u>[<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">High-level change operations for BPMN</a>].</u></p>
 
-<p>Insert activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Inserts an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    s = select one Sequence where {^to not typed EndEv}
     f = select one FlowObject in s->^to
@@ -60,7 +60,7 @@
     create Sequence with {name = 'newSeq', ^from = a, ^to = f}
 </code></pre>
 
-<p>Remove activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Removes an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    a = select one Activity
     s0 = select one Sequence where {^to = a and ^from <> null}
@@ -72,7 +72,7 @@
     modify s2 with {^from = a}
 </code></pre>
 
-<p>Move activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Moves an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    a = select one Activity
     s0 = select one Sequence where {^to = a and ^from <> null}
@@ -84,7 +84,7 @@
     modify s2 with {^from = a}
 </code></pre>
 
-<p>Replace activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Replaces an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    a0 = select one Activity
     src0 = select one Sequence where {^to = a0}
@@ -98,17 +98,17 @@
     modify tar1 with {^from = a0}
 </code></pre>
 
-<p>Retype activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Retypes an activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    retype one [StartEv, IntermediateEv, EndEv] as [Activity]
 </code></pre>
 
-<p>Retype gateway [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
+<p>Retypes a gateway [<a href="https://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>    retype one [AND, OR, XOR] as [AND, OR, XOR]
 </code></pre>
 
-<p>Here you can download all these examples of Wodel applied to BPMN.<br />
+<p>You can download all of these examples of Wodel applied to BPMN here.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/BPMNWodelSamples">BPMN samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/BPMNWodelSamples">BPMN samples .tar.gz</a>

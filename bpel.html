@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Wodel: a domain-specific language for model mutation</title>
+    <title>Wodel: A Domain-Specific Language for Model Mutation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -32,7 +32,7 @@
 		gtag('config', 'UA-61793148-4');
 	</script>
     <section class="page-header">
-      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="120" height="120"/><br />Wodel</a></h1>
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
       <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
 	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
@@ -51,7 +51,7 @@
 
 <p><u>Identifier mutation.</u></p>
 	  
-<p>Replaces a variable identifier by another of the same type [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
+<p>Replaces a variable identifier with another of the same type [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
 
 <pre><code>    v1 = select one Variable where {type <> null}
     v2 = select one Variable where {self <> v1 and type = v1->type and name <> v1.name}
@@ -60,17 +60,17 @@
 
 <p><u>Concurrent activity mutation.</u></p>
 	  
-<p>Changes the createInstance attribute from an inbound message activity to <i>no</i> [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
+<p>Changes the createInstance attribute of an inbound message activity to <i>no</i> [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
 
 <pre><code>    modify one Receive where {createInstance = true} with {createInstance = false}
 </code></pre>
 
-<p>Replaces a sequential forEach activity by a parallel one [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
+<p>Replaces a sequential forEach activity with a parallel one [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
 
 <pre><code>    modify one ForEach where {parallel = false} with {parallel = true}
 </code></pre>
 
-<p>Replaces a sequence activity by a flow activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
+<p>Replaces a sequence activity with a flow activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
 
 <pre><code>    retype one Sequence as Flow
 </code></pre>
@@ -99,12 +99,12 @@
    remove one Else from if2->else
 </code></pre>
 
-<p>Replaces a while activity by a repeatUntil activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
+<p>Replaces a while activity with a repeatUntil activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
 
 <pre><code>    retype one While as RepeatUntil
 </code></pre>
 
-<p>Replaces a repeatUntil activity by a while activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
+<p>Replaces a repeatUntil activity with a while activity [<a href="https://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
 
 <pre><code>    retype one RepeatUntil as While
 </code></pre>
@@ -189,7 +189,7 @@
 </code></pre>
 
 
-<p>Here you can download all these examples of Wodel applied to BPEL.<br />
+<p>You can download all of these examples of Wodel applied to BPEL here.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/BPELSamples">BPEL samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/BPELSamples">BPEL samples .tar.gz</a>

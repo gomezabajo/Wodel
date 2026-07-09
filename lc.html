@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Wodel: a domain-specific language for model mutation</title>
+    <title>Wodel: A Domain-Specific Language for Model Mutation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -32,7 +32,7 @@
 		gtag('config', 'UA-61793148-4');
 	</script>
     <section class="page-header">
-      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="120" height="120"/><br />Wodel</a></h1>
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
       <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
 	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
@@ -51,12 +51,12 @@
 
 <p><u>[<a href="https://gomezabajo.github.io/Wodel/zip/lc/lc.zip">High-level change operations for Logic Circuits</a>].</u></p>
 
-<p>Retype a two-pinned gate as a two-pinned gate of a different type [<a href="https://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
+<p>Retypes a two-pinned gate as a gate of a different type [<a href="https://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
 
 <pre><code>retype one [AND, OR] as [AND, OR] 
 </code></pre>
 
-<p>Swap the input pins of two different gates [<a href="https://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
+<p>Swaps the input pins of two different gates [<a href="https://gomezabajo.github.io/Wodel/zip/lc/lc.zip">lc</a>]:</p>
 
 <pre><code>g0 = select one Gate
 modify one Gate where {self <> g0} with {swapref(input, g0->input)}
@@ -83,7 +83,7 @@ create InputPin in n1->input
     with {name = random-string(2, 4), src = o0}
 </code></pre>
 
-<p>Here you can download all these examples of Wodel applied to Logic Circuits.<br />
+<p>You can download all of these examples of Wodel applied to logic circuits here.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/LCWodelSamples">Logic Circuits samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/LCWodelSamples">Logic Circuits samples .tar.gz</a>

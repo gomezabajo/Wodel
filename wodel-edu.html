@@ -56,18 +56,18 @@
 <p><strong>Wodel-Edu</strong> is an extension to Wodel for the automated generation of exercises. It generates seven kinds of exercises:</p>
 
 <ul>
-<li>Alternative response: the student has to tell if the diagram or the textual representation is correct or not.</li>
-<li>Multiple diagram choice: the student has to tell which of the shown diagrams is correct.</li>
-<li>Multiple text choice: the student has to tell which of the shown textual representations is correct.</li>
-<li>Multiple emendation choice: the student has to tell which text options fix the shown diagram.</li>
-<li>Match pairs choice: the student has to match the statement on the left with the correct option of the drop-down list.</li>
-<li>Missing words choice: the student has to complete the gaps of the text shown with the correct options in the drop-down lists to match the statement.</li>
-<li>Text drag and drop: the student has to complete the gaps of the text shown with the correct options of the set of texts presented as labels in categories to match the statement.</li>
+<li>Alternative response: the student must state whether the diagram or the textual representation is correct.</li>
+<li>Multiple diagram choice: the student must identify which of the diagrams shown is correct.</li>
+<li>Multiple text choice: the student must identify which of the textual representations shown is correct.</li>
+<li>Multiple emendation choice: the student must identify which text options fix the diagram shown.</li>
+<li>Match pairs choice: the student must match the statement on the left with the correct option from the drop-down list.</li>
+<li>Missing words choice: the student must complete the gaps in the text with the correct options from the drop-down lists so that it matches the statement.</li>
+<li>Text drag and drop: the student must complete the gaps in the text with the correct options from the set of texts presented as labels in categories so that it matches the statement.</li>
 </ul>
 
-<p>With this purpose, Wodel-Edu provides 4 DSLs along with <a target="_blank" href="https://gomezabajo.github.io/Wodel">Wodel</a>:</p>
+<p>To this end, Wodel-Edu provides four DSLs alongside <a target="_blank" href="https://gomezabajo.github.io/Wodel">Wodel</a>:</p>
 
-<p><strong>eduTest</strong>: DSL for the configuration of the questionnaire, and the exercises' definition:</p>
+<p><strong>eduTest</strong>: DSL for configuring the questionnaire and defining the exercises:</p>
 
 <pre><code>navigation=free
 MultiChoiceDiagram simple {
@@ -95,7 +95,7 @@ MissingWords mtsrfs1 {
 }
 </code></pre>
 
-<p><strong>modelDraw</strong>: DSL for the models' graphical visualization. It uses alternatively <a target="_blank" href="https://www.graphviz.org/">Graphviz</a> and <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> for model renderization:</p>
+<p><strong>modelDraw</strong>: DSL for the graphical visualisation of models. It uses either <a target="_blank" href="https://www.graphviz.org/">Graphviz</a> or <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> to render the models:</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
@@ -107,7 +107,7 @@ Automaton: diagram {
 }
 </code></pre>
 
-<p><strong>modelText</strong>: DSL for the configuration of models elements text identification (optional):</p>
+<p><strong>modelText</strong>: DSL for configuring the textual identification of model elements (optional):</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
@@ -119,7 +119,7 @@ Automaton: diagram {
 &gt;Transition.src: source
 </code></pre>
 
-<p><strong>mutaText</strong>: DSL for the configuration of text options shown in the multiple emendation choice, match pairs, missing words, and text drag and drop test exercise kinds (optional):</p>
+<p><strong>mutaText</strong>: DSL for configuring the text options shown in the multiple emendation choice, match pairs, missing words, and text drag-and-drop exercise kinds (optional):</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
@@ -133,7 +133,7 @@ Automaton: diagram {
 
 <p>You can view an example of a test exercises web application generated with Wodel-Edu at <a target="_blank" href="http://www.wodel.eu/">www.wodel.eu</a>.</p>
 
-<p>We are currently working on the generation of exercises for the Moodle platform. You can access our private Moodle here and see: <a target="_blank" href="http://moodle.wodel.eu/">moodle.wodel.eu</a> (user: demo; password: Wodel-Edu4Moodle).</p>
+<p>We are currently working on the generation of exercises for the Moodle platform. A demonstration Moodle site is available at <a target="_blank" href="http://moodle.wodel.eu/">moodle.wodel.eu</a> (user: demo; password: Wodel-Edu4Moodle).</p>
 
 <p>This is a short video demo of Wodel and Wodel-Edu:</p>
 
@@ -143,7 +143,7 @@ Automaton: diagram {
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/39L6Y6kZ42g" frameborder="0" allowfullscreen></iframe>
 
-<p>Here you can download an example of Wodel-Edu.<br />
+<p>You can download an example of Wodel-Edu here.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/WodelEduSamples">Wodel-Edu samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/WodelEduSamples">Wodel-Edu samples .tar.gz</a>
@@ -157,7 +157,7 @@ Automaton: diagram {
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2MBez3PkykQ" frameborder="0" allowfullscreen></iframe>
 
-<p>Wodel-EDU &amp; SGAME: Aprender jugando</p>
+<p>Wodel-EDU &amp; SGAME: Aprender jugando (video in Spanish)</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/K7gJChIzQsY" frameborder="0" allowfullscreen></iframe>
 

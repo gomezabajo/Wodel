@@ -1,3 +1,9 @@
+/* ============================================================
+   Wodel website stylesheet
+   Based on the Cayman theme structure (same class names), restyled
+   with the Wodel identity: deep purple -> coral, with slate accents.
+   ============================================================ */
+
 * {
   box-sizing: border-box; }
 
@@ -6,152 +12,171 @@ body {
   margin: 0;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
-  color: #606c71; }
+  line-height: 1.6;
+  color: #3d434c; }
 
 a {
-  color: #1e6bb8;
+  color: #8c3268;
   text-decoration: none; }
   a:hover {
+    color: #5b1f6e;
     text-decoration: underline; }
 
-.btn {
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 0.3rem;
-  transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
-  .btn + .btn {
-    margin-left: 1rem; }
-
-.btn:hover {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3); }
-
-@media screen and (min-width: 64em) {
-  .btn {
-    padding: 0.75rem 1rem; } }
-
-@media screen and (min-width: 42em) and (max-width: 64em) {
-  .btn {
-    padding: 0.6rem 0.9rem;
-    font-size: 0.9rem; } }
-
-@media screen and (max-width: 42em) {
-  .btn {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 0.9rem; }
-    .btn + .btn {
-      margin-top: 1rem;
-      margin-left: 0; } }
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
 
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+  background-color: #5b1f6e;
+  background-image: linear-gradient(135deg, #431358 0%, #8e3372 55%, #c95c4b 100%); }
 
 @media screen and (min-width: 64em) {
   .page-header {
-    padding: 5rem 6rem; } }
+    padding: 3rem 4rem 2.25rem; } }
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .page-header {
-    padding: 3rem 4rem; } }
+    padding: 2.25rem 3rem 1.75rem; } }
 
 @media screen and (max-width: 42em) {
   .page-header {
-    padding: 2rem 1rem; } }
+    padding: 1.5rem 1rem 1.25rem; } }
 
 .project-name {
   margin-top: 0;
   margin-bottom: 0.1rem; }
 
+.project-name a {
+  text-decoration: none; }
+
+.project-name img {
+  display: block;
+  margin: 0 auto 0.5rem; }
+
 @media screen and (min-width: 64em) {
   .project-name {
-    font-size: 3.25rem; } }
+    font-size: 2.75rem; } }
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .project-name {
-    font-size: 2.25rem; } }
+    font-size: 2.15rem; } }
 
 @media screen and (max-width: 42em) {
   .project-name {
     font-size: 1.75rem; } }
 
 .project-tagline {
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: 1.4rem;
   font-weight: normal;
-  opacity: 0.7; }
+  opacity: 0.85; }
 
 @media screen and (min-width: 64em) {
   .project-tagline {
-    font-size: 1.25rem; } }
+    font-size: 1.2rem; } }
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .project-tagline {
-    font-size: 1.15rem; } }
+    font-size: 1.1rem; } }
 
 @media screen and (max-width: 42em) {
   .project-tagline {
     font-size: 1rem; } }
 
+/* Header buttons: a tidy, wrapping navigation */
+.btn {
+  display: inline-block;
+  margin: 0.2rem 0.18rem;
+  padding: 0.5rem 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+
+.btn:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45); }
+
+@media screen and (max-width: 42em) {
+  .btn {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem; } }
+
+/* ------------------------------------------------------------
+   Main content
+   ------------------------------------------------------------ */
+
 .main-content :first-child {
   margin-top: 0; }
 .main-content img {
   max-width: 100%; }
-.main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
-  margin-top: 2rem;
+.main-content iframe {
+  max-width: 100%;
+  border: 1px solid #e6e1ea;
+  border-radius: 0.3rem; }
+
+.main-content h1, .main-content h2, .main-content h3,
+.main-content h4, .main-content h5, .main-content h6 {
+  margin-top: 2.25rem;
   margin-bottom: 1rem;
-  font-weight: normal;
-  color: #159957; }
+  font-weight: 700;
+  color: #5b1f6e;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #ece6f0; }
+
 .main-content p {
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+  text-align: left; }
+
+/* neutralise legacy inline justify styles for readability */
+.main-content p[style*="justify"] {
+  text-align: left !important; }
+
 .main-content code {
-  padding: 2px 4px;
+  padding: 2px 5px;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 0.9rem;
-  color: #383e41;
-  background-color: #f3f6fa;
+  font-size: 0.88rem;
+  color: #4a2a56;
+  background-color: #f5f1f8;
   border-radius: 0.3rem; }
+
 .main-content pre {
-  padding: 0.8rem;
+  padding: 0.9rem 1rem;
   margin-top: 0;
-  margin-bottom: 1rem;
-  font: 1rem Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  color: #567482;
+  margin-bottom: 1.1rem;
+  font: 0.9rem Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  color: #46505c;
   word-wrap: normal;
-  background-color: #f3f6fa;
-  border: solid 1px #dce6f0;
-  border-radius: 0.3rem; }
+  background-color: #f8f7fa;
+  border: solid 1px #e6e1ea;
+  border-left: 4px solid #c95c4b;
+  border-radius: 0.3rem;
+  overflow: auto; }
   .main-content pre > code {
     padding: 0;
     margin: 0;
-    font-size: 0.9rem;
-    color: #567482;
+    font-size: 0.88rem;
+    color: #46505c;
     word-break: normal;
     white-space: pre;
     background: transparent;
     border: 0; }
+
 .main-content .highlight {
   margin-bottom: 1rem; }
   .main-content .highlight pre {
     margin-bottom: 0;
     word-break: normal; }
 .main-content .highlight pre, .main-content pre {
-  padding: 0.8rem;
-  overflow: auto;
-  font-size: 0.9rem;
-  line-height: 1.45;
-  border-radius: 0.3rem; }
+  line-height: 1.5; }
 .main-content pre code, .main-content pre tt {
   display: inline;
   max-width: initial;
@@ -162,19 +187,35 @@ a {
   word-wrap: normal;
   background-color: transparent;
   border: 0; }
-  .main-content pre code:before, .main-content pre code:after, .main-content pre tt:before, .main-content pre tt:after {
+  .main-content pre code:before, .main-content pre code:after,
+  .main-content pre tt:before, .main-content pre tt:after {
     content: normal; }
+
 .main-content ul, .main-content ol {
   margin-top: 0; }
+
+.main-content li {
+  margin-bottom: 0.5rem; }
+
+/* the reversed publication / funding lists breathe a little more */
+.main-content ol[reversed] > li {
+  margin-bottom: 0.85rem; }
+
+.main-content u {
+  text-decoration: none;
+  font-weight: 700;
+  color: #46505c; }
+
 .main-content blockquote {
   padding: 0 1rem;
   margin-left: 0;
-  color: #819198;
-  border-left: 0.3rem solid #dce6f0; }
+  color: #6e7681;
+  border-left: 0.3rem solid #e6e1ea; }
   .main-content blockquote > :first-child {
     margin-top: 0; }
   .main-content blockquote > :last-child {
     margin-bottom: 0; }
+
 .main-content table {
   display: block;
   width: 100%;
@@ -186,6 +227,7 @@ a {
   .main-content table th, .main-content table td {
     padding: 0.5rem 1rem;
     border: 1px solid #e9ebec; }
+
 .main-content dl {
   padding: 0; }
   .main-content dl dt {
@@ -196,6 +238,7 @@ a {
   .main-content dl dd {
     padding: 0;
     margin-bottom: 1rem; }
+
 .main-content hr {
   height: 2px;
   padding: 0;
@@ -205,40 +248,40 @@ a {
 
 @media screen and (min-width: 64em) {
   .main-content {
-    max-width: 64rem;
-    padding: 2rem 6rem;
+    max-width: 52rem;
+    padding: 2.5rem 2rem 3rem;
     margin: 0 auto;
-    font-size: 1.1rem; } }
+    font-size: 1.02rem; } }
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .main-content {
-    padding: 2rem 4rem;
-    font-size: 1.1rem; } }
+    padding: 2rem 3rem;
+    font-size: 1.02rem; } }
 
 @media screen and (max-width: 42em) {
   .main-content {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     font-size: 1rem; } }
 
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+
 .site-footer {
-  padding-top: 2rem;
-  margin-top: 2rem;
-  border-top: solid 1px #eff0f1; }
+  padding-top: 1.75rem;
+  margin-top: 2.5rem;
+  border-top: solid 1px #ece6f0; }
 
 .site-footer-owner {
   display: block;
   font-weight: bold; }
 
 .site-footer-credits {
-  color: #819198; }
+  color: #6e7681; }
 
-@media screen and (min-width: 64em) {
+@media screen and (min-width: 42em) {
   .site-footer {
-    font-size: 1rem; } }
-
-@media screen and (min-width: 42em) and (max-width: 64em) {
-  .site-footer {
-    font-size: 1rem; } }
+    font-size: 0.95rem; } }
 
 @media screen and (max-width: 42em) {
   .site-footer {

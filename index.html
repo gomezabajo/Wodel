@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Wodel: a domain-specific language for model mutation</title>
+    <title>Wodel: A Domain-Specific Language for Model Mutation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -53,7 +53,7 @@
 <p style="text-align: justify; text-justify: inter-word;">Wodel is <strong>domain-independent</strong>, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
 
 <p style="text-align: justify; text-justify: inter-word;">Wodel provides <strong>nine mutation primitives</strong> for object creation and deletion,
-reference redirection, attribute modification, cloning, and retyping (change the type of an object to one of its siblings types), among others.</p>
+reference redirection, attribute modification, cloning, and retyping (changing the type of an object to one of its sibling types), among others.</p>
 
 <p style="text-align: justify; text-justify: inter-word;">The engine <strong>verifies that each generated mutant is a valid model</strong> (i.e., it
 conforms to the domain meta-model and satisfies its integrity constraints).</p>
@@ -70,23 +70,22 @@ mutations</strong> and the objects affected by them. </p>
 <p style="text-align: justify; text-justify: inter-word;">The IDE provides <strong>several metrics</strong> that can help in assessing whether a set
 of mutations is complete or has been correctly implemented.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Also to facilitate the testing of Wodel programs, the IDE permits the
+<p style="text-align: justify; text-justify: inter-word;">To facilitate the testing of Wodel programs, the IDE also permits the
 <strong>automatic synthesis of seed models</strong>.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">It's <strong>development environment is extensible</strong>, permitting the incorporation
+<p style="text-align: justify; text-justify: inter-word;">Its <strong>development environment is extensible</strong>, permitting the incorporation
 of <strong>post-processors</strong> for different applications.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">To get started, you can access a Wodel tutorial
-<a href="https://github.com/gomezabajo/Wodel/wiki/Get-Started">here</a>.</p>
+<p style="text-align: justify; text-justify: inter-word;">To get started, see the <a href="https://github.com/gomezabajo/Wodel/wiki/Get-Started">Wodel tutorial</a>.</p>
 
 <h3 id="current-wodel-extensions">Current Wodel extensions</h3>
 
-<p style="text-align: justify; text-justify: inter-word;">This repository contains two Wodel extensions: The first consisting in
-the <strong>automated generation of exercises</strong> for particular domains (automata,
-class diagrams, electronic circuits, etc.). We call this extension <strong><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></strong>.
+<p style="text-align: justify; text-justify: inter-word;">This repository contains two Wodel extensions. The first is the <strong>automated
+generation of exercises</strong> for particular domains (automata, class diagrams,
+electronic circuits, and so on), which we call <strong><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></strong>.</p>
 
-<p>This is a sample of a Wodel program that mutates a transition target of a
-Finite Automaton model:</p>
+<p>This is a sample Wodel program that mutates the target of a transition in a
+finite automaton model:</p>
 
 <pre><code>generate 2 mutants
 in "data/out/"
@@ -98,16 +97,17 @@ with commands {
 }
 </code></pre>
 
-The second extensions consists in the <strong>automated generation of mutation testing tools for modelling and programming languages</strong>, that we 
-call <strong><a href="https://gomezabajo.github.io/Wodel-Test">Wodel-Test.</a></strong></p>
+<p>The second extension is the <strong>automated generation of mutation testing tools
+for modelling and programming languages</strong>, which we call
+<strong><a href="https://gomezabajo.github.io/Wodel-Test">Wodel-Test</a></strong>.</p>
 
 <h3 id="wodel-usage">Wodel usage</h3>
 
-<p style="text-align: justify; text-justify: inter-word;">You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
+<p style="text-align: justify; text-justify: inter-word;">You can specify when mutants are generated within a Wodel program using the <em>blocks</em> directive.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
+<p style="text-align: justify; text-justify: inter-word;">You can also mutate the mutant models generated in a previous block, instead of the seed models.</p>
 
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
+<p>Furthermore, you can specify OCL constraints that the generated mutants must satisfy:</p>
 
 <pre><code>generate mutants
 in "data/out/"
@@ -123,7 +123,7 @@ with blocks {
     } [3]
 }
 constraints {
-    context State connected:: "isInitial or Set{self}-&gt;
+    context State connected: "isInitial or Set{self}-&gt;
             closure(s | Transition.allInstances()-&gt;
             select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
 }
@@ -135,21 +135,21 @@ constraints {
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0YRorOYPxCE" frameborder="0" allowfullscreen></iframe>
 
-<p>Video demo of the Wodel tool mutation operator footprints:</p>
+<p>A video demonstration of mutation operator footprints in the Wodel tool:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/AGLZYJeJYIA" frameborder="0" allowfullscreen></iframe>
 
-<p>Video demo of the Wodel tool seed model synthesis:</p>
+<p>A video demonstration of seed model synthesis in the Wodel tool:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JGby6NwlxyY" frameborder="0" allowfullscreen></iframe>
 
-<h3 id="related-publications">Authors and contributors</h3>
+<h3 id="authors-and-contributors">Authors and contributors</h3>
 
 <p>The Wodel research project was started by the <strong><a href="https://miso.es">miso</a></strong> research group in September 2013. In its initial stage, its main developer was <a href="https://es.linkedin.com/in/victor-lopez-rivero">V&iacute;ctor L&oacute;pez Rivero</a>. 
 Since March 2015, the project has been carried out by <strong><a href="https://www.gomezabajo.es">Pablo G&oacute;mez-Abajo</a></strong>, under the supervision of <a href="http://arantxa.ii.uam.es/~eguerra/">Esther Guerra</a> and <a href="http://arantxa.ii.uam.es/~jlara/">Juan de Lara</a>, 
-and, additionally, during his PhD. studies, of <a href="https://antares.sip.ucm.es/mercedes/">Mercedes G. Merayo</a>.</p>
+and, additionally, during his PhD studies, of <a href="https://antares.sip.ucm.es/mercedes/">Mercedes G. Merayo</a>.</p>
 
-<p>At this point, we would like to thank the developers of the following frameworks, which we have used in order to develop Wodel:</p>
+<p>We would like to thank the developers of the following frameworks, which we have used to develop Wodel:</p>
 
 <ul>
   <li><a href="https://www.eclipse.org/Xtext/" itemprop="url" title="xText"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/Xtext/">Xtext</a></strong>: Xtext tailors the development of programming languages and domain-specific languages. With Xtext you define your language using a powerful grammar language.</li>

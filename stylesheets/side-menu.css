@@ -1,0 +1,230 @@
+/* side-menu.css — styles for the deployable left-side navigation drawer.
+ * Matches the Wodel identity: Open Sans, the purple-to-coral gradient
+ * (#431358 -> #8e3372 -> #c95c4b) and translucent white pills. */
+
+.side-menu-toggle {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 996;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  background-color: #5b1f6e;
+  background-image: linear-gradient(135deg, #431358 0%, #8e3372 55%, #c95c4b 100%);
+  box-shadow: 0 6px 18px rgba(28, 6, 38, 0.35);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.side-menu-toggle:hover,
+.side-menu-toggle:focus {
+  transform: scale(1.06);
+  box-shadow: 0 8px 22px rgba(28, 6, 38, 0.45);
+  outline: none;
+}
+
+.side-menu-toggle:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.side-menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.side-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 997;
+  background: rgba(20, 8, 28, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  width: 300px;
+  max-width: 85vw;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: #431358;
+  background-image: linear-gradient(175deg, #431358 0%, #8e3372 62%, #c95c4b 100%);
+  color: #ffffff;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: 4px 0 24px rgba(28, 6, 38, 0.45);
+  transform: translateX(-105%);
+  transition: transform 0.28s ease;
+}
+
+body.side-menu-open .side-menu {
+  transform: translateX(0);
+}
+
+body.side-menu-open .side-menu-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.side-menu-open {
+  overflow: hidden;
+}
+
+.side-menu-brand {
+  position: relative;
+  padding: 22px 20px 14px;
+  text-align: center;
+}
+
+.side-menu-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.side-menu-close:hover,
+.side-menu-close:focus {
+  background: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  outline: none;
+}
+
+.side-menu-close:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.side-menu-home {
+  display: inline-block;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.side-menu-home:hover,
+.side-menu-home:focus {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.side-menu-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(28, 6, 38, 0.28);
+}
+
+.side-menu-logo img {
+  display: block;
+  width: 132px;
+  height: auto;
+}
+
+.side-menu-title {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.side-menu-tagline {
+  margin: 8px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.side-menu-nav {
+  padding: 6px 14px 22px;
+}
+
+.side-menu-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.side-menu-nav li {
+  margin: 0 0 6px;
+}
+
+.side-menu-nav a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.side-menu-nav a:hover,
+.side-menu-nav a:focus {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  text-decoration: none;
+  outline: none;
+}
+
+.side-menu-nav a:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 1px;
+}
+
+.side-menu-nav a.is-active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .side-menu,
+  .side-menu-overlay,
+  .side-menu-toggle {
+    transition: none;
+  }
+}
+
+@media print {
+  .side-menu-toggle,
+  .side-menu-overlay,
+  .side-menu {
+    display: none !important;
+  }
+}

@@ -36,12 +36,12 @@
       <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
       <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
       <a href="https://github.com/gomezabajo/Wodel" class="btn">View on GitHub</a>
-	  <a href="https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started" class="btn">Get Started</a>
-	  <a href="https://gomezabajo.github.io/Wodel/update-site" class="btn">Update site</a>
-	  <a href="https://www.dropbox.com/scl/fi/ygwr91ir761bexl9uj2es/eclipse.zip?rlkey=x5negwalmf30fzjmfyxr10sj7&dl=0" class="btn">Standalone Eclipse+Wodel</a>
-	  <a href="https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0" class="btn">Win7 VirtualBox VM+Wodel</a>
-      <a href="https://github.com/gomezabajo/Wodel/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/gomezabajo/Wodel/tarball/master" class="btn">Download .tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started" class="btn">Getting Started</a>
+	  <a href="https://gomezabajo.github.io/Wodel/update-site" class="btn">Update Site</a>
+	  <a href="https://www.dropbox.com/scl/fi/ygwr91ir761bexl9uj2es/eclipse.zip?rlkey=x5negwalmf30fzjmfyxr10sj7&dl=0" class="btn">Standalone Eclipse with Wodel</a>
+	  <a href="https://www.dropbox.com/scl/fi/wlpr7e0ab0981kvfthi5n/Windows.7.x64.Wodel.2.0.zip?rlkey=hxlk3y0mh3flqp6763dfsgm20&st=pkor7ex6&dl=0" class="btn">Windows 7 VirtualBox VM with Wodel</a>
+      <a href="https://github.com/gomezabajo/Wodel/zipball/master" class="btn">Download ZIP</a>
+      <a href="https://github.com/gomezabajo/Wodel/tarball/master" class="btn">Download TAR.GZ</a>
 	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
 	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu.html" class="btn">Wodel-Edu</a>
 	  <a href="https://gomezabajo.github.io/Wodel-Test" class="btn">Wodel-Test</a>
@@ -49,44 +49,33 @@
 
     <section class="main-content">
 <h3 id="wodel">Wodel: a domain-specific language for model mutation</h3>
-      <p><strong>Wodel</strong> is a Domain-Specific Language for the specification and generation of model mutants.</p>
+      <p><strong>Wodel</strong> is a domain-specific language (DSL) for specifying and generating model mutants.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Wodel is <strong>domain-independent</strong>, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
+<p style="text-align: justify; text-justify: inter-word;">Wodel is <strong>independent of any particular modelling domain</strong>. It can generate mutants of models that conform to any metamodel.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Wodel provides <strong>nine mutation primitives</strong> for object creation and deletion,
-reference redirection, attribute modification, cloning, and retyping (changing the type of an object to one of its sibling types), among others.</p>
+<p style="text-align: justify; text-justify: inter-word;">Wodel provides <strong>nine mutation primitives</strong>, including object creation and deletion, reference redirection, attribute modification, cloning and retyping (changing an object's type to one of its sibling types).</p>
 
-<p style="text-align: justify; text-justify: inter-word;">The engine <strong>verifies that each generated mutant is a valid model</strong> (i.e., it
-conforms to the domain meta-model and satisfies its integrity constraints).</p>
+<p style="text-align: justify; text-justify: inter-word;">For every generated mutant, the engine <strong>checks that the result is a valid model</strong>: it must conform to the domain metamodel and satisfy its integrity constraints.</p>
 
 <h3 id="enhanced-mutation-features">Enhanced mutation features</h3>
 
-<p style="text-align: justify; text-justify: inter-word;">Wodel includes a <strong>mechanism to identify and avoid the generation of duplicated
-mutants</strong>. By default, mutant equivalence is syntactic, but users can provide their own equivalence criteria (e.g., behavioural) through 
-extension points.</p>
+<p style="text-align: justify; text-justify: inter-word;">Wodel can <strong>detect and avoid duplicate mutants</strong>. By default, equivalence is determined syntactically, although users can define their own criteria—for example, behavioural equivalence—through extension points.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">The execution of a Wodel program generates a <strong>registry of the applied
-mutations</strong> and the objects affected by them. </p>
+<p style="text-align: justify; text-justify: inter-word;">When a Wodel program is executed, Wodel <strong>records the mutations applied</strong> and the model objects affected.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">The IDE provides <strong>several metrics</strong> that can help in assessing whether a set
-of mutations is complete or has been correctly implemented.</p>
+<p style="text-align: justify; text-justify: inter-word;">The IDE provides <strong>several metrics</strong> for assessing whether a mutation set is complete and correctly implemented.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">To facilitate the testing of Wodel programs, the IDE also permits the
-<strong>automatic synthesis of seed models</strong>.</p>
+<p style="text-align: justify; text-justify: inter-word;">The IDE can also <strong>synthesise seed models automatically</strong>, which supports the testing of Wodel programs.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Its <strong>development environment is extensible</strong>, permitting the incorporation
-of <strong>post-processors</strong> for different applications.</p>
+<p style="text-align: justify; text-justify: inter-word;">The <strong>development environment is extensible</strong> and supports <strong>post-processors</strong> for different applications.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">To get started, see the <a href="https://github.com/gomezabajo/Wodel/wiki/Get-Started">Wodel tutorial</a>.</p>
+<p style="text-align: justify; text-justify: inter-word;">See the <a href="https://github.com/gomezabajo/Wodel/wiki/Get-Started">Wodel tutorial</a> to begin using the language.</p>
 
 <h3 id="current-wodel-extensions">Current Wodel extensions</h3>
 
-<p style="text-align: justify; text-justify: inter-word;">This repository contains two Wodel extensions. The first is the <strong>automated
-generation of exercises</strong> for particular domains (automata, class diagrams,
-electronic circuits, and so on), which we call <strong><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></strong>.</p>
+<p style="text-align: justify; text-justify: inter-word;">This repository contains two extensions to Wodel. The first, <strong><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu</a></strong>, <strong>automatically generates exercises</strong> for specific domains, such as automata, class diagrams and logic circuits.</p>
 
-<p>This is a sample Wodel program that mutates the target of a transition in a
-finite automaton model:</p>
+<p>The following Wodel program changes the target of a transition in a finite automaton model:</p>
 
 <pre><code>generate 2 mutants
 in "data/out/"
@@ -98,17 +87,15 @@ with commands {
 }
 </code></pre>
 
-<p>The second extension is the <strong>automated generation of mutation testing tools
-for modelling and programming languages</strong>, which we call
-<strong><a href="https://gomezabajo.github.io/Wodel-Test">Wodel-Test</a></strong>.</p>
+<p>The second extension, <strong><a href="https://gomezabajo.github.io/Wodel-Test">Wodel-Test</a></strong>, <strong>automatically generates mutation-testing tools for modelling and programming languages</strong>.</p>
 
 <h3 id="wodel-usage">Wodel usage</h3>
 
-<p style="text-align: justify; text-justify: inter-word;">You can specify when mutants are generated within a Wodel program using the <em>blocks</em> directive.</p>
+<p style="text-align: justify; text-justify: inter-word;">The <em>blocks</em> directive specifies when mutants are generated during the execution of a Wodel program.</p>
 
-<p style="text-align: justify; text-justify: inter-word;">You can also mutate the mutant models generated in a previous block, instead of the seed models.</p>
+<p style="text-align: justify; text-justify: inter-word;">A block can mutate models produced by an earlier block rather than the original seed models.</p>
 
-<p>Furthermore, you can specify OCL constraints that the generated mutants must satisfy:</p>
+<p>You can also define OCL constraints that every generated mutant must satisfy:</p>
 
 <pre><code>generate mutants
 in "data/out/"
@@ -132,39 +119,37 @@ constraints {
 
 <h3 id="demos">Video demos</h3>
 
-<p>This is a short video demo of the Wodel framework:</p>
+<p>The following short video introduces the Wodel framework:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0YRorOYPxCE" frameborder="0" allowfullscreen></iframe>
 
-<p>A video demonstration of mutation operator footprints in the Wodel tool:</p>
+<p>The following video demonstrates mutation-operator footprints in Wodel:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/AGLZYJeJYIA" frameborder="0" allowfullscreen></iframe>
 
-<p>A video demonstration of seed model synthesis in the Wodel tool:</p>
+<p>The following video demonstrates seed-model synthesis in Wodel:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JGby6NwlxyY" frameborder="0" allowfullscreen></iframe>
 
 <h3 id="authors-and-contributors">Authors and contributors</h3>
 
-<p>The Wodel research project was started by the <strong><a href="https://miso.es">miso</a></strong> research group in September 2013. In its initial stage, its main developer was <a href="https://es.linkedin.com/in/victor-lopez-rivero">V&iacute;ctor L&oacute;pez Rivero</a>. 
-Since March 2015, the project has been carried out by <strong><a href="https://www.gomezabajo.es">Pablo G&oacute;mez-Abajo</a></strong>, under the supervision of <a href="http://arantxa.ii.uam.es/~eguerra/">Esther Guerra</a> and <a href="http://arantxa.ii.uam.es/~jlara/">Juan de Lara</a>, 
-and, additionally, during his PhD studies, of <a href="https://antares.sip.ucm.es/mercedes/">Mercedes G. Merayo</a>.</p>
+<p>The <strong><a href="https://miso.es">MISO</a></strong> research group started the Wodel research project in September 2013. <a href="https://es.linkedin.com/in/victor-lopez-rivero">V&iacute;ctor L&oacute;pez Rivero</a> was its main developer during the initial phase. Since March 2015, <strong><a href="https://www.gomezabajo.es">Pablo G&oacute;mez-Abajo</a></strong> has developed the project under the supervision of <a href="http://arantxa.ii.uam.es/~eguerra/">Esther Guerra</a> and <a href="http://arantxa.ii.uam.es/~jlara/">Juan de Lara</a>. During his doctoral studies, <a href="https://antares.sip.ucm.es/mercedes/">Mercedes G. Merayo</a> also supervised his work.</p>
 
-<p>We would like to thank the developers of the following frameworks, which we have used to develop Wodel:</p>
+<p>We gratefully acknowledge the developers of the following frameworks used to build Wodel:</p>
 
 <ul>
-  <li><a href="https://www.eclipse.org/Xtext/" itemprop="url" title="xText"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/Xtext/">Xtext</a></strong>: Xtext tailors the development of programming languages and domain-specific languages. With Xtext you define your language using a powerful grammar language.</li>
-  <li><a href="https://www.eclipse.org/sirius/" itemprop="url" title="Sirius"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/sirius/">Sirius</a></strong>: Sirius allows you to easily create your own graphical modeling workbench by leveraging the Eclipse Modeling technologies, including EMF and GMF.</li>
-  <li><a href="https://www.eclipse.org/epsilon/" itemprop="url" title="Epsilon"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/epsilon/">Epsilon</a></strong>: Epsilon is a family of Java-based scripting languages for automating common model-based software engineering tasks, such as code generation, model-to-model transformation and model validation, that work out of the box with EMF (including Xtext and Sirius), UML (including Cameo/MagicDraw), Simulink, XML and other types of models.</li>
-  <li><a href="https://projects.eclipse.org/projects/modeling.mdt.ocl" itemprop="url" title="OCL Tools"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://projects.eclipse.org/projects/modeling.mdt.ocl">OCL Tools</a></strong>: Eclipse OCL is an implementation of the Object Constraint Language (OCL) OMG standard for EMF-based models.</li>
-  <li><a href="https://www.eclipse.org/acceleo/download.html" itemprop="url" title="Acceleo"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/acceleo/download.html">Acceleo</a></strong>: Acceleo is a template-based technology including authoring tools to create custom code generators. It allows you to automatically produce any kind of source code from any data source available in EMF format.</li>
-  <li><a href="https://projects.eclipse.org/projects/modeling.modisco" itemprop="url" title="MoDisco"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://projects.eclipse.org/projects/modeling.modisco">MoDisco</a></strong>: Eclipse MoDisco provides an extensible framework to elaborate on model-driven solutions supporting software reverse engineering and modernization use cases such as technical migration, software improvement, documentation generation, quality insurance, etc.</li>
-  <li><a href="https://www.eclipse.org/atl/" itemprop="url" title="ATL"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/atl/">ATL</a></strong>: ATL (ATL Transformation Language) is a model transformation language and toolkit. In the field of Model-Driven Engineering (MDE), ATL provides ways to produce a set of target models from a set of source models.</li>
-  <li><a href="https://anatlyzer.github.io/" itemprop="url" title="AnATLyzer"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://anatlyzer.github.io/">AnATLyzer</a></strong>: AnATLyzer is a powerful static analyser for ATL. It is available as an Eclipse plug-in which extends the ATL IDE with features to enhance developer productivity. </li>
-  <li><a href="https://emfjson.github.io/projects/jackson/latest/" itemprop="url" title="emfjson"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://emfjson.github.io/projects/jackson/latest/">emfjson</a></strong>: The emf-json project is actually an umbrella of projects that aim to provide support for the JSON format, and associated technologies, to the Eclipse Modeling Framework. It is an alternative to the default XML serialization format (XMI) used by default by the Eclipse Modeling Framework.</li>
+  <li><a href="https://www.eclipse.org/Xtext/" itemprop="url" title="xText"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/Xtext/">Xtext</a></strong>: Xtext supports the development of programming languages and domain-specific languages. A language is defined using its expressive grammar notation.</li>
+  <li><a href="https://www.eclipse.org/sirius/" itemprop="url" title="Sirius"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/sirius/">Sirius</a></strong>: Sirius supports the creation of graphical modelling workbenches based on Eclipse modelling technologies, including EMF and GMF.</li>
+  <li><a href="https://www.eclipse.org/epsilon/" itemprop="url" title="Epsilon"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/epsilon/">Epsilon</a></strong>: Epsilon is a family of Java-based scripting languages for automating common model-driven engineering tasks, including code generation, model-to-model transformation and model validation. It supports EMF (including Xtext and Sirius), UML (including Cameo/MagicDraw), Simulink, XML and other model formats.</li>
+  <li><a href="https://projects.eclipse.org/projects/modeling.mdt.ocl" itemprop="url" title="OCL Tools"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://projects.eclipse.org/projects/modeling.mdt.ocl">OCL Tools</a></strong>: Eclipse OCL implements the OMG Object Constraint Language (OCL) standard for EMF-based models.</li>
+  <li><a href="https://www.eclipse.org/acceleo/download.html" itemprop="url" title="Acceleo"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/acceleo/download.html">Acceleo</a></strong>: Acceleo is a template-based technology for creating custom code generators. It can generate source code automatically from data represented in EMF.</li>
+  <li><a href="https://projects.eclipse.org/projects/modeling.modisco" itemprop="url" title="MoDisco"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://projects.eclipse.org/projects/modeling.modisco">MoDisco</a></strong>: Eclipse MoDisco provides an extensible framework for model-driven software reverse engineering and modernisation. Its applications include technical migration, software improvement, documentation generation and quality assurance.</li>
+  <li><a href="https://www.eclipse.org/atl/" itemprop="url" title="ATL"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://www.eclipse.org/atl/">ATL</a></strong>: ATL (ATL Transformation Language) is a model-transformation language and toolkit. It transforms one or more source models into one or more target models.</li>
+  <li><a href="https://anatlyzer.github.io/" itemprop="url" title="AnATLyzer"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://anatlyzer.github.io/">AnATLyzer</a></strong>: AnATLyzer is a static analyser for ATL. This Eclipse plug-in extends the ATL IDE with features that support developer productivity. </li>
+  <li><a href="https://emfjson.github.io/projects/jackson/latest/" itemprop="url" title="emfjson"><img style="vertical-align:middle" src="images/plugins.png" width="20" height="20"></img></a>&nbsp;<strong><a href="https://emfjson.github.io/projects/jackson/latest/">emfjson</a></strong>: The emf-json family of projects adds support for JSON and related technologies to the Eclipse Modeling Framework. It provides an alternative to EMF's default XMI serialisation format.</li>
 </ul>
 
-<h3 id="related-publications">Related Publications</h3>
+<h3 id="related-publications">Related publications</h3>
 
 <ol reversed>
   <li><a href="https://biblioteca.sistedes.es/dspace.server/api/core/bitstreams/3a7a11eb-c47b-4d38-88e6-48cfcdf28058/content" itemprop="url" title="Generaci&oacute;n y evaluaci&oacute;n autom&oacute;tica de ejercicios de diagramas de clases UML con Wodel-EDU"><img style="vertical-align:middle" src="images/pdfIcon.png" width="20" height="20"></img></a>&nbsp;<strong><a style="color: DarkGray;" href="https://www.gomezabajo.es">G&oacute;mez-Abajo, P.</a></strong>, <a href="https://www.linkedin.com/in/lissettealmontegarcia/" style="color: DarkGray;">Almonte, L.</a>, <a href="https://es.linkedin.com/in/antonio-garmend%C3%ADa-62388b5b" style="color: DarkGray;">Garmendia, A.</a>, <a href="http://arantxa.ii.uam.es/~eguerra/" style="color: DarkGray;">Guerra, E.</a>, <a href="https://antares.sip.ucm.es/pablo/" style="color: DarkGray;">Ca&ntilde;izares, P. C.</a>, <a href="https://www.researchgate.net/profile/Sara-Perez-Soler-2" style="color: DarkGray;">P&eacute;rez-Soler, S.</a>, <a href="https://es.linkedin.com/in/daniellopezfernandez" style="color: DarkGray;">L&oacute;pez-Fern&aacute;ndez, D.</a>, <a href="https://bucchiarone.bitbucket.io/" style="color: DarkGray;">Bucchiarone, A.</a>, <a href="http://arantxa.ii.uam.es/~jlara/" style="color: DarkGray;">de Lara, J.</a>, 2025. <a href="https://biblioteca.sistedes.es/dspace.server/api/core/bitstreams/3a7a11eb-c47b-4d38-88e6-48cfcdf28058/content">Generaci&oacute;n y evaluaci&oacute;n autom&aacute;tica de ejercicios de diagramas de clases UML con Wodel-EDU</a>. In <em>Jornadas de Ingenier&iacute;a del Software y Bases de Datos (JISBD)</em>, C&oacute;rdoba.</li>
@@ -191,24 +176,24 @@ and, additionally, during his PhD studies, of <a href="https://antares.sip.ucm.e
 
 <h3 id="acknowledgements">Acknowledgements</h3>
 
-<p>This work has been funded by:</p>
+<p>This work received funding from the following projects:</p>
 
 <ol reversed>
-  <li><a href="#" itemprop="url" title="PID2021-122270OB-I00"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;PID2021-122270OB-I00, project "FINESSE". The Spanish Ministry of Science. 2022-2025.</li>
-  <li><a href="https://portalcientifico.uam.es/es/ipublic/item/9938951" itemprop="url" title="TED2021-129381B-C21"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TED2021-129381B-C21, project "<a href="https://portalcientifico.uam.es/es/ipublic/item/9938951">SATORI-UAM</a>". The Spanish State Research Agency. 2022-2024.</li>
-  <li><a href="https://lowcomote.eu/" itemprop="url" title="Marie Skłodowska Curie grant agreement n° 813884"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;Marie Skłodowska Curie grant agreement n° 813884, project "<a href="https://lowcomote.eu/">Lowcomote</a>". European Union. 2019-2023.</li>
-  <li><a href="https://antares.sip.ucm.es/forte-cm/" itemprop="url" title="P2018/TCS-4314"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>". R&D program of the Madrid Region. 2019-2023.</li>
-  <li><a href="#" itemprop="url" title="RTI2018-095255-B-I00"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;RTI2018-095255-B-I00, project "MASSIVE". The Spanish Ministry of Science. 2019-2022.</li>
-  <li><a href="#" itemprop="url" title="TIN2014-52129-R"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TIN2014-52129-R, project "Flexor". The Spanish Ministry of Economy. 2015-2018.</li>
-  <li><a href="https://antares.sip.ucm.es/sicomoro/" itemprop="url" title="S2013/ICE-3006"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;S2013/ICE-3006, project "<a href="https://antares.sip.ucm.es/sicomoro/">SICOMORo</a>". R&D program of the Madrid Region. 2014-2018.</li>
-  <li><a href="#" itemprop="url" title="TIN2011-24139"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TIN2011-24139, project "Go-Lite". The Spanish Ministry of Economy. 2012-2015.</li>
+  <li><a href="#" itemprop="url" title="PID2021-122270OB-I00"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;PID2021-122270OB-I00, project “FINESSE”, funded by the Spanish Ministry of Science (2022–2025).</li>
+  <li><a href="https://portalcientifico.uam.es/es/ipublic/item/9938951" itemprop="url" title="TED2021-129381B-C21"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TED2021-129381B-C21, project “<a href="https://portalcientifico.uam.es/es/ipublic/item/9938951">SATORI-UAM</a>”, funded by the Spanish State Research Agency (2022–2024).</li>
+  <li><a href="https://lowcomote.eu/" itemprop="url" title="Marie Skłodowska Curie grant agreement n° 813884"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;Marie Skłodowska-Curie grant agreement No 813884, project “<a href="https://lowcomote.eu/">Lowcomote</a>”, funded by the European Union (2019–2023).</li>
+  <li><a href="https://antares.sip.ucm.es/forte-cm/" itemprop="url" title="P2018/TCS-4314"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;P2018/TCS-4314, project “<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>”, funded by the R&amp;D programme of the Madrid Region (2019–2023).</li>
+  <li><a href="#" itemprop="url" title="RTI2018-095255-B-I00"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;RTI2018-095255-B-I00, project “MASSIVE”, funded by the Spanish Ministry of Science (2019–2022).</li>
+  <li><a href="#" itemprop="url" title="TIN2014-52129-R"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TIN2014-52129-R, project “Flexor”, funded by the Spanish Ministry of Economy (2015–2018).</li>
+  <li><a href="https://antares.sip.ucm.es/sicomoro/" itemprop="url" title="S2013/ICE-3006"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;S2013/ICE-3006, project “<a href="https://antares.sip.ucm.es/sicomoro/">SICOMORo</a>”, funded by the R&amp;D programme of the Madrid Region (2014–2018).</li>
+  <li><a href="#" itemprop="url" title="TIN2011-24139"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;TIN2011-24139, project “Go-Lite”, funded by the Spanish Ministry of Economy (2012–2015).</li>
 </ol>
 
       <footer class="site-footer">
 
-        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+        <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
     </section>

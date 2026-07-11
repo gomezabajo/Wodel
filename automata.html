@@ -39,7 +39,7 @@
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
 	  <a href="https://gomezabajo.github.io/Wodel/asple.html" class="btn">ASPLE Language</a>
 	  <a href="https://gomezabajo.github.io/Wodel/secpol.html" class="btn">Security Policies</a>
-	  <a href="https://gomezabajo.github.io/Wodel/pfsm.html" class="btn">Prob. Automata</a>
+	  <a href="https://gomezabajo.github.io/Wodel/pfsm.html" class="btn">Probabilistic Automata</a>
 	  <a href="https://gomezabajo.github.io/Wodel/umlcd.html" class="btn">UML Class Diagrams</a>
 	  <a href="https://gomezabajo.github.io/Wodel/bpel.html" class="btn">BPEL</a>
 	  <a href="https://gomezabajo.github.io/Wodel/bpmn.html" class="btn">BPMN</a>
@@ -48,9 +48,9 @@
     </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to finite automata. [<a href="https://gomezabajo.github.io/Wodel/ecore/DFAAutomaton.ecore">Finite Automata Ecore</a>]</strong></p>
+      <p><strong>This page presents Wodel examples for finite automata. The corresponding metamodel is available here: <a href="https://gomezabajo.github.io/Wodel/ecore/DFAAutomaton.ecore">Finite Automata Ecore</a>.</strong></p>
 
-<p><u>Mutations that change the language.</u></p>
+<p><u>Mutations that change the accepted language</u></p>
 
 <p>Creates a transition [<a href="https://gomezabajo.github.io/Wodel/zip/automata/ctr.zip">ctr</a>]:</p>
 
@@ -63,7 +63,7 @@
      create Transition with {tar = s, symbol = one Symbol}
 </code></pre>
 
-<p>Creates a connected state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/ccs.zip">ccs</a>]:</p>
+<p>Creates a state connected to the existing automaton [<a href="https://gomezabajo.github.io/Wodel/zip/automata/ccs.zip">ccs</a>]:</p>
 
 <pre><code>     s = create State with {name = random-string(1, 4)}
      t = create Transition with {tar = s, symbol = one Symbol}
@@ -74,7 +74,7 @@
 <pre><code>     remove one Transition
 </code></pre>
 
-<p>Deletes a state and its adjacent transitions [<a href="https://gomezabajo.github.io/Wodel/zip/automata/dst.zip">dst</a>]:</p>
+<p>Deletes a state and its incident transitions [<a href="https://gomezabajo.github.io/Wodel/zip/automata/dst.zip">dst</a>]:</p>
 
 <pre><code>     remove one State where {isInitial = false}
      remove all Transition where {src = null}
@@ -86,18 +86,18 @@
 <pre><code>     modify target symbol from one Transition to other Symbol
 </code></pre>
 
-<p>Changes a final state to non-final [<a href="https://gomezabajo.github.io/Wodel/zip/automata/mfs.zip">mfs</a>]:</p>
+<p>Changes a final state into a non-final state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/mfs.zip">mfs</a>]:</p>
 
 <pre><code>     modify one State where {isFinal = true} with {reverse(isFinal)}
 </code></pre>
 
-<p>Changes the initial state to a different one [<a href="https://gomezabajo.github.io/Wodel/zip/automata/mis.zip">mis</a>]:</p>
+<p>Replaces the initial state with a different state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/mis.zip">mis</a>]:</p>
 
 <pre><code>     s0 = modify one State where {isInitial = true} with {isInitial = false}
      s1 = modify one State where {self <> s0} with {isInitial = true}
 </code></pre>
 
-<p>Swaps the direction of a transition [<a href="https://gomezabajo.github.io/Wodel/zip/automata/sdt.zip">sdt</a>]:</p>
+<p>Reverses the direction of a transition [<a href="https://gomezabajo.github.io/Wodel/zip/automata/sdt.zip">sdt</a>]:</p>
 
 <pre><code>     modify one Transition with {swapref(src, tar)}
 </code></pre>
@@ -108,46 +108,46 @@
      modify one Transition where {self <> t and src = t->src} with {swapref(symbol, t->symbol)}
 </code></pre>
 
-<p>Redirects a transition to a new final state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/rts.zip">rts</a>]:</p>
+<p>Redirects a transition to a newly created final state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/rts.zip">rts</a>]:</p>
 
 <pre><code>     s = create State with {name = 'f', isFinal = true}
      modify target tar from one Transition to s
 </code></pre>
 
-<p>Combination of adding a new transition and changing the initial state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/ctr_mis.zip">ctr_mis</a>]:</p>
+<p>Adds a new transition and changes the initial state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/ctr_mis.zip">ctr_mis</a>]:</p>
 
 <pre><code>     s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
      s1 = modify one State where {self <> s0} with {isInitial = true}
      create Transition with {src = s1, tar = s0, symbol = one Symbol}
 </code></pre>
 
-<p><u>Mutations that produce a non-deterministic automaton.</u></p>
+<p><u>Mutations that make the automaton non-deterministic</u></p>
 
-<p>Creates a lambda-transition [<a href="https://gomezabajo.github.io/Wodel/zip/automata/clt.zip">clt</a>]:</p>
+<p>Creates a lambda transition [<a href="https://gomezabajo.github.io/Wodel/zip/automata/clt.zip">clt</a>]:</p>
 
 <pre><code>     create Transition
 </code></pre>
 
-<p>Creates a transition with the same symbol from a state to a different one [<a href="https://gomezabajo.github.io/Wodel/zip/automata/cst.zip">cst</a>]:</p>
+<p>Creates another transition with the same symbol from a state to a different target state [<a href="https://gomezabajo.github.io/Wodel/zip/automata/cst.zip">cst</a>]:</p>
 
 <pre><code>     t = select one Transition where {symbol <> null}
      create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
 </code></pre>
 
-<p>You can download all of these examples of Wodel applied to finite automata here.<br />
-	  <a href="https://github.com/gomezabajo/Wodel/zipball/DFAWodelSamples">DFA samples .zip</a><br />
-	  <a href="https://github.com/gomezabajo/Wodel/tarball/DFAWodelSamples">DFA samples .tar.gz</a>
+<p>Download all the Wodel examples for finite automata here.<br />
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/DFAWodelSamples">DFA samples (ZIP)</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/DFAWodelSamples">DFA samples (TAR.GZ)</a>
 </p>
 	
 <h3 id="acknowledgements">Acknowledgements</h3>
 
-<p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>
+<p>This work was funded by the Spanish Ministry of Science through project “MASSIVE” (RTI2018-095255-B-I00), and by the R&amp;D programme of the Madrid Region through project “<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>” (P2018/TCS-4314).</p>
 
       <footer class="site-footer">
 
-        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+        <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
     </section>

@@ -39,7 +39,7 @@
 	  <a href="https://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
 	  <a href="https://gomezabajo.github.io/Wodel/asple.html" class="btn">ASPLE Language</a>
 	  <a href="https://gomezabajo.github.io/Wodel/secpol.html" class="btn">Security Policies</a>
-	  <a href="https://gomezabajo.github.io/Wodel/pfsm.html" class="btn">Prob. Automata</a>
+	  <a href="https://gomezabajo.github.io/Wodel/pfsm.html" class="btn">Probabilistic Automata</a>
 	  <a href="https://gomezabajo.github.io/Wodel/umlcd.html" class="btn">UML Class Diagrams</a>
 	  <a href="https://gomezabajo.github.io/Wodel/bpel.html" class="btn">BPEL</a>
 	  <a href="https://gomezabajo.github.io/Wodel/bpmn.html" class="btn">BPMN</a>
@@ -49,21 +49,21 @@
 
     <section class="main-content">
 
-      <p><strong>Wodel applied to the ASPLE language. [<a href="https://gomezabajo.github.io/Wodel/ecore/Asple.ecore">ASPLE Language Ecore</a>]</strong></p>
+      <p><strong>This page presents Wodel examples for the ASPLE language. The corresponding metamodel is available here: <a href="https://gomezabajo.github.io/Wodel/ecore/Asple.ecore">ASPLE Language Ecore</a>.</strong></p>
 
-<p>Replaces an arithmetic operator with another [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rao.zip">rao</a>]:</p>
+<p>Replaces an arithmetic operator with a different arithmetic operator [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rao.zip">rao</a>]:</p>
 
 <pre><code>     modify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
             with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
 </code></pre>
 
-<p>Replaces a relational operator with another [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rro.zip">rro</a>]:</p>
+<p>Replaces a relational operator with a different relational operator [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rro.zip">rro</a>]:</p>
 
 <pre><code>     modify one BinaryOperator where {operator in ['less', 'equals', 'greater', 'distinct']}
             with {operator in ['less', 'equals', 'greater', 'distinct']}
 </code></pre>
 
-<p>Replaces a loop end condition with an infinite loop [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rli.zip">rli</a>]:</p>
+<p>Changes a loop termination condition so that the loop does not terminate [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rli.zip">rli</a>]:</p>
 
 <pre><code>     loop = select one Loop
      create Boolean in loop->expression with {value = true}
@@ -74,12 +74,12 @@
 <pre><code>     remove one Statement
 </code></pre>
 
-<p>Replaces the value of a scalar variable [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rsv.zip">rsv</a>]:</p>
+<p>Changes the value of a scalar variable [<a href="https://gomezabajo.github.io/Wodel/zip/asple/rsv.zip">rsv</a>]:</p>
 
 <pre><code>     modify one Integer with {value = random}
 </code></pre>
 
-<p>Increments an arithmetic expression by 1 [<a href="https://gomezabajo.github.io/Wodel/zip/asple/ia1.zip">ia1</a>]:</p>
+<p>Increases an arithmetic expression by one [<a href="https://gomezabajo.github.io/Wodel/zip/asple/ia1.zip">ia1</a>]:</p>
 
 <pre><code>     op = select one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
      exp = create BinaryOperator in op->right with {left = op->right, operator = 'add'}
@@ -87,21 +87,21 @@
 </code></pre>
 
 
-<p>You can download all of these examples of Wodel applied to the ASPLE language here.<br />
+<p>Download all the Wodel examples for the ASPLE language here.<br />
 
-	  <a href="https://github.com/gomezabajo/Wodel/zipball/ASPLEWodelSamples">ASPLE samples .zip</a><br />
-	  <a href="https://github.com/gomezabajo/Wodel/tarball/ASPLEWodelSamples">ASPLE samples .tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/ASPLEWodelSamples">ASPLE samples (ZIP)</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/ASPLEWodelSamples">ASPLE samples (TAR.GZ)</a>
 </p>
 
 <h3 id="acknowledgements">Acknowledgements</h3>
 
-<p>This work has been funded by the Spanish Ministry of Science (RTI2018-095255-B-I00, project "MASSIVE") and the R&D programme of Madrid (P2018/TCS-4314, project "<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>").</p>
+<p>This work was funded by the Spanish Ministry of Science through project “MASSIVE” (RTI2018-095255-B-I00), and by the R&amp;D programme of the Madrid Region through project “<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>” (P2018/TCS-4314).</p>
 
       <footer class="site-footer">
 
-        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+        <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
     </section>

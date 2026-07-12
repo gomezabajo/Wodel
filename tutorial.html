@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wodel Tutorial: Writing Your First Wodel Program</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/side-menu.css" media="screen">
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  </head>
+  <body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61793148-4"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-61793148-4');
+	</script>
+    <section class="page-header">
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel" style="color: #FFFFEE;"><img src="images/wodel.png" width="224" height="120"/><br />Wodel</a></h1>
+      <h2 class="project-tagline">Tutorial: How to Write a Wodel Program</h2>
+	  <a href="https://gomezabajo.github.io/Wodel" class="btn">Wodel</a>
+	  <a href="https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started" class="btn">Getting Started</a>
+	  <a href="https://gomezabajo.github.io/Wodel/samples.html" class="btn">Samples</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu.html" class="btn">Wodel-EDU</a>
+	  <a href="https://gomezabajo.github.io/Wodel-Test" class="btn">Wodel-Test</a>
+	  <a href="https://github.com/gomezabajo/Wodel" class="btn">View on GitHub</a>
+    </section>
+
+    <section class="main-content">
+
+<h3 id="introduction">Introduction</h3>
+
+<p style="text-align: justify; text-justify: inter-word;"><strong>Wodel</strong> is a domain-specific language (DSL) for specifying and generating model mutants. A Wodel program declares <em>which</em> models to mutate, <em>how many</em> mutants to produce, and <em>which mutations</em> to apply. This page is a hands-on tutorial that walks through every part of the language, from the program header to advanced features such as blocks, cloning, retyping and OCL constraints.</p>
+
+<p style="text-align: justify; text-justify: inter-word;">All the examples on this page use the <strong>finite automata</strong> metamodel also used in the <a href="https://gomezabajo.github.io/Wodel/samples.html">samples</a> pages. Its main classes are <code>Automaton</code>, <code>State</code> (with attributes <code>name</code>, <code>isInitial</code> and <code>isFinal</code>), <code>Transition</code> (with references <code>src</code>, <code>tar</code> and <code>symbol</code>) and <code>Symbol</code>. The metamodel is available here: <a href="https://gomezabajo.github.io/Wodel/ecore/DFAAutomaton.ecore">Finite Automata Ecore</a>.</p>
+
+<p><strong>Contents</strong></p>
+
+<ol>
+  <li><a href="#anatomy">Anatomy of a Wodel program</a></li>
+  <li><a href="#header">The program header</a></li>
+  <li><a href="#commands-blocks">Commands and blocks</a></li>
+  <li><a href="#selection">Selecting objects</a></li>
+  <li><a href="#where">Filtering with <code>where</code></a></li>
+  <li><a href="#primitives">The mutation primitives</a></li>
+  <li><a href="#with">Setting attributes and references</a></li>
+  <li><a href="#cardinality">Cardinalities</a></li>
+  <li><a href="#imports">Imports and libraries</a></li>
+  <li><a href="#constraints">Constraints</a></li>
+  <li><a href="#complete-example">A complete example</a></li>
+</ol>
+
+<h3 id="anatomy">1. Anatomy of a Wodel program</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Every Wodel program has the same overall shape: optional <strong>imports</strong>, a <strong>header</strong> that configures the generation, a <strong>body</strong> with the mutations (organised either as plain <em>commands</em> or as named <em>blocks</em>), and an optional <strong>constraints</strong> section:</p>
+
+<pre><code>import "..."                        // optional: reuse mutations from other files
+
+generate 3 mutants                  // header: how many mutants...
+in "data/out/"                      // ...where to store them...
+from "data/model/"                  // ...which seed models to mutate...
+metamodel "http://dfaAutomaton/1.0" // ...and the domain metamodel
+
+with commands {                     // body: the mutations to apply
+     modify target tar from one Transition to other State
+}
+
+constraints {                       // optional: well-formedness rules
+     context State connected: "..."
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Read it as a sentence: <em>"generate 3 mutants in this folder, from these seed models, conforming to this metamodel, with these mutation commands"</em>. The following sections explain each part in detail.</p>
+
+<h3 id="header">2. The program header</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The header opens with the keyword <code>generate</code> and admits the following elements:</p>
+
+<pre><code>generate (&lt;number&gt; | exhaustive)? mutants
+in &lt;output-folder&gt;
+from &lt;seed-model-or-folder&gt;
+metamodel &lt;metamodel-URI&gt;
+(with resources from { &lt;name&gt; = &lt;path&gt; metamodel = &lt;URI&gt; } , ...)?
+(description &lt;text&gt;)?
+</code></pre>
+
+<ul>
+  <li><strong><code>generate 3 mutants</code></strong> produces exactly three mutants of each seed model.</li>
+  <li><strong><code>generate mutants</code></strong> (no number) produces one mutant per mutation opportunity.</li>
+  <li><strong><code>generate exhaustive mutants</code></strong> systematically applies the mutations in every possible way.</li>
+  <li><strong><code>in</code></strong> is the output folder where the mutants are stored.</li>
+  <li><strong><code>from</code></strong> is either a single seed model (e.g. <code>"data/model/exercise1.model"</code>) or a folder (e.g. <code>"data/model/"</code>), in which case every model inside it is mutated.</li>
+  <li><strong><code>metamodel</code></strong> is the URI of the domain metamodel that the seed models — and every generated mutant — must conform to.</li>
+  <li><strong><code>with resources from</code></strong> registers additional, named model resources whose objects can be reused by the mutations (see <a href="#selection">object selection</a>).</li>
+  <li><strong><code>description</code></strong> attaches a human-readable description to the program.</li>
+</ul>
+
+<p>A header using external resources looks like this:</p>
+
+<pre><code>generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "http://dfaAutomaton/1.0"
+with resources from { alphabet = "data/resources/symbols.model" metamodel = "http://dfaAutomaton/1.0" }
+</code></pre>
+
+<h3 id="commands-blocks">3. Commands and blocks</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The body of a program comes in one of two flavours. The simplest is <strong><code>with commands { ... }</code></strong>: a flat list of mutations, applied to the seed models.</p>
+
+<pre><code>with commands {
+     modify target tar from one Transition to other State
+     remove one Transition
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The alternative is <strong><code>with blocks { ... }</code></strong>, which organises the mutations into named stages and specifies <em>when</em> mutants are generated during the execution of the program. Each block has this structure:</p>
+
+<pre><code>&lt;name&gt; (&lt;description&gt;)? (from &lt;block&gt; (, &lt;block&gt;)*)? (repeat = yes|no)? {
+     &lt;mutations&gt;
+} ([&lt;number&gt;] | [&lt;min&gt;..&lt;max&gt;])?
+</code></pre>
+
+<ul>
+  <li><strong><code>from</code></strong> makes a block mutate the mutants produced by one or more earlier blocks, instead of the original seed models. This allows chaining mutation stages.</li>
+  <li><strong><code>repeat = yes|no</code></strong> controls whether the block may be applied repeatedly.</li>
+  <li>The optional trailing <strong>cardinality</strong> states how many mutants the block generates.</li>
+</ul>
+
+<p>The following program generates mutants in two stages: the <code>second</code> block mutates the models produced by the <code>first</code> block:</p>
+
+<pre><code>generate mutants
+in "data/out/"
+from "data/model/exercise1.model"
+metamodel "http://dfaAutomaton/1.0"
+
+with blocks {
+    first {
+         modify target tar from one Transition to other State [3]
+    } [2]
+    second from first repeat=no {
+         modify one State with { name = random-string(4,6) }
+    } [3]
+}
+</code></pre>
+
+<h3 id="selection">4. Selecting objects</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Almost every mutation needs to say <em>which object(s)</em> it operates on. Wodel provides a small set of <strong>object selection strategies</strong> that appear again and again throughout the language:</p>
+
+<ul>
+  <li><strong><code>one State</code></strong> — a <em>randomly</em> selected object of type <code>State</code>.</li>
+  <li><strong><code>one [State, Transition]</code></strong> — a random object of any of the listed types.</li>
+  <li><strong><code>all State</code></strong> — <em>every</em> object of type <code>State</code>.</li>
+  <li><strong><code>other State</code></strong> — a random <code>State</code> <em>different</em> from the one currently involved in the mutation. This is the natural choice for redirecting references.</li>
+  <li><strong><code>s0</code></strong> — a <em>specific</em> object previously bound to a variable (see <a href="#select">select</a>).</li>
+  <li><strong><code>closure(s0)</code></strong> — the transitive closure of a previously selected object through a reference.</li>
+  <li><strong><code>typed State</code></strong> — objects whose type is <code>State</code>; it is mostly used inside <code>where</code> conditions (e.g. <code>relations is typed Association</code>).</li>
+  <li><strong><code>null</code></strong> — no object; useful to unset a reference or to test that a reference is empty.</li>
+</ul>
+
+<p style="text-align: justify; text-justify: inter-word;">Any selection can <strong>navigate references</strong> with the arrow operator <code>-&gt;</code> (up to three hops), which selects the object(s) reached through the given reference:</p>
+
+<pre><code>one Transition-&gt;src          // the source state of a random transition
+t0-&gt;src                      // the source state of the transition bound to t0
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">When the header declares external <strong>resources</strong>, a random selection can pick objects from them instead of from the seed model:</p>
+
+<pre><code>one Symbol from alphabet resources
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Finally, every selection accepts an optional <strong><code>where { ... }</code></strong> filter, described next.</p>
+
+<h3 id="where">5. Filtering with <code>where</code></h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The <code>where</code> clause restricts a selection to the objects satisfying a condition. A condition is a list of <em>evaluations</em> combined with <code>and</code> / <code>or</code>. There are two kinds of evaluations:</p>
+
+<p><u>Attribute conditions</u> compare an attribute with a value:</p>
+
+<pre><code>one State where {isInitial = true}
+one State where {name &lt;&gt; "q0"}
+one Transition where {probability &gt;= 0.5}
+one Class where {visibility in {public, private, protected, package}}
+one IntLiteralExpCS where {op in ['add', 'subtract', 'multiply', 'divide']}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The available comparison operators are <code>=</code>, <code>&lt;&gt;</code> (different), <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>in</code> (membership in a list), <code>is</code> and <code>not</code>. The compared value can also be an aggregate such as <code>min(attribute)</code> or <code>max(attribute)</code>, or an attribute of a previously selected object:</p>
+
+<pre><code>t0 = select one Transition where {probability = min(probability)}
+</code></pre>
+
+<p><u>Reference conditions</u> compare a reference — or the special keywords <code>self</code> (the candidate object itself) and <code>container</code> (its container) — with another object selection or with <code>null</code>:</p>
+
+<pre><code>remove all Transition where {src = null}
+one State where {self &lt;&gt; s0}
+one Transition where {self &lt;&gt; t0 and src = t0-&gt;src}
+one ClassDiagram where {relations is typed Association}
+</code></pre>
+
+<h3 id="primitives">6. The mutation primitives</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Wodel provides <strong>nine mutation primitives</strong>: object creation, object deletion, reference creation, reference deletion, reference redirection (source and target), feature modification, object cloning and object retyping. Together with object selection and composite mutations, they cover the mutations found in the mutation-testing literature. Each primitive is presented below with its syntax skeleton and an example. In every skeleton, <code>&lt;selection&gt;</code> stands for any of the strategies of <a href="#selection">Section 4</a>, and the optional trailing <code>[&lt;cardinality&gt;]</code> is explained in <a href="#cardinality">Section 8</a>.</p>
+
+<p><u>6.1. Object creation — <code>create</code></u></p>
+
+<pre><code>(&lt;var&gt; =)? create &lt;Type&gt; (in &lt;selection&gt;)? (with { &lt;initialisations&gt; })? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Creates a new object of the given type, optionally inside a specific container, and optionally initialising its attributes and references (see <a href="#with">Section 7</a>). The result can be bound to a variable for later use:</p>
+
+<pre><code>s = create State with {isFinal = true}
+create Transition with {tar = s, symbol = one Symbol}
+</code></pre>
+
+<p><u>6.2. Object deletion — <code>remove</code></u></p>
+
+<pre><code>remove &lt;selection&gt; (from &lt;selection&gt;)? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<pre><code>remove one State where {isInitial = false}
+remove all Transition where {src = null}
+</code></pre>
+
+<p><u>6.3. Reference creation — <code>create reference</code></u></p>
+
+<pre><code>(&lt;var&gt; =)? create reference &lt;ref&gt; (to &lt;selection&gt;)? (in &lt;selection&gt;)? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p>Creates a new reference of the given kind, from the object selected with <code>in</code> to the object selected with <code>to</code>:</p>
+
+<pre><code>create reference symbol to one Symbol in one Transition
+</code></pre>
+
+<p><u>6.4. Reference deletion — <code>remove reference</code></u></p>
+
+<pre><code>remove one reference &lt;ref&gt; in &lt;Type&gt; ([&lt;cardinality&gt;])?   // a random reference
+remove reference &lt;ref&gt; in &lt;selection&gt; ([&lt;cardinality&gt;])?  // in a specific object
+remove all reference &lt;ref&gt; in &lt;Type&gt;                       // every such reference
+</code></pre>
+
+<pre><code>remove one reference symbol in Transition
+</code></pre>
+
+<p><u>6.5. Reference redirection — <code>modify source</code> / <code>modify target</code></u></p>
+
+<pre><code>modify source &lt;ref&gt; (from &lt;selection&gt;)? (to &lt;selection&gt;)? ([&lt;cardinality&gt;])?
+modify target &lt;ref&gt; (from &lt;selection&gt;)? (to &lt;selection&gt;)? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Redirects the source or target end of a reference. The <code>from</code> selection identifies the reference owner, and <code>to</code> gives the new end. This is the mutation of the classical example on the <a href="https://gomezabajo.github.io/Wodel">home page</a>:</p>
+
+<pre><code>modify target tar from one Transition to other State
+</code></pre>
+
+<p><u>6.6. Feature modification — <code>modify</code></u></p>
+
+<pre><code>(&lt;var&gt; =)? modify &lt;selection&gt; (with { &lt;changes&gt; })? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p>Modifies the attributes and references of the selected object(s), using the constructs of <a href="#with">Section 7</a>:</p>
+
+<pre><code>s0 = modify one State where {isInitial = true} with {isInitial = false}
+s1 = modify one State where {self &lt;&gt; s0} with {isInitial = true}
+</code></pre>
+
+<p><u id="select">6.7. Object selection — <code>select</code></u></p>
+
+<pre><code>&lt;var&gt; = select &lt;selection&gt; (in &lt;selection&gt;)?
+&lt;var&gt; = select sample from &lt;selection&gt; (with (equals | distinct) { &lt;features&gt; })?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;"><code>select</code> binds an object to a variable without mutating it, so that later mutations can refer to it. Its <code>select sample</code> variant picks a set of objects whose listed features are all <code>equals</code> or all <code>distinct</code>:</p>
+
+<pre><code>t0 = select one Transition where {probability = min(probability)}
+t1 = select one Transition where {self &lt;&gt; t0 and src = t0-&gt;src}
+sts = select sample from all State with distinct { name }
+</code></pre>
+
+<p><u>6.8. Object cloning — <code>clone</code></u></p>
+
+<pre><code>(&lt;var&gt; =)? (deep)? clone &lt;selection&gt; (in &lt;selection&gt;)? (with { &lt;changes&gt; })? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Clones the selected object, optionally placing the copy in a given container and modifying its features. The <code>deep</code> modifier also clones the contained objects:</p>
+
+<pre><code>clone one State with {name = catend("_copy")}
+deep clone one Automaton
+</code></pre>
+
+<p><u>6.9. Object retyping — <code>retype</code></u></p>
+
+<pre><code>(&lt;var&gt; =)? retype &lt;selection&gt; (in &lt;selection&gt;)? as (&lt;Type&gt; | [&lt;Type&gt;, ...]) (with { &lt;changes&gt; })? ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Changes the type of an object to one of its sibling types (i.e. types sharing a common superclass), preserving its compatible features. If a list of types is given, one is chosen at random:</p>
+
+<pre><code>retype one Class as AssociationClass
+retype one [Association, Aggregation, Composition, Dependency]
+</code></pre>
+
+<p><u>6.10. Composite mutations</u></p>
+
+<pre><code>(&lt;var&gt; =)? [ &lt;mutation&gt; &lt;mutation&gt; ... ] ([&lt;cardinality&gt;])?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">A composite mutation groups several mutations between square brackets so they are applied together as a unit, optionally with a shared cardinality:</p>
+
+<pre><code>[
+     s = create State with {isFinal = true}
+     create Transition with {tar = s, symbol = one Symbol}
+] [1..2]
+</code></pre>
+
+<h3 id="with">7. Setting attributes and references — the <code>with { ... }</code> clause</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The <code>with { ... }</code> clause of <code>create</code>, <code>modify</code>, <code>clone</code> and <code>retype</code> holds a comma-separated list of attribute and reference changes.</p>
+
+<p><u>Attribute values</u></p>
+
+<p>The right-hand side of an attribute assignment can be:</p>
+
+<ul>
+  <li><strong>A literal</strong>: <code>isFinal = true</code>, <code>name = "q0"</code>, <code>counter = 3</code>, <code>probability = 0.5</code>.</li>
+  <li><strong>A value from a list</strong>, chosen at random: <code>op in ['add', 'subtract', 'multiply', 'divide']</code> for strings, or <code>visibility in {public, private, protected, package}</code> for enumeration literals.</li>
+  <li><strong>A random value</strong>:
+    <ul>
+      <li><code>name = random-string(1, 4)</code> — a random string between 1 and 4 characters long;</li>
+      <li><code>counter = random-int(0, 10)</code> — a random integer in the given range;</li>
+      <li><code>probability = random-double(0.0, 1.0)</code> — a random double in the given range;</li>
+      <li><code>id = random-int-string(1, 4)</code> — a random numeric string;</li>
+      <li><code>isFinal = random-boolean</code> — a random boolean;</li>
+      <li><code>probability = random(0.0, t0.probability)</code> — a random number bounded by another object's attribute;</li>
+      <li><code>value = random</code> — a random value of the attribute's type.</li>
+    </ul>
+  </li>
+  <li><strong>A string transformation</strong> of the current value: <code>name = upper</code>, <code>name = lower</code>, <code>name = catstart("pre_")</code>, <code>name = catend("_post")</code>, <code>name = replace("old", "new")</code>.</li>
+  <li><strong>An aggregate</strong> over the attribute: <code>probability = min(probability)</code>, <code>probability = max(probability)</code>.</li>
+  <li><strong>Another object's attribute</strong>: <code>name = s0.name</code>.</li>
+</ul>
+
+<p><u>Attribute helpers</u></p>
+
+<p>Besides plain assignment, four helper operations are available:</p>
+
+<pre><code>unset(name)                 // clears the attribute
+reverse(isFinal)            // flips a boolean attribute
+swap(name, s0.name)         // exchanges two attribute values
+copy(name, s0.name)         // copies an attribute value
+</code></pre>
+
+<p><u>Arithmetic updates</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">Numeric attributes can be updated in place with the arithmetic operators <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code>, as in the probabilistic automata <a href="https://gomezabajo.github.io/Wodel/pfsm.html">samples</a>:</p>
+
+<pre><code>modify t1 with {probability += random(0.0, t0.probability)}
+modify t2 with {probability -= t1.probability}
+</code></pre>
+
+<p><u>Reference changes</u></p>
+
+<pre><code>tar = s                     // sets the reference to a selected object
+states += s                 // adds an object to a multi-valued reference
+states -= s                 // removes an object from a multi-valued reference
+swapref(src, tar)           // exchanges two references
+unsetref(symbol)            // clears the reference
+symbol.name = "a"           // sets an attribute of the referenced object
+</code></pre>
+
+<p>For example, the following mutation reverses the direction of an association by swapping its ends:</p>
+
+<pre><code>modify one Association with {swapref(src, tar)}
+</code></pre>
+
+<h3 id="cardinality">8. Cardinalities</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Most mutations, composites and blocks accept a trailing cardinality between square brackets, stating how many times they are applied (or, for blocks, how many mutants they generate):</p>
+
+<pre><code>remove one Transition [2]        // applied exactly twice
+create Transition [1..3]         // applied between one and three times
+remove one Transition [1..*]     // applied one or more times
+</code></pre>
+
+<h3 id="imports">9. Imports and libraries</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Wodel supports the modular reuse of mutations. A file can be declared as a <strong>library</strong> — a collection of mutations for a metamodel, without a generation header:</p>
+
+<pre><code>library for metamodel "http://dfaAutomaton/1.0"
+
+with commands {
+     modify target tar from one Transition to other State
+}
+</code></pre>
+
+<p>Other programs can then reuse it with an <strong><code>import</code></strong> statement placed before the header:</p>
+
+<pre><code>import "automata-mutations.mutator"
+
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "http://dfaAutomaton/1.0"
+
+with commands {
+     remove one Transition
+}
+</code></pre>
+
+<h3 id="constraints">10. Constraints</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">For every generated mutant, the Wodel engine checks that the result is a valid model: it must conform to the domain metamodel and satisfy its integrity constraints. In addition, the optional <strong><code>constraints { ... }</code></strong> section at the end of the program lets you define extra well-formedness rules that every mutant must satisfy. Each rule declares a <em>context</em> type, an identifier, and either an OCL-like expression (introduced by <code>:</code>) or the name of a Java class implementing the check (introduced by <code>::</code>):</p>
+
+<pre><code>constraints {
+    context State connected: "isInitial or Set{self}-&gt;
+            closure(s | Transition.allInstances()-&gt;
+            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
+    context Automaton deterministic:: "AutomatonChecker"
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The expression language is a compact OCL subset. Expressions navigate features with <code>.</code> and collections with <code>-&gt;</code>, compare values with <code>=</code> and <code>&lt;&gt;</code>, combine conditions with <code>and</code> / <code>or</code>, and support the iterators <code>collect</code>, <code>exists</code>, <code>forAll</code> and <code>iterate</code> (with accumulator variables introduced by <code>$</code>). Mutants violating a constraint are discarded.</p>
+
+<h3 id="complete-example">11. A complete example</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">The following program brings everything together. It generates up to three mutants of an automaton model in two chained blocks, keeps a variable across mutations, and enforces that every state remains reachable:</p>
+
+<pre><code>generate mutants
+in "data/out/"
+from "data/model/exercise1.model"
+metamodel "http://dfaAutomaton/1.0"
+description "Mutations for automata exercises"
+
+with blocks {
+    structure "changes the accepted language" {
+         modify target tar from one Transition to other State
+         s = create State with {isFinal = true, name = random-string(1, 4)}
+         create Transition with {tar = s, symbol = one Symbol}
+    } [2]
+    naming "renames states" from structure repeat=no {
+         modify one State with {name = random-string(4, 6)}
+    } [3]
+}
+constraints {
+    context State connected: "isInitial or Set{self}-&gt;
+            closure(s | Transition.allInstances()-&gt;
+            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Step by step: the <code>structure</code> block redirects a transition and adds a new final state reachable through a fresh transition, producing two mutants; the <code>naming</code> block takes those mutants and renames a random state in each, producing three further mutants each; and the constraint discards any mutant containing an unreachable state.</p>
+
+<h3 id="next-steps">Where to go next</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">To start using Wodel in Eclipse — installing the plug-ins, creating a Wodel project and running your first program — follow the <a href="https://github.com/gomezabajo/Wodel/wiki/1.-Get-Started">Getting Started guide</a>. For a large catalogue of realistic mutation operators for eight different domains, browse the <a href="https://gomezabajo.github.io/Wodel/samples.html">samples</a>. To learn about the applications built on top of Wodel, visit <a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-EDU</a> (automated exercise generation) and <a href="https://gomezabajo.github.io/Wodel-Test">Wodel-Test</a> (mutation-testing tool generation).</p>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+
+        <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+      <script src="javascripts/side-menu.js" defer></script>
+  </body>
+</html>

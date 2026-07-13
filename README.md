@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20ATL/">Website</a> &middot;
+  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20Chatbots/">Website</a> &middot;
   <a href="https://github.com/gomezabajo/Wodel-Test/wiki/Get-Started-with-Wodel%E2%80%90Test-Designer">Tutorial</a> &middot;
   <a href="https://github.com/gomezabajo/Wodel/issues">Report a bug</a>
 </p>

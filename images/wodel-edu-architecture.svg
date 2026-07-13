@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 880" font-family="'Open Sans','Segoe UI',Verdana,sans-serif">
+  <defs>
+    <linearGradient id="wodelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1565c0"/>
+      <stop offset="55%" stop-color="#0e8a9e"/>
+      <stop offset="100%" stop-color="#26a69a"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#46505c"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="880" fill="#ffffff"/>
+
+  <!-- Header band -->
+  <rect x="0" y="0" width="1200" height="64" fill="url(#wodelGrad)"/>
+  <text x="30" y="40" font-size="22" font-weight="700" fill="#ffffff">Wodel-EDU</text>
+  <text x="168" y="40" font-size="16" fill="#dff0f4">Architecture overview</text>
+
+  <!-- ══════════ Eclipse container ══════════ -->
+  <rect x="24" y="92" width="876" height="756" rx="10" fill="#f5f7f9" stroke="#d9e2ea" stroke-width="2"/>
+  <text x="44" y="122" font-size="15" font-weight="700" fill="#1976d2">Eclipse IDE</text>
+  <text x="132" y="122" font-size="12" fill="#6e7681">— EMF + Xtext · Wodel &amp; Wodel-EDU plugins</text>
+
+  <!-- ── Column A: inputs and DSLs ── -->
+  <!-- Domain meta-model -->
+  <rect x="48" y="150" width="216" height="58" rx="6" fill="#ffffff" stroke="#0e8a9e" stroke-width="1.5"/>
+  <text x="156" y="175" font-size="13.5" font-weight="700" fill="#3d434c" text-anchor="middle">Domain meta-model</text>
+  <text x="156" y="194" font-size="11" fill="#6e7681" text-anchor="middle">(.ecore)</text>
+
+  <!-- Seed models -->
+  <rect x="48" y="238" width="216" height="64" rx="6" fill="#ffffff" stroke="#0e8a9e" stroke-width="1.5"/>
+  <text x="156" y="264" font-size="13.5" font-weight="700" fill="#3d434c" text-anchor="middle">Seed models</text>
+  <text x="156" y="284" font-size="11" fill="#6e7681" text-anchor="middle">instances of the meta-model</text>
+
+  <!-- Seed model synthesiser -->
+  <rect x="48" y="332" width="216" height="54" rx="6" fill="#ffffff" stroke="#0e8a9e" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="156" y="354" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Seed Model Synthesiser</text>
+  <text x="156" y="372" font-size="11" fill="#6e7681" text-anchor="middle">automated generation</text>
+  <line x1="156" y1="332" x2="156" y2="306" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- DSL specifications -->
+  <rect x="48" y="430" width="216" height="272" rx="6" fill="#ffffff" stroke="#0e8a9e" stroke-width="1.5"/>
+  <text x="156" y="456" font-size="13.5" font-weight="700" fill="#3d434c" text-anchor="middle">DSL specifications</text>
+  <text x="156" y="473" font-size="11" fill="#6e7681" text-anchor="middle">(Xtext editors)</text>
+  <rect x="64" y="488" width="184" height="34" rx="17" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="156" y="510" font-size="13" font-weight="700" fill="#1976d2" text-anchor="middle">Wodel</text>
+  <rect x="64" y="530" width="184" height="34" rx="17" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="156" y="552" font-size="13" fill="#46505c" text-anchor="middle">eduTest</text>
+  <rect x="64" y="572" width="184" height="34" rx="17" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="156" y="594" font-size="13" fill="#46505c" text-anchor="middle">modelDraw</text>
+  <rect x="64" y="614" width="184" height="34" rx="17" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="156" y="636" font-size="13" fill="#46505c" text-anchor="middle">modelText</text>
+  <rect x="64" y="656" width="184" height="34" rx="17" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="156" y="678" font-size="13" fill="#46505c" text-anchor="middle">mutaText</text>
+
+  <!-- ── Column B: Wodel engine, mutants, preferences ── -->
+  <!-- Wodel engine -->
+  <rect x="316" y="150" width="248" height="200" rx="8" fill="#ffffff" stroke="#1976d2" stroke-width="2"/>
+  <text x="440" y="180" font-size="15" font-weight="700" fill="#1976d2" text-anchor="middle">Wodel engine</text>
+  <rect x="332" y="196" width="216" height="48" rx="5" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="440" y="225" font-size="12.5" fill="#3d434c" text-anchor="middle">Mutation operators execution</text>
+  <rect x="332" y="256" width="216" height="48" rx="5" fill="#e8f1fb" stroke="#d9e2ea"/>
+  <text x="440" y="285" font-size="12.5" fill="#3d434c" text-anchor="middle">Mutation registry</text>
+  <text x="440" y="330" font-size="10.5" font-style="italic" fill="#6e7681" text-anchor="middle">domain-independent model mutation</text>
+
+  <!-- Mutants artifact -->
+  <rect x="316" y="396" width="248" height="64" rx="6" fill="#fff3e0" stroke="#f57c00" stroke-width="1.5"/>
+  <text x="440" y="422" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Mutants + mutation registry</text>
+  <text x="440" y="442" font-size="10.5" fill="#6e7681" text-anchor="middle">mutated models conforming to the meta-model</text>
+
+  <!-- Preferences page -->
+  <rect x="316" y="560" width="248" height="64" rx="6" fill="#ffffff" stroke="#0e8a9e" stroke-width="1.5"/>
+  <text x="440" y="586" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Wodel-EDU preferences page</text>
+  <text x="440" y="606" font-size="10.5" fill="#6e7681" text-anchor="middle">mode · rendering engine · renderer path</text>
+
+  <!-- ── Column C: Wodel-EDU post-processor ── -->
+  <rect x="612" y="150" width="264" height="560" rx="8" fill="#ffffff" stroke="#00897b" stroke-width="2.5"/>
+  <text x="744" y="180" font-size="15" font-weight="700" fill="#00897b" text-anchor="middle">Wodel-EDU post-processor</text>
+  <text x="744" y="198" font-size="11" fill="#6e7681" text-anchor="middle">(Wodel post-processing extension)</text>
+
+  <!-- Rendering subsystem -->
+  <rect x="628" y="216" width="232" height="120" rx="5" fill="#f5f7f9" stroke="#d9e2ea"/>
+  <rect x="628" y="216" width="4" height="120" fill="#f57c00"/>
+  <text x="748" y="248" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Rendering subsystem</text>
+  <text x="748" y="274" font-size="11" fill="#6e7681" text-anchor="middle">draws the exercise diagrams</text>
+  <text x="748" y="292" font-size="11" fill="#6e7681" text-anchor="middle">as configured with modelDraw</text>
+
+  <!-- Textual representation subsystem -->
+  <rect x="628" y="356" width="232" height="120" rx="5" fill="#f5f7f9" stroke="#d9e2ea"/>
+  <rect x="628" y="356" width="4" height="120" fill="#f57c00"/>
+  <text x="748" y="388" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Textual representation</text>
+  <text x="748" y="406" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">subsystem</text>
+  <text x="748" y="430" font-size="11" fill="#6e7681" text-anchor="middle">verbalises models and mutations</text>
+  <text x="748" y="448" font-size="11" fill="#6e7681" text-anchor="middle">via modelText &amp; mutaText</text>
+
+  <!-- Platform generators -->
+  <rect x="628" y="496" width="232" height="120" rx="5" fill="#f5f7f9" stroke="#d9e2ea"/>
+  <rect x="628" y="496" width="4" height="120" fill="#f57c00"/>
+  <text x="748" y="528" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Platform generators</text>
+  <text x="748" y="554" font-size="11" fill="#6e7681" text-anchor="middle">synthesise the questionnaires and</text>
+  <text x="748" y="572" font-size="11" fill="#6e7681" text-anchor="middle">embed the automated correction</text>
+
+  <text x="744" y="662" font-size="10.5" font-style="italic" fill="#6e7681" text-anchor="middle">exercises configured with eduTest</text>
+  <text x="744" y="680" font-size="10.5" font-style="italic" fill="#6e7681" text-anchor="middle">and the preferences page</text>
+
+  <!-- ══════════ Right column: external ══════════ -->
+  <!-- External rendering engines -->
+  <rect x="928" y="216" width="248" height="166" rx="8" fill="#ffffff" stroke="#f57c00" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="1052" y="244" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">External rendering engines</text>
+  <rect x="948" y="260" width="208" height="30" rx="15" fill="#fff3e0" stroke="#d9e2ea"/>
+  <text x="1052" y="280" font-size="12.5" fill="#46505c" text-anchor="middle">Graphviz</text>
+  <rect x="948" y="298" width="208" height="30" rx="15" fill="#fff3e0" stroke="#d9e2ea"/>
+  <text x="1052" y="318" font-size="12.5" fill="#46505c" text-anchor="middle">Circuit Macros</text>
+  <rect x="948" y="336" width="208" height="30" rx="15" fill="#fff3e0" stroke="#d9e2ea"/>
+  <text x="1052" y="356" font-size="12.5" fill="#46505c" text-anchor="middle">PlantUML</text>
+
+  <!-- Deployment targets -->
+  <rect x="928" y="456" width="248" height="322" rx="8" fill="#ffffff" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="1052" y="484" font-size="13" font-weight="700" fill="#3d434c" text-anchor="middle">Deployment targets</text>
+  <rect x="948" y="502" width="208" height="44" rx="6" fill="#e8f5e9" stroke="#d9e2ea"/>
+  <text x="1052" y="520" font-size="12.5" font-weight="700" fill="#46505c" text-anchor="middle">Web application</text>
+  <text x="1052" y="537" font-size="10.5" fill="#6e7681" text-anchor="middle">www.wodel.eu</text>
+  <rect x="948" y="554" width="208" height="44" rx="6" fill="#e8f5e9" stroke="#d9e2ea"/>
+  <text x="1052" y="572" font-size="12.5" font-weight="700" fill="#46505c" text-anchor="middle">Moodle question bank</text>
+  <text x="1052" y="589" font-size="10.5" fill="#6e7681" text-anchor="middle">Moodle XML · automated correction</text>
+  <rect x="948" y="606" width="208" height="34" rx="6" fill="#e8f5e9" stroke="#d9e2ea"/>
+  <text x="1052" y="628" font-size="12.5" font-weight="700" fill="#46505c" text-anchor="middle">Android app</text>
+  <rect x="948" y="648" width="208" height="34" rx="6" fill="#e8f5e9" stroke="#d9e2ea"/>
+  <text x="1052" y="670" font-size="12.5" font-weight="700" fill="#46505c" text-anchor="middle">Apple iOS app</text>
+  <rect x="948" y="690" width="208" height="44" rx="6" fill="#e8f5e9" stroke="#d9e2ea"/>
+  <text x="1052" y="708" font-size="12.5" font-weight="700" fill="#46505c" text-anchor="middle">SGAME educational games</text>
+  <text x="1052" y="725" font-size="10.5" fill="#6e7681" text-anchor="middle">gamified exercises</text>
+
+  <!-- ══════════ Arrows ══════════ -->
+  <!-- meta-model → engine -->
+  <path d="M 264 179 L 312 195" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- seed models → engine -->
+  <path d="M 264 270 L 312 270" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Wodel DSL chip → engine (elbow up) -->
+  <path d="M 264 505 L 290 505 L 290 330 L 312 330" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- DSL specs → post-processor (route along bottom) -->
+  <path d="M 156 702 L 156 744 L 744 744 L 744 714" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="450" y="736" font-size="10.5" fill="#6e7681" text-anchor="middle">eduTest · modelDraw · modelText · mutaText</text>
+  <!-- engine → mutants -->
+  <path d="M 440 350 L 440 392" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- mutants → post-processor -->
+  <path d="M 564 428 L 608 428" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- preferences → post-processor -->
+  <path d="M 564 592 L 608 592" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- rendering subsystem → external engines -->
+  <path d="M 876 276 L 924 291" fill="none" stroke="#46505c" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+  <text x="900" y="266" font-size="10.5" fill="#6e7681" text-anchor="middle">invokes</text>
+  <!-- platform generators → deployment targets -->
+  <path d="M 876 556 L 924 570" fill="none" stroke="#46505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="900" y="546" font-size="10.5" fill="#6e7681" text-anchor="middle">generates</text>
+
+  <!-- Footer caption -->
+  <text x="600" y="868" font-size="11" fill="#6e7681" text-anchor="middle">Wodel-EDU: a model-driven engineering solution for exercise generation and evaluation — MISO, Universidad Autónoma de Madrid</text>
+</svg>

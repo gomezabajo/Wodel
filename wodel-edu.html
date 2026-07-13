@@ -176,8 +176,8 @@ Automaton: diagram {
 
 <img src="images/newWodelEdu2.png" alt="New Wodel-EDU project wizard: selection of the domain meta-model" style="max-width: 100%; height: auto;"/>
 
-<p><em>New Wodel-EDU project wizard. The domain meta-model provided at this step
-   defines the modelling language targeted by the generated exercises.</em></p>
+<p class="wk-figure-caption">New Wodel-EDU project wizard. The domain meta-model provided at this step
+   defines the modelling language targeted by the generated exercises.</p>
 
 <h4 id="step-2">2. Specify the mutations and the exercises with the Wodel-EDU DSLs</h4>
 
@@ -193,9 +193,9 @@ Automaton: diagram {
 
 <img src="images/wodelEduIDE.png" alt="Wodel-EDU IDE showing the specification of a project with its DSLs" style="max-width: 100%; height: auto;"/>
 
-<p><em>The Wodel-EDU IDE. The mutation operators, the graphical and textual
+<p class="wk-figure-caption">The Wodel-EDU IDE. The mutation operators, the graphical and textual
    representations, and the questionnaire configuration are specified with dedicated
-   DSLs supported by code completion and validation.</em></p>
+   DSLs supported by code completion and validation.</p>
 
 <h4 id="step-3">3. Provide or synthesise the seed models</h4>
 
@@ -208,9 +208,9 @@ Automaton: diagram {
 
 <img src="images/seedWizardWodelEdu.png" alt="Wodel-EDU seed model synthesis wizard" style="max-width: 100%; height: auto;"/>
 
-<p><em>Seed model synthesis wizard. Batteries of seed models conforming to the
+<p class="wk-figure-caption">Seed model synthesis wizard. Batteries of seed models conforming to the
    domain meta-model are generated automatically and stored in the model folder
-   of the project.</em></p>
+   of the project.</p>
 
 <h4 id="step-4">4. Generate the mutants and the exercises</h4>
 
@@ -223,8 +223,8 @@ Automaton: diagram {
 
 <img src="images/contextMenuWodelEdu.png" alt="Context menu to execute the mutations and generate the exercises" style="max-width: 100%; height: auto;"/>
 
-<p><em>Mutant and exercise generation. The exercises are derived automatically from
-   the generated mutants once the mutation process has ended.</em></p>
+<p class="wk-figure-caption">Mutant and exercise generation. The exercises are derived automatically from
+   the generated mutants once the mutation process has ended.</p>
 
 <h4 id="step-5">5. Configure the target platform</h4>
 
@@ -239,9 +239,9 @@ Automaton: diagram {
 
 <img src="images/wodelEduPreferences.png" alt="Wodel-EDU preferences page" style="max-width: 100%; height: auto;"/>
 
-<p><em>Wodel-EDU preferences page. The generation mode selects the target platform
+<p class="wk-figure-caption">Wodel-EDU preferences page. The generation mode selects the target platform
    of the questionnaires, and the modelDraw options configure the diagram
-   rendering engine.</em></p>
+   rendering engine.</p>
 
 <h4 id="step-6">6. Deploy, play and evaluate</h4>
 
@@ -256,9 +256,9 @@ Automaton: diagram {
 
 <img src="images/moodle_question_bank.png" alt="Question bank generated with Wodel-EDU imported into Moodle" style="max-width: 100%; height: auto;"/>
 
-<p><em>Question bank generated with Wodel-EDU, imported into a Moodle course. The
+<p class="wk-figure-caption">Question bank generated with Wodel-EDU, imported into a Moodle course. The
    generated questions embed the information required for their automated
-   correction.</em></p>
+   correction.</p>
 
 <h3 id="architecture">Architecture overview</h3>
 
@@ -293,6 +293,14 @@ Automaton: diagram {
    new exercise types, renderers or target platforms without modifying the
    mutation engine.</p>
 
+<img src="images/wodel-edu-architecture.svg" alt="Wodel-EDU architecture overview" style="max-width: 100%; height: auto;"/>
+
+<p class="wk-figure-caption">High-level architecture of Wodel-EDU. The Wodel engine mutates the seed
+   models according to the Wodel specification, and the Wodel-EDU post-processor
+   transforms the resulting mutants into exercises: the rendering and textual
+   representation subsystems produce the diagrams and verbalisations of the
+   questions, and the platform generators synthesise the final questionnaires
+   for the web, Moodle, Android, iOS and SGAME targets.</p>
 
 
 <h3 id="wodel-edu">Examples</h3>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wodel-EDU Tutorial: Writing a Wodel-EDU Specification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/side-menu.css" media="screen">
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  </head>
+  <body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61793148-4"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-61793148-4');
+	</script>
+    <section class="page-header">
+      <h1 class="project-name"><a href="https://gomezabajo.github.io/Wodel/wodel-edu.html" style="color: #FFFFEE;"><img src="images/wodelEdu.png" width="224" height="120"/><br />Wodel-EDU</a></h1>
+      <h2 class="project-tagline">Tutorial: How to Write a Wodel-EDU Specification</h2>
+      <a href="https://github.com/gomezabajo/Wodel" class="btn">View on GitHub</a>
+	  <a href="https://github.com/gomezabajo/Wodel/wiki/2.-Get-Started-with-Wodel-Edu" class="btn">Getting Started</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-video.html" class="btn">Wodel-EDU Video Demonstration</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-eval.html" class="btn">Wodel-EDU User Evaluation</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-sgame-eval.html" class="btn">Wodel-EDU and SGAME Evaluation</a>
+	  <a href="https://gomezabajo.github.io/Wodel/wodel-edu-samples.html" class="btn">Wodel-EDU Sample Exercises</a>
+	  <a href="https://gomezabajo.github.io/Wodel/tutorial.html" class="btn">Wodel Tutorial</a>
+	  <a href="https://gomezabajo.github.io/Wodel/update-site" class="btn">Update Site</a>
+      <a href="https://gomezabajo.github.io/Wodel/wodel-edu.html" class="btn">Wodel-EDU</a>
+      <a href="https://gomezabajo.github.io/Wodel" class="btn">Wodel</a>
+    </section>
+
+    <section class="main-content">
+
+<h3 id="introduction">Introduction</h3>
+
+<p style="text-align: justify; text-justify: inter-word;"><strong>Wodel-EDU</strong> extends <a href="https://gomezabajo.github.io/Wodel">Wodel</a> with the automated generation of educational exercises. A complete Wodel-EDU specification is written with a <strong>family of five DSLs</strong>, each in its own file within the project:</p>
+
+<ul>
+  <li><strong>Wodel</strong> (<code>.mutator</code>): defines the mutation operators, organised in <em>blocks</em>, that produce the incorrect variants of the seed models.</li>
+  <li><strong>eduTest</strong>: configures the questionnaire and defines the exercises, selecting the exercise type of each assignment and features such as navigation, reattempts, penalties or option ordering.</li>
+  <li><strong>modelDraw</strong> (optional): configures the graphical visualisation of the models, rendered with <a target="_blank" href="https://www.graphviz.org/">Graphviz</a>, <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> or <a target="_blank" href="https://plantuml.com">PlantUML</a>.</li>
+  <li><strong>modelText</strong> (optional): configures the textual representation of the model elements.</li>
+  <li><strong>mutaText</strong> (optional): configures the text that describes the applied mutations, used to build the options of the text-based exercises.</li>
+</ul>
+
+<p style="text-align: justify; text-justify: inter-word;">This page is a hands-on tutorial covering the four Wodel-EDU DSLs construct by construct; the Wodel mutation language itself is covered in the <a href="https://gomezabajo.github.io/Wodel/tutorial.html">Wodel tutorial</a>. As in the rest of the site, the examples use the <strong>finite automata</strong> metamodel, whose main classes are <code>Automaton</code>, <code>State</code> (with attributes <code>name</code>, <code>isInitial</code> and <code>isFinal</code>), <code>Transition</code> (with references <code>src</code>, <code>tar</code> and <code>symbol</code>) and <code>Symbol</code>.</p>
+
+<p><strong>Contents</strong></p>
+
+<ol>
+  <li><a href="#big-picture">The big picture: from mutations to exercises</a></li>
+  <li><a href="#edutest">The eduTest DSL</a></li>
+  <li><a href="#modeldraw">The modelDraw DSL</a></li>
+  <li><a href="#modeltext">The modelText DSL</a></li>
+  <li><a href="#mutatext">The mutaText DSL</a></li>
+  <li><a href="#complete-example">A complete specification</a></li>
+</ol>
+
+<h3 id="big-picture">1. The big picture: from mutations to exercises</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">Wodel-EDU derives families of exercises automatically by mutating seed models. The correct and mutated models become the alternatives of multiple-choice questions, the applied mutations become the emendation options of correction questions, and their textual renderings feed matching-pairs, missing-words and drag-and-drop exercises. The connection between the DSLs is the <strong>Wodel block</strong>: the Wodel program groups its mutations into named blocks, and each eduTest exercise references the block(s) whose mutants it should use. For instance, the following Wodel program defines two blocks producing distractors for the automata exercises:</p>
+
+<pre><code>generate mutants
+in "data/out/"
+from "data/model/"
+metamodel "http://dfaAutomaton/1.0"
+
+with blocks {
+    simple "redirects one transition" {
+         modify target tar from one Transition to other State
+    }
+    complex "changes the finality of a state" {
+         s0 = modify one State where {isFinal = true} with {isFinal = false}
+         s1 = modify one State where {self &lt;&gt; s0} with {isFinal = true}
+    }
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The names <code>simple</code> and <code>complex</code> are the handles that the eduTest program will use below.</p>
+
+<h3 id="edutest">2. The eduTest DSL</h3>
+
+<p><u>2.1. Program structure</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">An eduTest program declares the domain metamodel, an optional questionnaire-level configuration, and one or more exercise definitions:</p>
+
+<pre><code>metamodel &lt;metamodel-URI&gt;
+(navigation = free | locked)?
+&lt;exercise&gt;+
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The <strong><code>navigation</code></strong> option controls how students traverse the questionnaire: <code>free</code> lets them move between questions at will, while <code>locked</code> imposes the given order.</p>
+
+<p><u>2.2. Exercise definitions</u></p>
+
+<p>Every exercise follows the same pattern, regardless of its type:</p>
+
+<pre><code>&lt;ExerciseType&gt; (&lt;block&gt; (= solution)? (, &lt;block&gt; (= solution)?)*)? {
+    &lt;configuration&gt;
+    &lt;test&gt;*
+}
+</code></pre>
+
+<ul>
+  <li><strong><code>&lt;ExerciseType&gt;</code></strong> is one of the eight keywords described in Section 2.3.</li>
+  <li>The <strong>marked blocks</strong> are the names of the Wodel blocks whose mutants populate the exercise (e.g. <code>MatchPairs rfs1, mts2, rfs2 { ... }</code>). Appending <strong><code>= solution</code></strong> to a block marks it as the one producing the correct answer.</li>
+  <li>The <strong>configuration</strong> line sets the options of the exercise (Section 2.4).</li>
+  <li>Each <strong>test</strong> attaches a question statement to a seed model (Section 2.5).</li>
+</ul>
+
+<p><u>2.3. The exercise types</u></p>
+
+<p>The grammar offers eight exercise constructs. Five are diagram-based:</p>
+
+<ul>
+  <li><strong><code>AlternativeResponse</code></strong>: students decide whether a diagram or its textual representation is correct.</li>
+  <li><strong><code>MultiChoiceDiagram</code></strong>: students select the correct diagram from several alternatives.</li>
+  <li><strong><code>MultiChoiceEmendation</code></strong>: students select the textual options that correct the displayed diagram.</li>
+  <li><strong><code>MissingWords</code></strong>: students fill the gaps with options from drop-down lists so that the completed text matches the statement.</li>
+  <li><strong><code>DragAndDropText</code></strong>: students fill the gaps by dragging labelled text options from the available categories so that the completed text matches the statement.</li>
+</ul>
+
+<p>And three are text-based:</p>
+
+<ul>
+  <li><strong><code>AlternativeTextResponse</code></strong>: the textual counterpart of the alternative response exercise.</li>
+  <li><strong><code>MultiChoiceText</code></strong>: students select the correct textual representation from several alternatives.</li>
+  <li><strong><code>MatchPairs</code></strong>: students match each statement on the left with the correct option in a drop-down list.</li>
+</ul>
+
+<p><u>2.4. Exercise configurations</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">Each exercise type uses one of three configuration layouts. All of them start with the mandatory <strong><code>retry = yes | no</code></strong> option, which states whether students may reattempt the question.</p>
+
+<p><strong>Standard configuration</strong> — used by <code>AlternativeResponse</code>, <code>MultiChoiceDiagram</code>, <code>MissingWords</code> and <code>DragAndDropText</code>:</p>
+
+<pre><code>retry = yes|no (, mode = radiobutton|checkbox)?
+    (, statement = &lt;Class&gt; (, &lt;Class&gt;)*)? (, answers = &lt;Class&gt; (, &lt;Class&gt;)*)?
+</code></pre>
+
+<ul>
+  <li><strong><code>mode</code></strong> selects the widget used for the options: single-answer <code>radiobutton</code> or multiple-answer <code>checkbox</code>.</li>
+  <li><strong><code>statement</code></strong> and <strong><code>answers</code></strong> list the metamodel classes whose elements appear, respectively, in the question statement and among the answer options.</li>
+</ul>
+
+<p><strong>Emendation configuration</strong> — used by <code>MultiChoiceEmendation</code>, which grades the selected corrections:</p>
+
+<pre><code>retry = yes|no , weighted = yes|no , penalty = &lt;double&gt; , order = &lt;order&gt; , mode = radiobutton|checkbox
+    (, statement = ...)? (, answers = ...)?
+</code></pre>
+
+<ul>
+  <li><strong><code>weighted</code></strong> states whether each correct option contributes proportionally to the mark.</li>
+  <li><strong><code>penalty</code></strong> is the mark deducted for each wrong selection (e.g. <code>0.0</code> or <code>0.25</code>).</li>
+  <li><strong><code>order</code></strong> arranges the options: <code>fixed</code> (as generated), <code>random</code>, <code>options-ascending</code> or <code>options-descending</code>.</li>
+</ul>
+
+<p><strong>Textual configuration</strong> — used by <code>MatchPairs</code>, <code>MultiChoiceText</code> and <code>AlternativeTextResponse</code>:</p>
+
+<pre><code>retry = yes|no (, mode = radiobutton|checkbox)? (, text = &lt;identifier&gt;)?
+</code></pre>
+
+<ul>
+  <li><strong><code>text</code></strong> names the textual representation to use, referring to an identifier defined for the model (see the <code>%text</code> placeholder below).</li>
+</ul>
+
+<p><u>2.5. Tests: attaching statements to seed models</u></p>
+
+<p>Each test line binds a question statement to one seed model:</p>
+
+<pre><code>description for &lt;seed-model&gt; = &lt;question&gt; (%text (('&lt;identifier&gt;'))? )?
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">The optional <strong><code>%text</code></strong> placeholder appends the textual rendering of the model to the statement; with an identifier argument, as in <code>%text('reg-exp')</code>, it inserts the specific representation registered under that name. For example:</p>
+
+<pre><code>MatchPairs rfs1, mts2, rfs2 {
+    retry=no
+    description for 'exercise6.model' = 'Select which of these options modifies
+                                         the above automaton to accept only
+                                         the language defined by ' %text('reg-exp')
+}
+</code></pre>
+
+<h3 id="modeldraw">3. The modelDraw DSL</h3>
+
+<p><u>3.1. Program structure</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">A modelDraw program states how model instances are drawn. It declares the metamodel and then, for each root class to visualise, a diagram definition listing its <strong>nodes</strong>, its <strong>relations</strong> and, optionally, extra <strong>contents</strong>:</p>
+
+<pre><code>metamodel &lt;metamodel-URI&gt;
+&lt;RootClass&gt; : diagram {
+    &lt;node&gt;*
+    &lt;relation&gt;*
+    &lt;content&gt;*
+}
+</code></pre>
+
+<p><u>3.2. Feature conditions</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">Nodes and edges can be declared several times under different <strong>conditions</strong>, so the same class is drawn differently depending on its features. A condition list goes between parentheses after the class name, and each condition is a boolean feature (<code>isInitial</code>), a negated feature (<code>not isFinal</code>), a navigated feature (<code>feat-&gt;ref</code>), or an emptiness test (<code>feat == null</code>).</p>
+
+<p><u>3.3. Nodes</u></p>
+
+<pre><code>&lt;Class&gt; (&lt;conditions&gt;)? (-&gt; &lt;TargetClass&gt; (&lt;conditions&gt;)?)? : (node | markednode) (= &lt;attribute&gt;)?
+    (compartments = { &lt;reference&gt;+ })?
+    (shape = circle | doublecircle | record | load | logic (('&lt;path&gt;'))? )?
+    (color = gray95)?
+    (style = italic | underline)?
+</code></pre>
+
+<ul>
+  <li><strong><code>node</code></strong> draws a plain node labelled with the attribute given after <code>=</code> (by default, its name); <strong><code>markednode</code></strong> draws it highlighted, which is how initial states of automata are typically distinguished.</li>
+  <li><strong><code>compartments</code></strong> nests the objects of the listed containment references inside the node, as in UML class boxes.</li>
+  <li><strong><code>shape</code></strong>, <strong><code>color</code></strong> and <strong><code>style</code></strong> tune the rendering; the <code>record</code>, <code>load</code> and <code>logic</code> shapes serve class-like and circuit-like notations.</li>
+</ul>
+
+<p>The automata visualisation shows the idea — the same class <code>State</code> is drawn in three different ways:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+Automaton: diagram {
+    State(isInitial): markednode
+    State(not isFinal): node shape=circle
+    State(isFinal): node shape=doublecircle
+    Transition(src, tar): edge label=symbol.symbol
+}
+</code></pre>
+
+<p><u>3.4. Relations: edges and levels</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">An <strong>edge</strong> connects the objects held by two references of a class — the form used for the automata transitions above, <code>Transition(src, tar): edge</code> — or connects a class with a target class using the arrow form <code>&lt;Class&gt; -&gt; &lt;TargetClass&gt; : edge</code>:</p>
+
+<pre><code>&lt;Class&gt; (&lt;conditions&gt;)? ( (&lt;srcRef&gt; (, &lt;tarRef&gt;)?) | -&gt; &lt;TargetClass&gt; (&lt;conditions&gt;)? ) : edge (= &lt;attribute&gt;)?
+    (label = &lt;attribute-path&gt; | { &lt;attribute-path&gt; (, &lt;attribute-path&gt;)* })?
+    (src_decoration = &lt;decoration&gt;)? (src_label = &lt;attribute&gt;)?
+    (tar_decoration = &lt;decoration&gt;)? (tar_label = &lt;attribute&gt;)?
+</code></pre>
+
+<ul>
+  <li><strong><code>label</code></strong> gives the attribute shown on the edge, possibly reached through a reference path (e.g. <code>label = symbol.symbol</code>), or a list of labels between braces.</li>
+  <li><strong><code>src_decoration</code></strong> and <strong><code>tar_decoration</code></strong> select the arrow ends: <code>none</code>, <code>triangle</code>, <code>diamond</code>, <code>odiamond</code>, <code>open</code> or <code>empty</code> — the vocabulary needed for UML associations, aggregations, compositions and inheritance.</li>
+  <li><strong><code>src_label</code></strong> and <strong><code>tar_label</code></strong> print an attribute at each end, e.g. the cardinalities of an association.</li>
+</ul>
+
+<p style="text-align: justify; text-justify: inter-word;">A <strong>level</strong> renders a containment reference as an edge between a container and its children, which is useful for hierarchical notations:</p>
+
+<pre><code>&lt;Class&gt;.&lt;containmentRef&gt; : edge (= &lt;attribute&gt;)? (label = ...)? (src_decoration = ...)? ...
+</code></pre>
+
+<p><u>3.5. Contents</u></p>
+
+<p style="text-align: justify; text-justify: inter-word;">A content entry customises how the values of a class are printed inside the diagram. It can map the literals of an enumerated attribute to display texts, print information reached through references, wrap an attribute between braces, or attach a fixed text symbol:</p>
+
+<pre><code>&lt;Class&gt; : (&lt;attribute&gt; [ &lt;literal&gt; = &lt;text&gt; ... ])? (&lt;reference&gt;(.&lt;attribute&gt;)?)* ({ &lt;attribute&gt; })? (text = &lt;symbol&gt;)?
+</code></pre>
+
+<p>For instance, a logic-circuit visualisation can map the gate-type literals to their drawing symbols:</p>
+
+<pre><code>Gate: type [AND = "and" OR = "or" NOT = "not" XOR = "xor"]
+</code></pre>
+
+<h3 id="modeltext">4. The modelText DSL</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">A modelText program defines the textual representation of the model elements — the sentences that the text-based exercises display. It declares the metamodel and, for each root class, a block of <strong>element templates</strong>:</p>
+
+<pre><code>metamodel &lt;metamodel-URI&gt;
+&lt;RootClass&gt; {
+    &gt; &lt;Class&gt;(.&lt;reference&gt;)? (&lt;conditions&gt;)? : &lt;word&gt;*
+    ...
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Each template starts with <code>&gt;</code>, names the class (optionally narrowed to one of its references, or guarded by the same feature conditions as modelDraw), and gives after the colon the sequence of <strong>words</strong> that verbalise it. A word is one of:</p>
+
+<ul>
+  <li>A <strong>constant</strong>: a literal text, e.g. <code>final</code> or <code>"is the initial state"</code>.</li>
+  <li>A <strong>variable</strong> <code>%&lt;attribute&gt;</code> or <code>%&lt;reference&gt;.&lt;attribute&gt;</code>: replaced by the value of the attribute, possibly reached through a reference.</li>
+  <li>The <strong>macro</strong> <code>%type</code>: replaced by the type name of the element.</li>
+</ul>
+
+<p>The textual representation of the automata combines all three kinds:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;State: State %name
+&gt;State(isFinal): final
+&gt;State(isInitial): initial
+&gt;Transition: Transition %symbol.symbol
+&gt;Transition.tar: target
+&gt;Transition.src: source
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Read the first three lines together: a state named <em>q0</em> that is final and initial is verbalised as “State q0 final initial”, since every template whose condition holds contributes its words.</p>
+
+<h3 id="mutatext">5. The mutaText DSL</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">A mutaText program defines the sentences that describe the <em>applied mutations</em>. These sentences become the options of the multiple emendation, matching-pairs, missing-words and text drag-and-drop exercises. The program declares the metamodel and a list of options, one per <strong>mutation record type</strong>:</p>
+
+<pre><code>metamodel &lt;metamodel-URI&gt;
+&gt; &lt;MutationType&gt; ((&lt;object&gt;))? : &lt;valid-text&gt; / &lt;invalid-text&gt;
+...
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Each option provides <strong>two texts separated by a slash</strong>: the <em>valid</em> text describes the change that corrects the mutant (the right answer), and the <em>invalid</em> text describes a plausible but wrong correction (a distractor). Both texts are sequences of constants and <strong>placeholder variables</strong> that Wodel-EDU fills in from the mutation registry. The optional object between parentheses restricts the option to mutations applied to a specific kind of object.</p>
+
+<p>The placeholders are grouped by the mutation record they describe:</p>
+
+<ul>
+  <li><strong>Any mutation</strong>: <code>%object</code>, <code>%value</code>, and the <code>%described...</code> family (<code>%describedObject</code>, <code>%describedFromObject</code>, <code>%describedOldFromObject</code>, <code>%describedToObject</code>, <code>%describedOldToObject</code>, and the <code>First</code>/<code>Second</code> variants), which print the full textual rendering of the objects as defined by modelText.</li>
+  <li><strong>Attribute changes</strong>: <code>%attName</code>, <code>%oldValue</code>, <code>%newValue</code>.</li>
+  <li><strong>Source reference changes</strong>: <code>%refName</code>, <code>%fromObject</code>, <code>%oldFromObject</code>.</li>
+  <li><strong>Target reference changes</strong>: <code>%srcRefName</code>, <code>%toObject</code>, <code>%oldToObject</code>.</li>
+  <li><strong>Reference swaps</strong>: <code>%firstRefName</code>, <code>%firstObject</code>, <code>%firstFromObject</code>, <code>%firstToObject</code>, <code>%secondRefName</code>, <code>%secondObject</code>, <code>%secondFromObject</code>, <code>%secondToObject</code>.</li>
+  <li><strong>Attribute swaps</strong>: <code>%firstAttName</code>, <code>%firstValue</code>, <code>%secondAttName</code>, <code>%secondValue</code>.</li>
+</ul>
+
+<p>The automata configuration illustrates the valid/invalid pattern for two mutation records:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;TargetReferenceChanged: Change %object from %fromObject
+                         to %toObject with new %refName %oldToObject /
+                         Change %object from %fromObject to %oldToObject
+                         with new %refName %toObject
+&gt;AttributeChanged: Change %object to %oldValue /
+                   Change %object to %value
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">In the first option, the valid text proposes restoring the old target of the redirected transition, while the invalid text — identical in shape but with <code>%oldToObject</code> and <code>%toObject</code> swapped — proposes the change that would leave the mutant untouched, making a convincing distractor.</p>
+
+<h3 id="complete-example">6. A complete specification</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">A full Wodel-EDU project for automata exercises combines the five files. The Wodel program of <a href="#big-picture">Section 1</a> and the modelDraw, modelText and mutaText programs of the previous sections are completed by the following eduTest questionnaire, adapted from the one published on the <a href="https://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-EDU page</a>:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+navigation=free
+MultiChoiceDiagram simple {
+    retry=no
+    description for 'exercise4.model' = 'Select which of these automata
+                                         accepts only "a*bab*"'
+}
+MultiChoiceEmendation complex {
+    retry=no, weighted=no, penalty=0.0,
+    order=options-descending, mode=checkbox
+    description for 'exercise5.model' = 'Select the required changes so that
+                                         the automaton accepts only "a+b+"'
+}
+MatchPairs rfs1, mts2, rfs2 {
+    retry=no
+    description for 'exercise6.model' = 'Select which of these options modifies
+                                         the above automaton to accept only
+                                         the language defined by ' %text('reg-exp')
+}
+MissingWords mtsrfs1 {
+    retry=no
+    description for 'exercise7.model' = 'Complete the following text with the
+                                         options for each gap that modify this automaton
+                                         to accept only the language defined by "ab(ba)*"'
+}
+</code></pre>
+
+<p style="text-align: justify; text-justify: inter-word;">Each exercise draws its distractors from the mutants of the referenced Wodel blocks; the diagrams are rendered as configured in modelDraw; the statements and options of the text-based exercises are built from the modelText and mutaText templates; and the generated questionnaires embed the information required for their automated correction, so the evaluation of the students' answers needs no manual intervention. The result can be deployed to the web, Moodle, Android and Apple iOS, and gamified through the integration with <a target="_blank" href="https://sgame.etsisi.upm.es/">SGAME</a>.</p>
+
+<h3 id="next-steps">Where to go next</h3>
+
+<p style="text-align: justify; text-justify: inter-word;">To create and run a Wodel-EDU project in Eclipse — the project wizard, the seed model synthesiser and the exercise generation — follow the <a href="https://github.com/gomezabajo/Wodel/wiki/2.-Get-Started-with-Wodel-Edu">Getting Started guide</a>. Screenshots of the seven exercise types are available in the <a href="https://gomezabajo.github.io/Wodel/wodel-edu-samples.html">sample exercises</a> page, and the <a href="https://gomezabajo.github.io/Wodel/wodel-edu-video.html">video demonstrations</a> show the environment in action. For the mutation language, see the <a href="https://gomezabajo.github.io/Wodel/tutorial.html">Wodel tutorial</a>.</p>
+
+<h3 id="acknowledgements">Acknowledgements</h3>
+
+<p>This work was funded by the Spanish Ministry of Science through project “MASSIVE” (RTI2018-095255-B-I00), and by the R&amp;D programme of the Madrid Region through project “<a href="https://antares.sip.ucm.es/forte-cm/">FORTE</a>” (P2018/TCS-4314).</p>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel-EDU</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+
+        <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+  
+      <script src="javascripts/side-menu.js" defer></script>
+  </body>
+</html>

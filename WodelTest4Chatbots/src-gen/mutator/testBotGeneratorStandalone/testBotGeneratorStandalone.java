@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testBotGeneratorStandalone extends MutatorUtils {
 	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -106,7 +108,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("tpi", entry);
-						AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry1(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -125,7 +127,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m1") != null) {
@@ -195,7 +197,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i", entry);
-						AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry2(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -214,7 +216,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
@@ -376,7 +378,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li", entry);
-							AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry3(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -396,7 +398,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m3") != null) {
@@ -492,7 +494,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry4(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -521,12 +524,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -701,7 +704,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("tpi", entry);
-						AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry5(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -720,7 +723,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m5") != null) {
@@ -790,7 +793,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i", entry);
-						AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry6(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -809,7 +812,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m6") != null) {
@@ -971,7 +974,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li", entry);
-							AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry7(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -991,7 +994,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m7") != null) {
@@ -1087,7 +1090,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry8(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1116,12 +1120,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -1287,7 +1291,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("p", entry);
-						AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry9(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1306,7 +1310,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
@@ -1359,7 +1363,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry10(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -1377,12 +1381,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -1431,7 +1435,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry11(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -1459,12 +1463,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -1620,7 +1624,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("input", entry);
-						AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry12(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1639,7 +1643,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m12") != null) {
@@ -1700,7 +1704,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("prt", entry);
-						AppMutation appMut = registry13(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry13(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1719,7 +1723,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry13(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m13") != null) {
@@ -1771,7 +1775,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry14(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry14(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -1799,12 +1803,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry14(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -1979,7 +1983,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("tpi", entry);
-						AppMutation appMut = registry15(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry15(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -1998,7 +2002,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry15(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m15") != null) {
@@ -2068,7 +2072,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i", entry);
-						AppMutation appMut = registry16(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry16(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -2087,7 +2091,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry16(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m16") != null) {
@@ -2249,7 +2253,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li", entry);
-							AppMutation appMut = registry17(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry17(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2269,7 +2273,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry17(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m17") != null) {
@@ -2450,7 +2454,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp0", entry);
-							AppMutation appMut = registry18(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry18(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2470,7 +2474,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry18(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m18") != null) {
@@ -2666,7 +2670,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp1", entry);
-							AppMutation appMut = registry19(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry19(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2686,7 +2690,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry19(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m19") != null) {
@@ -2878,7 +2882,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp2", entry);
-							AppMutation appMut = registry20(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry20(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -2898,7 +2902,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry20(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m20") != null) {
@@ -2986,7 +2990,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry21(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry21(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -3014,12 +3018,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry21(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -3194,7 +3198,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("tpi", entry);
-						AppMutation appMut = registry22(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry22(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3213,7 +3217,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry22(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry22(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m22") != null) {
@@ -3283,7 +3287,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i", entry);
-						AppMutation appMut = registry23(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry23(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -3302,7 +3306,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry23(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry23(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m23") != null) {
@@ -3464,7 +3468,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li", entry);
-							AppMutation appMut = registry24(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry24(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -3484,7 +3488,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry24(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry24(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m24") != null) {
@@ -3665,7 +3669,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp0", entry);
-							AppMutation appMut = registry25(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry25(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -3685,7 +3689,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry25(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry25(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m25") != null) {
@@ -3881,7 +3885,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp1", entry);
-							AppMutation appMut = registry26(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry26(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -3901,7 +3905,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry26(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry26(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m26") != null) {
@@ -4093,7 +4097,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp2", entry);
-							AppMutation appMut = registry27(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry27(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -4113,7 +4117,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry27(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry27(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m27") != null) {
@@ -4201,7 +4205,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry28(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry28(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -4229,12 +4233,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry28(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry28(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -4399,7 +4403,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i1", entry);
-						AppMutation appMut = registry29(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry29(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -4418,7 +4422,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry29(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry29(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m29") != null) {
@@ -4517,7 +4521,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("iiv", entry);
-						AppMutation appMut = registry30(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry30(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -4536,7 +4540,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry30(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry30(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m30") != null) {
@@ -4615,7 +4619,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i2", entry);
-						AppMutation appMut = registry31(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry31(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -4634,7 +4638,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry31(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry31(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m31") != null) {
@@ -4805,7 +4809,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li1", entry);
-							AppMutation appMut = registry32(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry32(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -4825,7 +4829,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry32(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry32(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m32") != null) {
@@ -5011,7 +5015,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li2", entry);
-							AppMutation appMut = registry33(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry33(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -5031,7 +5035,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry33(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry33(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m33") != null) {
@@ -5212,7 +5216,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp1", entry);
-							AppMutation appMut = registry34(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry34(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -5232,7 +5236,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry34(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry34(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m34") != null) {
@@ -5409,7 +5413,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp2", entry);
-							AppMutation appMut = registry35(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry35(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -5429,7 +5433,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry35(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry35(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m35") != null) {
@@ -5523,7 +5527,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry36(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry36(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5552,12 +5557,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry36(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry36(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -5567,6 +5571,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		refMut0.setRefName("inputs");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("inputs"));
+		refMut0.setTo(mutator.getNext("inputs"));
 		if (hmMutator.get("m36") != null) {
 			previous = mutator.getPrevious("inputs");
 			next = mutator.getNext("inputs");
@@ -5743,7 +5749,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i1", entry);
-						AppMutation appMut = registry37(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry37(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5762,7 +5768,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry37(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry37(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m37") != null) {
@@ -5862,7 +5868,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("iiv", entry);
-						AppMutation appMut = registry38(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry38(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5881,7 +5887,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry38(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry38(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m38") != null) {
@@ -5960,7 +5966,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i2", entry);
-						AppMutation appMut = registry39(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry39(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -5979,7 +5985,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry39(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry39(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m39") != null) {
@@ -6150,7 +6156,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li1", entry);
-							AppMutation appMut = registry40(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry40(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -6170,7 +6176,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry40(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry40(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m40") != null) {
@@ -6356,7 +6362,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("li2", entry);
-							AppMutation appMut = registry41(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry41(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -6376,7 +6382,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry41(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry41(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m41") != null) {
@@ -6557,7 +6563,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp1", entry);
-							AppMutation appMut = registry42(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry42(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -6577,7 +6583,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry42(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry42(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m42") != null) {
@@ -6754,7 +6760,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("tp2", entry);
-							AppMutation appMut = registry43(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry43(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -6774,7 +6780,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry43(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry43(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m43") != null) {
@@ -6868,7 +6874,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry44(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry44(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -6897,12 +6904,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry44(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry44(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -6912,6 +6918,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		refMut0.setRefName("inputs");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("inputs"));
+		refMut0.setTo(mutator.getNext("inputs"));
 		if (hmMutator.get("m44") != null) {
 			previous = mutator.getPrevious("inputs");
 			next = mutator.getNext("inputs");
@@ -7079,7 +7087,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("p", entry);
-						AppMutation appMut = registry45(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry45(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -7098,7 +7106,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry45(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry45(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m45") != null) {
@@ -7151,7 +7159,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry46(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry46(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -7169,12 +7177,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry46(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry46(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -7228,7 +7236,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry47(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry47(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -7246,12 +7254,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry47(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry47(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -7320,7 +7328,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry48(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry48(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -7339,12 +7348,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry48(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry48(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -7393,7 +7402,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry49(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry49(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -7421,12 +7430,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry49(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry49(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -7592,7 +7601,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("p0", entry);
-						AppMutation appMut = registry50(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry50(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -7611,7 +7620,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry50(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry50(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m50") != null) {
@@ -7688,7 +7697,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry51(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry51(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -7717,12 +7727,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry51(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry51(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -7900,7 +7910,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry52(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry52(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -7929,12 +7940,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry52(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry52(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -8121,7 +8131,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry53(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry53(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -8150,12 +8161,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry53(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry53(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -8351,7 +8361,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry54(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry54(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -8380,12 +8391,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry54(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry54(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -8551,7 +8562,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("i", entry);
-						AppMutation appMut = registry55(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry55(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -8570,7 +8581,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry55(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry55(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m55") != null) {
@@ -8622,7 +8633,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 			if (mut != null) {
 				Object mutated = mut.mutate();
 				if (mutated != null) {
-					AppMutation appMut = registry56(mut, hmMutator, seed, mutPaths, packages);
+					AppMutation appMut = registry56(mut, hmMutator, seed, obSelection.getModel(), mutPaths, packages);
 					if (appMut != null) {
 						muts.getMuts().add(appMut);
 					}
@@ -8640,12 +8651,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry56(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry56(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -8714,7 +8725,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry57(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry57(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -8743,12 +8755,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry57(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry57(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -8913,7 +8925,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("bi0", entry);
-						AppMutation appMut = registry58(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry58(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -8932,7 +8944,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry58(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry58(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m58") != null) {
@@ -9009,7 +9021,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry59(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry59(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -9038,12 +9051,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry59(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry59(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -9209,7 +9222,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("text", entry);
-						AppMutation appMut = registry60(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry60(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -9228,7 +9241,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry60(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry60(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m60") != null) {
@@ -9305,7 +9318,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry61(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry61(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -9334,12 +9348,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry61(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry61(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -9513,7 +9527,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("bi1", entry);
-						AppMutation appMut = registry62(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry62(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -9532,7 +9546,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry62(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry62(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m62") != null) {
@@ -9703,7 +9717,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("ui1", entry);
-							AppMutation appMut = registry63(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry63(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -9723,7 +9737,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry63(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry63(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m63") != null) {
@@ -9927,7 +9941,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("bi2", entry);
-							AppMutation appMut = registry64(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry64(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -9947,7 +9961,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry64(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry64(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m64") != null) {
@@ -10041,7 +10055,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry65(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry65(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -10070,12 +10085,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry65(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry65(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -10276,7 +10290,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("ui0", entry);
-						AppMutation appMut = registry66(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry66(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -10295,7 +10309,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry66(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry66(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m66") != null) {
@@ -10514,7 +10528,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("bi0", entry);
-							AppMutation appMut = registry67(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry67(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -10534,7 +10548,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry67(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry67(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m67") != null) {
@@ -10616,7 +10630,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry68(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry68(mut, hmMutator, seed, srcSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -10649,12 +10664,11 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry68(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry68(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
 		ModifyTargetReferenceMutator mutator = (ModifyTargetReferenceMutator) mut;
-		Resource mutant = mutator.getModel();
 		EObject object = ModelManager.getObject(seed, mutator.getObject());
 		if (object == null) {
 			object = ModelManager.getObject(mutant, mutator.getObject());
@@ -10845,7 +10859,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 						SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 								mut.getObject(), resourceEntry);
 						hmObjects.put("bi", entry);
-						AppMutation appMut = registry69(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry69(mut, hmMutator, seed, resource, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -10864,7 +10878,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry69(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry69(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m69") != null) {
@@ -11026,7 +11040,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(
 									mut.getObject(), resourceEntry);
 							hmObjects.put("ui", entry);
-							AppMutation appMut = registry70(mut, hmMutator, seed, mutPaths, packages);
+							AppMutation appMut = registry70(mut, hmMutator, seed, resource, mutPaths, packages);
 							if (appMut != null) {
 								muts.getMuts().add(appMut);
 							}
@@ -11046,7 +11060,7 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry70(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry70(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m70") != null) {
@@ -11138,7 +11152,8 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 				if (mut != null) {
 					Object mutated = mut.mutate();
 					if (mutated != null) {
-						AppMutation appMut = registry71(mut, hmMutator, seed, mutPaths, packages);
+						AppMutation appMut = registry71(mut, hmMutator, seed, obSelection.getModel(), mutPaths,
+								packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);
 						}
@@ -11167,12 +11182,12 @@ public class testBotGeneratorStandalone extends MutatorUtils {
 		return numMutantsGenerated;
 	}
 
-	private static AppMutation registry71(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry71(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}

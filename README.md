@@ -101,17 +101,17 @@ This project is distributed under the [Eclipse Public License 1.0](https://raw.g
 [![EPL licensed](https://img.shields.io/badge/license-EPL1.0-orange.svg)](https://www.eclipse.org/org/documents/epl-v10.php)
 [![GitHub Repo stars](https://img.shields.io/github/stars/gomezabajo/Wodel?label=Repo%20Stars)](https://github.com/gomezabajo/Wodel/stargazers)
 
-[contributors-shield]: https://img.shields.io/github/contributors/gomezabajo/Wodel?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/gomezabajo/Wodel
 [contributors-url]: https://github.com/gomezabajo/Wodel/graphs/contributors
 
-[stars-shield]: https://img.shields.io/github/stars/gomezabajo/Wodel?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/gomezabajo/Wodel
 [stars-url]: https://github.com/gomezabajo/Wodel/stargazers
 
-[forks-shield]: https://img.shields.io/github/forks/gomezabajo/Wodel?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/gomezabajo/Wodel
 [forks-url]: https://github.com/gomezabajo/Wodel/network/members
 
-[issues-shield]: https://img.shields.io/github/issues/gomezabajo/Wodel?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/gomezabajo/Wodel
 [issues-url]: https://github.com/gomezabajo/Wodel/issues
 
-[license-shield]: https://img.shields.io/github/license/gomezabajo/Wodel?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/gomezabajo/Wodel
 [license-url]: https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE.txt

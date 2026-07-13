@@ -56,7 +56,7 @@
 
 <h3 id="wodel-edu">Wodel-EDU: a model-driven engineering solution for exercise generation and evaluation</h3>
 
-<p><strong>Wodel-EDU</strong> extends Wodel by generating educational exercises automatically. It supports seven exercise types:</p>
+<p><strong>Wodel-EDU</strong> extends Wodel with the automated generation of educational exercises. It supports seven exercise types:</p>
 
 <ul>
 <li>Alternative response: students decide whether a diagram or its textual representation is correct.</li>
@@ -68,11 +68,11 @@
 <li>Text drag and drop: students fill the gaps by dragging labelled text options from the available categories so that the completed text matches the statement.</li>
 </ul>
 
-<h3 id="wodel-edu">The family of DSLs</h3>
+<h3 id="dsls">The family of DSLs</h3>
 
 <p>Wodel-EDU uses four DSLs in addition to <a target="_blank" href="https://gomezabajo.github.io/Wodel">Wodel</a>:</p>
 
-<p><strong>eduTest</strong>: configures questionnaires and defines exercises:</p>
+<p><strong>eduTest</strong>: configures the questionnaires and defines the exercises:</p>
 
 <pre><code>navigation=free
 MultiChoiceDiagram simple {
@@ -100,7 +100,7 @@ MissingWords mtsrfs1 {
 }
 </code></pre>
 
-<p><strong>modelDraw</strong>: configures the graphical visualisation of models. Currently, it supports <a target="_blank" href="https://www.graphviz.org/">Graphviz</a>, <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> and <a target="_blank" href="https://plantuml.com">PlantUML</a> to render the models (optional):</p>
+<p><strong>modelDraw</strong>: configures the graphical visualisation of the models. It currently supports <a target="_blank" href="https://www.graphviz.org/">Graphviz</a>, <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> and <a target="_blank" href="https://plantuml.com">PlantUML</a> as rendering engines (optional):</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
@@ -112,7 +112,7 @@ Automaton: diagram {
 }
 </code></pre>
 
-<p><strong>modelText</strong>: configures the textual representation of model elements (optional):</p>
+<p><strong>modelText</strong>: configures the textual representation of the model elements (optional):</p>
 
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
@@ -157,12 +157,12 @@ Automaton: diagram {
    domains such as finite automata, electronic circuits or UML class diagrams.</p>
 
 <p>Depending on the configuration expressed with the eduTest DSL, Wodel-EDU produces
-   different kinds of questions out of the generated mutants: the correct and mutated
+   different kinds of questions from the generated mutants: the correct and mutated
    models become the alternatives of multiple-choice questions, the applied mutations
    become the emendation options of correction questions, and their textual renderings
    feed matching-pairs, missing-words and drag-and-drop exercises. The generated
    questionnaires embed the information required for their automated correction, so
-   the evaluation of the students&#39; answers requires no manual intervention.</p>
+   that the evaluation of the students&#39; answers requires no manual intervention.</p>
 
 <h3 id="how-it-works">How Wodel-EDU works</h3>
 
@@ -201,8 +201,8 @@ Automaton: diagram {
 <h4 id="step-3">3. Provide or synthesise the seed models</h4>
 
 <p>The mutation process is executed on a set of seed models conforming to the
-   domain meta-model. These seed models can be handcrafted by the instructor, or
-   automatically generated with the seed model synthesiser provided by Wodel-EDU
+   domain meta-model. These seed models can be handcrafted by the instructor or
+   generated automatically with the seed model synthesiser provided by Wodel-EDU
    (right-click on the .mutator file &rarr; Wodel... &rarr; Generate seed models).
    Automated synthesis is useful both to assess the validity of the mutation
    operators and to generate large sets of exercises with little effort.</p>
@@ -236,7 +236,7 @@ Automaton: diagram {
    modelDraw rendering engine &mdash; <a target="_blank" href="https://www.graphviz.org/">Graphviz</a>
    or <a target="_blank" href="https://ece.uwaterloo.ca/~aplevich/Circuit_macros/">Circuit Macros</a> &mdash;
    used to draw the diagrams, and the renderer path where the binaries of the
-   graphical renderer are stored in the local machine.</p>
+   graphical renderer are stored on the local machine.</p>
 
 <img src="images/wodelEduPreferences.png" alt="Wodel-EDU preferences page" style="max-width: 100%; height: auto;"/>
 
@@ -278,7 +278,7 @@ Automaton: diagram {
    &mdash; Wodel, eduTest, modelDraw, modelText and mutaText &mdash; are built with
    <a target="_blank" href="https://eclipse.dev/Xtext/">Xtext</a> on top of the
    Eclipse Modeling Framework (EMF), and hence their editors provide code
-   completion, validation and syntax highlighting out of the box.</p>
+   completion, validation and syntax highlighting.</p>
 
 <p>The Wodel-EDU post-processor consumes the mutants and the mutation registry
    produced by the engine, and coordinates three subsystems: the rendering
@@ -304,11 +304,11 @@ Automaton: diagram {
    for the web, Moodle, Android, iOS and SGAME targets.</p>
 
 
-<h3 id="wodel-edu">Examples</h3>
+<h3 id="examples">Examples</h3>
 
 <p>An example web application containing tests generated with Wodel-EDU is available at <a target="_blank" href="http://www.wodel.eu/">www.wodel.eu</a>.</p>
 
-<p>We are also developing support for generating exercises for Moodle. A demonstration Moodle site is available at <a target="_blank" href="http://moodle.wodel.eu/">moodle.wodel.eu</a> (user: demo; password: Wodel-Edu4Moodle).</p>
+<p>Wodel-EDU also supports the generation of exercises for Moodle. A demonstration Moodle site is available at <a target="_blank" href="http://moodle.wodel.eu/">moodle.wodel.eu</a> (user: demo; password: Wodel-Edu4Moodle).</p>
 
 <h3 id="demos">Video demos</h3>
 
@@ -316,17 +316,17 @@ Automaton: diagram {
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/pFFDBRddzb8" frameborder="0" allowfullscreen></iframe>
 
-<p><strong>New feature</strong>: Wodel-EDU now supports the automatic generation and correction of diagram-based Moodle exercises:</p>
+<p><strong>New feature</strong>: Wodel-EDU now supports the automated generation and correction of diagram-based Moodle exercises:</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/39L6Y6kZ42g" frameborder="0" allowfullscreen></iframe>
 
-<p>Download a Wodel-EDU example here.<br />
+<p>A Wodel-EDU example can be downloaded here:<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/WodelEduSamples">Wodel-EDU samples (ZIP)</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/WodelEduSamples">Wodel-EDU samples (TAR.GZ)</a>
 </p>	
 
-<p><strong>New feature</strong>: Wodel-EDU and SGAME support the automatic generation and correction of gamified diagram-based Moodle exercises, developed with <a href="https://portalcientifico.upm.es/es/ipublic/researcher/306683">Daniel L&oacute;pez</a>:</p>
+<p><strong>New feature</strong>: Wodel-EDU and SGAME support the automated generation and correction of gamified diagram-based Moodle exercises, a feature developed in collaboration with <a href="https://portalcientifico.upm.es/es/ipublic/researcher/306683">Daniel L&oacute;pez</a>:</p>
 
 <iframe width="1020" height="630" src="https://sgame.etsisi.upm.es/games/25404" frameborder="0" allowfullscreen></iframe>
 
@@ -340,9 +340,9 @@ Automaton: diagram {
 
 <h3 id="authors-and-contributors">Authors and contributors</h3>
 
-<p>The <strong><a href="https://miso.es">MISO</a></strong> research group started the Wodel-EDU research project in March 2015. Since then, <strong><a href="https://www.gomezabajo.es">Pablo G&oacute;mez-Abajo</a></strong> has been the main developer of the project under the supervision of <a href="https://arantxa.ii.uam.es/~eguerra/">Esther Guerra</a> and <a href="https://arantxa.ii.uam.es/~jlara/">Juan de Lara</a>. Special gratitude to <a href="https://es.linkedin.com/in/andressrico">Andr&eacute;s Rico Fern&aacute;ndez</a> and <a href="https://www.linkedin.com/in/jaime-vel%C3%A1zquez-pazos-a64791206/">Jaime Vel&aacute;zquez Pazos</a> who helped with the generation of the exercises for the Android platform and Apple iOS, respectively.</p>
+<p>The <strong><a href="https://miso.es">MISO</a></strong> research group started the Wodel-EDU research project in March 2015. Since then, <strong><a href="https://www.gomezabajo.es">Pablo G&oacute;mez-Abajo</a></strong> has been the main developer of the project under the supervision of <a href="https://arantxa.ii.uam.es/~eguerra/">Esther Guerra</a> and <a href="https://arantxa.ii.uam.es/~jlara/">Juan de Lara</a>. We are especially grateful to <a href="https://es.linkedin.com/in/andressrico">Andr&eacute;s Rico Fern&aacute;ndez</a> and <a href="https://www.linkedin.com/in/jaime-vel%C3%A1zquez-pazos-a64791206/">Jaime Vel&aacute;zquez Pazos</a>, who helped with the generation of the exercises for the Android and Apple iOS platforms, respectively.</p>
 
-<p>Other valuable contributors involved have been <a href="https://github.com/lissetteag">Lissette Almonte Garc&iacute;a</a>, <a href="https://github.com/SaraPerezSoler">Sara P&eacute;rez-Soler</a>, <a href="https://github.com/antoniogarmendia">Antonio Garmendia Jorge</a> and <a href="https://github.com/PabloCCanizares">Pablo C. Ca&ntilde;zares</a>. We would like to show our sincere gratitude too to <a href="https://github.com/dan-agilecoder">Daniel L&oacute;pez-Fern&aacute;ndez</a> and <a href="https://github.com/antbucc">Antonio Bucchiarone</a> for their interest in the <strong href="https://gomezabajo.github.io/Wodel-EDU">Wodel-EDU<strong> framework and the useful discussions shared about the tool.</p>
+<p>Other valuable contributors have been <a href="https://github.com/lissetteag">Lissette Almonte Garc&iacute;a</a>, <a href="https://github.com/SaraPerezSoler">Sara P&eacute;rez-Soler</a>, <a href="https://github.com/antoniogarmendia">Antonio Garmendia Jorge</a> and <a href="https://github.com/PabloCCanizares">Pablo C. Ca&ntilde;izares</a>. We would also like to express our sincere gratitude to <a href="https://github.com/dan-agilecoder">Daniel L&oacute;pez-Fern&aacute;ndez</a> and <a href="https://github.com/antbucc">Antonio Bucchiarone</a> for their interest in the <strong>Wodel-EDU</strong> framework and for the useful discussions about the tool.</p>
 
 
 <h3 id="related-publications">Related publications</h3>
@@ -363,7 +363,7 @@ Automaton: diagram {
 
 <h3 id="acknowledgements">Acknowledgements</h3>
 
-<p>This work received funding from the following projects:</p>
+<p>This work has received funding from the following projects:</p>
 
 <ol reversed>
   <li><a href="#" itemprop="url" title="PID2021-122270OB-I00"><img style="vertical-align:middle" src="images/newpprj_wiz.png" width="20" height="20"></img></a>&nbsp;PID2021-122270OB-I00, project “FINESSE”, funded by the Spanish Ministry of Science (2022–2025).</li>
@@ -378,7 +378,7 @@ Automaton: diagram {
 
       <footer class="site-footer">
 
-        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel-EDU</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel-EDU</a> is maintained by <a href="https://github.com/gomezabajo">Pablo G&oacute;mez-Abajo</a>. Please send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span><br />
 
         <span class="site-footer-credits">This website was generated with <a href="https://pages.github.com">GitHub Pages</a> and uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>

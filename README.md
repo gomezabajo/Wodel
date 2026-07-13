@@ -1,10 +1,26 @@
-# Wodel-Test for Chatbots
+<p align="center">
+  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20Chatbots/">
+    <img src="https://gomezabajo.github.io/Wodel-Test/assets/img/wodeltest.png" width="224" height="120" alt="Wodel-Test logo" />
+  </a>
+</p>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stars][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![EPL License][license-shield]][license-url]
+<h1 align="center">Wodel-Test for Chatbots</h1>
+
+<p align="center"><i>A mutation testing (MT) tool for task-oriented chatbots</i></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-2.3-blue" alt="Version 2.3">
+  <a href="https://github.com/gomezabajo/Wodel/graphs/contributors"><img src="https://img.shields.io/github/contributors/gomezabajo/Wodel" alt="Contributors"></a>
+  <a href="https://github.com/gomezabajo/Wodel/network/members"><img src="https://img.shields.io/github/forks/gomezabajo/Wodel" alt="Forks"></a>
+  <a href="https://github.com/gomezabajo/Wodel/stargazers"><img src="https://img.shields.io/github/stars/gomezabajo/Wodel" alt="Stars"></a>
+  <a href="https://raw.githubusercontent.com/gomezabajo/Wodel/master/LICENSE"><img src="https://img.shields.io/github/license/gomezabajo/Wodel" alt="License"></a>
+</p>
+
+<p align="center">
+  <a href="https://gomezabajo.github.io/Wodel-Test/dropdown/Wodel-Test%20plugins_Wodel-Test%20for%20ATL/">Website</a> &middot;
+  <a href="https://github.com/gomezabajo/Wodel-Test/wiki/Get-Started-with-Wodel%E2%80%90Test-Designer">Tutorial</a> &middot;
+  <a href="https://github.com/gomezabajo/Wodel/issues">Report a bug</a>
+</p>
 
 **Wodel-Test for Chatbots** is a mutation testing (MT) tool for task-oriented chatbots defined with the [CONGA](https://saraperezsoler.github.io/ChatbotDSL/) notation, automatically generated with [Wodel-Test](https://gomezabajo.github.io/Wodel-Test/), a model-based framework for engineering language-specific mutation-testing tools.
 
@@ -84,8 +100,8 @@ Download a ready-to-use Eclipse distribution with Wodel-Test for Chatbots alread
 
 ## Publications
 
-- P. Gómez-Abajo, S. Pérez-Soler, P. C. Cañizares, E. Guerra, J. de Lara. *Mutation Testing for Task-Oriented Chatbots*. **EASE 2024** (ACM), 2024.
 - P. Gómez-Abajo, E. Guerra, J. de Lara, M. G. Merayo. *Wodel-Test: A model-based framework for engineering language-specific mutation testing tools*. **SoftwareX** (Elsevier), 2025.
+- P. Gómez-Abajo, S. Pérez-Soler, P. C. Cañizares, E. Guerra, J. de Lara. *Mutation Testing for Task-Oriented Chatbots*. **EASE 2024** (ACM), 2024.
 - P. Gómez-Abajo, E. Guerra, J. de Lara, M. G. Merayo. *Wodel-Test: a model-based framework for language-independent mutation testing*. **Software and Systems Modeling** (Springer), 2021.
 
 The complete publication list is available on the [Publications & Funding](https://gomezabajo.github.io/Wodel-Test/items/publications/) page.

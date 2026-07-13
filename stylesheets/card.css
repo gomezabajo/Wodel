@@ -3,35 +3,6 @@
          shaped after the EMF Kaizen website layout and restyled with
          the Wodel identity: deep purple -> coral, with slate accents.
          ============================================================ */
-      .wk-card {
-        background: #fff;
-        border: 1px solid #ded4e6;
-        border-radius: 10px;
-        padding: 34px 38px;
-        margin: 40px 0;
-      }
-      .wk-card h3 {
-        font-family: "Open Sans", sans-serif;
-        font-size: 24px;
-        font-weight: 700;
-        color: #5b1f6e;
-        margin-top: 0;
-      }
-      .wk-card p { text-align: justify; text-justify: inter-word; line-height: 1.65; }
-      .wk-step {
-        background: #fff;
-        border: 1px solid #ded4e6;
-        border-radius: 10px;
-        padding: 26px 30px;
-        margin: 26px 0 0;
-      }
-      .wk-step h4 {
-        font-family: "Open Sans", sans-serif;
-        font-size: 19px;
-        font-weight: 600;
-        color: #8c3268;
-        margin-top: 0;
-      }
       .wk-figure {
         display: block;
         max-width: 720px;

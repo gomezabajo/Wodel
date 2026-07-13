@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testATLOPEStandalone extends MutatorUtils {
 	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -107,7 +109,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m1") != null) {
@@ -146,7 +148,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
@@ -256,7 +258,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m3") != null) {
@@ -299,35 +301,14 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m4") != null) {
 			cMut.setDef(hmMutator.get("m4"));
@@ -361,24 +342,24 @@ public class testATLOPEStandalone extends MutatorUtils {
 				"name");
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection2 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ope_2 = hmObjects.get("ope");
-		if (entry_ope_2 != null) {
-			refSelection2 = new SpecificObjectSelection(packages, model, entry_ope_2.getKey());
+		ObSelectionStrategy refSelection3 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ope_3 = hmObjects.get("ope");
+		if (entry_ope_3 != null) {
+			refSelection3 = new SpecificObjectSelection(packages, model, entry_ope_3.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ope_2 = hmList.get("ope");
-			if (listEntry_ope_2 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ope_3 = hmList.get("ope");
+			if (listEntry_ope_3 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ope_2) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ope_3) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection2 = new SpecificObjectSelection(packages, model, objs);
+				refSelection3 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("variableDeclaration", refSelection2);
+		refs.put("variableDeclaration", refSelection3);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "OclModelElement");
 		if (mut != null) {
@@ -388,35 +369,14 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m5") != null) {
 			cMut.setDef(hmMutator.get("m5"));
@@ -484,12 +444,11 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -499,6 +458,8 @@ public class testATLOPEStandalone extends MutatorUtils {
 		refMut0.setRefName("elements");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("elements"));
+		refMut0.setTo(mutator.getNext("elements"));
 		if (hmMutator.get("m6") != null) {
 			previous = mutator.getPrevious("elements");
 			next = mutator.getNext("elements");
@@ -621,10 +582,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl43 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl73 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl43 != null) {
-							for (Mutator mut : lcl43) {
+						if (lcl73 != null) {
+							for (Mutator mut : lcl73) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -635,7 +596,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("cl", entry);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -646,10 +607,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lp44 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lp74 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lp44 != null) {
-							for (Mutator mut : lp44) {
+						if (lp74 != null) {
+							for (Mutator mut : lp74) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -660,7 +621,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("p", entry);
 										}
-										AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry2(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -671,10 +632,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lmod45 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lmod75 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lmod45 != null) {
-							for (Mutator mut : lmod45) {
+						if (lmod75 != null) {
+							for (Mutator mut : lmod75) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -685,7 +646,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("mod", entry);
 										}
-										AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -696,10 +657,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lope46 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lope76 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lope46 != null) {
-							for (Mutator mut : lope46) {
+						if (lope76 != null) {
+							for (Mutator mut : lope76) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -716,7 +677,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry4(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -727,10 +688,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lelem47 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lelem77 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lelem47 != null) {
-							for (Mutator mut : lelem47) {
+						if (lelem77 != null) {
+							for (Mutator mut : lelem77) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -747,7 +708,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry5(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -758,10 +719,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l48 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l78 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l48 != null) {
-							for (Mutator mut : l48) {
+						if (l78 != null) {
+							for (Mutator mut : l78) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -771,7 +732,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry6(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -838,12 +799,12 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -954,10 +915,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l49 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l79 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l49 != null) {
-							for (Mutator mut : l49) {
+						if (l79 != null) {
+							for (Mutator mut : l79) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -967,7 +928,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry7(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1032,7 +993,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m8") != null) {
@@ -1129,7 +1090,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
@@ -1214,7 +1175,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m10") != null) {
@@ -1283,12 +1244,11 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1415,10 +1375,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lp50 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lp80 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lp50 != null) {
-							for (Mutator mut : lp50) {
+						if (lp80 != null) {
+							for (Mutator mut : lp80) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1429,7 +1389,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("p", entry);
 										}
-										AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry8(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1440,10 +1400,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ltype51 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ltype81 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ltype51 != null) {
-							for (Mutator mut : ltype51) {
+						if (ltype81 != null) {
+							for (Mutator mut : ltype81) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1454,7 +1414,7 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("type", entry);
 										}
-										AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry9(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1465,10 +1425,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl52 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl82 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl52 != null) {
-							for (Mutator mut : lcl52) {
+						if (lcl82 != null) {
+							for (Mutator mut : lcl82) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1479,7 +1439,8 @@ public class testATLOPEStandalone extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("cl", entry);
 										}
-										AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry10(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1490,10 +1451,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l53 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l83 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l53 != null) {
-							for (Mutator mut : l53) {
+						if (l83 != null) {
+							for (Mutator mut : l83) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1503,7 +1464,8 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry11(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1581,12 +1543,11 @@ public class testATLOPEStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1713,10 +1674,10 @@ public class testATLOPEStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l54 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l84 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l54 != null) {
-							for (Mutator mut : l54) {
+						if (l84 != null) {
+							for (Mutator mut : l84) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1726,7 +1687,8 @@ public class testATLOPEStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry12(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}

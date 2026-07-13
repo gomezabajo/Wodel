@@ -15,29 +15,40 @@ import java.io.File;
 import wodel.utils.manager.IOUtils;
 import wodel.utils.manager.MutatorUtils;
 import mutator.testATLF.testATLFStandaloneAPI;
-import mutator.testATLIPE.testATLIPEStandaloneAPI;
-import mutator.testATLB.testATLBStandaloneAPI;
 import mutator.testATLOPE.testATLOPEStandaloneAPI;
 import mutator.testATLMR.testATLMRStandaloneAPI;
+import mutator.testATLIPE.testATLIPEStandaloneAPI;
+import mutator.testATLB.testATLBStandaloneAPI;
 
 public class WodelTest4ATLStandaloneAPILauncher {
 	public static void createMutants(String inputFolder, String outputFolder)
 			throws ReferenceNonExistingException, WrongAttributeTypeException, MaxSmallerThanMinException,
 			AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException,
 			MetaModelNotFoundException, ModelNotFoundException, IOException {
-		String ecoreURI = "C:/eclipse/runtime-New_configuration50/WodelTest4ATL/data/model/ATL.ecore";
+		String ecoreURI = "C:/eclipse/runtime-New_configuration6/WodelTest4ATL/data/model/ATL.ecore";
 		List<String> mutatorNames = new ArrayList<String>();
 		mutatorNames.add("testATLF");
-		mutatorNames.add("testATLIPE");
-		mutatorNames.add("testATLB");
 		mutatorNames.add("testATLOPE");
 		mutatorNames.add("testATLMR");
+		mutatorNames.add("testATLIPE");
+		mutatorNames.add("testATLB");
 		List<List<String>> operatorNames = new ArrayList<List<String>>();
 		List<String> mutatorOperatorNamestestATLF = new ArrayList<String>();
 		mutatorOperatorNamestestATLF.add("cf");
 		mutatorOperatorNamestestATLF.add("rf");
 		mutatorOperatorNamestestATLF.add("ccf");
 		operatorNames.add(mutatorOperatorNamestestATLF);
+		List<String> mutatorOperatorNamestestATLOPE = new ArrayList<String>();
+		mutatorOperatorNamestestATLOPE.add("cope");
+		mutatorOperatorNamestestATLOPE.add("rope");
+		mutatorOperatorNamestestATLOPE.add("ccope");
+		mutatorOperatorNamestestATLOPE.add("ncope");
+		operatorNames.add(mutatorOperatorNamestestATLOPE);
+		List<String> mutatorOperatorNamestestATLMR = new ArrayList<String>();
+		mutatorOperatorNamestestATLMR.add("cmr");
+		mutatorOperatorNamestestATLMR.add("rmr");
+		mutatorOperatorNamestestATLMR.add("ncmr");
+		operatorNames.add(mutatorOperatorNamestestATLMR);
 		List<String> mutatorOperatorNamestestATLIPE = new ArrayList<String>();
 		mutatorOperatorNamestestATLIPE.add("cipe");
 		mutatorOperatorNamestestATLIPE.add("ripe");
@@ -50,17 +61,6 @@ public class WodelTest4ATLStandaloneAPILauncher {
 		mutatorOperatorNamestestATLB.add("vcb");
 		mutatorOperatorNamestestATLB.add("fc");
 		operatorNames.add(mutatorOperatorNamestestATLB);
-		List<String> mutatorOperatorNamestestATLOPE = new ArrayList<String>();
-		mutatorOperatorNamestestATLOPE.add("cope");
-		mutatorOperatorNamestestATLOPE.add("rope");
-		mutatorOperatorNamestestATLOPE.add("ccope");
-		mutatorOperatorNamestestATLOPE.add("ncope");
-		operatorNames.add(mutatorOperatorNamestestATLOPE);
-		List<String> mutatorOperatorNamestestATLMR = new ArrayList<String>();
-		mutatorOperatorNamestestATLMR.add("cmr");
-		mutatorOperatorNamestestATLMR.add("rmr");
-		mutatorOperatorNamestestATLMR.add("ncmr");
-		operatorNames.add(mutatorOperatorNamestestATLMR);
 		String[] arrMutatorNames = new String[mutatorNames.size()];
 		mutatorNames.toArray(arrMutatorNames);
 		String[][] arrOperatorNames = new String[mutatorNames.size()][];
@@ -71,7 +71,7 @@ public class WodelTest4ATLStandaloneAPILauncher {
 			arrOperatorNames[i] = arrMutatorOperatorNames;
 			i++;
 		}
-		String inputWodelFolder = "C:/eclipse/runtime-New_configuration50/WodelTest4ATL/data/model";
+		String inputWodelFolder = "C:/eclipse/runtime-New_configuration6/WodelTest4ATL/data/model";
 		if (!inputFolder.equals(inputWodelFolder)) {
 			IOUtils.deleteFolder(inputWodelFolder, "model");
 		}
@@ -91,13 +91,13 @@ public class WodelTest4ATLStandaloneAPILauncher {
 		i = 0;
 		testATLFStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
-		testATLIPEStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
-		testATLBStandaloneAPI.createMutants(arrOperatorNames[i]);
-		i++;
 		testATLOPEStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		testATLMRStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testATLIPEStandaloneAPI.createMutants(arrOperatorNames[i]);
+		i++;
+		testATLBStandaloneAPI.createMutants(arrOperatorNames[i]);
 		i++;
 		File mutantWodelFolder = new File(outputWodelFolder);
 		File outputCustomizedFolder = new File(outputFolder);

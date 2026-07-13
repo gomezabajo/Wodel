@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testATLMRStandalone extends MutatorUtils {
 	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -89,7 +91,7 @@ public class testATLMRStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCloned cMut = AppliedMutationsFactory.eINSTANCE.createObjectCloned();
@@ -202,10 +204,10 @@ public class testATLMRStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l55 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l112 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l55 != null) {
-							for (Mutator mut : l55) {
+						if (l112 != null) {
+							for (Mutator mut : l112) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -215,7 +217,7 @@ public class testATLMRStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -282,12 +284,12 @@ public class testATLMRStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -398,10 +400,10 @@ public class testATLMRStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l56 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l113 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l56 != null) {
-							for (Mutator mut : l56) {
+						if (l113 != null) {
+							for (Mutator mut : l113) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -411,7 +413,7 @@ public class testATLMRStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry2(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -489,12 +491,11 @@ public class testATLMRStandalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -621,10 +622,10 @@ public class testATLMRStandalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l57 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l114 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l57 != null) {
-							for (Mutator mut : l57) {
+						if (l114 != null) {
+							for (Mutator mut : l114) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -634,7 +635,7 @@ public class testATLMRStandalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}

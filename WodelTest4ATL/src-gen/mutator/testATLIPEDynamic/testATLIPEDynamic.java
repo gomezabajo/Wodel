@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testATLIPEDynamic extends MutatorUtils {
 	private Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -107,8 +109,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m1") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -146,8 +148,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m2") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -256,8 +258,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m3") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -299,39 +301,14 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m4") != null) {
 			cMut.setDef(hmMutator.get("m4"));
@@ -365,24 +342,24 @@ public class testATLIPEDynamic extends MutatorUtils {
 				"name");
 		atts.put("name", attConfig);
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection1 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ipe_1 = hmObjects.get("ipe");
-		if (entry_ipe_1 != null) {
-			refSelection1 = new SpecificObjectSelection(packages, model, entry_ipe_1.getKey());
+		ObSelectionStrategy refSelection4 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_ipe_4 = hmObjects.get("ipe");
+		if (entry_ipe_4 != null) {
+			refSelection4 = new SpecificObjectSelection(packages, model, entry_ipe_4.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ipe_1 = hmList.get("ipe");
-			if (listEntry_ipe_1 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_ipe_4 = hmList.get("ipe");
+			if (listEntry_ipe_4 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ipe_1) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_ipe_4) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection1 = new SpecificObjectSelection(packages, model, objs);
+				refSelection4 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("variableDeclaration", refSelection1);
+		refs.put("variableDeclaration", refSelection4);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "OclModelElement");
 		if (mut != null) {
@@ -392,39 +369,14 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			try {
-				Resource mutant = null;
-				EObject object = null;
-				for (String mutatorPath : mutPaths) {
-					mutant = ModelManager.loadModel(packages, mutatorPath);
-					object = ModelManager.getObject(mutant, mut.getObject());
-					if (object != null) {
-						break;
-					}
-					try {
-						mutant.unload();
-						mutant.load(null);
-					} catch (Exception e) {
-					}
-				}
-				if (object != null) {
-					cMut.getObject().add(object);
-				} else {
-					if (mut.getModel() != null) {
-						mutant = mut.getModel();
-					} else {
-						mutant = mut.getModels().get(0);
-					}
-					cMut.getObject().add(mut.getObject());
-				}
-			} catch (ModelNotFoundException e) {
-				e.printStackTrace();
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m5") != null) {
 			cMut.setDef(hmMutator.get("m5"));
@@ -492,12 +444,11 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -507,6 +458,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		refMut0.setRefName("elements");
 		refMut0.getObject().add(mutator.getObject());
 		refMut0.getMutantObject().add(mutator.getObject());
+		refMut0.setFrom(mutator.getPrevious("elements"));
+		refMut0.setTo(mutator.getNext("elements"));
 		if (hmMutator.get("m6") != null) {
 			previous = mutator.getPrevious("elements");
 			next = mutator.getNext("elements");
@@ -628,10 +581,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl16 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl100 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl16 != null) {
-							for (Mutator mut : lcl16) {
+						if (lcl100 != null) {
+							for (Mutator mut : lcl100) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -642,7 +595,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("cl", entry);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -653,10 +606,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lp17 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lp101 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lp17 != null) {
-							for (Mutator mut : lp17) {
+						if (lp101 != null) {
+							for (Mutator mut : lp101) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -667,7 +620,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("p", entry);
 										}
-										AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry2(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -678,10 +631,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lmod18 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lmod102 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lmod18 != null) {
-							for (Mutator mut : lmod18) {
+						if (lmod102 != null) {
+							for (Mutator mut : lmod102) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -692,7 +645,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("mod", entry);
 										}
-										AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -703,10 +656,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lipe19 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lipe103 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lipe19 != null) {
-							for (Mutator mut : lipe19) {
+						if (lipe103 != null) {
+							for (Mutator mut : lipe103) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -723,7 +676,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry4(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -734,10 +687,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lelem20 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
-								classes);
-						if (lelem20 != null) {
-							for (Mutator mut : lelem20) {
+						List<Mutator> lelem104 = mutation5(packages, model, hashmapEObject, hashmapList, serialize,
+								test, classes);
+						if (lelem104 != null) {
+							for (Mutator mut : lelem104) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -754,7 +707,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry5(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -765,10 +718,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l21 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l105 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l21 != null) {
-							for (Mutator mut : l21) {
+						if (l105 != null) {
+							for (Mutator mut : l105) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -778,7 +731,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry6(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -845,12 +798,12 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		EObject foundObject = findEObjectForRegistry(seed, mut.getObject(), mut.getObjectByID(), mut.getObjectByURI(),
-				mutPaths, packages);
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
 		if (foundObject != null) {
 			rMut.getObject().add(foundObject);
 		}
@@ -960,10 +913,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l22 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l106 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l22 != null) {
-							for (Mutator mut : l22) {
+						if (l106 != null) {
+							for (Mutator mut : l106) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -973,7 +926,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry7(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1038,8 +991,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry8(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m8") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1129,8 +1082,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry9(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m9") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1214,8 +1167,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry10(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		if (hmMutator.get("m10") != null) {
 			appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
@@ -1283,12 +1236,11 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry11(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1414,10 +1366,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lsipe23 = mutation8(packages, model, hashmapEObject, hashmapList, serialize, test,
-								classes);
-						if (lsipe23 != null) {
-							for (Mutator mut : lsipe23) {
+						List<Mutator> lsipe107 = mutation8(packages, model, hashmapEObject, hashmapList, serialize,
+								test, classes);
+						if (lsipe107 != null) {
+							for (Mutator mut : lsipe107) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1428,7 +1380,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("sipe", entry);
 										}
-										AppMutation appMut = registry8(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry8(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1439,10 +1391,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ltype24 = mutation9(packages, model, hashmapEObject, hashmapList, serialize, test,
-								classes);
-						if (ltype24 != null) {
-							for (Mutator mut : ltype24) {
+						List<Mutator> ltype108 = mutation9(packages, model, hashmapEObject, hashmapList, serialize,
+								test, classes);
+						if (ltype108 != null) {
+							for (Mutator mut : ltype108) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1453,7 +1405,7 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("type", entry);
 										}
-										AppMutation appMut = registry9(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry9(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1464,10 +1416,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> lcl25 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> lcl109 = mutation10(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (lcl25 != null) {
-							for (Mutator mut : lcl25) {
+						if (lcl109 != null) {
+							for (Mutator mut : lcl109) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1478,7 +1430,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 													mut.getObject(), resourceEntry);
 											hashmapEObject.put("cl", entry);
 										}
-										AppMutation appMut = registry10(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry10(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1489,10 +1442,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l26 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l110 = mutation11(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l26 != null) {
-							for (Mutator mut : l26) {
+						if (l110 != null) {
+							for (Mutator mut : l110) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1502,7 +1455,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry11(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry11(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1580,12 +1534,11 @@ public class testATLIPEDynamic extends MutatorUtils {
 		return mutations;
 	}
 
-	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, List<String> mutPaths,
-			List<EPackage> packages) {
+	private AppMutation registry12(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
+			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1711,10 +1664,10 @@ public class testATLIPEDynamic extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l27 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l111 = mutation12(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l27 != null) {
-							for (Mutator mut : l27) {
+						if (l111 != null) {
+							for (Mutator mut : l111) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1724,7 +1677,8 @@ public class testATLIPEDynamic extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry12(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry12(mut, hmMutator, seed, model, mutPaths,
+												packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}

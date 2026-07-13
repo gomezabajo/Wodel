@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WodelTest HTML Report</title>
+  <link rel="stylesheet" href="report.css">
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div>
+        <h1>Wodel-Test HTML Report</h1>
+        <p>
+          This page mirrors the four Wodel-Test Eclipse views: the global graphical summary,
+          class results, mutator results, and test results. It supports one or many test suites, preserves the
+          original filters, and uses the same green/red/grey semantics for detected, undetected, and error states.
+        </p>
+        <div class="toolbar">
+          <textarea id="jsonInput" spellcheck="false" placeholder="Paste the report JSON here, then click Load JSON."></textarea>
+          <button id="loadBtn">Load JSON</button>
+          <button id="sampleBtn">Reload generated data</button>
+          <label>
+            <input id="fileInput" type="file" accept="application/json" style="display:none">
+            <button type="button" id="fileBtn">Open JSON file</button>
+          </label>
+        </div>
+        <div class="meta" id="metaLine"></div>
+      </div>
+      <aside class="help-card">
+        <h2>Expected JSON shape</h2>
+        <p class="muted">
+          Top level: <code class="inline">projectName</code>, optional <code class="inline">generatedAt</code>,
+          and <code class="inline">testSuites[]</code>. Each suite may contain <code class="inline">global</code>,
+          <code class="inline">classResults[]</code>, <code class="inline">mutatorResults[]</code>, and <code class="inline">testResults[]</code>.
+        </p>
+        <p class="muted" style="margin-top:10px;">
+          The report data is preloaded automatically. You can still paste or open another JSON file if you want to inspect a different run.
+        </p>
+      </aside>
+    </section>
+
+    <div id="app" class="hidden"></div>
+  </div>
+
+  
+
+  <script src="report-data.js"></script>
+  <script src="report.js"></script>
+</body>
+</html>

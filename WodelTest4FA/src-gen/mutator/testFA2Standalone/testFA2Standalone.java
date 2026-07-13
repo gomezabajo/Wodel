@@ -41,6 +41,8 @@ import wodel.utils.manager.MutatorUtils;
 import wodel.utils.manager.EMFCopier;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatormetrics.MutatormetricsPackage;
+import wodel.utils.manager.EMFDiff;
+import wodel.utils.manager.EMFDiff.ModelDelta;
 
 public class testFA2Standalone extends MutatorUtils {
 	private static Map<Integer, Mutator> overallMutators = new LinkedHashMap<Integer, Mutator>();
@@ -59,13 +61,13 @@ public class testFA2Standalone extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		RandomTypeSelection refRts8 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject8 = refRts8.getObject();
-		ObSelectionStrategy refSelection8 = null;
-		if (refObject8 != null) {
-			refSelection8 = new SpecificObjectSelection(packages, model, refObject8);
+		RandomTypeSelection refRts19 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject19 = refRts19.getObject();
+		ObSelectionStrategy refSelection19 = null;
+		if (refObject19 != null) {
+			refSelection19 = new SpecificObjectSelection(packages, model, refObject19);
 		}
-		refs.put("symbol", refSelection8);
+		refs.put("symbol", refSelection19);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -75,35 +77,14 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry1(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m1") != null) {
 			cMut.setDef(hmMutator.get("m1"));
@@ -211,10 +192,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l18 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l42 = mutation1(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l18 != null) {
-							for (Mutator mut : l18) {
+						if (l42 != null) {
+							for (Mutator mut : l42) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -224,7 +205,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry1(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -316,12 +297,11 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry2(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -410,12 +390,11 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry3(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -542,10 +521,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls019 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls043 = mutation2(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls019 != null) {
-							for (Mutator mut : ls019) {
+						if (ls043 != null) {
+							for (Mutator mut : ls043) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -555,7 +534,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry2(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -566,10 +545,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls120 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls144 = mutation3(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls120 != null) {
-							for (Mutator mut : ls120) {
+						if (ls144 != null) {
+							for (Mutator mut : ls144) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -579,7 +558,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry3(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -655,12 +634,11 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry4(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<ReferenceChanged> refsMut = icMut.getRefChanges();
 		EObject previous = null;
@@ -805,10 +783,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l21 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l45 = mutation4(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l21 != null) {
-							for (Mutator mut : l21) {
+						if (l45 != null) {
+							for (Mutator mut : l45) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -818,7 +796,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry4(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry4(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -909,12 +887,11 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry5(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1003,12 +980,11 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry6(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		InformationChanged icMut = AppliedMutationsFactory.eINSTANCE.createInformationChanged();
 		ModifyInformationMutator mutator = (ModifyInformationMutator) mut;
-		Resource mutant = mutator.getModel();
 		icMut.setObject(mut.getObject());
 		EList<AttributeChanged> attsMut = icMut.getAttChanges();
 		Object oldAttVal = null;
@@ -1049,49 +1025,49 @@ public class testFA2Standalone extends MutatorUtils {
 		Map<String, AttributeConfigurationStrategy> atts = new LinkedHashMap<String, AttributeConfigurationStrategy>();
 		ObSelectionStrategy objectSelection = null;
 		Map<String, ObSelectionStrategy> refs = new LinkedHashMap<String, ObSelectionStrategy>();
-		ObSelectionStrategy refSelection9 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_9 = hmObjects.get("s1");
-		if (entry_s1_9 != null) {
-			refSelection9 = new SpecificObjectSelection(packages, model, entry_s1_9.getKey());
+		ObSelectionStrategy refSelection20 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s1_20 = hmObjects.get("s1");
+		if (entry_s1_20 != null) {
+			refSelection20 = new SpecificObjectSelection(packages, model, entry_s1_20.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_9 = hmList.get("s1");
-			if (listEntry_s1_9 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s1_20 = hmList.get("s1");
+			if (listEntry_s1_20 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_9) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s1_20) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection9 = new SpecificObjectSelection(packages, model, objs);
+				refSelection20 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("src", refSelection9);
-		ObSelectionStrategy refSelection10 = null;
-		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_10 = hmObjects.get("s0");
-		if (entry_s0_10 != null) {
-			refSelection10 = new SpecificObjectSelection(packages, model, entry_s0_10.getKey());
+		refs.put("src", refSelection20);
+		ObSelectionStrategy refSelection21 = null;
+		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_s0_21 = hmObjects.get("s0");
+		if (entry_s0_21 != null) {
+			refSelection21 = new SpecificObjectSelection(packages, model, entry_s0_21.getKey());
 		} else {
-			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_10 = hmList.get("s0");
-			if (listEntry_s0_10 != null) {
+			List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEntry_s0_21 = hmList.get("s0");
+			if (listEntry_s0_21 != null) {
 				List<EObject> objs = new ArrayList<EObject>();
-				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_10) {
+				for (SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> ent : listEntry_s0_21) {
 					EObject obj = ModelManager.getObject(model, ent.getKey());
 					objs.add(obj);
 				}
-				refSelection10 = new SpecificObjectSelection(packages, model, objs);
+				refSelection21 = new SpecificObjectSelection(packages, model, objs);
 			} else {
 				return mutations;
 			}
 		}
-		refs.put("tar", refSelection10);
-		RandomTypeSelection refRts11 = new RandomTypeSelection(packages, model, "Symbol");
-		EObject refObject11 = refRts11.getObject();
-		ObSelectionStrategy refSelection11 = null;
-		if (refObject11 != null) {
-			refSelection11 = new SpecificObjectSelection(packages, model, refObject11);
+		refs.put("tar", refSelection21);
+		RandomTypeSelection refRts22 = new RandomTypeSelection(packages, model, "Symbol");
+		EObject refObject22 = refRts22.getObject();
+		ObSelectionStrategy refSelection22 = null;
+		if (refObject22 != null) {
+			refSelection22 = new SpecificObjectSelection(packages, model, refObject22);
 		}
-		refs.put("symbol", refSelection11);
+		refs.put("symbol", refSelection22);
 		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts,
 				refs, "Transition");
 		if (mut != null) {
@@ -1101,35 +1077,14 @@ public class testFA2Standalone extends MutatorUtils {
 		return mutations;
 	}
 
-	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed,
+	private static AppMutation registry7(Mutator mut, Map<String, EObject> hmMutator, Resource seed, Resource mutant,
 			List<String> mutPaths, List<EPackage> packages) {
 		AppMutation appMut = null;
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		if ((mutPaths != null) && (packages != null)) {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModelNoException(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					break;
-				}
-				try {
-					mutant.unload();
-					mutant.load(null);
-				} catch (Exception e) {
-				}
-			}
-			if (object != null) {
-				cMut.getObject().add(object);
-			} else {
-				if (mut.getModel() != null) {
-					mutant = mut.getModel();
-				} else {
-					mutant = mut.getModels().get(0);
-				}
-				cMut.getObject().add(mut.getObject());
-			}
+		EObject foundObject = findEObjectForRegistry(seed, mutant, mut.getObject(), mut.getObjectByID(),
+				mut.getObjectByURI(), mutPaths, packages);
+		if (foundObject != null) {
+			cMut.getObject().add(foundObject);
 		}
 		if (hmMutator.get("m7") != null) {
 			cMut.setDef(hmMutator.get("m7"));
@@ -1237,10 +1192,10 @@ public class testFA2Standalone extends MutatorUtils {
 					attempts++;
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls022 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls046 = mutation5(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls022 != null) {
-							for (Mutator mut : ls022) {
+						if (ls046 != null) {
+							for (Mutator mut : ls046) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1250,7 +1205,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry5(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry5(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1261,10 +1216,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> ls123 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> ls147 = mutation6(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (ls123 != null) {
-							for (Mutator mut : ls123) {
+						if (ls147 != null) {
+							for (Mutator mut : ls147) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1274,7 +1229,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry6(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry6(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
@@ -1285,10 +1240,10 @@ public class testFA2Standalone extends MutatorUtils {
 					}
 					max = 1;
 					for (int j = 0; j < max; j++) {
-						List<Mutator> l24 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
+						List<Mutator> l48 = mutation7(packages, model, hashmapEObject, hashmapList, serialize, test,
 								classes);
-						if (l24 != null) {
-							for (Mutator mut : l24) {
+						if (l48 != null) {
+							for (Mutator mut : l48) {
 								if (mut != null) {
 									Object mutated = mut.mutate();
 									if (mutated != null) {
@@ -1298,7 +1253,7 @@ public class testFA2Standalone extends MutatorUtils {
 										if (mutPaths.contains(mutatorPath) == false) {
 											mutPaths.add(mutatorPath);
 										}
-										AppMutation appMut = registry7(mut, hmMutator, seed, mutPaths, packages);
+										AppMutation appMut = registry7(mut, hmMutator, seed, model, mutPaths, packages);
 										if (appMut != null) {
 											muts.getMuts().add(appMut);
 										}
